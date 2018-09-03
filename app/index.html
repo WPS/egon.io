@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="vendor/bpmn-js/assets/bpmn-font/css/bpmn.css" />
+  <link rel="stylesheet" href="vendor/bpmn-js/assets/diagram-js.css" />
+  <link rel="stylesheet" href="domain-story.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+  <title>Domain Storytelling Modeler</title>
+</head>
+
+<body>
+  <div id="modal" style="display:none;"></div>
+
+
+
+  <div id="headlineContainer">
+    <h3 id="headline">
+      <text id="title">&ltname of this Domain Story&gt</text>
+      <i class="material-icons" id="edit">
+        create
+      </i>
+    </h3>
+    <div id="logoContainer">
+      <div id="imgWPS">
+        <a href="https://www.wps.de/">
+          <img src="./logo/Quadrat_wps_de_Farbig.png" height="54" width="40" />
+        </a>
+      </div>
+      <div id="imgDST">
+        <a href="http://domainstorytelling.org/">
+          <img src="./logo/dst_logo.png" height="74" width="74" />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div id="infoContainer">
+    <div id="infoText"></div>
+
+  </div>
+  <div class="lineAndButtons">
+    <ul class="buttons">
+      <div id="importExport">
+        <button id="buttonImport" class="importButton" title="Import diagram" onclick="document.getElementById('import').click();"
+        />
+        <img src="https://github.com/google/material-design-icons/blob/master/content/1x_web/ic_unarchive_black_36dp.png?raw=true">
+        </button>
+        <input type="file" accept=".dst" style="display:none;" id="import" onclick="this.value=null;" name="file" />
+        <button class="exportButton" id="export" title="Export diagram">
+          <img src="https://github.com/google/material-design-icons/blob/master/content/1x_web/ic_archive_black_36dp.png?raw=true">
+        </button>
+        <button class="svgDownloadButton" id="buttonSVG">
+          <img src="https://github.com/google/material-design-icons/blob/master/image/1x_web/ic_image_black_36dp.png?raw=true">
+        </button>
+      </div>
+    </ul>
+    <div id="line"></div>
+  </div>
+
+  <div id="arrowDialog">
+    <div id="arrow" class="arrow" style="display:none;"></div>
+    <div id="dialog" style="display:none;">
+      <div id="dialogTitle">Title:</div>
+      <div id="dialogInput">
+        <input type="text" id="titleInput" maxlength="160"  />
+      </div>
+      <div id="dialogInfo">Description:</div>
+      <div>
+        <textarea name="Text1" cols="40" rows="5" id="info" maxlength="500"></textarea>
+      </div>
+      <div id="dialogButtons">
+        <button id="saveButton">Save</button>
+        <button id="quitButton">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="numberDialog" style="display:none;">
+    <div id="number">Number:</div>
+    <input type="number" class="numberID" id="inputNumber" min="1" max="99" maxlength="2" size="2">
+    <div id="label">Activity:</div>
+    <div>
+      <input id="inputLabel" type="text" />
+    </div>
+    <div id="numberDialogButtons">
+      <button id="numberSaveButton">Save</button>
+      <button id="numberQuitButton">Cancel</button>
+    </div>
+  </div>
+
+  <div id="labelDialog" style="display:none;">
+    <div id="labelName">Activity:</div>
+    <div>
+      <input id="labelInputLabel" type="text" />
+    </div>
+    <div id="labelDialogButtons">
+      <button id="labelSaveButton">Save</button>
+      <button id="labelQuitButton">Cancel</button>
+    </div>
+  </div>
+
+  <div id="canvas"></div>
+
+  <script src="./app.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+
+  <script>    
+    /* Kopiert von http://jsfiddle.net/jAYEt/2188/ 
+    */
+    var inputQuantity = [];
+    $(function () {
+      $(".numberID").each(function (i) {
+        inputQuantity[i] = this.defaultValue;
+        $(this).data("idx", i); // save this field's index to access later
+      });
+      $(".numberID").on("keyup", function (e) {
+        var $field = $(this),
+          val = this.value,
+          $thisIndex = parseInt($field.data("idx"), 10); // retrieve the index
+        if (this.validity && this.validity.badInput || isNaN(val) || $field.is(":invalid")) {
+          this.value = inputQuantity[$thisIndex];
+          return;
+        }
+        if (val.length > Number($field.attr("maxlength"))) {
+          val = val.slice(0, 2);
+          $field.val(val);
+        }
+        inputQuantity[$thisIndex] = val;
+      });
+    });</script>
+
+</body>
+
+</html>
