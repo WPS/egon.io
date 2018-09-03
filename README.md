@@ -5,7 +5,7 @@ A tool to visualize Domain Stories in your browser.
 http://domainstorytelling.org
 
 ### Usage
-A short definition on how to use the Domainstory-Telling Modeler.
+A short definition on how to use the Domain Story Modeler.
 
 #### Pallet
 Shows the icons you can choose to tell your domain story.
@@ -23,7 +23,9 @@ Double click on an icon or an activity to add a label.
 If you draw an activity between an actor (person, people and system) and a workobject (folder, call, email, conversation, information) it will automatically consecutively numbered. By double clicking on the activity you also can manually change the number. All numbers which are equal or larger will increase automatically. 
 
 #### File Management
-To import a diagram use the upload button ![Upload Button](/images/unarchive.png). If you want to edit your diagram later, you can export it as a .dst file via the export button ![Export Button](/images/archive.png). You can also export your diagram as a .svg file by clicking on the image button ![SVG Button](/images/image.png).
+If you want to edit your diagram later, you can export it as a .dst file via the export button ![Export Button](/images/archive.png). 
+To import a diagram use the upload button ![Upload Button](/images/unarchive.png).
+You can also export your diagram as a .svg file by clicking on the image button ![SVG Button](/images/image.png).
 
 
 ## Run Application
