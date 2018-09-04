@@ -356,7 +356,7 @@ document.getElementById('import').onchange = function() {
 
   var input = document.getElementById('import').files[0];
   var reader = new FileReader();
-  if (input.name.includes('.dst')) {
+  if (input.name.endsWith('.dst')) {
     var titleText = input.name.replace(/_\d+-\d+-\d+( ?_?\(\d+\))?.dst/, '');
     titleText = sanitize(titleText);
     titleInput.value = titleText;

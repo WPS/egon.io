@@ -18,8 +18,7 @@ describe('domainStory modeler', function() {
     container = TestContainer.get(this);
   });
 
-
-  describe('domainStory elements', function() {
+  describe('domainStory import export', function() {
 
     // since PhantomJS does not implement ES6 features we have to define our own string.includes method
     if (!String.prototype.includes) {
@@ -32,7 +31,6 @@ describe('domainStory modeler', function() {
 
     // spin up modeler with custom element, do this only once, using before each takes too long and triggers the timeout
     modeler = new DomainStoryModeler({ container: container });
-    console.log(data);
     modeler.importCustomElements(data, function(err) {
       if (err) {
         console.log(err);
@@ -71,6 +69,38 @@ describe('domainStory modeler', function() {
 
       // then
       expect(jsonExport).to.eql(jsonString);
+    });
+
+    // we have to rebuild the basic functionality of the import function from app.js, because we cannot get access to the HTML
+    it('should not import wrong file type',function() {
+
+      // given
+      var testData='[{"type":"domainStory:actorPerson","name":"","id":"shape_0001","x":178,"y":133,"width":30,"height":30}]';
+      var elementRegistry = modeler.get('elementRegistry');
+      var input = {
+        name:'thisIsAName.wrongF.dstiletype',
+        testData
+      };
+      var reader = new FileReader();
+
+      // when
+      if (input.name.endsWith('.dst')) {
+        reader.onloadend = function(e) {
+          var text = e.target.result;
+
+          var elements = JSON.parse(text);
+          elements.pop(); // to get rid of the info tag at the end
+
+          modeler.importCustomElements(elements);
+        };
+
+        reader.readAsText(input);
+      }
+
+      // then
+      var extraActor= elementRegistry.get('shape_0001');
+      console.log(extraActor);
+      expect(extraActor).to.not.exist;
     });
   });
 
