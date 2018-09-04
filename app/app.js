@@ -182,6 +182,7 @@ function saveSVG(done) {
 }
 
 function setEncoded(data) {
+  console.log(data);
   var indices = [];
 
 

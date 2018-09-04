@@ -5,7 +5,6 @@
         "mocha": true
     },
     "globals": {
-        "assert": true,
-        "expect": true
+        "assert": true
     }
 }
