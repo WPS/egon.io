@@ -28,6 +28,13 @@
   bottom: 305px
 }
 
+.group{
+  border: solid 1px #80808054;
+  padding-top: 1px;
+  padding-left:1px;
+  margin-right: -3px;
+}
+
 #dialog, #numberDialog, #labelDialog{
   padding: 30px 50px 30px 50px;
   background-color:#FAFAFA;

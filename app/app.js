@@ -182,6 +182,30 @@ function saveSVG(done) {
 }
 
 function setEncoded(data) {
+  console.log(data);
+  var indices = [];
+
+
+  // in the svg-image, activities are represented as rectangles
+  // to represent them as lines, we add a Fill: none characteristic
+  // since only activities and annotation-conntections use markers
+  // at their end, we check for their mentions to determine the
+  // wanted text-position
+
+  if (data.indexOf('marker-end: url(\'')) {
+    indices[0] = data.indexOf('marker-end: url(\'');
+  }
+
+  var nextIndex = data.indexOf(indices[0], 'marker-end: url(\'');
+  while (nextIndex > 0) {
+    indices[indices.length] = nextIndex;
+    nextIndex = data.indexOf(indices[data.length - 1], 'marker-end: url(\'');
+  }
+
+  for (var i = indices.length - 1; i >= 0; i--) {
+    data = [data.slice(0, indices[i]), 'fill: none; ', data.slice(indices[i])].join('');
+  }
+
   svgData = encodeURIComponent(data);
 }
 
