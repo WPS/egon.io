@@ -4,11 +4,6 @@ import TestContainer from 'mocha-test-container-support';
 
 import DomainStoryModeler from '../../app/domain-story-modeler';
 
-import {
-  is
-} from 'bpmn-js/lib/util/ModelUtil';
-
-
 describe('custom modeler', function() {
 
   var xml = require('./diagram.bpmn');

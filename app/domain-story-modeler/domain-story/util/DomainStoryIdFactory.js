@@ -1,4 +1,3 @@
-
 var idList = [];
 
 export default function DomainStoryIdFactory() {
