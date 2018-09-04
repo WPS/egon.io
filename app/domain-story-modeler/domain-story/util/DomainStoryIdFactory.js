@@ -25,7 +25,7 @@ function generateId(type) {
 }
 
 function fourDigitsId() {
-  return Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
+  return Math.floor(Math.random() * 10000);
 }
 
 function containsId(id) {
