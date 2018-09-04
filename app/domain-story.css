@@ -27,12 +27,14 @@
   left: 20px;
   bottom: 305px
 }
+.djs-context-pad.open{
+  margin-right: 18px;
+  border: solid 1px #80808054; 
+}
 
-.group{
+.djs-context-pad.open > .group{
   border: solid 1px #80808054;
-  padding-top: 1px;
-  padding-left:1px;
-  margin-right: -3px;
+  padding: 1px;
 }
 
 #dialog, #numberDialog, #labelDialog{

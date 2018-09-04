@@ -84,57 +84,59 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   };
 
   function renderExternalNumber(parentGfx, element) {
-    var semantic = element.businessObject;
+    if (element && element.source) {
+      var semantic = element.businessObject;
 
-    var box = numberBoxDefinitions(element);
+      var box = numberBoxDefinitions(element);
 
-    if (element.source.type.includes('actor') && semantic.number == null) {
-      generateAutomaticNumber(element);
-    }
+      if (semantic.number == null && element.source.type && element.source.type.includes('actor')) {
+        generateAutomaticNumber(element);
+      }
 
-    // render the bacground for the number
-    if (semantic.number != '' && semantic.number != null) {
-      numbers[semantic.number] = true;
-      box.x -= 15;
-      renderNumber(parentGfx, '.', {
-        box: box,
-        fitBox: true,
-        style: assign(
-          {},
-          textRenderer.getExternalStyle(),
-          {
-            fill: '#42aebb',
-            fontSize: 150,
-            position: 'absolute',
-            fontFamily: 'Courier'
-          }
-        )
-      }, element.type);
-
-      // render the number itself
-      box.x += 39;
-      box.y -= 5;
-      if (semantic.number != '') {
-        // whenever we want to edit an activity, it gets redrawnt as a new object and the custom information is lost,
-        // so we stash it before the editing occurs and set the value here
-        var numberStash = getNumberStash();
-        if (numberStash.use) {
-          semantic.number = numberStash.number;
-        }
-
-        return renderNumber(parentGfx, semantic.number, {
+      // render the bacground for the number
+      if (semantic.number != '' && semantic.number != null) {
+        numbers[semantic.number] = true;
+        box.x -= 15;
+        renderNumber(parentGfx, '.', {
           box: box,
           fitBox: true,
           style: assign(
             {},
             textRenderer.getExternalStyle(),
             {
-              fill: 'black',
-              backgroundColor: 'green',
-              position: 'absolute'
+              fill: '#42aebb',
+              fontSize: 150,
+              position: 'absolute',
+              fontFamily: 'Courier'
             }
           )
         }, element.type);
+
+        // render the number itself
+        box.x += 39;
+        box.y -= 5;
+        if (semantic.number != '') {
+          // whenever we want to edit an activity, it gets redrawnt as a new object and the custom information is lost,
+          // so we stash it before the editing occurs and set the value here
+          var numberStash = getNumberStash();
+          if (numberStash.use) {
+            semantic.number = numberStash.number;
+          }
+
+          return renderNumber(parentGfx, semantic.number, {
+            box: box,
+            fitBox: true,
+            style: assign(
+              {},
+              textRenderer.getExternalStyle(),
+              {
+                fill: 'black',
+                backgroundColor: 'green',
+                position: 'absolute'
+              }
+            )
+          }, element.type);
+        }
       }
     }
   }
@@ -261,7 +263,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     }
     label = String(label);
     var number = textRenderer.createText(label || '', options);
-    var height=0;
+    var height = 0;
 
     svgClasses(number).add('djs-labelNumber');
 
@@ -285,7 +287,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
 
     label = sanitize(label);
     var text = textRenderer.createText(label || '', options);
-    var height=0;
+    var height = 0;
 
     svgClasses(text).add('djs-label');
 
@@ -306,21 +308,25 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   }
 
   function manipulateInnerHTMLYLabel(children, y, offset) {
-    var result = '';
-    for (var i = 0; i < children.length; i++) {
-      result += children[i].outerHTML.replace(/y="-?\d*.\d*"/, 'y="' + (Number(y) + offset + (14 * i)) + '"');
-    }
+    if (children) {
+      var result = '';
+      for (var i = 0; i < children.length; i++) {
+        result += children[i].outerHTML.replace(/y="-?\d*.\d*"/, 'y="' + (Number(y) + offset + (14 * i)) + '"');
+      }
 
-    return result;
+      return result;
+    }
   }
 
   function manipulateInnerHTMLXLabel(children, x, offset) {
-    var result = '';
-    for (var i = 0; i < children.length; i++) {
-      result += children[i].outerHTML.replace(/x="-?\d*.\d*"/, 'x="' + (Number(x) + offset + (14 * 1)) + '"');
-    }
+    if (children) {
+      var result = '';
+      for (var i = 0; i < children.length; i++) {
+        result += children[i].outerHTML.replace(/x="-?\d*.\d*"/, 'x="' + (Number(x) + offset + (14 * 1)) + '"');
+      }
 
-    return result;
+      return result;
+    }
   }
 
   this.getActorPath = function(shape) {
@@ -503,18 +509,20 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   }
 
   this.drawActivity = function(p, element) {
-    var attrs = computeStyle(attrs, {
-      stroke: '#000000',
-      strokeWidth: 1.5,
-      strokeLinejoin: 'round',
-      markerEnd: marker('activity', 'black', '#000000')
-    });
-    var x = svgAppend(p, createLine(element.waypoints, attrs));
+    if (element) {
+      var attrs = computeStyle(attrs, {
+        stroke: '#000000',
+        strokeWidth: 1.5,
+        strokeLinejoin: 'round',
+        markerEnd: marker('activity', 'black', '#000000')
+      });
+      var x = svgAppend(p, createLine(element.waypoints, attrs));
 
-    renderExternalLabel(p, element);
-    renderExternalNumber(p, element);
+      renderExternalLabel(p, element);
+      renderExternalNumber(p, element);
 
-    return x;
+      return x;
+    }
   };
 
   this.drawDSConnection = function(p, element) {

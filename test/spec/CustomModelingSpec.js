@@ -1,295 +1,339 @@
-// import {
-//   bootstrapBpmnJS,
-//   inject
-// } from '../TestHelper';
+import {
+  bootstrapBpmnJS,
+  inject
+} from '../TestHelper';
 
-// import {
-//   assign
-// } from 'min-dash';
+import {
+  assign
+} from 'min-dash';
 
-// import DomainStoryModeler from '../../app/domain-story-modeler';
+import DomainStoryModeler from '../../app/domain-story-modeler';
 
 
-// describe('custom modeling', function() {
+describe('custom modeling', function() {
 
-//   var xml = require('./diagram.bpmn');
+  var xml = require('./diagram.bpmn');
 
-//   beforeEach(bootstrapBpmnJS(DomainStoryModeler, xml));
+  beforeEach(bootstrapBpmnJS(DomainStoryModeler, xml));
 
 
-//   describe('custom elements', function() {
+  describe('custom elements', function() {
 
-//     beforeEach(inject(function(bpmnjs) {
+    beforeEach(inject(function(bpmnjs) {
 
-//       var customShape = {
-//         type: 'custom:triangle',
-//         id: 'CustomTriangle_1',
-//         x: 300,
-//         y: 300
-//       };
 
-//       bpmnjs.addCustomElements([ customShape ]);
-//     }));
+      var businessObject = {
 
+        type: 'custom:triangle',
+        id: 'CustomTriangle_1',
+      };
+      var customShape = {
+        businessObject: businessObject,
+        type: 'custom:triangle',
+        id: 'CustomTriangle_1',
+        x: 300,
+        y: 300,
+        height: 100,
+        width: 100
+      };
 
-//     it('should export custom element', inject(
-//       function(bpmnjs, elementRegistry, modeling) {
+      bpmnjs.addCustomElements([customShape]);
+    }));
 
-//         // given
-//         var customElement = {
-//           type: 'custom:circle',
-//           id: 'CustomCircle_1',
-//           x: 200,
-//           y: 400
-//         };
 
-//         var position = { x: customElement.x, y: customElement.y },
-//             target = elementRegistry.get('Process_1');
+    it('should export custom element', inject(
+      function(bpmnjs, elementRegistry, modeling) {
 
-//         modeling.createShape(
-//           assign({ businessObject: customElement }, customElement),
-//           position,
-//           target
-//         );
+        // given
+        var customElement = {
+          type: 'domainStory:actor',
+          id: 'CustomActor_1',
+          x: 200,
+          y: 400,
+          height: 100,
+          width: 100
+        };
 
-//         // when
-//         var customElements = bpmnjs.getCustomElements();
+        var businessObject={
+          type: 'domainStory:actor',
+          id: 'CustomActor_1',
+          x: 150,
+          y: 350
+        };
 
-//         // then
-//         expect(customElements).to.contain(customElement);
-//       }
-//     ));
+        assign({ businessObject: businessObject }, customElement);
 
+        var position = { x: customElement.x, y: customElement.y },
+            target = elementRegistry.get('Process_1');
 
-//     it('should not resize custom shape', inject(function(elementRegistry, rules) {
+        modeling.createShape(
+          customElement,
+          position,
+          target
+        );
 
-//       // given
-//       var customElement = elementRegistry.get('CustomTriangle_1');
+        // when
+        var customElements = bpmnjs.getCustomElements();
 
-//       // when
-//       var allowed = rules.allowed('resize', { shape: customElement });
+        // then
+        // we can only check for parts of our element since the create shape function adds parts to the shape, we cannot model here
+        expect(customElements[1]).to.contain(businessObject);
+      }
+    ));
 
-//       // then
-//       expect(allowed).to.be.false;
-//     }));
 
+    it('should not resize custom shape', inject(function(elementRegistry, rules) {
 
-//     it('should update custom element', inject(function(elementRegistry, modeling) {
+      // given
+      var customElement = elementRegistry.get('CustomTriangle_1');
 
-//       // given
-//       var customElement = elementRegistry.get('CustomTriangle_1');
+      // when
+      var allowed = rules.allowed('resize', { shape: customElement });
 
-//       // when
-//       modeling.moveShape(customElement, { x: 200, y: 50 }, customElement.parent);
+      // then
+      expect(allowed).to.be.false;
+    }));
 
-//       // then
-//       expect(customElement.businessObject.x).to.equal(500);
-//       expect(customElement.businessObject.y).to.equal(350);
-//     }));
 
+    it('should update custom element', inject(function(elementRegistry, modeling) {
 
-//     it('should remove deleted shape from _customElements', inject(
-//       function(bpmnjs, elementRegistry, modeling) {
+      // given
+      var customElement = elementRegistry.get('CustomTriangle_1');
 
-//         // given
-//         var customShape = elementRegistry.get('CustomTriangle_1'),
-//             customElements = bpmnjs.getCustomElements();
+      // when
+      modeling.moveShape(customElement, { x: 200, y: 50 }, customElement.parent);
 
-//         // when
-//         modeling.removeShape(customShape);
+      // then
+      expect(customElement.x).to.equal(500);
+      expect(customElement.y).to.equal(350);
+    }));
 
-//         // then
-//         expect(customElements.length).to.equal(0);
-//       }
-//     ));
 
-//   });
+    //     it('should remove deleted shape from _customElements', inject(
+    //       function(bpmnjs, elementRegistry, modeling) {
 
+    //         // given
+    //         var customShape = elementRegistry.get('CustomTriangle_1'),
+    //             customElements = bpmnjs.getCustomElements();
 
-//   describe('custom connections', function() {
+    //         // when
+    //         modeling.removeElements({ customShape });
 
-//     beforeEach(inject(function(bpmnjs) {
+    //         customElements= bpmnjs.getCustomElements();
+    //         // then
+    //         expect(customElements.length).to.eql(0);
+    //       }
+    //     ));
 
-//       var customShape = {
-//         type: 'custom:triangle',
-//         id: 'CustomTriangle_1',
-//         x: 400,
-//         y: 300
-//       };
+  });
 
-//       bpmnjs.addCustomElements([ customShape ]);
-//     }));
 
+  describe('custom connections', function() {
 
-//     it('should export custom connection', inject(
-//       function(bpmnjs, elementRegistry, modeling) {
+    beforeEach(inject(function(bpmnjs) {
 
-//         // given
-//         var customShape = elementRegistry.get('CustomTriangle_1'),
-//             taskShape = elementRegistry.get('Task_1');
+      var customShape = {
+        type: 'custom:triangle',
+        id: 'CustomTriangle_1',
+        x: 400,
+        y: 300
+      };
 
-//         modeling.connect(customShape, taskShape, {
-//           type: 'custom:connection',
-//           id: 'CustomConnection_1'
-//         });
+      bpmnjs.addCustomElements([customShape]);
+    }));
 
-//         // when
-//         var customElements = bpmnjs.getCustomElements();
 
-//         // then
-//         var ids = customElements.map(function(element) {
-//           return element.id;
-//         });
+    it('should export custom connection', inject(
+      function(bpmnjs, elementRegistry, modeling) {
 
-//         expect(ids).to.include('CustomConnection_1');
-//       }
-//     ));
+        // given
+        var customShape = elementRegistry.get('CustomTriangle_1'),
+            taskShape = elementRegistry.get('Task_1');
 
+        modeling.connect(customShape, taskShape, {
+          type: 'domainStory:connection',
+          id: 'CustomConnection_1'
+        });
 
-//     it('should connect custom shape to task', inject(
-//       function(bpmnjs, elementRegistry, modeling, rules) {
+        // when
+        var customElements = bpmnjs.getCustomElements();
 
-//         // given
-//         var customShape = elementRegistry.get('CustomTriangle_1'),
-//             taskShape = elementRegistry.get('Task_1');
+        // then
+        var ids = customElements.map(function(element) {
+          return element.id;
+        });
 
-//         // when
-//         var allowedConnection = rules.allowed('connection.create', {
-//           source: customShape,
-//           target: taskShape
-//         });
+        expect(ids).to.include('CustomConnection_1');
+      }
+    ));
 
-//         modeling.connect(
-//           customShape,
-//           taskShape,
-//           allowedConnection
-//         );
 
-//         // then
-//         expect(allowedConnection.type).to.eql('custom:connection');
+    // it('should connect custom shape to custom shape', inject(
+    //   function(bpmnjs, elementRegistry, modeling, rules) {
 
-//         expect(customShape.outgoing.length).to.equal(1);
-//         expect(taskShape.outgoing.length).to.equal(1);
+    //     // given
+    //     var customShape = elementRegistry.get('CustomTriangle_1');
 
-//         expect(bpmnjs.getCustomElements().length).to.equal(2);
-//       }
-//     ));
+    //     var businessObject = {
 
+    //       type: 'custom:triangle',
+    //       id: 'CustomTriangle_2',
+    //     };
+    //     var differentShape = {
+    //       businessObject: businessObject,
+    //       type: 'custom:triangle',
+    //       id: 'CustomTriangle_2',
+    //       x: 600,
+    //       y: 600,
+    //       height: 100,
+    //       width: 100
+    //     };
 
-//     it('should not connect custom shape to start event', inject(
-//       function(elementRegistry, rules) {
+    //     bpmnjs.addCustomElements([differentShape]);
 
-//         // given
-//         var customShape = elementRegistry.get('CustomTriangle_1'),
-//             startEventShape = elementRegistry.get('StartEvent_1');
+    //     differentShape=elementRegistry.get('CustomTriangle_2');
 
-//         // when
-//         var allowed = rules.allowed('connection.create', {
-//           source: customShape,
-//           target: startEventShape
-//         });
+    //     // when
+    //     var allowedConnection = rules.allowed('connection.create', {
+    //       source: customShape,
+    //       target: differentShape
+    //     });
 
-//         // then
-//         expect(allowed).to.be.false;
-//       }
-//     ));
+    //     modeling.connect(
+    //       customShape,
+    //       differentShape,
+    //       allowedConnection
+    //     );
 
+    //     // then
+    //     expect(allowedConnection).to.be.true;
 
-//     it('should reconnect start', inject(function(bpmnjs, elementRegistry, modeling) {
+    //     expect(customShape.outgoing.length).to.equal(1);
+    //     expect(differentShape.outgoing.length).to.equal(1);
 
-//       // given
-//       var customShape = elementRegistry.get('CustomTriangle_1'),
-//           taskShape = elementRegistry.get('Task_1');
+    //     expect(bpmnjs.getCustomElements().length).to.equal(2);
+    //   }
+    // ));
 
-//       var customConnection = modeling.connect(customShape, taskShape, {
-//         type: 'custom:connection'
-//       });
 
-//       bpmnjs.addCustomElements([{
-//         type: 'custom:circle',
-//         id: 'CustomCircle_1',
-//         x: 200,
-//         y: 300
-//       }]);
+    it('should not connect custom shape to start event', inject(
+      function(elementRegistry, rules) {
 
-//       var customCircle = elementRegistry.get('CustomCircle_1');
+        // given
+        var customShape = elementRegistry.get('CustomTriangle_1'),
+            startEventShape = elementRegistry.get('StartEvent_1');
 
-//       // when
-//       modeling.reconnectStart(customConnection, customCircle, {
-//         x: customCircle.x + customCircle.width / 2,
-//         y: customCircle.y + customCircle.height / 2
-//       });
+        // when
+        var allowed = rules.allowed('connection.create', {
+          source: customShape,
+          target: startEventShape
+        });
 
-//       // then
-//       expect(customConnection.source).to.equal(customCircle);
-//       expect(customConnection.target).to.equal(taskShape);
-//     }));
+        // then
+        expect(allowed).to.be.false;
+      }
+    ));
 
 
-//     it('should reconnect end', inject(function(bpmnjs, elementRegistry, modeling) {
+    it('should reconnect start', inject(function(bpmnjs, elementRegistry, modeling) {
 
-//       // given
-//       var customShape = elementRegistry.get('CustomTriangle_1'),
-//           taskShape1 = elementRegistry.get('Task_1'),
-//           taskShape2 = elementRegistry.get('Task_2');
+      // given
+      var customShape = elementRegistry.get('CustomTriangle_1'),
+          taskShape = elementRegistry.get('Task_1');
 
-//       var customConnection = modeling.connect(customShape, taskShape1, {
-//         type: 'custom:connection'
-//       });
+      var customConnection = modeling.connect(customShape, taskShape, {
+        type: 'domainStory:connection'
+      });
 
-//       // when
-//       modeling.reconnectEnd(customConnection, taskShape2, {
-//         x: taskShape2.x + taskShape2.width / 2,
-//         y: taskShape2.y + taskShape2.height / 2
-//       });
+      bpmnjs.addCustomElements([{
+        type: 'doaminStory:actor',
+        id: 'CustomCircle_1',
+        x: 200,
+        y: 300
+      }]);
 
-//       // then
-//       expect(customConnection.source).to.equal(customShape);
-//       expect(customConnection.target).to.equal(taskShape2);
-//     }));
+      var customCircle = elementRegistry.get('CustomCircle_1');
 
+      // when
+      modeling.reconnectStart(customConnection, customCircle, {
+        x: customCircle.x + customCircle.width / 2,
+        y: customCircle.y + customCircle.height / 2
+      });
 
-//     it('should update custom connection', inject(function(elementRegistry, modeling) {
+      // then
+      expect(customConnection.source).to.equal(customCircle);
+      expect(customConnection.target).to.equal(taskShape);
+    }));
 
-//       // given
-//       var customElement = elementRegistry.get('CustomTriangle_1'),
-//           taskShape = elementRegistry.get('Task_1');
 
-//       var customConnection = modeling.connect(customElement, taskShape, {
-//         type: 'custom:connection'
-//       });
+    it('should reconnect end', inject(function(bpmnjs, elementRegistry, modeling) {
 
-//       // when
-//       modeling.moveShape(customElement, { x: 200, y: 50 }, customElement.parent);
+      // given
+      var customShape = elementRegistry.get('CustomTriangle_1'),
+          taskShape1 = elementRegistry.get('Task_1'),
+          taskShape2 = elementRegistry.get('Task_2');
 
-//       // then
-//       expect(customConnection.businessObject.waypoints).to.eql([
-//         { x: 613, y: 364 },
-//         { x: 354, y: 157 }
-//       ]);
-//     }));
+      var customConnection = modeling.connect(customShape, taskShape1, {
+        type: 'domainStory:connection'
+      });
 
+      // when
+      modeling.reconnectEnd(customConnection, taskShape2, {
+        x: taskShape2.x + taskShape2.width / 2,
+        y: taskShape2.y + taskShape2.height / 2
+      });
 
-//     it('should remove deleted connection from _customElements', inject(
-//       function(bpmnjs, elementRegistry, modeling) {
+      // then
+      expect(customConnection.source).to.equal(customShape);
+      expect(customConnection.target).to.equal(taskShape2);
+    }));
 
-//         // given
-//         var customShape = elementRegistry.get('CustomTriangle_1'),
-//             taskShape = elementRegistry.get('Task_1'),
-//             customElements = bpmnjs.getCustomElements();
 
-//         var customConnection = modeling.connect(customShape, taskShape, {
-//           type: 'custom:connection'
-//         });
+    it('should update custom connection', inject(function(elementRegistry, modeling) {
 
-//         // when
-//         modeling.removeConnection(customConnection);
+      // given
+      var customElement = elementRegistry.get('CustomTriangle_1'),
+          taskShape = elementRegistry.get('Task_1');
 
-//         // then
-//         expect(customElements.length).to.equal(1);
-//       }
-//     ));
+      var customConnection = modeling.connect(customElement, taskShape, {
+        type: 'domainStory:connection'
+      });
 
-//   });
+      // when
+      modeling.moveShape(customElement, { x: 200, y: 50 }, customElement.parent);
 
-// });
+      // then
+
+      var waypoint1 = customConnection.businessObject.waypoints[0];
+      var waypoint2 = customConnection.businessObject.waypoints[1];
+
+      expect(waypoint1.x).to.eql(600);
+      expect(waypoint1.y).to.eql(351);
+      expect(waypoint2.x).to.eql(354);
+      expect(waypoint2.y).to.eql(157);
+    }));
+
+
+    it('should remove deleted connection from _customElements', inject(
+      function(bpmnjs, elementRegistry, modeling) {
+
+        // given
+        var customShape = elementRegistry.get('CustomTriangle_1'),
+            taskShape = elementRegistry.get('Task_1'),
+            customElements = bpmnjs.getCustomElements();
+
+        var customConnection = modeling.connect(customShape, taskShape, {
+          type: 'domainStory:connection'
+        });
+
+        // when
+        modeling.removeConnection(customConnection);
+
+        // then
+        expect(customElements.length).to.equal(1);
+      }
+    ));
+
+  });
+
+});
