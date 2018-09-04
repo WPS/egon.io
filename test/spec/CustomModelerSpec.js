@@ -1,123 +1,132 @@
-// import '../TestHelper';
+import '../TestHelper';
 
-// import TestContainer from 'mocha-test-container-support';
+import TestContainer from 'mocha-test-container-support';
 
-// import DomainStoryModeler from '../../app/domain-story-modeler';
+import DomainStoryModeler from '../../app/domain-story-modeler';
 
-// import {
-//   is
-// } from 'bpmn-js/lib/util/ModelUtil';
-
-
-// describe('custom modeler', function() {
-
-//   var xml = require('./diagram.bpmn');
-//   console.log(xml);
-
-//   var container;
-
-//   beforeEach(function() {
-//     container = TestContainer.get(this);
-//   });
+import {
+  is
+} from 'bpmn-js/lib/util/ModelUtil';
 
 
-//   describe('custom elements', function() {
+describe('custom modeler', function() {
 
-//     var modeler;
+  var xml = require('./diagram.bpmn');
 
-//     // spin up modeler with custom element before each test
-//     beforeEach(function(done) {
+  var container;
 
-//       modeler = new DomainStoryModeler({ container: container });
-
-//       modeler.importXML(xml, function(err) {
-//         if (!err) {
-//           done();
-//         }
-//       });
-
-//     });
+  beforeEach(function() {
+    container = TestContainer.get(this);
+  });
 
 
-//     it('should import custom element', function() {
+  describe('custom elements', function() {
 
-//       // given
-//       var elementRegistry = modeler.get('elementRegistry'),
-//           customElements = modeler.getCustomElements();
+    var modeler;
 
+    // spin up modeler with custom element before each test
+    beforeEach(function(done) {
 
-//       // when
-//       var customElement = {
-//         type: 'custom:triangle',
-//         id: 'CustomTriangle_1',
-//         x: 300,
-//         y: 200
-//       };
+      modeler = new DomainStoryModeler({ container: container });
 
-//       modeler.addCustomElements([ customElement ]);
-//       var customTriangle = elementRegistry.get('CustomTriangle_1');
+      modeler.importXML(xml, function(err) {
+        if (!err) {
+          done();
+        }
+      });
 
-//       // then
-//       expect(is(customTriangle, 'custom:triangle')).to.be.true;
-
-//       expect(customTriangle).to.exist;
-//       expect(customElements).to.contain(customElement);
-
-//     });
-
-//   });
+    });
 
 
-//   describe('custom connections', function() {
+    it('should import custom element', function() {
 
-//     var modeler;
-
-//     // spin up modeler with custom element before each test
-//     beforeEach(function(done) {
-//       modeler = new DomainStoryModeler({ container: container });
-
-//       modeler.importXML(xml, function(err) {
-//         if (!err) {
-//           modeler.addCustomElements([{
-//             type: 'custom:triangle',
-//             id: 'CustomTriangle_1',
-//             x: 300,
-//             y: 200
-//           }]);
-
-//           done();
-//         }
-//       });
-//     });
+      // given
+      var elementRegistry = modeler.get('elementRegistry'),
+          customElements = modeler.getCustomElements();
 
 
-//     it('should import custom connection', function() {
+      // when
+      var businessObject = {
+        type: 'custom:triangle',
+        id: 'CustomTriangle_1'
+      };
+      var customElement = {
+        businessObject: businessObject,
+        x: 300,
+        y: 200,
+        width: 10,
+        height: 20 };
 
-//       // given
-//       var elementRegistry = modeler.get('elementRegistry');
-//       var customElements = modeler.getCustomElements();
+      modeler.addCustomElements([customElement]);
+      var customTriangle = elementRegistry.get('CustomTriangle_1');
 
-//       // when
-//       var customElement = {
-//         type: 'custom:connection',
-//         id: 'CustomConnection_1',
-//         source: 'CustomTriangle_1',
-//         target: 'Task_1',
-//         waypoints: [
-//           { x: 100, y: 100 },
-//           { x: 200, y: 300 }
-//         ]
-//       };
+      // then
+      // expect(is(customTriangle, 'custom:triangle')).to.be.true; // id checks for stuff that we cannot simulate without a more elaborate test-environement
 
-//       modeler.addCustomElements([ customElement ]);
-//       var customConnection = elementRegistry.get('CustomConnection_1');
+      expect(customTriangle).to.exist;
+      expect(customElements).to.contain(customElement);
 
-//       // then
-//       expect(customConnection).to.exist;
-//       expect(customElements).to.contain(customElement);
+    });
 
-//     });
+  });
 
-//   });
 
-// });
+  describe('custom connections', function() {
+
+    var modeler;
+
+    // spin up modeler with custom element before each test
+    beforeEach(function(done) {
+      modeler = new DomainStoryModeler({ container: container });
+
+      modeler.importXML(xml, function(err) {
+        if (!err) {
+          modeler.addCustomElements([{
+            type: 'custom:triangle',
+            id: 'CustomTriangle_1',
+            x: 300,
+            y: 200,
+            width: 100,
+            height: 100
+          }]);
+
+          done();
+        }
+      });
+    });
+
+
+    it('should import custom connection', function() {
+
+      // given
+      var elementRegistry = modeler.get('elementRegistry');
+      var customElements = modeler.getCustomElements();
+
+      // when
+      var customElement = {
+        type: 'custom:connection',
+        id: 'CustomConnection_1',
+        source: 'CustomTriangle_1',
+        target: 'Task_1',
+        x: 100,
+        y:100,
+        width: 100,
+        height: 100,
+        waypoints: [
+          { x: 100, y: 100 },
+          { x: 200, y: 300 }
+        ]
+      };
+
+      modeler.addCustomElements([customElement]);
+      var customConnection = elementRegistry.get('CustomConnection_1');
+
+      // then
+      expect(customConnection).to.exist;
+      expect(customElements).to.contain(customElement);
+
+    });
+
+  });
+
+});
