@@ -471,7 +471,7 @@ function showCurrentStep() {
   var notShownElements = [];
 
   allObjects.forEach(element => {
-    if (!shownElements.includes(element)) {
+    if (!element.type.includes('Annotation') && !element.type.includes('connection') &&!shownElements.includes(element)) {
       notShownElements.push(element);
     }
   });
