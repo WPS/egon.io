@@ -1,4 +1,3 @@
-
 export function traceActivities(activitiesFromActors, elementRegistry) {
   var tracedActivities = [];
 
@@ -19,7 +18,6 @@ export function traceActivities(activitiesFromActors, elementRegistry) {
   }
   return allSteps;
 }
-
 
 function createStep(tracedActivity, elementRegistry) {
   var initialSource;

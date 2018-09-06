@@ -90,55 +90,59 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       var box = numberBoxDefinitions(element);
 
       if (semantic.number == null && element.source.type && element.source.type.includes('actor')) {
-        generateAutomaticNumber(element);
+        generateAutomaticNumber(element, box);
       }
 
       // render the bacground for the number
       if (semantic.number != '' && semantic.number != null) {
-        numbers[semantic.number] = true;
-        box.x -= 15;
-        renderNumber(parentGfx, '.', {
-          box: box,
-          fitBox: true,
-          style: assign(
-            {},
-            textRenderer.getExternalStyle(),
-            {
-              fill: '#42aebb',
-              fontSize: 150,
-              position: 'absolute',
-              fontFamily: 'Courier'
-            }
-          )
-        }, element.type);
+        renderNumberBackground(parentGfx, element, semantic, box);
 
-        // render the number itself
         box.x += 39;
         box.y -= 5;
-        if (semantic.number != '') {
-          // whenever we want to edit an activity, it gets redrawnt as a new object and the custom information is lost,
-          // so we stash it before the editing occurs and set the value here
-          var numberStash = getNumberStash();
-          if (numberStash.use) {
-            semantic.number = numberStash.number;
-          }
-
-          return renderNumber(parentGfx, semantic.number, {
-            box: box,
-            fitBox: true,
-            style: assign(
-              {},
-              textRenderer.getExternalStyle(),
-              {
-                fill: 'black',
-                backgroundColor: 'green',
-                position: 'absolute'
-              }
-            )
-          }, element.type);
-        }
+        // whenever we want to edit an activity, it gets redrawnt as a new object and the custom information is lost,
+        // so we stash it before the editing occurs and set the value here
+        renderActualNumber(parentGfx, element, semantic, box);
       }
     }
+  }
+
+  function renderActualNumber(parentGfx, element, semantic, box) {
+    var numberStash = getNumberStash();
+    if (numberStash.use) {
+      semantic.number = numberStash.number;
+    }
+    return renderNumber(parentGfx, semantic.number, {
+      box: box,
+      fitBox: true,
+      style: assign(
+        {},
+        textRenderer.getExternalStyle(),
+        {
+          fill: 'black',
+          backgroundColor: 'green',
+          position: 'absolute'
+        }
+      )
+    }, element.type);
+  }
+
+  function renderNumberBackground(parentGfx, element, semantic, box) {
+    numbers[semantic.number] = true;
+    box.x -= 15;
+    renderNumber(parentGfx, '.', {
+      box: box,
+      fitBox: true,
+      style: assign(
+        {},
+        textRenderer.getExternalStyle(),
+        {
+          fill: '#42aebb',
+          fontSize: 150,
+          position: 'absolute',
+          fontFamily: 'Courier'
+        }
+      )
+    }, element.type);
   }
 
   function generateAutomaticNumber(elementActivity) {
@@ -208,12 +212,12 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       var position = labelPosition(waypoints);
       var startPoint = element.waypoints[position.selected];
       var endPoint = element.waypoints[position.selected + 1];
-
       var angle = calculateDeg(startPoint, endPoint);
-
       var alignment = 'left';
       var boxWidth = 500;
       var xStart = position.x;
+
+      // if the activity is horizontal, we want to center the label
       if (angle == 0 || angle == 180) {
         boxWidth = Math.abs(startPoint.x - endPoint.x);
         alignment = 'center';
@@ -351,7 +355,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     }
 
     var textElement = drawRect(parentGfx, element.width, element.height, 0, 0, style);
-
     var textPathData = pathMap.getScaledPath('TEXT_ANNOTATION', {
       xScaleFactor: 1,
       yScaleFactor: 1,
@@ -414,7 +417,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     }
 
     offset = offset || 0;
-
     attrs = computeStyle(attrs, {
       stroke: 'black',
       strokeWidth: 2,
@@ -430,13 +432,12 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       rx: r,
       ry: r
     });
-    svgAttr(rect, attrs);
 
+    svgAttr(rect, attrs);
     svgAppend(parentGfx, rect);
 
     return rect;
   }
-
 
   this.drawWorkObject = function(p, element) {
 
@@ -446,7 +447,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       x: element.width / 2 - 25,
       y: element.height / 2 - 25
     };
-
     var workObject;
 
     switch (element.type) {
@@ -472,8 +472,8 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
 
     svgAttr(workObject, svgDynamicSizeAttributes);
     svgAppend(p, workObject);
-
     renderEmbeddedLabel(p, element, 'center', -5);
+
     return workObject;
   };
 
@@ -487,9 +487,8 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     return componentsToPath(rectangle);
   };
 
-  /**
-  * creates a SVG path that describes a rectangle which encloses the given shape.
-  */
+  // creates a SVG path that describes a rectangle which encloses the given shape.
+
   function getRectPath(shape) {
     var offset = 5;
     var x = shape.x,
@@ -517,8 +516,8 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
         strokeLinejoin: 'round',
         markerEnd: marker('activity', 'black', '#000000')
       });
-      var x = svgAppend(p, createLine(element.waypoints, attrs));
 
+      var x = svgAppend(p, createLine(element.waypoints, attrs));
       renderExternalLabel(p, element);
       renderExternalNumber(p, element);
 
@@ -543,7 +542,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     if (!markers[id]) {
       createMarker(type, fill, stroke);
     }
-
     return 'url(#' + id + ')';
   }
 
@@ -575,7 +573,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     }, options.attrs);
 
     var ref = options.ref || { x: 0, y: 0 };
-
     var scale = options.scale || 1;
 
     // resetting stroke dash array
@@ -586,9 +583,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     var marker = svgCreate('marker');
 
     svgAttr(options.element, attrs);
-
     svgAppend(marker, options.element);
-
     svgAttr(marker, {
       id: id,
       viewBox: '0 0 20 20',
@@ -606,7 +601,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
 
       svgAppend(canvas._svg, defs);
     }
-
     svgAppend(defs, marker);
 
     markers[id] = marker;
@@ -626,7 +620,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
         activityPath.push(['L', waypoint.x, waypoint.y]);
       }
     });
-
     return componentsToPath(activityPath);
   };
 }

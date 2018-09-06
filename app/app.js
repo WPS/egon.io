@@ -24,6 +24,53 @@ var eventBus = modeler.get('eventBus');
 var commandStack = modeler.get('commandStack');
 var elementRegistry = modeler.get('elementRegistry');
 
+modeler.createDiagram();
+// expose bpmnjs to window for debugging purposes
+window.bpmnjs = modeler;
+
+// HTML-Elements
+var lastInputTitle = '',
+    lastInputDescription = '',
+    headline = document.getElementById('headline'),
+    title = document.getElementById('title'),
+    dialog = document.getElementById('dialog'),
+    saveButton = document.getElementById('saveButton'),
+    quitButton = document.getElementById('quitButton'),
+    titleInput = document.getElementById('titleInput'),
+    exportButton = document.getElementById('export'),
+    importExportSVGDiv = document.getElementById('importExportSVGButton'),
+    replayStepLabel = document.getElementById('replayStep'),
+    modal = document.getElementById('modal'),
+    arrow = document.getElementById('arrow'),
+    info = document.getElementById('info'),
+    infoText = document.getElementById('infoText'),
+    inputNumber = document.getElementById('inputNumber'),
+    inputLabel = document.getElementById('inputLabel'),
+    numberDialog = document.getElementById('numberDialog'),
+    labelDialog = document.getElementById('labelDialog'),
+    startReplayButton = document.getElementById('buttonStartReplay'),
+    nextStepButton = document.getElementById('buttonNextStep'),
+    previousStepbutton = document.getElementById('buttonPreviousStep'),
+    stopReplayButton = document.getElementById('buttonStopReplay'),
+    numberSaveButton = document.getElementById('numberSaveButton'),
+    numberQuitButton = document.getElementById('numberQuitButton'),
+    labelInputLabel = document.getElementById('labelInputLabel'),
+    labelSaveButton = document.getElementById('labelSaveButton'),
+    labelQuitButton = document.getElementById('labelQuitButton'),
+    svgSaveButton = document.getElementById('buttonSVG');
+
+// interal variables
+var keysPressed = [];
+var svgData;
+var replayOn = false;
+var currentStep = 0;
+var replaySteps = [];
+
+// -----
+
+
+// commandStack listener for changing activities
+
 commandStack.registerHandler('activity.changed', activity_changed);
 
 function activity_changed(modeling) {
@@ -98,6 +145,8 @@ function getNumebrsAndIDs() {
   return iDWithNumber;
 }
 
+// eventBus listeners
+
 eventBus.on('element.dblclick', function(e) {
   if (!replayOn) {
     var element = e.element;
@@ -120,6 +169,7 @@ eventBus.on('element.dblclick', function(e) {
         }
       }
 
+      // onclick and key functions, that need the element to which the event belongs
       labelSaveButton.onclick = function() {
         saveLabelDialog(element);
       };
@@ -146,6 +196,7 @@ eventBus.on('element.dblclick', function(e) {
   }
 });
 
+// when in replay, do not allow any interaction on the canvas
 eventBus.on([
   'element.click',
   'element.dblclick',
@@ -161,92 +212,7 @@ eventBus.on([
   }
 });
 
-modeler.createDiagram();
-// expose bpmnjs to window for debugging purposes
-window.bpmnjs = modeler;
-
-// HTML-Elements
-var lastInputTitle = '',
-    lastInputDescription = '',
-    headline = document.getElementById('headline'),
-    title = document.getElementById('title'),
-    dialog = document.getElementById('dialog'),
-    saveButton = document.getElementById('saveButton'),
-    quitButton = document.getElementById('quitButton'),
-    titleInput = document.getElementById('titleInput'),
-    exportButton = document.getElementById('export'),
-    importExportSVGDiv = document.getElementById('importExportSVGButton'),
-    replayStepLabel = document.getElementById('replayStep'),
-    modal = document.getElementById('modal'),
-    arrow = document.getElementById('arrow'),
-    info = document.getElementById('info'),
-    infoText = document.getElementById('infoText'),
-    inputNumber = document.getElementById('inputNumber'),
-    inputLabel = document.getElementById('inputLabel'),
-    numberDialog = document.getElementById('numberDialog'),
-    labelDialog = document.getElementById('labelDialog'),
-    startReplayButton = document.getElementById('buttonStartReplay'),
-    nextStepButton = document.getElementById('buttonNextStep'),
-    previousStepbutton = document.getElementById('buttonPreviousStep'),
-    stopReplayButton = document.getElementById('buttonStopReplay'),
-    numberSaveButton = document.getElementById('numberSaveButton'),
-    numberQuitButton = document.getElementById('numberQuitButton'),
-    labelInputLabel = document.getElementById('labelInputLabel'),
-    labelSaveButton = document.getElementById('labelSaveButton'),
-    labelQuitButton = document.getElementById('labelQuitButton'),
-    svgSaveButton = document.getElementById('buttonSVG');
-
-// interal variables
-var keysPressed = [];
-var svgData;
-var replayOn = false;
-var currentStep = 0;
-var replaySteps = [];
-
-// SVG download
-function saveSVG(done) {
-  modeler.saveSVG(done);
-}
-
-function setEncoded(data) {
-  var indices = [];
-
-
-  // in the svg-image, activities are represented as rectangles
-  // to represent them as lines, we add a Fill: none characteristic
-  // since only activities and annotation-conntections use markers
-  // at their end, we check for their mentions to determine the
-  // wanted text-position
-
-  if (data.indexOf('marker-end: url(\'')) {
-    indices[0] = data.indexOf('marker-end: url(\'');
-  }
-
-  var nextIndex = data.indexOf(indices[0], 'marker-end: url(\'');
-  while (nextIndex > 0) {
-    indices[indices.length] = nextIndex;
-    nextIndex = data.indexOf(indices[data.length - 1], 'marker-end: url(\'');
-  }
-
-  for (var i = indices.length - 1; i >= 0; i--) {
-    data = [data.slice(0, indices[i]), 'fill: none; ', data.slice(indices[i])].join('');
-  }
-
-  svgData = encodeURIComponent(data);
-}
-
-$(function() {
-  var exportArtifacts = debounce(function() {
-
-    saveSVG(function(err, svg) {
-      setEncoded(err ? null : svg);
-    });
-  }, 500);
-
-  modeler.on('commandStack.changed', exportArtifacts);
-});
-
-// -----
+// ----
 
 headline.addEventListener('click', function() {
   showDialog();
@@ -376,180 +342,6 @@ stopReplayButton.addEventListener('click', function() {
   }
 });
 
-function completeStory() {
-  var complete=true;
-  for (var i=0;i<replaySteps.length;i++) {
-    if (!replaySteps[i].activities[0]) {
-      complete=false;
-    }
-  }
-  return complete;
-}
-
-function disableCavnasInteraction() {
-  var contextPadElements = document.getElementsByClassName('djs-context-pad');
-  var paletteElements = document.getElementsByClassName('djs-palette');
-  importExportSVGDiv.style.visibility = 'hidden';
-
-  var i = 0;
-  for (i = 0; i < contextPadElements.length; i++) {
-    contextPadElements[i].style.display = 'none';
-  }
-
-  for (i = 0; i < paletteElements.length; i++) {
-    paletteElements[i].style.display = 'none';
-  }
-
-  replayStepLabel.style.display = 'block';
-}
-
-function enableCanvasInteraction() {
-  var contextPadElements = document.getElementsByClassName('djs-context-pad');
-  var paletteElements = document.getElementsByClassName('djs-palette');
-  importExportSVGDiv.style.visibility = 'visible';
-
-  var i = 0;
-  for (i = 0; i < contextPadElements.length; i++) {
-    contextPadElements[i].style.display = 'block';
-  }
-
-  for (i = 0; i < paletteElements.length; i++) {
-    paletteElements[i].style.display = 'block';
-  }
-  replayStepLabel.style.display = 'none';
-}
-
-function showCurrentStep() {
-  var stepsUntilNow = [];
-  var allObjects = [];
-  var groupObjects = [];
-  var canvasObjects = canvas._rootElement.children;
-  var i = 0;
-
-  replayStepLabel.innerText = (currentStep + 1) + ' / ' + replaySteps.length;
-
-  for (i = 0; i <= currentStep; i++) {
-    stepsUntilNow.push(replaySteps[i]);
-  }
-
-  for (i = 0; i < canvasObjects.length; i++) {
-    if (canvasObjects[i].type.includes('domainStory:group')) {
-      groupObjects.push(canvasObjects[i]);
-    }
-    else {
-      allObjects.push(canvasObjects[i]);
-    }
-  }
-
-  i = groupObjects.length - 1;
-  while (groupObjects.length >= 1) {
-    var currentgroup = groupObjects.pop();
-    currentgroup.children.forEach(child => {
-      if (child.type.includes('domainStory:group')) {
-        groupObjects.push(child);
-      }
-      else {
-        allObjects.push(child);
-      }
-    });
-    i = groupObjects.length - 1;
-  }
-
-  // get all elements, that are supposed to be shown
-  var shownElements = [];
-  stepsUntilNow.forEach(step => {
-    shownElements.push(step.source);
-    if (step.source.outgoing) {
-      step.source.outgoing.forEach(out=>{
-        if (out.type.includes('domainStory:connection')) {
-          shownElements.push(out, out.target);
-        }
-      });
-    }
-    step.targets.forEach(target => {
-      shownElements.push(target);
-      if (target.outgoing) {
-        target.outgoing.forEach(out=>{
-          if (out.type.includes('domainStory:connection')) {
-            shownElements.push(out, out.target);
-          }
-        });
-      }
-      step.activities.forEach(activity => {
-        shownElements.push(activity);
-      });
-    });
-  });
-  // get all elements, that are supposed to be hidden
-  var notShownElements = [];
-
-  allObjects.forEach(element => {
-    if (!shownElements.includes(element)) {
-      if (element.type.includes('domainStory:connection')) {
-        if (!element.source.type.includes('domainStory:group')) {
-          notShownElements.push(element);
-        }
-        else{
-          shownElements.push(element.target);
-        }
-      }
-      else {
-        notShownElements.push(element);
-      }
-    }
-  });
-
-  // hide all elements, that are not to be shown
-
-  notShownElements.forEach(element => {
-
-    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
-    domObject.style.display = 'none';
-  });
-
-  shownElements.forEach(element => {
-    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
-    domObject.style.display = 'block';
-  });
-}
-
-
-function checkPressedKeys(keyCode, dialog, element) {
-  // keyCode 13 is enter
-  // keyCode 16 is shift
-  // keyCode 17 is crtl
-  // keyCode 18 is alt
-  // keyCode 27 is esc
-
-  keysPressed[keyCode] = true;
-
-  if (keysPressed[27]) {
-    closeDialog();
-    closeLabelDialog();
-    closeNumberDialog();
-  }
-  else if ((keysPressed[17] && keysPressed[13]) || (keysPressed[18] && keysPressed[13])) {
-    if (dialog == 'infoDialog') {
-      info.value += '\n';
-    }
-  }
-  else if (keysPressed[13] && !keysPressed[16]) {
-    if (dialog == 'titleDialog' || dialog == 'infoDialog') {
-      saveDialog();
-    }
-    else if (dialog == 'labelDialog') {
-      saveLabelDialog(element);
-    }
-    else if (dialog == 'numberDialog') {
-      saveNumberDialog(element);
-    }
-  }
-}
-
-function keyReleased(keyCode) {
-  keysPressed[keyCode] = false;
-}
-
 exportButton.addEventListener('click', function() {
 
   var object = modeler.getCustomElements();
@@ -564,36 +356,10 @@ exportButton.addEventListener('click', function() {
   download(filename, json);
 });
 
-function download(filename, text) {
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', filename + '.dst');
-
-  element.style.display = 'none';
-  document.body.appendChild(element);
-
-  element.click();
-
-  document.body.removeChild(element);
-}
-
 svgSaveButton.addEventListener('click', function() {
   var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
   downloadSVG(filename);
 });
-
-function downloadSVG(filename) {
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:application/bpmn20-xml;charset=UTF-8,' + svgData);
-  element.setAttribute('download', filename + '.svg');
-
-  element.style.display = 'none';
-  document.body.appendChild(element);
-
-  element.click();
-
-  document.body.removeChild(element);
-}
 
 document.getElementById('import').onchange = function() {
 
@@ -634,6 +400,72 @@ document.getElementById('import').onchange = function() {
     eventBus.fire('commandStack.changed', exportArtifacts);
   }
 };
+
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename + '.dst');
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
+function downloadSVG(filename) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:application/bpmn20-xml;charset=UTF-8,' + svgData);
+  element.setAttribute('download', filename + '.svg');
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
+function checkPressedKeys(keyCode, dialog, element) {
+  // keyCode 13 is enter
+  // keyCode 16 is shift
+  // keyCode 17 is crtl
+  // keyCode 18 is alt
+  // keyCode 27 is esc
+
+  keysPressed[keyCode] = true;
+
+  if (keysPressed[27]) {
+    closeDialog();
+    closeLabelDialog();
+    closeNumberDialog();
+  }
+  else if ((keysPressed[17] && keysPressed[13]) || (keysPressed[18] && keysPressed[13])) {
+    if (dialog == 'infoDialog') {
+      info.value += '\n';
+    }
+  }
+  else if (keysPressed[13] && !keysPressed[16]) {
+    if (dialog == 'titleDialog' || dialog == 'infoDialog') {
+      saveDialog();
+    }
+    else if (dialog == 'labelDialog') {
+      saveLabelDialog(element);
+    }
+    else if (dialog == 'numberDialog') {
+      saveNumberDialog(element);
+    }
+  }
+}
+
+function keyReleased(keyCode) {
+  keysPressed[keyCode] = false;
+}
+
+function checkInput(field) {
+  field.value = sanitize(field.value);
+}
 
 function closeDialog() {
   keysPressed = [];
@@ -679,10 +511,6 @@ function saveDialog() {
 
   keysPressed = [];
   closeDialog();
-}
-
-function checkInput(field) {
-  field.value = sanitize(field.value);
 }
 
 function showNumberDialog(event) {
@@ -777,7 +605,207 @@ function saveLabelDialog(element) {
   });
 }
 
+// replay functions
+
+function completeStory() {
+  var complete=true;
+  for (var i=0;i<replaySteps.length;i++) {
+    if (!replaySteps[i].activities[0]) {
+      complete=false;
+    }
+  }
+  return complete;
+}
+
+function disableCavnasInteraction() {
+  var contextPadElements = document.getElementsByClassName('djs-context-pad');
+  var paletteElements = document.getElementsByClassName('djs-palette');
+  importExportSVGDiv.style.visibility = 'hidden';
+
+  var i = 0;
+  for (i = 0; i < contextPadElements.length; i++) {
+    contextPadElements[i].style.display = 'none';
+  }
+
+  for (i = 0; i < paletteElements.length; i++) {
+    paletteElements[i].style.display = 'none';
+  }
+
+  replayStepLabel.style.display = 'block';
+}
+
+function enableCanvasInteraction() {
+  var contextPadElements = document.getElementsByClassName('djs-context-pad');
+  var paletteElements = document.getElementsByClassName('djs-palette');
+  importExportSVGDiv.style.visibility = 'visible';
+
+  var i = 0;
+  for (i = 0; i < contextPadElements.length; i++) {
+    contextPadElements[i].style.display = 'block';
+  }
+
+  for (i = 0; i < paletteElements.length; i++) {
+    paletteElements[i].style.display = 'block';
+  }
+  replayStepLabel.style.display = 'none';
+}
+
+function showCurrentStep() {
+  var stepsUntilNow = [];
+  var allObjects = [];
+  var i = 0;
+
+  replayStepLabel.innerText = (currentStep + 1) + ' / ' + replaySteps.length;
+
+  for (i = 0; i <= currentStep; i++) {
+    stepsUntilNow.push(replaySteps[i]);
+  }
+
+  allObjects=getAllObjectsFromCanvas();
+
+  var shownElements=getAllShown(stepsUntilNow);
+
+  var notShownElements=getAllNonShown(allObjects, shownElements);
+
+  // hide all elements, that are not to be shown
+  notShownElements.forEach(element => {
+    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
+    domObject.style.display = 'none';
+  });
+
+  shownElements.forEach(element => {
+    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
+    domObject.style.display = 'block';
+  });
+}
+
+// get all elements, that are supposed to be shown in the current step
+function getAllShown(stepsUntilNow) {
+  var shownElements = [];
+  stepsUntilNow.forEach(step => {
+    shownElements.push(step.source);
+    if (step.source.outgoing) {
+      step.source.outgoing.forEach(out=>{
+        if (out.type.includes('domainStory:connection')) {
+          shownElements.push(out, out.target);
+        }
+      });
+    }
+    step.targets.forEach(target => {
+      shownElements.push(target);
+      if (target.outgoing) {
+        target.outgoing.forEach(out=>{
+          if (out.type.includes('domainStory:connection')) {
+            shownElements.push(out, out.target);
+          }
+        });
+      }
+      step.activities.forEach(activity => {
+        shownElements.push(activity);
+      });
+    });
+  });
+  return shownElements;
+}
+
+// get all elements, that are supposed to be hidden in the current step
+function getAllNonShown(allObjects, shownElements) {
+  var notShownElements = [];
+
+  allObjects.forEach(element => {
+    if (!shownElements.includes(element)) {
+      if (element.type.includes('domainStory:connection')) {
+        if (!element.source.type.includes('domainStory:group')) {
+          notShownElements.push(element);
+        }
+        else {
+          shownElements.push(element.target);
+        }
+      }
+      else {
+        notShownElements.push(element);
+      }
+    }
+  });
+  return notShownElements;
+}
+
+function getAllObjectsFromCanvas() {
+  var canvasObjects=canvas._rootElement.children;
+  var allObjects=[];
+  var groupObjects=[];
+
+  var i=0;
+  for (i = 0; i < canvasObjects.length; i++) {
+    if (canvasObjects[i].type.includes('domainStory:group')) {
+      groupObjects.push(canvasObjects[i]);
+    }
+    else {
+      allObjects.push(canvasObjects[i]);
+    }
+  }
+
+  i = groupObjects.length - 1;
+  while (groupObjects.length >= 1) {
+    var currentgroup = groupObjects.pop();
+    currentgroup.children.forEach(child => {
+      if (child.type.includes('domainStory:group')) {
+        groupObjects.push(child);
+      }
+      else {
+        allObjects.push(child);
+      }
+    });
+    i = groupObjects.length - 1;
+  }
+  return allObjects;
+}
+
+// SVG download
+
+function saveSVG(done) {
+  modeler.saveSVG(done);
+}
+
+function setEncoded(data) {
+  var indices = [];
+
+  // in the svg-image, activities are represented as rectangles
+  // to represent them as lines, we add a Fill: none characteristic
+  // since only activities and annotation-conntections use markers
+  // at their end, we check for their mentions to determine the
+  // wanted text-position
+
+  if (data.indexOf('marker-end: url(\'')) {
+    indices[0] = data.indexOf('marker-end: url(\'');
+  }
+
+  var nextIndex = data.indexOf(indices[0], 'marker-end: url(\'');
+  while (nextIndex > 0) {
+    indices[indices.length] = nextIndex;
+    nextIndex = data.indexOf(indices[data.length - 1], 'marker-end: url(\'');
+  }
+
+  for (var i = indices.length - 1; i >= 0; i--) {
+    data = [data.slice(0, indices[i]), 'fill: none; ', data.slice(indices[i])].join('');
+  }
+
+  svgData = encodeURIComponent(data);
+}
+
+$(function() {
+  var exportArtifacts = debounce(function() {
+
+    saveSVG(function(err, svg) {
+      setEncoded(err ? null : svg);
+    });
+  }, 500);
+
+  modeler.on('commandStack.changed', exportArtifacts);
+});
+
 // helper
+
 function debounce(fn, timeout) {
 
   var timer;
