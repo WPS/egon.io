@@ -304,13 +304,14 @@ startReplayButton.addEventListener('click', function() {
 
   if (!replayOn && activities.length > 0) {
 
-    disableCavnasInteraction();
-    replayOn = true;
     replaySteps = traceActivities(activities, elementRegistry);
 
-    console.log(elementRegistry);
-    currentStep = 0;
-    showCurrentStep();
+    if (completeStory()) {
+      replayOn = true;
+      disableCavnasInteraction();
+      currentStep = 0;
+      showCurrentStep();
+    }
   }
 });
 
@@ -337,13 +338,13 @@ stopReplayButton.addEventListener('click', function() {
     enableCanvasInteraction();
 
     // show all canvas elements
-    var allObjects=[];
-    var groupObjects=[];
-    var canvasObjects= canvas._rootElement.children;
-    var i=0;
+    var allObjects = [];
+    var groupObjects = [];
+    var canvasObjects = canvas._rootElement.children;
+    var i = 0;
 
 
-    for (i=0;i<canvasObjects.length;i++) {
+    for (i = 0; i < canvasObjects.length; i++) {
       if (canvasObjects[i].type.includes('domainStory:group')) {
         groupObjects.push(canvasObjects[i]);
       }
@@ -352,10 +353,10 @@ stopReplayButton.addEventListener('click', function() {
       }
     }
 
-    i=groupObjects.length-1;
-    while (groupObjects.length>=1) {
-      var currentgroup=groupObjects.pop();
-      currentgroup.children.forEach(child=>{
+    i = groupObjects.length - 1;
+    while (groupObjects.length >= 1) {
+      var currentgroup = groupObjects.pop();
+      currentgroup.children.forEach(child => {
         if (child.type.includes('domainStory:group')) {
           groupObjects.push(child);
         }
@@ -363,7 +364,7 @@ stopReplayButton.addEventListener('click', function() {
           allObjects.push(child);
         }
       });
-      i=groupObjects.length-1;
+      i = groupObjects.length - 1;
     }
     allObjects.forEach(element => {
       var domObject = document.querySelector('[data-element-id=' + element.id + ']');
@@ -374,6 +375,16 @@ stopReplayButton.addEventListener('click', function() {
     currentStep = 0;
   }
 });
+
+function completeStory() {
+  var complete=true;
+  for (var i=0;i<replaySteps.length;i++) {
+    if (!replaySteps[i].activities[0]) {
+      complete=false;
+    }
+  }
+  return complete;
+}
 
 function disableCavnasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
@@ -410,10 +421,10 @@ function enableCanvasInteraction() {
 
 function showCurrentStep() {
   var stepsUntilNow = [];
-  var allObjects=[];
-  var groupObjects=[];
-  var canvasObjects= canvas._rootElement.children;
-  var i=0;
+  var allObjects = [];
+  var groupObjects = [];
+  var canvasObjects = canvas._rootElement.children;
+  var i = 0;
 
   replayStepLabel.innerText = (currentStep + 1) + ' / ' + replaySteps.length;
 
@@ -421,7 +432,7 @@ function showCurrentStep() {
     stepsUntilNow.push(replaySteps[i]);
   }
 
-  for (i=0;i<canvasObjects.length;i++) {
+  for (i = 0; i < canvasObjects.length; i++) {
     if (canvasObjects[i].type.includes('domainStory:group')) {
       groupObjects.push(canvasObjects[i]);
     }
@@ -430,10 +441,10 @@ function showCurrentStep() {
     }
   }
 
-  i=groupObjects.length-1;
-  while (groupObjects.length>=1) {
-    var currentgroup=groupObjects.pop();
-    currentgroup.children.forEach(child=>{
+  i = groupObjects.length - 1;
+  while (groupObjects.length >= 1) {
+    var currentgroup = groupObjects.pop();
+    currentgroup.children.forEach(child => {
       if (child.type.includes('domainStory:group')) {
         groupObjects.push(child);
       }
@@ -441,7 +452,7 @@ function showCurrentStep() {
         allObjects.push(child);
       }
     });
-    i=groupObjects.length-1;
+    i = groupObjects.length - 1;
   }
 
   // get all elements, that are supposed to be shown
