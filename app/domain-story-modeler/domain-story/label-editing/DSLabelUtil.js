@@ -268,14 +268,25 @@ export function updateExistingNumbersAtGeneration(activiesFromActors, wantedNumb
 }
 
 // update the numbers at the activities when we edit an activity
-export function updateExistingNumbersAtEditing(activiesFromActors, wantedNumber, endNumber, eventBus) {
-
-  activiesFromActors.forEach(element => {
-    if (element.businessObject.number >= wantedNumber && element.businessObject.number < endNumber) {
-      element.businessObject.number = 1 + Number(element.businessObject.number);
-    }
-    eventBus.fire('element.changed', { element });
+export function updateExistingNumbersAtEditing(activiesFromActors, wantedNumber, eventBus) {
+  // get a sorted list of all activities that could need changing
+  var sortedActivities = [];
+  activiesFromActors.forEach(activity => {
+    sortedActivities[activity.businessObject.number] = activity;
   });
+
+  // set the number of each activity to the next highest number, starting from the number, we overrode
+  for (var currentNumber = wantedNumber; currentNumber < sortedActivities.length; currentNumber++) {
+    var element = sortedActivities[currentNumber];
+    if (element) {
+      var businessObject = element.businessObject;
+      if (businessObject) {
+        wantedNumber++;
+        businessObject.number=wantedNumber;
+      }
+      eventBus.fire('element.changed', { element });
+    }
+  }
 }
 
 // get a list of activities, that originate from an actor-type
