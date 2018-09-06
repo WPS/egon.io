@@ -337,7 +337,35 @@ stopReplayButton.addEventListener('click', function() {
     enableCanvasInteraction();
 
     // show all canvas elements
-    canvas._rootElement.children.forEach(element => {
+    var allObjects=[];
+    var groupObjects=[];
+    var canvasObjects= canvas._rootElement.children;
+    var i=0;
+
+
+    for (i=0;i<canvasObjects.length;i++) {
+      if (canvasObjects[i].type.includes('domainStory:group')) {
+        groupObjects.push(canvasObjects[i]);
+      }
+      else {
+        allObjects.push(canvasObjects[i]);
+      }
+    }
+
+    i=groupObjects.length-1;
+    while (groupObjects.length>=1) {
+      var currentgroup=groupObjects.pop();
+      currentgroup.children.forEach(child=>{
+        if (child.type.includes('domainStory:group')) {
+          groupObjects.push(child);
+        }
+        else {
+          allObjects.push(child);
+        }
+      });
+      i=groupObjects.length-1;
+    }
+    allObjects.forEach(element => {
       var domObject = document.querySelector('[data-element-id=' + element.id + ']');
       domObject.style.display = 'block';
     });
