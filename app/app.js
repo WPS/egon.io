@@ -175,7 +175,7 @@ var lastInputTitle = '',
     quitButton = document.getElementById('quitButton'),
     titleInput = document.getElementById('titleInput'),
     exportButton = document.getElementById('export'),
-    importButton= document.getElementById('importButton'),
+    importExportSVGDiv = document.getElementById('importExportSVGButton'),
     replayStepLabel = document.getElementById('replayStep'),
     modal = document.getElementById('modal'),
     arrow = document.getElementById('arrow'),
@@ -298,13 +298,13 @@ inputLabel.addEventListener('keyup', function(e) {
 });
 
 startReplayButton.addEventListener('click', function() {
-  disableCavnasInteraction();
 
   var canvasObjects = canvas._rootElement.children;
   var activities = getActivitesFromActors(canvasObjects);
 
   if (!replayOn && activities.length > 0) {
 
+    disableCavnasInteraction();
     replayOn = true;
     replaySteps = traceActivities(activities, elementRegistry);
 
@@ -332,24 +332,24 @@ previousStepbutton.addEventListener('click', function() {
 });
 
 stopReplayButton.addEventListener('click', function() {
-  enableCanvasInteraction();
+  if (replayOn) {
+    enableCanvasInteraction();
 
-  // show all canvas elements
-  canvas._rootElement.children.forEach(element => {
-    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
-    domObject.style.display = 'block';
-  });
+    // show all canvas elements
+    canvas._rootElement.children.forEach(element => {
+      var domObject = document.querySelector('[data-element-id=' + element.id + ']');
+      domObject.style.display = 'block';
+    });
 
-  replayOn = false;
-  currentStep = 0;
+    replayOn = false;
+    currentStep = 0;
+  }
 });
 
 function disableCavnasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
-  exportButton.style.display='none';
-  importButton.style.display='none';
-  svgSaveButton.style.display='none';
+  importExportSVGDiv.style.visibility = 'hidden';
 
   var i = 0;
   for (i = 0; i < contextPadElements.length; i++) {
@@ -366,9 +366,7 @@ function disableCavnasInteraction() {
 function enableCanvasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
-  exportButton.style.display='block';
-  importButton.style.display='block';
-  svgSaveButton.style.display='block';
+  importExportSVGDiv.style.visibility = 'visible';
 
   var i = 0;
   for (i = 0; i < contextPadElements.length; i++) {
@@ -631,7 +629,6 @@ function closeNumberDialog() {
 }
 
 function saveNumberDialog(element) {
-  var endNumber = element.businessObject.number;
   var labelInput = '';
   var numberInput = '';
   if (inputLabel != '') {
