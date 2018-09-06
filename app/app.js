@@ -308,6 +308,7 @@ startReplayButton.addEventListener('click', function() {
     replayOn = true;
     replaySteps = traceActivities(activities, elementRegistry);
 
+    console.log(elementRegistry);
     currentStep = 0;
     showCurrentStep();
   }
@@ -381,11 +382,38 @@ function enableCanvasInteraction() {
 
 function showCurrentStep() {
   var stepsUntilNow = [];
+  var allObjects=[];
+  var groupObjects=[];
+  var canvasObjects= canvas._rootElement.children;
+  var i=0;
 
   replayStepLabel.innerText = (currentStep + 1) + ' / ' + replaySteps.length;
 
-  for (var i = 0; i <= currentStep; i++) {
+  for (i = 0; i <= currentStep; i++) {
     stepsUntilNow.push(replaySteps[i]);
+  }
+
+  for (i=0;i<canvasObjects.length;i++) {
+    if (canvasObjects[i].type.includes('domainStory:group')) {
+      groupObjects.push(canvasObjects[i]);
+    }
+    else {
+      allObjects.push(canvasObjects[i]);
+    }
+  }
+
+  i=groupObjects.length-1;
+  while (groupObjects.length>=1) {
+    var currentgroup=groupObjects.pop();
+    currentgroup.children.forEach(child=>{
+      if (child.type.includes('domainStory:group')) {
+        groupObjects.push(child);
+      }
+      else {
+        allObjects.push(child);
+      }
+    });
+    i=groupObjects.length-1;
   }
 
   // get all elements, that are supposed to be shown
@@ -401,10 +429,9 @@ function showCurrentStep() {
 
   });
   // get all elements, that are supposed to be hidden
-  var canvasObjects = canvas._rootElement.children;
   var notShownElements = [];
 
-  canvasObjects.forEach(element => {
+  allObjects.forEach(element => {
     if (!shownElements.includes(element)) {
       notShownElements.push(element);
     }
