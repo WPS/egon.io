@@ -47,7 +47,7 @@ function activity_changed(modeling) {
     var semantic = context.businessObject;
     var element = context.element;
 
-    if (context.newLabel.length < 1) {
+    if (context.newLabel && context.newLabel.length < 1) {
       context.newLabel = ' ';
     }
 
@@ -146,6 +146,21 @@ eventBus.on('element.dblclick', function(e) {
   }
 });
 
+eventBus.on([
+  'element.click',
+  'element.dblclick',
+  'element.mousedown',
+  'drag.init',
+  'canvas.viewbox.changing',
+  'autoPlace',
+  'popupMenu.open'
+], 10000000000, function(event) {
+  if (replayOn) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+});
+
 modeler.createDiagram();
 // expose bpmnjs to window for debugging purposes
 window.bpmnjs = modeler;
@@ -160,7 +175,8 @@ var lastInputTitle = '',
     quitButton = document.getElementById('quitButton'),
     titleInput = document.getElementById('titleInput'),
     exportButton = document.getElementById('export'),
-    replayStepLabel= document.getElementById('replayStep'),
+    importButton= document.getElementById('importButton'),
+    replayStepLabel = document.getElementById('replayStep'),
     modal = document.getElementById('modal'),
     arrow = document.getElementById('arrow'),
     info = document.getElementById('info'),
@@ -281,10 +297,7 @@ inputLabel.addEventListener('keyup', function(e) {
   checkInput(inputLabel);
 });
 
-
 startReplayButton.addEventListener('click', function() {
-  // TODO Lock the Canvas so there are no more user inputs
-
   disableCavnasInteraction();
 
   var canvasObjects = canvas._rootElement.children;
@@ -300,47 +313,70 @@ startReplayButton.addEventListener('click', function() {
   }
 });
 
-eventBus.on([
-  'element.click',
-  'element.dblclick',
-  'element.mousedown',
-  'drag.init',
-  'canvas.viewbox.changing',
-  'autoPlace',
-  'popupMenu.open'
-],10000000000 ,function(event) {
+nextStepButton.addEventListener('click', function() {
   if (replayOn) {
-    event.stopPropagation();
-    event.preventDefault();
+    if (currentStep < replaySteps.length - 1) {
+      currentStep += 1;
+      showCurrentStep();
+    }
   }
 });
 
+previousStepbutton.addEventListener('click', function() {
+  if (replayOn) {
+    if (currentStep > 0) {
+      currentStep -= 1;
+      showCurrentStep();
+    }
+  }
+});
+
+stopReplayButton.addEventListener('click', function() {
+  enableCanvasInteraction();
+
+  // show all canvas elements
+  canvas._rootElement.children.forEach(element => {
+    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
+    domObject.style.display = 'block';
+  });
+
+  replayOn = false;
+  currentStep = 0;
+});
 
 function disableCavnasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
+  exportButton.style.display='none';
+  importButton.style.display='none';
+  svgSaveButton.style.display='none';
 
-  for (var i=0; i<contextPadElements.length;i++) {
-    contextPadElements[i].style.display='none';
+  var i = 0;
+  for (i = 0; i < contextPadElements.length; i++) {
+    contextPadElements[i].style.display = 'none';
   }
 
-  for (var i=0; i<paletteElements.length;i++) {
-    paletteElements[i].style.display='none';
+  for (i = 0; i < paletteElements.length; i++) {
+    paletteElements[i].style.display = 'none';
   }
 
-  replayStepLabel.style.display='block';
+  replayStepLabel.style.display = 'block';
 }
 
 function enableCanvasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
+  exportButton.style.display='block';
+  importButton.style.display='block';
+  svgSaveButton.style.display='block';
 
-  for (var i=0; i<contextPadElements.length;i++) {
-    contextPadElements[i].style.display='block';
+  var i = 0;
+  for (i = 0; i < contextPadElements.length; i++) {
+    contextPadElements[i].style.display = 'block';
   }
 
-  for (var i=0; i<paletteElements.length;i++) {
-    paletteElements[i].style.display='block';
+  for (i = 0; i < paletteElements.length; i++) {
+    paletteElements[i].style.display = 'block';
   }
   replayStepLabel.style.display = 'none';
 }
@@ -348,7 +384,7 @@ function enableCanvasInteraction() {
 function showCurrentStep() {
   var stepsUntilNow = [];
 
-  replayStepLabel.innerText= (currentStep+1)+' / '+replaySteps.length;
+  replayStepLabel.innerText = (currentStep + 1) + ' / ' + replaySteps.length;
 
   for (var i = 0; i <= currentStep; i++) {
     stepsUntilNow.push(replaySteps[i]);
@@ -390,34 +426,6 @@ function showCurrentStep() {
   });
 }
 
-nextStepButton.addEventListener('click', function() {
-  if (currentStep < replaySteps.length - 1) {
-    currentStep += 1;
-    showCurrentStep();
-  }
-});
-
-previousStepbutton.addEventListener('click', function() {
-  if (currentStep > 0) {
-    currentStep -= 1;
-    showCurrentStep();
-  }
-});
-
-stopReplayButton.addEventListener('click', function() {
-  // TODO Unlock the Canvas
-
-  enableCanvasInteraction();
-
-  // show all canvas elements
-  canvas._rootElement.children.forEach(element => {
-    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
-    domObject.style.display = 'block';
-  });
-
-  replayOn = false;
-  currentStep = 0;
-});
 
 function checkPressedKeys(keyCode, dialog, element) {
   // keyCode 13 is enter
@@ -486,7 +494,6 @@ svgSaveButton.addEventListener('click', function() {
   var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
   downloadSVG(filename);
 });
-
 
 function downloadSVG(filename) {
   var element = document.createElement('a');
@@ -655,7 +662,7 @@ function saveNumberDialog(element) {
     element: element
   });
 
-  updateExistingNumbersAtEditing(activitiesFromActors, numberInput, endNumber, eventBus);
+  updateExistingNumbersAtEditing(activitiesFromActors, numberInput, eventBus);
 }
 
 function closeLabelDialog() {
