@@ -55,6 +55,27 @@
   z-index: 1;
 }
 
+#replayButtons{
+  position: absolute;
+  margin-top: -3.5em;
+  right: 0%;
+}
+
+
+#replayStep{
+    position: absolute;
+    right: 10px;
+    margin-top: -20px;
+    padding: 1px;
+    display: none;
+}
+
+#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep{
+  background-color: white;
+  border: 1px solid white;
+  margin-right: -4px;
+}
+
 #buttonImport, #export, #buttonSVG {
   margin-right: -5px;
   background-color: white;
@@ -62,7 +83,7 @@
 }
 #export{ margin-right: -4px;}
 
-#buttonImport:hover, #export:hover, #buttonSVG:hover{
+#buttonImport:hover, #export:hover, #buttonSVG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover{
   border: 1px solid #CCC;
   cursor: pointer;
 }

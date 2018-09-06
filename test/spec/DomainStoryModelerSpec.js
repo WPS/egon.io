@@ -110,7 +110,6 @@ describe('domainStory modeler', function() {
 
       // then
       var extraActor= elementRegistry.get('shape_0001');
-      console.log(extraActor);
       expect(extraActor).to.not.exist;
     });
   });

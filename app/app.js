@@ -10,6 +10,7 @@ import {
   from './domain-story-modeler/domain-story/label-editing/DSLabelUtil';
 
 import { setStash } from './domain-story-modeler/domain-story/label-editing/DSLabelEditingProvider';
+import { traceActivities } from './domain-story-modeler/domain-story/replay/ReplayUtils';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -21,6 +22,7 @@ var modeler = new DomainStoryModeler({
 var canvas = modeler.get('canvas');
 var eventBus = modeler.get('eventBus');
 var commandStack = modeler.get('commandStack');
+var elementRegistry = modeler.get('elementRegistry');
 
 commandStack.registerHandler('activity.changed', activity_changed);
 
@@ -83,7 +85,6 @@ function revertChange(iDWithNumber) {
   }
 }
 
-
 function getNumebrsAndIDs() {
   var iDWithNumber = [];
   var canvasObjects = canvas._rootElement.children;
@@ -98,48 +99,50 @@ function getNumebrsAndIDs() {
 }
 
 eventBus.on('element.dblclick', function(e) {
-  var element = e.element;
-  if (element.type == 'domainStory:activity') {
-    var canvasObjects = modeler._customElements;
-    var semantic = element.businessObject;
+  if (!replayOn) {
+    var element = e.element;
+    if (element.type == 'domainStory:activity') {
+      var canvasObjects = modeler._customElements;
+      var semantic = element.businessObject;
 
-    setStash(false);
+      setStash(false);
 
-    for (var i = 0; i < canvasObjects.length; i++) {
-      if (canvasObjects[i].id == semantic.source) {
-        if (canvasObjects[i].type.includes('domainStory:actor')) {
-          showNumberDialog(element);
-          document.getElementById('inputLabel').focus();
-        }
-        else if (canvasObjects[i].type.includes('domainStory:workObject')) {
-          showLabelDialog(element);
-          document.getElementById('labelInputLabel').focus();
+      for (var i = 0; i < canvasObjects.length; i++) {
+        if (canvasObjects[i].id == semantic.source) {
+          if (canvasObjects[i].type.includes('domainStory:actor')) {
+            showNumberDialog(element);
+            document.getElementById('inputLabel').focus();
+          }
+          else if (canvasObjects[i].type.includes('domainStory:workObject')) {
+            showLabelDialog(element);
+            document.getElementById('labelInputLabel').focus();
+          }
         }
       }
+
+      labelSaveButton.onclick = function() {
+        saveLabelDialog(element);
+      };
+
+      numberSaveButton.onclick = function() {
+        saveNumberDialog(element);
+      };
+
+      labelInputLabel.onkeydown = function(e) {
+        checkInput(labelInputLabel);
+        checkPressedKeys(e.keyCode, 'labelDialog', element);
+      };
+
+      inputNumber.onkeydown = function(e) {
+        checkInput(inputNumber);
+        checkPressedKeys(e.keyCode, 'numberDialog', element);
+      };
+
+      inputLabel.onkeydown = function(e) {
+        checkInput(inputLabel);
+        checkPressedKeys(e.keyCode, 'numberDialog', element);
+      };
     }
-
-    labelSaveButton.onclick = function() {
-      saveLabelDialog(element);
-    };
-
-    numberSaveButton.onclick = function() {
-      saveNumberDialog(element);
-    };
-
-    labelInputLabel.onkeydown = function(e) {
-      checkInput(labelInputLabel);
-      checkPressedKeys(e.keyCode, 'labelDialog', element);
-    };
-
-    inputNumber.onkeydown = function(e) {
-      checkInput(inputNumber);
-      checkPressedKeys(e.keyCode, 'numberDialog', element);
-    };
-
-    inputLabel.onkeydown = function(e) {
-      checkInput(inputLabel);
-      checkPressedKeys(e.keyCode, 'numberDialog', element);
-    };
   }
 });
 
@@ -157,6 +160,7 @@ var lastInputTitle = '',
     quitButton = document.getElementById('quitButton'),
     titleInput = document.getElementById('titleInput'),
     exportButton = document.getElementById('export'),
+    replayStepLabel= document.getElementById('replayStep'),
     modal = document.getElementById('modal'),
     arrow = document.getElementById('arrow'),
     info = document.getElementById('info'),
@@ -165,6 +169,10 @@ var lastInputTitle = '',
     inputLabel = document.getElementById('inputLabel'),
     numberDialog = document.getElementById('numberDialog'),
     labelDialog = document.getElementById('labelDialog'),
+    startReplayButton = document.getElementById('buttonStartReplay'),
+    nextStepButton = document.getElementById('buttonNextStep'),
+    previousStepbutton = document.getElementById('buttonPreviousStep'),
+    stopReplayButton = document.getElementById('buttonStopReplay'),
     numberSaveButton = document.getElementById('numberSaveButton'),
     numberQuitButton = document.getElementById('numberQuitButton'),
     labelInputLabel = document.getElementById('labelInputLabel'),
@@ -175,6 +183,9 @@ var lastInputTitle = '',
 // interal variables
 var keysPressed = [];
 var svgData;
+var replayOn = false;
+var currentStep = 0;
+var replaySteps = [];
 
 // SVG download
 function saveSVG(done) {
@@ -268,6 +279,144 @@ labelInputLabel.addEventListener('keyup', function() {
 inputLabel.addEventListener('keyup', function(e) {
   keyReleased(e.keyCode);
   checkInput(inputLabel);
+});
+
+
+startReplayButton.addEventListener('click', function() {
+  // TODO Lock the Canvas so there are no more user inputs
+
+  disableCavnasInteraction();
+
+  var canvasObjects = canvas._rootElement.children;
+  var activities = getActivitesFromActors(canvasObjects);
+
+  if (!replayOn && activities.length > 0) {
+
+    replayOn = true;
+    replaySteps = traceActivities(activities, elementRegistry);
+
+    currentStep = 0;
+    showCurrentStep();
+  }
+});
+
+eventBus.on([
+  'element.click',
+  'element.dblclick',
+  'element.mousedown',
+  'drag.init',
+  'canvas.viewbox.changing',
+  'autoPlace',
+  'popupMenu.open'
+],10000000000 ,function(event) {
+  if (replayOn) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+});
+
+
+function disableCavnasInteraction() {
+  var contextPadElements = document.getElementsByClassName('djs-context-pad');
+  var paletteElements = document.getElementsByClassName('djs-palette');
+
+  for (var i=0; i<contextPadElements.length;i++) {
+    contextPadElements[i].style.display='none';
+  }
+
+  for (var i=0; i<paletteElements.length;i++) {
+    paletteElements[i].style.display='none';
+  }
+
+  replayStepLabel.style.display='block';
+}
+
+function enableCanvasInteraction() {
+  var contextPadElements = document.getElementsByClassName('djs-context-pad');
+  var paletteElements = document.getElementsByClassName('djs-palette');
+
+  for (var i=0; i<contextPadElements.length;i++) {
+    contextPadElements[i].style.display='block';
+  }
+
+  for (var i=0; i<paletteElements.length;i++) {
+    paletteElements[i].style.display='block';
+  }
+  replayStepLabel.style.display = 'none';
+}
+
+function showCurrentStep() {
+  var stepsUntilNow = [];
+
+  replayStepLabel.innerText= (currentStep+1)+' / '+replaySteps.length;
+
+  for (var i = 0; i <= currentStep; i++) {
+    stepsUntilNow.push(replaySteps[i]);
+  }
+
+  // get all elements, that are supposed to be shown
+  var shownElements = [];
+  stepsUntilNow.forEach(step => {
+    shownElements.push(step.source);
+    step.targets.forEach(target => {
+      shownElements.push(target);
+    });
+    step.activities.forEach(activity => {
+      shownElements.push(activity);
+    });
+
+  });
+  // get all elements, that are supposed to be hidden
+  var canvasObjects = canvas._rootElement.children;
+  var notShownElements = [];
+
+  canvasObjects.forEach(element => {
+    if (!shownElements.includes(element)) {
+      notShownElements.push(element);
+    }
+  });
+
+  // hide all elements, that are not to be shown
+
+  notShownElements.forEach(element => {
+
+    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
+    domObject.style.display = 'none';
+  });
+
+  shownElements.forEach(element => {
+    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
+    domObject.style.display = 'block';
+  });
+}
+
+nextStepButton.addEventListener('click', function() {
+  if (currentStep < replaySteps.length - 1) {
+    currentStep += 1;
+    showCurrentStep();
+  }
+});
+
+previousStepbutton.addEventListener('click', function() {
+  if (currentStep > 0) {
+    currentStep -= 1;
+    showCurrentStep();
+  }
+});
+
+stopReplayButton.addEventListener('click', function() {
+  // TODO Unlock the Canvas
+
+  enableCanvasInteraction();
+
+  // show all canvas elements
+  canvas._rootElement.children.forEach(element => {
+    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
+    domObject.style.display = 'block';
+  });
+
+  replayOn = false;
+  currentStep = 0;
 });
 
 function checkPressedKeys(keyCode, dialog, element) {
