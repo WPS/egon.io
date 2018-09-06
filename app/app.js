@@ -459,20 +459,43 @@ function showCurrentStep() {
   var shownElements = [];
   stepsUntilNow.forEach(step => {
     shownElements.push(step.source);
+    if (step.source.outgoing) {
+      step.source.outgoing.forEach(out=>{
+        if (out.type.includes('domainStory:connection')) {
+          shownElements.push(out, out.target);
+        }
+      });
+    }
     step.targets.forEach(target => {
       shownElements.push(target);
+      if (target.outgoing) {
+        target.outgoing.forEach(out=>{
+          if (out.type.includes('domainStory:connection')) {
+            shownElements.push(out, out.target);
+          }
+        });
+      }
+      step.activities.forEach(activity => {
+        shownElements.push(activity);
+      });
     });
-    step.activities.forEach(activity => {
-      shownElements.push(activity);
-    });
-
   });
   // get all elements, that are supposed to be hidden
   var notShownElements = [];
 
   allObjects.forEach(element => {
-    if (!element.type.includes('Annotation') && !element.type.includes('connection') &&!shownElements.includes(element)) {
-      notShownElements.push(element);
+    if (!shownElements.includes(element)) {
+      if (element.type.includes('domainStory:connection')) {
+        if (!element.source.type.includes('domainStory:group')) {
+          notShownElements.push(element);
+        }
+        else{
+          shownElements.push(element.target);
+        }
+      }
+      else {
+        notShownElements.push(element);
+      }
     }
   });
 
