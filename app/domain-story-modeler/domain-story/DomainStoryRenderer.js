@@ -512,6 +512,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     if (element) {
       var attrs = computeStyle(attrs, {
         stroke: '#000000',
+        fill: '#ffffff',
         strokeWidth: 1.5,
         strokeLinejoin: 'round',
         markerEnd: marker('activity', 'black', '#000000')
