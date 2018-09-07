@@ -52,3 +52,65 @@ function createStep(tracedActivity, elementRegistry) {
   };
   return traceStep;
 }
+
+export function completeStory(replaySteps) {
+  var complete=true;
+  for (var i=0;i<replaySteps.length;i++) {
+    if (!replaySteps[i].activities[0]) {
+      complete=false;
+    }
+  }
+  return complete;
+}
+
+// get all elements, that are supposed to be shown in the current step
+export function getAllShown(stepsUntilNow) {
+  var shownElements = [];
+  stepsUntilNow.forEach(step => {
+    shownElements.push(step.source);
+    if (step.source.outgoing) {
+      step.source.outgoing.forEach(out=>{
+        if (out.type.includes('domainStory:connection')) {
+          shownElements.push(out, out.target);
+        }
+      });
+    }
+    step.targets.forEach(target => {
+      shownElements.push(target);
+      if (target.outgoing) {
+        target.outgoing.forEach(out=>{
+          if (out.type.includes('domainStory:connection')) {
+            shownElements.push(out, out.target);
+          }
+        });
+      }
+      step.activities.forEach(activity => {
+        shownElements.push(activity);
+      });
+    });
+  });
+  return shownElements;
+}
+
+
+// get all elements, that are supposed to be hidden in the current step
+export function getAllNonShown(allObjects, shownElements) {
+  var notShownElements = [];
+
+  allObjects.forEach(element => {
+    if (!shownElements.includes(element)) {
+      if (element.type.includes('domainStory:connection')) {
+        if (!element.source.type.includes('domainStory:group')) {
+          notShownElements.push(element);
+        }
+        else {
+          shownElements.push(element.target);
+        }
+      }
+      else {
+        notShownElements.push(element);
+      }
+    }
+  });
+  return notShownElements;
+}

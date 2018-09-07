@@ -7,5 +7,8 @@
     "globals": {
         "assert": true,
         "expect": true
+    },
+    "rules": {
+        "no-fallthrough": "off"
     }
 }

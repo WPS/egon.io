@@ -96,7 +96,6 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     return actions;
   };
 
-
   function getReplaceMenuPosition(element) {
 
     var Y_OFFSET = 5;
@@ -117,7 +116,6 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
     return pos;
   }
-
 
   /**
   * create an append action

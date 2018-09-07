@@ -19,8 +19,6 @@
 <body>
   <div id="modal" style="display:none;"></div>
 
-
-
   <div id="headlineContainer">
     <h3 id="headline">
       <text id="title">&ltname of this Domain Story&gt</text>
@@ -30,14 +28,12 @@
     </h3>
     <div id="logoContainer">
       <div id="imgWPS">
-        <a href="https://www.wps.de/">
           <img src="./logo/Quadrat_wps_de_Farbig.png" height="54" width="40" />
-        </a>
       </div>
       <div id="imgDST">
-        <a href="http://domainstorytelling.org/">
+        <!-- a href="http://domainstorytelling.org/" -->
           <img src="./logo/dst_logo.png" height="74" width="74" />
-        </a>
+        <!-- /a -->
       </div>
     </div>
   </div>
@@ -64,7 +60,7 @@
     </ul>
     <ul class="replay">
       <div id="replayButtons">
-        <div id="replayStep">
+        <div id="replayStep"> 0/0
         </div>
         <button id="buttonStartReplay" class="startReplayButton" title="Start replay">
           <img src="https://github.com/google/material-design-icons/blob/master/av/1x_web/ic_play_arrow_black_36dp.png?raw=true">
@@ -123,6 +119,22 @@
       <button id="labelSaveButton">Save</button>
       <button id="labelQuitButton">Cancel</button>
     </div>
+  </div>
+
+  <div id="wpsLogoInfo" style="display:none;">
+    <button id="closeWPSLogoInfo">X</button>
+    <br>
+    Web-based tooling for BPMN, DMN and CMMN diagrams powered by bpmn.io.
+    <br>
+    <a href="https://www.wps.de">wps.de</a>
+  </div>
+
+  <div id="dstLogoInfo" style="display:none;">
+    <button id="closeDSTLogoInfo">X</button>
+    <br>
+    Web-based tooling for BPMN, DMN and CMMN diagrams powered by bpmn.io.
+    <br>
+    <a href="https://www.domainstorytelling.org">domainstorytelling.org</a>
   </div>
 
   <div id="canvas"></div>

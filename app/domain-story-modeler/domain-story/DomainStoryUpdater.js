@@ -12,6 +12,13 @@ import {
   remove as collectionRemove
 } from 'diagram-js/lib/util/Collections';
 
+import {
+  ifDomainStoryElement,
+  isInDomainStoryGroup,
+  isDomainStory,
+  copyWaypoints,
+  isDomainStoryGroup
+} from './util/DomainStoryUtil';
 
 /**
  * a handler responsible for updating the custom element's businessObject
@@ -65,6 +72,7 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
         }
       }
     }
+
     if (isInDomainStoryGroup(shape)) {
       assign(businessObject, {
         parent: shape.parent.id
@@ -144,51 +152,3 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
 inherits(DomainStoryUpdater, CommandInterceptor);
 
 DomainStoryUpdater.$inject = ['eventBus', 'bpmnjs'];
-
-
-// -- helpers --//
-
-function copyWaypoints(connection) {
-  return connection.waypoints.map(function(p) {
-    if (p.original) {
-      return {
-        original: {
-          x: p.original.x,
-          y: p.original.y
-        },
-        x: p.x,
-        y: p.y
-      };
-    } else {
-      return {
-        x: p.x,
-        y: p.y
-      };
-    }
-
-
-  });
-}
-
-function isDomainStory(element) {
-  return element && /domainStory:/.test(element.type);
-}
-
-function isDomainStoryGroup(element) {
-  return element && /domainStory:group/.test(element.type);
-}
-
-function isInDomainStoryGroup(element) {
-  return isDomainStoryGroup(element.parent);
-}
-
-function ifDomainStoryElement(fn) {
-  return function(event) {
-    var context = event.context,
-        element = context.shape || context.connection;
-
-    if (isDomainStory(element)) {
-      fn(event);
-    }
-  };
-}

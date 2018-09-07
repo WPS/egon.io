@@ -24,7 +24,9 @@ function generateId(type) {
 }
 
 function fourDigitsId() {
-  return Math.floor(Math.random() * 10000);
+  var idNumber= Math.floor(Math.random() * 10000);
+  console.log(idNumber);
+  return idNumber;
 }
 
 function containsId(id) {

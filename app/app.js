@@ -1,16 +1,29 @@
 import $ from 'jquery';
 
 import DomainStoryModeler from './domain-story-modeler';
-import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
-
-import {
-  updateExistingNumbersAtEditing,
-  getActivitesFromActors
-}
-  from './domain-story-modeler/domain-story/label-editing/DSLabelUtil';
 
 import { setStash } from './domain-story-modeler/domain-story/label-editing/DSLabelEditingProvider';
-import { traceActivities } from './domain-story-modeler/domain-story/replay/ReplayUtils';
+
+import {
+  traceActivities,
+  completeStory,
+  getAllNonShown,
+  getAllShown
+} from './domain-story-modeler/domain-story/replay/ReplayUtils';
+
+import { getActivitesFromActors } from './domain-story-modeler/domain-story/label-editing/DSLabelUtil';
+
+import {
+  getNumebrsAndIDs,
+  revertChange,
+  checkInput,
+  keyReleased,
+  getAllObjectsFromCanvas,
+  updateExistingNumbersAtEditing,
+  debounce
+} from './domain-story-modeler/domain-story/appUtils/AppUtils';
+
+import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -57,7 +70,13 @@ var lastInputTitle = '',
     labelInputLabel = document.getElementById('labelInputLabel'),
     labelSaveButton = document.getElementById('labelSaveButton'),
     labelQuitButton = document.getElementById('labelQuitButton'),
-    svgSaveButton = document.getElementById('buttonSVG');
+    svgSaveButton = document.getElementById('buttonSVG'),
+    wpsLogo = document.getElementById('imgWPS'),
+    dstLogo = document.getElementById('imgDST'),
+    wpsLogoInfo = document.getElementById('wpsLogoInfo'),
+    dstLogoInfo = document.getElementById('dstLogoInfo'),
+    wpsButton = document.getElementById('closeWPSLogoInfo'),
+    dstButton =document.getElementById('closeDSTLogoInfo');
 
 // interal variables
 var keysPressed = [];
@@ -82,7 +101,7 @@ function activity_changed(modeling) {
       context.oldLabel = ' ';
     }
 
-    var oldNumbersWithIDs = getNumebrsAndIDs();
+    var oldNumbersWithIDs = getNumebrsAndIDs(canvas);
 
     context.oldNumber = context.businessObject.number;
     context.oldNumbersWithIDs = oldNumbersWithIDs;
@@ -110,39 +129,10 @@ function activity_changed(modeling) {
     semantic.name = context.oldLabel;
     semantic.number = context.oldNumber;
 
-    revertChange(context.oldNumbersWithIDs);
+    revertChange(context.oldNumbersWithIDs, canvas, eventBus);
 
     eventBus.fire('element.changed', { element });
   };
-}
-
-function revertChange(iDWithNumber) {
-  var canvasObjects = canvas._rootElement.children;
-  var activities = getActivitesFromActors(canvasObjects);
-  for (var i = activities.length - 1; i >= 0; i--) {
-    for (var j = iDWithNumber.length - 1; j >= 0; j--) {
-      if (iDWithNumber[j].id.includes(activities[i].businessObject.id)) {
-        var element = activities[i];
-        element.businessObject.number = iDWithNumber[j].number;
-        j = -5;
-        eventBus.fire('element.changed', { element });
-        iDWithNumber.splice(j, 1);
-      }
-    }
-  }
-}
-
-function getNumebrsAndIDs() {
-  var iDWithNumber = [];
-  var canvasObjects = canvas._rootElement.children;
-  var activities = getActivitesFromActors(canvasObjects);
-
-  for (var i = activities.length - 1; i >= 0; i--) {
-    var id = activities[i].businessObject.id;
-    var number = activities[i].businessObject.number;
-    iDWithNumber.push({ id: id, number: number });
-  }
-  return iDWithNumber;
 }
 
 // eventBus listeners
@@ -218,6 +208,26 @@ headline.addEventListener('click', function() {
   showDialog();
 });
 
+wpsLogo.addEventListener('click', function() {
+  modal.style.display = 'block';
+  wpsLogoInfo.style.display = 'block';
+});
+
+dstLogo.addEventListener('click', function() {
+  modal.style.display = 'block';
+  dstLogoInfo.style.display = 'block';
+});
+
+wpsButton.addEventListener('click', function() {
+  wpsLogoInfo.style.display = 'none';
+  modal.style.display = 'none';
+});
+
+dstButton.addEventListener('click', function() {
+  dstLogoInfo.style.display = 'none';
+  modal.style.display = 'none';
+});
+
 saveButton.addEventListener('click', function() {
   saveDialog();
 });
@@ -241,7 +251,7 @@ titleInput.addEventListener('keydown', function(e) {
 
 titleInput.addEventListener('keyup', function(e) {
   checkInput(titleInput);
-  keyReleased(e.keyCode);
+  keyReleased(keysPressed, e.keyCode);
 });
 
 info.addEventListener('keydown', function(e) {
@@ -251,7 +261,7 @@ info.addEventListener('keydown', function(e) {
 
 info.addEventListener('keyup', function(e) {
   checkInput(info);
-  keyReleased(e.keyCode);
+  keyReleased(keysPressed, e.keyCode);
 });
 
 labelInputLabel.addEventListener('keyup', function() {
@@ -259,7 +269,7 @@ labelInputLabel.addEventListener('keyup', function() {
 });
 
 inputLabel.addEventListener('keyup', function(e) {
-  keyReleased(e.keyCode);
+  keyReleased(keysPressed, e.keyCode);
   checkInput(inputLabel);
 });
 
@@ -268,11 +278,12 @@ startReplayButton.addEventListener('click', function() {
   var canvasObjects = canvas._rootElement.children;
   var activities = getActivitesFromActors(canvasObjects);
 
+  console.log(activities);
   if (!replayOn && activities.length > 0) {
 
     replaySteps = traceActivities(activities, elementRegistry);
 
-    if (completeStory()) {
+    if (completeStory(replaySteps)) {
       replayOn = true;
       disableCavnasInteraction();
       currentStep = 0;
@@ -459,14 +470,6 @@ function checkPressedKeys(keyCode, dialog, element) {
   }
 }
 
-function keyReleased(keyCode) {
-  keysPressed[keyCode] = false;
-}
-
-function checkInput(field) {
-  field.value = sanitize(field.value);
-}
-
 function closeDialog() {
   keysPressed = [];
   dialog.style.display = 'none';
@@ -607,20 +610,16 @@ function saveLabelDialog(element) {
 
 // replay functions
 
-function completeStory() {
-  var complete=true;
-  for (var i=0;i<replaySteps.length;i++) {
-    if (!replaySteps[i].activities[0]) {
-      complete=false;
-    }
-  }
-  return complete;
-}
 
 function disableCavnasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
   importExportSVGDiv.style.visibility = 'hidden';
+
+  startReplayButton.style.visibility = 'hidden';
+  stopReplayButton.style.visibility = 'visible';
+  nextStepButton.style.visibility = 'visible';
+  previousStepbutton.style.visibility = 'visible';
 
   var i = 0;
   for (i = 0; i < contextPadElements.length; i++) {
@@ -638,6 +637,11 @@ function enableCanvasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
   importExportSVGDiv.style.visibility = 'visible';
+
+  startReplayButton.style.visibility = 'visible';
+  stopReplayButton.style.visibility = 'hidden';
+  nextStepButton.style.visibility = 'hidden';
+  previousStepbutton.style.visibility = 'hidden';
 
   var i = 0;
   for (i = 0; i < contextPadElements.length; i++) {
@@ -661,7 +665,7 @@ function showCurrentStep() {
     stepsUntilNow.push(replaySteps[i]);
   }
 
-  allObjects=getAllObjectsFromCanvas();
+  allObjects=getAllObjectsFromCanvas(canvas);
 
   var shownElements=getAllShown(stepsUntilNow);
 
@@ -677,88 +681,6 @@ function showCurrentStep() {
     var domObject = document.querySelector('[data-element-id=' + element.id + ']');
     domObject.style.display = 'block';
   });
-}
-
-// get all elements, that are supposed to be shown in the current step
-function getAllShown(stepsUntilNow) {
-  var shownElements = [];
-  stepsUntilNow.forEach(step => {
-    shownElements.push(step.source);
-    if (step.source.outgoing) {
-      step.source.outgoing.forEach(out=>{
-        if (out.type.includes('domainStory:connection')) {
-          shownElements.push(out, out.target);
-        }
-      });
-    }
-    step.targets.forEach(target => {
-      shownElements.push(target);
-      if (target.outgoing) {
-        target.outgoing.forEach(out=>{
-          if (out.type.includes('domainStory:connection')) {
-            shownElements.push(out, out.target);
-          }
-        });
-      }
-      step.activities.forEach(activity => {
-        shownElements.push(activity);
-      });
-    });
-  });
-  return shownElements;
-}
-
-// get all elements, that are supposed to be hidden in the current step
-function getAllNonShown(allObjects, shownElements) {
-  var notShownElements = [];
-
-  allObjects.forEach(element => {
-    if (!shownElements.includes(element)) {
-      if (element.type.includes('domainStory:connection')) {
-        if (!element.source.type.includes('domainStory:group')) {
-          notShownElements.push(element);
-        }
-        else {
-          shownElements.push(element.target);
-        }
-      }
-      else {
-        notShownElements.push(element);
-      }
-    }
-  });
-  return notShownElements;
-}
-
-function getAllObjectsFromCanvas() {
-  var canvasObjects=canvas._rootElement.children;
-  var allObjects=[];
-  var groupObjects=[];
-
-  var i=0;
-  for (i = 0; i < canvasObjects.length; i++) {
-    if (canvasObjects[i].type.includes('domainStory:group')) {
-      groupObjects.push(canvasObjects[i]);
-    }
-    else {
-      allObjects.push(canvasObjects[i]);
-    }
-  }
-
-  i = groupObjects.length - 1;
-  while (groupObjects.length >= 1) {
-    var currentgroup = groupObjects.pop();
-    currentgroup.children.forEach(child => {
-      if (child.type.includes('domainStory:group')) {
-        groupObjects.push(child);
-      }
-      else {
-        allObjects.push(child);
-      }
-    });
-    i = groupObjects.length - 1;
-  }
-  return allObjects;
 }
 
 // SVG download
@@ -803,18 +725,3 @@ $(function() {
 
   modeler.on('commandStack.changed', exportArtifacts);
 });
-
-// helper
-
-function debounce(fn, timeout) {
-
-  var timer;
-
-  return function() {
-    if (timer) {
-      clearTimeout(timer);
-    }
-
-    timer = setTimeout(fn, timeout);
-  };
-}
