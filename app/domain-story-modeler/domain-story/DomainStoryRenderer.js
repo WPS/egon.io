@@ -297,10 +297,16 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     if (element.businessObject.text) {
       var height = getAnnotationBoxHeight();
 
+      if (height==0) {
+        height= element.businessObject.number;
+      }
       assign(element, {
         height: height
       });
-
+      // for some reason the keyword height is not exported, so we use another, which we know will be exported, to esure persitent annotation height betweens sessions
+      assign(element.businessObject, {
+        number: height
+      });
     }
 
     var textElement = drawRect(parentGfx, element.width, element.height, 0, 0, style);

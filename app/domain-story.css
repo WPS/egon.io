@@ -16,7 +16,7 @@ input{
   right: 0;
   bottom: 0;
   background-color: black;
-  opacity: 0.1;
+  opacity: 0.17;
   position: absolute;
   z-index: 1;
 }
@@ -151,12 +151,29 @@ cursor: default;
   position: absolute;
 }
 
-#wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo{
+#dstLogoInfo{
+  font-size: 11pt;  
   border: solid 1px #aaaaab;
-  padding: 3px;
-  background-color: #eeeeef;
-  width: 300px;
-  margin-left: -150px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+  width: 310px;
+  margin-left: -155px;
+
+}
+
+#wpsLogoInfo, #incompleteStoryInfo{
+  font-size: 11pt;  
+  border: solid 1px #aaaaab;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+  width: 350px;
+  margin-left: -175px;
 }
 
 #closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo{

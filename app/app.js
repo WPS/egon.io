@@ -81,6 +81,7 @@ var lastInputTitle = '',
     wpsButton = document.getElementById('closeWPSLogoInfo'),
     dstButton =document.getElementById('closeDSTLogoInfo'),
     wpsInfotext = document.getElementById('wpsLogoInnerText'),
+    wpsInfotext2 = document.getElementById('wpsLogoInnerText2'),
     dstInfotext = document.getElementById('dstLogoInnerText'),
     incompleteStoryInfo = document.getElementById('incompleteStoryInfo'),
     closeIncompleteStoryInfoButton = document.getElementById('closeIncompleteStoryInfo');
@@ -211,8 +212,9 @@ eventBus.on([
 
 // ----
 
-wpsInfotext.innerText = '\nversion: ' + version;
-dstInfotext.innerText = '';
+wpsInfotext.innerText = 'Domain Story Modeler v' + version + '\nA tool to visualize Domain Stories in the browser.\nProvided by';
+wpsInfotext2.innerText = ' and licensed under GPLv3.';
+dstInfotext.innerText = 'Learn more about Domain Storytelling at';
 
 // ----
 
