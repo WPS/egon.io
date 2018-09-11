@@ -4,14 +4,16 @@ A tool to visualize Domain Stories in your browser.
 ### About 
 http://domainstorytelling.org
 
+### Download and run the Modeler
+
 ### Usage
-A short definition on how to use the Domain Story Modeler.
+This is a short guide on how to use the Domain Story Modeler.
 
 #### Pallet
-Shows the icons you can choose to tell your domain story.
+Shows the icons you can choose to tell your Domain Story.
 
 #### Headline
-Click on the headline to change the name of the domain story and describe it.
+Click on the headline to change the name of the Domain Story and describe it.
 
 #### Context Menu
 If you drop an icon from the pallet into the canvas you will see a context menu. To show the connection between two icons use the arrow. Also you can choose the next icon you want to connect to. If you choose one, it will automatically be connected. Delete the choosen icon by clicking on delete. You can click on the wrench to change the icon. By using the annotation icon, you can add comments for further information.
@@ -19,28 +21,32 @@ If you drop an icon from the pallet into the canvas you will see a context menu.
 #### Label 
 Double click on an icon or an activity to add a label. 
 
-#### Automatically Numbered
-If you draw an activity between an actor (person, people and system) and a workobject (folder, call, email, conversation, information) it will automatically consecutively numbered. By double clicking on the activity you also can manually change the number. All numbers which are equal or larger will increase automatically. 
+#### Automatic Numbering
+If you draw an activity between an actor (person, people and system) and a workobject (folder, call, email, conversation, information) it will be numbered automatically. By double clicking on the activity you can manually change the number. All other numbers are adjusted automatically.
 
 #### File Management
-If you want to edit your diagram later, you can export it as a .dst file via the export button ![Export Button](/images/archive.png). 
+If you want to share your Domain Story or save it for future editing, you can export it as a .dst file by cklicking the export button ![Export Button](/images/archive.png). 
 To import a diagram use the upload button ![Upload Button](/images/unarchive.png).
 You can also export your diagram as a .svg file by clicking on the image button ![SVG Button](/images/image.png).
 
+#### Replay
+The replay feature helps you to re-tell a Domain Story sentence by sentence. When you start a replay with the play button ![Play Button](/images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](/images/forward.png) shows the next activity. Editing is disabled in replay mode, but you can zoom (mouse wheel up and down) and scroll (ctrl + mouse wheel up and down). The stop the replay, click the stop button ![Stop Button](/images/stop.png). 
 
-## Run Application
+## For Developers
+Download the source code or clone the repository.
+Please note that we use the main branch for development. The main branch contains the lates features und big fixes, but they might be undocumented and tested less thoroughly than a relese. To be on the safe side, stick with the latest release branch.
+
 Fetch dependencies:
 
 ```
 npm install
 ```
 
-Build example and open it in your browser:
+Build and open the modeler in your browser:
 
 ```
 npm run dev
 ```
-
 
 ## License
 The Domain Story Modeler is licensed under GPLv3.0.
