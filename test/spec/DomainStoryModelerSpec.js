@@ -10,6 +10,7 @@ describe('domainStory modeler', function() {
   '{"type":"domainStory:workObject","name":"","id":"shape_8681","x":508,"y":133,"width":30,"height":30},'+
   '{"type":"domainStory:activity","name":"","id":"connection_3004","number":1,"waypoints":[{"original":{"x":216,"y":171},"x":259,"y":171},{"original":{"x":546,"y":171},"x":508,"y":171}],"source":"shape_3050","target":"shape_8681"},'+
   '{"info":"test"}]';
+
   var data = JSON.parse(jsonString);
   // remove the info tag at the end before we load the data
   data.pop();
@@ -20,7 +21,7 @@ describe('domainStory modeler', function() {
     container = TestContainer.get(this);
   });
 
-  describe('domainStory import export', function() {
+  describe('domainStory import export Test', function() {
 
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {
@@ -115,7 +116,6 @@ describe('domainStory modeler', function() {
       expect(extraActor).to.not.exist;
     });
   });
-
 });
 
 describe('custom modeler', function() {
@@ -127,7 +127,6 @@ describe('custom modeler', function() {
   beforeEach(function() {
     container = TestContainer.get(this);
   });
-
 
   describe('custom elements', function() {
 
@@ -146,13 +145,11 @@ describe('custom modeler', function() {
 
     });
 
-
     it('should import custom element', function() {
 
       // given
       var elementRegistry = modeler.get('elementRegistry'),
           customElements = modeler.getCustomElements();
-
 
       // when
       var businessObject = {
@@ -179,7 +176,6 @@ describe('custom modeler', function() {
 
   });
 
-
   describe('custom connections', function() {
 
     var modeler;
@@ -203,7 +199,6 @@ describe('custom modeler', function() {
         }
       });
     });
-
 
     it('should import custom connection', function() {
 
@@ -233,9 +228,6 @@ describe('custom modeler', function() {
       // then
       expect(customConnection).to.exist;
       expect(customElements).to.contain(customElement);
-
     });
-
   });
-
 });
