@@ -38,9 +38,30 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     case 'domainStory:workObjectInfo':
 
       assign(actions, {
-        'append.actorPerson': appendAction('domainStory:actorPerson', 'icon-domain-story-actor-person', 'person'),
-        'append.actorGroup': appendAction('domainStory:actorGroup', 'icon-domain-story-actor-group', 'people'),
-        'append.actorSystem': appendAction('domainStory:actorSystem', 'icon-domain-story-actor-system', 'system')
+        'append.actorPerson': {
+          group:'actors',
+          className: 'icon-domain-story-actor-person',
+          title: translate('person'),
+          action: {
+            click: appendAction('domainStory:actorPerson', 'icon-domain-story-actor-person', 'person')
+          }
+        },
+        'append.actorGroup': {
+          group:'actors',
+          className: 'icon-domain-story-actor-group',
+          title: translate('people'),
+          action: {
+            click: appendAction('domainStory:actorGroup', 'icon-domain-story-actor-group', 'people')
+          }
+        },
+        'append.actorSystem': {
+          group:'actors',
+          className: 'icon-domain-story-actor-system',
+          title: translate('system'),
+          action: {
+            click: appendAction('domainStory:actorSystem', 'icon-domain-story-actor-system', 'system')
+          }
+        }
       });
 
     case 'domainStory:actorPerson':
@@ -91,7 +112,6 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       assign(actions, {
         'append.text-annotation': appendAction('domainStory:textAnnotation', 'bpmn-icon-text-annotation')
       });
-
     }
     return actions;
   };
