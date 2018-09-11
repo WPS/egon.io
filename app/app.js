@@ -81,7 +81,9 @@ var lastInputTitle = '',
     wpsButton = document.getElementById('closeWPSLogoInfo'),
     dstButton =document.getElementById('closeDSTLogoInfo'),
     wpsInfotext = document.getElementById('wpsLogoInnerText'),
-    dstInfotext = document.getElementById('dstLogoInnerText');
+    dstInfotext = document.getElementById('dstLogoInnerText'),
+    incompleteStoryInfo = document.getElementById('incompleteStoryInfo'),
+    closeIncompleteStoryInfoButton = document.getElementById('closeIncompleteStoryInfo');
 
 // interal variables
 var keysPressed = [];
@@ -298,6 +300,10 @@ startReplayButton.addEventListener('click', function() {
       currentStep = 0;
       showCurrentStep();
     }
+    else {
+      incompleteStoryInfo.style.display = 'block';
+      modal.style.display = 'block';
+    }
   }
 });
 
@@ -379,6 +385,11 @@ exportButton.addEventListener('click', function() {
 svgSaveButton.addEventListener('click', function() {
   var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
   downloadSVG(filename);
+});
+
+closeIncompleteStoryInfoButton.addEventListener('click', function() {
+  modal.style.display = 'none';
+  incompleteStoryInfo.style.display = 'none';
 });
 
 document.getElementById('import').onchange = function() {

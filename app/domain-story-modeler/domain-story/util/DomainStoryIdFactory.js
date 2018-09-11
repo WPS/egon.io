@@ -25,7 +25,6 @@ function generateId(type) {
 
 function fourDigitsId() {
   var idNumber= Math.floor(Math.random() * 10000);
-  console.log(idNumber);
   if (idNumber < 10) {
     idNumber= '000' + idNumber;
   }

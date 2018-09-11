@@ -71,6 +71,10 @@ input{
   -webkit-hyphenate-character: auto;  /* not supported by Chrome*/
 }
 
+#infoText:hover{
+cursor: default;
+}
+
 #infoText, .buttons{
   display: inline-block; 
   *display: inline; 
@@ -140,14 +144,14 @@ input{
   position: absolute;
 }
 
-#numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo{
+#numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo{
   top: 40%;
   left: 50%;
   z-index: 2;
   position: absolute;
 }
 
-#wpsLogoInfo, #dstLogoInfo{
+#wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo{
   border: solid 1px #aaaaab;
   padding: 3px;
   background-color: #eeeeef;
@@ -155,7 +159,7 @@ input{
   margin-left: -150px;
 }
 
-#closeDSTLogoInfo, #closeWPSLogoInfo{
+#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo{
   position: absolute;
   font-size: 9pt;
   right: 1px;
