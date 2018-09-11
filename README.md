@@ -4,7 +4,10 @@ A tool to visualize Domain Stories in your browser.
 ### About 
 http://domainstorytelling.org
 
-### Download and run the Modeler
+### Run the Modeler
+You can try the modeler online at https://www.wps.de/modeler.
+To run the modeler locally, download the latest release from [GitHub](https://github.com/WPS/domain-story-modeler/releases).
+Extract the zip file and open index.html in your browser.
 
 ### Usage
 This is a short guide on how to use the Domain Story Modeler.
