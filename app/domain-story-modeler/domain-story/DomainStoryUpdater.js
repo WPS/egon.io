@@ -52,24 +52,20 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
     // save custom element size if resizable
     if (isDomainStoryGroup(shape)) {
 
-      // TODO
-      // when we go through the children of the canvas, for some reason we only get half of the array
-      // going through it 8 times equals 256 elements, which should be enough
-
-      for (var i = 9; i > 0; i--) {
-        assign(businessObject, pick(shape, ['height', 'width']));
-        if (parent != null) {
-          parent.children.forEach(innerShape => {
-            if ((innerShape.id) != shape.id) {
-              if (innerShape.x >= shape.x && innerShape.x <= shape.x + shape.width) {
-                if (innerShape.y >= shape.y && innerShape.y <= shape.y + shape.height) {
-                  innerShape.parent = shape;
+      assign(businessObject, pick(shape, ['height', 'width']));
+      if (parent != null) {
+        parent.children.slice().forEach(innerShape => {
+          if ((innerShape.id) != shape.id) {
+            if (innerShape.x >= shape.x && innerShape.x <= shape.x + shape.width) {
+              if (innerShape.y >= shape.y && innerShape.y <= shape.y + shape.height) {
+                innerShape.parent = shape;
+                if (!shape.children.includes(innerShape)) {
                   shape.children.push(innerShape);
                 }
               }
             }
-          });
-        }
+          }
+        });
       }
     }
 
