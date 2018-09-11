@@ -1,5 +1,5 @@
 html, body {
-  height: 97%;
+  height: 99.3%;
   width: 99.9%;
   position: absolute;
 }
@@ -11,10 +11,12 @@ input{
 /* Elements by class*/
 
 #modal{
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: black;
   opacity: 0.1;
-  height: 99%;
-  width: 99%;
   position: absolute;
   z-index: 1;
 }
@@ -139,10 +141,25 @@ input{
 }
 
 #numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo{
-  top: 50%;
+  top: 40%;
   left: 50%;
   z-index: 2;
-  position:absolute;
+  position: absolute;
+}
+
+#wpsLogoInfo, #dstLogoInfo{
+  border: solid 1px #aaaaab;
+  padding: 3px;
+  background-color: #eeeeef;
+  width: 300px;
+  margin-left: -150px;
+}
+
+#closeDSTLogoInfo, #closeWPSLogoInfo{
+  position: absolute;
+  font-size: 9pt;
+  right: 1px;
+  top: 1px;
 }
 
 /* Elements by ID */
@@ -158,7 +175,8 @@ input{
 }
 
 .prevoiusStepButton, .NextStepButton, .stopReplayButton {
-  visibility: hidden;
+  opacity: 0.2;
+  pointer-events: none;
 }
 
 .arrow{

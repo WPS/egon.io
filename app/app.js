@@ -13,6 +13,8 @@ import {
 
 import { getActivitesFromActors } from './domain-story-modeler/domain-story/label-editing/DSLabelUtil';
 
+import { version } from '../package.json';
+
 import {
   getNumebrsAndIDs,
   revertChange,
@@ -76,7 +78,9 @@ var lastInputTitle = '',
     wpsLogoInfo = document.getElementById('wpsLogoInfo'),
     dstLogoInfo = document.getElementById('dstLogoInfo'),
     wpsButton = document.getElementById('closeWPSLogoInfo'),
-    dstButton =document.getElementById('closeDSTLogoInfo');
+    dstButton =document.getElementById('closeDSTLogoInfo'),
+    wpsInfotext = document.getElementById('wpsLogoInnerText'),
+    dstInfotext = document.getElementById('dstLogoInnerText');
 
 // interal variables
 var keysPressed = [];
@@ -201,6 +205,11 @@ eventBus.on([
     event.preventDefault();
   }
 });
+
+// ----
+
+wpsInfotext.innerText = '\nversion: ' + version;
+dstInfotext.innerText = '';
 
 // ----
 
@@ -610,16 +619,23 @@ function saveLabelDialog(element) {
 
 // replay functions
 
-
 function disableCavnasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
-  importExportSVGDiv.style.visibility = 'hidden';
+  importExportSVGDiv.style.opacity = 0.2;
+  importExportSVGDiv.style.pointerEvents = 'none';
 
-  startReplayButton.style.visibility = 'hidden';
-  stopReplayButton.style.visibility = 'visible';
-  nextStepButton.style.visibility = 'visible';
-  previousStepbutton.style.visibility = 'visible';
+  startReplayButton.style.opacity = 0.2;
+  startReplayButton.style.pointerEvents = 'none';
+
+  stopReplayButton.style.opacity = 1;
+  stopReplayButton.style.pointerEvents = 'all';
+
+  nextStepButton.style.opacity = 1;
+  nextStepButton.style.pointerEvents = 'all';
+
+  previousStepbutton.style.opacity = 1;
+  previousStepbutton.style.pointerEvents = 'all';
 
   var i = 0;
   for (i = 0; i < contextPadElements.length; i++) {
@@ -636,12 +652,20 @@ function disableCavnasInteraction() {
 function enableCanvasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
-  importExportSVGDiv.style.visibility = 'visible';
+  importExportSVGDiv.style.opacity = 1;
+  importExportSVGDiv.style.pointerEvents = 'all';
 
-  startReplayButton.style.visibility = 'visible';
-  stopReplayButton.style.visibility = 'hidden';
-  nextStepButton.style.visibility = 'hidden';
-  previousStepbutton.style.visibility = 'hidden';
+  startReplayButton.style.opacity = 1;
+  startReplayButton.style.pointerEvents = 'all';
+
+  stopReplayButton.style.opacity = 0.2;
+  stopReplayButton.style.pointerEvents = 'none';
+
+  nextStepButton.style.opacity = 0.2;
+  nextStepButton.style.pointerEvents = 'none';
+
+  previousStepbutton.style.opacity = 0.2;
+  previousStepbutton.style.pointerEvents = 'none';
 
   var i = 0;
   for (i = 0; i < contextPadElements.length; i++) {
