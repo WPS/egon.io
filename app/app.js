@@ -11,7 +11,9 @@ import {
   getAllShown
 } from './domain-story-modeler/domain-story/replay/ReplayUtils';
 
-import { getActivitesFromActors } from './domain-story-modeler/domain-story/label-editing/DSLabelUtil';
+import { getActivitesFromActors,
+  updateExistingNumbersAtEditing
+} from './domain-story-modeler/domain-story/label-editing/DSLabelUtil';
 
 import { version } from '../package.json';
 
@@ -21,7 +23,6 @@ import {
   checkInput,
   keyReleased,
   getAllObjectsFromCanvas,
-  updateExistingNumbersAtEditing,
   debounce
 } from './domain-story-modeler/domain-story/appUtils/AppUtils';
 
@@ -621,6 +622,9 @@ function saveLabelDialog(element) {
 function disableCanvasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
+
+  headline.style.pointerEvents = 'none';
+
   importExportSVGDiv.style.opacity = 0.2;
   importExportSVGDiv.style.pointerEvents = 'none';
 
@@ -651,6 +655,9 @@ function disableCanvasInteraction() {
 function enableCanvasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
+
+  headline.style.pointerEvents = 'all';
+
   importExportSVGDiv.style.opacity = 1;
   importExportSVGDiv.style.pointerEvents = 'all';
 
