@@ -43,6 +43,8 @@ export default function DSLabelEditingPreview(
 
       gfx = svgCreate('g');
 
+      annotationBoxHeight = element.height;
+
       var textPathData = pathMap.getScaledPath('TEXT_ANNOTATION', {
         xScaleFactor: 1,
         yScaleFactor: 1,

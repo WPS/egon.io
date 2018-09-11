@@ -297,7 +297,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     if (element.businessObject.text) {
       var height = getAnnotationBoxHeight();
 
-      if (height==0) {
+      if (height==0 && element.businessObject.number) {
         height= element.businessObject.number;
       }
       assign(element, {
