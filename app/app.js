@@ -278,14 +278,14 @@ startReplayButton.addEventListener('click', function() {
   var canvasObjects = canvas._rootElement.children;
   var activities = getActivitesFromActors(canvasObjects);
 
-  console.log(activities);
+  
   if (!replayOn && activities.length > 0) {
 
     replaySteps = traceActivities(activities, elementRegistry);
 
     if (completeStory(replaySteps)) {
       replayOn = true;
-      disableCavnasInteraction();
+      disableCanvasInteraction();
       currentStep = 0;
       showCurrentStep();
     }
@@ -610,8 +610,7 @@ function saveLabelDialog(element) {
 
 // replay functions
 
-
-function disableCavnasInteraction() {
+function disableCanvasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
   importExportSVGDiv.style.visibility = 'hidden';
