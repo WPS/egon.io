@@ -31,9 +31,10 @@ function createStep(tracedActivity, elementRegistry) {
     targetObjects.push(currentTarget);
 
     // check the outgoing activities for each target
-    targetObjects.forEach(checkTarget => {
+    for (var i=0;i<targetObjects.length;i++) {
+      var checkTarget=targetObjects[i];
       if (!checkTarget.businessObject.type.includes('actor')&& checkTarget.outgoing) {
-      // check the target for each outgoing activity
+        // check the target for each outgoing activity
         checkTarget.outgoing.forEach(activity => {
           activities.push(activity);
           var activityTarget=elementRegistry.get(activity.businessObject.target);
@@ -42,7 +43,7 @@ function createStep(tracedActivity, elementRegistry) {
           }
         });
       }
-    });
+    }
   }
 
   var traceStep = {
