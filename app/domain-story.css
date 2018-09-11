@@ -144,7 +144,7 @@ cursor: default;
   position: absolute;
 }
 
-#numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo{
+#numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog{
   top: 40%;
   left: 50%;
   z-index: 2;
@@ -164,7 +164,7 @@ cursor: default;
 
 }
 
-#wpsLogoInfo, #incompleteStoryInfo{
+#wpsLogoInfo, #incompleteStoryInfo, #versionDialog{
   font-size: 11pt;  
   border: solid 1px #aaaaab;
   padding-top: 3px;
@@ -176,7 +176,7 @@ cursor: default;
   margin-left: -175px;
 }
 
-#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo{
+#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog{
   position: absolute;
   font-size: 9pt;
   right: 1px;

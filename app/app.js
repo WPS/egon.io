@@ -11,7 +11,8 @@ import {
   getAllShown
 } from './domain-story-modeler/domain-story/replay/ReplayUtils';
 
-import { getActivitesFromActors,
+import {
+  getActivitesFromActors,
   updateExistingNumbersAtEditing
 } from './domain-story-modeler/domain-story/label-editing/DSLabelUtil';
 
@@ -79,12 +80,16 @@ var lastInputTitle = '',
     wpsLogoInfo = document.getElementById('wpsLogoInfo'),
     dstLogoInfo = document.getElementById('dstLogoInfo'),
     wpsButton = document.getElementById('closeWPSLogoInfo'),
-    dstButton =document.getElementById('closeDSTLogoInfo'),
+    dstButton = document.getElementById('closeDSTLogoInfo'),
     wpsInfotext = document.getElementById('wpsLogoInnerText'),
     wpsInfotext2 = document.getElementById('wpsLogoInnerText2'),
     dstInfotext = document.getElementById('dstLogoInnerText'),
     incompleteStoryInfo = document.getElementById('incompleteStoryInfo'),
-    closeIncompleteStoryInfoButton = document.getElementById('closeIncompleteStoryInfo');
+    closeIncompleteStoryInfoButton = document.getElementById('closeIncompleteStoryInfo'),
+    versionDialog = document.getElementById('versionDialog'),
+    closeVersionDialogButton = document.getElementById('closeVersionDialog'),
+    importedVersionLabel = document.getElementById('importedVersion'),
+    modelerVersionLabel = document.getElementById('modelerVersion');
 
 // interal variables
 var keysPressed = [];
@@ -377,6 +382,7 @@ exportButton.addEventListener('click', function() {
   var newObject = object.slice(0);
 
   newObject.push({ info: text });
+  newObject.push({ version: version });
   var json = JSON.stringify(newObject);
   var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
 
@@ -392,6 +398,11 @@ svgSaveButton.addEventListener('click', function() {
 closeIncompleteStoryInfoButton.addEventListener('click', function() {
   modal.style.display = 'none';
   incompleteStoryInfo.style.display = 'none';
+});
+
+closeVersionDialogButton.addEventListener('click', function() {
+  modal.style.display = 'none';
+  versionDialog.style.display = 'none';
 });
 
 document.getElementById('import').onchange = function() {
@@ -410,6 +421,23 @@ document.getElementById('import').onchange = function() {
 
       var elements = JSON.parse(text);
       var lastElement = elements.pop();
+
+      var importVersionNumber = lastElement;
+      if (lastElement.version) {
+        lastElement = elements.pop();
+      }
+
+      if (importVersionNumber.version) {
+        importVersionNumber = importVersionNumber.version;
+      } else {
+        importVersionNumber = '?';
+      }
+
+      if (version != importVersionNumber) {
+        importedVersionLabel.innerText = 'v' + importVersionNumber;
+        modelerVersionLabel.innerText = 'v' + version;
+        showVersionDialog();
+      }
 
       var inputInfoText = sanitize(lastElement.info ? lastElement.info : '');
       info.innerText = inputInfoText;
@@ -433,6 +461,11 @@ document.getElementById('import').onchange = function() {
     eventBus.fire('commandStack.changed', exportArtifacts);
   }
 };
+
+function showVersionDialog() {
+  versionDialog.style.display = 'block';
+  modal.style.display = 'block';
+}
 
 function download(filename, text) {
   var element = document.createElement('a');
@@ -708,11 +741,11 @@ function showCurrentStep() {
     stepsUntilNow.push(replaySteps[i]);
   }
 
-  allObjects=getAllObjectsFromCanvas(canvas);
+  allObjects = getAllObjectsFromCanvas(canvas);
 
-  var shownElements=getAllShown(stepsUntilNow);
+  var shownElements = getAllShown(stepsUntilNow);
 
-  var notShownElements=getAllNonShown(allObjects, shownElements);
+  var notShownElements = getAllNonShown(allObjects, shownElements);
 
   // hide all elements, that are not to be shown
   notShownElements.forEach(element => {
