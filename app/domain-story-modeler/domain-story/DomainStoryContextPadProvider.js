@@ -38,30 +38,9 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     case 'domainStory:workObjectInfo':
 
       assign(actions, {
-        'append.actorPerson': {
-          group:'actors',
-          className: 'icon-domain-story-actor-person',
-          title: translate('person'),
-          action: {
-            click: appendAction('domainStory:actorPerson', 'icon-domain-story-actor-person', 'person')
-          }
-        },
-        'append.actorGroup': {
-          group:'actors',
-          className: 'icon-domain-story-actor-group',
-          title: translate('people'),
-          action: {
-            click: appendAction('domainStory:actorGroup', 'icon-domain-story-actor-group', 'people')
-          }
-        },
-        'append.actorSystem': {
-          group:'actors',
-          className: 'icon-domain-story-actor-system',
-          title: translate('system'),
-          action: {
-            click: appendAction('domainStory:actorSystem', 'icon-domain-story-actor-system', 'system')
-          }
-        }
+        'append.actorPerson': appendAction('domainStory:actorPerson', 'icon-domain-story-actor-person', 'person', 'actors'),
+        'append.actorGroup':  appendAction('domainStory:actorGroup', 'icon-domain-story-actor-group', 'people', 'actors'),
+        'append.actorSystem': appendAction('domainStory:actorSystem', 'icon-domain-story-actor-system', 'system', 'actors')
       });
 
     case 'domainStory:actorPerson':
@@ -69,12 +48,12 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     case 'domainStory:actorSystem':
 
       assign(actions, {
-        'append.workObject': appendAction('domainStory:workObject', 'icon-domain-story-workObject', 'workobject'),
-        'append.workObjectFolder': appendAction('domainStory:workObjectFolder', 'icon-domain-story-workObject-folder', 'folder'),
-        'append.workObjectCall': appendAction('domainStory:workObjectCall', 'icon-domain-story-workObject-call', 'call'),
-        'append.workObjectEmail': appendAction('domainStory:workObjectEmail', 'icon-domain-story-workObject-email', 'email'),
-        'append.workObjectBubble': appendAction('domainStory:workObjectBubble', 'icon-domain-story-workObject-bubble', 'conversation'),
-        'append.workObjectInfo': appendAction('domainStory:workObjectInfo', 'icon-domain-story-workObject-info', 'information')
+        'append.workObject': appendAction('domainStory:workObject', 'icon-domain-story-workObject', 'workobject', 'workObjects'),
+        'append.workObjectFolder': appendAction('domainStory:workObjectFolder', 'icon-domain-story-workObject-folder', 'folder', 'workObjects'),
+        'append.workObjectCall': appendAction('domainStory:workObjectCall', 'icon-domain-story-workObject-call', 'call', 'workObjects'),
+        'append.workObjectEmail': appendAction('domainStory:workObjectEmail', 'icon-domain-story-workObject-email', 'email', 'workObjects'),
+        'append.workObjectBubble': appendAction('domainStory:workObjectBubble', 'icon-domain-story-workObject-bubble', 'conversation', 'workObjects'),
+        'append.workObjectInfo': appendAction('domainStory:workObjectInfo', 'icon-domain-story-workObject-info', 'information', 'workObjects')
       });
 
       // replace menu entry
@@ -147,7 +126,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   *
   * @return {Object} descriptor
   */
-  function appendAction(type, className, title, options) {
+  function appendAction(type, className, title, group, options) {
 
     if (typeof title !== 'string') {
       options = title;
@@ -167,7 +146,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     } : appendStart;
 
     return {
-      group: 'model',
+      group: group,
       className: className,
       title: 'Append ' + title,
       action: {
