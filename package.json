@@ -1,6 +1,6 @@
 {
   "name": "domain-story-modeler",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A tool to visualize Domain Stories in the browser",
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
       "url": "https://github.com/wps/domain-story-modeler"
     }
   ],
-  "license": "MIT",
+  "license": "GPLv3",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
