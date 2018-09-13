@@ -5,9 +5,8 @@ import {
 import inherits from 'inherits';
 
 import BpmnElementFactory from 'bpmn-js/lib/features/modeling/ElementFactory';
-import {
-  DEFAULT_LABEL_SIZE
-} from 'bpmn-js/lib/util/LabelUtil';
+
+import { DEFAULT_LABEL_SIZE } from 'bpmn-js/lib/util/LabelUtil';
 
 import DomainStoryIdFactory from './util/DomainStoryIdFactory';
 /**

@@ -2,20 +2,29 @@ import inherits from 'inherits';
 
 import BaseRenderer from 'diagram-js/lib/draw/BaseRenderer';
 
-import {
-  labelPosition,
-  calculateDeg,
-  calculateXY,
-} from './label-editing/DSLabelUtil';
+import { getAnnotationBoxHeight } from './label-editing/DSLabelEditingPreview';
+
+import { getNumberStash } from './label-editing/DSLabelEditingProvider';
 
 import {
-  getAnnotationBoxHeight
-} from './label-editing/DSLabelEditingPreview';
+  labelPosition,
+  numberBoxDefinitions,
+  calculateDeg,
+  calculateXY,
+  generateAutomaticNumber
+} from './util/DSActivityUtil';
 
 import {
   componentsToPath,
   createLine
 } from 'diagram-js/lib/util/RenderUtil';
+
+import {
+  getRectPath,
+  calculateTextWidth
+} from './util/DSUtil';
+
+import sanitize from './util/Sanitizer';
 
 import {
   append as svgAppend,
@@ -24,9 +33,7 @@ import {
   classes as svgClasses
 } from 'tiny-svg';
 
-import {
-  query as domQuery
-} from 'min-dom';
+import { query as domQuery } from 'min-dom';
 
 import {
   isObject,
@@ -34,16 +41,6 @@ import {
 } from 'min-dash';
 
 import Ids from 'ids';
-
-import sanitize from './util/Sanitizer';
-
-import { getNumberStash } from './label-editing/DSLabelEditingProvider';
-
-import {
-  getRectPath,
-  calculateTextWidth,
-  generateAutomaticNumber
-} from './util/DomainStoryUtil';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];
@@ -129,24 +126,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
         }
       )
     };
-  }
-
-  function numberBoxDefinitions(element) {
-    var alignement = 'center';
-    var boxWidth = 30;
-    var boxHeight = 30;
-    var position = labelPosition(element.waypoints);
-    var xPos = position.x - 50;
-    var yPos = position.y - 19;
-
-    var box = {
-      textAlign: alignement,
-      width: boxWidth,
-      height: boxHeight,
-      x: xPos,
-      y: yPos
-    };
-    return box;
   }
 
   function renderEmbeddedLabel(parentGfx, element, align, padding) {

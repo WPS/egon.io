@@ -1,6 +1,7 @@
 import Modeling from 'bpmn-js/lib/features/modeling/Modeling';
 
 import DSUpdateLabelHandler from '../label-editing/cmd/DSUpdateLabelHandler';
+
 import { inherits } from 'util';
 
 export default function DSModeling(eventBus, elementFactory, commandStack,

@@ -2,7 +2,7 @@ import inherits from 'inherits';
 
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
 
-import { generateAutomaticNumber } from './util/DomainStoryUtil';
+import { generateAutomaticNumber } from './util/DSActivityUtil';
 
 import {
   assign,

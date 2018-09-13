@@ -5,13 +5,9 @@ import {
   remove as svgRemove
 } from 'tiny-svg';
 
-import {
-  is
-} from 'bpmn-js/lib/util/ModelUtil';
+import { is } from 'bpmn-js/lib/util/ModelUtil';
 
-import {
-  translate
-} from 'diagram-js/lib/util/SvgTransformUtil';
+import { translate } from 'diagram-js/lib/util/SvgTransformUtil';
 
 var MARKER_HIDDEN = 'djs-element-hidden',
     MARKER_LABEL_HIDDEN = 'djs-label-hidden';
@@ -29,7 +25,6 @@ export default function DSLabelEditingPreview(
   var self = this;
 
   var defaultLayer = canvas.getDefaultLayer();
-
   var element, absoluteElementBBox, gfx;
 
   eventBus.on('directEditing.activate', function(context) {

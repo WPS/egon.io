@@ -9,23 +9,23 @@ import {
   completeStory,
   getAllNonShown,
   getAllShown
-} from './domain-story-modeler/domain-story/replay/ReplayUtils';
+} from './domain-story-modeler/domain-story/replay/ReplayUtil';
 
 import {
   getActivitesFromActors,
-  updateExistingNumbersAtEditing
-} from './domain-story-modeler/domain-story/label-editing/DSLabelUtil';
+  updateExistingNumbersAtEditing,
+  getNumbersAndIDs,
+  revertChange
+} from './domain-story-modeler/domain-story/util/DSActivityUtil';
 
 import { version } from '../package.json';
 
 import {
-  getNumebrsAndIDs,
-  revertChange,
   checkInput,
   keyReleased,
   getAllObjectsFromCanvas,
   debounce
-} from './domain-story-modeler/domain-story/appUtils/AppUtils';
+} from './domain-story-modeler/domain-story/appUtil/AppUtil';
 
 import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
 
@@ -114,7 +114,7 @@ function activity_changed(modeling) {
       context.oldLabel = ' ';
     }
 
-    var oldNumbersWithIDs = getNumebrsAndIDs(canvas);
+    var oldNumbersWithIDs = getNumbersAndIDs(canvas);
 
     context.oldNumber = context.businessObject.number;
     context.oldNumbersWithIDs = oldNumbersWithIDs;
