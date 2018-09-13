@@ -13,9 +13,7 @@ import {
 
 import {
   getActivitesFromActors,
-  updateExistingNumbersAtEditing,
-  getNumbersAndIDs,
-  revertChange
+  updateExistingNumbersAtEditing
 } from './domain-story-modeler/domain-story/util/DSActivityUtil';
 
 import { version } from '../package.json';
@@ -98,56 +96,6 @@ var replayOn = false;
 var currentStep = 0;
 var replaySteps = [];
 
-// -----
-
-
-// commandStack listener for changing activities
-
-commandStack.registerHandler('activity.changed', activity_changed);
-
-function activity_changed(modeling) {
-
-  this.preExecute = function(context) {
-    context.oldLabel = context.businessObject.name;
-
-    if (context.oldLabel.length < 1) {
-      context.oldLabel = ' ';
-    }
-
-    var oldNumbersWithIDs = getNumbersAndIDs(canvas);
-
-    context.oldNumber = context.businessObject.number;
-    context.oldNumbersWithIDs = oldNumbersWithIDs;
-    modeling.updateLabel(context.businessObject, context.newLabel);
-    modeling.updateNumber(context.businessObject, context.newNumber);
-  };
-
-  this.execute = function(context) {
-    var semantic = context.businessObject;
-    var element = context.element;
-
-    if (context.newLabel && context.newLabel.length < 1) {
-      context.newLabel = ' ';
-    }
-
-    semantic.name = context.newLabel;
-    semantic.number = context.newNumber;
-
-    eventBus.fire('element.changed', { element });
-  };
-
-  this.revert = function(context) {
-    var semantic = context.businessObject;
-    var element = context.element;
-    semantic.name = context.oldLabel;
-    semantic.number = context.oldNumber;
-
-    revertChange(context.oldNumbersWithIDs, canvas, eventBus);
-
-    eventBus.fire('element.changed', { element });
-  };
-}
-
 // eventBus listeners
 
 eventBus.on('element.dblclick', function(e) {
@@ -221,7 +169,7 @@ wpsInfotext.innerText = 'Domain Story Modeler v' + version + '\nA tool to visual
 wpsInfotext2.innerText = ' and licensed under GPLv3.';
 dstInfotext.innerText = 'Learn more about Domain Storytelling at';
 
-// ----
+// HTML-Element event listeners
 
 headline.addEventListener('click', function() {
   showDialog();
@@ -405,6 +353,8 @@ closeVersionDialogButton.addEventListener('click', function() {
   versionDialog.style.display = 'none';
 });
 
+// -----
+
 document.getElementById('import').onchange = function() {
 
   var input = document.getElementById('import').files[0];
@@ -462,11 +412,6 @@ document.getElementById('import').onchange = function() {
   }
 };
 
-function showVersionDialog() {
-  versionDialog.style.display = 'block';
-  modal.style.display = 'block';
-}
-
 function download(filename, text) {
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -523,6 +468,13 @@ function checkPressedKeys(keyCode, dialog, element) {
       saveNumberDialog(element);
     }
   }
+}
+
+// dialog functions
+
+function showVersionDialog() {
+  versionDialog.style.display = 'block';
+  modal.style.display = 'block';
 }
 
 function closeDialog() {

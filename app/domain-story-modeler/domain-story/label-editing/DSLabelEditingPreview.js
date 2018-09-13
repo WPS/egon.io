@@ -19,8 +19,7 @@ export function getAnnotationBoxHeight() {
 }
 
 export default function DSLabelEditingPreview(
-    eventBus, canvas, elementRegistry,
-    pathMap) {
+    eventBus, canvas, pathMap) {
 
   var self = this;
 
@@ -133,7 +132,6 @@ export default function DSLabelEditingPreview(
 DSLabelEditingPreview.$inject = [
   'eventBus',
   'canvas',
-  'elementRegistry',
   'pathMap'
 ];
 
