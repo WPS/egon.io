@@ -23,7 +23,7 @@ import {
   keyReleased,
   getAllObjectsFromCanvas,
   debounce
-} from './domain-story-modeler/domain-story/appUtil/AppUtil';
+} from './domain-story-modeler/domain-story/util/AppUtil';
 
 import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
 
