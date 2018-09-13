@@ -12,14 +12,14 @@ Extract the zip file and open index.html in your browser.
 ### Usage
 This is a short guide on how to use the Domain Story Modeler.
 
-#### Pallet
+#### Palette
 Shows the icons you can choose to tell your Domain Story.
 
 #### Headline
 Click on the headline to change the name of the Domain Story and describe it.
 
 #### Context Menu
-If you drop an icon from the pallet into the canvas you will see a context menu. To show the connection between two icons use the arrow. Also you can choose the next icon you want to connect to. If you choose one, it will automatically be connected. Delete the choosen icon by clicking on delete. You can click on the wrench to change the icon. By using the annotation icon, you can add comments for further information.
+If you drop an icon from the palette into the canvas you will see a context menu. To show the connection between two icons use the arrow. Also you can choose the next icon you want to connect to. If you choose one, it will automatically be connected. Delete the choosen icon by clicking on delete. You can click on the wrench to change the icon. By using the annotation icon, you can add comments for further information.
 
 #### Label 
 Double click on an icon or an activity to add a label. 
@@ -37,7 +37,7 @@ The replay feature helps you to re-tell a Domain Story sentence by sentence. Whe
 
 ## For Developers
 Download the source code or clone the repository.
-Please note that we use the main branch for development. The main branch contains the lates features und big fixes, but they might be undocumented and tested less thoroughly than a relese. To be on the safe side, stick with the latest release branch.
+Please note that we use the main branch for development. The main branch contains the latest features und bug fixes, but they might be undocumented and tested less thoroughly than a relese. To be on the safe side, stick with the latest release branch.
 
 Fetch dependencies:
 
