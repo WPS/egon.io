@@ -37,7 +37,7 @@ The replay feature helps you to re-tell a Domain Story sentence by sentence. Whe
 
 ## For Developers
 Download the source code or clone the repository.
-Please note that we use the main branch for development. The main branch contains the lates features und big fixes, but they might be undocumented and tested less thoroughly than a relese. To be on the safe side, stick with the latest release branch.
+Please note that we use the main branch for development. The main branch contains the lates features und big fixes, but they might be undocumented and tested less thoroughly than a release. To be on the safe side, stick with the latest release branch.
 
 Fetch dependencies:
 
