@@ -7,10 +7,11 @@ import {
  * commandStack Handler for changes at activities
  */
 
-export default function DomainStoryActivityHandler(injector, commandStack, eventBus, canvas) {
+export default function DomainStoryActivityHandler(commandStack, eventBus, canvas) {
 
   commandStack.registerHandler('activity.directionChange', activity_directionChange);
   commandStack.registerHandler('activity.changed', activity_changed);
+
 
   // update the activity from the activity-dialog, either with or without number
   // and change other activites too, to keep the numbers consistent
@@ -109,10 +110,3 @@ export default function DomainStoryActivityHandler(injector, commandStack, event
     };
   }
 }
-
-DomainStoryActivityHandler.$inject = [
-  'injector',
-  'commandStack',
-  'eventBus',
-  'canvas'
-];

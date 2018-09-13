@@ -42,7 +42,7 @@ var commandStack = modeler.get('commandStack');
 var elementRegistry = modeler.get('elementRegistry');
 
 // we nned to initiate the activity commandStack elements
-DomainStoryActivityHandlers();
+DomainStoryActivityHandlers(commandStack, eventBus, canvas);
 
 modeler.createDiagram();
 // expose bpmnjs to window for debugging purposes
