@@ -2,13 +2,15 @@ import inherits from 'inherits';
 
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
 
+import { generateAutomaticNumber } from './util/DomainStoryUtil';
+
 import {
   assign,
   bind
 } from 'min-dash';
 
 
-export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider) {
+export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
 
   injector.invoke(ContextPadProvider, this);
   var autoPlace = injector.get('autoPlace', false);
@@ -91,9 +93,98 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       assign(actions, {
         'append.text-annotation': appendAction('domainStory:textAnnotation', 'bpmn-icon-text-annotation')
       });
+      break;
+
+    case 'domainStory:activity' :
+
+      assign(actions, {
+        'changeDirection': {
+          group: 'edit',
+          className: 'bpmn-icon-screw-wrench',
+          title: translate('Change direction'),
+          action: {
+            click: function(event, element) {
+              changeDirection(element);
+            }
+          }
+        }
+      });
     }
     return actions;
   };
+
+  commandStack.registerHandler('activity.directionChange', activity_directionChange);
+
+  function activity_directionChange(modeling) {
+
+    this.preExecute = function(context) {
+      context.oldNumber = context.businessObject.number;
+      context.oldWaypoints= context.element.waypoints;
+
+      if (!context.oldNumber) {
+        context.oldNumber=0;
+      }
+      modeling.updateNumber(context.businessObject, context.newNumber);
+    };
+
+    this.execute = function(context) {
+      var semantic = context.businessObject;
+      var element = context.element;
+      var swapSource = element.source;
+      var newWaypoints = [];
+      var waypoints = element.waypoints;
+
+      for (var i=waypoints.length-1; i>=0;i--) {
+        newWaypoints.push(waypoints[i]);
+      }
+
+      element.source = element.target;
+      semantic.source = semantic.target;
+      element.target = swapSource;
+      semantic.target = swapSource.id;
+
+      semantic.number = context.newNumber;
+      element.waypoints = newWaypoints;
+
+      eventBus.fire('element.changed', { element });
+    };
+
+    this.revert = function(context) {
+      var semantic = context.businessObject;
+      var element = context.element;
+      var swapSource = element.source;
+
+      element.source = element.target;
+      semantic.source = semantic.target;
+      element.target = swapSource;
+      semantic.target = swapSource.id;
+
+      semantic.number = context.oldNumber;
+      element.waypoints = context.oldWaypoints;
+
+      eventBus.fire('element.changed', { element });
+    };
+  }
+
+  function changeDirection(element) {
+    var context;
+    var businessObject = element.businessObject;
+    var newNumber;
+
+    if (element.source.type.includes('domainStory:actor')) {
+      newNumber = 0;
+    }
+    else {
+      newNumber = generateAutomaticNumber(element, canvas, commandStack);
+    }
+
+    context ={
+      businessObject: businessObject,
+      newNumber: newNumber,
+      element: element
+    };
+    commandStack.execute('activity.directionChange', context);
+  }
 
   function getReplaceMenuPosition(element) {
 
@@ -168,5 +259,8 @@ DomainStoryContextPadProvider.$inject = [
   'canvas',
   'contextPad',
   'popupMenu',
-  'replaceMenuProvider'
+  'replaceMenuProvider',
+  'commandStack',
+  'eventBus',
+  'modeling'
 ];

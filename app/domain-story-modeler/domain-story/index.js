@@ -11,6 +11,7 @@ import PopupMenuModule from 'bpmn-js/lib/features/popup-menu';
 import ReplaceMenuProvider from './popup-menu/ReplaceMenuProvider';
 import ContextPadModule from 'diagram-js/lib/features/context-pad';
 import CommandStack from '../../../node_modules/diagram-js/lib/command/CommandStack';
+import DSModeling from './modeling/DSModeling';
 
 
 export default {
@@ -36,5 +37,6 @@ export default {
   elementFactoryBpmn: ['type', ElementFactory],
   pathMap: [ 'type', PathMap ],
   replaceMenuProvider: ['type', ReplaceMenuProvider],
-  commandStack: ['type', CommandStack]
+  commandStack: ['type', CommandStack],
+  modeling : ['type', DSModeling]
 };
