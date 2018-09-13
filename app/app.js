@@ -18,6 +18,8 @@ import {
 
 import { version } from '../package.json';
 
+import DomainStoryActivityHandlers from './domain-story-modeler/domain-story/DomainStoryActivityHandlers';
+
 import {
   checkInput,
   keyReleased,
@@ -38,6 +40,9 @@ var canvas = modeler.get('canvas');
 var eventBus = modeler.get('eventBus');
 var commandStack = modeler.get('commandStack');
 var elementRegistry = modeler.get('elementRegistry');
+
+// we nned to initiate the activity commandStack elements
+DomainStoryActivityHandlers();
 
 modeler.createDiagram();
 // expose bpmnjs to window for debugging purposes
