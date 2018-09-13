@@ -2,7 +2,7 @@ import inherits from 'inherits';
 
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
 
-import { generateAutomaticNumber } from './util/DomainStoryUtil';
+import { generateAutomaticNumber } from './util/DSActivityUtil';
 
 import {
   assign,
@@ -103,7 +103,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           className: 'bpmn-icon-screw-wrench',
           title: translate('Change direction'),
           action: {
-            click: function(event, element) {
+            click: function(element) {
               changeDirection(element);
             }
           }
@@ -112,59 +112,6 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     }
     return actions;
   };
-
-  commandStack.registerHandler('activity.directionChange', activity_directionChange);
-
-  function activity_directionChange(modeling) {
-
-    this.preExecute = function(context) {
-      context.oldNumber = context.businessObject.number;
-      context.oldWaypoints= context.element.waypoints;
-
-      if (!context.oldNumber) {
-        context.oldNumber=0;
-      }
-      modeling.updateNumber(context.businessObject, context.newNumber);
-    };
-
-    this.execute = function(context) {
-      var semantic = context.businessObject;
-      var element = context.element;
-      var swapSource = element.source;
-      var newWaypoints = [];
-      var waypoints = element.waypoints;
-
-      for (var i=waypoints.length-1; i>=0;i--) {
-        newWaypoints.push(waypoints[i]);
-      }
-
-      element.source = element.target;
-      semantic.source = semantic.target;
-      element.target = swapSource;
-      semantic.target = swapSource.id;
-
-      semantic.number = context.newNumber;
-      element.waypoints = newWaypoints;
-
-      eventBus.fire('element.changed', { element });
-    };
-
-    this.revert = function(context) {
-      var semantic = context.businessObject;
-      var element = context.element;
-      var swapSource = element.source;
-
-      element.source = element.target;
-      semantic.source = semantic.target;
-      element.target = swapSource;
-      semantic.target = swapSource.id;
-
-      semantic.number = context.oldNumber;
-      element.waypoints = context.oldWaypoints;
-
-      eventBus.fire('element.changed', { element });
-    };
-  }
 
   function changeDirection(element) {
     var context;

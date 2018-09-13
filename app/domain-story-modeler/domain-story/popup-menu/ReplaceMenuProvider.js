@@ -1,9 +1,8 @@
 import Replace from './Replace';
+
 import * as replaceOptions from './ReplaceOptions';
 
-import {
-  forEach
-} from 'min-dash';
+import { forEach } from 'min-dash';
 
 /**
  * This module is an element agnostic replace menu provider for the popup menu.

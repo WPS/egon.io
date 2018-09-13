@@ -1,10 +1,6 @@
-import {
-  getBusinessObject
-} from '../../../util/ModelUtil';
+import { getBusinessObject } from '../../../util/ModelUtil';
 
-import {
-  isExpanded
-} from '../../../util/DiUtil';
+import { isExpanded } from '../../../util/DiUtil';
 
 
 /**

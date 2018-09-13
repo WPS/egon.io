@@ -1,6 +1,4 @@
-import {
-  assign
-} from 'min-dash';
+import { assign } from 'min-dash';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.

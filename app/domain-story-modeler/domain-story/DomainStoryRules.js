@@ -5,9 +5,7 @@ import {
 
 import inherits from 'inherits';
 
-import {
-  is
-} from 'bpmn-js/lib/util/ModelUtil';
+import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 import RuleProvider from 'diagram-js/lib/features/rules/RuleProvider';
 

@@ -18,7 +18,7 @@ import {
   isDomainStory,
   copyWaypoints,
   isDomainStoryGroup
-} from './util/DomainStoryUtil';
+} from './util/DSUtil';
 
 /**
  * a handler responsible for updating the custom element's businessObject
@@ -49,10 +49,11 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
 
     // save custom element position
     assign(businessObject, pick(shape, ['x', 'y']));
+
     // save custom element size if resizable
     if (isDomainStoryGroup(shape)) {
-
       assign(businessObject, pick(shape, ['height', 'width']));
+
       if (parent != null) {
         parent.children.slice().forEach(innerShape => {
           if ((innerShape.id) != shape.id) {
@@ -85,7 +86,6 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
         businessObject = connection.businessObject;
 
     var parent = connection.parent;
-
     var customElements = bpmnjs._customElements;
 
     // make sure element is added / removed from bpmnjs.customElements

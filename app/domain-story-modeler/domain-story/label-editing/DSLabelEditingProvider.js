@@ -1,12 +1,11 @@
-import {
-  assign
-} from 'min-dash';
+import { assign } from 'min-dash';
 
-import {
-  getLabel
-} from './DSLabelUtil';
+import { isDomainStoryElement } from '../util/DSUtil';
+
+import { getLabel } from './DSLabelUtil';
 
 import { is } from 'bpmn-js/lib/util/ModelUtil';
+
 import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
 import {
@@ -15,7 +14,9 @@ import {
   hasExternalLabel,
   isLabel
 } from 'bpmn-js/lib/util/LabelUtil';
+
 import { inherits } from 'util';
+
 import LabelEditingProvider from 'bpmn-js/lib/features/label-editing/LabelEditingProvider';
 
 var numberStash = 0;
@@ -368,21 +369,3 @@ DSLabelEditingProvider.prototype.update = function(
 
   this._modeling.updateLabel(element, newLabel, newBounds);
 };
-
-
-// helpers //////////////////////
-function isDomainStoryElement(element) {
-  return is(element, 'domainStory:actorPerson') ||
-    is(element, 'domainStory:actorGroup') ||
-    is(element, 'domainStory:actorSystem') ||
-    is(element, 'domainStory:workObject') ||
-    is(element, 'domainStory:workObjectFolder') ||
-    is(element, 'domainStory:workObjectCall') ||
-    is(element, 'domainStory:workObjectEmail') ||
-    is(element, 'domainStory:workObjectBubble') ||
-    is(element, 'domainStory:activity') ||
-    is(element, 'domainStory:connection') ||
-    is(element, 'domainStory:group') ||
-    is(element, 'domainStory:workObjectInfo');
-
-}
