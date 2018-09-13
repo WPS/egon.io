@@ -103,7 +103,8 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           className: 'bpmn-icon-screw-wrench',
           title: translate('Change direction'),
           action: {
-            click: function(element) {
+            // event needs to be adressed
+            click: function(event, element) {
               changeDirection(element);
             }
           }
@@ -114,6 +115,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   };
 
   function changeDirection(element) {
+    console.log(element);
     var context;
     var businessObject = element.businessObject;
     var newNumber;
