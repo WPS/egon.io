@@ -130,6 +130,11 @@ cursor: default;
   box-shadow: 2px 2px 5px silver;
 }
 
+#inputLabel [type=submit], #labelInputLabel [type=submit]{
+  background-color: DodgerBlue;
+  color: #fff;  
+}
+
 #canvas, #canvas > div{
   top: 0px;
   width: 100%;
@@ -295,4 +300,36 @@ cursor: default;
   font-family: "Material Icons";
   content: "crop_5_4";
   background-repeat: no-repeat;
+}
+
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #a9a9a9;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 5px 10px 5px 10px;
+  font-size: 10pt;
+  cursor: pointer;
+  background-color: #fafafa; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #fafafa; 
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
 }
