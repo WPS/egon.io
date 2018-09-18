@@ -107,22 +107,17 @@ eventBus.on('element.dblclick', function(e) {
   if (!replayOn) {
     var element = e.element;
     if (element.type == 'domainStory:activity') {
-      var canvasObjects = modeler._customElements;
-      var semantic = element.businessObject;
+      var source=element.source;
 
       setStash(false);
 
-      for (var i = 0; i < canvasObjects.length; i++) {
-        if (canvasObjects[i].id == semantic.source) {
-          if (canvasObjects[i].type.includes('domainStory:actor')) {
-            showNumberDialog(element);
-            document.getElementById('inputLabel').focus();
-          }
-          else if (canvasObjects[i].type.includes('domainStory:workObject')) {
-            showLabelDialog(element);
-            document.getElementById('labelInputLabel').focus();
-          }
-        }
+      if (source.type.includes('domainStory:actor')) {
+        showNumberDialog(element);
+        document.getElementById('inputLabel').focus();
+      }
+      else if (source.type.includes('domainStory:workObject')) {
+        showLabelDialog(element);
+        document.getElementById('labelInputLabel').focus();
       }
 
       // onclick and key functions, that need the element to which the event belongs
