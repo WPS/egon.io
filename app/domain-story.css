@@ -188,6 +188,14 @@ cursor: default;
   top: 1px;
 }
 
+#DSGVO{
+  position: absolute;
+  z-index: 1;
+  bottom: 0px;
+  right: 80px;
+  padding-right: 5px;
+}
+
 /* Elements by ID */
 
 .lineAndbuttons{
