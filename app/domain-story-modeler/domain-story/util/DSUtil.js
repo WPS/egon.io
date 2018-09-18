@@ -99,6 +99,8 @@ export function autocomplete(inp, arr, element) {
   /* the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
   var currentFocus;
+  /* sort the autocomplete array*/
+  arr.sort();
   /* execute a function when someone writes in the text field:*/
   inp.addEventListener('input', function(e) {
     var a, b, i, val = this.value;
