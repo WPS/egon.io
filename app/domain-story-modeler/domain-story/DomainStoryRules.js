@@ -24,8 +24,8 @@ function isActor(element) {
   return element && /^domainStory:actor\w*/.test(element.type);
 }
 
-function isAnnotation(element) {
-  return element && /^domainStory:textAnnotation/.test(element.type);
+function isWorkObject(element) {
+  return element && /^domainStory:workObject/.test(element.type);
 }
 
 function isActivity(element) {
@@ -36,8 +36,8 @@ function isConnection(element) {
   return element && /^domainStory:connection/.test(element.type);
 }
 
-function isWorkObject(element) {
-  return element && /^domainStory:workObject/.test(element.type);
+function isAnnotation(element) {
+  return element && /^domainStory:textAnnotation/.test(element.type);
 }
 
 /**
@@ -157,6 +157,25 @@ function canAttach(elements, target, source, position) {
   return 'attach';
 }
 
+function canConnectToAnnotation(source, target, connection) {
+
+  // do not allow an activity connect to an annotation
+  if (isActivity(connection) && isAnnotation(target)) {
+    return false;
+  }
+
+  // do not allow an annotation connection between two annotations
+  if (isConnection(connection) && (isAnnotation(source) && isAnnotation(target))) {
+    return false;
+  }
+
+  // do not allow an annotation connection between an actor or workObject and anything except an annotation
+  if (isConnection(connection) && !isAnnotation(target) && (isActor(source) || isWorkObject(source))) {
+    return false;
+  }
+
+  return true;
+}
 
 /**
  * specific rules for custom elements
@@ -232,19 +251,9 @@ DomainStoryRules.prototype.init = function() {
         target = connection.target;
 
     // --------------------------------------------------------------
-    // TODO: Refactoring into new function
-    // do not allow an activity connect to an annotation
-    if (isActivity(connection) && isAnnotation(target)) {
-      return;
-    }
+    var result = canConnectToAnnotation(source, target, connection);
 
-    // do not allow an annotation connection between two annotations
-    if (isConnection(connection) && (isAnnotation(source) && isAnnotation(target))) {
-      return;
-    }
-
-    // do not allow an annotation connection between an actor or workObject and anything except an annotation
-    if (isConnection(connection) && !isAnnotation(target) && (isActor(source) || isWorkObject(source))) {
+    if (!result) {
       return;
     }
     // --------------------------------------------------------------
@@ -258,24 +267,17 @@ DomainStoryRules.prototype.init = function() {
         target = context.hover || context.target;
 
     // --------------------------------------------------------------
-    // do not allow an activity connect to an annotation
-    if (isActivity(connection) && isAnnotation(target)) {
-      return;
-    }
+    var result = canConnectToAnnotation(source, target, connection);
 
-    // do not allow an annotation connection between two annotations
-    if (isConnection(connection) && (isAnnotation(source) && isAnnotation(target))) {
-      return;
-    }
-
-    // do not allow an annotation connection between an actor or workObject and anything except an annotation
-    if (isConnection(connection) && !isAnnotation(target) && (isActor(source) || isWorkObject(source))) {
+    if (!result) {
       return;
     }
     // --------------------------------------------------------------
 
     return canConnect(source, target, connection);
+
   });
+
 
   this.addRule('shape.resize', function(context) {
 
