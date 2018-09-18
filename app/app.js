@@ -29,6 +29,8 @@ import {
 
 import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
 
+import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';
+
 var modeler = new DomainStoryModeler({
   container: '#canvas',
   keyboard: {
@@ -737,6 +739,9 @@ function showCurrentStep() {
     domObject.style.display = 'block';
   });
 }
+
+// disable BPMN SearchPad
+SearchPad.prototype.toggle=function() { };
 
 // SVG download
 
