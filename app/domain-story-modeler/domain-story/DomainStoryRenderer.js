@@ -61,15 +61,15 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
 
       var box = numberBoxDefinitions(element);
 
-      if (semantic.number <1 && element.source.type && element.source.type.includes('actor')) {
+      if (semantic.number == null && element.source.type && element.source.type.includes('domainStory:actor')) {
         generateAutomaticNumber(element, canvas, commandStack);
-      } else {
-        semantic.number = 0;
       }
 
       // render the bacground for the number
-      if (semantic.number != '' && semantic.number != null) {
+      if (semantic.number != '' && semantic.number != null && element.source.type.includes('domainStory:actor')) {
         generateActivityNumber(parentGfx, element, box);
+      } else {
+        semantic.number =null;
       }
     }
   }
