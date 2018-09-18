@@ -601,7 +601,10 @@ function cleanActicityLabelStash() {
   var allObjects = getAllObjectsFromCanvas(canvas);
   allObjects.forEach(element => {
     if (element.type.includes('domainStory:activity')) {
-      activityLabelStash.push(element.businessObject.name);
+      var name=element.businessObject.name;
+      if (!activityLabelStash.includes(name)) {
+        activityLabelStash.push(name);
+      }
     }
   });
 
