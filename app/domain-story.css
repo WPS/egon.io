@@ -312,10 +312,8 @@ cursor: default;
   position: absolute;
   border: 1px solid #a9a9a9;
   z-index: 99;
-  /*position the autocomplete items to be the same width as the container:*/
-  top: 100%;
+  top:100%;
   left: 0;
-  right: 0;
 }
 .autocomplete-items div {
   padding: 5px 10px 5px 10px;

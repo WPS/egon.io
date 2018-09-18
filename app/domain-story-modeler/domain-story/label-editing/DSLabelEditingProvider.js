@@ -1,6 +1,9 @@
 import { assign } from 'min-dash';
 
-import { isDomainStoryElement } from '../util/DSUtil';
+import {
+  isDomainStoryElement,
+  autocomplete
+} from '../util/DSUtil';
 
 import { getLabel } from './DSLabelUtil';
 
@@ -19,8 +22,15 @@ import { inherits } from 'util';
 
 import LabelEditingProvider from 'bpmn-js/lib/features/label-editing/LabelEditingProvider';
 
+import { getAllObjectsFromCanvas } from '../util/AppUtil';
+
 var numberStash = 0;
 var stashUse = false;
+var labelStash =[];
+
+export function setLabelStash(canvas) {
+  cleanObjectLabelStash(canvas);
+}
 
 export function getNumberStash() {
   var number = { use: stashUse, number: numberStash };
@@ -75,9 +85,14 @@ export default function DSLabelEditingProvider(
     }
   });
 
-
-  eventBus.on('directEditing.activate', function() {
+  eventBus.on('directEditing.activate', function(event) {
     resizeHandles.removeResizers();
+    var element = event.active.element;
+    createAutocomplete(element);
+  });
+
+  eventBus.on('directEditing.complete', function() {
+    cleanObjectLabelStash(canvas);
   });
 
   eventBus.on('create.end', 500, function(event) {
@@ -102,7 +117,6 @@ export default function DSLabelEditingProvider(
     activateDirectEdit(event.shape);
   });
 
-
   function activateDirectEdit(element, force) {
     if (force ||
       isAny(element, ['bpmn:Task', 'domainStory:textAnnotation']) ||
@@ -111,6 +125,24 @@ export default function DSLabelEditingProvider(
       directEditing.activate(element);
     }
   }
+
+  function createAutocomplete(element) {
+    var editingBox=document.getElementsByClassName('djs-direct-editing-content');
+    autocomplete(editingBox[0], labelStash, element);
+  }
+}
+
+function cleanObjectLabelStash(canvas) {
+  labelStash = [];
+
+  var allObjects = getAllObjectsFromCanvas(canvas);
+
+  allObjects.forEach(element =>{
+    var name = element.businessObject.name;
+    if (name.length > 0 && element.type.includes('domainStory:workObject') && !labelStash.includes(name)) {
+      labelStash.push(name);
+    }
+  });
 }
 
 inherits(DSLabelEditingProvider, LabelEditingProvider);
