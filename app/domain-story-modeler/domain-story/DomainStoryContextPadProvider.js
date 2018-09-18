@@ -115,7 +115,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   };
 
   function changeDirection(element) {
-    console.log(element);
+
     var context;
     var businessObject = element.businessObject;
     var newNumber;
