@@ -36,7 +36,8 @@ import {
 import {
   getActivityDictionary,
   setActivityLabelStash,
-  cleanActicityLabelStash
+  cleanActicityLabelStash,
+  autocomplete
 } from './domain-story-modeler/domain-story/util/DSUtil';
 
 import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
@@ -128,6 +129,10 @@ eventBus.on('element.dblclick', function(e) {
     var element = e.element;
     if (element.type == 'domainStory:activity') {
       var source=element.source;
+
+      var dict = getActivityDictionary();
+      autocomplete(inputLabel, dict, element);
+      autocomplete(labelInputLabel, dict, element);
 
       setStash(false);
 
