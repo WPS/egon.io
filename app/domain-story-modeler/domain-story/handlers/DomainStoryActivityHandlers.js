@@ -1,7 +1,7 @@
 import {
   getNumbersAndIDs,
   revertChange
-} from './util/DSActivityUtil';
+} from '../util/DSActivityUtil';
 
 /**
  * commandStack Handler for changes at activities

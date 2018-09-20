@@ -157,6 +157,31 @@
   <text>. This may lead to some compatibility problems.</text>
   </div>
 
+  <div id="dictionary" style="display:none">
+    <div id="activityDictionary">
+      <text>Activities:</text>
+      <br>
+      <textarea id="activityList"></textarea>
+    </div>
+    <div id="workobjectDictionary">
+      <text>Workobjects:</text>
+      <br>
+      <textarea id=workobjectList></textarea>
+    </div>
+    <div id="dictionaryButtons">
+      <button id="closeDictionaryButtonSave">save</button>
+      <button id="closeDictionaryButtonCancel">cancel</button>
+    </div>
+  </div>
+
+  <div id="badEditDialog" style="display:none">
+    <br>
+    <text>Something in your edits is wrong.</text>
+    <br>
+    <text>Did you accidentaly delete a \\n?</text>
+    <button id="closeBadEditDialogButton">X</button>
+  </div>
+
   <script src="./app.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>

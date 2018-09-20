@@ -42,6 +42,10 @@ export function setStash(stash) {
   stashUse = stash;
 }
 
+export function getWorkobjectDictionary() {
+  return labelStash.slice();
+}
+
 export default function DSLabelEditingProvider(
     eventBus, canvas, directEditing,
     modeling, resizeHandles, textRenderer, dSupdateLabelHandler) {

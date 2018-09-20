@@ -149,7 +149,7 @@ cursor: default;
   position: absolute;
 }
 
-#numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog{
+#dictionary, #numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog{
   top: 40%;
   left: 50%;
   z-index: 2;
@@ -169,7 +169,7 @@ cursor: default;
 
 }
 
-#wpsLogoInfo, #incompleteStoryInfo, #versionDialog{
+#wpsLogoInfo, #incompleteStoryInfo, #versionDialog, #badEditDialog{
   font-size: 11pt;  
   border: solid 1px #aaaaab;
   padding-top: 3px;
@@ -181,7 +181,40 @@ cursor: default;
   margin-left: -175px;
 }
 
-#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog{
+#dictionary{
+  border: solid 1px #aaaaab;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+  width: 50%;
+  left: 25%
+}
+
+#activityDictionary, #workobjectDictionary{
+  position: relative;
+}
+
+#workobjectDictionary{
+  left:50%;
+  margin-top:-230px;
+}
+
+#workobjectList, #activityList{
+  height: 200px;
+  width: 48%
+}
+#workobjectList{
+  left: 5px;
+}
+
+#dictionaryButtons{
+  bottom: 5px;
+  padding: 4px;
+}
+
+#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #closeBadEditDialogButton{
   position: absolute;
   font-size: 9pt;
   right: 1px;

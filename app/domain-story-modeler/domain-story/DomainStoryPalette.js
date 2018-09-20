@@ -1,5 +1,7 @@
 import { assign } from 'min-dash';
 
+import { openDictionary } from '../../app';
+
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
  */
@@ -118,6 +120,16 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       action: {
         click: function(event) {
           spaceTool.activateSelection(event);
+        }
+      }
+    },
+    'dictionary': {
+      group: 'tools',
+      className: 'bpmn-icon-space-tool',
+      title: 'Change workobject / activity dictionary',
+      action: {
+        click: function(event) {
+          openDictionary();
         }
       }
     }

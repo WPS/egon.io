@@ -4,7 +4,8 @@ import DomainStoryModeler from './domain-story-modeler';
 
 import {
   setStash,
-  setLabelStash
+  setLabelStash,
+  getWorkobjectDictionary
 } from './domain-story-modeler/domain-story/label-editing/DSLabelEditingProvider';
 
 import {
@@ -21,7 +22,9 @@ import {
 
 import { version } from '../package.json';
 
-import DomainStoryActivityHandlers from './domain-story-modeler/domain-story/DomainStoryActivityHandlers';
+import DomainStoryActivityHandlers from './domain-story-modeler/domain-story/handlers/DomainStoryActivityHandlers';
+
+import DomainStoryLabelChangeHandlers from './domain-story-modeler/domain-story/handlers/DomainStoryLabelChangeHandlers';
 
 import {
   checkInput,
@@ -50,6 +53,7 @@ var elementRegistry = modeler.get('elementRegistry');
 
 // we nned to initiate the activity commandStack elements
 DomainStoryActivityHandlers(commandStack, eventBus, canvas);
+DomainStoryLabelChangeHandlers(commandStack, eventBus, canvas);
 
 modeler.createDiagram();
 // expose bpmnjs to window for debugging purposes
@@ -70,15 +74,22 @@ var lastInputTitle = '',
     modal = document.getElementById('modal'),
     arrow = document.getElementById('arrow'),
     info = document.getElementById('info'),
+    activityList = document.getElementById('activityList'),
+    workObjectList = document.getElementById('workobjectList'),
     infoText = document.getElementById('infoText'),
     inputNumber = document.getElementById('inputNumber'),
     inputLabel = document.getElementById('inputLabel'),
     numberDialog = document.getElementById('numberDialog'),
     labelDialog = document.getElementById('labelDialog'),
+    badEditDialog = document.getElementById('badEditDialog'),
+    badEditClose = document.getElementById('closeBadEditDialogButton'),
     startReplayButton = document.getElementById('buttonStartReplay'),
     nextStepButton = document.getElementById('buttonNextStep'),
     previousStepbutton = document.getElementById('buttonPreviousStep'),
     stopReplayButton = document.getElementById('buttonStopReplay'),
+    dictionaryDialog = document.getElementById('dictionary'),
+    closeDictionaryButtonSave = document.getElementById('closeDictionaryButtonSave'),
+    closeDictionaryButtonCancel = document.getElementById('closeDictionaryButtonCancel'),
     numberSaveButton = document.getElementById('numberSaveButton'),
     numberQuitButton = document.getElementById('numberQuitButton'),
     labelInputLabel = document.getElementById('labelInputLabel'),
@@ -108,6 +119,10 @@ var replayOn = false;
 var currentStep = 0;
 var replaySteps = [];
 var activityLabelStash = [];
+
+export function getActivityDictionary() {
+  return activityLabelStash.slice();
+}
 
 // eventBus listeners
 
@@ -246,6 +261,34 @@ labelInputLabel.addEventListener('keyup', function() {
 inputLabel.addEventListener('keyup', function(e) {
   keyReleased(keysPressed, e.keyCode);
   checkInput(inputLabel);
+});
+
+badEditClose.addEventListener('click', function() {
+  closeBadEditDialog();
+});
+
+closeDictionaryButtonSave.addEventListener('click', function(e) {
+  var oldActivityLabelStash = activityLabelStash.slice();
+  var oldWorkobjectDictionary = getWorkobjectDictionary();
+
+  var activityNameString = activityList.value;
+  var workobjectNameString= workObjectList.value;
+  var activityNames = activityNameString.split('\n');
+  var workObjectNames= workobjectNameString.split('\n');
+
+  if (activityNames.length == oldActivityLabelStash.length && workObjectNames.length==oldWorkobjectDictionary.length) {
+    workDifferences(activityNames, oldActivityLabelStash, workObjectNames, oldWorkobjectDictionary);
+  } else {
+    showBadEditDialog();
+  }
+
+  dictionaryDialog.style.display='none';
+  modal.style.display='none';
+});
+
+closeDictionaryButtonCancel.addEventListener('click', function(e) {
+  dictionaryDialog.style.display='none';
+  modal.style.display='none';
 });
 
 startReplayButton.addEventListener('click', function() {
@@ -482,6 +525,16 @@ function checkPressedKeys(keyCode, dialog, element) {
 
 // dialog functions
 
+function showBadEditDialog() {
+  badEditDialog.style.display ='block';
+  modal.style.display ='block';
+}
+
+function closeBadEditDialog() {
+  badEditDialog.style.display ='none';
+  modal.style.display ='none';
+}
+
 function showVersionDialog() {
   versionDialog.style.display = 'block';
   modal.style.display = 'block';
@@ -555,6 +608,35 @@ function showLabelDialog(event) {
   if (event.businessObject.name != null) {
     labelInputLabel.value = event.businessObject.name;
   }
+}
+
+export function openDictionary() {
+  var activityDictionary = getActivityDictionary();
+  var workobjectDictionary = getWorkobjectDictionary();
+
+  cleanActicityLabelStash();
+  setLabelStash(canvas);
+
+  activityList.value = '';
+  workObjectList.value = '';
+
+  var i=0;
+  for (i; i<activityDictionary.length;i++) {
+    activityList.value+=activityDictionary[i];
+    if (i<activityDictionary.length-1) {
+      activityList.value += '\n';
+    }
+  }
+
+  for (i=0; i<workobjectDictionary.length;i++) {
+    workObjectList.value+=workobjectDictionary[i];
+    if (i<workobjectDictionary.length-1) {
+      workObjectList.value += '\n';
+    }
+  }
+
+  modal.style.display='block';
+  dictionaryDialog.style.display='block';
 }
 
 function closeNumberDialog() {
@@ -646,6 +728,41 @@ function saveLabelDialog(element) {
     element: element
   });
   cleanActicityLabelStash();
+}
+
+function workDifferences(activityNames, oldActivityLabelStash, workObjectNames, oldWorkobjectDictionary) {
+  var i=0;
+  for (i=0;i<oldActivityLabelStash.length;i++) {
+    // check for equality of strings, if they both include the other, they must be equal -> Improve
+    if (!(activityNames[i].includes(oldActivityLabelStash[i])) && !(oldActivityLabelStash[i].includes(activityNames[i]))) {
+      changeAllEntries(oldActivityLabelStash[i], activityNames[i], 'domainStory:activity');
+    }
+  }
+  for (i=0;i<oldWorkobjectDictionary.length;i++) {
+    // check for equality of strings, if they both include the other, they must be equal -> Improve
+    if (!(workObjectNames[i].includes(oldWorkobjectDictionary[i])) && !(oldWorkobjectDictionary[i].includes(workObjectNames[i]))) {
+      changeAllEntries(oldWorkobjectDictionary[i], workObjectNames[i], 'domainStory:workObject');
+    }
+  }
+  // delete old entires from stashes
+}
+
+function changeAllEntries(oldValue, newValue, type) {
+  var allObjects = getAllObjectsFromCanvas(canvas);
+  var allRelevantObjects=[];
+
+  allObjects.forEach(element =>{
+    if (element.type.includes(type) && element.businessObject.name == oldValue) {
+      allRelevantObjects.push(element);
+    }
+  });
+
+  var context = {
+    elements: allRelevantObjects,
+    newValue: newValue
+  };
+
+  commandStack.execute('domainStoryObjects.massRename', context);
 }
 
 // replay functions
