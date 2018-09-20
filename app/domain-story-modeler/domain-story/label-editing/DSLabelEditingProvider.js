@@ -147,6 +147,9 @@ function cleanObjectLabelStash(canvas) {
       labelStash.push(name);
     }
   });
+  labelStash.sort(function(a, b) {
+    return a.toLowerCase().localeCompare(b.toLowerCase());
+  });
 }
 
 inherits(DSLabelEditingProvider, LabelEditingProvider);

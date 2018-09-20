@@ -648,7 +648,29 @@ function saveNumberDialog(element) {
   });
 
   updateExistingNumbersAtEditing(activitiesFromActors, numberInput, eventBus);
+<<<<<<< HEAD
   cleanActicityLabelStash(canvas);
+=======
+  cleanActicityLabelStash();
+}
+
+function cleanActicityLabelStash() {
+  activityLabelStash=[];
+  var allObjects = getAllObjectsFromCanvas(canvas);
+  allObjects.forEach(element => {
+    var name=element.businessObject.name;
+    if (name.length > 0 && element.type.includes('domainStory:activity') && !activityLabelStash.includes(name)) {
+      activityLabelStash.push(name);
+    }
+  });
+
+  autocomplete(inputLabel, activityLabelStash);
+  autocomplete(labelInputLabel, activityLabelStash);
+
+  activityLabelStash.sort(function(a, b) {
+    return a.toLowerCase().localeCompare(b.toLowerCase());
+  });
+>>>>>>> c7fa5ea46d7eb5d958eab4f3e9361097ad360081
 }
 
 function closeLabelDialog() {
