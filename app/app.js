@@ -695,7 +695,7 @@ function workDifferences(activityNames, oldActivityLabelStash, workObjectNames, 
     if (!activityNames[i]) {
       activityNames[i]='';
     }
-    if (!(activityNames[i].includes(oldActivityLabelStash[i])) && (oldActivityLabelStash[i].includes(activityNames[i]))) {
+    if (!((activityNames[i].includes(oldActivityLabelStash[i])) && (oldActivityLabelStash[i].includes(activityNames[i])))) {
       changeAllEntries(oldActivityLabelStash[i], activityNames[i], 'domainStory:activity');
     }
   }
@@ -703,7 +703,7 @@ function workDifferences(activityNames, oldActivityLabelStash, workObjectNames, 
     if (!workObjectNames[i]) {
       workObjectNames[i]='';
     }
-    if (!(workObjectNames[i].includes(oldWorkobjectDictionary[i])) && (oldWorkobjectDictionary[i].includes(workObjectNames[i]))) {
+    if (!((workObjectNames[i].includes(oldWorkobjectDictionary[i])) && (oldWorkobjectDictionary[i].includes(workObjectNames[i])))) {
       changeAllEntries(oldWorkobjectDictionary[i], workObjectNames[i], 'domainStory:workObject');
     }
   }
