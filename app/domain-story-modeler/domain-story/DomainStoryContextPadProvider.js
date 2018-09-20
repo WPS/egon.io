@@ -8,6 +8,7 @@ import {
   assign,
   bind
 } from 'min-dash';
+import Modeler from 'bpmn-js/lib/Modeler';
 
 
 export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
@@ -96,16 +97,31 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       break;
 
     case 'domainStory:activity' :
-
+    // for some reason, the change direction icon is appended at the end of the edit group
+    // to make sure, that the delete icon is the last one, we remove it from the actions-object
+    // and add it after adding the change direction functionality
+      delete actions.delete;
       assign(actions, {
         'changeDirection': {
           group: 'edit',
-          className: 'bpmn-icon-screw-wrench',
+          className: 'icon-domain-story-changeDirection',
           title: translate('Change direction'),
           action: {
             // event needs to be adressed
             click: function(event, element) {
               changeDirection(element);
+            }
+          }
+        }
+      });
+      assign(actions,{
+        'delete': {
+          group: 'edit',
+          className: 'bpmn-icon-trash',
+          title: 'Remove',
+          action: {
+            click: function(event, element) {
+              Modeler.removeElement(element);
             }
           }
         }

@@ -339,6 +339,17 @@ cursor: default;
   background-repeat: no-repeat;
 }
 
+.icon-domain-story-changeDirection::before{
+  font-family: "Material Icons";
+  content: "swap_horiz";
+  background-repeat: no-repeat;
+}
+
+.icon-domain-story-edit::before{
+  font-family: "Material Icons";
+  content: "edit";
+  background-repeat: no-repeat;
+}
 .autocomplete {
   /*the container must be positioned relative:*/
   position: relative;
