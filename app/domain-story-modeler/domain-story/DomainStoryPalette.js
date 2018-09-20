@@ -1,16 +1,19 @@
 import { assign } from 'min-dash';
 
-import { openDictionary } from '../../app';
+import { openDictionary } from './util/DSUtil';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
  */
+var _palette;
+
 export default function PaletteProvider(palette, create, elementFactory, spaceTool, lassoTool) {
 
   this._create = create;
   this._elementFactory = elementFactory;
   this._spaceTool = spaceTool;
   this._lassoTool = lassoTool;
+  _palette = palette;
 
   palette.registerProvider(this);
 }
@@ -20,7 +23,8 @@ PaletteProvider.$inject = [
   'create',
   'elementFactory',
   'spaceTool',
-  'lassoTool'
+  'lassoTool',
+  'modeling'
 ];
 
 PaletteProvider.prototype.getPaletteEntries = function() {
@@ -129,7 +133,8 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       title: 'Change workobject / activity dictionary',
       action: {
         click: function(event) {
-          openDictionary();
+          var canvas = _palette._canvas;
+          openDictionary(canvas);
         }
       }
     }

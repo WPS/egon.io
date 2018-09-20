@@ -253,7 +253,7 @@ cursor: default;
   -moz-transform: scale(0.9999);
   transform: rotate(45deg);
   left: 20px;
-  bottom: 305px
+  bottom: 305px;
 }
 
 .djs-context-pad.open{

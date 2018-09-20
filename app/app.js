@@ -33,6 +33,12 @@ import {
   debounce
 } from './domain-story-modeler/domain-story/util/AppUtil';
 
+import {
+  getActivityDictionary,
+  setActivityLabelStash,
+  cleanActicityLabelStash
+} from './domain-story-modeler/domain-story/util/DSUtil';
+
 import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
 
 import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';
@@ -43,8 +49,6 @@ var modeler = new DomainStoryModeler({
     bindTo: document
   }
 });
-
-import { autocomplete } from './domain-story-modeler/domain-story/util/DSUtil';
 
 var canvas = modeler.get('canvas');
 var eventBus = modeler.get('eventBus');
@@ -79,8 +83,6 @@ var lastInputTitle = '',
     inputLabel = document.getElementById('inputLabel'),
     numberDialog = document.getElementById('numberDialog'),
     labelDialog = document.getElementById('labelDialog'),
-    badEditDialog = document.getElementById('badEditDialog'),
-    badEditClose = document.getElementById('closeBadEditDialogButton'),
     startReplayButton = document.getElementById('buttonStartReplay'),
     nextStepButton = document.getElementById('buttonNextStep'),
     previousStepbutton = document.getElementById('buttonPreviousStep'),
@@ -118,11 +120,6 @@ var svgData;
 var replayOn = false;
 var currentStep = 0;
 var replaySteps = [];
-var activityLabelStash = [];
-
-export function getActivityDictionary() {
-  return activityLabelStash.slice();
-}
 
 // eventBus listeners
 
@@ -263,12 +260,8 @@ inputLabel.addEventListener('keyup', function(e) {
   checkInput(inputLabel);
 });
 
-badEditClose.addEventListener('click', function() {
-  closeBadEditDialog();
-});
-
 closeDictionaryButtonSave.addEventListener('click', function(e) {
-  var oldActivityLabelStash = activityLabelStash.slice();
+  var oldActivityLabelStash = getActivityDictionary();
   var oldWorkobjectDictionary = getWorkobjectDictionary();
 
   var activityNewNames = [];
@@ -288,8 +281,6 @@ closeDictionaryButtonSave.addEventListener('click', function(e) {
 
   if (activityNewNames.length == oldActivityLabelStash.length && workObjectNewNames.length==oldWorkobjectDictionary.length) {
     workDifferences(activityNewNames, oldActivityLabelStash, workObjectNewNames, oldWorkobjectDictionary);
-  } else {
-    showBadEditDialog();
   }
 
   dictionaryDialog.style.display='none';
@@ -457,7 +448,7 @@ document.getElementById('import').onchange = function() {
       infoText.innerText = inputInfoText;
 
       modeler.importCustomElements(elements);
-      cleanActicityLabelStash();
+      cleanActicityLabelStash(canvas);
       setLabelStash(canvas);
     };
 
@@ -535,16 +526,6 @@ function checkPressedKeys(keyCode, dialog, element) {
 
 // dialog functions
 
-function showBadEditDialog() {
-  badEditDialog.style.display ='block';
-  modal.style.display ='block';
-}
-
-function closeBadEditDialog() {
-  badEditDialog.style.display ='none';
-  modal.style.display ='none';
-}
-
 function showVersionDialog() {
   versionDialog.style.display = 'block';
   modal.style.display = 'block';
@@ -620,44 +601,6 @@ function showLabelDialog(event) {
   }
 }
 
-export function openDictionary() {
-  cleanActicityLabelStash();
-  setLabelStash(canvas);
-
-  var activityDictionary = getActivityDictionary();
-  var workobjectDictionary = getWorkobjectDictionary();
-
-  activityDictionaryHTML.innerHTML='';
-  workobjectDictionaryHTML.innerHTML='';
-
-  var element;
-
-  var i=0;
-  for (i; i<activityDictionary.length;i++) {
-    element = document.createElement('INPUT');
-    element.setAttribute('type','text');
-    element.setAttribute('id', i);
-    element.setAttribute('style', 'margin-bottom: 2px');
-    element.value=activityDictionary[i];
-    activityDictionaryHTML.appendChild(element);
-    element = document.createElement('br');
-    activityDictionaryHTML.appendChild(element);
-  }
-
-  for (i=0; i<workobjectDictionary.length;i++) {
-    element = document.createElement('INPUT');
-    element.setAttribute('type','text');
-    element.setAttribute('id', i);
-    element.setAttribute('style', 'margin-bottom: 2px');
-    element.value=workobjectDictionary[i];
-    workobjectDictionaryHTML.appendChild(element);
-    element = document.createElement('br');
-    workobjectDictionaryHTML.appendChild(element);
-  }
-
-  modal.style.display='block';
-  dictionaryDialog.style.display='block';
-}
 
 function closeNumberDialog() {
   inputLabel.value = '';
@@ -671,6 +614,7 @@ function closeNumberDialog() {
 function saveNumberDialog(element) {
   var labelInput = '';
   var numberInput = '';
+  var activityLabelStash = getActivityDictionary();
   if (inputLabel != '') {
     labelInput = inputLabel.value;
     if (!activityLabelStash.includes(labelInput)) {
@@ -680,6 +624,7 @@ function saveNumberDialog(element) {
   if (inputNumber != '') {
     numberInput = inputNumber.value;
   }
+  setActivityLabelStash(activityLabelStash);
 
   numberDialog.style.display = 'none';
   modal.style.display = 'none';
@@ -703,21 +648,7 @@ function saveNumberDialog(element) {
   });
 
   updateExistingNumbersAtEditing(activitiesFromActors, numberInput, eventBus);
-  cleanActicityLabelStash();
-}
-
-function cleanActicityLabelStash() {
-  activityLabelStash=[];
-  var allObjects = getAllObjectsFromCanvas(canvas);
-  allObjects.forEach(element => {
-    var name=element.businessObject.name;
-    if (name.length > 0 && element.type.includes('domainStory:activity') && !activityLabelStash.includes(name)) {
-      activityLabelStash.push(name);
-    }
-  });
-
-  autocomplete(inputLabel, activityLabelStash);
-  autocomplete(labelInputLabel, activityLabelStash);
+  cleanActicityLabelStash(canvas);
 }
 
 function closeLabelDialog() {
@@ -729,12 +660,15 @@ function closeLabelDialog() {
 
 function saveLabelDialog(element) {
   var labelInput = '';
+  var activityLabelStash=getActivityDictionary();
   if (labelInputLabel != '') {
     labelInput = labelInputLabel.value;
     if (!activityLabelStash.includes(labelInput)) {
       activityLabelStash.push(labelInput);
     }
   }
+
+  setActivityLabelStash(activityLabelStash);
 
   labelDialog.style.display = 'none';
   modal.style.display = 'none';
@@ -747,12 +681,11 @@ function saveLabelDialog(element) {
     newLabel: labelInput,
     element: element
   });
-  cleanActicityLabelStash();
+  cleanActicityLabelStash(canvas);
 }
 
 function workDifferences(activityNames, oldActivityLabelStash, workObjectNames, oldWorkobjectDictionary) {
   var i=0;
-  console.log(oldActivityLabelStash, activityNames);
   for (i=0;i<oldActivityLabelStash.length;i++) {
     if (!((activityNames[i].includes(oldActivityLabelStash[i])) && (oldActivityLabelStash[i].includes(activityNames[i])))) {
       changeAllEntries(oldActivityLabelStash[i], activityNames[i], 'domainStory:activity');

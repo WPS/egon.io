@@ -26,7 +26,7 @@ export default {
     'domainStoryRules',
     'domainStoryUpdater',
     'contextPadProvider',
-    'replaceMenuProvider'
+    'replaceMenuProvider',
   ],
   elementFactory: [ 'type', DomainStoryElementFactory ],
   domainStoryRenderer: [ 'type', DomainStoryRenderer ],
