@@ -74,8 +74,6 @@ var lastInputTitle = '',
     modal = document.getElementById('modal'),
     arrow = document.getElementById('arrow'),
     info = document.getElementById('info'),
-    activityList = document.getElementById('activityList'),
-    workObjectList = document.getElementById('workobjectList'),
     infoText = document.getElementById('infoText'),
     inputNumber = document.getElementById('inputNumber'),
     inputLabel = document.getElementById('inputLabel'),
@@ -88,6 +86,8 @@ var lastInputTitle = '',
     previousStepbutton = document.getElementById('buttonPreviousStep'),
     stopReplayButton = document.getElementById('buttonStopReplay'),
     dictionaryDialog = document.getElementById('dictionary'),
+    activityDictionaryHTML = document.getElementById('activityDictionaryContainer'),
+    workobjectDictionaryHTML = document.getElementById('workobjectDictionaryContainer'),
     closeDictionaryButtonSave = document.getElementById('closeDictionaryButtonSave'),
     closeDictionaryButtonCancel = document.getElementById('closeDictionaryButtonCancel'),
     numberSaveButton = document.getElementById('numberSaveButton'),
@@ -271,13 +271,23 @@ closeDictionaryButtonSave.addEventListener('click', function(e) {
   var oldActivityLabelStash = activityLabelStash.slice();
   var oldWorkobjectDictionary = getWorkobjectDictionary();
 
-  var activityNameString = activityList.value;
-  var workobjectNameString= workObjectList.value;
-  var activityNames = activityNameString.split('\n');
-  var workObjectNames= workobjectNameString.split('\n');
+  var activityNewNames = [];
+  var workObjectNewNames = [];
 
-  if (activityNames.length == oldActivityLabelStash.length && workObjectNames.length==oldWorkobjectDictionary.length) {
-    workDifferences(activityNames, oldActivityLabelStash, workObjectNames, oldWorkobjectDictionary);
+  activityDictionaryHTML.childNodes.forEach(child=>{
+    if (child.value) {
+      activityNewNames[child.id] = child.value;
+    }
+  });
+
+  workobjectDictionaryHTML.childNodes.forEach(child=>{
+    if (child.value) {
+      workObjectNewNames[child.id] = child.value;
+    }
+  });
+
+  if (activityNewNames.length == oldActivityLabelStash.length && workObjectNewNames.length==oldWorkobjectDictionary.length) {
+    workDifferences(activityNewNames, oldActivityLabelStash, workObjectNewNames, oldWorkobjectDictionary);
   } else {
     showBadEditDialog();
   }
@@ -611,28 +621,38 @@ function showLabelDialog(event) {
 }
 
 export function openDictionary() {
-  var activityDictionary = getActivityDictionary();
-  var workobjectDictionary = getWorkobjectDictionary();
-
   cleanActicityLabelStash();
   setLabelStash(canvas);
 
-  activityList.value = '';
-  workObjectList.value = '';
+  var activityDictionary = getActivityDictionary();
+  var workobjectDictionary = getWorkobjectDictionary();
+
+  activityDictionaryHTML.innerHTML='';
+  workobjectDictionaryHTML.innerHTML='';
+
+  var element;
 
   var i=0;
   for (i; i<activityDictionary.length;i++) {
-    activityList.value+=activityDictionary[i];
-    if (i<activityDictionary.length-1) {
-      activityList.value += '\n';
-    }
+    element = document.createElement('INPUT');
+    element.setAttribute('type','text');
+    element.setAttribute('id', i);
+    element.setAttribute('style', 'margin-bottom: 2px');
+    element.value=activityDictionary[i];
+    activityDictionaryHTML.appendChild(element);
+    element = document.createElement('br');
+    activityDictionaryHTML.appendChild(element);
   }
 
   for (i=0; i<workobjectDictionary.length;i++) {
-    workObjectList.value+=workobjectDictionary[i];
-    if (i<workobjectDictionary.length-1) {
-      workObjectList.value += '\n';
-    }
+    element = document.createElement('INPUT');
+    element.setAttribute('type','text');
+    element.setAttribute('id', i);
+    element.setAttribute('style', 'margin-bottom: 2px');
+    element.value=workobjectDictionary[i];
+    workobjectDictionaryHTML.appendChild(element);
+    element = document.createElement('br');
+    workobjectDictionaryHTML.appendChild(element);
   }
 
   modal.style.display='block';
@@ -732,15 +752,15 @@ function saveLabelDialog(element) {
 
 function workDifferences(activityNames, oldActivityLabelStash, workObjectNames, oldWorkobjectDictionary) {
   var i=0;
+  console.log(oldActivityLabelStash, activityNames);
   for (i=0;i<oldActivityLabelStash.length;i++) {
-    // check for equality of strings, if they both include the other, they must be equal -> Improve
-    if (!(activityNames[i].includes(oldActivityLabelStash[i])) && !(oldActivityLabelStash[i].includes(activityNames[i]))) {
+    if (!((activityNames[i].includes(oldActivityLabelStash[i])) && (oldActivityLabelStash[i].includes(activityNames[i])))) {
       changeAllEntries(oldActivityLabelStash[i], activityNames[i], 'domainStory:activity');
     }
   }
   for (i=0;i<oldWorkobjectDictionary.length;i++) {
-    // check for equality of strings, if they both include the other, they must be equal -> Improve
-    if (!(workObjectNames[i].includes(oldWorkobjectDictionary[i])) && !(oldWorkobjectDictionary[i].includes(workObjectNames[i]))) {
+
+    if (!((workObjectNames[i].includes(oldWorkobjectDictionary[i])) && (oldWorkobjectDictionary[i].includes(workObjectNames[i])))) {
       changeAllEntries(oldWorkobjectDictionary[i], workObjectNames[i], 'domainStory:workObject');
     }
   }

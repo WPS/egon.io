@@ -182,14 +182,16 @@ cursor: default;
 }
 
 #dictionary{
+  position: absolute;
   border: solid 1px #aaaaab;
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 10px;
   padding-right: 10px;
   background-color: white;
-  width: 50%;
-  left: 25%
+  top: 20%;
+  width: 425px;
+  left: 50%-212.5px;
 }
 
 #activityDictionary, #workobjectDictionary{
@@ -197,16 +199,18 @@ cursor: default;
 }
 
 #workobjectDictionary{
-  left:50%;
-  margin-top:-230px;
+  margin-left: 10px;
+  right: 5px;
 }
 
-#workobjectList, #activityList{
-  height: 200px;
-  width: 48%
+#activityDictionaryContainer, #workobjectDictionaryContainer{
+  width: 200px; 
+  overflow-y: scroll;
+  height: 300px;
+  border: solid 1px #aaaaab;
 }
-#workobjectList{
-  left: 5px;
+#workobjectDictionaryContainer{
+  margin-right: -50px;
 }
 
 #dictionaryButtons{
