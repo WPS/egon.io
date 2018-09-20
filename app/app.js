@@ -718,6 +718,10 @@ function cleanActicityLabelStash() {
 
   autocomplete(inputLabel, activityLabelStash);
   autocomplete(labelInputLabel, activityLabelStash);
+
+  activityLabelStash.sort(function(a, b) {
+    return a.toLowerCase().localeCompare(b.toLowerCase());
+  });
 }
 
 function closeLabelDialog() {
