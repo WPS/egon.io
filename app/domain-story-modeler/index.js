@@ -136,27 +136,8 @@ DomainStoryModeler.prototype.getCustomElements = function() {
   return this._customElements;
 };
 
-var initialDiagram =
-  '<?xml version="1.0" encoding="UTF-8"?>' +
-  // '<xmlns:domainStory="http://wps.de/DomainstoryTelling">' +
-  '<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
-  'xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" ' +
-  'xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" ' +
-  'xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" ' +
-  'targetNamespace="http://bpmn.io/schema/bpmn" ' +
-  'xmlns:domainStory="http://wps.de/DomainstoryTelling" ' +
-  'id="Definitions_1">' +
-  '<bpmn:process id="Process_1" isExecutable="false">' +
-  '<bpmn:startEvent id="StartEvent_1"/>' +
-  '</bpmn:process>' +
-  '<bpmndi:BPMNDiagram id="BPMNDiagram_1">' +
-  '<bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">' +
-  '</bpmndi:BPMNPlane>' +
-  '</bpmndi:BPMNDiagram>' +
-  '</bpmn:definitions>';
-
+// override standard fucntion to prevent default elements on canvas
 DomainStoryModeler.prototype.createDiagram = function(done) {
-  return this.importXML(initialDiagram, done);
 };
 
 function isConnection(element) {

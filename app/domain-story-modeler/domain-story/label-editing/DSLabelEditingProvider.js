@@ -123,7 +123,7 @@ export default function DSLabelEditingProvider(
 
   function activateDirectEdit(element, force) {
     if (force ||
-      isAny(element, ['bpmn:Task', 'domainStory:textAnnotation']) ||
+      isAny(element, ['domainStory:textAnnotation']) ||
       isDomainStoryElement(element)) {
 
       directEditing.activate(element);
@@ -191,20 +191,6 @@ DSLabelEditingProvider.prototype.activate = function(element) {
   assign(context, bounds);
 
   var options = {};
-
-  // tasks
-  if (
-    isAny(element, [
-      'bpmn:Task',
-      'bpmn:Participant',
-      'bpmn:Lane',
-      'bpmn:CallActivity'
-    ])
-  ) {
-    assign(options, {
-      centerVertically: true
-    });
-  }
 
   // external labels
   if (isLabelExternal(element)) {
