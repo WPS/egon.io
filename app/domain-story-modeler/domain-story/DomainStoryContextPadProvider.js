@@ -100,7 +100,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       assign(actions, {
         'changeDirection': {
           group: 'edit',
-          className: 'bpmn-icon-screw-wrench',
+          className: 'icon-domain-story-changeDirection',
           title: translate('Change direction'),
           action: {
             // event needs to be adressed

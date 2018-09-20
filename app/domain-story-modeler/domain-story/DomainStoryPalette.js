@@ -125,7 +125,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
     },
     'dictionary': {
       group: 'tools',
-      className: 'bpmn-icon-space-tool',
+      className: 'icon-domain-story-edit',
       title: 'Change workobject / activity dictionary',
       action: {
         click: function(event) {
