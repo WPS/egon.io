@@ -692,7 +692,7 @@ function saveLabelDialog(element) {
 function workDifferences(activityNames, oldActivityLabelStash, workObjectNames, oldWorkobjectDictionary) {
   var i=0;
   for (i=0;i<oldActivityLabelStash.length;i++) {
-    if(!activityNames[i]){
+    if (!activityNames[i]) {
       activityNames[i]='';
     }
     if (activityNames[i].length<1 || !((activityNames[i].includes(oldActivityLabelStash[i])) && (oldActivityLabelStash[i].includes(activityNames[i])))) {
@@ -700,7 +700,7 @@ function workDifferences(activityNames, oldActivityLabelStash, workObjectNames, 
     }
   }
   for (i=0;i<oldWorkobjectDictionary.length;i++) {
-    if(!workObjectNames[i]){
+    if (!workObjectNames[i]) {
       workObjectNames[i]='';
     }
     if (!workObjectNames[i] || workObjectNames[i].length || !((workObjectNames[i].includes(oldWorkobjectDictionary[i])) && (oldWorkobjectDictionary[i].includes(workObjectNames[i])))) {

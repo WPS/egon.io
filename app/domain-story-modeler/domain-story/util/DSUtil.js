@@ -84,6 +84,9 @@ export function getActivityDictionary() {
 
 export function setActivityLabelStash(stash) {
   activityLabelStash = stash;
+  activityLabelStash.sort(function(a, b) {
+    return a.toLowerCase().localeCompare(b.toLowerCase());
+  });
 }
 
 export function cleanActicityLabelStash(canvas) {
@@ -94,6 +97,9 @@ export function cleanActicityLabelStash(canvas) {
     if (name.length > 0 && element.type.includes('domainStory:activity') && !activityLabelStash.includes(name)) {
       activityLabelStash.push(name);
     }
+  });
+  activityLabelStash.sort(function(a, b) {
+    return a.toLowerCase().localeCompare(b.toLowerCase());
   });
 }
 
