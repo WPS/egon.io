@@ -1,5 +1,5 @@
 
-export default function DomainStoryLabelChangeHandlers(commandStack, eventBus, canvas) {
+export default function DomainStoryLabelChangeHandlers(commandStack, eventBus) {
 
   commandStack.registerHandler('domainStoryObjects.massRename',massRename);
 
