@@ -55,8 +55,7 @@ function createStep(tracedActivity, elementRegistry) {
   return traceStep;
 }
 
-// check wether the domain-story has any missing numbers
-export function completeStory(replaySteps) {
+export function isStoryConsecutivelyNumbered(replaySteps) {
   var complete=true;
   for (var i=0;i<replaySteps.length;i++) {
     if (!replaySteps[i].activities[0]) {
