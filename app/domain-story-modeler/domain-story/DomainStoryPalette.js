@@ -130,7 +130,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
     'dictionary': {
       group: 'tools',
       className: 'icon-domain-story-edit',
-      title: 'Change workobject / activity dictionary',
+      title: 'Edit dictionary',
       action: {
         click: function(event) {
           var canvas = _palette._canvas;
