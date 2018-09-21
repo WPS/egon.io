@@ -10,7 +10,7 @@ import {
 
 import {
   traceActivities,
-  completeStory,
+  isStoryConsecutivelyNumbered,
   getAllNonShown,
   getAllShown
 } from './domain-story-modeler/domain-story/replay/ReplayUtil';
@@ -306,7 +306,7 @@ startReplayButton.addEventListener('click', function() {
 
     replaySteps = traceActivities(activities, elementRegistry);
 
-    if (completeStory(replaySteps)) {
+    if (isStoryConsecutivelyNumbered(replaySteps)) {
       replayOn = true;
       disableCanvasInteraction();
       currentStep = 0;
