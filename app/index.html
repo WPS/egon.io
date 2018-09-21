@@ -45,15 +45,15 @@
   <div class="lineAndButtons">
     <ul class="buttons" id="importExportSVGButton">
       <div id="importExport">
-        <button id="buttonImport" class="importButton" title="Import diagram" onclick="document.getElementById('import').click();"
+        <button id="buttonImport" class="importButton" title="Import story from .dst file" onclick="document.getElementById('import').click();"
         />
         <img src="./logo/unarchive.png">
         </button>
         <input type="file" accept=".dst" style="display:none;" id="import" onclick="this.value=null;" name="file" />
-        <button class="exportButton" id="export" title="Export diagram">
+        <button class="exportButton" id="export" title="Export story as .dst file">
           <img src="./logo/archive.png">
         </button>
-        <button class="svgDownloadButton" id="buttonSVG">
+        <button class="svgDownloadButton" id="buttonSVG" title="Export story as SVG image">
           <img src="./logo/image.png">
         </button>
       </div>
