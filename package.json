@@ -66,6 +66,7 @@
     "watchify": "^3.10.0"
   },
   "dependencies": {
+    "popper.js": "^1.14.1",
     "bootstrap": "^4.1.1",
     "bpmn-js": "^2.5.2",
     "diagram-js": "^2.6.1",
