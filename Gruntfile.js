@@ -6,7 +6,8 @@ module.exports = function(grunt) {
   var path = require('path');
 
   /**
-   * Resolve external project resource as file path
+   * bpmn-js dependencies cannot be copied with grunt-copy-deps.
+   * Instead, resolve external project resources as file path.
    */
   function resolvePath(project, file) {
     return path.join(path.dirname(require.resolve(project)), file);
@@ -19,12 +20,12 @@ module.exports = function(grunt) {
           debug: true
         },
         transform: [
-          [ 'stringify', {
-            extensions: [ '.bpmn' ]
-          } ],
-          [ 'babelify', {
+          ['stringify', {
+            extensions: ['.bpmn']
+          }],
+          ['babelify', {
             global: true
-          } ]
+          }]
         ]
       },
       watch: {
@@ -32,13 +33,24 @@ module.exports = function(grunt) {
           watch: true
         },
         files: {
-          'dist/app.js': [ 'app/app.js' ]
+          'dist/app.js': ['app/app.js']
         }
       },
       app: {
         files: {
-          'dist/app.js': [ 'app/app.js' ]
+          'dist/app.js': ['app/app.js']
         }
+      }
+    },
+    copydeps: {
+      target: {
+        options: {
+          minified: true,
+          unminified: true,
+          css: true,
+        },
+        pkg: 'package.json',
+        dest: 'dist/dependencies/'
       }
     },
     copy: {
@@ -48,7 +60,7 @@ module.exports = function(grunt) {
             expand: true,
             cwd: resolvePath('bpmn-js', 'dist'),
             src: ['**/*.*', '!**/*.js'],
-            dest: 'dist/vendor/bpmn-js'
+            dest: 'dist/dependencies/bpmn-js'
           }
         ]
       },
@@ -69,8 +81,8 @@ module.exports = function(grunt) {
       },
 
       samples: {
-        files: [ 'app/**/*.*' ],
-        tasks: [ 'copy:app' ]
+        files: ['app/**/*.*'],
+        tasks: ['copy:app']
       },
     },
 
@@ -90,15 +102,18 @@ module.exports = function(grunt) {
   });
 
   // tasks
+  grunt.loadNpmTasks('grunt-copy-deps'); // https://www.npmjs.com/package/grunt-copy-deps
 
-  grunt.registerTask('build', [ 'copy', 'browserify:app' ]);
+  grunt.registerTask('build', ['copy', 'copydeps', 'browserify:app']);
 
   grunt.registerTask('auto-build', [
     'copy',
+    'copydeps',
     'browserify:watch',
     'connect:livereload',
     'watch'
   ]);
 
-  grunt.registerTask('default', [ 'build' ]);
+  grunt.registerTask('default', ['build']);
+
 };
