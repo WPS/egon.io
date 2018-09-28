@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Utility functions that deal with activities
 */

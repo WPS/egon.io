@@ -1,3 +1,5 @@
+'use strict';
+
 import inherits from 'inherits';
 
 import {

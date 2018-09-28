@@ -1,3 +1,5 @@
+'use strict';
+
 // create a trace through all activities, that recreates the path from the beginning to the end of the story
 export function traceActivities(activitiesFromActors, elementRegistry) {
   var tracedActivities = [];

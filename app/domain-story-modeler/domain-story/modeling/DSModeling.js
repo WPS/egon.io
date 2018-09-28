@@ -1,3 +1,5 @@
+'use strict';
+
 import Modeling from 'bpmn-js/lib/features/modeling/Modeling';
 
 import DSUpdateLabelHandler from '../label-editing/cmd/DSUpdateLabelHandler';

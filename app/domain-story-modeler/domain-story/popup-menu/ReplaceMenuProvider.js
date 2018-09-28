@@ -1,3 +1,5 @@
+'use strict';
+
 import Replace from './Replace';
 
 import * as replaceOptions from './ReplaceOptions';

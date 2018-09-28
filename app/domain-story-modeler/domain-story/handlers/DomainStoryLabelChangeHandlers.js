@@ -1,3 +1,4 @@
+'use strict';
 
 export default function DomainStoryLabelChangeHandlers(commandStack, eventBus) {
 

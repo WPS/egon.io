@@ -1,3 +1,5 @@
+'use strict';
+
 export default function sanitize(string) {
   const map = {
     '&': '',

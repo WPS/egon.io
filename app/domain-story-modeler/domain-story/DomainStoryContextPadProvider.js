@@ -1,3 +1,5 @@
+'use strict';
+
 import inherits from 'inherits';
 
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';

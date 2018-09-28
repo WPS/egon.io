@@ -1,3 +1,5 @@
+'use strict';
+
 export var ACTOR_PERSON = [
   {
     label: 'Change to people',

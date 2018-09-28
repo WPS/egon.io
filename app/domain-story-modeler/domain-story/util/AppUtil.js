@@ -1,3 +1,5 @@
+'use strict';
+
 import sanitize from './Sanitizer';
 
 /**

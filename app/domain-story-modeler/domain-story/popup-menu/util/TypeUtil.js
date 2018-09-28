@@ -1,3 +1,5 @@
+'use strict';
+
 import { getBusinessObject } from '../../../util/ModelUtil';
 
 import { isExpanded } from '../../../util/DiUtil';

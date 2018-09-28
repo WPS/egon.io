@@ -1,3 +1,5 @@
+'use strict';
+
 import DomainStoryElementFactory from './DomainStoryElementFactory';
 import DomainStoryRenderer from './DomainStoryRenderer';
 import DomainStoryPalette from './DomainStoryPalette';

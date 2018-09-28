@@ -1,3 +1,5 @@
+'use strict';
+
 import Modeler from 'bpmn-js/lib/Modeler';
 import ResizeModule from 'diagram-js/lib/features/resize';
 
