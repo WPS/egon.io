@@ -126,8 +126,9 @@ export function copyWaypoints(connection) {
  * copied from https://www.w3schools.com/howto/howto_js_autocomplete.asp on 18.09.2018
  */
 export function autocomplete(inp, arr, element) {
-  /* the autocomplete function takes two arguments,
-  the text field element and an array of possible autocompleted values:*/
+  closeAllLists();
+  /* the autocomplete function takes three arguments,
+  the text field element and an array of possible autocompleted values and an optional element to which it is appended:*/
   var currentFocus;
   /* sort the autocomplete array*/
   arr.sort();
