@@ -44,8 +44,7 @@
   <div class="lineAndButtons">
     <ul class="buttons" id="importExportSVGButton">
       <div id="importExport">
-        <button id="buttonImport" class="importButton" title="Import story from .dst file" onclick="document.getElementById('import').click();"
-        />
+        <button id="buttonImport" class="importButton" title="Import story from .dst file" onclick="document.getElementById('import').click();">
         <img src="./logo/unarchive.png">
         </button>
         <input type="file" accept=".dst" style="display:none;" id="import" onclick="this.value=null;" name="file" />
@@ -54,6 +53,9 @@
         </button>
         <button class="svgDownloadButton" id="buttonSVG" title="Export story as SVG image">
           <img src="./logo/image.png">
+        </button>
+        <button id="dictionaryButton">
+          <img src="./logo/spellcheck.png">
         </button>
       </div>
     </ul>

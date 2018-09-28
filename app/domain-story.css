@@ -80,7 +80,7 @@ cursor: default;
   *display: inline; 
 }
 
-#buttonImport, #export, #buttonSVG {
+#buttonImport, #export, #buttonSVG , #dictionaryButton{
   margin-right: -4px;
   background-color: white;
   border: 1px solid white;
@@ -345,9 +345,9 @@ cursor: default;
   background-repeat: no-repeat;
 }
 
-.icon-domain-story-edit::before{
+.icon-domain-story-spellcheck::before{
   font-family: "Material Icons";
-  content: "edit";
+  content: "spellcheck";
   background-repeat: no-repeat;
 }
 .autocomplete {

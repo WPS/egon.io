@@ -2,12 +2,9 @@
 
 import { assign } from 'min-dash';
 
-import { openDictionary } from './util/DSUtil';
-
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
  */
-var _palette;
 
 export default function PaletteProvider(palette, create, elementFactory, spaceTool, lassoTool) {
 
@@ -15,7 +12,6 @@ export default function PaletteProvider(palette, create, elementFactory, spaceTo
   this._elementFactory = elementFactory;
   this._spaceTool = spaceTool;
   this._lassoTool = lassoTool;
-  _palette = palette;
 
   palette.registerProvider(this);
 }
@@ -126,17 +122,6 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       action: {
         click: function(event) {
           spaceTool.activateSelection(event);
-        }
-      }
-    },
-    'dictionary': {
-      group: 'tools',
-      className: 'icon-domain-story-edit',
-      title: 'Edit dictionary',
-      action: {
-        click: function(event) {
-          var canvas = _palette._canvas;
-          openDictionary(canvas);
         }
       }
     }

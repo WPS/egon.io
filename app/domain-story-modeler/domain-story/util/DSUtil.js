@@ -2,11 +2,6 @@
 
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
-import {
-  setLabelStash,
-  getWorkobjectDictionary
-} from '../label-editing/DSLabelEditingProvider';
-
 import { getAllObjectsFromCanvas } from './AppUtil';
 
 var activityLabelStash = [];
@@ -103,53 +98,6 @@ export function cleanActicityLabelStash(canvas) {
   activityLabelStash.sort(function(a, b) {
     return a.toLowerCase().localeCompare(b.toLowerCase());
   });
-}
-
-export function openDictionary(canvas) {
-  cleanActicityLabelStash(canvas);
-  setLabelStash(canvas);
-
-  var activityDictionary = getActivityDictionary();
-  var workobjectDictionary = getWorkobjectDictionary();
-
-
-  var activityDictionaryHTML = document.getElementById('activityDictionaryContainer'),
-      workobjectDictionaryHTML = document.getElementById('workobjectDictionaryContainer');
-
-  activityDictionaryHTML.innerHTML='';
-  workobjectDictionaryHTML.innerHTML='';
-
-  var element;
-
-  var i=0;
-  for (i; i<activityDictionary.length;i++) {
-    element = document.createElement('INPUT');
-    element.setAttribute('type','text');
-    element.setAttribute('id', i);
-    element.setAttribute('style', 'margin-bottom: 2px');
-    element.value=activityDictionary[i];
-    activityDictionaryHTML.appendChild(element);
-    element = document.createElement('br');
-    activityDictionaryHTML.appendChild(element);
-  }
-
-  for (i=0; i<workobjectDictionary.length;i++) {
-    element = document.createElement('INPUT');
-    element.setAttribute('type','text');
-    element.setAttribute('id', i);
-    element.setAttribute('style', 'margin-bottom: 2px');
-    element.value=workobjectDictionary[i];
-    workobjectDictionaryHTML.appendChild(element);
-    element = document.createElement('br');
-    workobjectDictionaryHTML.appendChild(element);
-  }
-
-
-  var modal = document.getElementById('modal'),
-      dictionaryDialog = document.getElementById('dictionary');
-
-  modal.style.display='block';
-  dictionaryDialog.style.display='block';
 }
 
 

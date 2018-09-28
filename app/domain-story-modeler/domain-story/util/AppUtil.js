@@ -2,6 +2,13 @@
 
 import sanitize from './Sanitizer';
 
+
+import {
+  setLabelStash,
+  getWorkobjectDictionary
+} from '../label-editing/DSLabelEditingProvider';
+import { cleanActicityLabelStash, getActivityDictionary } from './DSUtil';
+
 /**
  * general functions used by app.js
  */
@@ -51,6 +58,58 @@ export function getAllObjectsFromCanvas(canvas) {
   }
   return allObjects;
 }
+
+
+export function openDictionary(canvas) {
+  if (canvas._rootElement && canvas._rootElement.children && canvas._rootElement.children.length > 0) {
+
+    cleanActicityLabelStash(canvas);
+    setLabelStash(canvas);
+
+    var activityDictionary = getActivityDictionary();
+    var workobjectDictionary = getWorkobjectDictionary();
+
+
+    var activityDictionaryHTML = document.getElementById('activityDictionaryContainer'),
+        workobjectDictionaryHTML = document.getElementById('workobjectDictionaryContainer');
+
+    activityDictionaryHTML.innerHTML='';
+    workobjectDictionaryHTML.innerHTML='';
+
+    var element;
+
+    var i=0;
+    for (i; i<activityDictionary.length;i++) {
+      element = document.createElement('INPUT');
+      element.setAttribute('type','text');
+      element.setAttribute('id', i);
+      element.setAttribute('style', 'margin-bottom: 2px');
+      element.value=activityDictionary[i];
+      activityDictionaryHTML.appendChild(element);
+      element = document.createElement('br');
+      activityDictionaryHTML.appendChild(element);
+    }
+
+    for (i=0; i<workobjectDictionary.length;i++) {
+      element = document.createElement('INPUT');
+      element.setAttribute('type','text');
+      element.setAttribute('id', i);
+      element.setAttribute('style', 'margin-bottom: 2px');
+      element.value=workobjectDictionary[i];
+      workobjectDictionaryHTML.appendChild(element);
+      element = document.createElement('br');
+      workobjectDictionaryHTML.appendChild(element);
+    }
+
+
+    var modal = document.getElementById('modal'),
+        dictionaryDialog = document.getElementById('dictionary');
+
+    modal.style.display='block';
+    dictionaryDialog.style.display='block';
+  }
+}
+
 
 // helper
 

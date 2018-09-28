@@ -32,7 +32,8 @@ import {
   checkInput,
   keyReleased,
   getAllObjectsFromCanvas,
-  debounce
+  debounce,
+  openDictionary
 } from './domain-story-modeler/domain-story/util/AppUtil';
 
 import {
@@ -90,6 +91,7 @@ var lastInputTitle = '',
     nextStepButton = document.getElementById('buttonNextStep'),
     previousStepbutton = document.getElementById('buttonPreviousStep'),
     stopReplayButton = document.getElementById('buttonStopReplay'),
+    dictionaryButton = document.getElementById('dictionaryButton'),
     dictionaryDialog = document.getElementById('dictionary'),
     activityDictionaryHTML = document.getElementById('activityDictionaryContainer'),
     workobjectDictionaryHTML = document.getElementById('workobjectDictionaryContainer'),
@@ -200,6 +202,10 @@ dstInfotext.innerText = 'Learn more about Domain Storytelling at';
 
 headline.addEventListener('click', function() {
   showDialog();
+});
+
+dictionaryButton.addEventListener('click', function() {
+  openDictionary(canvas);
 });
 
 wpsLogo.addEventListener('click', function() {
