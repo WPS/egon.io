@@ -77,7 +77,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       separator: true
     },
     'domainStory-workObject': createAction(
-      'domainStory:workObject', 'workObject', 'icon-domain-story-workObject', 'workobject'
+      'domainStory:workObject', 'workObject', 'icon-domain-story-workObject', 'document'
     ),
     'domainStory-workObjectFolder': createAction(
       'domainStory:workObjectFolder', 'workObject', 'icon-domain-story-workObject-folder', 'folder'

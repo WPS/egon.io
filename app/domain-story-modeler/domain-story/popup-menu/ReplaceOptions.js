@@ -102,7 +102,7 @@ export var WORKOBJECT = [
 
 export var WORKOBJECT_FOLDER = [
   {
-    label: 'Change to workobject',
+    label: 'Change to document',
     actionName: 'replace-with-work-object',
     className: 'icon-domain-story-workObject',
     target: {
@@ -145,7 +145,7 @@ export var WORKOBJECT_FOLDER = [
 
 export var WORKOBJECT_CALL = [
   {
-    label: 'Change to workobject',
+    label: 'Change to document',
     actionName: 'replace-with-work-object',
     className: 'icon-domain-story-workObject',
     target: {
@@ -188,7 +188,7 @@ export var WORKOBJECT_CALL = [
 
 export var WORKOBJECT_EMAIL = [
   {
-    label: 'Change to workobject',
+    label: 'Change to document',
     actionName: 'replace-with-work-object',
     className: 'icon-domain-story-workObject',
     target: {
@@ -231,7 +231,7 @@ export var WORKOBJECT_EMAIL = [
 
 export var WORKOBJECT_BUBBLE = [
   {
-    label: 'Change to workobject',
+    label: 'Change to document',
     actionName: 'replace-with-work-object',
     className: 'icon-domain-story-workObject',
     target: {
@@ -274,7 +274,7 @@ export var WORKOBJECT_BUBBLE = [
 
 export var WORKOBJECT_INFO = [
   {
-    label: 'Change to workobject',
+    label: 'Change to document',
     actionName: 'replace-with-work-object',
     className: 'icon-domain-story-workObject',
     target: {
