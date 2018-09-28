@@ -59,7 +59,7 @@ var eventBus = modeler.get('eventBus');
 var commandStack = modeler.get('commandStack');
 var elementRegistry = modeler.get('elementRegistry');
 
-// we nned to initiate the activity commandStack elements
+// we need to initiate the activity commandStack elements
 DomainStoryActivityHandlers(commandStack, eventBus, canvas);
 DomainStoryLabelChangeHandlers(commandStack, eventBus, canvas);
 
@@ -506,25 +506,25 @@ function downloadSVG(filename) {
 }
 
 function checkPressedKeys(keyCode, dialog, element) {
-  // keyCode 13 is enter
-  // keyCode 16 is shift
-  // keyCode 17 is crtl
-  // keyCode 18 is alt
-  // keyCode 27 is esc
+  const KEY_ENTER = 13;
+  const KEY_SHIFT = 16;
+  const KEY_CTRL = 17;
+  const KEY_ALT = 18;
+  const KEY_ESC = 27;
 
   keysPressed[keyCode] = true;
 
-  if (keysPressed[27]) {
+  if (keysPressed[KEY_ESC]) {
     closeDialog();
     closeLabelDialog();
     closeNumberDialog();
   }
-  else if ((keysPressed[17] && keysPressed[13]) || (keysPressed[18] && keysPressed[13])) {
+  else if ((keysPressed[KEY_CTRL] && keysPressed[KEY_ENTER]) || (keysPressed[KEY_ALT] && keysPressed[KEY_ENTER])) {
     if (dialog == 'infoDialog') {
       info.value += '\n';
     }
   }
-  else if (keysPressed[13] && !keysPressed[16]) {
+  else if (keysPressed[KEY_ENTER] && !keysPressed[KEY_SHIFT]) {
     if (dialog == 'titleDialog' || dialog == 'infoDialog') {
       saveDialog();
     }
