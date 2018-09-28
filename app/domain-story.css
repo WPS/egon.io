@@ -86,7 +86,7 @@ cursor: default;
   border: 1px solid white;
 }
 
-#buttonImport:hover, #export:hover, #buttonSVG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover{
+#buttonImport:hover, #export:hover, #buttonSVG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #dictionaryButton:hover{
   border: 1px solid #CCC;
   cursor: pointer;
 }
