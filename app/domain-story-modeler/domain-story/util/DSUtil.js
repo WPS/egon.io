@@ -221,6 +221,7 @@ export function autocomplete(inp, arr, element) {
   /* execute a function presses a key on the keyboard:*/
   inp.addEventListener('keydown', function(e) {
     var autocompleteList = document.getElementById('autocomplete-list');
+    if (autocompleteList) autocompleteList = autocompleteList.getElementsByTagName('div');
     if (e.keyCode == 40) {
       /* If the arrow DOWN key is pressed,
         increase the currentFocus variable:*/
