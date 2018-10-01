@@ -24,6 +24,8 @@ export default function DomainStoryActivityHandler(commandStack, eventBus, canva
       }
 
       var oldNumbersWithIDs = getNumbersAndIDs(canvas);
+      modeling.updateLabel(context.businessObject, context.newLabel);
+      modeling.updateNumber(context.businessObject, context.newNumber);
 
       context.oldNumber = context.businessObject.number;
       context.oldNumbersWithIDs = oldNumbersWithIDs;
@@ -65,6 +67,7 @@ export default function DomainStoryActivityHandler(commandStack, eventBus, canva
       if (!context.oldNumber) {
         context.oldNumber=0;
       }
+      modeling.updateNumber(context.businessObject, context.newNumber);
     };
 
     this.execute = function(context) {

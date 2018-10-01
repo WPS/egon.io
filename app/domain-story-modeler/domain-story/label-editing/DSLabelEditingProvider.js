@@ -50,12 +50,13 @@ export function getWorkobjectDictionary() {
 
 export default function DSLabelEditingProvider(
     eventBus, canvas, directEditing,
-    modeling, resizeHandles, textRenderer) {
+    modeling, resizeHandles, textRenderer, dSUpdateLabelHandler) {
 
 
   this._canvas = canvas;
   this._modeling = modeling;
   this._textRenderer = textRenderer;
+  this._dsUpdateLabelHandler = dSUpdateLabelHandler;
 
   directEditing.registerProvider(this);
   // listen to dblclick on non-root elements
@@ -161,7 +162,8 @@ DSLabelEditingProvider.$inject = [
   'directEditing',
   'modeling',
   'resizeHandles',
-  'textRenderer'
+  'textRenderer',
+  'dSUpdateLabelHandler'
 ];
 
 

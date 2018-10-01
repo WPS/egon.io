@@ -7,6 +7,7 @@ import DirectEditingModule from 'diagram-js-direct-editing';
 import DSLabelEditingProvider from './DSLabelEditingProvider';
 import DSLabelEditingPreview from './DSLabelEditingPreview';
 import DSModeling from '../modeling/DSModeling';
+import DSUpdateLabelHandler from './cmd/DSUpdateLabelHandler';
 
 
 export default {
@@ -21,5 +22,6 @@ export default {
   ],
   dSlabelEditingProvider: [ 'type', DSLabelEditingProvider ],
   dSlabelEditingPreview: [ 'type', DSLabelEditingPreview ],
+  dSUpdateLabelHandler: ['type', DSUpdateLabelHandler],
   modeling: [ 'type ', DSModeling]
 };
