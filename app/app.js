@@ -14,8 +14,8 @@ import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
 
 import {
   toggleStashUse,
-  setLabelStash,
-  getWorkobjectDictionary
+  getWorkobjectDictionary,
+  setLabelDictionary
 } from './domain-story-modeler/domain-story/label-editing/DSLabelEditingProvider';
 
 import {
@@ -450,7 +450,7 @@ document.getElementById('import').onchange = function() {
 
       modeler.importCustomElements(elements);
       cleanActicityDictionary(canvas);
-      setLabelStash(canvas);
+      setLabelDictionary(canvas);
     };
 
     reader.readAsText(input);
