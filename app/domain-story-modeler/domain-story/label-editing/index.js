@@ -8,6 +8,7 @@ import DSLabelEditingProvider from './DSLabelEditingProvider';
 import DSLabelEditingPreview from './DSLabelEditingPreview';
 import DSModeling from '../modeling/DSModeling';
 import DSUpdateLabelHandler from './cmd/DSUpdateLabelHandler';
+import CommandStack from 'diagram-js/lib/command/CommandStack';
 
 
 export default {
@@ -23,5 +24,6 @@ export default {
   dSlabelEditingProvider: [ 'type', DSLabelEditingProvider ],
   dSlabelEditingPreview: [ 'type', DSLabelEditingPreview ],
   dSUpdateLabelHandler: ['type', DSUpdateLabelHandler],
+  commandStack: ['type', CommandStack],
   modeling: [ 'type ', DSModeling]
 };

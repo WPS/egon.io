@@ -12,7 +12,7 @@ export default function DomainStoryLabelChangeHandlers(commandStack, eventBus) {
       context.oldLabel = relevantElements[0].businessObject.name;
 
       relevantElements.forEach(element => {
-        modeling.updatelabel(element.businessObject, confirm.newValue);
+        modeling.updateLabel(element.businessObject, confirm.newValue);
       });
     };
 

@@ -28,7 +28,11 @@ var NULL_DIMENSIONS = {
 /**
  * a handler that updates the text of a BPMN element.
  */
-export default function DSUpdateLabelHandler(modeling, textRenderer) {
+export default function DSUpdateLabelHandler(modeling, textRenderer, commandStack) {
+
+  commandStack.registerHandler('element.updateCustomLabel',handlerFunction);
+
+  function handlerFunction() {
 
   /**
    * Set the label and return the changed elements.
@@ -38,108 +42,104 @@ export default function DSUpdateLabelHandler(modeling, textRenderer) {
    * @param {djs.model.Base} element
    * @param {String} text
    */
-  function setText(element, text, textNumber) {
 
-    // external label if present
-    var label = element.label || element;
+    this.preExecute = function(ctx) {
+      var element = ctx.element,
+          businessObject = element.businessObject,
+          newLabel = ctx.newLabel,
+          newNumber=ctx.newNumber;
 
-    var number= element.number || element;
-
-    var labelTarget = element.labelTarget || element;
-
-    var numberTarget= element.numberTarget || element;
-
-    setLabel(label, text);
-    setNumber(number, textNumber);
-
-    return [ label, labelTarget, number, numberTarget ];
-  }
-
-  function preExecute(ctx) {
-    var element = ctx.element,
-        businessObject = element.businessObject,
-        newLabel = ctx.newLabel,
-        newNumber=ctx.newNumber;
-
-    if (!isLabel(element)
+      if (!isLabel(element)
         && isLabelExternal(element)
         && !hasExternalLabel(element)
         && (newLabel !== '' || newNumber!=='')) {
 
       // create label
-      var paddingTop = 7;
+        var paddingTop = 7;
 
-      var labelCenter = getExternalLabelMid(element);
+        var labelCenter = getExternalLabelMid(element);
 
-      labelCenter = {
-        x: labelCenter.x,
-        y: labelCenter.y + paddingTop
-      };
+        labelCenter = {
+          x: labelCenter.x,
+          y: labelCenter.y + paddingTop
+        };
 
-      modeling.createLabel(element, labelCenter, {
-        id: businessObject.id + '_label',
-        businessObject: businessObject
-      });
-    }
+        modeling.createLabel(element, labelCenter, {
+          id: businessObject.id + '_label',
+          businessObject: businessObject
+        });
+      }
+    };
+
+    this.execute = function(ctx) {
+      ctx.oldLabel = getLabel(ctx.element);
+      ctx.oldNumber= getNumber(ctx.element);
+      return setText(ctx.element, ctx.newLabel, ctx.newNumber);
+    };
+
+    this.revert = function(ctx) {
+      return setText(ctx.element, ctx.oldLabel, ctx.oldNumber);
+    };
+
+    this.postExecute = function(ctx) {
+      var element = ctx.element,
+          label = element.label || element,
+          newLabel = ctx.newLabel,
+          newBounds = ctx.newBounds;
+
+      if (isLabel(label) && newLabel.trim() === '') {
+        modeling.removeShape(label);
+
+        return;
+      }
+
+      // ignore internal labels for elements except text annotations
+      if (!isLabelExternal(element) && !is(element, 'domainStory:textAnnotation')) {
+        return;
+      }
+
+      var bo = getBusinessObject(label);
+
+      var text = bo.name || bo.text;
+
+      // don't resize without text
+      if (!text) {
+        return;
+      }
+
+      // resize element based on label _or_ pre-defined bounds
+      if (typeof newBounds === 'undefined') {
+        newBounds = textRenderer.getLayoutedBounds(label, text);
+      }
+
+      // setting newBounds to false or _null_ will
+      // disable the postExecute resize operation
+      if (newBounds) {
+        modeling.resizeShape(label, newBounds, NULL_DIMENSIONS);
+      }
+    };
   }
+}
 
-  DSUpdateLabelHandler.execute = function(ctx) {
-    ctx.oldLabel = getLabel(ctx.element);
-    ctx.oldNumber= getNumber(ctx.element);
-    return setText(ctx.element, ctx.newLabel, ctx.newNumber);
-  };
+function setText(element, text, textNumber) {
 
-  function revert(ctx) {
-    return setText(ctx.element, ctx.oldLabel), ctx.oldNumber;
-  }
+  // external label if present
+  var label = element.label || element;
 
-  function postExecute(ctx) {
-    var element = ctx.element,
-        label = element.label || element,
-        newLabel = ctx.newLabel,
-        newBounds = ctx.newBounds;
+  var number= element.number || element;
 
-    if (isLabel(label) && newLabel.trim() === '') {
-      modeling.removeShape(label);
+  var labelTarget = element.labelTarget || element;
 
-      return;
-    }
+  var numberTarget= element.numberTarget || element;
 
-    // ignore internal labels for elements except text annotations
-    if (!isLabelExternal(element) && !is(element, 'domainStory:textAnnotation')) {
-      return;
-    }
+  setLabel(label, text);
+  setNumber(number, textNumber);
 
-    var bo = getBusinessObject(label);
-
-    var text = bo.name || bo.text;
-
-    // don't resize without text
-    if (!text) {
-      return;
-    }
-
-    // resize element based on label _or_ pre-defined bounds
-    if (typeof newBounds === 'undefined') {
-      newBounds = textRenderer.getLayoutedBounds(label, text);
-    }
-
-    // setting newBounds to false or _null_ will
-    // disable the postExecute resize operation
-    if (newBounds) {
-      modeling.resizeShape(label, newBounds, NULL_DIMENSIONS);
-    }
-  }
-
-  // API
-
-  this.preExecute = preExecute;
-  // this.execute = execute;
-  this.revert = revert;
-  this.postExecute = postExecute;
+  return [ label, labelTarget, number, numberTarget ];
 }
 
 DSUpdateLabelHandler.$inject = [
   'modeling',
-  'textRenderer'
+  'textRenderer',
+  'commandStack'
 ];
