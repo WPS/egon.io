@@ -488,8 +488,7 @@ function dictionaryKeyBehaviour(event) {
     dictionaryDialog.style.display='none';
     modal.style.display='none';
   }
-  else if (event.key == KEY_ESC) {
-    console.log('');
+  else if (event.keyCode == KEY_ESC) {
     dictionaryDialog.style.display='none';
     modal.style.display='none';
   }
@@ -881,7 +880,7 @@ function minSvgCoordinates(svg) {
   let minY = Number.MAX_VALUE;
   let match;
 
-  while (match = SVG_COORDINATE.exec(svg)) {
+  while ((match = SVG_COORDINATE.exec(svg))) {
 
     const x = +match[1];
 
@@ -893,7 +892,6 @@ function minSvgCoordinates(svg) {
 
   }
   return { xCoordinate: minX, yCoordinate: minY };
-
 }
 
 
