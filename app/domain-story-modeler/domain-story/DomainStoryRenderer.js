@@ -13,7 +13,6 @@ import { getNumberStash } from './label-editing/DSLabelEditingProvider';
 import {
   labelPosition,
   numberBoxDefinitions,
-  calculateDeg,
   calculateXY,
   generateAutomaticNumber
 } from './util/DSActivityUtil';
@@ -25,7 +24,8 @@ import {
 
 import {
   getRectPath,
-  calculateTextWidth
+  calculateTextWidth,
+  calculateDeg
 } from './util/DSUtil';
 
 import sanitize from './util/Sanitizer';

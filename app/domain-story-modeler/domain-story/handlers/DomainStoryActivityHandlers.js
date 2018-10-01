@@ -110,7 +110,6 @@ export default function DomainStoryActivityHandler(commandStack, eventBus, canva
   }
 }
 
-
 // reverts the automatic changed done by the automatic number-gerneration at editing
 function revertAutomaticNumbergenerationChange(iDWithNumber, canvas, eventBus) {
   var canvasObjects = canvas._rootElement.children;
