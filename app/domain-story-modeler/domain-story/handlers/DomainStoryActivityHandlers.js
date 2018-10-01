@@ -1,9 +1,6 @@
 'use strict';
 
-import {
-  getNumbersAndIDs,
-  revertChange
-} from '../util/DSActivityUtil';
+import { getNumbersAndIDs, getActivitesFromActors } from '../util/DSActivityUtil';
 
 /**
  * commandStack Handler for changes at activities
@@ -54,7 +51,7 @@ export default function DomainStoryActivityHandler(commandStack, eventBus, canva
       semantic.name = context.oldLabel;
       semantic.number = context.oldNumber;
 
-      revertChange(context.oldNumbersWithIDs, canvas, eventBus);
+      revertAutomaticNumbergenerationChange(context.oldNumbersWithIDs, canvas, eventBus);
 
       eventBus.fire('element.changed', { element });
     };
@@ -110,5 +107,23 @@ export default function DomainStoryActivityHandler(commandStack, eventBus, canva
 
       eventBus.fire('element.changed', { element });
     };
+  }
+}
+
+
+// reverts the automatic changed done by the automatic number-gerneration at editing
+function revertAutomaticNumbergenerationChange(iDWithNumber, canvas, eventBus) {
+  var canvasObjects = canvas._rootElement.children;
+  var activities = getActivitesFromActors(canvasObjects);
+  for (var i = activities.length - 1; i >= 0; i--) {
+    for (var j = iDWithNumber.length - 1; j >= 0; j--) {
+      if (iDWithNumber[j].id.includes(activities[i].businessObject.id)) {
+        var element = activities[i];
+        element.businessObject.number = iDWithNumber[j].number;
+        j = -5;
+        eventBus.fire('element.changed', { element });
+        iDWithNumber.splice(j, 1);
+      }
+    }
   }
 }

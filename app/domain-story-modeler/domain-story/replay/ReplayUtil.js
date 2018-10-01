@@ -104,9 +104,8 @@ export function getAllShown(stepsUntilNow) {
   return shownElements;
 }
 
-
 // get all elements, that are supposed to be hidden in the current step
-export function getAllNonShown(allObjects, shownElements) {
+export function getAllNotShown(allObjects, shownElements) {
   var notShownElements = [];
 
   // every element that is not referenced in shownElements

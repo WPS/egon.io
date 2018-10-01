@@ -4,6 +4,14 @@ import $ from 'jquery';
 
 import DomainStoryModeler from './domain-story-modeler';
 
+import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';
+
+import DomainStoryActivityHandlers from './domain-story-modeler/domain-story/handlers/DomainStoryActivityHandlers';
+
+import DomainStoryLabelChangeHandlers from './domain-story-modeler/domain-story/handlers/DomainStoryLabelChangeHandlers';
+
+import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
+
 import {
   setStash,
   setLabelStash,
@@ -13,7 +21,7 @@ import {
 import {
   traceActivities,
   isStoryConsecutivelyNumbered,
-  getAllNonShown,
+  getAllNotShown,
   getAllShown
 } from './domain-story-modeler/domain-story/replay/ReplayUtil';
 
@@ -23,10 +31,6 @@ import {
 } from './domain-story-modeler/domain-story/util/DSActivityUtil';
 
 import { version } from '../package.json';
-
-import DomainStoryActivityHandlers from './domain-story-modeler/domain-story/handlers/DomainStoryActivityHandlers';
-
-import DomainStoryLabelChangeHandlers from './domain-story-modeler/domain-story/handlers/DomainStoryLabelChangeHandlers';
 
 import {
   checkInput,
@@ -38,14 +42,10 @@ import {
 
 import {
   getActivityDictionary,
-  setActivityLabelStash,
-  cleanActicityLabelStash,
+  setActivityDictionary,
+  cleanActicityDictionary,
   autocomplete
 } from './domain-story-modeler/domain-story/util/DSUtil';
-
-import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
-
-import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -97,7 +97,7 @@ var modal = document.getElementById('modal'),
     activityInputLabelWithNumber = document.getElementById('inputLabel'),
     activityInputLabelWithoutNumber = document.getElementById('labelInputLabel'),
     // Dialogs
-    dialog = document.getElementById('dialog'),
+    headlineDialog = document.getElementById('dialog'),
     activityWithNumberDialog = document.getElementById('numberDialog'),
     activityWithoutNumberDialog = document.getElementById('labelDialog'),
     versionDialog = document.getElementById('versionDialog'),
@@ -110,8 +110,8 @@ var modal = document.getElementById('modal'),
     workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
     importExportSVGButtonsContainer = document.getElementById('importExportSVGButton'),
     // Buttons
-    saveButtonDialog = document.getElementById('saveButton'),
-    quitButtonDialog = document.getElementById('quitButton'),
+    headlineDialogButtonSave = document.getElementById('saveButton'),
+    headlineDialogButtonCancel = document.getElementById('quitButton'),
     exportButton = document.getElementById('export'),
     startReplayButton = document.getElementById('buttonStartReplay'),
     nextStepButton = document.getElementById('buttonNextStep'),
@@ -236,11 +236,11 @@ dstLogoButton.addEventListener('click', function() {
   modal.style.display = 'none';
 });
 
-saveButtonDialog.addEventListener('click', function() {
+headlineDialogButtonSave.addEventListener('click', function() {
   saveDialog();
 });
 
-quitButtonDialog.addEventListener('click', function() {
+headlineDialogButtonCancel.addEventListener('click', function() {
   closeDialog();
 });
 
@@ -449,7 +449,7 @@ document.getElementById('import').onchange = function() {
       infoText.innerText = inputInfoText;
 
       modeler.importCustomElements(elements);
-      cleanActicityLabelStash(canvas);
+      cleanActicityDictionary(canvas);
       setLabelStash(canvas);
     };
 
@@ -469,7 +469,7 @@ document.getElementById('import').onchange = function() {
 
 
 function dictionrayClosed() {
-  var oldActivityLabelStash = getActivityDictionary();
+  var oldActivityDictionary = getActivityDictionary();
   var oldWorkobjectDictionary = getWorkobjectDictionary();
   var activityNewNames = [];
   var workObjectNewNames = [];
@@ -486,8 +486,8 @@ function dictionrayClosed() {
     }
   });
 
-  if (activityNewNames.length == oldActivityLabelStash.length && workObjectNewNames.length==oldWorkobjectDictionary.length) {
-    dictionaryDifferences(activityNewNames, oldActivityLabelStash, workObjectNewNames, oldWorkobjectDictionary);
+  if (activityNewNames.length == oldActivityDictionary.length && workObjectNewNames.length==oldWorkobjectDictionary.length) {
+    dictionaryDifferences(activityNewNames, oldActivityDictionary, workObjectNewNames, oldWorkobjectDictionary);
   }
 }
 
@@ -549,14 +549,14 @@ function checkPressedKeys(keyCode, dialog, element) {
   }
 }
 
-function dictionaryDifferences(activityNames, oldActivityLabelStash, workObjectNames, oldWorkobjectDictionary) {
+function dictionaryDifferences(activityNames, oldActivityDictionary, workObjectNames, oldWorkobjectDictionary) {
   var i=0;
-  for (i=0;i<oldActivityLabelStash.length;i++) {
+  for (i=0;i<oldActivityDictionary.length;i++) {
     if (!activityNames[i]) {
       activityNames[i]='';
     }
-    if (!((activityNames[i].includes(oldActivityLabelStash[i])) && (oldActivityLabelStash[i].includes(activityNames[i])))) {
-      massChangeNames(oldActivityLabelStash[i], activityNames[i], 'domainStory:activity');
+    if (!((activityNames[i].includes(oldActivityDictionary[i])) && (oldActivityDictionary[i].includes(activityNames[i])))) {
+      massChangeNames(oldActivityDictionary[i], activityNames[i], 'domainStory:activity');
     }
   }
   for (i=0;i<oldWorkobjectDictionary.length;i++) {
@@ -597,7 +597,7 @@ function showVersionDialog() {
 
 function closeDialog() {
   keysPressed = [];
-  dialog.style.display = 'none';
+  headlineDialog.style.display = 'none';
   modal.style.display = 'none';
   arrow.style.display = 'none';
 }
@@ -605,7 +605,7 @@ function closeDialog() {
 function showDialog() {
   info.value = descriptionInputLast;
   titleInput.value = titleInputLast;
-  dialog.style.display = 'block';
+  headlineDialog.style.display = 'block';
   modal.style.display = 'block';
   arrow.style.display = 'block';
   titleInput.focus();
@@ -676,17 +676,17 @@ function closeActivityInputLabelWithNumber() {
 function saveActivityInputLabelWithNumber(element) {
   var labelInput = '';
   var numberInput = '';
-  var activityLabelStash = getActivityDictionary();
+  var activityDictionary = getActivityDictionary();
   if (activityInputLabelWithNumber != '') {
     labelInput = activityInputLabelWithNumber.value;
-    if (!activityLabelStash.includes(labelInput)) {
-      activityLabelStash.push(labelInput);
+    if (!activityDictionary.includes(labelInput)) {
+      activityDictionary.push(labelInput);
     }
   }
   if (activityInputNumber != '') {
     numberInput = activityInputNumber.value;
   }
-  setActivityLabelStash(activityLabelStash);
+  setActivityDictionary(activityDictionary);
 
   activityWithNumberDialog.style.display = 'none';
   modal.style.display = 'none';
@@ -710,7 +710,7 @@ function saveActivityInputLabelWithNumber(element) {
   });
 
   updateExistingNumbersAtEditing(activitiesFromActors, numberInput, eventBus);
-  cleanActicityLabelStash(canvas);
+  cleanActicityDictionary(canvas);
 }
 
 function closeActivityInputLabelWithoutNumber() {
@@ -722,15 +722,15 @@ function closeActivityInputLabelWithoutNumber() {
 
 function saveActivityInputLabelWithoutNumber(element) {
   var labelInput = '';
-  var activityLabelStash=getActivityDictionary();
+  var activityDictionary = getActivityDictionary();
   if (activityInputLabelWithoutNumber != '') {
     labelInput = activityInputLabelWithoutNumber.value;
-    if (!activityLabelStash.includes(labelInput)) {
-      activityLabelStash.push(labelInput);
+    if (!activityDictionary.includes(labelInput)) {
+      activityDictionary.push(labelInput);
     }
   }
 
-  setActivityLabelStash(activityLabelStash);
+  setActivityDictionary(activityDictionary);
 
   activityWithoutNumberDialog.style.display = 'none';
   modal.style.display = 'none';
@@ -743,7 +743,7 @@ function saveActivityInputLabelWithoutNumber(element) {
     newLabel: labelInput,
     element: element
   });
-  cleanActicityLabelStash(canvas);
+  cleanActicityDictionary(canvas);
 }
 
 // replay functions
@@ -828,7 +828,7 @@ function showCurrentStep() {
 
   var shownElements = getAllShown(stepsUntilNow);
 
-  var notShownElements = getAllNonShown(allObjects, shownElements);
+  var notShownElements = getAllNotShown(allObjects, shownElements);
 
   // hide all elements, that are not to be shown
   notShownElements.forEach(element => {

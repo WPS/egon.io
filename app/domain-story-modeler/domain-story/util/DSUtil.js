@@ -4,7 +4,7 @@ import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 import { getAllObjectsFromCanvas } from './AppUtil';
 
-var activityLabelStash = [];
+var activityDictionary = [];
 
 // creates a SVG path that describes a rectangle which encloses the given shape.
 export function getRectPath(shape) {
@@ -25,15 +25,7 @@ export function getRectPath(shape) {
   return rectPath;
 }
 
-// approximate the width of the label text, standard fontsize: 11
-export function calculateTextWidth(text) {
-  var fontsize = text.length * 5.1;
-  fontsize = fontsize / 2;
-  // add an initial offset, since the calculateXY Position gives the absolute middle of the activity and we want the start directly under the number
-  fontsize += 20;
-  return fontsize;
-}
-
+// type-checking functions
 // check element type
 export function isDomainStory(element) {
   return element && /domainStory:/.test(element.type);
@@ -75,31 +67,81 @@ export function isDomainStoryElement(element) {
     is(element, 'domainStory:workObjectInfo');
 }
 
+// dictionary Getter & Setter
 export function getActivityDictionary() {
-  return activityLabelStash.slice();
+  return activityDictionary.slice();
 }
 
-export function setActivityLabelStash(stash) {
-  activityLabelStash = stash;
-  activityLabelStash.sort(function(a, b) {
+export function setActivityDictionary(stash) {
+  activityDictionary = stash;
+  activityDictionary.sort(function(a, b) {
     return a.toLowerCase().localeCompare(b.toLowerCase());
   });
 }
 
-export function cleanActicityLabelStash(canvas) {
-  activityLabelStash=[];
+export function cleanActicityDictionary(canvas) {
+  activityDictionary=[];
   var allObjects = getAllObjectsFromCanvas(canvas);
   allObjects.forEach(element => {
     var name=element.businessObject.name;
-    if (name.length > 0 && element.type.includes('domainStory:activity') && !activityLabelStash.includes(name)) {
-      activityLabelStash.push(name);
+    if (name.length > 0 && element.type.includes('domainStory:activity') && !activityDictionary.includes(name)) {
+      activityDictionary.push(name);
     }
   });
-  activityLabelStash.sort(function(a, b) {
+  activityDictionary.sort(function(a, b) {
     return a.toLowerCase().localeCompare(b.toLowerCase());
   });
 }
 
+// Math fucntions
+// calculate the angle between two points in 2D
+export function calculateDeg(startPoint, endPoint) {
+  var quadrant = 0;
+
+  // determine in which quadrant we are
+  if (startPoint.x <= endPoint.x) {
+    if (startPoint.y >= endPoint.y)
+      quadrant = 0; // upper right quadrant
+    else quadrant = 3; // lower right quadrant
+  }
+  else {
+    if (startPoint.y >= endPoint.y)
+      quadrant = 1; // upper left uadrant
+    else quadrant = 2; // lower left quadrant
+  }
+
+  var adjacenten = Math.abs(startPoint.y - endPoint.y);
+  var opposite = Math.abs(startPoint.x - endPoint.x);
+
+  // since the arcus-tangens only gives values between 0 and 90, we have to adjust for the quadrant we are in
+
+  if (quadrant == 0) {
+    return 90 - Math.degrees(Math.atan2(opposite, adjacenten));
+  }
+  if (quadrant == 1) {
+    return 90 + Math.degrees(Math.atan2(opposite, adjacenten));
+  }
+  if (quadrant == 2) {
+    return 270 - Math.degrees(Math.atan2(opposite, adjacenten));
+  }
+  if (quadrant == 3) {
+    return 270 + Math.degrees(Math.atan2(opposite, adjacenten));
+  }
+}
+
+// convert rad to deg
+Math.degrees = function(radians) {
+  return radians * 180 / Math.PI;
+};
+
+// approximate the width of the label text, standard fontsize: 11
+export function calculateTextWidth(text) {
+  var fontsize = text.length * 5.1;
+  fontsize = fontsize / 2;
+  // add an initial offset, since the calculateXY Position gives the absolute middle of the activity and we want the start directly under the number
+  fontsize += 20;
+  return fontsize;
+}
 
 // -- helpers --//
 

@@ -1,5 +1,6 @@
 'use strict';
 
+// sanitize user-Input to be HTML-safe
 export default function sanitize(string) {
   const map = {
     '&': '',

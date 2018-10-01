@@ -103,6 +103,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     // to make sure, that the delete icon is the last one, we remove it from the actions-object
     // and add it after adding the change direction functionality
       delete actions.delete;
+
       assign(actions, {
         'changeDirection': {
           group: 'edit',
@@ -116,6 +117,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           }
         }
       });
+
       assign(actions,{
         'delete': {
           group: 'edit',
@@ -132,8 +134,8 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     return actions;
   };
 
+  // change the direction of an activity
   function changeDirection(element) {
-
     var context;
     var businessObject = element.businessObject;
     var newNumber;

@@ -2,12 +2,12 @@
 
 import sanitize from './Sanitizer';
 
-
 import {
   setLabelStash,
   getWorkobjectDictionary
 } from '../label-editing/DSLabelEditingProvider';
-import { cleanActicityLabelStash, getActivityDictionary } from './DSUtil';
+
+import { cleanActicityDictionary, getActivityDictionary } from './DSUtil';
 
 /**
  * general functions used by app.js
@@ -59,22 +59,20 @@ export function getAllObjectsFromCanvas(canvas) {
   return allObjects;
 }
 
-
 export function openDictionary(canvas) {
   if (canvas._rootElement && canvas._rootElement.children && canvas._rootElement.children.length > 0) {
 
-    cleanActicityLabelStash(canvas);
+    cleanActicityDictionary(canvas);
     setLabelStash(canvas);
 
     var activityDictionary = getActivityDictionary();
     var workobjectDictionary = getWorkobjectDictionary();
 
+    var activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
+        workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer');
 
-    var activityDictionaryHTML = document.getElementById('activityDictionaryContainer'),
-        workobjectDictionaryHTML = document.getElementById('workobjectDictionaryContainer');
-
-    activityDictionaryHTML.innerHTML='';
-    workobjectDictionaryHTML.innerHTML='';
+    activityDictionaryContainer.innerHTML='';
+    workobjectDictionaryContainer.innerHTML='';
 
     var element;
 
@@ -85,9 +83,9 @@ export function openDictionary(canvas) {
       element.setAttribute('id', i);
       element.setAttribute('style', 'margin-bottom: 2px');
       element.value=activityDictionary[i];
-      activityDictionaryHTML.appendChild(element);
+      activityDictionaryContainer.appendChild(element);
       element = document.createElement('br');
-      activityDictionaryHTML.appendChild(element);
+      activityDictionaryContainer.appendChild(element);
     }
 
     for (i=0; i<workobjectDictionary.length;i++) {
@@ -96,11 +94,10 @@ export function openDictionary(canvas) {
       element.setAttribute('id', i);
       element.setAttribute('style', 'margin-bottom: 2px');
       element.value=workobjectDictionary[i];
-      workobjectDictionaryHTML.appendChild(element);
+      workobjectDictionaryContainer.appendChild(element);
       element = document.createElement('br');
-      workobjectDictionaryHTML.appendChild(element);
+      workobjectDictionaryContainer.appendChild(element);
     }
-
 
     var modal = document.getElementById('modal'),
         dictionaryDialog = document.getElementById('dictionary');
@@ -109,7 +106,6 @@ export function openDictionary(canvas) {
     dictionaryDialog.style.display='block';
   }
 }
-
 
 // helper
 

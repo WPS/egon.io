@@ -1,7 +1,7 @@
 import {
   calculateDeg,
   calculateXY,
-  selectActivity,
+  selectPartOfActivity,
   labelPosition,
   labelPositionX,
   labelPositionY
@@ -331,7 +331,7 @@ describe('DSLabelUtil', function() {
       angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
     }
 
-    var res = selectActivity(waypoints, angleActivity);
+    var res = selectPartOfActivity(waypoints, angleActivity);
 
     assert.equal(res, 0);
     assert.deepEqual(res, 0);
@@ -360,7 +360,7 @@ describe('DSLabelUtil', function() {
     for (var i = 0; i < 3 - 1; i++) { // calculate the angles of the activity
       angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
     }
-    var res = selectActivity(waypoints, angleActivity);
+    var res = selectPartOfActivity(waypoints, angleActivity);
 
     assert.equal(res, 1);
     assert.deepEqual(res, 1);
@@ -390,7 +390,7 @@ describe('DSLabelUtil', function() {
       angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
     }
 
-    var res = selectActivity(waypoints, angleActivity);
+    var res = selectPartOfActivity(waypoints, angleActivity);
 
     assert.equal(res, 0);
     assert.deepEqual(res, 0);
@@ -418,7 +418,7 @@ describe('DSLabelUtil', function() {
     for (var i = 0; i < 3 - 1; i++) { // calculate the angles of the activity
       angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
     }
-    var selectedActivity = selectActivity(waypoints, angleActivity);
+    var selectedActivity = selectPartOfActivity(waypoints, angleActivity);
 
     var xPos = labelPositionX(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
     var yPos = labelPositionY(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
@@ -461,7 +461,7 @@ describe('DSLabelUtil', function() {
     for (var i = 0; i < 3 - 1; i++) { // calculate the angles of the activity
       angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
     }
-    var selectedActivity = selectActivity(waypoints, angleActivity);
+    var selectedActivity = selectPartOfActivity(waypoints, angleActivity);
 
     var xPos = labelPositionX(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
     var yPos = labelPositionY(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
@@ -504,7 +504,7 @@ describe('DSLabelUtil', function() {
     for (var i = 0; i < 3 - 1; i++) { // calculate the angles of the activity
       angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
     }
-    var selectedActivity = selectActivity(waypoints, angleActivity);
+    var selectedActivity = selectPartOfActivity(waypoints, angleActivity);
 
     var xPos = labelPositionX(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
     var yPos = labelPositionY(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
