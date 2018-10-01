@@ -65,18 +65,17 @@ export function openDictionary(canvas) {
     cleanActicityDictionary(canvas);
     setLabelStash(canvas);
 
-    var activityDictionary = getActivityDictionary();
-    var workobjectDictionary = getWorkobjectDictionary();
-
+    var element, i=0;
+    var activityDictionary = getActivityDictionary(),
+        workobjectDictionary = getWorkobjectDictionary();
     var activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
-        workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer');
+        workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
+        modal = document.getElementById('modal'),
+        dictionaryDialog = document.getElementById('dictionary');
 
     activityDictionaryContainer.innerHTML='';
     workobjectDictionaryContainer.innerHTML='';
 
-    var element;
-
-    var i=0;
     for (i; i<activityDictionary.length;i++) {
       element = document.createElement('INPUT');
       element.setAttribute('type','text');
@@ -98,9 +97,6 @@ export function openDictionary(canvas) {
       element = document.createElement('br');
       workobjectDictionaryContainer.appendChild(element);
     }
-
-    var modal = document.getElementById('modal'),
-        dictionaryDialog = document.getElementById('dictionary');
 
     modal.style.display='block';
     dictionaryDialog.style.display='block';
