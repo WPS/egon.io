@@ -28,10 +28,10 @@ import { getAllObjectsFromCanvas } from '../util/AppUtil';
 
 var numberStash = 0;
 var stashUse = false;
-var labelStash =[];
+var labelDictionary =[];
 
-export function setLabelStash(canvas) {
-  cleanObjectLabelStash(canvas);
+export function setLabelDictionary(canvas) {
+  cleanObjectLabelDictionary(canvas);
 }
 
 export function getNumberStash() {
@@ -40,12 +40,12 @@ export function getNumberStash() {
   return number;
 }
 
-export function setStash(stash) {
-  stashUse = stash;
+export function toggleStashUse(use) {
+  stashUse = use;
 }
 
 export function getWorkobjectDictionary() {
-  return labelStash.slice();
+  return labelDictionary.slice();
 }
 
 export default function DSLabelEditingProvider(
@@ -98,7 +98,7 @@ export default function DSLabelEditingProvider(
   });
 
   eventBus.on('directEditing.complete', function() {
-    cleanObjectLabelStash(canvas);
+    cleanObjectLabelDictionary(canvas);
   });
 
   eventBus.on('create.end', 500, function(event) {
@@ -134,22 +134,22 @@ export default function DSLabelEditingProvider(
 
   function createAutocomplete(element) {
     var editingBox=document.getElementsByClassName('djs-direct-editing-content');
-    autocomplete(editingBox[0], labelStash, element);
+    autocomplete(editingBox[0], labelDictionary, element);
   }
 }
 
-function cleanObjectLabelStash(canvas) {
-  labelStash = [];
+function cleanObjectLabelDictionary(canvas) {
+  labelDictionary = [];
 
   var allObjects = getAllObjectsFromCanvas(canvas);
 
   allObjects.forEach(element =>{
     var name = element.businessObject.name;
-    if (name.length > 0 && element.type.includes('domainStory:workObject') && !labelStash.includes(name)) {
-      labelStash.push(name);
+    if (name.length > 0 && element.type.includes('domainStory:workObject') && !labelDictionary.includes(name)) {
+      labelDictionary.push(name);
     }
   });
-  labelStash.sort(function(a, b) {
+  labelDictionary.sort(function(a, b) {
     return a.toLowerCase().localeCompare(b.toLowerCase());
   });
 }

@@ -13,7 +13,7 @@ import DomainStoryLabelChangeHandlers from './domain-story-modeler/domain-story/
 import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
 
 import {
-  setStash,
+  toggleStashUse,
   setLabelStash,
   getWorkobjectDictionary
 } from './domain-story-modeler/domain-story/label-editing/DSLabelEditingProvider';
@@ -150,7 +150,7 @@ eventBus.on('element.dblclick', function(e) {
       autocomplete(activityInputLabelWithoutNumber, dict, element);
 
       // ensure the right number when changing the direction of an activity
-      setStash(false);
+      toggleStashUse(false);
 
       if (source.type.includes('domainStory:actor')) {
         showActivityWithNumberDialog(element);

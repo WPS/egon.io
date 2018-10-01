@@ -3,7 +3,7 @@
 import sanitize from './Sanitizer';
 
 import {
-  setLabelStash,
+  setLabelDictionary,
   getWorkobjectDictionary
 } from '../label-editing/DSLabelEditingProvider';
 
@@ -63,7 +63,7 @@ export function openDictionary(canvas) {
   if (canvas._rootElement && canvas._rootElement.children && canvas._rootElement.children.length > 0) {
 
     cleanActicityDictionary(canvas);
-    setLabelStash(canvas);
+    setLabelDictionary(canvas);
 
     var element, i=0;
     var activityDictionary = getActivityDictionary(),
