@@ -42,7 +42,7 @@ export function openDictionary(canvas) {
       element = document.createElement('INPUT');
       element.setAttribute('type','text');
       element.setAttribute('id', i);
-      element.setAttribute('style', 'margin-bottom: 2px');
+      element.setAttribute('style', 'width:100%;  margin-bottom: 2px');
       element.value=activityDictionary[i];
       activityDictionaryContainer.appendChild(element);
       element = document.createElement('br');
@@ -53,7 +53,7 @@ export function openDictionary(canvas) {
       element = document.createElement('INPUT');
       element.setAttribute('type','text');
       element.setAttribute('id', i);
-      element.setAttribute('style', 'margin-bottom: 2px');
+      element.setAttribute('style', 'width:100%;  margin-bottom: 2px');
       element.value=workobjectDictionary[i];
       workobjectDictionaryContainer.appendChild(element);
       element = document.createElement('br');
