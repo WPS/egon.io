@@ -2,19 +2,13 @@
 
 import Modeling from 'bpmn-js/lib/features/modeling/Modeling';
 
-import DSUpdateLabelHandler from '../label-editing/cmd/DSUpdateLabelHandler';
-
 import { inherits } from 'util';
 
 export default function DSModeling(eventBus, elementFactory, commandStack,
     domainStoryRules) {
   Modeling.call(this, eventBus, elementFactory, commandStack, domainStoryRules);
-  getHandlers(commandStack);
 }
 
-function getHandlers(commandStack) {
-  commandStack.register('element.updateCustomLabel', DSUpdateLabelHandler);
-}
 
 Modeling.prototype.updateLabel = function(element, newLabel, newBounds) {
 
