@@ -24,7 +24,7 @@ import { inherits } from 'util';
 
 import LabelEditingProvider from 'bpmn-js/lib/features/label-editing/LabelEditingProvider';
 
-import { getAllObjectsFromCanvas } from '../util/AppUtil';
+import { getAllObjectsFromCanvas } from '../util/DSUtil';
 
 var numberStash = 0;
 var stashUse = false;

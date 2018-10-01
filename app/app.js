@@ -35,7 +35,6 @@ import { version } from '../package.json';
 import {
   checkInput,
   keyReleased,
-  getAllObjectsFromCanvas,
   debounce,
   openDictionary
 } from './domain-story-modeler/domain-story/util/AppUtil';
@@ -44,7 +43,9 @@ import {
   getActivityDictionary,
   setActivityDictionary,
   cleanActicityDictionary,
-  autocomplete
+  autocomplete,
+  getAllObjectsFromCanvas,
+  correctGroupChildren
 } from './domain-story-modeler/domain-story/util/DSUtil';
 
 var modeler = new DomainStoryModeler({
@@ -459,6 +460,7 @@ document.getElementById('import').onchange = function() {
       modeler.importCustomElements(elements);
       cleanActicityDictionary(canvas);
       setLabelDictionary(canvas);
+      correctGroupChildren(canvas);
     };
 
     reader.readAsText(input);
@@ -871,6 +873,7 @@ function saveSVG(done) {
 }
 
 function setEncoded(data) {
+  // to display the title and description in the SVG-file, we need to add a container for our text-elements
   var insertIndex = data.indexOf('</defs>')+7;
   var insertText ='<g class="djs-group">'+
       '<g class="djs-element djs-shape" transform="translate(100 10)" style = "display:block">'+
@@ -882,7 +885,6 @@ function setEncoded(data) {
   +infoText.innerHTML+
   '</tspan></text></g></g></g>';
   data = [data.slice(0,insertIndex), insertText, data.slice(insertIndex)].join('');
-  console.log(data);
   svgData = encodeURIComponent(data);
 }
 
