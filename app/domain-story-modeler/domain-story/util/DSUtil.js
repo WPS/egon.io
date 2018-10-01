@@ -341,7 +341,7 @@ export function autocomplete(inp, arr, element) {
 
   function addActive(autocompleteList) {
     /* a function to classify an item as "active":*/
-    if (!autocompleteList) return false;
+    if (!autocompleteList || autocompleteList.length < 1) return false;
     /* start by removing the "active" class on all items:*/
     removeActive(autocompleteList);
     if (currentFocus >= autocompleteList.length) currentFocus = 0;
