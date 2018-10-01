@@ -281,12 +281,20 @@ activityInputLabelWithNumber.addEventListener('keyup', function(e) {
   checkInput(activityInputLabelWithNumber);
 });
 
+activityDictionaryContainer.addEventListener('keydown', function(e) {
+  dictionaryKeyBehaviour(e);
+});
+
+workobjectDictionaryContainer.addEventListener('keydown', function(e) {
+  dictionaryKeyBehaviour(e);
+});
+
 dictionaryButtonOpen.addEventListener('click', function() {
   openDictionary(canvas);
 });
 
 dictionaryButtonSave.addEventListener('click', function(e) {
-  dictionrayClosed();
+  dictionaryClosed();
 
   dictionaryDialog.style.display='none';
   modal.style.display='none';
@@ -467,8 +475,22 @@ document.getElementById('import').onchange = function() {
   }
 };
 
+function dictionaryKeyBehaviour(event) {
+  const KEY_ENTER = 13;
+  const KEY_ESC = 27;
 
-function dictionrayClosed() {
+  if (event.keyCode == KEY_ENTER) {
+    dictionaryClosed();
+    dictionaryDialog.style.display='none';
+    modal.style.display='none';
+  }
+  else if (event.key == KEY_ESC) {
+    dictionaryDialog.style.display='none';
+    modal.style.display='none';
+  }
+}
+
+function dictionaryClosed() {
   var oldActivityDictionary = getActivityDictionary();
   var oldWorkobjectDictionary = getWorkobjectDictionary();
   var activityNewNames = [];
