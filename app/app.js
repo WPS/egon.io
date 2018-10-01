@@ -60,6 +60,8 @@ var eventBus = modeler.get('eventBus');
 var commandStack = modeler.get('commandStack');
 var elementRegistry = modeler.get('elementRegistry');
 
+const SVG_COORDINATE = /x="([^"]+)"\s+y="([^"]+)"/g;
+
 // we need to initiate the activity commandStack elements
 DomainStoryActivityHandlers(commandStack, eventBus, canvas);
 DomainStoryLabelChangeHandlers(commandStack, eventBus, canvas);
@@ -873,15 +875,45 @@ function saveSVG(done) {
   modeler.saveSVG(done);
 }
 
+function minSvgCoordinates(svg) {
+
+  let minX = Number.MAX_VALUE;
+  let minY = Number.MAX_VALUE;
+  let match;
+
+  while (match = SVG_COORDINATE.exec(svg)) {
+
+    const x = +match[1];
+
+    const y = +match[2];
+
+    if (x < minX) minX = x;
+
+    if (y < minY) minY = y;
+
+  }
+  return { xCoordinate: minX, yCoordinate: minY };
+
+}
+
+
 function setEncoded(data) {
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
   var insertIndex = data.indexOf('</defs>')+7;
   var descriptionText = infoText.innerHTML;
+
+  let { xCoordinate, yCoordinate } = minSvgCoordinates(data);
+
+
+  // remove <br> HTML-elements from the description since they create error in the SVG
   while (descriptionText.includes('<br>')) {
     descriptionText=descriptionText.replace('<br>', '\n');
   }
+
+  // find the highest y- and most left x-Coodrinate to determine the Title position
+
   var insertText ='<g class="djs-group">'+
-      '<g class="djs-element djs-shape" style = "display:block">'+
+      '<g class="djs-element djs-shape" style = "display:block" transform="translate('+(xCoordinate+150)+' '+(yCoordinate-60)+')">'+
       '<g class="djs-visual">'
       +'<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 30px; font-weight: normal; fill: rgb(0, 0, 0);"><tspan x="8" y="10">'
   +title.innerHTML+
