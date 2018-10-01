@@ -63,61 +63,72 @@ var elementRegistry = modeler.get('elementRegistry');
 DomainStoryActivityHandlers(commandStack, eventBus, canvas);
 DomainStoryLabelChangeHandlers(commandStack, eventBus, canvas);
 
+// disable BPMN SearchPad
+SearchPad.prototype.toggle=function() { };
+
 modeler.createDiagram();
 // expose bpmnjs to window for debugging purposes
 window.bpmnjs = modeler;
 
 // HTML-Elements
-var lastInputTitle = '',
-    lastInputDescription = '',
-    headline = document.getElementById('headline'),
-    title = document.getElementById('title'),
-    dialog = document.getElementById('dialog'),
-    saveButton = document.getElementById('saveButton'),
-    quitButton = document.getElementById('quitButton'),
-    titleInput = document.getElementById('titleInput'),
-    exportButton = document.getElementById('export'),
-    importExportSVGDiv = document.getElementById('importExportSVGButton'),
-    replayStepLabel = document.getElementById('replayStep'),
-    modal = document.getElementById('modal'),
+
+var modal = document.getElementById('modal'),
     arrow = document.getElementById('arrow'),
-    info = document.getElementById('info'),
-    infoText = document.getElementById('infoText'),
-    inputNumber = document.getElementById('inputNumber'),
-    inputLabel = document.getElementById('inputLabel'),
-    numberDialog = document.getElementById('numberDialog'),
-    labelDialog = document.getElementById('labelDialog'),
-    startReplayButton = document.getElementById('buttonStartReplay'),
-    nextStepButton = document.getElementById('buttonNextStep'),
-    previousStepbutton = document.getElementById('buttonPreviousStep'),
-    stopReplayButton = document.getElementById('buttonStopReplay'),
-    dictionaryButton = document.getElementById('dictionaryButton'),
-    dictionaryDialog = document.getElementById('dictionary'),
-    activityDictionaryHTML = document.getElementById('activityDictionaryContainer'),
-    workobjectDictionaryHTML = document.getElementById('workobjectDictionaryContainer'),
-    closeDictionaryButtonSave = document.getElementById('closeDictionaryButtonSave'),
-    closeDictionaryButtonCancel = document.getElementById('closeDictionaryButtonCancel'),
-    numberSaveButton = document.getElementById('numberSaveButton'),
-    numberQuitButton = document.getElementById('numberQuitButton'),
-    labelInputLabel = document.getElementById('labelInputLabel'),
-    labelSaveButton = document.getElementById('labelSaveButton'),
-    labelQuitButton = document.getElementById('labelQuitButton'),
-    svgSaveButton = document.getElementById('buttonSVG'),
+    // Logos
     wpsLogo = document.getElementById('imgWPS'),
     dstLogo = document.getElementById('imgDST'),
-    wpsLogoInfo = document.getElementById('wpsLogoInfo'),
-    dstLogoInfo = document.getElementById('dstLogoInfo'),
-    wpsButton = document.getElementById('closeWPSLogoInfo'),
-    dstButton = document.getElementById('closeDSTLogoInfo'),
+    // Text-elements
     wpsInfotext = document.getElementById('wpsLogoInnerText'),
-    wpsInfotext2 = document.getElementById('wpsLogoInnerText2'),
+    wpsInfotextPart2 = document.getElementById('wpsLogoInnerText2'),
     dstInfotext = document.getElementById('dstLogoInnerText'),
-    incompleteStoryInfo = document.getElementById('incompleteStoryInfo'),
-    closeIncompleteStoryInfoButton = document.getElementById('closeIncompleteStoryInfo'),
-    versionDialog = document.getElementById('versionDialog'),
-    closeVersionDialogButton = document.getElementById('closeVersionDialog'),
+    // Labels
+    headline = document.getElementById('headline'),
+    title = document.getElementById('title'),
+    info = document.getElementById('info'),
+    infoText = document.getElementById('infoText'),
     importedVersionLabel = document.getElementById('importedVersion'),
-    modelerVersionLabel = document.getElementById('modelerVersion');
+    modelerVersionLabel = document.getElementById('modelerVersion'),
+    currentReplayStepLabel = document.getElementById('replayStep'),
+    // Inputs
+    titleInput = document.getElementById('titleInput'),
+    titleInputLast = '',
+    descriptionInputLast = '',
+    activityInputNumber = document.getElementById('inputNumber'),
+    activityInputLabelWithNumber = document.getElementById('inputLabel'),
+    activityInputLabelWithoutNumber = document.getElementById('labelInputLabel'),
+    // Dialogs
+    dialog = document.getElementById('dialog'),
+    activityWithNumberDialog = document.getElementById('numberDialog'),
+    activityWithoutNumberDialog = document.getElementById('labelDialog'),
+    versionDialog = document.getElementById('versionDialog'),
+    incompleteStoryDialog = document.getElementById('incompleteStoryInfo'),
+    wpsLogoDialog = document.getElementById('wpsLogoInfo'),
+    dstLogoDialog = document.getElementById('dstLogoInfo'),
+    dictionaryDialog = document.getElementById('dictionary'),
+    // Container
+    activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
+    workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
+    importExportSVGButtonsContainer = document.getElementById('importExportSVGButton'),
+    // Buttons
+    saveButtonDialog = document.getElementById('saveButton'),
+    quitButtonDialog = document.getElementById('quitButton'),
+    exportButton = document.getElementById('export'),
+    startReplayButton = document.getElementById('buttonStartReplay'),
+    nextStepButton = document.getElementById('buttonNextStep'),
+    previousStepButton = document.getElementById('buttonPreviousStep'),
+    stopReplayButton = document.getElementById('buttonStopReplay'),
+    dictionaryButtonOpen = document.getElementById('dictionaryButton'),
+    dictionaryButtonSave = document.getElementById('closeDictionaryButtonSave'),
+    dictionaryButtonCancel = document.getElementById('closeDictionaryButtonCancel'),
+    activityNumberDialogButtonSave = document.getElementById('numberSaveButton'),
+    activityNumberDialogButtonCancel = document.getElementById('numberQuitButton'),
+    activityLabelButtonSave = document.getElementById('labelSaveButton'),
+    activityLabelButtonCancel = document.getElementById('labelQuitButton'),
+    svgSaveButton = document.getElementById('buttonSVG'),
+    wpsLogoButton = document.getElementById('closeWPSLogoInfo'),
+    dstLogoButton = document.getElementById('closeDSTLogoInfo'),
+    incompleteStoryDialogButtonCancel = document.getElementById('closeIncompleteStoryInfo'),
+    versionDialogButtonCanvel = document.getElementById('closeVersionDialog');
 
 // interal variables
 var keysPressed = [];
@@ -132,44 +143,45 @@ eventBus.on('element.dblclick', function(e) {
   if (!replayOn) {
     var element = e.element;
     if (element.type == 'domainStory:activity') {
-      var source=element.source;
+      var source = element.source;
 
       var dict = getActivityDictionary();
-      autocomplete(inputLabel, dict, element);
-      autocomplete(labelInputLabel, dict, element);
+      autocomplete(activityInputLabelWithNumber, dict, element);
+      autocomplete(activityInputLabelWithoutNumber, dict, element);
 
+      // ensure the right number when changing the direction of an activity
       setStash(false);
 
       if (source.type.includes('domainStory:actor')) {
-        showNumberDialog(element);
+        showActivityWithNumberDialog(element);
         document.getElementById('inputLabel').focus();
       }
       else if (source.type.includes('domainStory:workObject')) {
-        showLabelDialog(element);
+        showActivityWithoutLabelDialog(element);
         document.getElementById('labelInputLabel').focus();
       }
 
       // onclick and key functions, that need the element to which the event belongs
-      labelSaveButton.onclick = function() {
-        saveLabelDialog(element);
+      activityLabelButtonSave.onclick = function() {
+        saveActivityInputLabelWithoutNumber(element);
       };
 
-      numberSaveButton.onclick = function() {
-        saveNumberDialog(element);
+      activityNumberDialogButtonSave.onclick = function() {
+        saveActivityInputLabelWithNumber(element);
       };
 
-      labelInputLabel.onkeydown = function(e) {
-        checkInput(labelInputLabel);
+      activityInputLabelWithoutNumber.onkeydown = function(e) {
+        checkInput(activityInputLabelWithoutNumber);
         checkPressedKeys(e.keyCode, 'labelDialog', element);
       };
 
-      inputNumber.onkeydown = function(e) {
-        checkInput(inputNumber);
+      activityInputNumber.onkeydown = function(e) {
+        checkInput(activityInputNumber);
         checkPressedKeys(e.keyCode, 'numberDialog', element);
       };
 
-      inputLabel.onkeydown = function(e) {
-        checkInput(inputLabel);
+      activityInputLabelWithNumber.onkeydown = function(e) {
+        checkInput(activityInputLabelWithNumber);
         checkPressedKeys(e.keyCode, 'numberDialog', element);
       };
     }
@@ -195,7 +207,7 @@ eventBus.on([
 // ----
 
 wpsInfotext.innerText = 'Domain Story Modeler v' + version + '\nA tool to visualize Domain Stories in the browser.\nProvided by';
-wpsInfotext2.innerText = ' and licensed under GPLv3.';
+wpsInfotextPart2.innerText = ' and licensed under GPLv3.';
 dstInfotext.innerText = 'Learn more about Domain Storytelling at';
 
 // HTML-Element event listeners
@@ -204,44 +216,40 @@ headline.addEventListener('click', function() {
   showDialog();
 });
 
-dictionaryButton.addEventListener('click', function() {
-  openDictionary(canvas);
-});
-
 wpsLogo.addEventListener('click', function() {
   modal.style.display = 'block';
-  wpsLogoInfo.style.display = 'block';
+  wpsLogoDialog.style.display = 'block';
 });
 
 dstLogo.addEventListener('click', function() {
   modal.style.display = 'block';
-  dstLogoInfo.style.display = 'block';
+  dstLogoDialog.style.display = 'block';
 });
 
-wpsButton.addEventListener('click', function() {
-  wpsLogoInfo.style.display = 'none';
+wpsLogoButton.addEventListener('click', function() {
+  wpsLogoDialog.style.display = 'none';
   modal.style.display = 'none';
 });
 
-dstButton.addEventListener('click', function() {
-  dstLogoInfo.style.display = 'none';
+dstLogoButton.addEventListener('click', function() {
+  dstLogoDialog.style.display = 'none';
   modal.style.display = 'none';
 });
 
-saveButton.addEventListener('click', function() {
+saveButtonDialog.addEventListener('click', function() {
   saveDialog();
 });
 
-quitButton.addEventListener('click', function() {
+quitButtonDialog.addEventListener('click', function() {
   closeDialog();
 });
 
-numberQuitButton.addEventListener('click', function() {
-  closeNumberDialog();
+activityNumberDialogButtonCancel.addEventListener('click', function() {
+  closeActivityInputLabelWithNumber();
 });
 
-labelQuitButton.addEventListener('click', function() {
-  closeLabelDialog();
+activityLabelButtonCancel.addEventListener('click', function() {
+  closeActivityInputLabelWithoutNumber();
 });
 
 titleInput.addEventListener('keydown', function(e) {
@@ -264,54 +272,36 @@ info.addEventListener('keyup', function(e) {
   keyReleased(keysPressed, e.keyCode);
 });
 
-labelInputLabel.addEventListener('keyup', function() {
-  checkInput(labelInputLabel);
+activityInputLabelWithoutNumber.addEventListener('keyup', function() {
+  checkInput(activityInputLabelWithoutNumber);
 });
 
-inputLabel.addEventListener('keyup', function(e) {
+activityInputLabelWithNumber.addEventListener('keyup', function(e) {
   keyReleased(keysPressed, e.keyCode);
-  checkInput(inputLabel);
+  checkInput(activityInputLabelWithNumber);
 });
 
-closeDictionaryButtonSave.addEventListener('click', function(e) {
-  var oldActivityLabelStash = getActivityDictionary();
-  var oldWorkobjectDictionary = getWorkobjectDictionary();
+dictionaryButtonOpen.addEventListener('click', function() {
+  openDictionary(canvas);
+});
 
-  var activityNewNames = [];
-  var workObjectNewNames = [];
-
-  activityDictionaryHTML.childNodes.forEach(child=>{
-    if (child.value) {
-      activityNewNames[child.id] = child.value;
-    }
-  });
-
-  workobjectDictionaryHTML.childNodes.forEach(child=>{
-    if (child.value) {
-      workObjectNewNames[child.id] = child.value;
-    }
-  });
-
-  if (activityNewNames.length == oldActivityLabelStash.length && workObjectNewNames.length==oldWorkobjectDictionary.length) {
-    workDifferences(activityNewNames, oldActivityLabelStash, workObjectNewNames, oldWorkobjectDictionary);
-  }
+dictionaryButtonSave.addEventListener('click', function(e) {
+  dictionrayClosed();
 
   dictionaryDialog.style.display='none';
   modal.style.display='none';
 });
 
-closeDictionaryButtonCancel.addEventListener('click', function(e) {
+dictionaryButtonCancel.addEventListener('click', function(e) {
   dictionaryDialog.style.display='none';
   modal.style.display='none';
 });
 
 startReplayButton.addEventListener('click', function() {
-
   var canvasObjects = canvas._rootElement.children;
   var activities = getActivitesFromActors(canvasObjects);
 
   if (!replayOn && activities.length > 0) {
-
     replaySteps = traceActivities(activities, elementRegistry);
 
     if (isStoryConsecutivelyNumbered(replaySteps)) {
@@ -321,7 +311,7 @@ startReplayButton.addEventListener('click', function() {
       showCurrentStep();
     }
     else {
-      incompleteStoryInfo.style.display = 'block';
+      incompleteStoryDialog.style.display = 'block';
       modal.style.display = 'block';
     }
   }
@@ -336,7 +326,7 @@ nextStepButton.addEventListener('click', function() {
   }
 });
 
-previousStepbutton.addEventListener('click', function() {
+previousStepButton.addEventListener('click', function() {
   if (replayOn) {
     if (currentStep > 0) {
       currentStep -= 1;
@@ -354,7 +344,6 @@ stopReplayButton.addEventListener('click', function() {
     var groupObjects = [];
     var canvasObjects = canvas._rootElement.children;
     var i = 0;
-
 
     for (i = 0; i < canvasObjects.length; i++) {
       if (canvasObjects[i].type.includes('domainStory:group')) {
@@ -389,7 +378,6 @@ stopReplayButton.addEventListener('click', function() {
 });
 
 exportButton.addEventListener('click', function() {
-
   var object = modeler.getCustomElements();
   var text = info.innerText;
   var newObject = object.slice(0);
@@ -408,12 +396,12 @@ svgSaveButton.addEventListener('click', function() {
   downloadSVG(filename);
 });
 
-closeIncompleteStoryInfoButton.addEventListener('click', function() {
+incompleteStoryDialogButtonCancel.addEventListener('click', function() {
   modal.style.display = 'none';
-  incompleteStoryInfo.style.display = 'none';
+  incompleteStoryDialog.style.display = 'none';
 });
 
-closeVersionDialogButton.addEventListener('click', function() {
+versionDialogButtonCanvel.addEventListener('click', function() {
   modal.style.display = 'none';
   versionDialog.style.display = 'none';
 });
@@ -429,7 +417,7 @@ document.getElementById('import').onchange = function() {
     titleText = sanitize(titleText);
     titleInput.value = titleText;
     title.innerText = titleText;
-    lastInputTitle = titleInput.value;
+    titleInputLast = titleInput.value;
 
     reader.onloadend = function(e) {
       var text = e.target.result;
@@ -457,7 +445,7 @@ document.getElementById('import').onchange = function() {
       var inputInfoText = sanitize(lastElement.info ? lastElement.info : '');
       info.innerText = inputInfoText;
       info.value = inputInfoText;
-      lastInputDescription = info.value;
+      descriptionInputLast = info.value;
       infoText.innerText = inputInfoText;
 
       modeler.importCustomElements(elements);
@@ -478,6 +466,30 @@ document.getElementById('import').onchange = function() {
     eventBus.fire('commandStack.changed', exportArtifacts);
   }
 };
+
+
+function dictionrayClosed() {
+  var oldActivityLabelStash = getActivityDictionary();
+  var oldWorkobjectDictionary = getWorkobjectDictionary();
+  var activityNewNames = [];
+  var workObjectNewNames = [];
+
+  activityDictionaryContainer.childNodes.forEach(child=>{
+    if (child.value) {
+      activityNewNames[child.id] = child.value;
+    }
+  });
+
+  workobjectDictionaryContainer.childNodes.forEach(child=>{
+    if (child.value) {
+      workObjectNewNames[child.id] = child.value;
+    }
+  });
+
+  if (activityNewNames.length == oldActivityLabelStash.length && workObjectNewNames.length==oldWorkobjectDictionary.length) {
+    dictionaryDifferences(activityNewNames, oldActivityLabelStash, workObjectNewNames, oldWorkobjectDictionary);
+  }
+}
 
 function download(filename, text) {
   var element = document.createElement('a');
@@ -516,8 +528,8 @@ function checkPressedKeys(keyCode, dialog, element) {
 
   if (keysPressed[KEY_ESC]) {
     closeDialog();
-    closeLabelDialog();
-    closeNumberDialog();
+    closeActivityInputLabelWithoutNumber();
+    closeActivityInputLabelWithNumber();
   }
   else if ((keysPressed[KEY_CTRL] && keysPressed[KEY_ENTER]) || (keysPressed[KEY_ALT] && keysPressed[KEY_ENTER])) {
     if (dialog == 'infoDialog') {
@@ -529,12 +541,51 @@ function checkPressedKeys(keyCode, dialog, element) {
       saveDialog();
     }
     else if (dialog == 'labelDialog') {
-      saveLabelDialog(element);
+      saveActivityInputLabelWithoutNumber(element);
     }
     else if (dialog == 'numberDialog') {
-      saveNumberDialog(element);
+      saveActivityInputLabelWithNumber(element);
     }
   }
+}
+
+function dictionaryDifferences(activityNames, oldActivityLabelStash, workObjectNames, oldWorkobjectDictionary) {
+  var i=0;
+  for (i=0;i<oldActivityLabelStash.length;i++) {
+    if (!activityNames[i]) {
+      activityNames[i]='';
+    }
+    if (!((activityNames[i].includes(oldActivityLabelStash[i])) && (oldActivityLabelStash[i].includes(activityNames[i])))) {
+      massChangeNames(oldActivityLabelStash[i], activityNames[i], 'domainStory:activity');
+    }
+  }
+  for (i=0;i<oldWorkobjectDictionary.length;i++) {
+    if (!workObjectNames[i]) {
+      workObjectNames[i]='';
+    }
+    if (!((workObjectNames[i].includes(oldWorkobjectDictionary[i])) && (oldWorkobjectDictionary[i].includes(workObjectNames[i])))) {
+      massChangeNames(oldWorkobjectDictionary[i], workObjectNames[i], 'domainStory:workObject');
+    }
+  }
+  // delete old entires from stashes
+}
+
+function massChangeNames(oldValue, newValue, type) {
+  var allObjects = getAllObjectsFromCanvas(canvas);
+  var allRelevantObjects=[];
+
+  allObjects.forEach(element =>{
+    if (element.type.includes(type) && element.businessObject.name == oldValue) {
+      allRelevantObjects.push(element);
+    }
+  });
+
+  var context = {
+    elements: allRelevantObjects,
+    newValue: newValue
+  };
+
+  commandStack.execute('domainStoryObjects.massRename', context);
 }
 
 // dialog functions
@@ -552,8 +603,8 @@ function closeDialog() {
 }
 
 function showDialog() {
-  info.value = lastInputDescription;
-  titleInput.value = lastInputTitle;
+  info.value = descriptionInputLast;
+  titleInput.value = titleInputLast;
   dialog.style.display = 'block';
   modal.style.display = 'block';
   arrow.style.display = 'block';
@@ -573,8 +624,8 @@ function saveDialog() {
   info.innerText = inputText;
   infoText.innerText = inputText;
 
-  lastInputTitle = inputTitle;
-  lastInputDescription = inputText;
+  titleInputLast = inputTitle;
+  descriptionInputLast = inputText;
 
   // to update the title of the svg, we need to tell the command stack, that a value has changed
   var exportArtifacts = debounce(function() {
@@ -590,60 +641,58 @@ function saveDialog() {
   closeDialog();
 }
 
-function showNumberDialog(event) {
+function showActivityWithNumberDialog(event) {
   modal.style.display = 'block';
-  numberDialog.style.display = 'block';
-  inputLabel.value = '';
-  inputNumber.value = '';
+  activityWithNumberDialog.style.display = 'block';
+  activityInputLabelWithNumber.value = '';
+  activityInputNumber.value = '';
 
   if (event.businessObject.name != null) {
-    inputLabel.value = event.businessObject.name;
+    activityInputLabelWithNumber.value = event.businessObject.name;
   }
   if (event.businessObject.number != null) {
-    inputNumber.value = event.businessObject.number;
+    activityInputNumber.value = event.businessObject.number;
   }
 }
 
-function showLabelDialog(event) {
+function showActivityWithoutLabelDialog(event) {
   modal.style.display = 'block';
-  labelDialog.style.display = 'block';
-  labelInputLabel.value = '';
+  activityWithoutNumberDialog.style.display = 'block';
+  activityInputLabelWithoutNumber.value = '';
 
   if (event.businessObject.name != null) {
-    labelInputLabel.value = event.businessObject.name;
+    activityInputLabelWithoutNumber.value = event.businessObject.name;
   }
 }
 
-
-function closeNumberDialog() {
-  inputLabel.value = '';
-  inputNumber.value = '';
+function closeActivityInputLabelWithNumber() {
+  activityInputLabelWithNumber.value = '';
+  activityInputNumber.value = '';
   keysPressed = [];
-  numberDialog.style.display = 'none';
+  activityWithNumberDialog.style.display = 'none';
   modal.style.display = 'none';
 }
 
-
-function saveNumberDialog(element) {
+function saveActivityInputLabelWithNumber(element) {
   var labelInput = '';
   var numberInput = '';
   var activityLabelStash = getActivityDictionary();
-  if (inputLabel != '') {
-    labelInput = inputLabel.value;
+  if (activityInputLabelWithNumber != '') {
+    labelInput = activityInputLabelWithNumber.value;
     if (!activityLabelStash.includes(labelInput)) {
       activityLabelStash.push(labelInput);
     }
   }
-  if (inputNumber != '') {
-    numberInput = inputNumber.value;
+  if (activityInputNumber != '') {
+    numberInput = activityInputNumber.value;
   }
   setActivityLabelStash(activityLabelStash);
 
-  numberDialog.style.display = 'none';
+  activityWithNumberDialog.style.display = 'none';
   modal.style.display = 'none';
 
-  inputLabel.value = '';
-  inputNumber.value = '';
+  activityInputLabelWithNumber.value = '';
+  activityInputNumber.value = '';
   keysPressed = [];
 
   var canvasObjects = canvas._rootElement.children;
@@ -664,18 +713,18 @@ function saveNumberDialog(element) {
   cleanActicityLabelStash(canvas);
 }
 
-function closeLabelDialog() {
-  labelInputLabel.value = '';
+function closeActivityInputLabelWithoutNumber() {
+  activityInputLabelWithoutNumber.value = '';
   keysPressed = [];
-  labelDialog.style.display = 'none';
+  activityWithoutNumberDialog.style.display = 'none';
   modal.style.display = 'none';
 }
 
-function saveLabelDialog(element) {
+function saveActivityInputLabelWithoutNumber(element) {
   var labelInput = '';
   var activityLabelStash=getActivityDictionary();
-  if (labelInputLabel != '') {
-    labelInput = labelInputLabel.value;
+  if (activityInputLabelWithoutNumber != '') {
+    labelInput = activityInputLabelWithoutNumber.value;
     if (!activityLabelStash.includes(labelInput)) {
       activityLabelStash.push(labelInput);
     }
@@ -683,10 +732,10 @@ function saveLabelDialog(element) {
 
   setActivityLabelStash(activityLabelStash);
 
-  labelDialog.style.display = 'none';
+  activityWithoutNumberDialog.style.display = 'none';
   modal.style.display = 'none';
 
-  labelInputLabel.value = '';
+  activityInputLabelWithoutNumber.value = '';
   keysPressed = [];
 
   commandStack.execute('activity.changed', {
@@ -697,45 +746,6 @@ function saveLabelDialog(element) {
   cleanActicityLabelStash(canvas);
 }
 
-function workDifferences(activityNames, oldActivityLabelStash, workObjectNames, oldWorkobjectDictionary) {
-  var i=0;
-  for (i=0;i<oldActivityLabelStash.length;i++) {
-    if (!activityNames[i]) {
-      activityNames[i]='';
-    }
-    if (!((activityNames[i].includes(oldActivityLabelStash[i])) && (oldActivityLabelStash[i].includes(activityNames[i])))) {
-      changeAllEntries(oldActivityLabelStash[i], activityNames[i], 'domainStory:activity');
-    }
-  }
-  for (i=0;i<oldWorkobjectDictionary.length;i++) {
-    if (!workObjectNames[i]) {
-      workObjectNames[i]='';
-    }
-    if (!((workObjectNames[i].includes(oldWorkobjectDictionary[i])) && (oldWorkobjectDictionary[i].includes(workObjectNames[i])))) {
-      changeAllEntries(oldWorkobjectDictionary[i], workObjectNames[i], 'domainStory:workObject');
-    }
-  }
-  // delete old entires from stashes
-}
-
-function changeAllEntries(oldValue, newValue, type) {
-  var allObjects = getAllObjectsFromCanvas(canvas);
-  var allRelevantObjects=[];
-
-  allObjects.forEach(element =>{
-    if (element.type.includes(type) && element.businessObject.name == oldValue) {
-      allRelevantObjects.push(element);
-    }
-  });
-
-  var context = {
-    elements: allRelevantObjects,
-    newValue: newValue
-  };
-
-  commandStack.execute('domainStoryObjects.massRename', context);
-}
-
 // replay functions
 
 function disableCanvasInteraction() {
@@ -744,8 +754,8 @@ function disableCanvasInteraction() {
 
   headline.style.pointerEvents = 'none';
 
-  importExportSVGDiv.style.opacity = 0.2;
-  importExportSVGDiv.style.pointerEvents = 'none';
+  importExportSVGButtonsContainer.style.opacity = 0.2;
+  importExportSVGButtonsContainer.style.pointerEvents = 'none';
 
   startReplayButton.style.opacity = 0.2;
   startReplayButton.style.pointerEvents = 'none';
@@ -756,8 +766,8 @@ function disableCanvasInteraction() {
   nextStepButton.style.opacity = 1;
   nextStepButton.style.pointerEvents = 'all';
 
-  previousStepbutton.style.opacity = 1;
-  previousStepbutton.style.pointerEvents = 'all';
+  previousStepButton.style.opacity = 1;
+  previousStepButton.style.pointerEvents = 'all';
 
   var i = 0;
   for (i = 0; i < contextPadElements.length; i++) {
@@ -768,7 +778,7 @@ function disableCanvasInteraction() {
     paletteElements[i].style.display = 'none';
   }
 
-  replayStepLabel.style.display = 'block';
+  currentReplayStepLabel.style.display = 'block';
 }
 
 function enableCanvasInteraction() {
@@ -777,8 +787,8 @@ function enableCanvasInteraction() {
 
   headline.style.pointerEvents = 'all';
 
-  importExportSVGDiv.style.opacity = 1;
-  importExportSVGDiv.style.pointerEvents = 'all';
+  importExportSVGButtonsContainer.style.opacity = 1;
+  importExportSVGButtonsContainer.style.pointerEvents = 'all';
 
   startReplayButton.style.opacity = 1;
   startReplayButton.style.pointerEvents = 'all';
@@ -789,8 +799,8 @@ function enableCanvasInteraction() {
   nextStepButton.style.opacity = 0.2;
   nextStepButton.style.pointerEvents = 'none';
 
-  previousStepbutton.style.opacity = 0.2;
-  previousStepbutton.style.pointerEvents = 'none';
+  previousStepButton.style.opacity = 0.2;
+  previousStepButton.style.pointerEvents = 'none';
 
   var i = 0;
   for (i = 0; i < contextPadElements.length; i++) {
@@ -800,7 +810,7 @@ function enableCanvasInteraction() {
   for (i = 0; i < paletteElements.length; i++) {
     paletteElements[i].style.display = 'block';
   }
-  replayStepLabel.style.display = 'none';
+  currentReplayStepLabel.style.display = 'none';
 }
 
 function showCurrentStep() {
@@ -808,7 +818,7 @@ function showCurrentStep() {
   var allObjects = [];
   var i = 0;
 
-  replayStepLabel.innerText = (currentStep + 1) + ' / ' + replaySteps.length;
+  currentReplayStepLabel.innerText = (currentStep + 1) + ' / ' + replaySteps.length;
 
   for (i = 0; i <= currentStep; i++) {
     stepsUntilNow.push(replaySteps[i]);
@@ -831,9 +841,6 @@ function showCurrentStep() {
     domObject.style.display = 'block';
   });
 }
-
-// disable BPMN SearchPad
-SearchPad.prototype.toggle=function() { };
 
 // SVG download
 
