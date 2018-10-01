@@ -487,6 +487,7 @@ function dictionaryKeyBehaviour(event) {
     modal.style.display='none';
   }
   else if (event.key == KEY_ESC) {
+    console.log('');
     dictionaryDialog.style.display='none';
     modal.style.display='none';
   }
@@ -875,14 +876,18 @@ function saveSVG(done) {
 function setEncoded(data) {
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
   var insertIndex = data.indexOf('</defs>')+7;
+  var descriptionText = infoText.innerHTML;
+  while (descriptionText.includes('<br>')) {
+    descriptionText=descriptionText.replace('<br>', '\n');
+  }
   var insertText ='<g class="djs-group">'+
-      '<g class="djs-element djs-shape" transform="translate(100 10)" style = "display:block">'+
+      '<g class="djs-element djs-shape" style = "display:block">'+
       '<g class="djs-visual">'
       +'<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 30px; font-weight: normal; fill: rgb(0, 0, 0);"><tspan x="8" y="10">'
   +title.innerHTML+
   '</tspan></text>'
   +'<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 12px; font-weight: normal; fill: rgb(0, 0, 0);"><tspan x="8" y="30">'
-  +infoText.innerHTML+
+  +descriptionText+
   '</tspan></text></g></g></g>';
   data = [data.slice(0,insertIndex), insertText, data.slice(insertIndex)].join('');
   svgData = encodeURIComponent(data);
