@@ -871,28 +871,18 @@ function saveSVG(done) {
 }
 
 function setEncoded(data) {
-  var indices = [];
-
-  // in the svg-image, activities are represented as rectangles
-  // to represent them as lines, we add a Fill: none characteristic
-  // since only activities and annotation-conntections use markers
-  // at their end, we check for their mentions to determine the
-  // wanted text-position
-
-  if (data.indexOf('marker-end: url(\'')) {
-    indices[0] = data.indexOf('marker-end: url(\'');
-  }
-
-  var nextIndex = data.indexOf(indices[0], 'marker-end: url(\'');
-  while (nextIndex > 0) {
-    indices[indices.length] = nextIndex;
-    nextIndex = data.indexOf(indices[data.length - 1], 'marker-end: url(\'');
-  }
-
-  for (var i = indices.length - 1; i >= 0; i--) {
-    data = [data.slice(0, indices[i]), 'fill: none; ', data.slice(indices[i])].join('');
-  }
-
+  var insertIndex = data.indexOf('</defs>')+7;
+  var insertText ='<g class="djs-group">'+
+      '<g class="djs-element djs-shape" transform="translate(100 10)" style = "display:block">'+
+      '<g class="djs-visual">'
+      +'<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 30px; font-weight: normal; fill: rgb(0, 0, 0);"><tspan x="8" y="10">'
+  +title.innerHTML+
+  '</tspan></text>'
+  +'<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 12px; font-weight: normal; fill: rgb(0, 0, 0);"><tspan x="8" y="30">'
+  +infoText.innerHTML+
+  '</tspan></text></g></g></g>';
+  data = [data.slice(0,insertIndex), insertText, data.slice(insertIndex)].join('');
+  console.log(data);
   svgData = encodeURIComponent(data);
 }
 
