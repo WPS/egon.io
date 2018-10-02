@@ -4,6 +4,7 @@ import { is } from 'bpmn-js/lib/util/ModelUtil';
 import { assign } from 'min-dash';
 
 var activityDictionary = [];
+var labelDictionary =[];
 
 // creates a SVG path that describes a rectangle which encloses the given shape.
 export function getRectPath(shape) {
@@ -170,11 +171,44 @@ export function getActivityDictionary() {
   return activityDictionary.slice();
 }
 
+export function getLabelDictionary() {
+  return labelDictionary.slice();
+}
+
+export function setLabelDictionary(stash) {
+  labelDictionary = stash;
+  labelDictionary.sort(function(a, b) {
+    return a.toLowerCase().localeCompare(b.toLowerCase());
+  });
+}
+
 export function setActivityDictionary(stash) {
   activityDictionary = stash;
   activityDictionary.sort(function(a, b) {
     return a.toLowerCase().localeCompare(b.toLowerCase());
   });
+}
+
+export function cleanDictionaries(canvas) {
+  cleanActicityDictionary(canvas);
+  cleanObjectLabelDictionary(canvas);
+
+  var dictionaryButton = document.getElementById('dictionaryButton');
+  if (activityDictionary.length > 0 || labelDictionary.length >0) {
+    dictionaryButton.style.opacity = 1;
+    dictionaryButton.style.pointerEvents = 'all';
+    dictionaryButton.onmouseover = function() {
+      dictionaryButton.style.border = '1px solid #CCC';
+    };
+    dictionaryButton.onmouseout = function() {
+      dictionaryButton.style.border = '';
+    };
+  } else {
+    dictionaryButton.style.opacity = 0.2;
+    dictionaryButton.style.pointerEvents = 'none';
+    dictionaryButton.onmouseover = function() { };
+    dictionaryButton.onmouseout = function() { };
+  }
 }
 
 // rework the activity-dictionary with the changed labels on the canvas
@@ -188,6 +222,25 @@ export function cleanActicityDictionary(canvas) {
     }
   });
   activityDictionary.sort(function(a, b) {
+    return a.toLowerCase().localeCompare(b.toLowerCase());
+  });
+}
+
+
+
+// rework the label-dictionary with the changed labels on the canvas
+export function cleanObjectLabelDictionary(canvas) {
+  labelDictionary = [];
+
+  var allObjects = getAllObjectsFromCanvas(canvas);
+
+  allObjects.forEach(element =>{
+    var name = element.businessObject.name;
+    if (name.length > 0 && element.type.includes('domainStory:workObject') && !labelDictionary.includes(name)) {
+      labelDictionary.push(name);
+    }
+  });
+  labelDictionary.sort(function(a, b) {
     return a.toLowerCase().localeCompare(b.toLowerCase());
   });
 }

@@ -86,7 +86,12 @@ cursor: default;
   border: 1px solid white;
 }
 
-#buttonImport:hover, #export:hover, #buttonSVG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #dictionaryButton:hover{
+#dictionaryButton{
+  opacity : 0.2;
+  pointer-events : 'none';
+}
+
+#buttonImport:hover, #export:hover, #buttonSVG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover{
   border: 1px solid #CCC;
   cursor: pointer;
 }
@@ -168,7 +173,7 @@ cursor: default;
   margin-left: -155px;
 }
 
-#wpsLogoInfo, #incompleteStoryInfo, #versionDialog, #badEditDialog{
+#wpsLogoInfo, #incompleteStoryInfo, #versionDialog{
   font-size: 11pt;  
   border: solid 1px #aaaaab;
   padding-top: 3px;
@@ -218,7 +223,7 @@ cursor: default;
   padding: 4px;
 }
 
-#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #closeBadEditDialogButton{
+#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog{
   position: absolute;
   font-size: 9pt;
   right: 1px;
