@@ -875,22 +875,27 @@ function viewBoxCoordinates(svg) {
 }
 
 function setEncoded(data) {
-  // to display the title and description in the SVG-file, we need to add a container for our text-elements
-  var insertIndex = data.indexOf('</defs>')+7;
+  // to ensure that the title and description are inside the SVG container and do not overlapp with any elements,
+  // we change the confines of the SVG viewbox
   var descriptionText = infoText.innerHTML;
-  var viewBoxIndex = data.indexOf ('height="') ;
+  var titleText = title.innerHTML;
+  var viewBoxIndex = data.indexOf ('height="');
 
   let { height, viewBox } = viewBoxCoordinates(data);
   height += 80;
 
   var xLeft, xRight, yUp, yDown;
   var bounds = '';
-  var splitted = viewBox.split(/\s/);
+  var splitViewBox = viewBox.split(/\s/);
 
-  xLeft = +splitted[0];
-  yUp = +splitted[1];
-  xRight = +splitted[2];
-  yDown = +splitted[3];
+  xLeft = +splitViewBox[0];
+  yUp = +splitViewBox[1];
+  xRight = +splitViewBox[2];
+  yDown = +splitViewBox[3];
+
+  if (xRight < 200) {
+    xRight+= 200;
+  }
 
   bounds = 'height=" '+ height+'" viewBox="' + xLeft + ' ' +(yUp - 80) + ' ' + xRight + ' ' + (yDown + 80);
   var dataStart = data.substring(0, viewBoxIndex);
@@ -904,17 +909,25 @@ function setEncoded(data) {
   while (descriptionText.includes('<br>')) {
     descriptionText=descriptionText.replace('<br>', '\n');
   }
+  titleText = titleText.replace('&lt;','').replace('&gt;','');
 
-  // find the highest y- and most left x-Coodrinate to determine the Title position
+  var insertIndex = data.indexOf('</defs>');
+  if (insertIndex < 0) {
+    insertIndex=data.indexOf('version="1.1">') + 14;
+  }
+  else {
+    insertIndex+=7;
+  }
 
+  // to display the title and description in the SVG-file, we need to add a container for our text-elements
   var insertText ='<g class="djs-group">'+
-      '<g class="djs-element djs-shape" style = "display:block" transform="translate('+(xLeft+50)+' '+(yUp-50)+')">'+
+      '<g class="djs-element djs-shape" style = "display:block" transform="translate('+(xLeft+10)+' '+(yUp-50)+')">'+
       '<g class="djs-visual">'
       +'<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 30px; font-weight: normal; fill: rgb(0, 0, 0);"><tspan x="8" y="10">'
-  +title.innerHTML+
+  +sanitize(titleText)+
   '</tspan></text>'
   +'<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 12px; font-weight: normal; fill: rgb(0, 0, 0);"><tspan x="8" y="30">'
-  +descriptionText+
+  +sanitize(descriptionText)+
   '</tspan></text></g></g></g>';
   data = [data.slice(0,insertIndex), insertText, data.slice(insertIndex)].join('');
   svgData = encodeURIComponent(data);
