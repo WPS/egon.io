@@ -194,9 +194,11 @@ export function cleanDictionaries(canvas) {
   cleanObjectLabelDictionary(canvas);
 
   var dictionaryButton = document.getElementById('dictionaryButton');
+
   if (activityDictionary.length > 0 || labelDictionary.length >0) {
     dictionaryButton.style.opacity = 1;
     dictionaryButton.style.pointerEvents = 'all';
+
     dictionaryButton.onmouseover = function() {
       dictionaryButton.style.border = '1px solid #CCC';
     };
@@ -206,6 +208,7 @@ export function cleanDictionaries(canvas) {
   } else {
     dictionaryButton.style.opacity = 0.2;
     dictionaryButton.style.pointerEvents = 'none';
+
     dictionaryButton.onmouseover = function() { };
     dictionaryButton.onmouseout = function() { };
   }
