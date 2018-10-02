@@ -5,8 +5,7 @@ import { assign } from 'min-dash';
 import {
   isDomainStoryElement,
   autocomplete,
-  cleanDictionaries,
-  getLabelDictionary
+  getWorkObjectDictionary
 } from '../util/DSUtil';
 
 import { getLabel } from './DSLabelUtil';
@@ -89,10 +88,6 @@ export default function DSLabelEditingProvider(
     createAutocomplete(element);
   });
 
-  eventBus.on('directEditing.complete', function() {
-    cleanDictionaries(canvas);
-  });
-
   eventBus.on('create.end', 500, function(event) {
 
     var element = event.shape,
@@ -126,7 +121,7 @@ export default function DSLabelEditingProvider(
 
   function createAutocomplete(element) {
     var editingBox=document.getElementsByClassName('djs-direct-editing-content');
-    autocomplete(editingBox[0], getLabelDictionary(), element);
+    autocomplete(editingBox[0], getWorkObjectDictionary(), element);
   }
 }
 

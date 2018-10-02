@@ -2,11 +2,7 @@
 
 import sanitize from './Sanitizer';
 
-import {
-  getWorkobjectDictionary
-} from '../label-editing/DSLabelEditingProvider';
-
-import { getActivityDictionary, cleanDictionaries } from './DSUtil';
+import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary } from './DSUtil';
 
 /**
  * general functions used by app.js
@@ -28,7 +24,7 @@ export function openDictionary(canvas) {
 
     var element, i=0;
     var activityDictionary = getActivityDictionary(),
-        workobjectDictionary = getWorkobjectDictionary();
+        workobjectDictionary = getWorkObjectDictionary();
     var activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
         workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
         modal = document.getElementById('modal'),

@@ -42,7 +42,7 @@ import {
   getAllObjectsFromCanvas,
   correctGroupChildren,
   cleanDictionaries,
-  getLabelDictionary,
+  getWorkObjectDictionary,
   getActivityDictionary
 } from './domain-story-modeler/domain-story/util/DSUtil';
 
@@ -493,7 +493,7 @@ function dictionaryKeyBehaviour(event) {
 
 function dictionaryClosed() {
   var oldActivityDictionary = getActivityDictionary();
-  var oldWorkobjectDictionary = getLabelDictionary();
+  var oldWorkobjectDictionary = getWorkObjectDictionary();
   var activityNewNames = [];
   var workObjectNewNames = [];
 
@@ -709,7 +709,6 @@ function saveActivityInputLabelWithNumber(element) {
   if (activityInputNumber != '') {
     numberInput = activityInputNumber.value;
   }
-  cleanDictionaries(canvas);
 
   activityWithNumberDialog.style.display = 'none';
   modal.style.display = 'none';
@@ -733,7 +732,6 @@ function saveActivityInputLabelWithNumber(element) {
   });
 
   updateExistingNumbersAtEditing(activitiesFromActors, numberInput, eventBus);
-  cleanDictionaries(canvas);
 }
 
 function closeActivityInputLabelWithoutNumber() {
@@ -753,8 +751,6 @@ function saveActivityInputLabelWithoutNumber(element) {
     }
   }
 
-  cleanDictionaries(canvas);
-
   activityWithoutNumberDialog.style.display = 'none';
   modal.style.display = 'none';
 
@@ -766,7 +762,6 @@ function saveActivityInputLabelWithoutNumber(element) {
     newLabel: labelInput,
     element: element
   });
-  cleanDictionaries(canvas);
 }
 
 // replay functions

@@ -4,7 +4,7 @@ import { is } from 'bpmn-js/lib/util/ModelUtil';
 import { assign } from 'min-dash';
 
 var activityDictionary = [];
-var labelDictionary =[];
+var workObjectDictionary =[];
 
 // creates a SVG path that describes a rectangle which encloses the given shape.
 export function getRectPath(shape) {
@@ -171,16 +171,17 @@ export function getActivityDictionary() {
   return activityDictionary.slice();
 }
 
-export function getLabelDictionary() {
-  return labelDictionary.slice();
+export function getWorkObjectDictionary() {
+  return workObjectDictionary.slice();
 }
 
 export function cleanDictionaries(canvas) {
-  cleanDictionaries(canvas);
+  cleanActicityDictionary(canvas);
+  cleanWorkObjecDictionary(canvas);
 
   var dictionaryButton = document.getElementById('dictionaryButton');
 
-  if (activityDictionary.length > 0 || labelDictionary.length >0) {
+  if (activityDictionary.length > 0 || workObjectDictionary.length >0) {
     dictionaryButton.style.opacity = 1;
     dictionaryButton.style.pointerEvents = 'all';
 
@@ -215,18 +216,18 @@ function cleanActicityDictionary(canvas) {
 }
 
 // rework the label-dictionary with the changed labels on the canvas
-function cleanLabelDictionary(canvas) {
-  labelDictionary = [];
+function cleanWorkObjecDictionary(canvas) {
+  workObjectDictionary = [];
 
   var allObjects = getAllObjectsFromCanvas(canvas);
 
   allObjects.forEach(element =>{
     var name = element.businessObject.name;
-    if (name.length > 0 && element.type.includes('domainStory:workObject') && !labelDictionary.includes(name)) {
-      labelDictionary.push(name);
+    if (name.length > 0 && element.type.includes('domainStory:workObject') && !workObjectDictionary.includes(name)) {
+      workObjectDictionary.push(name);
     }
   });
-  labelDictionary.sort(function(a, b) {
+  workObjectDictionary.sort(function(a, b) {
     return a.toLowerCase().localeCompare(b.toLowerCase());
   });
 }
