@@ -5,7 +5,8 @@ import { assign } from 'min-dash';
 import {
   isDomainStoryElement,
   autocomplete,
-  getWorkObjectDictionary
+  getWorkObjectDictionary,
+  cleanDictionaries
 } from '../util/DSUtil';
 
 import { getLabel } from './DSLabelUtil';
@@ -86,6 +87,10 @@ export default function DSLabelEditingProvider(
     resizeHandles.removeResizers();
     var element = event.active.element;
     createAutocomplete(element);
+  });
+
+  eventBus.on('directEditing.complete', function() {
+    cleanDictionaries(canvas);
   });
 
   eventBus.on('create.end', 500, function(event) {

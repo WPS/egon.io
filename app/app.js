@@ -58,7 +58,7 @@ var eventBus = modeler.get('eventBus');
 var commandStack = modeler.get('commandStack');
 var elementRegistry = modeler.get('elementRegistry');
 
-const ViewBoxCoordinate = /height="([^"]+)"\s+viewBox="([^"]+)"/g;
+const ViewBoxCoordinate = /height="([^"]+)"\s+viewBox="([^"]+)"/;
 
 // we need to initiate the activity commandStack elements
 DSActivityHandlers(commandStack, eventBus, canvas);
@@ -732,6 +732,7 @@ function saveActivityInputLabelWithNumber(element) {
   });
 
   updateExistingNumbersAtEditing(activitiesFromActors, numberInput, eventBus);
+  cleanDictionaries(canvas);
 }
 
 function closeActivityInputLabelWithoutNumber() {
@@ -762,6 +763,8 @@ function saveActivityInputLabelWithoutNumber(element) {
     newLabel: labelInput,
     element: element
   });
+
+  cleanDictionaries(canvas);
 }
 
 // replay functions
@@ -867,17 +870,8 @@ function saveSVG(done) {
 }
 
 function viewBoxCoordinates(svg) {
-  var match;
-  var height = 0;
-  var viewBox;
-
-  if ((match = ViewBoxCoordinate.exec(svg))) {
-    const innerHeight = +match[1];
-    const innerViewBox = match[2];
-    height = innerHeight;
-    viewBox = innerViewBox;
-  }
-  return { height : height, viewBox: viewBox };
+  const match = svg.match(ViewBoxCoordinate);
+  return { height : +match[1], viewBox: match[2] };
 }
 
 function setEncoded(data) {
