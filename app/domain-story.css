@@ -166,7 +166,6 @@ cursor: default;
   background-color: white;
   width: 310px;
   margin-left: -155px;
-
 }
 
 #wpsLogoInfo, #incompleteStoryInfo, #versionDialog, #badEditDialog{
@@ -227,7 +226,6 @@ cursor: default;
 }
 
 /* Elements by ID */
-
 .lineAndbuttons{
   position:relative;
 }
