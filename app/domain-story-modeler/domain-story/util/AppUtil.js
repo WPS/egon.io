@@ -1,7 +1,7 @@
 'use strict';
 
 import sanitize from './Sanitizer';
-import { cleanDictionaries, getActivityDictionary, getWorkObjectDictionary } from '../../dictionary/dictionary';
+import { cleanDictionaries, getActivityDictionary, getWorkObjectDictionary } from '../../features/dictionary/dictionary';
 
 
 /**

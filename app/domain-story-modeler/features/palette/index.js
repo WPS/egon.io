@@ -1,6 +1,6 @@
 import DomainStoryElementFactory from '../domain-story/DomainStoryElementFactory';
 import ElementFactory from 'diagram-js/lib/core/ElementFactory';
-import DSModeling from '../domain-story/modeling/DSModeling';
+import DSModeling from '../modeling/DSModeling';
 
 'use strict';
 

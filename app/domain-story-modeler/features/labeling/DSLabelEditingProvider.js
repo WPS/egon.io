@@ -19,7 +19,7 @@ import { inherits } from 'util';
 
 import LabelEditingProvider from 'bpmn-js/lib/features/label-editing/LabelEditingProvider';
 import { cleanDictionaries, getWorkObjectDictionary } from '../dictionary/dictionary';
-import { isDomainStoryElement } from '../domain-story/util/DSUtil';
+import { isDomainStoryElement } from '../../domain-story/util/DSUtil';
 
 var numberStash = 0;
 var stashUse = false;

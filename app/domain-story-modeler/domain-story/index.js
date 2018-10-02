@@ -2,19 +2,19 @@
 
 import DomainStoryElementFactory from './DomainStoryElementFactory';
 import DomainStoryRenderer from './DomainStoryRenderer';
-import DomainStoryPalette from '../palette/DomainStoryPalette';
+import DomainStoryPalette from '../features/palette/DomainStoryPalette';
 import DomainStoryRules from './DomainStoryRules';
 import DomainStoryUpdater from './DomainStoryUpdater';
-import DomainStoryContextPadProvider from './DomainStoryContextPadProvider';
+import DomainStoryContextPadProvider from '../features/context-pad/DomainStoryContextPadProvider';
 import ElementFactory from 'bpmn-js/lib/features/modeling/ElementFactory';
 import CreateModule from 'diagram-js/lib/features/create';
 import PathMap from 'bpmn-js/lib/draw/PathMap';
 import PopupMenuModule from 'bpmn-js/lib/features/popup-menu';
-import ReplaceMenuProvider from './popup-menu/ReplaceMenuProvider';
+import ReplaceMenuProvider from '../features/change-icon/ReplaceMenuProvider';
 import ContextPadModule from 'diagram-js/lib/features/context-pad';
 import CommandStack from '../../../node_modules/diagram-js/lib/command/CommandStack';
-import DSModeling from './modeling/DSModeling';
-import DSUpdateLabelHandler from './label-editing/cmd/DSUpdateLabelHandler';
+import DSModeling from '../features/modeling/DSModeling';
+import DSUpdateLabelHandler from '../features/labeling/DSUpdateLabelHandler';
 
 
 export default {

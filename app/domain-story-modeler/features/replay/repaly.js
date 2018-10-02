@@ -1,7 +1,8 @@
-import { getActivitesFromActors } from '../domain-story/util/DSActivityUtil';
-import { getAllObjectsFromCanvas } from '../domain-story/util/DSUtil';
-
 'use strict';
+
+import { getActivitesFromActors } from '../../domain-story/util/DSActivityUtil';
+
+import { getAllObjectsFromCanvas } from '../../domain-story/util/DSUtil';
 
 var canvas;
 var elementRegistry;

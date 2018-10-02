@@ -5,7 +5,7 @@ import {
   getLabel,
   setNumber,
   getNumber
-} from '../DSLabelUtil';
+} from './DSLabelUtil';
 
 import {
   getExternalLabelMid,

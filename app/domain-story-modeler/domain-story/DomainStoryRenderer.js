@@ -6,9 +6,8 @@ import BaseRenderer from 'diagram-js/lib/draw/BaseRenderer';
 
 import Ids from 'ids';
 
-import { getAnnotationBoxHeight } from './label-editing/DSLabelEditingPreview';
+import { getAnnotationBoxHeight } from '../features/labeling/DSLabelEditingPreview';
 
-import { getNumberStash } from './label-editing/DSLabelEditingProvider';
 
 import {
   labelPosition,
@@ -41,7 +40,8 @@ import {
   isObject,
   assign
 } from 'min-dash';
-import { numberBoxDefinitions, generateAutomaticNumber } from '../numbering/numbering';
+import { getNumberStash } from '../features/labeling/DSLabelEditingProvider';
+import { numberBoxDefinitions, generateAutomaticNumber } from '../features/numbering/numbering';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];

@@ -12,8 +12,8 @@ import {
 import inherits from 'inherits';
 
 import DomainStoryModule from './domain-story';
-import LabelEditingModule from './domain-story/label-editing';
-import ModelingModule from './domain-story/modeling';
+import LabelEditingModule from './features/labeling';
+import ModelingModule from './features/modeling';
 
 
 export default function DomainStoryModeler(options) {

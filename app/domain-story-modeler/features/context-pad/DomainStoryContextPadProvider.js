@@ -10,7 +10,8 @@ import {
   bind
 } from 'min-dash';
 import Modeler from 'bpmn-js/lib/Modeler';
-import { generateAutomaticNumber } from '../domain-story/util/DSActivityUtil';
+import { generateAutomaticNumber } from '../numbering/numbering';
+
 
 
 export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {

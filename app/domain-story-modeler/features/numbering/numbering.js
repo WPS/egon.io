@@ -1,9 +1,6 @@
 'use strict';
 
-
-import { getActivitesFromActors, labelPosition } from '../domain-story/util/DSActivityUtil';
-
-
+import { labelPosition, getActivitesFromActors } from '../../domain-story/util/DSActivityUtil';
 
 // defines the box for activity numbers
 export function numberBoxDefinitions(element) {

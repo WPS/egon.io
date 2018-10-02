@@ -4,11 +4,11 @@ import ChangeSupportModule from 'diagram-js/lib/features/change-support';
 import ResizeModule from 'diagram-js/lib/features/resize';
 import DirectEditingModule from 'diagram-js-direct-editing';
 
-import DSModeling from '../domain-story/modeling/DSModeling';
 import CommandStack from 'diagram-js/lib/command/CommandStack';
-import DSUpdateLabelHandler from '../domain-story/label-editing/cmd/DSUpdateLabelHandler';
+import DSUpdateLabelHandler from '../labeling/DSUpdateLabelHandler';
 import DSLabelEditingPreview from './DSLabelEditingPreview';
 import DSLabelEditingProvider from './DSLabelEditingProvider';
+import DSModeling from '../modeling/DSModeling';
 
 
 

@@ -8,12 +8,11 @@ import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/Search
 
 import DSActivityHandlers from './domain-story-modeler/domain-story/handlers/DSActivityHandlers';
 
-
 import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
 
 import {
   toggleStashUse
-} from './domain-story-modeler/domain-story/label-editing/DSLabelEditingProvider';
+} from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
 
 import {
   getActivitesFromActors,
@@ -34,9 +33,12 @@ import {
   getAllObjectsFromCanvas,
   correctGroupChildren
 } from './domain-story-modeler/domain-story/util/DSUtil';
-import DSLabelChangeHandlers from './domain-story-modeler/dictionary/DSLabelChangeHandlers';
-import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary } from './domain-story-modeler/dictionary/dictionary';
-import { isPlaying, initReplay } from './domain-story-modeler/replay/repaly';
+
+import DSLabelChangeHandlers from './domain-story-modeler/features/dictionary/DSLabelChangeHandlers';
+
+import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary } from './domain-story-modeler/features/dictionary/dictionary';
+
+import { isPlaying, initReplay } from './domain-story-modeler/features/replay/repaly';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',

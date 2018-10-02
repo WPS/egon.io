@@ -1,5 +1,4 @@
-import { getAllObjectsFromCanvas } from '../domain-story/util/DSUtil';
-
+import { getAllObjectsFromCanvas } from '../../domain-story/util/DSUtil';
 
 var activityDictionary = [];
 var workObjectDictionary =[];
