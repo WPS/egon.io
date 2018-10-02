@@ -58,7 +58,7 @@ var eventBus = modeler.get('eventBus');
 var commandStack = modeler.get('commandStack');
 var elementRegistry = modeler.get('elementRegistry');
 
-const ViewBoxCoordinate = /height="([^"]+)"\s+viewBox="([^"]+)"/;
+const ViewBoxCoordinate = /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)"/;
 
 // we need to initiate the activity commandStack elements
 DSActivityHandlers(commandStack, eventBus, canvas);
@@ -871,7 +871,7 @@ function saveSVG(done) {
 
 function viewBoxCoordinates(svg) {
   const match = svg.match(ViewBoxCoordinate);
-  return { height : +match[1], viewBox: match[2] };
+  return { width: +match[1], height : +match[2], viewBox: match[3] };
 }
 
 function setEncoded(data) {
@@ -879,9 +879,9 @@ function setEncoded(data) {
   // we change the confines of the SVG viewbox
   var descriptionText = infoText.innerHTML;
   var titleText = title.innerHTML;
-  var viewBoxIndex = data.indexOf ('height="');
+  var viewBoxIndex = data.indexOf ('width="');
 
-  let { height, viewBox } = viewBoxCoordinates(data);
+  let { width, height, viewBox } = viewBoxCoordinates(data);
   height += 80;
 
   var xLeft, xRight, yUp, yDown;
@@ -893,11 +893,12 @@ function setEncoded(data) {
   xRight = +splitViewBox[2];
   yDown = +splitViewBox[3];
 
-  if (xRight < 200) {
-    xRight+= 200;
+  if (xRight < 300) {
+    xRight+= 300;
+    width+= 300;
   }
 
-  bounds = 'height=" '+ height+'" viewBox="' + xLeft + ' ' +(yUp - 80) + ' ' + xRight + ' ' + (yDown + 80);
+  bounds = 'width="' + width+ '" height=" '+ height+'" viewBox="' + xLeft + ' ' +(yUp - 80) + ' ' + xRight + ' ' + (yDown + 80);
   var dataStart = data.substring(0, viewBoxIndex);
   viewBoxIndex = data.indexOf('" version');
   var dataEnd = data.substring(viewBoxIndex);
