@@ -13,9 +13,7 @@ import DSLabelChangeHandlers from './domain-story-modeler/domain-story/handlers/
 import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
 
 import {
-  toggleStashUse,
-  getWorkobjectDictionary,
-  setLabelDictionary
+  toggleStashUse
 } from './domain-story-modeler/domain-story/label-editing/DSLabelEditingProvider';
 
 import {
@@ -45,7 +43,9 @@ import {
   cleanActicityDictionary,
   autocomplete,
   getAllObjectsFromCanvas,
-  correctGroupChildren
+  correctGroupChildren,
+  cleanDictionaries,
+  getLabelDictionary
 } from './domain-story-modeler/domain-story/util/DSUtil';
 
 var modeler = new DomainStoryModeler({
@@ -60,7 +60,7 @@ var eventBus = modeler.get('eventBus');
 var commandStack = modeler.get('commandStack');
 var elementRegistry = modeler.get('elementRegistry');
 
-const SVG_COORDINATE = /x="([^"]+)"\s+y="([^"]+)"/g;
+const ViewBoxCoordinate = /height="([^"]+)"\s+viewBox="([^"]+)"/g;
 
 // we need to initiate the activity commandStack elements
 DSActivityHandlers(commandStack, eventBus, canvas);
@@ -460,8 +460,7 @@ document.getElementById('import').onchange = function() {
       infoText.innerText = inputInfoText;
 
       modeler.importCustomElements(elements);
-      cleanActicityDictionary(canvas);
-      setLabelDictionary(canvas);
+      cleanDictionaries(canvas);
       correctGroupChildren(canvas);
     };
 
@@ -496,7 +495,7 @@ function dictionaryKeyBehaviour(event) {
 
 function dictionaryClosed() {
   var oldActivityDictionary = getActivityDictionary();
-  var oldWorkobjectDictionary = getWorkobjectDictionary();
+  var oldWorkobjectDictionary = getLabelDictionary();
   var activityNewNames = [];
   var workObjectNewNames = [];
 
@@ -874,34 +873,45 @@ function saveSVG(done) {
   modeler.saveSVG(done);
 }
 
-function minSvgCoordinates(svg) {
+function viewBoxCoordinates(svg) {
+  var match;
+  var height = 0;
+  var viewBox;
 
-  let minX = Number.MAX_VALUE;
-  let minY = Number.MAX_VALUE;
-  let match;
-
-  while ((match = SVG_COORDINATE.exec(svg))) {
-
-    const x = +match[1];
-
-    const y = +match[2];
-
-    if (x < minX) minX = x;
-
-    if (y < minY) minY = y;
-
+  if ((match = ViewBoxCoordinate.exec(svg))) {
+    const innerHeight = +match[1];
+    const innerViewBox = match[2];
+    height = innerHeight;
+    viewBox = innerViewBox;
   }
-  return { xCoordinate: minX, yCoordinate: minY };
+  return { height : height, viewBox: viewBox };
 }
-
 
 function setEncoded(data) {
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
   var insertIndex = data.indexOf('</defs>')+7;
   var descriptionText = infoText.innerHTML;
+  var viewBoxIndex = data.indexOf ('height="') ;
 
-  let { xCoordinate, yCoordinate } = minSvgCoordinates(data);
+  let { height, viewBox } = viewBoxCoordinates(data);
+  height += 80;
 
+  var xLeft, xRight, yUp, yDown;
+  var bounds = '';
+  var splitted = viewBox.split(/\s/);
+
+  xLeft = +splitted[0];
+  yUp = +splitted[1];
+  xRight = +splitted[2];
+  yDown = +splitted[3];
+
+  bounds = 'height=" '+ height+'" viewBox="' + xLeft + ' ' +(yUp - 80) + ' ' + xRight + ' ' + (yDown + 80);
+  var dataStart = data.substring(0, viewBoxIndex);
+  viewBoxIndex = data.indexOf('" version');
+  var dataEnd = data.substring(viewBoxIndex);
+  dataEnd.substring(viewBoxIndex);
+
+  data = dataStart + bounds +dataEnd;
 
   // remove <br> HTML-elements from the description since they create error in the SVG
   while (descriptionText.includes('<br>')) {
@@ -911,7 +921,7 @@ function setEncoded(data) {
   // find the highest y- and most left x-Coodrinate to determine the Title position
 
   var insertText ='<g class="djs-group">'+
-      '<g class="djs-element djs-shape" style = "display:block" transform="translate('+(xCoordinate+150)+' '+(yCoordinate-60)+')">'+
+      '<g class="djs-element djs-shape" style = "display:block" transform="translate('+(xLeft+50)+' '+(yUp-50)+')">'+
       '<g class="djs-visual">'
       +'<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 30px; font-weight: normal; fill: rgb(0, 0, 0);"><tspan x="8" y="10">'
   +title.innerHTML+
