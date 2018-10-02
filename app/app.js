@@ -16,13 +16,6 @@ import {
 } from './domain-story-modeler/domain-story/label-editing/DSLabelEditingProvider';
 
 import {
-  traceActivities,
-  isStoryConsecutivelyNumbered,
-  getAllNotShown,
-  getAllShown
-} from './domain-story-modeler/domain-story/replay/ReplayUtil';
-
-import {
   getActivitesFromActors,
   updateExistingNumbersAtEditing
 } from './domain-story-modeler/domain-story/util/DSActivityUtil';
@@ -43,7 +36,7 @@ import {
 } from './domain-story-modeler/domain-story/util/DSUtil';
 import DSLabelChangeHandlers from './domain-story-modeler/dictionary/DSLabelChangeHandlers';
 import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary } from './domain-story-modeler/dictionary/dictionary';
-import { importFromFile } from './domain-story-modeler/file-import-export/file-import-export';
+import { isPlaying, initReplay } from './domain-story-modeler/replay/repaly';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -88,7 +81,6 @@ var modal = document.getElementById('modal'),
     infoText = document.getElementById('infoText'),
     importedVersionLabel = document.getElementById('importedVersion'),
     modelerVersionLabel = document.getElementById('modelerVersion'),
-    currentReplayStepLabel = document.getElementById('replayStep'),
     // Inputs
     titleInput = document.getElementById('titleInput'),
     titleInputLast = '',
@@ -108,15 +100,10 @@ var modal = document.getElementById('modal'),
     // Container
     activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
     workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
-    importExportSVGButtonsContainer = document.getElementById('importExportSVGButton'),
     // Buttons
     headlineDialogButtonSave = document.getElementById('saveButton'),
     headlineDialogButtonCancel = document.getElementById('quitButton'),
     exportButton = document.getElementById('export'),
-    startReplayButton = document.getElementById('buttonStartReplay'),
-    nextStepButton = document.getElementById('buttonNextStep'),
-    previousStepButton = document.getElementById('buttonPreviousStep'),
-    stopReplayButton = document.getElementById('buttonStopReplay'),
     dictionaryButtonOpen = document.getElementById('dictionaryButton'),
     dictionaryButtonSave = document.getElementById('closeDictionaryButtonSave'),
     dictionaryButtonCancel = document.getElementById('closeDictionaryButtonCancel'),
@@ -133,14 +120,15 @@ var modal = document.getElementById('modal'),
 // interal variables
 var keysPressed = [];
 var svgData;
-var replayOn = false;
-var currentStep = 0;
-var replaySteps = [];
+
+//
+
+initReplay(canvas, elementRegistry);
 
 // eventBus listeners
 
 eventBus.on('element.dblclick', function(e) {
-  if (!replayOn) {
+  if (!isPlaying()) {
     var element = e.element;
     if (element.type == 'domainStory:activity') {
       var source = element.source;
@@ -198,7 +186,7 @@ eventBus.on([
   'autoPlace',
   'popupMenu.open'
 ], 10000000000, function(event) {
-  if (replayOn) {
+  if (isPlaying()) {
     event.stopPropagation();
     event.preventDefault();
   }
@@ -303,86 +291,6 @@ dictionaryButtonSave.addEventListener('click', function(e) {
 dictionaryButtonCancel.addEventListener('click', function(e) {
   dictionaryDialog.style.display='none';
   modal.style.display='none';
-});
-
-startReplayButton.addEventListener('click', function() {
-  var canvasObjects = canvas._rootElement.children;
-  var activities = getActivitesFromActors(canvasObjects);
-
-  if (!replayOn && activities.length > 0) {
-    replaySteps = traceActivities(activities, elementRegistry);
-
-    if (isStoryConsecutivelyNumbered(replaySteps)) {
-      replayOn = true;
-      disableCanvasInteraction();
-      currentStep = 0;
-      showCurrentStep();
-    }
-    else {
-      incompleteStoryDialog.style.display = 'block';
-      modal.style.display = 'block';
-    }
-  }
-});
-
-nextStepButton.addEventListener('click', function() {
-  if (replayOn) {
-    if (currentStep < replaySteps.length - 1) {
-      currentStep += 1;
-      showCurrentStep();
-    }
-  }
-});
-
-previousStepButton.addEventListener('click', function() {
-  if (replayOn) {
-    if (currentStep > 0) {
-      currentStep -= 1;
-      showCurrentStep();
-    }
-  }
-});
-
-stopReplayButton.addEventListener('click', function() {
-  if (replayOn) {
-    enableCanvasInteraction();
-
-    // show all canvas elements
-    var allObjects = [];
-    var groupObjects = [];
-    var canvasObjects = canvas._rootElement.children;
-    var i = 0;
-
-    for (i = 0; i < canvasObjects.length; i++) {
-      if (canvasObjects[i].type.includes('domainStory:group')) {
-        groupObjects.push(canvasObjects[i]);
-      }
-      else {
-        allObjects.push(canvasObjects[i]);
-      }
-    }
-
-    i = groupObjects.length - 1;
-    while (groupObjects.length >= 1) {
-      var currentgroup = groupObjects.pop();
-      currentgroup.children.forEach(child => {
-        if (child.type.includes('domainStory:group')) {
-          groupObjects.push(child);
-        }
-        else {
-          allObjects.push(child);
-        }
-      });
-      i = groupObjects.length - 1;
-    }
-    allObjects.forEach(element => {
-      var domObject = document.querySelector('[data-element-id=' + element.id + ']');
-      domObject.style.display = 'block';
-    });
-
-    replayOn = false;
-    currentStep = 0;
-  }
 });
 
 exportButton.addEventListener('click', function() {
@@ -764,102 +672,6 @@ function saveActivityInputLabelWithoutNumber(element) {
   });
 
   cleanDictionaries(canvas);
-}
-
-// replay functions
-
-function disableCanvasInteraction() {
-  var contextPadElements = document.getElementsByClassName('djs-context-pad');
-  var paletteElements = document.getElementsByClassName('djs-palette');
-
-  headline.style.pointerEvents = 'none';
-
-  importExportSVGButtonsContainer.style.opacity = 0.2;
-  importExportSVGButtonsContainer.style.pointerEvents = 'none';
-
-  startReplayButton.style.opacity = 0.2;
-  startReplayButton.style.pointerEvents = 'none';
-
-  stopReplayButton.style.opacity = 1;
-  stopReplayButton.style.pointerEvents = 'all';
-
-  nextStepButton.style.opacity = 1;
-  nextStepButton.style.pointerEvents = 'all';
-
-  previousStepButton.style.opacity = 1;
-  previousStepButton.style.pointerEvents = 'all';
-
-  var i = 0;
-  for (i = 0; i < contextPadElements.length; i++) {
-    contextPadElements[i].style.display = 'none';
-  }
-
-  for (i = 0; i < paletteElements.length; i++) {
-    paletteElements[i].style.display = 'none';
-  }
-
-  currentReplayStepLabel.style.display = 'block';
-}
-
-function enableCanvasInteraction() {
-  var contextPadElements = document.getElementsByClassName('djs-context-pad');
-  var paletteElements = document.getElementsByClassName('djs-palette');
-
-  headline.style.pointerEvents = 'all';
-
-  importExportSVGButtonsContainer.style.opacity = 1;
-  importExportSVGButtonsContainer.style.pointerEvents = 'all';
-
-  startReplayButton.style.opacity = 1;
-  startReplayButton.style.pointerEvents = 'all';
-
-  stopReplayButton.style.opacity = 0.2;
-  stopReplayButton.style.pointerEvents = 'none';
-
-  nextStepButton.style.opacity = 0.2;
-  nextStepButton.style.pointerEvents = 'none';
-
-  previousStepButton.style.opacity = 0.2;
-  previousStepButton.style.pointerEvents = 'none';
-
-  var i = 0;
-  for (i = 0; i < contextPadElements.length; i++) {
-    contextPadElements[i].style.display = 'block';
-  }
-
-  for (i = 0; i < paletteElements.length; i++) {
-    paletteElements[i].style.display = 'block';
-  }
-  currentReplayStepLabel.style.display = 'none';
-}
-
-function showCurrentStep() {
-  var stepsUntilNow = [];
-  var allObjects = [];
-  var i = 0;
-
-  currentReplayStepLabel.innerText = (currentStep + 1) + ' / ' + replaySteps.length;
-
-  for (i = 0; i <= currentStep; i++) {
-    stepsUntilNow.push(replaySteps[i]);
-  }
-
-  allObjects = getAllObjectsFromCanvas(canvas);
-
-  var shownElements = getAllShown(stepsUntilNow);
-
-  var notShownElements = getAllNotShown(allObjects, shownElements);
-
-  // hide all elements, that are not to be shown
-  notShownElements.forEach(element => {
-    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
-    domObject.style.display = 'none';
-  });
-
-  shownElements.forEach(element => {
-    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
-    domObject.style.display = 'block';
-  });
 }
 
 // SVG download
