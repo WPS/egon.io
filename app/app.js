@@ -38,14 +38,12 @@ import {
 } from './domain-story-modeler/domain-story/util/AppUtil';
 
 import {
-  getActivityDictionary,
-  setActivityDictionary,
-  cleanActicityDictionary,
   autocomplete,
   getAllObjectsFromCanvas,
   correctGroupChildren,
   cleanDictionaries,
-  getLabelDictionary
+  getLabelDictionary,
+  getActivityDictionary
 } from './domain-story-modeler/domain-story/util/DSUtil';
 
 var modeler = new DomainStoryModeler({
@@ -711,7 +709,7 @@ function saveActivityInputLabelWithNumber(element) {
   if (activityInputNumber != '') {
     numberInput = activityInputNumber.value;
   }
-  setActivityDictionary(activityDictionary);
+  cleanDictionaries(canvas);
 
   activityWithNumberDialog.style.display = 'none';
   modal.style.display = 'none';
@@ -735,7 +733,7 @@ function saveActivityInputLabelWithNumber(element) {
   });
 
   updateExistingNumbersAtEditing(activitiesFromActors, numberInput, eventBus);
-  cleanActicityDictionary(canvas);
+  cleanDictionaries(canvas);
 }
 
 function closeActivityInputLabelWithoutNumber() {
@@ -755,7 +753,7 @@ function saveActivityInputLabelWithoutNumber(element) {
     }
   }
 
-  setActivityDictionary(activityDictionary);
+  cleanDictionaries(canvas);
 
   activityWithoutNumberDialog.style.display = 'none';
   modal.style.display = 'none';
@@ -768,7 +766,7 @@ function saveActivityInputLabelWithoutNumber(element) {
     newLabel: labelInput,
     element: element
   });
-  cleanActicityDictionary(canvas);
+  cleanDictionaries(canvas);
 }
 
 // replay functions

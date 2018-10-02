@@ -175,23 +175,8 @@ export function getLabelDictionary() {
   return labelDictionary.slice();
 }
 
-export function setLabelDictionary(stash) {
-  labelDictionary = stash;
-  labelDictionary.sort(function(a, b) {
-    return a.toLowerCase().localeCompare(b.toLowerCase());
-  });
-}
-
-export function setActivityDictionary(stash) {
-  activityDictionary = stash;
-  activityDictionary.sort(function(a, b) {
-    return a.toLowerCase().localeCompare(b.toLowerCase());
-  });
-}
-
 export function cleanDictionaries(canvas) {
-  cleanActicityDictionary(canvas);
-  cleanObjectLabelDictionary(canvas);
+  cleanDictionaries(canvas);
 
   var dictionaryButton = document.getElementById('dictionaryButton');
 
@@ -215,7 +200,7 @@ export function cleanDictionaries(canvas) {
 }
 
 // rework the activity-dictionary with the changed labels on the canvas
-export function cleanActicityDictionary(canvas) {
+function cleanActicityDictionary(canvas) {
   activityDictionary=[];
   var allObjects = getAllObjectsFromCanvas(canvas);
   allObjects.forEach(element => {
@@ -229,10 +214,8 @@ export function cleanActicityDictionary(canvas) {
   });
 }
 
-
-
 // rework the label-dictionary with the changed labels on the canvas
-export function cleanObjectLabelDictionary(canvas) {
+function cleanLabelDictionary(canvas) {
   labelDictionary = [];
 
   var allObjects = getAllObjectsFromCanvas(canvas);

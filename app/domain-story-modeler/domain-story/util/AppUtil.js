@@ -3,11 +3,10 @@
 import sanitize from './Sanitizer';
 
 import {
-  setLabelDictionary,
   getWorkobjectDictionary
 } from '../label-editing/DSLabelEditingProvider';
 
-import { cleanActicityDictionary, getActivityDictionary } from './DSUtil';
+import { getActivityDictionary, cleanDictionaries } from './DSUtil';
 
 /**
  * general functions used by app.js
@@ -25,8 +24,7 @@ export function checkInput(field) {
 export function openDictionary(canvas) {
   if (canvas._rootElement && canvas._rootElement.children && canvas._rootElement.children.length > 0) {
 
-    cleanActicityDictionary(canvas);
-    setLabelDictionary(canvas);
+    cleanDictionaries(canvas);
 
     var element, i=0;
     var activityDictionary = getActivityDictionary(),
