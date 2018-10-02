@@ -2,7 +2,7 @@
 
 import DomainStoryElementFactory from './DomainStoryElementFactory';
 import DomainStoryRenderer from './DomainStoryRenderer';
-import DomainStoryPalette from './DomainStoryPalette';
+import DomainStoryPalette from '../palette/DomainStoryPalette';
 import DomainStoryRules from './DomainStoryRules';
 import DomainStoryUpdater from './DomainStoryUpdater';
 import DomainStoryContextPadProvider from './DomainStoryContextPadProvider';

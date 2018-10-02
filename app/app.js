@@ -8,7 +8,6 @@ import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/Search
 
 import DSActivityHandlers from './domain-story-modeler/domain-story/handlers/DSActivityHandlers';
 
-import DSLabelChangeHandlers from './domain-story-modeler/domain-story/handlers/DSLabelChangeHandlers';
 
 import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
 
@@ -40,11 +39,11 @@ import {
 import {
   autocomplete,
   getAllObjectsFromCanvas,
-  correctGroupChildren,
-  cleanDictionaries,
-  getWorkObjectDictionary,
-  getActivityDictionary
+  correctGroupChildren
 } from './domain-story-modeler/domain-story/util/DSUtil';
+import DSLabelChangeHandlers from './domain-story-modeler/dictionary/DSLabelChangeHandlers';
+import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary } from './domain-story-modeler/dictionary/dictionary';
+import { importFromFile } from './domain-story-modeler/file-import-export/file-import-export';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',

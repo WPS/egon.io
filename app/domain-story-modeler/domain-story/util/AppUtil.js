@@ -1,8 +1,8 @@
 'use strict';
 
 import sanitize from './Sanitizer';
+import { cleanDictionaries, getActivityDictionary, getWorkObjectDictionary } from '../../dictionary/dictionary';
 
-import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary } from './DSUtil';
 
 /**
  * general functions used by app.js

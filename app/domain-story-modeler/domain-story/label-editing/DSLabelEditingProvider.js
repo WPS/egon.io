@@ -4,9 +4,7 @@ import { assign } from 'min-dash';
 
 import {
   isDomainStoryElement,
-  autocomplete,
-  getWorkObjectDictionary,
-  cleanDictionaries
+  autocomplete
 } from '../util/DSUtil';
 
 import { getLabel } from './DSLabelUtil';
@@ -25,6 +23,7 @@ import {
 import { inherits } from 'util';
 
 import LabelEditingProvider from 'bpmn-js/lib/features/label-editing/LabelEditingProvider';
+import { cleanDictionaries, getWorkObjectDictionary } from '../../dictionary/dictionary';
 
 
 var numberStash = 0;
