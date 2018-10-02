@@ -12,9 +12,7 @@ import { getNumberStash } from './label-editing/DSLabelEditingProvider';
 
 import {
   labelPosition,
-  numberBoxDefinitions,
-  calculateXY,
-  generateAutomaticNumber
+  calculateXY
 } from './util/DSActivityUtil';
 
 import {
@@ -43,6 +41,7 @@ import {
   isObject,
   assign
 } from 'min-dash';
+import { numberBoxDefinitions, generateAutomaticNumber } from '../numbering/numbering';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];

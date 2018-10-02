@@ -56,6 +56,8 @@ const ViewBoxCoordinate = /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)
 DSActivityHandlers(commandStack, eventBus, canvas);
 DSLabelChangeHandlers(commandStack, eventBus, canvas);
 
+initReplay(canvas, elementRegistry);
+
 // disable BPMN SearchPad
 SearchPad.prototype.toggle=function() { };
 
@@ -121,9 +123,6 @@ var modal = document.getElementById('modal'),
 var keysPressed = [];
 var svgData;
 
-//
-
-initReplay(canvas, elementRegistry);
 
 // eventBus listeners
 
