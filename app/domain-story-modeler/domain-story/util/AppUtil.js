@@ -21,6 +21,7 @@ export function checkInput(field) {
   field.value = sanitize(field.value);
 }
 
+// create the HTML-elements associated with the dictionary and display it
 export function openDictionary(canvas) {
   if (canvas._rootElement && canvas._rootElement.children && canvas._rootElement.children.length > 0) {
 
@@ -68,14 +69,12 @@ export function openDictionary(canvas) {
 // helper
 
 export function debounce(fn, timeout) {
-
   var timer;
 
   return function() {
     if (timer) {
       clearTimeout(timer);
     }
-
     timer = setTimeout(fn, timeout);
   };
 }

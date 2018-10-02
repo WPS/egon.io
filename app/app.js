@@ -6,9 +6,9 @@ import DomainStoryModeler from './domain-story-modeler';
 
 import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';
 
-import DomainStoryActivityHandlers from './domain-story-modeler/domain-story/handlers/DomainStoryActivityHandlers';
+import DSActivityHandlers from './domain-story-modeler/domain-story/handlers/DSActivityHandlers';
 
-import DomainStoryLabelChangeHandlers from './domain-story-modeler/domain-story/handlers/DomainStoryLabelChangeHandlers';
+import DSLabelChangeHandlers from './domain-story-modeler/domain-story/handlers/DSLabelChangeHandlers';
 
 import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
 
@@ -63,8 +63,8 @@ var elementRegistry = modeler.get('elementRegistry');
 const SVG_COORDINATE = /x="([^"]+)"\s+y="([^"]+)"/g;
 
 // we need to initiate the activity commandStack elements
-DomainStoryActivityHandlers(commandStack, eventBus, canvas);
-DomainStoryLabelChangeHandlers(commandStack, eventBus, canvas);
+DSActivityHandlers(commandStack, eventBus, canvas);
+DSLabelChangeHandlers(commandStack, eventBus, canvas);
 
 // disable BPMN SearchPad
 SearchPad.prototype.toggle=function() { };

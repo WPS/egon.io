@@ -56,19 +56,10 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
     if (isDomainStoryGroup(shape)) {
       assign(businessObject, pick(shape, ['height', 'width']));
 
+      // rework the child-parent relations if a group was moved, such that all Objects that are visually in the group are also associated with it
+      // since we do not ahve access to the standard-canvas object ehre, we cannot use the function correctGroupChildren() from DSUtil
       if (parent != null) {
-        parent.children.slice().forEach(innerShape => {
-          if ((innerShape.id) != shape.id) {
-            if (innerShape.x >= shape.x && innerShape.x <= shape.x + shape.width) {
-              if (innerShape.y >= shape.y && innerShape.y <= shape.y + shape.height) {
-                innerShape.parent = shape;
-                if (!shape.children.includes(innerShape)) {
-                  shape.children.push(innerShape);
-                }
-              }
-            }
-          }
-        });
+        reworkGroupElements(parent, shape);
       }
     }
 
@@ -77,6 +68,21 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
         parent: shape.parent.id
       });
     }
+  }
+
+  function reworkGroupElements(parent, shape) {
+    parent.children.slice().forEach(innerShape => {
+      if ((innerShape.id) != shape.id) {
+        if (innerShape.x >= shape.x && innerShape.x <= shape.x + shape.width) {
+          if (innerShape.y >= shape.y && innerShape.y <= shape.y + shape.height) {
+            innerShape.parent = shape;
+            if (!shape.children.includes(innerShape)) {
+              shape.children.push(innerShape);
+            }
+          }
+        }
+      }
+    });
   }
 
   function updateCustomConnection(e) {

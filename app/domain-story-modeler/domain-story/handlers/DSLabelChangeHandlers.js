@@ -1,6 +1,6 @@
 'use strict';
 
-export default function DomainStoryLabelChangeHandlers(commandStack, eventBus) {
+export default function DSLabelChangeHandlers(commandStack, eventBus) {
 
   commandStack.registerHandler('domainStoryObjects.massRename',massRename);
 

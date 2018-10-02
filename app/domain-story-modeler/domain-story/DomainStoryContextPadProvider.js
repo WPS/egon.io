@@ -34,7 +34,8 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     switch (element.type) {
     // Google Material Icon Font does not seem to allow to put the icon name inline
     // since diagram-js's ContextPad does assume the icon is provided inline,
-    // we could either write our own ContextPad or fix the html manually. Here, we do the latter:
+    // we could either write our own ContextPad or fix the html manually.
+    // Here, we do the latter:
     case 'domainStory:workObject':
     case 'domainStory:workObjectFolder':
     case 'domainStory:workObjectCall':
@@ -99,7 +100,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       break;
 
     case 'domainStory:activity' :
-    // for some reason, the change direction icon is appended at the end of the edit group
+    // the change direction icon is appended at the end of the edit group by default,
     // to make sure, that the delete icon is the last one, we remove it from the actions-object
     // and add it after adding the change direction functionality
       delete actions.delete;

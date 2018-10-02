@@ -63,7 +63,7 @@ export function getAllObjectsFromCanvas(canvas) {
   return allObjects;
 }
 
-
+// returns all groups on the canvas and inside other groups
 export function getAllGroups(canvas) {
   var canvasObjects=canvas._rootElement.children;
   var groupObjects=[];
@@ -91,6 +91,8 @@ export function getAllGroups(canvas) {
   return groupObjects;
 }
 
+// when importing a domain-story, the elements that are visually inside a group are not yet associated with it.
+// to ensure they are correctly associated, we add them to the group
 export function correctGroupChildren(canvas) {
   var allObjects = getAllObjectsFromCanvas(canvas);
   var groups = getAllGroups(canvas);
@@ -136,6 +138,7 @@ export function isInDomainStoryGroup(element) {
   return isDomainStoryGroup(element.parent);
 }
 
+// check if element in the context of an event is a domainStory element
 export function ifDomainStoryElement(fn) {
   return function(event) {
     var context = event.context,
@@ -174,6 +177,7 @@ export function setActivityDictionary(stash) {
   });
 }
 
+// rework the activity-dictionary with the changed labels on the canvas
 export function cleanActicityDictionary(canvas) {
   activityDictionary=[];
   var allObjects = getAllObjectsFromCanvas(canvas);
@@ -188,7 +192,7 @@ export function cleanActicityDictionary(canvas) {
   });
 }
 
-// Math fucntions
+// Math functions
 // calculate the angle between two points in 2D
 export function calculateDeg(startPoint, endPoint) {
   var quadrant = 0;
@@ -233,7 +237,8 @@ Math.degrees = function(radians) {
 export function calculateTextWidth(text) {
   var fontsize = text.length * 5.1;
   fontsize = fontsize / 2;
-  // add an initial offset, since the calculateXY Position gives the absolute middle of the activity and we want the start directly under the number
+  // add an initial offset, since the calculateXY Position gives the absolute middle of the activity
+  // and we want the start directly under the number
   fontsize += 20;
   return fontsize;
 }

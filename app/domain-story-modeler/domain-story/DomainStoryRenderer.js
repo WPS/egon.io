@@ -116,6 +116,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   }
 
   // render functions
+  // render label associated with actors and workobjects
   function renderEmbeddedLabel(parentGfx, element, align, padding) {
     var semantic = element.businessObject;
     return renderLabel(parentGfx, semantic.name, {
@@ -128,6 +129,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     }, element.type);
   }
 
+  // render label associated with activities
   function renderExternalLabel(parentGfx, element) {
 
     var semantic = element.businessObject;
@@ -176,6 +178,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     }
   }
 
+  // render the number associated with an activity
   function renderExternalNumber(parentGfx, element) {
     if (element && element.source) {
       var semantic = element.businessObject;
@@ -195,6 +198,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     }
   }
 
+  // render a number on the canvas
   function renderNumber(parentGfx, number, options, type) {
 
     if (number < 10) {
@@ -222,6 +226,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     return text;
   }
 
+  // render a label on the canvas
   function renderLabel(parentGfx, label, options, type) {
 
     label = sanitize(label);
@@ -246,6 +251,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     return text;
   }
 
+  // determine the Y-coordinate of the label / number to be rendered
   function manipulateInnerHTMLYLabel(children, y, offset) {
     if (children) {
       var result = '';
@@ -257,6 +263,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     }
   }
 
+  // determine the X-coordinate of the label / number to be rendered
   function manipulateInnerHTMLXLabel(children, x, offset) {
     if (children) {
       var result = '';
@@ -269,56 +276,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   }
 
   // draw functions
-  this.drawAnnotation = function(parentGfx, element) {
-    var style = {
-      'fill': 'none',
-      'stroke': 'none'
-    };
-
-    var text = element.businessObject.text || '';
-    if (element.businessObject.text) {
-      var height = getAnnotationBoxHeight();
-
-      if (height==0 && element.businessObject.number) {
-        height= element.businessObject.number;
-      }
-      assign(element, {
-        height: height
-      });
-      // for some reason the keyword height is not exported, so we use another, which we know will be exported, to esure persitent annotation height betweens sessions
-      assign(element.businessObject, {
-        number: height
-      });
-    }
-
-    var textElement = drawRect(parentGfx, element.width, element.height, 0, 0, style);
-    var textPathData = pathMap.getScaledPath('TEXT_ANNOTATION', {
-      xScaleFactor: 1,
-      yScaleFactor: 1,
-      containerWidth: element.width,
-      containerHeight: element.height,
-      position: {
-        mx: 0.0,
-        my: 0.0
-      }
-    });
-
-    drawPath(parentGfx, textPathData, {
-      stroke: 'black'
-    });
-
-    renderLabel(parentGfx, text, {
-      box: element,
-      align: 'left-top',
-      padding: 5,
-      style: {
-        fill: 'black'
-      }
-    });
-
-    return textElement;
-  };
-
   this.drawGroup = function(parentGfx, element) {
     var rect = drawRect(parentGfx, element.width, element.height, 0, assign({
       fill: 'none',
@@ -393,6 +350,87 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     return workObject;
   };
 
+  this.drawActivity = function(p, element) {
+    if (element) {
+      var attrs = computeStyle(attrs, {
+        stroke: '#000000',
+        fill: 'none',
+        strokeWidth: 1.5,
+        strokeLinejoin: 'round',
+        markerEnd: marker('activity', 'black', '#000000')
+      });
+
+      var x = svgAppend(p, createLine(element.waypoints, attrs));
+      renderExternalLabel(p, element);
+      renderExternalNumber(p, element);
+
+      return x;
+    }
+  };
+
+  this.drawDSConnection = function(p, element) {
+    var attrs = computeStyle(attrs, {
+      stroke: '#000000',
+      strokeWidth: 1.5,
+      strokeLinejoin: 'round',
+      strokeDasharray: '5, 5',
+    });
+
+    return svgAppend(p, createLine(element.waypoints, attrs));
+  };
+
+  this.drawAnnotation = function(parentGfx, element) {
+    var style = {
+      'fill': 'none',
+      'stroke': 'none'
+    };
+
+    var text = element.businessObject.text || '';
+    if (element.businessObject.text) {
+      var height = getAnnotationBoxHeight();
+
+      if (height==0 && element.businessObject.number) {
+        height= element.businessObject.number;
+      }
+      assign(element, {
+        height: height
+      });
+      // for some reason the keyword height is not exported, so we use another, which we know will be exported,
+      // to ensure persistent annotation heights betweens sessions
+      assign(element.businessObject, {
+        number: height
+      });
+    }
+
+    var textElement = drawRect(parentGfx, element.width, element.height, 0, 0, style);
+    var textPathData = pathMap.getScaledPath('TEXT_ANNOTATION', {
+      xScaleFactor: 1,
+      yScaleFactor: 1,
+      containerWidth: element.width,
+      containerHeight: element.height,
+      position: {
+        mx: 0.0,
+        my: 0.0
+      }
+    });
+
+    drawPath(parentGfx, textPathData, {
+      stroke: 'black'
+    });
+
+    renderLabel(parentGfx, text, {
+      box: element,
+      align: 'left-top',
+      padding: 5,
+      style: {
+        fill: 'black'
+      }
+    });
+
+    return textElement;
+  };
+
+  // draw helper functions
   function drawPath(parentGfx, d, attrs) {
 
     attrs = computeStyle(attrs, ['no-fill'], {
@@ -438,35 +476,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
 
     return rect;
   }
-
-  this.drawActivity = function(p, element) {
-    if (element) {
-      var attrs = computeStyle(attrs, {
-        stroke: '#000000',
-        fill: 'none',
-        strokeWidth: 1.5,
-        strokeLinejoin: 'round',
-        markerEnd: marker('activity', 'black', '#000000')
-      });
-
-      var x = svgAppend(p, createLine(element.waypoints, attrs));
-      renderExternalLabel(p, element);
-      renderExternalNumber(p, element);
-
-      return x;
-    }
-  };
-
-  this.drawDSConnection = function(p, element) {
-    var attrs = computeStyle(attrs, {
-      stroke: '#000000',
-      strokeWidth: 1.5,
-      strokeLinejoin: 'round',
-      strokeDasharray: '5, 5',
-    });
-
-    return svgAppend(p, createLine(element.waypoints, attrs));
-  };
 
   // marker functions
   function marker(type, fill, stroke) {

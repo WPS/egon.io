@@ -6,7 +6,7 @@ import { getNumbersAndIDs, getActivitesFromActors } from '../util/DSActivityUtil
  * commandStack Handler for changes at activities
  */
 
-export default function DomainStoryActivityHandler(commandStack, eventBus, canvas) {
+export default function DSActivityHandler(commandStack, eventBus, canvas) {
 
   commandStack.registerHandler('activity.directionChange', activity_directionChange);
   commandStack.registerHandler('activity.changed', activity_changed);
