@@ -1,13 +1,13 @@
 import {
   bootstrapBpmnJS,
   inject
-} from '../TestHelper';
+} from '../../TestHelper';
 
 import {
   assign
 } from 'min-dash';
 
-import DomainStoryModeler from '../../app/domain-story-modeler';
+import DomainStoryModeler from '../../../app/domain-story-modeler';
 
 
 describe('domainStory modeling', function() {

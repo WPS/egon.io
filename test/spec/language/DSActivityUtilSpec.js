@@ -4,9 +4,9 @@ import {
   labelPosition,
   labelPositionX,
   labelPositionY
-} from '../../app/domain-story-modeler/domain-story/util/DSActivityUtil';
+} from '../../../app/domain-story-modeler/domain-story/util/DSActivityUtil';
 
-import { calculateDeg } from '../../app/domain-story-modeler/domain-story/util/DSUtil';
+import { calculateDeg } from '../../../app/domain-story-modeler/domain-story/util/DSUtil';
 
 describe('DSLabelUtil', function() {
 
