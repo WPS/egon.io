@@ -19,7 +19,7 @@ import { inherits } from 'util';
 
 import LabelEditingProvider from 'bpmn-js/lib/features/label-editing/LabelEditingProvider';
 import { cleanDictionaries, getWorkObjectDictionary } from '../dictionary/dictionary';
-import { isDomainStoryElement } from '../../domain-story/util/DSUtil';
+import { isDomainStoryElement } from '../../util/DSUtil';
 
 var numberStash = 0;
 var stashUse = false;
@@ -119,7 +119,7 @@ export default function DSLabelEditingProvider(
   }
 
   function createAutocomplete(element) {
-    var editingBox=document.getElementsByClassName('djs-direct-editing-content');
+    var editingBox = document.getElementsByClassName('djs-direct-editing-content');
     autocomplete(editingBox[0], getWorkObjectDictionary(), element);
   }
 }

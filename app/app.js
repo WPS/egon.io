@@ -6,9 +6,9 @@ import DomainStoryModeler from './domain-story-modeler';
 
 import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';
 
-import DSActivityHandlers from './domain-story-modeler/domain-story/handlers/DSActivityHandlers';
+import DSActivityHandlers from './domain-story-modeler/modeler/DSActivityHandlers';
 
-import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
+import sanitize from './domain-story-modeler/util/Sanitizer';
 
 import {
   toggleStashUse
@@ -17,7 +17,7 @@ import {
 import {
   getActivitesFromActors,
   updateExistingNumbersAtEditing
-} from './domain-story-modeler/domain-story/util/DSActivityUtil';
+} from './domain-story-modeler/util/DSActivityUtil';
 
 import { version } from '../package.json';
 
@@ -25,13 +25,13 @@ import {
   checkInput,
   keyReleased,
   debounce
-} from './domain-story-modeler/domain-story/util/AppUtil';
+} from './domain-story-modeler/util/AppUtil';
 
 import {
   autocomplete,
   getAllObjectsFromCanvas,
   correctGroupChildren
-} from './domain-story-modeler/domain-story/util/DSUtil';
+} from './domain-story-modeler/util/DSUtil';
 
 import DSLabelChangeHandlers from './domain-story-modeler/features/dictionary/DSLabelChangeHandlers';
 

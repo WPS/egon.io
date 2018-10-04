@@ -1,8 +1,8 @@
 'use strict';
 
-import { getActivitesFromActors } from '../../domain-story/util/DSActivityUtil';
+import { getActivitesFromActors } from '../../util/DSActivityUtil';
 
-import { getAllObjectsFromCanvas } from '../../domain-story/util/DSUtil';
+import { getAllObjectsFromCanvas } from '../../util/DSUtil';
 
 var canvas;
 var elementRegistry;
@@ -12,7 +12,7 @@ var currentStep = 0;
 var replaySteps = [];
 
 export function initReplay(inCanvas, inElementRegistry) {
-  canvas = inCanvas ;
+  canvas = inCanvas;
   elementRegistry = inElementRegistry;
 }
 
@@ -134,8 +134,8 @@ export function traceActivities(activitiesFromActors, elementRegistry) {
 // create a step for the replay function
 function createStep(tracedActivity, elementRegistry) {
   var initialSource;
-  var activities=[tracedActivity];
-  var targetObjects=[];
+  var activities = [tracedActivity];
+  var targetObjects = [];
   if (tracedActivity) {
     initialSource = elementRegistry.get(tracedActivity.businessObject.source);
 
@@ -144,13 +144,13 @@ function createStep(tracedActivity, elementRegistry) {
     targetObjects.push(currentTarget);
 
     // check the outgoing activities for each target
-    for (var i=0;i<targetObjects.length;i++) {
-      var checkTarget=targetObjects[i];
-      if (!checkTarget.businessObject.type.includes('actor')&& checkTarget.outgoing) {
+    for (var i = 0; i < targetObjects.length; i++) {
+      var checkTarget = targetObjects[i];
+      if (!checkTarget.businessObject.type.includes('actor') && checkTarget.outgoing) {
         // check the target for each outgoing activity
         checkTarget.outgoing.forEach(activity => {
           activities.push(activity);
-          var activityTarget=elementRegistry.get(activity.businessObject.target);
+          var activityTarget = elementRegistry.get(activity.businessObject.target);
           if (!targetObjects.includes(activityTarget)) {
             targetObjects.push(activityTarget);
           }
@@ -168,10 +168,10 @@ function createStep(tracedActivity, elementRegistry) {
 }
 
 export function isStoryConsecutivelyNumbered(replaySteps) {
-  var complete=true;
-  for (var i=0;i<replaySteps.length;i++) {
+  var complete = true;
+  for (var i = 0; i < replaySteps.length; i++) {
     if (!replaySteps[i].activities[0]) {
-      complete=false;
+      complete = false;
     }
   }
   return complete;
@@ -187,7 +187,7 @@ export function getAllShown(stepsUntilNow) {
     // add the source of the step and their annotations to the shown elements
     shownElements.push(step.source);
     if (step.source.outgoing) {
-      step.source.outgoing.forEach(out=>{
+      step.source.outgoing.forEach(out => {
         if (out.type.includes('domainStory:connection')) {
           shownElements.push(out, out.target);
         }
@@ -198,7 +198,7 @@ export function getAllShown(stepsUntilNow) {
     step.targets.forEach(target => {
       shownElements.push(target);
       if (target.outgoing) {
-        target.outgoing.forEach(out=>{
+        target.outgoing.forEach(out => {
           if (out.type.includes('domainStory:connection')) {
             shownElements.push(out, out.target);
           }

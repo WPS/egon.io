@@ -11,7 +11,7 @@ import {
 
 import inherits from 'inherits';
 
-import DomainStoryModule from './domain-story';
+import DomainStoryModule from './modeler';
 import LabelEditingModule from './features/labeling';
 import ModelingModule from './features/modeling';
 

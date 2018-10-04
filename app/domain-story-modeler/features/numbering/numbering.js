@@ -1,6 +1,6 @@
 'use strict';
 
-import { labelPosition, getActivitesFromActors } from '../../domain-story/util/DSActivityUtil';
+import { labelPosition, getActivitesFromActors } from '../../util/DSActivityUtil';
 
 // defines the box for activity numbers
 export function numberBoxDefinitions(element) {
@@ -23,7 +23,7 @@ export function numberBoxDefinitions(element) {
 
 
 // determine the next available number that is not yet used
-export function generateAutomaticNumber(elementActivity,canvas, commandStack) {
+export function generateAutomaticNumber(elementActivity, canvas, commandStack) {
   var semantic = elementActivity.businessObject;
   var canvasObjects = canvas._rootElement.children;
   var activiesFromActors = [];
@@ -86,7 +86,7 @@ export function updateExistingNumbersAtEditing(activiesFromActors, wantedNumber,
       var businessObject = element.businessObject;
       if (businessObject) {
         wantedNumber++;
-        businessObject.number=wantedNumber;
+        businessObject.number = wantedNumber;
       }
       eventBus.fire('element.changed', { element });
     }

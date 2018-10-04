@@ -19,8 +19,8 @@ import CroppingConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionD
 
 
 import DSModeling from './DSModeling';
-import DomainStoryRules from '../../domain-story/DomainStoryRules';
-import DomainStoryElementFactory from '../../domain-story/DomainStoryElementFactory';
+import DomainStoryRules from '../../language/DomainStoryRules';
+import DomainStoryElementFactory from '../../modeler/DomainStoryElementFactory';
 
 export default {
   __init__: [

@@ -1,7 +1,7 @@
-import { getAllObjectsFromCanvas } from '../../domain-story/util/DSUtil';
+import { getAllObjectsFromCanvas } from '../../util/DSUtil';
 
 var activityDictionary = [];
-var workObjectDictionary =[];
+var workObjectDictionary = [];
 
 // dictionary Getter & Setter
 export function getActivityDictionary() {
@@ -18,7 +18,7 @@ export function cleanDictionaries(canvas) {
 
   var dictionaryButton = document.getElementById('dictionaryButton');
 
-  if (activityDictionary.length > 0 || workObjectDictionary.length >0) {
+  if (activityDictionary.length > 0 || workObjectDictionary.length > 0) {
     dictionaryButton.style.opacity = 1;
     dictionaryButton.style.pointerEvents = 'all';
 
@@ -39,10 +39,10 @@ export function cleanDictionaries(canvas) {
 
 // rework the activity-dictionary with the changed labels on the canvas
 function cleanActicityDictionary(canvas) {
-  activityDictionary=[];
+  activityDictionary = [];
   var allObjects = getAllObjectsFromCanvas(canvas);
   allObjects.forEach(element => {
-    var name=element.businessObject.name;
+    var name = element.businessObject.name;
     if (name.length > 0 && element.type.includes('domainStory:activity') && !activityDictionary.includes(name)) {
       activityDictionary.push(name);
     }
@@ -58,7 +58,7 @@ function cleanWorkObjecDictionary(canvas) {
 
   var allObjects = getAllObjectsFromCanvas(canvas);
 
-  allObjects.forEach(element =>{
+  allObjects.forEach(element => {
     var name = element.businessObject.name;
     if (name.length > 0 && element.type.includes('domainStory:workObject') && !workObjectDictionary.includes(name)) {
       workObjectDictionary.push(name);
@@ -76,7 +76,7 @@ export function openDictionary(canvas) {
 
     cleanDictionaries(canvas);
 
-    var element, i=0;
+    var element, i = 0;
     var activityDictionary = getActivityDictionary(),
         workobjectDictionary = getWorkObjectDictionary();
     var activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
@@ -84,32 +84,32 @@ export function openDictionary(canvas) {
         modal = document.getElementById('modal'),
         dictionaryDialog = document.getElementById('dictionary');
 
-    activityDictionaryContainer.innerHTML='';
-    workobjectDictionaryContainer.innerHTML='';
+    activityDictionaryContainer.innerHTML = '';
+    workobjectDictionaryContainer.innerHTML = '';
 
-    for (i; i<activityDictionary.length;i++) {
+    for (i; i < activityDictionary.length; i++) {
       element = document.createElement('INPUT');
-      element.setAttribute('type','text');
+      element.setAttribute('type', 'text');
       element.setAttribute('id', i);
       element.setAttribute('style', 'width:100%;  margin-bottom: 2px');
-      element.value=activityDictionary[i];
+      element.value = activityDictionary[i];
       activityDictionaryContainer.appendChild(element);
       element = document.createElement('br');
       activityDictionaryContainer.appendChild(element);
     }
 
-    for (i=0; i<workobjectDictionary.length;i++) {
+    for (i = 0; i < workobjectDictionary.length; i++) {
       element = document.createElement('INPUT');
-      element.setAttribute('type','text');
+      element.setAttribute('type', 'text');
       element.setAttribute('id', i);
       element.setAttribute('style', 'width:100%;  margin-bottom: 2px');
-      element.value=workobjectDictionary[i];
+      element.value = workobjectDictionary[i];
       workobjectDictionaryContainer.appendChild(element);
       element = document.createElement('br');
       workobjectDictionaryContainer.appendChild(element);
     }
 
-    modal.style.display='block';
-    dictionaryDialog.style.display='block';
+    modal.style.display = 'block';
+    dictionaryDialog.style.display = 'block';
   }
 }

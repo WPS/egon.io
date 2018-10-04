@@ -1,4 +1,4 @@
-import sanitize from '../../../app/domain-story-modeler/domain-story/util/Sanitizer';
+import sanitize from '../../../app/domain-story-modeler/util/Sanitizer';
 
 describe('Sanitizer', function() {
   it('sanitize test', function() {

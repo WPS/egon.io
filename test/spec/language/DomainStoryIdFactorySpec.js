@@ -1,4 +1,4 @@
-import DomainStoryIdFactory from '../../../app/domain-story-modeler/domain-story/util/DomainStoryIdFactory';
+import DomainStoryIdFactory from '../../../app/domain-story-modeler/util/DomainStoryIdFactory';
 
 describe('DomainStoryIdFactory', function() {
 
