@@ -1,3 +1,5 @@
+'use strict';
+
 import {
   append as svgAppend,
   attr as svgAttr,

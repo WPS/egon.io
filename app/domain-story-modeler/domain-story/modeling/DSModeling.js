@@ -1,21 +1,15 @@
-import Modeling from 'bpmn-js/lib/features/modeling/Modeling';
+'use strict';
 
-import DSUpdateLabelHandler from '../label-editing/cmd/DSUpdateLabelHandler';
+import Modeling from 'bpmn-js/lib/features/modeling/Modeling';
 
 import { inherits } from 'util';
 
 export default function DSModeling(eventBus, elementFactory, commandStack,
     domainStoryRules) {
   Modeling.call(this, eventBus, elementFactory, commandStack, domainStoryRules);
-  getHandlers(commandStack);
-}
-
-function getHandlers(commandStack) {
-  commandStack.register('element.updateCustomLabel', DSUpdateLabelHandler);
 }
 
 Modeling.prototype.updateLabel = function(element, newLabel, newBounds) {
-
   if (/^domainStory:/.test(element.type)) {
     this._commandStack.execute('element.updateCustomLabel', {
       element: element,
@@ -28,12 +22,10 @@ Modeling.prototype.updateLabel = function(element, newLabel, newBounds) {
       newLabel: newLabel,
       newBounds: newBounds
     });
-
   }
 };
 
-Modeling.prototype.updateNumber= function(element, newNumber, newBounds) {
-
+Modeling.prototype.updateNumber = function(element, newNumber, newBounds) {
   if (/^domainStory:/.test(element.type)) {
     this._commandStack.execute('element.updateCustomLabel', {
       element: element,

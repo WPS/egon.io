@@ -1,3 +1,5 @@
+'use strict';
+
 import BehaviorModule from 'bpmn-js/lib/features/modeling/behavior';
 import OrderingModule from 'bpmn-js/lib/features/ordering';
 import ReplaceModule from 'bpmn-js/lib/features/replace';

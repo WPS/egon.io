@@ -1,3 +1,5 @@
+'use strict';
+
 import DomainStoryElementFactory from './DomainStoryElementFactory';
 import DomainStoryRenderer from './DomainStoryRenderer';
 import DomainStoryPalette from './DomainStoryPalette';
@@ -12,6 +14,7 @@ import ReplaceMenuProvider from './popup-menu/ReplaceMenuProvider';
 import ContextPadModule from 'diagram-js/lib/features/context-pad';
 import CommandStack from '../../../node_modules/diagram-js/lib/command/CommandStack';
 import DSModeling from './modeling/DSModeling';
+import DSUpdateLabelHandler from './label-editing/cmd/DSUpdateLabelHandler';
 
 
 export default {
@@ -26,7 +29,7 @@ export default {
     'domainStoryRules',
     'domainStoryUpdater',
     'contextPadProvider',
-    'replaceMenuProvider'
+    'replaceMenuProvider',
   ],
   elementFactory: [ 'type', DomainStoryElementFactory ],
   domainStoryRenderer: [ 'type', DomainStoryRenderer ],
@@ -38,5 +41,6 @@ export default {
   pathMap: [ 'type', PathMap ],
   replaceMenuProvider: ['type', ReplaceMenuProvider],
   commandStack: ['type', CommandStack],
+  dSUpdateLabelHandler: ['type', DSUpdateLabelHandler],
   modeling : ['type', DSModeling]
 };

@@ -1,3 +1,5 @@
+'use strict';
+
 import PopupMenuModule from 'diagram-js/lib/features/popup-menu';
 import ReplaceModule from 'bpmn-js/lib/features/replace';
 import DSModeling from '../modeling/DSModeling';

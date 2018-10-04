@@ -1,3 +1,5 @@
+'use strict';
+
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 function getLabelAttr(semantic) {

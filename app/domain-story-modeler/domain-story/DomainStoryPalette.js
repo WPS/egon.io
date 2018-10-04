@@ -1,8 +1,11 @@
+'use strict';
+
 import { assign } from 'min-dash';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
  */
+
 export default function PaletteProvider(palette, create, elementFactory, spaceTool, lassoTool) {
 
   this._create = create;
@@ -18,7 +21,8 @@ PaletteProvider.$inject = [
   'create',
   'elementFactory',
   'spaceTool',
-  'lassoTool'
+  'lassoTool',
+  'modeling'
 ];
 
 PaletteProvider.prototype.getPaletteEntries = function() {
@@ -73,7 +77,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       separator: true
     },
     'domainStory-workObject': createAction(
-      'domainStory:workObject', 'workObject', 'icon-domain-story-workObject', 'workobject'
+      'domainStory:workObject', 'workObject', 'icon-domain-story-workObject', 'document'
     ),
     'domainStory-workObjectFolder': createAction(
       'domainStory:workObjectFolder', 'workObject', 'icon-domain-story-workObject-folder', 'folder'

@@ -1,3 +1,5 @@
+'use strict';
+
 // create a trace through all activities, that recreates the path from the beginning to the end of the story
 export function traceActivities(activitiesFromActors, elementRegistry) {
   var tracedActivities = [];
@@ -55,8 +57,7 @@ function createStep(tracedActivity, elementRegistry) {
   return traceStep;
 }
 
-// check wether the domain-story has any missing numbers
-export function completeStory(replaySteps) {
+export function isStoryConsecutivelyNumbered(replaySteps) {
   var complete=true;
   for (var i=0;i<replaySteps.length;i++) {
     if (!replaySteps[i].activities[0]) {
@@ -103,9 +104,8 @@ export function getAllShown(stepsUntilNow) {
   return shownElements;
 }
 
-
 // get all elements, that are supposed to be hidden in the current step
-export function getAllNonShown(allObjects, shownElements) {
+export function getAllNotShown(allObjects, shownElements) {
   var notShownElements = [];
 
   // every element that is not referenced in shownElements

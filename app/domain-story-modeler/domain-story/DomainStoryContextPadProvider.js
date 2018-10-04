@@ -1,3 +1,5 @@
+'use strict';
+
 import inherits from 'inherits';
 
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
@@ -8,6 +10,7 @@ import {
   assign,
   bind
 } from 'min-dash';
+import Modeler from 'bpmn-js/lib/Modeler';
 
 
 export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
@@ -31,7 +34,8 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     switch (element.type) {
     // Google Material Icon Font does not seem to allow to put the icon name inline
     // since diagram-js's ContextPad does assume the icon is provided inline,
-    // we could either write our own ContextPad or fix the html manually. Here, we do the latter:
+    // we could either write our own ContextPad or fix the html manually.
+    // Here, we do the latter:
     case 'domainStory:workObject':
     case 'domainStory:workObjectFolder':
     case 'domainStory:workObjectCall':
@@ -96,11 +100,15 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       break;
 
     case 'domainStory:activity' :
+    // the change direction icon is appended at the end of the edit group by default,
+    // to make sure, that the delete icon is the last one, we remove it from the actions-object
+    // and add it after adding the change direction functionality
+      delete actions.delete;
 
       assign(actions, {
         'changeDirection': {
           group: 'edit',
-          className: 'bpmn-icon-screw-wrench',
+          className: 'icon-domain-story-changeDirection',
           title: translate('Change direction'),
           action: {
             // event needs to be adressed
@@ -110,12 +118,25 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           }
         }
       });
+
+      assign(actions,{
+        'delete': {
+          group: 'edit',
+          className: 'bpmn-icon-trash',
+          title: 'Remove',
+          action: {
+            click: function(event, element) {
+              Modeler.removeElement(element);
+            }
+          }
+        }
+      });
     }
     return actions;
   };
 
+  // change the direction of an activity
   function changeDirection(element) {
-
     var context;
     var businessObject = element.businessObject;
     var newNumber;

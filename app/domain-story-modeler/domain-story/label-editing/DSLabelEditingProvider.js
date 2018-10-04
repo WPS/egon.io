@@ -1,6 +1,13 @@
+'use strict';
+
 import { assign } from 'min-dash';
 
-import { isDomainStoryElement } from '../util/DSUtil';
+import {
+  isDomainStoryElement,
+  autocomplete,
+  getWorkObjectDictionary,
+  cleanDictionaries
+} from '../util/DSUtil';
 
 import { getLabel } from './DSLabelUtil';
 
@@ -19,6 +26,7 @@ import { inherits } from 'util';
 
 import LabelEditingProvider from 'bpmn-js/lib/features/label-editing/LabelEditingProvider';
 
+
 var numberStash = 0;
 var stashUse = false;
 
@@ -28,19 +36,19 @@ export function getNumberStash() {
   return number;
 }
 
-export function setStash(stash) {
-  stashUse = stash;
+export function toggleStashUse(use) {
+  stashUse = use;
 }
 
 export default function DSLabelEditingProvider(
     eventBus, canvas, directEditing,
-    modeling, resizeHandles, textRenderer, dSupdateLabelHandler) {
+    modeling, resizeHandles, textRenderer, dSUpdateLabelHandler) {
 
 
   this._canvas = canvas;
   this._modeling = modeling;
   this._textRenderer = textRenderer;
-  this._dsUpdateLabelHandler = dSupdateLabelHandler;
+  this._dsUpdateLabelHandler = dSUpdateLabelHandler;
 
   directEditing.registerProvider(this);
   // listen to dblclick on non-root elements
@@ -75,9 +83,14 @@ export default function DSLabelEditingProvider(
     }
   });
 
-
-  eventBus.on('directEditing.activate', function() {
+  eventBus.on('directEditing.activate', function(event) {
     resizeHandles.removeResizers();
+    var element = event.active.element;
+    createAutocomplete(element);
+  });
+
+  eventBus.on('directEditing.complete', function() {
+    cleanDictionaries(canvas);
   });
 
   eventBus.on('create.end', 500, function(event) {
@@ -102,14 +115,18 @@ export default function DSLabelEditingProvider(
     activateDirectEdit(event.shape);
   });
 
-
   function activateDirectEdit(element, force) {
     if (force ||
-      isAny(element, ['bpmn:Task', 'domainStory:textAnnotation']) ||
+      isAny(element, ['domainStory:textAnnotation']) ||
       isDomainStoryElement(element)) {
 
       directEditing.activate(element);
     }
+  }
+
+  function createAutocomplete(element) {
+    var editingBox=document.getElementsByClassName('djs-direct-editing-content');
+    autocomplete(editingBox[0], getWorkObjectDictionary(), element);
   }
 }
 
@@ -122,7 +139,7 @@ DSLabelEditingProvider.$inject = [
   'modeling',
   'resizeHandles',
   'textRenderer',
-  'dSupdateLabelHandler'
+  'dSUpdateLabelHandler'
 ];
 
 
@@ -152,20 +169,6 @@ DSLabelEditingProvider.prototype.activate = function(element) {
   assign(context, bounds);
 
   var options = {};
-
-  // tasks
-  if (
-    isAny(element, [
-      'bpmn:Task',
-      'bpmn:Participant',
-      'bpmn:Lane',
-      'bpmn:CallActivity'
-    ])
-  ) {
-    assign(options, {
-      centerVertically: true
-    });
-  }
 
   // external labels
   if (isLabelExternal(element)) {

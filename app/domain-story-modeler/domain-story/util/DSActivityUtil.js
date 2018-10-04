@@ -1,7 +1,36 @@
+import { calculateDeg } from './DSUtil';
+
+'use strict';
+
 /**
  * Utility functions that deal with activities
 */
 
+// get a list of activities, that originate from an actor-type
+export function getActivitesFromActors(canvasObjects) {
+  var activiesFromActors = [];
+
+  canvasObjects.forEach(element => {
+    if (element.type.includes('domainStory:activity')) {
+      if (element.source.type.includes('domainStory:actor')) {
+        activiesFromActors.push(element);
+      }
+    }
+    if (element.type.includes('domainStory:group')) {
+      var groupChildren = element.children;
+      groupChildren.forEach(child => {
+        if (child.type.includes('domainStory:activity')) {
+          if (child.source.type.includes('domainStory:actor')) {
+            activiesFromActors.push(child);
+          }
+        }
+      });
+    }
+  });
+  return activiesFromActors;
+}
+
+// get the IDs of activities with their associated number, only returns activities that are originating from an actor
 export function getNumbersAndIDs(canvas) {
   var iDWithNumber = [];
   var canvasObjects = canvas._rootElement.children;
@@ -13,23 +42,6 @@ export function getNumbersAndIDs(canvas) {
     iDWithNumber.push({ id: id, number: number });
   }
   return iDWithNumber;
-}
-
-// reverts the automatic changed done by the automatic number-gerneration at editing
-export function revertChange(iDWithNumber, canvas, eventBus) {
-  var canvasObjects = canvas._rootElement.children;
-  var activities = getActivitesFromActors(canvasObjects);
-  for (var i = activities.length - 1; i >= 0; i--) {
-    for (var j = iDWithNumber.length - 1; j >= 0; j--) {
-      if (iDWithNumber[j].id.includes(activities[i].businessObject.id)) {
-        var element = activities[i];
-        element.businessObject.number = iDWithNumber[j].number;
-        j = -5;
-        eventBus.fire('element.changed', { element });
-        iDWithNumber.splice(j, 1);
-      }
-    }
-  }
 }
 
 // defines the box for activity numbers
@@ -51,6 +63,8 @@ export function numberBoxDefinitions(element) {
   return box;
 }
 
+// position Functions
+
 // calculate the center between two points
 export function calculateXY(startPoint, endPoint) {
   var centerPoint;
@@ -62,6 +76,46 @@ export function calculateXY(startPoint, endPoint) {
   }
 
   return centerPoint;
+}
+
+// determine the position of the label at the activity
+export function labelPosition(waypoints) {
+  var amountWaypoints = waypoints.length;
+  var determinedPosition = {};
+  var xPos = 0;
+  var yPos = 0;
+
+  if (amountWaypoints > 2) {
+    var angleActivity = new Array(amountWaypoints - 1);
+    for (var i = 0; i < amountWaypoints - 1; i++) { // calculate the angles of the activities
+      angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
+    }
+
+    var selectedActivity = selectPartOfActivity(waypoints, angleActivity);
+
+    xPos = labelPositionX(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
+    yPos = labelPositionY(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
+
+    determinedPosition = {
+      x: xPos,
+      y: yPos,
+      selected: selectedActivity
+    };
+
+    return determinedPosition;
+
+  } else {
+    xPos = labelPositionX(waypoints[0], waypoints[1]);
+    yPos = labelPositionY(waypoints[0], waypoints[1]);
+
+    determinedPosition = {
+      x: xPos,
+      y: yPos,
+      selected: 0
+    };
+
+    return determinedPosition;
+  }
 }
 
 // calculate the X position of the label
@@ -121,7 +175,7 @@ export function labelPositionY(startPoint, endPoint) {
 }
 
 // select at which part of the activity the label should be attached to
-export function selectActivity(waypoints, angleActivity) {
+export function selectPartOfActivity(waypoints, angleActivity) {
   var selectedActivity = 0;
   var i = 0;
   var linelength = 49;
@@ -137,85 +191,36 @@ export function selectActivity(waypoints, angleActivity) {
   return selectedActivity;
 }
 
-// determine the position of the label at the activity
-export function labelPosition(waypoints) {
-  var amountWaypoints = waypoints.length;
-  var determinedPosition = {};
-  var xPos = 0;
-  var yPos = 0;
+// automatic numbering
 
-  if (amountWaypoints > 2) {
-    var angleActivity = new Array(amountWaypoints - 1);
-    for (var i = 0; i < amountWaypoints - 1; i++) { // calculate the angles of the activities
-      angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
+// determine the next available number that is not yet used
+export function generateAutomaticNumber(elementActivity,canvas, commandStack) {
+  var semantic = elementActivity.businessObject;
+  var canvasObjects = canvas._rootElement.children;
+  var activiesFromActors = [];
+  var usedNumbers = [0];
+  var wantedNumber = -1;
+
+  activiesFromActors = getActivitesFromActors(canvasObjects);
+  activiesFromActors.forEach(element => {
+    if (element.businessObject.number != null) {
+      usedNumbers.push(element.businessObject.number);
     }
-
-    var selectedActivity = selectActivity(waypoints, angleActivity);
-
-    xPos = labelPositionX(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
-    yPos = labelPositionY(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
-
-    determinedPosition = {
-      x: xPos,
-      y: yPos,
-      selected: selectedActivity
-    };
-
-    return determinedPosition;
-
-  } else {
-    xPos = labelPositionX(waypoints[0], waypoints[1]);
-    yPos = labelPositionY(waypoints[0], waypoints[1]);
-
-    determinedPosition = {
-      x: xPos,
-      y: yPos,
-      selected: 0
-    };
-
-    return determinedPosition;
+  });
+  for (var i = 0; i < usedNumbers.length; i++) {
+    if ((!usedNumbers.includes(i))) {
+      if (!usedNumbers.includes(String(i))) {
+        wantedNumber = i;
+        i = usedNumbers.length;
+      }
+    }
   }
+  if (wantedNumber == -1) {
+    wantedNumber = usedNumbers.length;
+  }
+  updateExistingNumbersAtGeneration(activiesFromActors, wantedNumber, commandStack);
+  semantic.number = wantedNumber;
 }
-
-// calculate the angle between two points in 2D
-export function calculateDeg(startPoint, endPoint) {
-  var quadrant = 0;
-
-  // determine in which quadrant we are
-  if (startPoint.x <= endPoint.x) {
-    if (startPoint.y >= endPoint.y)
-      quadrant = 0; // upper right quadrant
-    else quadrant = 3; // lower right quadrant
-  }
-  else {
-    if (startPoint.y >= endPoint.y)
-      quadrant = 1; // upper left uadrant
-    else quadrant = 2; // lower left quadrant
-  }
-
-  var adjacenten = Math.abs(startPoint.y - endPoint.y);
-  var opposite = Math.abs(startPoint.x - endPoint.x);
-
-  // since the arcus-tangens only gives values between 0 and 90, we have to adjust for the quadrant we are in
-
-  if (quadrant == 0) {
-    return 90 - Math.degrees(Math.atan2(opposite, adjacenten));
-  }
-  if (quadrant == 1) {
-    return 90 + Math.degrees(Math.atan2(opposite, adjacenten));
-  }
-  if (quadrant == 2) {
-    return 270 - Math.degrees(Math.atan2(opposite, adjacenten));
-  }
-  if (quadrant == 3) {
-    return 270 + Math.degrees(Math.atan2(opposite, adjacenten));
-  }
-}
-
-// convert rad to deg
-Math.degrees = function(radians) {
-  return radians * 180 / Math.PI;
-};
 
 // update the numbers at the activities when generating a new activity
 export function updateExistingNumbersAtGeneration(activiesFromActors, wantedNumber, commandStack) {
@@ -257,57 +262,4 @@ export function updateExistingNumbersAtEditing(activiesFromActors, wantedNumber,
       eventBus.fire('element.changed', { element });
     }
   }
-}
-
-// get a list of activities, that originate from an actor-type
-export function getActivitesFromActors(canvasObjects) {
-  var activiesFromActors = [];
-
-  canvasObjects.forEach(element => {
-    if (element.type.includes('domainStory:activity')) {
-      if (element.source.type.includes('domainStory:actor')) {
-        activiesFromActors.push(element);
-      }
-    }
-    if (element.type.includes('domainStory:group')) {
-      var groupChildren = element.children;
-      groupChildren.forEach(child => {
-        if (child.type.includes('domainStory:activity')) {
-          if (child.source.type.includes('domainStory:actor')) {
-            activiesFromActors.push(child);
-          }
-        }
-      });
-    }
-  });
-  return activiesFromActors;
-}
-
-// determine the next available number that is not yet used
-export function generateAutomaticNumber(elementActivity,canvas, commandStack) {
-  var semantic = elementActivity.businessObject;
-  var canvasObjects = canvas._rootElement.children;
-  var activiesFromActors = [];
-  var usedNumbers = [0];
-  var wantedNumber = -1;
-
-  activiesFromActors = getActivitesFromActors(canvasObjects);
-  activiesFromActors.forEach(element => {
-    if (element.businessObject.number != null) {
-      usedNumbers.push(element.businessObject.number);
-    }
-  });
-  for (var i = 0; i < usedNumbers.length; i++) {
-    if ((!usedNumbers.includes(i))) {
-      if (!usedNumbers.includes(String(i))) {
-        wantedNumber = i;
-        i = usedNumbers.length;
-      }
-    }
-  }
-  if (wantedNumber == -1) {
-    wantedNumber = usedNumbers.length;
-  }
-  updateExistingNumbersAtGeneration(activiesFromActors, wantedNumber, commandStack);
-  semantic.number = wantedNumber;
 }
