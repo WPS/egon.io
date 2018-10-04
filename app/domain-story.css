@@ -234,8 +234,12 @@ cursor: default;
   position: absolute;
   z-index: 1;
   bottom: 0px;
-  right: 80px;
-  padding-right: 5px;
+  right: 10px;  
+  display: flex;
+}
+
+#Datenschutz{
+  margin-right: 2em;
 }
 
 /* Elements by ID */
