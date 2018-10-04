@@ -24,8 +24,7 @@ import { version } from '../package.json';
 import {
   checkInput,
   keyReleased,
-  debounce,
-  openDictionary
+  debounce
 } from './domain-story-modeler/domain-story/util/AppUtil';
 
 import {
@@ -36,7 +35,7 @@ import {
 
 import DSLabelChangeHandlers from './domain-story-modeler/features/dictionary/DSLabelChangeHandlers';
 
-import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary } from './domain-story-modeler/features/dictionary/dictionary';
+import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary, openDictionary } from './domain-story-modeler/features/dictionary/dictionary';
 
 import { isPlaying, initReplay } from './domain-story-modeler/features/replay/repaly';
 
