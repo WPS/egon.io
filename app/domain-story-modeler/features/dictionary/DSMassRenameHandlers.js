@@ -1,6 +1,6 @@
 'use strict';
 
-export default function DSLabelChangeHandlers(commandStack, eventBus) {
+export default function DSMassRenameHandler(commandStack, eventBus) {
 
   commandStack.registerHandler('domainStoryObjects.massRename',massRename);
 

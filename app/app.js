@@ -33,7 +33,7 @@ import {
   correctGroupChildren
 } from './domain-story-modeler/util/DSUtil';
 
-import DSLabelChangeHandlers from './domain-story-modeler/features/dictionary/DSLabelChangeHandlers';
+import DSMassRenameHandlers from './domain-story-modeler/features/dictionary/DSMassRenameHandlers';
 
 import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary, openDictionary } from './domain-story-modeler/features/dictionary/dictionary';
 
@@ -55,7 +55,7 @@ const ViewBoxCoordinate = /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)
 
 // we need to initiate the activity commandStack elements
 DSActivityHandlers(commandStack, eventBus, canvas);
-DSLabelChangeHandlers(commandStack, eventBus, canvas);
+DSMassRenameHandlers(commandStack, eventBus, canvas);
 
 initReplay(canvas, elementRegistry);
 
