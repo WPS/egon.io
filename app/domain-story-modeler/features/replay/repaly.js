@@ -271,7 +271,7 @@ function disableCanvasInteraction() {
     paletteElements[i].style.display = 'none';
   }
 
-  currentReplayStepLabel.style.display = 'block';
+  currentReplayStepLabel.style.opacity = 1;
 }
 
 function enableCanvasInteraction() {
@@ -303,7 +303,7 @@ function enableCanvasInteraction() {
   for (i = 0; i < paletteElements.length; i++) {
     paletteElements[i].style.display = 'block';
   }
-  currentReplayStepLabel.style.display = 'none';
+  currentReplayStepLabel.style.opacity = 0;
 }
 
 function showCurrentStep() {
