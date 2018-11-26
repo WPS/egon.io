@@ -11,21 +11,23 @@ Extract the zip file and open index.html in your browser.
 
 ### Usage
 This is a short guide on how to use the Domain Story Modeler.
+We recommend to switch your browser to full screen mode (in most browsers: press F11 key) to increase the available modeling space.
 
 #### Palette
 Shows the icons you can choose to tell your Domain Story.
 
 #### Headline
-Click on the headline to change the name of the Domain Story and describe it.
+Click on the headline to change the name of the Domain Story and describe it. The description can contain information about assumptions (e.g. that the domain story describes a "happy path" scenario) and variations (e.g. optional steps).
+Use ctrl+enter or alt+enter to add line breaks to the description.
 
 #### Context Menu
 If you drop an icon from the palette into the canvas you will see a context menu. To show the connection between two icons use the arrow. Also you can choose the next icon you want to connect to. If you choose one, it will automatically be connected. Delete the choosen icon by clicking on delete. You can click on the wrench to change the icon. By using the annotation icon, you can add comments for further information.
 
-#### Label 
-Double click on an icon or an activity to add a label. 
+#### Naming Actors and Work Objects
+Double click on an actor's or work object's icon to edit the name.
 
-#### Automatic Numbering
-If you draw an activity between an actor (person, people and system) and a workobject (folder, call, email, conversation, information) it will be numbered automatically. By double clicking on the activity you can manually change the number. All other numbers are adjusted automatically.
+#### Naming and Numbering of Activities
+Activities are depicted as arrows. Double click on an arrow to edit the activity's name. If you model an activity between an actor (person, people and system) and a workobject (folder, call, email, conversation, information) it will be numbered automatically. By double clicking on the arrow you can manually change the number. All other numbers are adjusted automatically.
 
 #### File Management
 If you want to share your Domain Story or save it for future editing, you can export it as a .dst file by cklicking the export button ![Export Button](/images/archive.png). 
