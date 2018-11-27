@@ -58,7 +58,7 @@ input{
   margin-top: 0.2em;
 }
 
-.headline {
+#headline {
   font-size: 17pt;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -68,11 +68,11 @@ input{
   cursor: pointer;
 }
 
-.headline:hover {
+#headline:hover {
   color: red;
 }
 
-.headline:hover > #edit {
+#headline:hover > #edit {
   opacity: 100;
 }
 
