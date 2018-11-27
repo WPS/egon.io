@@ -5,11 +5,11 @@ import {
   labelPositionY
 } from '../../../app/domain-story-modeler/util/DSActivityUtil';
 
-import { calculateDeg } from '../../../app/domain-story-modeler/util/DSActivityUtil';
+import '../../../app/domain-story-modeler/util/MathExtensions';
 
 describe('DSLabelUtil', function() {
 
-  it('calculateDeg test', function() {
+  it('Math.angleBetween test', function() {
     var startPoint = {
       x: 10,
       y: 10
@@ -20,7 +20,7 @@ describe('DSLabelUtil', function() {
       y: 0
     };
 
-    var res = calculateDeg(startPoint, endPoint);
+    var res = Math.angleBetween(startPoint, endPoint);
     assert.equal(res, 45);
     assert.deepEqual(res, 45);
   });
@@ -46,7 +46,7 @@ describe('DSLabelUtil', function() {
     var angleActivity = [];
 
     for (var i = 0; i < 3 - 1; i++) { // calculate the angles of the activity
-      angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
+      angleActivity[i] = Math.angleBetween(waypoints[i], waypoints[i + 1]);
     }
 
     var res = selectPartOfActivity(waypoints, angleActivity);
@@ -76,7 +76,7 @@ describe('DSLabelUtil', function() {
     var angleActivity = new Array(2);
 
     for (var i = 0; i < 3 - 1; i++) { // calculate the angles of the activity
-      angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
+      angleActivity[i] = Math.angleBetween(waypoints[i], waypoints[i + 1]);
     }
     var res = selectPartOfActivity(waypoints, angleActivity);
 
@@ -105,7 +105,7 @@ describe('DSLabelUtil', function() {
     var angleActivity = new Array(2);
 
     for (var i = 0; i < 3 - 1; i++) { // calculate the angles of the activity
-      angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
+      angleActivity[i] = Math.angleBetween(waypoints[i], waypoints[i + 1]);
     }
 
     var res = selectPartOfActivity(waypoints, angleActivity);
@@ -134,7 +134,7 @@ describe('DSLabelUtil', function() {
 
     var angleActivity = new Array(2);
     for (var i = 0; i < 3 - 1; i++) { // calculate the angles of the activity
-      angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
+      angleActivity[i] = Math.angleBetween(waypoints[i], waypoints[i + 1]);
     }
     var selectedActivity = selectPartOfActivity(waypoints, angleActivity);
 
@@ -177,7 +177,7 @@ describe('DSLabelUtil', function() {
 
     var angleActivity = new Array(2);
     for (var i = 0; i < 3 - 1; i++) { // calculate the angles of the activity
-      angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
+      angleActivity[i] = Math.angleBetween(waypoints[i], waypoints[i + 1]);
     }
     var selectedActivity = selectPartOfActivity(waypoints, angleActivity);
 
@@ -220,7 +220,7 @@ describe('DSLabelUtil', function() {
 
     var angleActivity = new Array(2);
     for (var i = 0; i < 3 - 1; i++) { // calculate the angles of the activity
-      angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
+      angleActivity[i] = Math.angleBetween(waypoints[i], waypoints[i + 1]);
     }
     var selectedActivity = selectPartOfActivity(waypoints, angleActivity);
 

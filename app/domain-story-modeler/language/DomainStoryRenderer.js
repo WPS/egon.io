@@ -8,11 +8,7 @@ import Ids from 'ids';
 
 import { getAnnotationBoxHeight } from '../features/labeling/DSLabelEditingPreview';
 
-
-import {
-  labelPosition,
-  calculateDeg
-} from '../util/DSActivityUtil';
+import { labelPosition } from '../util/DSActivityUtil';
 
 import {
   componentsToPath,
@@ -136,7 +132,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       var position = labelPosition(waypoints);
       var startPoint = element.waypoints[position.selected];
       var endPoint = element.waypoints[position.selected + 1];
-      var angle = calculateDeg(startPoint, endPoint);
+      var angle = Math.angleBetween(startPoint, endPoint);
       var alignment = 'left';
       var boxWidth = 500;
       var xStart = position.x;

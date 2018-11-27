@@ -100,13 +100,6 @@ export function correctGroupChildren(canvas) {
   });
 }
 
-// Math functions
-
-// convert rad to deg
-Math.degrees = function(radians) {
-  return radians * 180 / Math.PI;
-};
-
 // approximate the width of the label text, standard fontsize: 11
 export function calculateTextWidth(text) {
   var fontsize = text.length * 5.1;

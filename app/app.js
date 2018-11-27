@@ -2,6 +2,8 @@
 
 import $ from 'jquery';
 
+import './domain-story-modeler/util/MathExtensions';
+
 import DomainStoryModeler from './domain-story-modeler';
 
 import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';

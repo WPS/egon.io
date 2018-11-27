@@ -41,7 +41,7 @@ export function labelPosition(waypoints) {
   if (amountWaypoints > 2) {
     var angleActivity = new Array(amountWaypoints - 1);
     for (var i = 0; i < amountWaypoints - 1; i++) { // calculate the angles of the activities
-      angleActivity[i] = calculateDeg(waypoints[i], waypoints[i + 1]);
+      angleActivity[i] = Math.angleBetween(waypoints[i], waypoints[i + 1]);
     }
 
     var selectedActivity = selectPartOfActivity(waypoints, angleActivity);
@@ -73,7 +73,7 @@ export function labelPosition(waypoints) {
 
 // calculate the X position of the label
 export function labelPositionX(startPoint, endPoint) {
-  var angle = calculateDeg(startPoint, endPoint);
+  var angle = Math.angleBetween(startPoint, endPoint);
   var offsetX = 0;
   var scaledangle = 0;
   if (angle == 0 || angle == 180 || angle == 90 || angle == 270) {
@@ -99,7 +99,7 @@ export function labelPositionX(startPoint, endPoint) {
 
 // calculate the Y position of the label
 export function labelPositionY(startPoint, endPoint) {
-  var angle = calculateDeg(startPoint, endPoint);
+  var angle = Math.angleBetween(startPoint, endPoint);
   var offsetY = 0;
   var scaledangle = 0;
 
@@ -142,39 +142,4 @@ export function selectPartOfActivity(waypoints, angleActivity) {
     }
   }
   return selectedActivity;
-}
-
-// calculate the angle between two points in 2D
-export function calculateDeg(startPoint, endPoint) {
-  var quadrant = 0;
-
-  // determine in which quadrant we are
-  if (startPoint.x <= endPoint.x) {
-    if (startPoint.y >= endPoint.y)
-      quadrant = 0; // upper right quadrant
-    else quadrant = 3; // lower right quadrant
-  }
-  else {
-    if (startPoint.y >= endPoint.y)
-      quadrant = 1; // upper left uadrant
-    else quadrant = 2; // lower left quadrant
-  }
-
-  var adjacenten = Math.abs(startPoint.y - endPoint.y);
-  var opposite = Math.abs(startPoint.x - endPoint.x);
-
-  // since the arcus-tangens only gives values between 0 and 90, we have to adjust for the quadrant we are in
-
-  if (quadrant == 0) {
-    return 90 - Math.degrees(Math.atan2(opposite, adjacenten));
-  }
-  if (quadrant == 1) {
-    return 90 + Math.degrees(Math.atan2(opposite, adjacenten));
-  }
-  if (quadrant == 2) {
-    return 270 - Math.degrees(Math.atan2(opposite, adjacenten));
-  }
-  if (quadrant == 3) {
-    return 270 + Math.degrees(Math.atan2(opposite, adjacenten));
-  }
 }
