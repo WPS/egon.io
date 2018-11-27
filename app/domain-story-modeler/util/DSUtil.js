@@ -111,8 +111,7 @@ Math.degrees = function(radians) {
 export function calculateTextWidth(text) {
   var fontsize = text.length * 5.1;
   fontsize = fontsize / 2;
-  // add an initial offset, since the calculateXY Position gives the absolute middle of the activity
-  // and we want the start directly under the number
+  // add an initial offset to the absolute middle of the activity
   fontsize += 20;
   return fontsize;
 }

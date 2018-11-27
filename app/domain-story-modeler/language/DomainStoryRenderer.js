@@ -11,7 +11,6 @@ import { getAnnotationBoxHeight } from '../features/labeling/DSLabelEditingPrevi
 
 import {
   labelPosition,
-  calculateXY,
   calculateDeg
 } from '../util/DSActivityUtil';
 
@@ -146,7 +145,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       if (angle == 0 || angle == 180) {
         boxWidth = Math.abs(startPoint.x - endPoint.x);
         alignment = 'center';
-        xStart = calculateXY(startPoint.x, endPoint.x) - calculateTextWidth(semantic.name);
+        xStart = (startPoint.x + endPoint.x)/2 - calculateTextWidth(semantic.name);
       }
 
       var box = {

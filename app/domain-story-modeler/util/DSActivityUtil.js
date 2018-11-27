@@ -31,19 +31,6 @@ export function getActivitesFromActors(canvasObjects) {
 
 // position Functions
 
-// calculate the center between two points
-export function calculateXY(startPoint, endPoint) {
-  var centerPoint;
-
-  if (startPoint >= endPoint) {
-    centerPoint = (startPoint - endPoint) / 2 + endPoint;
-  } else {
-    centerPoint = (endPoint - startPoint) / 2 + startPoint;
-  }
-
-  return centerPoint;
-}
-
 // determine the position of the label at the activity
 export function labelPosition(waypoints) {
   var amountWaypoints = waypoints.length;
@@ -107,7 +94,7 @@ export function labelPositionX(startPoint, endPoint) {
     scaledangle = angle - 270;
     offsetX = 5 - scaledangle / 6;
   }
-  return offsetX + calculateXY(startPoint.x, endPoint.x);
+  return offsetX + (startPoint.x + endPoint.x)/2;
 }
 
 // calculate the Y position of the label
@@ -137,7 +124,7 @@ export function labelPositionY(startPoint, endPoint) {
     scaledangle = angle - 270;
     offsetY = -scaledangle / 9;
   }
-  return offsetY + calculateXY(startPoint.y, endPoint.y);
+  return offsetY + (startPoint.y + endPoint.y)/2;
 }
 
 // select at which part of the activity the label should be attached to
