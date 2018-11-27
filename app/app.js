@@ -15,14 +15,12 @@ import {
 } from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
 
 import {
-  getActivitesFromActors,
-  updateExistingNumbersAtEditing
+  getActivitesFromActors
 } from './domain-story-modeler/util/DSActivityUtil';
 
 import { version } from '../package.json';
 
 import {
-  autocomplete,
   getAllObjectsFromCanvas,
   correctGroupChildren
 } from './domain-story-modeler/util/DSUtil';
@@ -32,6 +30,8 @@ import DSMassRenameHandlers from './domain-story-modeler/features/dictionary/DSM
 import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary, openDictionary } from './domain-story-modeler/features/dictionary/dictionary';
 
 import { isPlaying, initReplay } from './domain-story-modeler/features/replay/repaly';
+import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUtil';
+import { updateExistingNumbersAtEditing } from './domain-story-modeler/features/numbering/numbering';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',

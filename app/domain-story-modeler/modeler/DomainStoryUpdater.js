@@ -20,9 +20,8 @@ import {
   isDomainStory,
   isDomainStoryGroup
 } from '../util/TypeCheck';
+
 import { copyWaypoints } from '../util/DSUtil';
-
-
 
 /**
  * a handler responsible for updating the custom element's businessObject

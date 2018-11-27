@@ -1,7 +1,7 @@
 'use strict';
 
 import getActivitesFromActors from '../util/DSActivityUtil';
-import getNumbersAndIDs from '../features/numbering/numbering';
+import { getNumbersAndIDs } from '../features/numbering/numbering';
 /**
  * commandStack Handler for changes at activities
  */

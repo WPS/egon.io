@@ -11,7 +11,8 @@ import { getAnnotationBoxHeight } from '../features/labeling/DSLabelEditingPrevi
 
 import {
   labelPosition,
-  calculateXY
+  calculateXY,
+  calculateDeg
 } from '../util/DSActivityUtil';
 
 import {
@@ -20,8 +21,7 @@ import {
 } from 'diagram-js/lib/util/RenderUtil';
 
 import {
-  calculateTextWidth,
-  calculateDeg
+  calculateTextWidth
 } from '../util/DSUtil';
 
 import sanitize from '../util/Sanitizer';
