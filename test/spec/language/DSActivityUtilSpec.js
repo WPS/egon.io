@@ -6,7 +6,7 @@ import {
   labelPositionY
 } from '../../../app/domain-story-modeler/util/DSActivityUtil';
 
-import { calculateDeg } from '../../../app/domain-story-modeler/util/DSUtil';
+import { calculateDeg } from '../../../app/domain-story-modeler/util/DSActivityUtil';
 
 describe('DSLabelUtil', function() {
 

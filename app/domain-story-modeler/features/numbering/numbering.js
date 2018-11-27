@@ -92,3 +92,17 @@ export function updateExistingNumbersAtEditing(activiesFromActors, wantedNumber,
     }
   }
 }
+
+// get the IDs of activities with their associated number, only returns activities that are originating from an actor
+export function getNumbersAndIDs(canvas) {
+  var iDWithNumber = [];
+  var canvasObjects = canvas._rootElement.children;
+  var activities = getActivitesFromActors(canvasObjects);
+
+  for (var i = activities.length - 1; i >= 0; i--) {
+    var id = activities[i].businessObject.id;
+    var number = activities[i].businessObject.number;
+    iDWithNumber.push({ id: id, number: number });
+  }
+  return iDWithNumber;
+}

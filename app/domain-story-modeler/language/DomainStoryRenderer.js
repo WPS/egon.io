@@ -20,7 +20,6 @@ import {
 } from 'diagram-js/lib/util/RenderUtil';
 
 import {
-  getRectPath,
   calculateTextWidth,
   calculateDeg
 } from '../util/DSUtil';
@@ -645,3 +644,22 @@ DomainStoryRenderer.prototype.getConnectionPath = function(connection) {
     return this.getActivityPath(connection);
   }
 };
+
+// creates a SVG path that describes a rectangle which encloses the given shape.
+function getRectPath(shape) {
+  var offset = 5;
+  var x = shape.x,
+      y = shape.y,
+      width = (shape.width / 2) + offset,
+      height = (shape.height / 2) + offset;
+
+  var rectPath = [
+    ['M', x, y],
+    ['l', width, 0],
+    ['l', width, height],
+    ['l', -width, height],
+    ['l', -width, 0],
+    ['z']
+  ];
+  return rectPath;
+}

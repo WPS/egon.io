@@ -1,27 +1,7 @@
 'use strict';
 
-import { is } from 'bpmn-js/lib/util/ModelUtil';
 import { assign } from 'min-dash';
-
-// creates a SVG path that describes a rectangle which encloses the given shape.
-export function getRectPath(shape) {
-  var offset = 5;
-  var x = shape.x,
-      y = shape.y,
-      width = (shape.width / 2) + offset,
-      height = (shape.height / 2) + offset;
-
-  var rectPath = [
-    ['M', x, y],
-    ['l', width, 0],
-    ['l', width, height],
-    ['l', -width, height],
-    ['l', -width, 0],
-    ['z']
-  ];
-  return rectPath;
-}
-
+import { isInDomainStoryGroup } from './TypeCheck';
 
 // returns an array, that references all elements that are either drawn directly on the canvas or inside a group
 // the groups themselves are not inside that array
@@ -62,7 +42,7 @@ export function getAllObjectsFromCanvas(canvas) {
 }
 
 // returns all groups on the canvas and inside other groups
-export function getAllGroups(canvas) {
+function getAllGroups(canvas) {
   var canvasObjects=canvas._rootElement.children;
   var groupObjects=[];
   var allObjects=[];
@@ -120,84 +100,7 @@ export function correctGroupChildren(canvas) {
   });
 }
 
-// type-checking functions
-// check element type
-export function isDomainStory(element) {
-  return element && /domainStory:/.test(element.type);
-}
-
-// check if element is of type domainStory:group
-export function isDomainStoryGroup(element) {
-  return element && /domainStory:group/.test(element.type);
-}
-
-// check if element parent is of type domainStory:group
-export function isInDomainStoryGroup(element) {
-  return isDomainStoryGroup(element.parent);
-}
-
-// check if element in the context of an event is a domainStory element
-export function ifDomainStoryElement(fn) {
-  return function(event) {
-    var context = event.context,
-        element = context.shape || context.connection;
-
-    if (isDomainStory(element)) {
-      fn(event);
-    }
-  };
-}
-
-export function isDomainStoryElement(element) {
-  return is(element, 'domainStory:actorPerson') ||
-    is(element, 'domainStory:actorGroup') ||
-    is(element, 'domainStory:actorSystem') ||
-    is(element, 'domainStory:workObject') ||
-    is(element, 'domainStory:workObjectFolder') ||
-    is(element, 'domainStory:workObjectCall') ||
-    is(element, 'domainStory:workObjectEmail') ||
-    is(element, 'domainStory:workObjectBubble') ||
-    is(element, 'domainStory:activity') ||
-    is(element, 'domainStory:connection') ||
-    is(element, 'domainStory:group') ||
-    is(element, 'domainStory:workObjectInfo');
-}
-
 // Math functions
-// calculate the angle between two points in 2D
-export function calculateDeg(startPoint, endPoint) {
-  var quadrant = 0;
-
-  // determine in which quadrant we are
-  if (startPoint.x <= endPoint.x) {
-    if (startPoint.y >= endPoint.y)
-      quadrant = 0; // upper right quadrant
-    else quadrant = 3; // lower right quadrant
-  }
-  else {
-    if (startPoint.y >= endPoint.y)
-      quadrant = 1; // upper left uadrant
-    else quadrant = 2; // lower left quadrant
-  }
-
-  var adjacenten = Math.abs(startPoint.y - endPoint.y);
-  var opposite = Math.abs(startPoint.x - endPoint.x);
-
-  // since the arcus-tangens only gives values between 0 and 90, we have to adjust for the quadrant we are in
-
-  if (quadrant == 0) {
-    return 90 - Math.degrees(Math.atan2(opposite, adjacenten));
-  }
-  if (quadrant == 1) {
-    return 90 + Math.degrees(Math.atan2(opposite, adjacenten));
-  }
-  if (quadrant == 2) {
-    return 270 - Math.degrees(Math.atan2(opposite, adjacenten));
-  }
-  if (quadrant == 3) {
-    return 270 + Math.degrees(Math.atan2(opposite, adjacenten));
-  }
-}
 
 // convert rad to deg
 Math.degrees = function(radians) {

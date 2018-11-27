@@ -18,9 +18,11 @@ import {
   ifDomainStoryElement,
   isInDomainStoryGroup,
   isDomainStory,
-  copyWaypoints,
   isDomainStoryGroup
-} from '../util/DSUtil';
+} from '../util/TypeCheck';
+import { copyWaypoints } from '../util/DSUtil';
+
+
 
 /**
  * a handler responsible for updating the custom element's businessObject
@@ -57,7 +59,7 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
       assign(businessObject, pick(shape, ['height', 'width']));
 
       // rework the child-parent relations if a group was moved, such that all Objects that are visually in the group are also associated with it
-      // since we do not ahve access to the standard-canvas object ehre, we cannot use the function correctGroupChildren() from DSUtil
+      // since we do not ahve access to the standard-canvas object here, we cannot use the function correctGroupChildren() from DSUtil
       if (parent != null) {
         reworkGroupElements(parent, shape);
       }

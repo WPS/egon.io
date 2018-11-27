@@ -22,12 +22,6 @@ import {
 import { version } from '../package.json';
 
 import {
-  checkInput,
-  keyReleased,
-  debounce
-} from './domain-story-modeler/util/AppUtil';
-
-import {
   autocomplete,
   getAllObjectsFromCanvas,
   correctGroupChildren
@@ -755,3 +749,24 @@ $(function() {
 
   modeler.on('commandStack.changed', exportArtifacts);
 });
+
+function keyReleased(keysPressed, keyCode) {
+  keysPressed[keyCode] = false;
+}
+
+function checkInput(field) {
+  field.value = sanitize(field.value);
+}
+
+// helper
+
+function debounce(fn, timeout) {
+  var timer;
+
+  return function() {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(fn, timeout);
+  };
+}
