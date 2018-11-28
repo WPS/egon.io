@@ -4,22 +4,6 @@ import { selectPartOfActivity, labelPositionX, labelPosition, labelPositionY } f
 
 describe('DSLabelUtil', function() {
 
-  it('Math.angleBetween test', function() {
-    var startPoint = {
-      x: 10,
-      y: 10
-    };
-
-    var endPoint = {
-      x: 20,
-      y: 0
-    };
-
-    var res = Math.angleBetween(startPoint, endPoint);
-    assert.equal(res, 45);
-    assert.deepEqual(res, 45);
-  });
-
   // will only be used for three or more waypoints
   it('selectActivity bothSlanted test', function() {
     var startPoint = {
