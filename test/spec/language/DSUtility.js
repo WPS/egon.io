@@ -1,11 +1,6 @@
-import {
-  selectPartOfActivity,
-  labelPosition,
-  labelPositionX,
-  labelPositionY
-} from '../../../app/domain-story-modeler/util/DSActivityUtil';
-
 import '../../../app/domain-story-modeler/util/MathExtensions';
+
+import { selectPartOfActivity, labelPositionX, labelPosition, labelPositionY } from '../../../app/domain-story-modeler/features/labeling/DSLabelUtil';
 
 describe('DSLabelUtil', function() {
 
