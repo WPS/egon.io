@@ -8,16 +8,10 @@ import Ids from 'ids';
 
 import { getAnnotationBoxHeight } from '../features/labeling/DSLabelEditingPreview';
 
-import { labelPosition } from '../util/DSActivityUtil';
-
 import {
   componentsToPath,
   createLine
 } from 'diagram-js/lib/util/RenderUtil';
-
-import {
-  calculateTextWidth
-} from '../util/DSUtil';
 
 import sanitize from '../util/Sanitizer';
 
@@ -34,8 +28,15 @@ import {
   isObject,
   assign
 } from 'min-dash';
+
 import { getNumberStash } from '../features/labeling/DSLabelEditingProvider';
+
 import { numberBoxDefinitions, generateAutomaticNumber } from '../features/numbering/numbering';
+
+import {
+  labelPosition,
+  calculateTextWidth
+} from '../features/labeling/DSLabelUtil';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];

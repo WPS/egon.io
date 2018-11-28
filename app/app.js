@@ -12,10 +12,7 @@ import DSActivityHandlers from './domain-story-modeler/modeler/DSActivityHandler
 
 import sanitize from './domain-story-modeler/util/Sanitizer';
 
-import {
-  toggleStashUse
-} from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
-
+import { toggleStashUse } from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
 
 import { version } from '../package.json';
 
