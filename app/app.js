@@ -16,24 +16,24 @@ import {
   toggleStashUse
 } from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
 
-import {
-  getActivitesFromActors
-} from './domain-story-modeler/util/DSActivityUtil';
 
 import { version } from '../package.json';
-
-import {
-  getAllObjectsFromCanvas,
-  correctGroupChildren
-} from './domain-story-modeler/util/DSUtil';
 
 import DSMassRenameHandlers from './domain-story-modeler/features/dictionary/DSMassRenameHandlers';
 
 import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary, openDictionary } from './domain-story-modeler/features/dictionary/dictionary';
 
 import { isPlaying, initReplay } from './domain-story-modeler/features/replay/repaly';
+
 import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUtil';
+
 import { updateExistingNumbersAtEditing } from './domain-story-modeler/features/numbering/numbering';
+
+import {
+  correctGroupChildren,
+  getAllObjectsFromCanvas,
+  getActivitesFromActors
+} from './domain-story-modeler/util/CanvasObjects';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',

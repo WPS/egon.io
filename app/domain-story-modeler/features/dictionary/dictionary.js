@@ -1,4 +1,5 @@
-import { getAllObjectsFromCanvas } from '../../util/DSUtil';
+import { getAllObjectsFromCanvas } from "../../util/CanvasObjects";
+
 
 var activityDictionary = [];
 var workObjectDictionary = [];

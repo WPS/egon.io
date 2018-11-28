@@ -1,8 +1,9 @@
 'use strict';
 
-import { getActivitesFromActors } from '../../util/DSActivityUtil';
-
-import { getAllObjectsFromCanvas } from '../../util/DSUtil';
+import {
+  getActivitesFromActors,
+  getAllObjectsFromCanvas
+} from '../../util/CanvasObjects';
 
 var canvas;
 var elementRegistry;

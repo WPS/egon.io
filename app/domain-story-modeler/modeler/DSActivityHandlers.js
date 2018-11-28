@@ -1,7 +1,8 @@
 'use strict';
 
-import getActivitesFromActors from '../util/DSActivityUtil';
 import { getNumbersAndIDs } from '../features/numbering/numbering';
+
+import { getActivitesFromActors } from '../util/CanvasObjects';
 /**
  * commandStack Handler for changes at activities
  */

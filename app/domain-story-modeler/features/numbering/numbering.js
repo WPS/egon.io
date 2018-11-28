@@ -1,6 +1,7 @@
 'use strict';
 
 import { labelPosition, getActivitesFromActors } from '../../util/DSActivityUtil';
+import { getActivitesFromActors } from '../../util/CanvasObjects';
 
 // defines the box for activity numbers
 export function numberBoxDefinitions(element) {
