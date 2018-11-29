@@ -22,10 +22,8 @@ input{
 }
 
 .headlineContainer {
-  margin-left: 5px;
-  margin-top: 3px;
   display: grid;
-  grid-template-columns: auto 310px;
+  grid-template-columns: auto 285;
 }
 
 .headlineAndInfo {
@@ -49,13 +47,14 @@ input{
 }
 
 .logoContainer {
+  margin-left: 10px;
   margin-top: 1em;
   grid-column: 2/2;
   position: relative;
 }
 
-#importExportSVGButton {
-  margin-top: 0.2em;
+.replayButtons {
+  margin-top: 1.3em;
 }
 
 #headline {
@@ -64,7 +63,7 @@ input{
   word-wrap: break-word;
   hyphens: auto; 
   -webkit-hyphenate-character: auto;  /* not supported by Chrome*/
-  margin: 20px;
+  margin: 10px;
   cursor: pointer;
 }
 
@@ -76,10 +75,12 @@ input{
   opacity: 100;
 }
 
-.infoText{
+#infoText{
+  margin-top: -15px;
+  margin-bottom: 3px;
   position: relative;
   font-size: 10pt;
-  margin-left: 20px;
+  margin-left: 10px;
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto; 
@@ -133,7 +134,7 @@ cursor: default;
 #replayStep{
   padding: 1px;
   opacity: 0;
-  margin-left: 5.5em;
+  margin-left: 5.2em;
 }
 
 #dialog, #numberDialog, #labelDialog{

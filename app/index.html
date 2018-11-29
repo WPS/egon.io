@@ -32,6 +32,21 @@
     </div>
     <div class="ButtonsAndLogos">
         <div class="ButtonContainer">
+          <div class="importExportSVGButton" id="importExportSVGButton">
+            <button id="buttonImport" class="importButton" title="Import story from .dst file" onclick="document.getElementById('import').click();">
+              <img src="./logo/unarchive.png">
+            </button>
+            <input type="file" accept=".dst" style="display:none;" id="import" onclick="this.value=null;" name="file" />
+            <button class="exportButton" id="export" title="Export story as .dst file">
+              <img src="./logo/archive.png">
+            </button>
+            <button class="svgDownloadButton" id="buttonSVG" title="Export story as SVG image">
+              <img src="./logo/image.png">
+            </button>
+            <button id="dictionaryButton" title="Edit dictionary">
+              <img src="./logo/spellcheck.png">
+            </button>
+          </div>
             <div class="replayButtons">
               <button id="buttonStartReplay" class="startReplayButton" title="Start replay">
                 <img src="./logo/play.png">
@@ -46,21 +61,6 @@
                 <img src="./logo/stop.png">
               </button>
               <div id="replayStep"> 0/0</div>
-            </div>
-            <div class="importExportSVGButton" id="importExportSVGButton">
-              <button id="buttonImport" class="importButton" title="Import story from .dst file" onclick="document.getElementById('import').click();">
-                <img src="./logo/unarchive.png">
-              </button>
-              <input type="file" accept=".dst" style="display:none;" id="import" onclick="this.value=null;" name="file" />
-              <button class="exportButton" id="export" title="Export story as .dst file">
-                <img src="./logo/archive.png">
-              </button>
-              <button class="svgDownloadButton" id="buttonSVG" title="Export story as SVG image">
-                <img src="./logo/image.png">
-              </button>
-              <button id="dictionaryButton" title="Edit dictionary">
-                <img src="./logo/spellcheck.png">
-              </button>
             </div>
         </div>
         <div class="logoContainer">
