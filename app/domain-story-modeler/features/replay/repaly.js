@@ -141,8 +141,8 @@ function createStep(tracedActivity, elementRegistry) {
     initialSource = elementRegistry.get(tracedActivity.businessObject.source);
 
     // add the first Object to the traced targets, this can only be a workObject, since actors cannot connect to other actors
-    var currentTarget = elementRegistry.get(tracedActivity.businessObject.target);
-    targetObjects.push(currentTarget);
+    var firstTarget = elementRegistry.get(tracedActivity.businessObject.target);
+    targetObjects.push(firstTarget);
 
     // check the outgoing activities for each target
     for (var i = 0; i < targetObjects.length; i++) {
@@ -160,12 +160,12 @@ function createStep(tracedActivity, elementRegistry) {
     }
   }
 
-  var traceStep = {
+  var tracedStep = {
     source: initialSource,
     activities: activities,
     targets: targetObjects
   };
-  return traceStep;
+  return tracedStep;
 }
 
 export function isStoryConsecutivelyNumbered(replaySteps) {
