@@ -1,7 +1,5 @@
-import DomainStoryElementFactory from '../domain-story/DomainStoryElementFactory';
 import ElementFactory from 'diagram-js/lib/core/ElementFactory';
 import CommandStack from 'diagram-js/lib/command/CommandStack';
-import ReplaceMenuProvider from '../domain-story/popup-menu/ReplaceMenuProvider';
 import DSModeling from '../modeling/DSModeling';
 
 'use strict';
@@ -17,9 +15,7 @@ export default {
     'contextPadProvider',
     'replaceMenuProvider',
   ],
-  elementFactory: [ 'type', DomainStoryElementFactory ],
   elementFactoryBpmn: ['type', ElementFactory],
-  replaceMenuProvider: ['type', ReplaceMenuProvider],
   commandStack: ['type', CommandStack],
   modeling : ['type', DSModeling]
 };

@@ -1,4 +1,3 @@
-import DomainStoryElementFactory from '../domain-story/DomainStoryElementFactory';
 import ElementFactory from 'diagram-js/lib/core/ElementFactory';
 import DSModeling from '../modeling/DSModeling';
 
@@ -10,7 +9,6 @@ export default {
   __init__: [
     'paletteProvider',
   ],
-  elementFactory: [ 'type', DomainStoryElementFactory ],
   elementFactoryBpmn: ['type', ElementFactory],
   modeling : ['type', DSModeling]
 };
