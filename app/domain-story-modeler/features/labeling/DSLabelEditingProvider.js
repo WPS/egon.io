@@ -15,9 +15,7 @@ import {
   isLabel
 } from 'bpmn-js/lib/util/LabelUtil';
 
-import { inherits } from 'util';
 
-import LabelEditingProvider from 'bpmn-js/lib/features/label-editing/LabelEditingProvider';
 import { cleanDictionaries, getWorkObjectDictionary } from '../dictionary/dictionary';
 import { isDomainStoryElement } from '../../util/TypeCheck';
 
@@ -123,8 +121,6 @@ export default function DSLabelEditingProvider(
     autocomplete(editingBox[0], getWorkObjectDictionary(), element);
   }
 }
-
-inherits(DSLabelEditingProvider, LabelEditingProvider);
 
 DSLabelEditingProvider.$inject = [
   'eventBus',
