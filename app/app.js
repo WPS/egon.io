@@ -93,6 +93,7 @@ var modal = document.getElementById('modal'),
     wpsLogoDialog = document.getElementById('wpsLogoInfo'),
     dstLogoDialog = document.getElementById('dstLogoInfo'),
     dictionaryDialog = document.getElementById('dictionary'),
+    keyboardShortcutInfoDialog = document.getElementById('keyboardShortcutInfoDialog'),
     // Container
     activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
     workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
@@ -110,8 +111,10 @@ var modal = document.getElementById('modal'),
     svgSaveButton = document.getElementById('buttonSVG'),
     wpsLogoButton = document.getElementById('closeWPSLogoInfo'),
     dstLogoButton = document.getElementById('closeDSTLogoInfo'),
+    keyboardShortcutInfoButton = document.getElementById('keyboardShortcutInfoButton'),
+    keyboardShortcutInfoButtonCancel = document.getElementById('keyboardShortcutInfoDialogButtonCancel'),
     incompleteStoryDialogButtonCancel = document.getElementById('closeIncompleteStoryInfo'),
-    versionDialogButtonCanvel = document.getElementById('closeVersionDialog');
+    versionDialogButtonCancel = document.getElementById('closeVersionDialog');
 
 // interal variables
 var keysPressed = [];
@@ -229,6 +232,10 @@ activityNumberDialogButtonCancel.addEventListener('click', function() {
   closeActivityInputLabelWithNumber();
 });
 
+keyboardShortcutInfoButtonCancel.addEventListener('click', function() {
+  closeKeyboardShortcutDialog();
+})
+
 activityLabelButtonCancel.addEventListener('click', function() {
   closeActivityInputLabelWithoutNumber();
 });
@@ -310,9 +317,14 @@ incompleteStoryDialogButtonCancel.addEventListener('click', function() {
   incompleteStoryDialog.style.display = 'none';
 });
 
-versionDialogButtonCanvel.addEventListener('click', function() {
+versionDialogButtonCancel.addEventListener('click', function() {
   modal.style.display = 'none';
   versionDialog.style.display = 'none';
+});
+
+keyboardShortcutInfoButton.addEventListener('click', function() {
+  modal.style.display = 'block';
+  keyboardShortcutInfoDialog.style.display = 'block';
 });
 
 // -----
@@ -586,6 +598,11 @@ function showActivityWithoutLabelDialog(event) {
   if (event.businessObject.name != null) {
     activityInputLabelWithoutNumber.value = event.businessObject.name;
   }
+}
+
+function closeKeyboardShortcutDialog() {
+  keyboardShortcutInfoDialog.style.display = 'none';
+  modal.style.display = 'none';
 }
 
 function closeActivityInputLabelWithNumber() {

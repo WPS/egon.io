@@ -120,12 +120,12 @@ cursor: default;
   pointer-events : 'none';
 }
 
-#buttonImport:hover, #export:hover, #buttonSVG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover{
+#buttonImport:hover, #export:hover, #buttonSVG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover #keyboardShortcutInfoDialogButtonCancel:hover, #keyboardShortcutInfoButton:hover{
   border: 1px solid #CCC;
   cursor: pointer;
 }
 
-#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep{
+#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep, #keyboardShortcutInfoDialogButtonCancel ,#keyboardShortcutInfoButton{
   background-color: white;
   border: 1px solid white;
   margin-right: -4px;
@@ -137,13 +137,23 @@ cursor: default;
   margin-left: 5.2em;
 }
 
-#dialog, #numberDialog, #labelDialog{
+#dialog, #numberDialog, #labelDialog, #keyboardShortcutInfoDialog {
   padding: 30px 50px 30px 50px;
   background-color:#FAFAFA;
   border-color: #CCC;
   border-radius: 2px;
   border-width: 1px;
   box-shadow: 2px 2px 5px silver;
+}
+
+#keyboardTable {
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-right: 3px;
+}
+
+#keyboardTable td{
+  padding-right: 10px;
 }
 
 #inputLabel [type=submit], #labelInputLabel [type=submit]{
@@ -165,7 +175,7 @@ cursor: default;
   position: absolute;
 }
 
-#dictionary, #numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog{
+#dictionary, #numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog{
   top: 40%;
   left: 50%;
   z-index: 2;
