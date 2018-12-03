@@ -14,7 +14,9 @@ This is a short guide on how to use the Domain Story Modeler.
 We recommend to switch your browser to full screen mode (in most browsers: press F11 key) to increase the available modeling space.
 
 #### Palette
-Shows the icons you can choose to tell your Domain Story.
+Shows the icons you can choose to record your Domain Story (actors and work objects), a rectangular shape to group icons into logical units, and two useful modeling tools:
+- The lasso tool lets you select several icons at once to move them easily.
+- the space tool creates or removes space. Click and drag the crosshair to the right or down to create space, or drag to the left or to the top to remove space.
 
 #### Headline
 Click on the headline to change the name of the Domain Story and describe it. The description can contain information about assumptions (e.g. that the domain story describes a "happy path" scenario) and variations (e.g. optional steps).
