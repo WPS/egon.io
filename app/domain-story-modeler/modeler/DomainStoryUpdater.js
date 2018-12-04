@@ -92,6 +92,13 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
         target = connection.target,
         businessObject = connection.businessObject;
 
+    if (e.newTarget) {
+      target = e.newTarget;
+    }
+    if (e.newSource) {
+      source = e.newSource;
+    }
+
     var parent = connection.parent;
     var customElements = bpmnjs._customElements;
 
@@ -107,11 +114,19 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
       waypoints: copyWaypoints(connection)
     });
 
-    if ((!businessObject.source && !businessObject.target) && (source && target)) {
-      assign(businessObject, {
-        source: source.id,
-        target: target.id
-      });
+    if (source) {
+      if (!businessObject.source) {
+        assign(businessObject, { source: source.id });
+      } else {
+        businessObject.source = source.id;
+      }
+    }
+    if (target) {
+      if (!businessObject.target) {
+        assign(businessObject, { target: target.id });
+      } else {
+        businessObject.target = target.id;
+      }
     }
   }
 
