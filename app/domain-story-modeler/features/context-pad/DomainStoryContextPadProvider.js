@@ -9,7 +9,6 @@ import {
   assign,
   bind
 } from 'min-dash';
-import Modeler from 'bpmn-js/lib/Modeler';
 import { generateAutomaticNumber } from '../numbering/numbering';
 
 
@@ -127,7 +126,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           title: 'Remove',
           action: {
             click: function(event, element) {
-              Modeler.removeElement(element);
+              modeling.removeElements({element});
             }
           }
         }
