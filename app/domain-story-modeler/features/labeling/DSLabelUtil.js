@@ -3,17 +3,11 @@
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 function getLabelAttr(semantic) {
-  if (is(semantic, 'domainStory:actorPerson') ||
-    is(semantic, 'domainStory:actorGroup') ||
-    is(semantic, 'domainStory:actorSystem') ||
-    is(semantic, 'domainStory:workObject') ||
-    is(semantic, 'domainStory:workObjectFolder') ||
-    is(semantic, 'domainStory:workObjectCall') ||
-    is(semantic, 'domainStory:workObjectEmail') ||
-    is(semantic, 'domainStory:workObjectBubble') ||
-    is(semantic, 'domainStory:activity') ||
-    is(semantic, 'domainStory:group') ||
-    is(semantic, 'domainStory:workObjectInfo')) {
+  if (
+    semantic.type.includes('domainStory:actor') ||
+    semantic.type.includes('domainStory:workObject') ||
+    semantic.type.includes('domainStory:activity') ||
+    semantic.type.includes('domainStory:group')) {
 
     return 'name';
   }

@@ -1,6 +1,10 @@
 'use strict';
 
 import { assign } from 'min-dash';
+import { getActorTypes, initActorTypes } from '../../CanvasObjects/ActorTypes';
+import { getWorkObjectTypes, initWorkObjectTypes } from '../../CanvasObjects/WorkObjectTypes';
+import { getNameFromType } from '../../CanvasObjects/naming';
+import { getIconForType } from '../../CanvasObjects/icons';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
@@ -62,38 +66,40 @@ PaletteProvider.prototype.getPaletteEntries = function() {
     };
   }
 
+  initActorTypes();
+  initWorkObjectTypes();
+
+  var actorTypes = getActorTypes();
+
+  actorTypes.keysArray().forEach(actorType => {
+    var name = getNameFromType(actorType);
+    var icon = getIconForType(actorType);
+
+    var action = [];
+    action['domainStory-actor'+name] = createAction(actorType, 'actor', icon, name);
+    assign(actions, action);
+  });
+
   assign(actions, {
-    'domainStory-actorPerson': createAction(
-      'domainStory:actorPerson', 'actor', 'icon-domain-story-actor-person', 'person'
-    ),
-    'domainStory-actorGroup': createAction(
-      'domainStory:actorGroup', 'actor', 'icon-domain-story-actor-group', 'people'
-    ),
-    'domainStory-actorSystem': createAction(
-      'domainStory:actorSystem', 'actor', 'icon-domain-story-actor-system', 'system'
-    ),
     'actor-separator': {
       group: 'actor',
       separator: true
-    },
-    'domainStory-workObject': createAction(
-      'domainStory:workObject', 'workObject', 'icon-domain-story-workObject', 'document'
-    ),
-    'domainStory-workObjectFolder': createAction(
-      'domainStory:workObjectFolder', 'workObject', 'icon-domain-story-workObject-folder', 'folder'
-    ),
-    'domainStory-workObjectCall': createAction(
-      'domainStory:workObjectCall', 'workObject', 'icon-domain-story-workObject-call', 'call'
-    ),
-    'domainStory-workObjectEmail': createAction(
-      'domainStory:workObjectEmail', 'workObject', 'icon-domain-story-workObject-email', 'email'
-    ),
-    'domainStory-workObjectBubble': createAction(
-      'domainStory:workObjectBubble', 'workObject', 'icon-domain-story-workObject-bubble', 'conversation'
-    ),
-    'domainStory-workObjectInfo': createAction(
-      'domainStory:workObjectInfo', 'workObject', 'icon-domain-story-workObject-info', 'infomation'
-    ),
+    }
+  });
+
+  var workObjectTypes = getWorkObjectTypes();
+
+  workObjectTypes.keysArray().forEach(workObjectType => {
+
+    var name = getNameFromType(workObjectType);
+    var icon = getIconForType(workObjectType);
+
+    var action = [];
+    action['domainStory-actor'+name] = createAction(workObjectType, 'actor', icon, name);
+    assign(actions, action);
+  });
+
+  assign(actions, {
     'workObject-separator': {
       group: 'workObject',
       separator: true

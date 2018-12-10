@@ -10,6 +10,10 @@ import {
   bind
 } from 'min-dash';
 import { generateAutomaticNumber } from '../numbering/numbering';
+import { getWorkObjectTypes } from '../../CanvasObjects/WorkObjectTypes';
+import { getNameFromType } from '../../CanvasObjects/naming';
+import { getActorTypes } from '../../CanvasObjects/ActorTypes';
+import { getIconForType } from '../../CanvasObjects/icons';
 
 
 
@@ -31,35 +35,16 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     }
 
     // entries only for specific types of elements:
-    switch (element.type) {
-    // Google Material Icon Font does not seem to allow to put the icon name inline
-    // since diagram-js's ContextPad does assume the icon is provided inline,
-    // we could either write our own ContextPad or fix the html manually.
-    // Here, we do the latter:
-    case 'domainStory:workObject':
-    case 'domainStory:workObjectFolder':
-    case 'domainStory:workObjectCall':
-    case 'domainStory:workObjectEmail':
-    case 'domainStory:workObjectBubble':
-    case 'domainStory:workObjectInfo':
 
-      assign(actions, {
-        'append.actorPerson': appendAction('domainStory:actorPerson', 'icon-domain-story-actor-person', 'person', 'actors'),
-        'append.actorGroup':  appendAction('domainStory:actorGroup', 'icon-domain-story-actor-group', 'people', 'actors'),
-        'append.actorSystem': appendAction('domainStory:actorSystem', 'icon-domain-story-actor-system', 'system', 'actors')
-      });
+    if (element.type.includes('workObject')) {
+      var actorTypes = getActorTypes();
 
-    case 'domainStory:actorPerson':
-    case 'domainStory:actorGroup':
-    case 'domainStory:actorSystem':
-
-      assign(actions, {
-        'append.workObject': appendAction('domainStory:workObject', 'icon-domain-story-workObject', 'workobject', 'workObjects'),
-        'append.workObjectFolder': appendAction('domainStory:workObjectFolder', 'icon-domain-story-workObject-folder', 'folder', 'workObjects'),
-        'append.workObjectCall': appendAction('domainStory:workObjectCall', 'icon-domain-story-workObject-call', 'call', 'workObjects'),
-        'append.workObjectEmail': appendAction('domainStory:workObjectEmail', 'icon-domain-story-workObject-email', 'email', 'workObjects'),
-        'append.workObjectBubble': appendAction('domainStory:workObjectBubble', 'icon-domain-story-workObject-bubble', 'conversation', 'workObjects'),
-        'append.workObjectInfo': appendAction('domainStory:workObjectInfo', 'icon-domain-story-workObject-info', 'information', 'workObjects')
+      actorTypes.keysArray().forEach(actorType => {
+        var name = getNameFromType(actorType);
+        var icon = getIconForType(actorType);
+        var action = [];
+        action['append.actor' + name] = appendAction(actorType, icon, name, 'actors');
+        assign(actions, action);
       });
 
       // replace menu entry
@@ -91,16 +76,55 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           }
         }
       });
+    }
+    else if (element.type.includes('actor')) {
+      var workObjectTypes = getWorkObjectTypes();
 
-    case 'domainStory:group':
+      workObjectTypes.keysArray().forEach(workObjectType => {
+        var name = getNameFromType(workObjectType);
+        var icon = getIconForType(workObjectType);
+        var action = [];
+        action['append.workObject' + name] = appendAction(workObjectType, icon, name, 'actors');
+        assign(actions, action);
+      });
 
+      // replace menu entry
+      assign(actions, {
+        'replace': {
+          group: 'edit',
+          className: 'bpmn-icon-screw-wrench',
+          title: translate('Change type'),
+          action: {
+            click: function(event, element) {
+
+              var position = assign(getReplaceMenuPosition(element), {
+                cursor: { x: event.x, y: event.y }
+              });
+              popupMenu.open(element, 'ds-replace', position);
+            }
+          }
+        }
+      });
+
+      assign(actions, {
+        'connect': {
+          group: 'connect',
+          className: 'bpmn-icon-connection',
+          title: translate('Connect using custom connection'),
+          action: {
+            click: startConnect,
+            dragstart: startConnect
+          }
+        }
+      });
+    }
+    else if (element.type.includes('domainStory:group')) {
       assign(actions, {
         'append.text-annotation': appendAction('domainStory:textAnnotation', 'bpmn-icon-text-annotation')
       });
-      break;
-
-    case 'domainStory:activity' :
-    // the change direction icon is appended at the end of the edit group by default,
+    }
+    else if (element.type.includes('domainStory:activity')) {
+      // the change direction icon is appended at the end of the edit group by default,
     // to make sure, that the delete icon is the last one, we remove it from the actions-object
     // and add it after adding the change direction functionality
       delete actions.delete;
@@ -111,7 +135,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           className: 'icon-domain-story-changeDirection',
           title: translate('Change direction'),
           action: {
-            // event needs to be adressed
+          // event needs to be adressed
             click: function(event, element) {
               changeDirection(element);
             }
@@ -126,12 +150,13 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           title: 'Remove',
           action: {
             click: function(event, element) {
-              modeling.removeElements({element});
+              modeling.removeElements({ element });
             }
           }
         }
       });
     }
+
     return actions;
   };
 

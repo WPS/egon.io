@@ -70,17 +70,11 @@ export default function DSLabelEditingPreview(
     if (is(element, 'domainStory:textAnnotation') ||
       element.labelTarget) {
       canvas.addMarker(element, MARKER_HIDDEN);
-    } else if (is(element, 'domainStory:actorPerson') ||
-      is(element, 'domainStory:actorGroup') ||
-      is(element, 'domainStory:actorSystem') ||
-      is(element, 'domainStory:workObject') ||
-      is(element, 'domainStory:workObjectFolder') ||
-      is(element, 'domainStory:workObjectCall') ||
-      is(element, 'domainStory:workObjectEmail') ||
-      is(element, 'domainStory:workObjectBubble') ||
-      is(element, 'domainStory:activity') ||
-      is(element, 'domainStory:group') ||
-      is(element, 'domainStory:workObjectInfo')) {
+    } else if (
+      element.type.includes('domainStory:actor') ||
+      element.type.includes('domainStory:workObject') ||
+      element.type.includes('domainStory:activity') ||
+      element.type.includes('domainStory:group')) {
       canvas.addMarker(element, MARKER_LABEL_HIDDEN);
     }
   });
