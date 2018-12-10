@@ -1,5 +1,3 @@
-import { is } from 'bpmn-js/lib/util/ModelUtil';
-
 'use strict';
 
 // type-checking functions
@@ -31,16 +29,5 @@ export function ifDomainStoryElement(fn) {
 }
 
 export function isDomainStoryElement(element) {
-  return is(element, 'domainStory:actorPerson') ||
-      is(element, 'domainStory:actorGroup') ||
-      is(element, 'domainStory:actorSystem') ||
-      is(element, 'domainStory:workObject') ||
-      is(element, 'domainStory:workObjectFolder') ||
-      is(element, 'domainStory:workObjectCall') ||
-      is(element, 'domainStory:workObjectEmail') ||
-      is(element, 'domainStory:workObjectBubble') ||
-      is(element, 'domainStory:activity') ||
-      is(element, 'domainStory:connection') ||
-      is(element, 'domainStory:group') ||
-      is(element, 'domainStory:workObjectInfo');
+  return element.businessObject.type.includes('domainStory:');
 }

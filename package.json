@@ -68,6 +68,7 @@
   "dependencies": {
     "bootstrap": "^4.1.1",
     "bpmn-js": "^3.0.2",
+    "collections": "^5.1.5",
     "diagram-js": "^3.0.1",
     "diagram-js-direct-editing": "^1.4.0",
     "inherits": "^2.0.1",
