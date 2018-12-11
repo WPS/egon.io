@@ -126,7 +126,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           title: 'Remove',
           action: {
             click: function(event, element) {
-              modeling.removeElements({element});
+              modeling.removeElements({ element });
             }
           }
         }

@@ -234,7 +234,7 @@ activityNumberDialogButtonCancel.addEventListener('click', function() {
 
 keyboardShortcutInfoButtonCancel.addEventListener('click', function() {
   closeKeyboardShortcutDialog();
-})
+});
 
 activityLabelButtonCancel.addEventListener('click', function() {
   closeActivityInputLabelWithoutNumber();
