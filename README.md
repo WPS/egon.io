@@ -39,6 +39,10 @@ You can also export your diagram as a .svg file by clicking on the image button 
 #### Replay
 The replay feature helps you to re-tell a Domain Story sentence by sentence. When you start a replay with the play button ![Play Button](/images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](/images/forward.png) shows the next activity and clicking the previous button ![Previous Button](/images/previous.png) shows the previous one. Editing is disabled in replay mode, but you can zoom (mouse wheel up and down) and scroll (ctrl + mouse wheel up and down). The stop the replay, click the stop button ![Stop Button](/images/stop.png). 
 
+### Examples
+The examples directory contains .dst files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
+The examples directory also contains a SVG file for every Domain Story. The images were created using the modeler.
+
 ## For Developers
 Download the source code or clone the repository.
 Please note that we use the main branch for development. The main branch contains the latest features und bug fixes, but they might be undocumented and tested less thoroughly than a release. To be on the safe side, stick with the latest release branch.
