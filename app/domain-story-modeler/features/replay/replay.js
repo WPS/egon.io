@@ -21,15 +21,17 @@ export function isPlaying() {
   return replayOn;
 }
 
-var modal = document.getElementById('modal'),
-    startReplayButton = document.getElementById('buttonStartReplay'),
-    nextStepButton = document.getElementById('buttonNextStep'),
-    previousStepButton = document.getElementById('buttonPreviousStep'),
-    stopReplayButton = document.getElementById('buttonStopReplay'),
-    currentReplayStepLabel = document.getElementById('replayStep'),
-    headline = document.getElementById('headline'),
-    incompleteStoryDialog = document.getElementById('incompleteStoryInfo'),
-    importExportSVGButtonsContainer = document.getElementById('importExportSVGButton');
+let modal = document.getElementById('modal');
+let startReplayButton = document.getElementById('buttonStartReplay');
+let nextStepButton = document.getElementById('buttonNextStep');
+let previousStepButton = document.getElementById('buttonPreviousStep');
+let stopReplayButton = document.getElementById('buttonStopReplay');
+let currentReplayStepLabel = document.getElementById('replayStep');
+let headline = document.getElementById('headline');
+let incompleteStoryDialog = document.getElementById('incompleteStoryInfo');
+let importExportSVGButtonsContainer = document.getElementById('importExportSVGButton');
+
+/* test */
 
 startReplayButton.addEventListener('click', function() {
   var canvasObjects = canvas._rootElement.children;

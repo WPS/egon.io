@@ -20,7 +20,7 @@ import DSMassRenameHandlers from './domain-story-modeler/features/dictionary/DSM
 
 import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary, openDictionary } from './domain-story-modeler/features/dictionary/dictionary';
 
-import { isPlaying, initReplay } from './domain-story-modeler/features/replay/repaly';
+import { isPlaying, initReplay } from './domain-story-modeler/features/replay/replay';
 
 import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUtil';
 
