@@ -1,10 +1,10 @@
 'use strict';
 
 import { assign } from 'min-dash';
-import { getActorTypes, initActorTypes } from '../../CanvasObjects/ActorTypes';
-import { getWorkObjectTypes, initWorkObjectTypes } from '../../CanvasObjects/WorkObjectTypes';
-import { getNameFromType } from '../../CanvasObjects/naming';
-import { getIconForType } from '../../CanvasObjects/icons';
+import { getActorTypes, initActorTypes } from '../../language/ActorTypes';
+import { getWorkObjectTypes, initWorkObjectTypes } from '../../language/WorkObjectTypes';
+import { getNameFromType } from '../../language/naming';
+import { getIconForType } from '../../language/icons';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.

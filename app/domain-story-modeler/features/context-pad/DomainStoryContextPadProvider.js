@@ -10,10 +10,10 @@ import {
   bind
 } from 'min-dash';
 import { generateAutomaticNumber } from '../numbering/numbering';
-import { getWorkObjectTypes } from '../../CanvasObjects/WorkObjectTypes';
-import { getNameFromType } from '../../CanvasObjects/naming';
-import { getActorTypes } from '../../CanvasObjects/ActorTypes';
-import { getIconForType } from '../../CanvasObjects/icons';
+import { getWorkObjectTypes } from '../../language/WorkObjectTypes';
+import { getNameFromType } from '../../language/naming';
+import { getActorTypes } from '../../language/ActorTypes';
+import { getIconForType } from '../../language/icons';
 
 
 

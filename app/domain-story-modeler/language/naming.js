@@ -1,7 +1,6 @@
 
 'use strict';
 
-
 export function getNameFromType(type) {
   if (type.includes('domainStory:actor')) {
     return type.replace('domainStory:actor', '');

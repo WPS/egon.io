@@ -1,7 +1,7 @@
-import { getActorTypes } from '../../CanvasObjects/ActorTypes';
-import { getWorkObjectTypes } from '../../CanvasObjects/WorkObjectTypes';
-import { getNameFromType } from '../../CanvasObjects/naming';
-import { getIconForType } from '../../CanvasObjects/icons';
+import { getActorTypes } from '../../language/ActorTypes';
+import { getWorkObjectTypes } from '../../language/WorkObjectTypes';
+import { getNameFromType } from '../../language/naming';
+import { getIconForType } from '../../language/icons';
 
 'use strict';
 

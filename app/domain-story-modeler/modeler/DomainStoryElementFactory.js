@@ -111,15 +111,6 @@ DomainStoryElementFactory.$inject = [
 DomainStoryElementFactory.prototype._getCustomElementSize = function(type) {
   var shapes = {
     __default: { width: 75, height: 75 },
-    'domainStory:actorPerson': { width: 75, height: 75 },
-    'domainStory:actorGroup': { width: 75, height: 75 },
-    'domainStory:actorSystem': { width: 75, height: 75 },
-    'domainStory:workObject': { width: 75, height: 75 },
-    'domainStory:workObjectFolder': { width: 75, height: 75 },
-    'domainStory:workObjectCall': { width: 75, height: 75 },
-    'domainStory:workObjectEmail': { width: 75, height: 75 },
-    'domainStory:workObjectConversation': { width: 75, height: 75 },
-    'domainStory:workObjectInfo': { width: 75, height: 75 },
     'domainStory:textAnnotation': { width: 100, height: 30 },
     'domainStory:group': { width: 525, height: 275 }
   };
