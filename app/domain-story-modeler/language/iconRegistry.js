@@ -1,14 +1,13 @@
 'use strict';
 
-
 var Icons = require('collections/dict');
 var icons = new Icons();
 
-export function getIcons() {
+export function getIconRegistry() {
   return icons;
 }
 
-export function getIconKeys() {
+export function getIconRegistryKeys() {
   return icons.keysArray();
 }
 

@@ -29,7 +29,6 @@ ReplaceMenuProvider.prototype.getEntries = function(element) {
   var entries;
   if (element.type.includes('actor')) {
     entries = replaceOptions.actorReplaceOptions(element.type);
-    console.log(entries);
   }
   else if (element.type.includes('workObject')) {
     entries = replaceOptions.workObjectReplaceOptions(element.type);

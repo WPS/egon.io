@@ -1,10 +1,11 @@
 'use strict';
 
 import { assign } from 'min-dash';
-import { getActorTypes, initActorTypes } from '../../language/ActorTypes';
-import { getWorkObjectTypes, initWorkObjectTypes } from '../../language/WorkObjectTypes';
 import { getNameFromType } from '../../language/naming';
-import { getIconForType } from '../../language/icons';
+import { getIconForType } from '../../language/iconRegistry';
+import { default_conf, customIconset, custom_conf } from '../../language/iconConfig';
+import { getWorkObjectRegistry, initWorkObjecttRegistry } from '../../language/workObjectRegistry';
+import { getActorRegistry, initActorRegistry } from '../../language/actorRegistry';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
@@ -66,10 +67,22 @@ PaletteProvider.prototype.getPaletteEntries = function() {
     };
   }
 
-  initActorTypes();
-  initWorkObjectTypes();
+  return initPalette(actions, spaceTool, lassoTool, createAction);
+};
 
-  var actorTypes = getActorTypes();
+function initPalette(actions, spaceTool, lassoTool, createAction) {
+  var config;
+  if (customIconset) {
+    config = custom_conf;
+  }
+  else {
+    config = default_conf;
+  }
+
+  initActorRegistry(config.actors);
+  initWorkObjecttRegistry(config.workObjects);
+
+  var actorTypes = getActorRegistry();
 
   actorTypes.keysArray().forEach(actorType => {
     var name = getNameFromType(actorType);
@@ -87,7 +100,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
     }
   });
 
-  var workObjectTypes = getWorkObjectTypes();
+  var workObjectTypes = getWorkObjectRegistry();
 
   workObjectTypes.keysArray().forEach(workObjectType => {
 
@@ -105,7 +118,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       separator: true
     },
     'domainStory-group': createAction(
-      'domainStory:group', 'group', 'icon-domain-story-group', 'group'
+      'domainStory:group', 'group', 'icon-domain-story-tool-group', 'group'
     ),
     'group-separator': {
       group: 'group',
@@ -134,4 +147,4 @@ PaletteProvider.prototype.getPaletteEntries = function() {
   });
 
   return actions;
-};
+}

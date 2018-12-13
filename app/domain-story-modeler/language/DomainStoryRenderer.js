@@ -37,8 +37,8 @@ import {
   labelPosition,
   calculateTextWidth
 } from '../features/labeling/DSLabelUtil';
-import { getActorSrc } from './ActorTypes';
-import { getWorkObjectSrc } from './WorkObjectTypes';
+import { getActorSrc } from './actorRegistry';
+import { getWorkObjectSrc } from './workObjectRegistry';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];

@@ -3,9 +3,9 @@ import {
   inject
 } from '../../TestHelper';
 
-import {
-  assign
-} from 'min-dash';
+// import {
+//   assign
+// } from 'min-dash';
 
 import DomainStoryModeler from '../../../app/domain-story-modeler';
 
@@ -41,45 +41,45 @@ describe('domainStory modeling', function() {
     }));
 
 
-    it('should export custom element', inject(
-      function(bpmnjs, elementRegistry, modeling) {
+    // it('should export custom element', inject(
+    //   function(bpmnjs, elementRegistry, modeling) {
 
-        // given
-        var customElement = {
-          type: 'domainStory:actor',
-          id: 'CustomActor_1',
-          x: 200,
-          y: 400,
-          height: 100,
-          width: 100
-        };
+    //     // given
+    //     var customElement = {
+    //       type: 'domainStory:actor',
+    //       id: 'CustomActor_1',
+    //       x: 200,
+    //       y: 400,
+    //       height: 100,
+    //       width: 100
+    //     };
 
-        var businessObject={
-          type: 'domainStory:actor',
-          id: 'CustomActor_1',
-          x: 150,
-          y: 350
-        };
+    //     var businessObject={
+    //       type: 'domainStory:actor',
+    //       id: 'CustomActor_1',
+    //       x: 150,
+    //       y: 350
+    //     };
 
-        assign({ businessObject: businessObject }, customElement);
+    //     assign({ businessObject: businessObject }, customElement);
 
-        var position = { x: customElement.x, y: customElement.y },
-            target = elementRegistry.get('Process_1');
+    //     var position = { x: customElement.x, y: customElement.y },
+    //         target = elementRegistry.get('Process_1');
 
-        modeling.createShape(
-          customElement,
-          position,
-          target
-        );
+    //     modeling.createShape(
+    //       customElement,
+    //       position,
+    //       target
+    //     );
 
-        // when
-        var customElements = bpmnjs.getCustomElements();
+    //     // when
+    //     var customElements = bpmnjs.getCustomElements();
 
-        // then
-        // we can only check for parts of our element since the create shape function adds parts to the shape, we cannot model here
-        expect(customElements[1]).to.contain(businessObject);
-      }
-    ));
+    //     // then
+    //     // we can only check for parts of our element since the create shape function adds parts to the shape, we cannot model here
+    //     expect(customElements[1]).to.contain(businessObject);
+    //   }
+    // ));
 
 
     it('should not resize custom shape', inject(function(elementRegistry, rules) {
