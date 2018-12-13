@@ -1,6 +1,5 @@
 'use strict';
 
-
 var Icons = require('collections/dict');
 var icons = new Icons();
 

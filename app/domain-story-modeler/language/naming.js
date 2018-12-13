@@ -6,11 +6,6 @@ export function getNameFromType(type) {
     return type.replace('domainStory:actor', '');
   }
   else if (type.includes('domainStory:workObject')) {
-    var name = type.replace('domainStory:workObject', '');
-    if (name.length >= 1) {
-      return name;
-    }
-    else return 'document';
+    return type.replace('domainStory:workObject', '');
   }
-  return type;
 }

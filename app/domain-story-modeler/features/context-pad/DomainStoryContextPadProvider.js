@@ -10,10 +10,10 @@ import {
   bind
 } from 'min-dash';
 import { generateAutomaticNumber } from '../numbering/numbering';
-import { getWorkObjectTypes } from '../../language/WorkObjectTypes';
 import { getNameFromType } from '../../language/naming';
-import { getActorTypes } from '../../language/ActorTypes';
 import { getIconForType } from '../../language/icons';
+import { getWorkObjectRegistry } from '../../language/WorkObjectRegistry';
+import { getActorRegistry } from '../../language/ActorRegistry';
 
 
 
@@ -37,7 +37,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     // entries only for specific types of elements:
 
     if (element.type.includes('workObject')) {
-      var actorTypes = getActorTypes();
+      var actorTypes = getActorRegistry();
 
       actorTypes.keysArray().forEach(actorType => {
         var name = getNameFromType(actorType);
@@ -78,7 +78,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       });
     }
     else if (element.type.includes('actor')) {
-      var workObjectTypes = getWorkObjectTypes();
+      var workObjectTypes = getWorkObjectRegistry();
 
       workObjectTypes.keysArray().forEach(workObjectType => {
         var name = getNameFromType(workObjectType);
