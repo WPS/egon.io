@@ -395,7 +395,7 @@ document.getElementById('import').onchange = function() {
  * Bubble was renamed to Conversation
  */
 
-function updateCustomElementsPreviousv050(elements) {
+export function updateCustomElementsPreviousv050(elements) {
 
   for (var i=0; i< elements.length; i++) {
     if (elements[i].type === 'domainStory:workObject') {
