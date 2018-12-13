@@ -389,6 +389,12 @@ document.getElementById('import').onchange = function() {
   }
 };
 
+/**
+ * Ensure backwards compatability.
+ * Previously Document had no special name and was just adressed as workObject
+ * Bubble was renamed to Conversation
+ */
+
 function updateCustomElementsPreviousv050(elements) {
 
   for (var i=0; i< elements.length; i++) {
