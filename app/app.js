@@ -361,6 +361,7 @@ document.getElementById('import').onchange = function() {
         importedVersionLabel.innerText = 'v' + importVersionNumber;
         modelerVersionLabel.innerText = 'v' + version;
         showVersionDialog();
+        elements = updateCustomElementsPreviousv050(elements);
       }
 
       var inputInfoText = sanitize(lastElement.info ? lastElement.info : '');
@@ -387,6 +388,18 @@ document.getElementById('import').onchange = function() {
     eventBus.fire('commandStack.changed', exportArtifacts);
   }
 };
+
+function updateCustomElementsPreviousv050(elements) {
+
+  for (var i=0; i< elements.length; i++) {
+    if (elements[i].type === 'domainStory:workObject') {
+      elements[i].type = 'domainStory:workObjectDocument';
+    } else if (elements[i].type === 'domainStory:workObjectBubble') {
+      elements[i].type = 'domainStory:workObjectConversation';
+    }
+  }
+  return elements;
+}
 
 function dictionaryKeyBehaviour(event) {
   const KEY_ENTER = 13;
