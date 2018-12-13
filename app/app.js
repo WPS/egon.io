@@ -29,7 +29,8 @@ import { updateExistingNumbersAtEditing } from './domain-story-modeler/features/
 import {
   correctGroupChildren,
   getAllObjectsFromCanvas,
-  getActivitesFromActors
+  getActivitesFromActors,
+  updateCustomElementsPreviousv050
 } from './domain-story-modeler/util/CanvasObjects';
 
 var modeler = new DomainStoryModeler({
@@ -388,24 +389,6 @@ document.getElementById('import').onchange = function() {
     eventBus.fire('commandStack.changed', exportArtifacts);
   }
 };
-
-/**
- * Ensure backwards compatability.
- * Previously Document had no special name and was just adressed as workObject
- * Bubble was renamed to Conversation
- */
-
-export function updateCustomElementsPreviousv050(elements) {
-
-  for (var i=0; i< elements.length; i++) {
-    if (elements[i].type === 'domainStory:workObject') {
-      elements[i].type = 'domainStory:workObjectDocument';
-    } else if (elements[i].type === 'domainStory:workObjectBubble') {
-      elements[i].type = 'domainStory:workObjectConversation';
-    }
-  }
-  return elements;
-}
 
 function dictionaryKeyBehaviour(event) {
   const KEY_ENTER = 13;

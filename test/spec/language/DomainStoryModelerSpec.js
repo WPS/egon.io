@@ -1,10 +1,10 @@
 import TestContainer from 'mocha-test-container-support';
 
 import DomainStoryModeler from '../../../app/domain-story-modeler';
-import { updateCustomElementsPreviousv050 } from '../../../app/app';
 import { initActorRegistry } from '../../../app/domain-story-modeler/language/ActorRegistry';
 import { initWorkObjecttRegistry } from '../../../app/domain-story-modeler/language/WorkObjectRegistry';
 import { default_conf } from '../../../app/domain-story-modeler/language/iconConfig';
+import { updateCustomElementsPreviousv050 } from '../../../app/domain-story-modeler/util/CanvasObjects';
 
 describe('domainStory modeler', function() {
 
@@ -61,19 +61,19 @@ describe('domainStory modeler', function() {
   '{"info":"Eine Beschreibung"}]';
 
   var intricateV0_5_0_JsonString = '[{"type":"domainStory:actorPerson","name":"movie-goer","id":"shape_9977","x":214,"y":164},'+
- // '{"type":"domainStory:workObjectDocument","name":"schedule","id":"shape_3526","x":214,"y":-45},'+
+  '{"type":"domainStory:workObjectDocument","name":"schedule","id":"shape_3526","x":214,"y":-45},'+
   '{"type":"domainStory:textAnnotation","name":"","id":"shape_1144","x":316,"y":-43,"text":"e.g. on billboard","number":27.874564459930312},'+
   '{"type":"domainStory:actorPerson","name":"cashier","id":"shape_4658","x":672,"y":164},'+
   '{"type":"domainStory:workObjectConversation","name":"movie, # of seats, time,..","id":"shape_5151","x":522,"y":-45},'+
   '{"type":"domainStory:actorSystem","name":"ticket system","id":"shape_6138","x":920,"y":164},{"type":"domainStory:workObjectInfo","name":"available seats","id":"shape_8031","x":803,"y":-45},'+
-  //'{"type":"domainStory:workObjectDocument","name":"available seats","id":"shape_3387","x":522,"y":77},'+
+  '{"type":"domainStory:workObjectDocument","name":"available seats","id":"shape_3387","x":522,"y":77},'+
   '{"type":"domainStory:workObjectConversation","name":"seats","id":"shape_7904","x":522,"y":190},'+
   '{"type":"domainStory:workObjectDocument","name":"ticket","id":"shape_8152","x":803,"y":99},'+
   '{"type":"domainStory:workObjectInfo","name":"chosen seats","id":"shape_4138","x":1071,"y":164},'+
   '{"type":"domainStory:workObjectConversation","name":"price","id":"shape_9422","x":522,"y":283},'+
   '{"type":"domainStory:workObjectConversation","name":"price","id":"shape_5209","x":522,"y":390},'+
-  //'{"type":"domainStory:workObjectDocument","name":"ticket","id":"shape_2043","x":803,"y":264},'+
-  //'{"type":"domainStory:workObjectDocument","name":"ticket","id":"shape_7902","x":522,"y":475},'+
+  '{"type":"domainStory:workObjectDocument","name":"ticket","id":"shape_2043","x":803,"y":264},'+
+  '{"type":"domainStory:workObjectDocument","name":"ticket","id":"shape_7902","x":522,"y":475},'+
   '{"type":"domainStory:activity","name":"chooses movie from","id":"connection_5202","number":"1","waypoints":[{"original":{"x":252,"y":202},"x":252,"y":164},{"original":{"x":252,"y":-7},"x":252,"y":40}],"source":"shape_9977","target":"shape_3526"},'+
   '{"type":"domainStory:connection","name":"","id":"connection_7380","waypoints":[{"original":{"x":252,"y":-7},"x":288,"y":-14},{"original":{"x":366,"y":-29},"x":316,"y":-19}],"source":"shape_3526","target":"shape_1144"},'+
   '{"type":"domainStory:activity","name":"asks for","id":"connection_7781","number":"2","waypoints":[{"original":{"x":252,"y":202},"x":277,"y":185},{"original":{"x":560,"y":-7},"x":522,"y":19}],"source":"shape_9977","target":"shape_5151"},'+
