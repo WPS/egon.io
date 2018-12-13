@@ -1,13 +1,7 @@
 import { getNameFromType } from '../../language/naming';
-<<<<<<< HEAD
 import { getActorRegistry } from '../../language/ActorRegistry';
 import { getWorkObjectRegistry } from '../../language/WorkObjectRegistry';
 import { getIconForType } from '../../language/iconRegistry';
-=======
-import { getIconForType } from '../../language/icons';
-import { getActorRegistry } from '../../language/ActorRegistry';
-import { getWorkObjectRegistry } from '../../language/WorkObjectRegistry';
->>>>>>> a472f8941459aabc528bd832548643e91d33faa5
 
 'use strict';
 

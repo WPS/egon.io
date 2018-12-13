@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { registerIcon } from './iconRegistry';
-=======
-import { registerIcon } from './icons';
->>>>>>> a472f8941459aabc528bd832548643e91d33faa5
 import { getNameFromType } from './naming';
 import { all_icons } from './all_Icons';
 
