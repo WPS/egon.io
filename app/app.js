@@ -2,49 +2,35 @@
 
 import $ from 'jquery';
 
+import './domain-story-modeler/util/MathExtensions';
+
 import DomainStoryModeler from './domain-story-modeler';
 
 import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';
 
-import DSActivityHandlers from './domain-story-modeler/domain-story/handlers/DSActivityHandlers';
+import DSActivityHandlers from './domain-story-modeler/modeler/DSActivityHandlers';
 
-import DSLabelChangeHandlers from './domain-story-modeler/domain-story/handlers/DSLabelChangeHandlers';
+import sanitize from './domain-story-modeler/util/Sanitizer';
 
-import sanitize from './domain-story-modeler/domain-story/util/Sanitizer';
-
-import {
-  toggleStashUse
-} from './domain-story-modeler/domain-story/label-editing/DSLabelEditingProvider';
-
-import {
-  traceActivities,
-  isStoryConsecutivelyNumbered,
-  getAllNotShown,
-  getAllShown
-} from './domain-story-modeler/domain-story/replay/ReplayUtil';
-
-import {
-  getActivitesFromActors,
-  updateExistingNumbersAtEditing
-} from './domain-story-modeler/domain-story/util/DSActivityUtil';
+import { toggleStashUse } from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
 
 import { version } from '../package.json';
 
-import {
-  checkInput,
-  keyReleased,
-  debounce,
-  openDictionary
-} from './domain-story-modeler/domain-story/util/AppUtil';
+import DSMassRenameHandlers from './domain-story-modeler/features/dictionary/DSMassRenameHandlers';
+
+import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary, openDictionary } from './domain-story-modeler/features/dictionary/dictionary';
+
+import { isPlaying, initReplay } from './domain-story-modeler/features/replay/repaly';
+
+import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUtil';
+
+import { updateExistingNumbersAtEditing } from './domain-story-modeler/features/numbering/numbering';
 
 import {
-  autocomplete,
-  getAllObjectsFromCanvas,
   correctGroupChildren,
-  cleanDictionaries,
-  getWorkObjectDictionary,
-  getActivityDictionary
-} from './domain-story-modeler/domain-story/util/DSUtil';
+  getAllObjectsFromCanvas,
+  getActivitesFromActors
+} from './domain-story-modeler/util/CanvasObjects';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -62,7 +48,9 @@ const ViewBoxCoordinate = /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)
 
 // we need to initiate the activity commandStack elements
 DSActivityHandlers(commandStack, eventBus, canvas);
-DSLabelChangeHandlers(commandStack, eventBus, canvas);
+DSMassRenameHandlers(commandStack, eventBus, canvas);
+
+initReplay(canvas, elementRegistry);
 
 // disable BPMN SearchPad
 SearchPad.prototype.toggle=function() { };
@@ -89,7 +77,6 @@ var modal = document.getElementById('modal'),
     infoText = document.getElementById('infoText'),
     importedVersionLabel = document.getElementById('importedVersion'),
     modelerVersionLabel = document.getElementById('modelerVersion'),
-    currentReplayStepLabel = document.getElementById('replayStep'),
     // Inputs
     titleInput = document.getElementById('titleInput'),
     titleInputLast = '',
@@ -106,18 +93,14 @@ var modal = document.getElementById('modal'),
     wpsLogoDialog = document.getElementById('wpsLogoInfo'),
     dstLogoDialog = document.getElementById('dstLogoInfo'),
     dictionaryDialog = document.getElementById('dictionary'),
+    keyboardShortcutInfoDialog = document.getElementById('keyboardShortcutInfoDialog'),
     // Container
     activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
     workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
-    importExportSVGButtonsContainer = document.getElementById('importExportSVGButton'),
     // Buttons
     headlineDialogButtonSave = document.getElementById('saveButton'),
     headlineDialogButtonCancel = document.getElementById('quitButton'),
     exportButton = document.getElementById('export'),
-    startReplayButton = document.getElementById('buttonStartReplay'),
-    nextStepButton = document.getElementById('buttonNextStep'),
-    previousStepButton = document.getElementById('buttonPreviousStep'),
-    stopReplayButton = document.getElementById('buttonStopReplay'),
     dictionaryButtonOpen = document.getElementById('dictionaryButton'),
     dictionaryButtonSave = document.getElementById('closeDictionaryButtonSave'),
     dictionaryButtonCancel = document.getElementById('closeDictionaryButtonCancel'),
@@ -128,20 +111,20 @@ var modal = document.getElementById('modal'),
     svgSaveButton = document.getElementById('buttonSVG'),
     wpsLogoButton = document.getElementById('closeWPSLogoInfo'),
     dstLogoButton = document.getElementById('closeDSTLogoInfo'),
+    keyboardShortcutInfoButton = document.getElementById('keyboardShortcutInfoButton'),
+    keyboardShortcutInfoButtonCancel = document.getElementById('keyboardShortcutInfoDialogButtonCancel'),
     incompleteStoryDialogButtonCancel = document.getElementById('closeIncompleteStoryInfo'),
-    versionDialogButtonCanvel = document.getElementById('closeVersionDialog');
+    versionDialogButtonCancel = document.getElementById('closeVersionDialog');
 
 // interal variables
 var keysPressed = [];
 var svgData;
-var replayOn = false;
-var currentStep = 0;
-var replaySteps = [];
+
 
 // eventBus listeners
 
 eventBus.on('element.dblclick', function(e) {
-  if (!replayOn) {
+  if (!isPlaying()) {
     var element = e.element;
     if (element.type == 'domainStory:activity') {
       var source = element.source;
@@ -199,7 +182,7 @@ eventBus.on([
   'autoPlace',
   'popupMenu.open'
 ], 10000000000, function(event) {
-  if (replayOn) {
+  if (isPlaying()) {
     event.stopPropagation();
     event.preventDefault();
   }
@@ -247,6 +230,10 @@ headlineDialogButtonCancel.addEventListener('click', function() {
 
 activityNumberDialogButtonCancel.addEventListener('click', function() {
   closeActivityInputLabelWithNumber();
+});
+
+keyboardShortcutInfoButtonCancel.addEventListener('click', function() {
+  closeKeyboardShortcutDialog();
 });
 
 activityLabelButtonCancel.addEventListener('click', function() {
@@ -306,86 +293,6 @@ dictionaryButtonCancel.addEventListener('click', function(e) {
   modal.style.display='none';
 });
 
-startReplayButton.addEventListener('click', function() {
-  var canvasObjects = canvas._rootElement.children;
-  var activities = getActivitesFromActors(canvasObjects);
-
-  if (!replayOn && activities.length > 0) {
-    replaySteps = traceActivities(activities, elementRegistry);
-
-    if (isStoryConsecutivelyNumbered(replaySteps)) {
-      replayOn = true;
-      disableCanvasInteraction();
-      currentStep = 0;
-      showCurrentStep();
-    }
-    else {
-      incompleteStoryDialog.style.display = 'block';
-      modal.style.display = 'block';
-    }
-  }
-});
-
-nextStepButton.addEventListener('click', function() {
-  if (replayOn) {
-    if (currentStep < replaySteps.length - 1) {
-      currentStep += 1;
-      showCurrentStep();
-    }
-  }
-});
-
-previousStepButton.addEventListener('click', function() {
-  if (replayOn) {
-    if (currentStep > 0) {
-      currentStep -= 1;
-      showCurrentStep();
-    }
-  }
-});
-
-stopReplayButton.addEventListener('click', function() {
-  if (replayOn) {
-    enableCanvasInteraction();
-
-    // show all canvas elements
-    var allObjects = [];
-    var groupObjects = [];
-    var canvasObjects = canvas._rootElement.children;
-    var i = 0;
-
-    for (i = 0; i < canvasObjects.length; i++) {
-      if (canvasObjects[i].type.includes('domainStory:group')) {
-        groupObjects.push(canvasObjects[i]);
-      }
-      else {
-        allObjects.push(canvasObjects[i]);
-      }
-    }
-
-    i = groupObjects.length - 1;
-    while (groupObjects.length >= 1) {
-      var currentgroup = groupObjects.pop();
-      currentgroup.children.forEach(child => {
-        if (child.type.includes('domainStory:group')) {
-          groupObjects.push(child);
-        }
-        else {
-          allObjects.push(child);
-        }
-      });
-      i = groupObjects.length - 1;
-    }
-    allObjects.forEach(element => {
-      var domObject = document.querySelector('[data-element-id=' + element.id + ']');
-      domObject.style.display = 'block';
-    });
-
-    replayOn = false;
-    currentStep = 0;
-  }
-});
-
 exportButton.addEventListener('click', function() {
   var object = modeler.getCustomElements();
   var text = info.innerText;
@@ -410,9 +317,14 @@ incompleteStoryDialogButtonCancel.addEventListener('click', function() {
   incompleteStoryDialog.style.display = 'none';
 });
 
-versionDialogButtonCanvel.addEventListener('click', function() {
+versionDialogButtonCancel.addEventListener('click', function() {
   modal.style.display = 'none';
   versionDialog.style.display = 'none';
+});
+
+keyboardShortcutInfoButton.addEventListener('click', function() {
+  modal.style.display = 'block';
+  keyboardShortcutInfoDialog.style.display = 'block';
 });
 
 // -----
@@ -688,6 +600,11 @@ function showActivityWithoutLabelDialog(event) {
   }
 }
 
+function closeKeyboardShortcutDialog() {
+  keyboardShortcutInfoDialog.style.display = 'none';
+  modal.style.display = 'none';
+}
+
 function closeActivityInputLabelWithNumber() {
   activityInputLabelWithNumber.value = '';
   activityInputNumber.value = '';
@@ -765,102 +682,6 @@ function saveActivityInputLabelWithoutNumber(element) {
   });
 
   cleanDictionaries(canvas);
-}
-
-// replay functions
-
-function disableCanvasInteraction() {
-  var contextPadElements = document.getElementsByClassName('djs-context-pad');
-  var paletteElements = document.getElementsByClassName('djs-palette');
-
-  headline.style.pointerEvents = 'none';
-
-  importExportSVGButtonsContainer.style.opacity = 0.2;
-  importExportSVGButtonsContainer.style.pointerEvents = 'none';
-
-  startReplayButton.style.opacity = 0.2;
-  startReplayButton.style.pointerEvents = 'none';
-
-  stopReplayButton.style.opacity = 1;
-  stopReplayButton.style.pointerEvents = 'all';
-
-  nextStepButton.style.opacity = 1;
-  nextStepButton.style.pointerEvents = 'all';
-
-  previousStepButton.style.opacity = 1;
-  previousStepButton.style.pointerEvents = 'all';
-
-  var i = 0;
-  for (i = 0; i < contextPadElements.length; i++) {
-    contextPadElements[i].style.display = 'none';
-  }
-
-  for (i = 0; i < paletteElements.length; i++) {
-    paletteElements[i].style.display = 'none';
-  }
-
-  currentReplayStepLabel.style.display = 'block';
-}
-
-function enableCanvasInteraction() {
-  var contextPadElements = document.getElementsByClassName('djs-context-pad');
-  var paletteElements = document.getElementsByClassName('djs-palette');
-
-  headline.style.pointerEvents = 'all';
-
-  importExportSVGButtonsContainer.style.opacity = 1;
-  importExportSVGButtonsContainer.style.pointerEvents = 'all';
-
-  startReplayButton.style.opacity = 1;
-  startReplayButton.style.pointerEvents = 'all';
-
-  stopReplayButton.style.opacity = 0.2;
-  stopReplayButton.style.pointerEvents = 'none';
-
-  nextStepButton.style.opacity = 0.2;
-  nextStepButton.style.pointerEvents = 'none';
-
-  previousStepButton.style.opacity = 0.2;
-  previousStepButton.style.pointerEvents = 'none';
-
-  var i = 0;
-  for (i = 0; i < contextPadElements.length; i++) {
-    contextPadElements[i].style.display = 'block';
-  }
-
-  for (i = 0; i < paletteElements.length; i++) {
-    paletteElements[i].style.display = 'block';
-  }
-  currentReplayStepLabel.style.display = 'none';
-}
-
-function showCurrentStep() {
-  var stepsUntilNow = [];
-  var allObjects = [];
-  var i = 0;
-
-  currentReplayStepLabel.innerText = (currentStep + 1) + ' / ' + replaySteps.length;
-
-  for (i = 0; i <= currentStep; i++) {
-    stepsUntilNow.push(replaySteps[i]);
-  }
-
-  allObjects = getAllObjectsFromCanvas(canvas);
-
-  var shownElements = getAllShown(stepsUntilNow);
-
-  var notShownElements = getAllNotShown(allObjects, shownElements);
-
-  // hide all elements, that are not to be shown
-  notShownElements.forEach(element => {
-    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
-    domObject.style.display = 'none';
-  });
-
-  shownElements.forEach(element => {
-    var domObject = document.querySelector('[data-element-id=' + element.id + ']');
-    domObject.style.display = 'block';
-  });
 }
 
 // SVG download
@@ -944,3 +765,24 @@ $(function() {
 
   modeler.on('commandStack.changed', exportArtifacts);
 });
+
+function keyReleased(keysPressed, keyCode) {
+  keysPressed[keyCode] = false;
+}
+
+function checkInput(field) {
+  field.value = sanitize(field.value);
+}
+
+// helper
+
+function debounce(fn, timeout) {
+  var timer;
+
+  return function() {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(fn, timeout);
+  };
+}

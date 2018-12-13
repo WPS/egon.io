@@ -21,15 +21,50 @@ input{
   z-index: 1;
 }
 
+.headlineContainer {
+  display: grid;
+  grid-template-columns: auto 285;
+}
+
+.headlineAndInfo {
+  grid-row: 1 / 1;
+  grid-column: 1 / 1;
+  display: grid;
+  justify-self: stretch;
+}
+
+.ButtonsAndLogos{
+  grid-row: 1 / 1;
+  grid-column: 2 / 2;
+  display: grid;
+  justify-self: end;
+}
+
+.ButtonContainer {
+  margin-top: 1.1em;
+  grid-column: 1/1;
+  position: relative;
+}
+
+.logoContainer {
+  margin-left: 10px;
+  margin-top: 1em;
+  grid-column: 2/2;
+  position: relative;
+}
+
+.replayButtons {
+  margin-top: 1.3em;
+}
+
 #headline {
   font-size: 17pt;
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto;
   -webkit-hyphenate-character: auto;  /* not supported by Chrome*/
-  margin: 20px;
+  margin: 10px;
   cursor: pointer;
-  width: 78%;
 }
 
 #headline:hover {
@@ -40,10 +75,6 @@ input{
   opacity: 100;
 }
 
-#headline, #imgWPS, #imgDST {
-  display: inline-block;
-  *display: inline;
-}
 
 #DSGVO {
   display: block;
@@ -51,39 +82,42 @@ input{
   width: 20em;
 }
 
-#edit {
-  opacity: 0;
-}
-
-#logoContainer {
-  position: fixed;
-  right: 0.4em;
-  top: 0.5em;
-}
-
 #imgWPS{
   margin-right: 10px;
 }
 
 #infoText{
+  margin-top: -15px;
+  margin-bottom: 3px;
   position: relative;
-  font-size: 11pt;
-  margin-left: 20px;
-  width: 78%;
-  height: 68px;
+  font-size: 10pt;
+  margin-left: 10px;
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto;
   -webkit-hyphenate-character: auto;  /* not supported by Chrome*/
 }
 
-#infoText:hover{
+.infoText:hover{
 cursor: default;
 }
 
-#infoText, .buttons{
-  display: inline-block;
-  *display: inline;
+#imgWPS {
+  margin-left: 17px;
+}
+
+#line{
+  padding: 2px;
+  position: relative;
+  right: 0em;
+  left : 0em;
+  width: 100%;
+  border-bottom: solid 2px #CCC;
+  margin-top: -5px;
+}
+
+#edit {
+  opacity: 0;
 }
 
 #buttonImport, #export, #buttonSVG , #dictionaryButton{
@@ -97,48 +131,40 @@ cursor: default;
   pointer-events : 'none';
 }
 
-#buttonImport:hover, #export:hover, #buttonSVG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover{
+#buttonImport:hover, #export:hover, #buttonSVG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover #keyboardShortcutInfoDialogButtonCancel:hover, #keyboardShortcutInfoButton:hover{
   border: 1px solid #CCC;
   cursor: pointer;
 }
 
-#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep{
+#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep, #keyboardShortcutInfoDialogButtonCancel ,#keyboardShortcutInfoButton{
   background-color: white;
   border: 1px solid white;
   margin-right: -4px;
 }
 
-#replayButtons{
-  position: absolute;
-  margin-top: -3.5em;
-  right: 0%;
-}
-
 #replayStep{
-    position: absolute;
-    right: 10px;
-    margin-top: -20px;
-    padding: 1px;
-    display: none;
+  padding: 1px;
+  opacity: 0;
+  margin-left: 5.2em;
 }
 
-#line{
-  padding: 2px;
-  position: relative;
-  right: 0em;
-  left : 0em;
-  width: 100%;
-  border-bottom: solid 2px #CCC;
-  margin-top: -20px;
-}
-
-#dialog, #numberDialog, #labelDialog{
+#dialog, #numberDialog, #labelDialog, #keyboardShortcutInfoDialog {
   padding: 30px 50px 30px 50px;
   background-color:#FAFAFA;
   border-color: #CCC;
   border-radius: 2px;
   border-width: 1px;
   box-shadow: 2px 2px 5px silver;
+}
+
+#keyboardTable {
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-right: 3px;
+}
+
+#keyboardTable td{
+  padding-right: 10px;
 }
 
 #inputLabel [type=submit], #labelInputLabel [type=submit]{
@@ -149,7 +175,7 @@ cursor: default;
 #canvas, #canvas > div{
   top: 0px;
   width: 100%;
-  height: 80.7%;
+  height: 85.8%;
   position: relative;
 }
 
@@ -160,7 +186,7 @@ cursor: default;
   position: absolute;
 }
 
-#dictionary, #numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog{
+#dictionary, #numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog{
   top: 40%;
   left: 50%;
   z-index: 2;
@@ -249,9 +275,6 @@ cursor: default;
 }
 
 /* Elements by ID */
-.lineAndbuttons{
-  position:relative;
-}
 
 .buttons{
   position: relative;
