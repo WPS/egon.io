@@ -78,7 +78,6 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   else {
     config = default_conf;
   }
-
   initActorRegistry(config.actors);
   initWorkObjecttRegistry(config.workObjects);
 

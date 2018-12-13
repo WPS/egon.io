@@ -1,4 +1,4 @@
-import { registerIcon, getIconRegistry } from './iconRegistry';
+import { registerIcon } from './iconRegistry';
 import { getNameFromType } from './naming';
 import { all_icons } from './all_Icons';
 
@@ -36,9 +36,7 @@ export function initWorkObjecttRegistry(workObjetcs) {
   }
 
   workObjectRegistry.keysArray().forEach(type => {
-    console.log(type);
     var name = getNameFromType(type);
     registerIcon(type, 'icon-domain-story-' + name.toLowerCase());
   });
-  console.log(getIconRegistry());
 }
