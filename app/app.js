@@ -32,9 +32,8 @@ import {
   getActivitesFromActors,
   updateCustomElementsPreviousv050
 } from './domain-story-modeler/util/CanvasObjects';
-import { allInWorkObjectRegistry, registerWorkObjects, getWorkObjecttRegistryKeys, getWorkObjectRegistry } from './domain-story-modeler/language/workObjectRegistry';
-import { allInActorRegistry, registerActors, getActorRegistryKeys, getActorRegistry } from './domain-story-modeler/language/actorRegistry';
-import { getIconRegistryKeys } from './domain-story-modeler/language/iconRegistry';
+import { allInWorkObjectRegistry, registerWorkObjects } from './domain-story-modeler/language/workObjectRegistry';
+import { allInActorRegistry, registerActors } from './domain-story-modeler/language/actorRegistry';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
