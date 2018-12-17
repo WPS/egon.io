@@ -1,6 +1,14 @@
-export var customIconset = false;
+/**
+ * Select the Iconset which you want to use
+ */
+export var usedIconset = default_conf;
 
-export var custom_conf = {
+/* eslint no-unused-vars: 0*/
+
+/**
+ * Define your custom Iconsets here
+ */
+var custom_conf = {
   'actors': [
     'Person'
   ],
@@ -9,6 +17,9 @@ export var custom_conf = {
   ]
 };
 
+/**
+ * Default Iconset
+ */
 export var default_conf = {
   'actors': [
     'Person',

@@ -3,7 +3,7 @@
 import { assign } from 'min-dash';
 import { getNameFromType } from '../../language/naming';
 import { getIconForType } from '../../language/iconRegistry';
-import { default_conf, customIconset, custom_conf } from '../../language/iconConfig';
+import { usedIconset } from '../../language/iconConfig';
 import { getWorkObjectRegistry, initWorkObjecttRegistry } from '../../language/workObjectRegistry';
 import { getActorRegistry, initActorRegistry } from '../../language/actorRegistry';
 
@@ -71,13 +71,8 @@ PaletteProvider.prototype.getPaletteEntries = function() {
 };
 
 function initPalette(actions, spaceTool, lassoTool, createAction) {
-  var config;
-  if (customIconset) {
-    config = custom_conf;
-  }
-  else {
-    config = default_conf;
-  }
+  var config = usedIconset;
+
   initActorRegistry(config.actors);
   initWorkObjecttRegistry(config.workObjects);
 
