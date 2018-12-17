@@ -5,7 +5,8 @@ import { getNameFromType } from '../../language/naming';
 import { getIconForType } from '../../language/iconRegistry';
 import { getWorkObjectRegistry, initWorkObjecttRegistry } from '../../language/workObjectRegistry';
 import { getActorRegistry, initActorRegistry } from '../../language/actorRegistry';
-import { usedIconset, getIconset } from '../../language/iconConfig';
+import { getIconset } from '../../language/iconConfig';
+import { GROUP } from '../../language/elementTypes';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
@@ -112,7 +113,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
       separator: true
     },
     'domainStory-group': createAction(
-      'domainStory:group', 'group', 'icon-domain-story-tool-group', 'group'
+      GROUP, 'group', 'icon-domain-story-tool-group', 'group'
     ),
     'group-separator': {
       group: 'group',

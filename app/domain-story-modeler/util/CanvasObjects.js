@@ -1,6 +1,7 @@
 import { assign } from 'min-dash';
 
 import { isInDomainStoryGroup } from './TypeCheck';
+import { ACTIVITY, ACTOR, WORKOBJECT, GROUP } from '../language/elementTypes';
 
 'use strict';
 
@@ -19,7 +20,7 @@ export function getAllObjectsFromCanvas(canvas) {
   // check for every child of the canvas wether it is a group or not
   var i=0;
   for (i = 0; i < canvasObjects.length; i++) {
-    if (canvasObjects[i].type.includes('domainStory:group')) {
+    if (canvasObjects[i].type.includes(GROUP)) {
       // if it is a group, memorize this for later
       groupObjects.push(canvasObjects[i]);
     }
@@ -35,7 +36,7 @@ export function getAllObjectsFromCanvas(canvas) {
   while (groupObjects.length >= 1) {
     var currentgroup = groupObjects.pop();
     currentgroup.children.forEach(child => {
-      if (child.type.includes('domainStory:group')) {
+      if (child.type.includes(GROUP)) {
         groupObjects.push(child);
       }
       else {
@@ -56,7 +57,7 @@ function getAllGroups(canvas) {
   // check for every child of the canvas wether it is a group or not
   var i=0;
   for (i = 0; i < canvasObjects.length; i++) {
-    if (canvasObjects[i].type.includes('domainStory:group')) {
+    if (canvasObjects[i].type.includes(GROUP)) {
       // if it is a group, memorize this for later
       groupObjects.push(canvasObjects[i]);
     }
@@ -67,7 +68,7 @@ function getAllGroups(canvas) {
   for (i=0; i<groupObjects.length;i++) {
     var currentgroup=groupObjects[i];
     currentgroup.children.forEach(child => {
-      if (child.type.includes('domainStory:group')) {
+      if (child.type.includes(GROUP)) {
         groupObjects.push(child);
       }
     });
@@ -111,16 +112,16 @@ export function getActivitesFromActors(canvasObjects) {
   var activiesFromActors = [];
 
   canvasObjects.forEach(element => {
-    if (element.type.includes('domainStory:activity')) {
-      if (element.source.type.includes('domainStory:actor')) {
+    if (element.type.includes(ACTIVITY)) {
+      if (element.source.type.includes(ACTOR)) {
         activiesFromActors.push(element);
       }
     }
-    if (element.type.includes('domainStory:group')) {
+    if (element.type.includes(GROUP)) {
       var groupChildren = element.children;
       groupChildren.forEach(child => {
-        if (child.type.includes('domainStory:activity')) {
-          if (child.source.type.includes('domainStory:actor')) {
+        if (child.type.includes(ACTIVITY)) {
+          if (child.source.type.includes(ACTOR)) {
             activiesFromActors.push(child);
           }
         }
@@ -141,10 +142,10 @@ export function getActivitesFromActors(canvasObjects) {
 export function updateCustomElementsPreviousv050(elements) {
 
   for (var i=0; i< elements.length; i++) {
-    if (elements[i].type === 'domainStory:workObject') {
-      elements[i].type = 'domainStory:workObjectDocument';
-    } else if (elements[i].type === 'domainStory:workObjectBubble') {
-      elements[i].type = 'domainStory:workObjectConversation';
+    if (elements[i].type === WORKOBJECT) {
+      elements[i].type = WORKOBJECT + 'Document';
+    } else if (elements[i].type === WORKOBJECT + 'Bubble') {
+      elements[i].type = WORKOBJECT + 'Conversation';
     }
   }
   return elements;

@@ -1,5 +1,7 @@
 'use strict';
 
+import { DOMAINSTORY } from '../language/elementTypes';
+
 // type-checking functions
 // check element type
 export function isDomainStory(element) {
@@ -29,5 +31,5 @@ export function ifDomainStoryElement(fn) {
 }
 
 export function isDomainStoryElement(element) {
-  return element.businessObject.type.includes('domainStory:');
+  return element.businessObject.type.includes(DOMAINSTORY);
 }

@@ -1,4 +1,5 @@
 import { getAllObjectsFromCanvas } from '../../util/CanvasObjects';
+import { ACTIVITY, WORKOBJECT } from '../../language/elementTypes';
 
 
 var activityDictionary = [];
@@ -44,7 +45,7 @@ function cleanActicityDictionary(canvas) {
   var allObjects = getAllObjectsFromCanvas(canvas);
   allObjects.forEach(element => {
     var name = element.businessObject.name;
-    if (name.length > 0 && element.type.includes('domainStory:activity') && !activityDictionary.includes(name)) {
+    if (name.length > 0 && element.type.includes(ACTIVITY) && !activityDictionary.includes(name)) {
       activityDictionary.push(name);
     }
   });
@@ -61,7 +62,7 @@ function cleanWorkObjecDictionary(canvas) {
 
   allObjects.forEach(element => {
     var name = element.businessObject.name;
-    if (name.length > 0 && element.type.includes('domainStory:workObject') && !workObjectDictionary.includes(name)) {
+    if (name.length > 0 && element.type.includes(WORKOBJECT) && !workObjectDictionary.includes(name)) {
       workObjectDictionary.push(name);
     }
   });

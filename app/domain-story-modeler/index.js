@@ -14,6 +14,7 @@ import inherits from 'inherits';
 import DomainStoryModule from './modeler';
 import LabelEditingModule from './features/labeling';
 import ModelingModule from './features/modeling';
+import { ACTIVITY, CONNECTION, GROUP } from './language/elementTypes';
 
 
 export default function DomainStoryModeler(options) {
@@ -143,10 +144,10 @@ DomainStoryModeler.prototype.createDiagram = function(done) {
 };
 
 function isConnection(element) {
-  return element.type === 'domainStory:activity' || element.type === 'domainStory:connection';
+  return element.type === ACTIVITY || element.type === CONNECTION;
 }
 
 function isGroup(element) {
-  return element && element.type === 'domainStory:group';
+  return element && element.type === GROUP;
 }
 

@@ -7,6 +7,7 @@ import DomainStoryModeler from '../../../app/domain-story-modeler';
 import { assign } from 'min-dash';
 import { initActorRegistry } from '../../../app/domain-story-modeler/language/actorRegistry';
 import { test_conf } from '../test_conf';
+import { CONNECTION } from '../../../app/domain-story-modeler/language/elementTypes';
 
 
 describe('domainStory modeling', function() {
@@ -132,7 +133,7 @@ describe('domainStory modeling', function() {
             taskShape = elementRegistry.get('Task_1');
 
         modeling.connect(customShape, taskShape, {
-          type: 'domainStory:connection',
+          type: CONNECTION,
           id: 'CustomConnection_1'
         });
 
@@ -174,7 +175,7 @@ describe('domainStory modeling', function() {
           taskShape = elementRegistry.get('Task_1');
 
       var customConnection = modeling.connect(customShape, taskShape, {
-        type: 'domainStory:connection'
+        type: CONNECTION
       });
 
       bpmnjs.addCustomElements([{
@@ -206,7 +207,7 @@ describe('domainStory modeling', function() {
           taskShape2 = elementRegistry.get('Task_2');
 
       var customConnection = modeling.connect(customShape, taskShape1, {
-        type: 'domainStory:connection'
+        type: CONNECTION
       });
 
       // when
@@ -228,7 +229,7 @@ describe('domainStory modeling', function() {
           taskShape = elementRegistry.get('Task_1');
 
       var customConnection = modeling.connect(customElement, taskShape, {
-        type: 'domainStory:connection'
+        type: CONNECTION
       });
 
       // when
@@ -255,7 +256,7 @@ describe('domainStory modeling', function() {
             customElements = bpmnjs.getCustomElements();
 
         var customConnection = modeling.connect(customShape, taskShape, {
-          type: 'domainStory:connection'
+          type: CONNECTION
         });
 
         // when

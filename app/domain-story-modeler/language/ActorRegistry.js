@@ -1,6 +1,7 @@
 import { registerIcon } from './iconRegistry';
 import { getNameFromType } from './naming';
 import { all_icons } from './all_Icons';
+import { ACTOR } from './elementTypes';
 
 'use strict';
 
@@ -39,8 +40,8 @@ export function registerActors(actors) {
 }
 
 export function registerActor(name, src) {
-  if (!name.includes('domainStory:actor')) {
-    name = 'domainStory:actor' + name;
+  if (!name.includes(ACTOR)) {
+    name = ACTOR + name;
   }
   actorRegistry.set(name, src);
 }
@@ -54,7 +55,7 @@ export function initActorRegistry(actors) {
   allTypes.addEach(all_icons);
 
   for (var i=0; i < actors.length; i++) {
-    const key = 'domainStory:actor' + actors[i];
+    const key = ACTOR + actors[i];
     actorRegistry.add(allTypes.get(actors[i]), key);
   }
 

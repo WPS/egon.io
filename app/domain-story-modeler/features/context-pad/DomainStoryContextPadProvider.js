@@ -14,6 +14,7 @@ import { getNameFromType } from '../../language/naming';
 import { getWorkObjectRegistry } from '../../language/workObjectRegistry';
 import { getActorRegistry } from '../../language/actorRegistry';
 import { getIconForType } from '../../language/iconRegistry';
+import { ACTIVITY, ACTOR, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
 
 
 
@@ -118,12 +119,12 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
         }
       });
     }
-    else if (element.type.includes('domainStory:group')) {
+    else if (element.type.includes(GROUP)) {
       assign(actions, {
-        'append.text-annotation': appendAction('domainStory:textAnnotation', 'bpmn-icon-text-annotation')
+        'append.text-annotation': appendAction(TEXTANNOTATION, 'bpmn-icon-text-annotation')
       });
     }
-    else if (element.type.includes('domainStory:activity')) {
+    else if (element.type.includes(ACTIVITY)) {
       // the change direction icon is appended at the end of the edit group by default,
     // to make sure, that the delete icon is the last one, we remove it from the actions-object
     // and add it after adding the change direction functionality
@@ -166,7 +167,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     var businessObject = element.businessObject;
     var newNumber;
 
-    if (element.source.type.includes('domainStory:actor')) {
+    if (element.source.type.includes(ACTOR)) {
       newNumber = 0;
     }
     else {

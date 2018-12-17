@@ -1,6 +1,8 @@
 
 'use strict';
 
+import { ACTOR, WORKOBJECT } from './elementTypes';
+
 export function getNameFromType(type) {
 
   // Polyfill for test
@@ -19,10 +21,10 @@ export function getNameFromType(type) {
     };
   }
 
-  if (type.includes('domainStory:actor')) {
-    return type.replace('domainStory:actor', '');
+  if (type.includes(ACTOR)) {
+    return type.replace(ACTOR, '');
   }
-  else if (type.includes('domainStory:workObject')) {
-    return type.replace('domainStory:workObject', '');
+  else if (type.includes(WORKOBJECT)) {
+    return type.replace(WORKOBJECT, '');
   }
 }

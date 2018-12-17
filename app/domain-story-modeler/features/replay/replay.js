@@ -4,6 +4,7 @@ import {
   getActivitesFromActors,
   getAllObjectsFromCanvas
 } from '../../util/CanvasObjects';
+import { CONNECTION, GROUP } from '../../language/elementTypes';
 
 var canvas;
 var elementRegistry;
@@ -82,7 +83,7 @@ stopReplayButton.addEventListener('click', function() {
     var i = 0;
 
     for (i = 0; i < canvasObjects.length; i++) {
-      if (canvasObjects[i].type.includes('domainStory:group')) {
+      if (canvasObjects[i].type.includes(GROUP)) {
         groupObjects.push(canvasObjects[i]);
       }
       else {
@@ -94,7 +95,7 @@ stopReplayButton.addEventListener('click', function() {
     while (groupObjects.length >= 1) {
       var currentgroup = groupObjects.pop();
       currentgroup.children.forEach(child => {
-        if (child.type.includes('domainStory:group')) {
+        if (child.type.includes(GROUP)) {
           groupObjects.push(child);
         }
         else {
@@ -191,7 +192,7 @@ export function getAllShown(stepsUntilNow) {
     shownElements.push(step.source);
     if (step.source.outgoing) {
       step.source.outgoing.forEach(out => {
-        if (out.type.includes('domainStory:connection')) {
+        if (out.type.includes(CONNECTION)) {
           shownElements.push(out, out.target);
         }
       });
@@ -202,7 +203,7 @@ export function getAllShown(stepsUntilNow) {
       shownElements.push(target);
       if (target.outgoing) {
         target.outgoing.forEach(out => {
-          if (out.type.includes('domainStory:connection')) {
+          if (out.type.includes(CONNECTION)) {
             shownElements.push(out, out.target);
           }
         });
@@ -226,8 +227,8 @@ export function getAllNotShown(allObjects, shownElements) {
   // nor an annotation conntected to a group should be hidden
   allObjects.forEach(element => {
     if (!shownElements.includes(element)) {
-      if (element.type.includes('domainStory:connection')) {
-        if (!element.source.type.includes('domainStory:group')) {
+      if (element.type.includes(CONNECTION)) {
+        if (!element.source.type.includes(GROUP)) {
           notShownElements.push(element);
         }
         else {

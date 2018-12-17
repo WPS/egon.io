@@ -34,6 +34,7 @@ import {
 } from './domain-story-modeler/util/CanvasObjects';
 import { allInWorkObjectRegistry, registerWorkObjects } from './domain-story-modeler/language/workObjectRegistry';
 import { allInActorRegistry, registerActors } from './domain-story-modeler/language/actorRegistry';
+import { ACTIVITY, ACTOR, WORKOBJECT, DOMAINSTORY } from './domain-story-modeler/language/elementTypes';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -129,7 +130,7 @@ var svgData;
 eventBus.on('element.dblclick', function(e) {
   if (!isPlaying()) {
     var element = e.element;
-    if (element.type == 'domainStory:activity') {
+    if (element.type == ACTIVITY) {
       var source = element.source;
 
       var dict = getActivityDictionary();
@@ -139,11 +140,11 @@ eventBus.on('element.dblclick', function(e) {
       // ensure the right number when changing the direction of an activity
       toggleStashUse(false);
 
-      if (source.type.includes('domainStory:actor')) {
+      if (source.type.includes(ACTOR)) {
         showActivityWithNumberDialog(element);
         document.getElementById('inputLabel').focus();
       }
-      else if (source.type.includes('domainStory:workObject')) {
+      else if (source.type.includes(WORKOBJECT)) {
         showActivityWithoutLabelDialog(element);
         document.getElementById('labelInputLabel').focus();
       }
@@ -409,7 +410,7 @@ function updateRegistries(elements) {
 function getElementsOfType(elements, type) {
   var elementOfType =[];
   elements.forEach(element => {
-    if (element.type.includes('domainStory:' + type)) {
+    if (element.type.includes(DOMAINSTORY + type)) {
       elementOfType.push(element);
     }
   });
@@ -519,7 +520,7 @@ function dictionaryDifferences(activityNames, oldActivityDictionary, workObjectN
       activityNames[i]='';
     }
     if (!((activityNames[i].includes(oldActivityDictionary[i])) && (oldActivityDictionary[i].includes(activityNames[i])))) {
-      massChangeNames(oldActivityDictionary[i], activityNames[i], 'domainStory:activity');
+      massChangeNames(oldActivityDictionary[i], activityNames[i], ACTIVITY);
     }
   }
   for (i=0;i<oldWorkobjectDictionary.length;i++) {
@@ -527,7 +528,7 @@ function dictionaryDifferences(activityNames, oldActivityDictionary, workObjectN
       workObjectNames[i]='';
     }
     if (!((workObjectNames[i].includes(oldWorkobjectDictionary[i])) && (oldWorkobjectDictionary[i].includes(workObjectNames[i])))) {
-      massChangeNames(oldWorkobjectDictionary[i], workObjectNames[i], 'domainStory:workObject');
+      massChangeNames(oldWorkobjectDictionary[i], workObjectNames[i], WORKOBJECT);
     }
   }
   // delete old entires from stashes

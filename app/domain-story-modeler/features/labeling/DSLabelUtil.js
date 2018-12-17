@@ -1,24 +1,25 @@
 'use strict';
 
 import { is } from 'bpmn-js/lib/util/ModelUtil';
+import { ACTIVITY, ACTOR, WORKOBJECT, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
 
 function getLabelAttr(semantic) {
   if (
-    semantic.type.includes('domainStory:actor') ||
-    semantic.type.includes('domainStory:workObject') ||
-    semantic.type.includes('domainStory:activity') ||
-    semantic.type.includes('domainStory:group')) {
+    semantic.type.includes(ACTOR) ||
+    semantic.type.includes(WORKOBJECT) ||
+    semantic.type.includes(ACTIVITY) ||
+    semantic.type.includes(GROUP)) {
 
     return 'name';
   }
 
-  if (is(semantic, 'domainStory:textAnnotation')) {
+  if (is(semantic, TEXTANNOTATION)) {
     return 'text';
   }
 }
 
 function getNumberAttr(semantic) {
-  if (is(semantic, 'domainStory:activity')) {
+  if (is(semantic, ACTIVITY)) {
 
     return 'number';
   }
@@ -77,7 +78,7 @@ export function autocomplete(inp, arr, element) {
   /* execute a function when someone writes in the text field:*/
   inp.addEventListener('input', function(e) {
     /* the direct editing field of actors and workobjects is a recycled html-element and has old values that need to be overridden*/
-    if (element.type.includes('domainStory:workObject')) {
+    if (element.type.includes(WORKOBJECT)) {
       this.value = this.innerHTML;
     }
     var autocompleteList, autocompleteItem, val = this.value;
@@ -113,7 +114,7 @@ export function autocomplete(inp, arr, element) {
       }
     }
     // if we edit an actor, we do not want auto-complete, since actors generally are unique
-    if (element.type.includes('domainStory:actor')) {
+    if (element.type.includes(ACTOR)) {
       autocompleteList.style.visibility = 'hidden';
     }
   });

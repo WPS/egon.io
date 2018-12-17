@@ -39,6 +39,7 @@ import {
 } from '../features/labeling/DSLabelUtil';
 import { getActorSrc } from './actorRegistry';
 import { getWorkObjectSrc } from './workObjectRegistry';
+import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];
@@ -181,12 +182,12 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
 
       var box = numberBoxDefinitions(element);
 
-      if (semantic.number == null && element.source.type && element.source.type.includes('domainStory:actor')) {
+      if (semantic.number == null && element.source.type && element.source.type.includes(ACTOR)) {
         generateAutomaticNumber(element, canvas, commandStack);
       }
 
       // render the bacground for the number
-      if (semantic.number != '' && semantic.number != null && element.source.type.includes('domainStory:actor')) {
+      if (semantic.number != '' && semantic.number != null && element.source.type.includes(ACTOR)) {
         generateActivityNumber(parentGfx, element, box);
       } else {
         semantic.number = null;
@@ -557,16 +558,16 @@ DomainStoryRenderer.prototype.canRender = function(element) {
 DomainStoryRenderer.prototype.drawShape = function(p, element) {
   var type = element.type;
 
-  if (type.includes('domainStory:actor')) {
+  if (type.includes(ACTOR)) {
     return this.drawActor(p, element);
   }
-  else if (type.includes('domainStory:workObject')) {
+  else if (type.includes(WORKOBJECT)) {
     return this.drawWorkObject(p, element);
   }
-  else if (type.includes('domainStory:textAnnotation')) {
+  else if (type.includes(TEXTANNOTATION)) {
     return this.drawAnnotation(p, element);
   }
-  else if (type.includes('domainStory:group')) {
+  else if (type.includes(GROUP)) {
     return this.drawGroup(p, element);
   }
 };
@@ -574,13 +575,13 @@ DomainStoryRenderer.prototype.drawShape = function(p, element) {
 DomainStoryRenderer.prototype.getShapePath = function(shape) {
   var type = shape.type;
 
-  if (type.includes('domainStory:actor')) {
+  if (type.includes(ACTOR)) {
     return this.getActorPath(shape);
   }
-  else if (type.includes('domainStory:workObject')) {
+  else if (type.includes(WORKOBJECT)) {
     return this.getWorkObjectPath(shape);
   }
-  else if (type.includes('domainStory:group')) {
+  else if (type.includes(GROUP)) {
     return this.getGroupPath(shape);
   }
 };
@@ -588,9 +589,9 @@ DomainStoryRenderer.prototype.getShapePath = function(shape) {
 DomainStoryRenderer.prototype.drawConnection = function(p, element) {
   var type = element.type;
 
-  if (type === 'domainStory:activity') {
+  if (type === ACTIVITY) {
     return this.drawActivity(p, element);
-  } else if (type === 'domainStory:connection') {
+  } else if (type === CONNECTION) {
     return this.drawDSConnection(p, element);
   }
 };
@@ -598,7 +599,7 @@ DomainStoryRenderer.prototype.drawConnection = function(p, element) {
 DomainStoryRenderer.prototype.getConnectionPath = function(connection) {
   var type = connection.type;
 
-  if (type === 'domainStory:activity' || type === 'domainStory:connection') {
+  if (type === ACTIVITY || type === CONNECTION) {
     return this.getActivityPath(connection);
   }
 };

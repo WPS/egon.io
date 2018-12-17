@@ -18,6 +18,7 @@ import {
   getBusinessObject,
   is
 } from 'bpmn-js/lib/util/ModelUtil';
+import { TEXTANNOTATION } from '../../language/elementTypes';
 
 var NULL_DIMENSIONS = {
   width: 0,
@@ -94,7 +95,7 @@ export default function DSUpdateLabelHandler(modeling, textRenderer, commandStac
       }
 
       // ignore internal labels for elements except text annotations
-      if (!isLabelExternal(element) && !is(element, 'domainStory:textAnnotation')) {
+      if (!isLabelExternal(element) && !is(element, TEXTANNOTATION)) {
         return;
       }
 
