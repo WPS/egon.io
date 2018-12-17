@@ -1,7 +1,9 @@
 /**
  * Select the Iconset which you want to use
  */
-export var usedIconset = default_conf;
+export function getIconset() {
+  return default_conf;
+}
 
 /* eslint no-unused-vars: 0*/
 

@@ -3,9 +3,9 @@
 import { assign } from 'min-dash';
 import { getNameFromType } from '../../language/naming';
 import { getIconForType } from '../../language/iconRegistry';
-import { usedIconset } from '../../language/iconConfig';
 import { getWorkObjectRegistry, initWorkObjecttRegistry } from '../../language/workObjectRegistry';
 import { getActorRegistry, initActorRegistry } from '../../language/actorRegistry';
+import { usedIconset, getIconset } from '../../language/iconConfig';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
@@ -71,7 +71,8 @@ PaletteProvider.prototype.getPaletteEntries = function() {
 };
 
 function initPalette(actions, spaceTool, lassoTool, createAction) {
-  var config = usedIconset;
+  var config = getIconset();
+  console.log(config);
 
   initActorRegistry(config.actors);
   initWorkObjecttRegistry(config.workObjects);
