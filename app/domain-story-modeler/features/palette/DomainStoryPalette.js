@@ -72,7 +72,6 @@ PaletteProvider.prototype.getPaletteEntries = function() {
 
 function initPalette(actions, spaceTool, lassoTool, createAction) {
   var config = getIconset();
-  console.log(config);
 
   initActorRegistry(config.actors);
   initWorkObjecttRegistry(config.workObjects);

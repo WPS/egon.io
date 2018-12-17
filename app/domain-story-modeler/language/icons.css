@@ -94,3 +94,486 @@
     content: "flag";
     background-repeat: no-repeat;
   }
+
+  .icon-domain-story-printer::before{
+    font-family: "Material Icons";
+    content: "print";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-euro-::before{
+    font-family: "Material Icons";
+    content: "euro_symbol";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-story-courthouse::before{
+    font-family: "Material Icons";
+    content: "acount_balance";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-story-alarm::before{
+    font-family: "Material Icons";
+    content: "alarm";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-story-wrench::before{
+    font-family: "Material Icons";
+    content: "build";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-commute::before{
+    font-family: "Material Icons";
+    content: "commute";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-copyright::before{
+    font-family: "Material Icons";
+    content: "copyright";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-circle-arrows::before{
+    font-family: "Material Icons";
+    content: "cached";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-credit-card::before{
+    font-family: "Material Icons";
+    content: "credit_card";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-delete::before{
+    font-family: "Material Icons";
+    content: "delete_forever";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-dns::before{
+    font-family: "Material Icons";
+    content: "dns";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-favorite::before{
+    font-family: "Material Icons";
+    content: "favorite_border";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-gavel-::before{
+    font-family: "Material Icons";
+    content: "gavel";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-blind::before{
+    font-family: "Material Icons";
+    content: "group_work";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-hourglass::before{
+    font-family: "Material Icons";
+    content: "hourglass_empty";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-world::before{
+    font-family: "Material Icons";
+    content: "public";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-motorcycle::before{
+    font-family: "Material Icons";
+    content: "motorcycle";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-pet::before{
+    font-family: "Material Icons";
+    content: "pets";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-time::before{
+    font-family: "Material Icons";
+    content: "schedule";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-search::before{
+    font-family: "Material Icons";
+    content: "search";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-settings::before{
+    font-family: "Material Icons";
+    content: "settings";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-cellphone::before{
+    font-family: "Material Icons";
+    content: "settings_cell";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-shopping::before{
+    font-family: "Material Icons";
+    content: "shopping_cart";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-store::before{
+    font-family: "Material Icons";
+    content: "store";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-theater::before{
+    font-family: "Material Icons";
+    content: "theaters";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-thumbs-up::before{
+    font-family: "Material Icons";
+    content: "thumps_up";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-thumps-down::before{
+    font-family: "Material Icons";
+    content: "thumps_down";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-thumps-up-down::before{
+    font-family: "Material Icons";
+    content: "thumps_up_down";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-update::before{
+    font-family: "Material Icons";
+    content: "update";
+    background-repeat: no-repeat;
+  }
+  
+  .icon-domain-briefcase::before{
+    font-family: "Material Icons";
+    content: "work_outline";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-microphone::before{
+    font-family: "Material Icons";
+    content: "mic_none";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-business::before{
+    font-family: "Material Icons";
+    content: "business";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-signal::before{
+    font-family: "Material Icons";
+    content: "rss_feed";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-key::before{
+    font-family: "Material Icons";
+    content: "vpn_key";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-pencil::before{
+    font-family: "Material Icons";
+    content: "create";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-save::before{
+    font-family: "Material Icons";
+    content: "save";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-couch::before{
+    font-family: "Material Icons";
+    content: "weekend";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-water::before{
+    font-family: "Material Icons";
+    content: "waves";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-attach::before{
+    font-family: "Material Icons";
+    content: "attach_file";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-dollar::before{
+    font-family: "Material Icons";
+    content: "attach_money";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-sum::before{
+    font-family: "Material Icons";
+    content: "functions";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-headset::before{
+    font-family: "Material Icons";
+    content: "headset_mic";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-keyboard::before{
+    font-family: "Material Icons";
+    content: "keyboard";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-mouse::before{
+    font-family: "Material Icons";
+    content: "mouse";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-router::before{
+    font-family: "Material Icons";
+    content: "router";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-scanner::before{
+    font-family: "Material Icons";
+    content: "scanner";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-security::before{
+    font-family: "Material Icons";
+    content: "securtity";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-tv::before{
+    font-family: "Material Icons";
+    content: "tv";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-ruler::before{
+    font-family: "Material Icons";
+    content: "straighten";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-car::before{
+    font-family: "Material Icons";
+    content: "directions_car";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-bus::before{
+    font-family: "Material Icons";
+    content: "directions_bus";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-train::before{
+    font-family: "Material Icons";
+    content: "train";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-hotel::before{
+    font-family: "Material Icons";
+    content: "hotel";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-dining::before{
+    font-family: "Material Icons";
+    content: "local_dining";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-gas-station::before{
+    font-family: "Material Icons";
+    content: "local_gas_station";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-truck::before{
+    font-family: "Material Icons";
+    content: "local_shipping";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-taxi::before{
+    font-family: "Material Icons";
+    content: "local_taxi";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-education::before{
+    font-family: "Material Icons";
+    content: "school";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-meeting-room::before{
+    font-family: "Material Icons";
+    content: "meeting-room";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-bike::before{
+    font-family: "Material Icons";
+    content: "directions_bike";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-boat::before{
+    font-family: "Material Icons";
+    content: "directions_boat";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-walking::before{
+    font-family: "Material Icons";
+    content: "directions_walk";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-traffic::before{
+    font-family: "Material Icons";
+    content: "traffic";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-boat::before{
+    font-family: "Material Icons";
+    content: "directions_boat";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-shuttle::before {
+    font-family: "Material Icons";
+    content: "aitport_shuttle";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-flight-takeoff::before {
+    font-family: "Material Icons";
+    content: "flight_takeoff";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-flight-landing::before {
+    font-family: "Material Icons";
+    content: "flight_land";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-video::before {
+    font-family: "Material Icons";
+    content: "video_label";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-desktop::before {
+    font-family: "Material Icons";
+    content: "desktop_windows";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-speaker-phone::before {
+    font-family: "Material Icons";
+    content: "speaker_phone";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-tablet::before {
+    font-family: "Material Icons";
+    content: "tablet_android";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-cloud::before {
+    font-family: "Material Icons";
+    content: "cloud";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-assessment::before {
+    font-family: "Material Icons";
+    content: "assessment";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-dashboard::before {
+    font-family: "Material Icons";
+    content: "dashboard";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-pie-chart::before {
+    font-family: "Material Icons";
+    content: "pie_chart";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-insert-chart::before {
+    font-family: "Material Icons";
+    content: "insert_chart";
+    background-repeat: no-repeat;
+  }
+
+  .icon-domain-picture-as-pdf::before {
+    font-family: "Material Icons";
+    content: "picture_as_pdf";
+    background-repeat: no-repeat;
+  }
+
+
+  .icon-domain-view-list::before {
+    font-family: "Material Icons";
+    content: "view_list";
+    background-repeat: no-repeat;
+  }
+
+
+  .icon-domain-problem::before {
+    font-family: "Material Icons";
+    content: "report_problem";
+    background-repeat: no-repeat;
+  }
+
+
+  .icon-domain-place::before {
+    font-family: "Material Icons";
+    content: "place";
+    background-repeat: no-repeat;
+  }
