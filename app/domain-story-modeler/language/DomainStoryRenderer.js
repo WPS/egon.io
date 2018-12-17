@@ -308,7 +308,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       y: element.height / 2 - 25
     };
     var workObject;
-
     workObject = svgCreate(getWorkObjectSrc(element.type));
 
     svgAttr(workObject, svgDynamicSizeAttributes);

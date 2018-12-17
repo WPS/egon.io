@@ -32,6 +32,9 @@ import {
   getActivitesFromActors,
   updateCustomElementsPreviousv050
 } from './domain-story-modeler/util/CanvasObjects';
+import { allInWorkObjectRegistry, registerWorkObjects, getWorkObjecttRegistryKeys, getWorkObjectRegistry } from './domain-story-modeler/language/workObjectRegistry';
+import { allInActorRegistry, registerActors, getActorRegistryKeys, getActorRegistry } from './domain-story-modeler/language/actorRegistry';
+import { getIconRegistryKeys } from './domain-story-modeler/language/iconRegistry';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -365,6 +368,8 @@ document.getElementById('import').onchange = function() {
         elements = updateCustomElementsPreviousv050(elements);
       }
 
+      updateRegistries(elements);
+
       var inputInfoText = sanitize(lastElement.info ? lastElement.info : '');
       info.innerText = inputInfoText;
       info.value = inputInfoText;
@@ -389,6 +394,28 @@ document.getElementById('import').onchange = function() {
     eventBus.fire('commandStack.changed', exportArtifacts);
   }
 };
+
+function updateRegistries(elements) {
+  var actors = getElementsOfType(elements, 'actor');
+  var workObjects = getElementsOfType(elements, 'workObject');
+
+  if (!allInActorRegistry(actors)) {
+    registerActors(actors);
+  }
+  if (!allInWorkObjectRegistry(workObjects)) {
+    registerWorkObjects(workObjects);
+  }
+}
+
+function getElementsOfType(elements, type) {
+  var elementOfType =[];
+  elements.forEach(element => {
+    if (element.type.includes('domainStory:' + type)) {
+      elementOfType.push(element);
+    }
+  });
+  return elementOfType;
+}
 
 function dictionaryKeyBehaviour(event) {
   const KEY_ENTER = 13;

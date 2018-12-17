@@ -15,6 +15,29 @@ export function getActorRegistryKeys() {
   return actorRegistry.keysArray();
 }
 
+export function allInActorRegistry(actors) {
+  var allIn = true;
+  actors.forEach(actor => {
+    if (!actorRegistry.has(actor.type)) {
+      allIn = false;
+    }
+  });
+  return allIn;
+}
+
+export function registerActors(actors) {
+  var allTypes=new ActorTypes();
+  allTypes.addEach(all_icons);
+
+  actors.forEach(actor => {
+    if (!actorRegistry.has(actor.type)) {
+      const name = getNameFromType(actor.type);
+      registerActor(actor.type, allTypes.get(name));
+      registerIcon(actor.type, 'icon-domain-story-' + name.toLowerCase());
+    }
+  });
+}
+
 export function registerActor(name, src) {
   if (!name.includes('domainStory:actor')) {
     name = 'domainStory:actor' + name;

@@ -15,6 +15,30 @@ export function getWorkObjecttRegistryKeys() {
   return workObjectRegistry.keysArray();
 }
 
+export function allInWorkObjectRegistry(workObjects) {
+  var allIn = true;
+  workObjects.forEach(workObject => {
+    if (!workObjectRegistry.has(workObject.type)) {
+      allIn = false;
+    }
+  });
+  return allIn;
+}
+
+export function registerWorkObjects(workObjects) {
+  var allTypes=new WorkObjectTypes();
+  allTypes.addEach(all_icons);
+
+  workObjects.forEach(workObject => {
+    if (!workObjectRegistry.has(workObject.type)) {
+      const name = getNameFromType(workObject.type);
+      registerWorkObject(workObject.type, allTypes.get(name));
+      registerIcon(workObject.type, 'icon-domain-story-' + name.toLowerCase());
+
+    }
+  });
+}
+
 export function registerWorkObject(name, src) {
   if (!name.includes('domainStory:workObject')) {
     name = 'domainStory:workObject' + name;
