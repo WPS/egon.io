@@ -77,7 +77,12 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           }
         }
       });
+
+      assign(actions, {
+        'append.text-annotation': appendAction('domainStory:textAnnotation', 'bpmn-icon-text-annotation')
+      });
     }
+
     else if (element.type.includes('actor')) {
       var workObjectTypes = getWorkObjectRegistry();
 
@@ -118,7 +123,12 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           }
         }
       });
+
+      assign(actions, {
+        'append.text-annotation': appendAction('domainStory:textAnnotation', 'bpmn-icon-text-annotation')
+      });
     }
+
     else if (element.type.includes(GROUP)) {
       assign(actions, {
         'append.text-annotation': appendAction(TEXTANNOTATION, 'bpmn-icon-text-annotation')
