@@ -369,8 +369,6 @@ describe('domainStory modeler', function() {
       newObject.push({ info: 'Assumption: no line at box office, seats available, cash payment' });
       newObject.push({ version: '0.4.0-dev' });
       var jsonExport = '' + JSON.stringify(newObject);
-      console.log(jsonExport);
-      console.log(intricateV0_5_0_JsonString);
 
       // then
       var jsonLength = jsonExport.length;
