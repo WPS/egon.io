@@ -27,17 +27,11 @@ ReplaceMenuProvider.$inject = ['modeling'];
 ReplaceMenuProvider.prototype.getEntries = function(element) {
 
   var entries;
-  switch (element.type) {
-  case 'domainStory:actorPerson': entries = replaceOptions.ACTOR_PERSON; break;
-  case 'domainStory:actorGroup': entries = replaceOptions.ACTOR_GROUP; break;
-  case 'domainStory:actorSystem': entries = replaceOptions.ACTOR_SYSTEM; break;
-
-  case 'domainStory:workObject': entries = replaceOptions.WORKOBJECT; break;
-  case 'domainStory:workObjectFolder': entries = replaceOptions.WORKOBJECT_FOLDER; break;
-  case 'domainStory:workObjectCall': entries = replaceOptions.WORKOBJECT_CALL; break;
-  case 'domainStory:workObjectEmail': entries = replaceOptions.WORKOBJECT_EMAIL; break;
-  case 'domainStory:workObjectBubble': entries = replaceOptions.WORKOBJECT_BUBBLE; break;
-  case 'domainStory:workObjectInfo': entries = replaceOptions.WORKOBJECT_INFO; break;
+  if (element.type.includes('actor')) {
+    entries = replaceOptions.actorReplaceOptions(element.type);
+  }
+  else if (element.type.includes('workObject')) {
+    entries = replaceOptions.workObjectReplaceOptions(element.type);
   }
 
   return this._createEntries(element, entries);

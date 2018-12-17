@@ -129,3 +129,23 @@ export function getActivitesFromActors(canvasObjects) {
   });
   return activiesFromActors;
 }
+
+
+
+/**
+ * Ensure backwards compatability.
+ * Previously Document had no special name and was just adressed as workObject
+ * Bubble was renamed to Conversation
+ */
+
+export function updateCustomElementsPreviousv050(elements) {
+
+  for (var i=0; i< elements.length; i++) {
+    if (elements[i].type === 'domainStory:workObject') {
+      elements[i].type = 'domainStory:workObjectDocument';
+    } else if (elements[i].type === 'domainStory:workObjectBubble') {
+      elements[i].type = 'domainStory:workObjectConversation';
+    }
+  }
+  return elements;
+}
