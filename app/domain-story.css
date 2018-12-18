@@ -125,7 +125,7 @@ cursor: default;
   cursor: pointer;
 }
 
-#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep, #keyboardShortcutInfoDialogButtonCancel ,#keyboardShortcutInfoButton{
+#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep ,#keyboardShortcutInfoButton{
   background-color: white;
   border: 1px solid white;
   margin-right: -4px;
@@ -137,8 +137,8 @@ cursor: default;
   margin-left: 5.2em;
 }
 
-#dialog, #numberDialog, #labelDialog, #keyboardShortcutInfoDialog {
-  padding: 30px 50px 30px 50px;
+#dialog, #numberDialog, #labelDialog {
+  padding: 30px 30px 30px 30px;
   background-color:#FAFAFA;
   border-color: #CCC;
   border-radius: 2px;
@@ -194,7 +194,7 @@ cursor: default;
   margin-left: -155px;
 }
 
-#wpsLogoInfo, #incompleteStoryInfo, #versionDialog{
+#wpsLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog{
   font-size: 11pt;  
   border: solid 1px #aaaaab;
   padding-top: 3px;
@@ -244,7 +244,7 @@ cursor: default;
   padding: 4px;
 }
 
-#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog{
+#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel{
   position: absolute;
   font-size: 9pt;
   right: 1px;
