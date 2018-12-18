@@ -21,9 +21,16 @@ input{
   z-index: 1;
 }
 
+.headerAndCanvas {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 125px 1px auto;
+}
+
 .headlineContainer {
   display: grid;
   grid-template-columns: auto 285;
+  grid-template-rows: 125px;
 }
 
 .headlineAndInfo {
@@ -31,6 +38,7 @@ input{
   grid-column: 1 / 1;
   display: grid;
   justify-self: stretch;
+  grid-template-rows: 40px 85px;
 }
 
 .ButtonsAndLogos{
@@ -41,14 +49,12 @@ input{
 }
 
 .ButtonContainer {
-  margin-top: 1.1em;
   grid-column: 1/1;
   position: relative;
 }
 
 .logoContainer {
   margin-left: 10px;
-  margin-top: 1em;
   grid-column: 2/2;
   position: relative;
 }
@@ -63,7 +69,10 @@ input{
   word-wrap: break-word;
   hyphens: auto; 
   -webkit-hyphenate-character: auto;  /* not supported by Chrome*/
-  margin: 10px;
+  margin-left: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  height: 40px;
   cursor: pointer;
 }
 
@@ -76,11 +85,9 @@ input{
 }
 
 #infoText{
-  margin-top: -15px;
   margin-bottom: 3px;
   position: relative;
   font-size: 10pt;
-  margin-left: 10px;
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto; 
@@ -164,7 +171,7 @@ cursor: default;
 #canvas, #canvas > div{
   top: 0px;
   width: 100%;
-  height: 85.8%;
+  height: 100%;
   position: relative;
 }
   

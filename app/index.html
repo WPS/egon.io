@@ -18,70 +18,73 @@
 
 <body>
   <div id="modal" style="display:none;"></div>
-
-  <div class="headlineContainer">
-    <div class="headlineAndInfo">
-      <h3 id="headline">
-        <text id="title">&ltname of this Domain Story&gt</text>
-        <i class="material-icons" id="edit">
-          create
-        </i>
-      </h3>
-      <div id="infoContainer">
-        <div id="infoText"></div>       
+  <div class ="headerAndCanvas">
+    <div class="headlineContainer">
+      <div class="headlineAndInfo">
+        <h3 id="headline">
+          <text id="title">&ltname of this Domain Story&gt</text>
+          <i class="material-icons" id="edit">
+            create
+          </i>
+        </h3>
+        <div id="infoContainer">
+          <div id="infoText"></div>       
+        </div>
+      </div>
+      <div class="ButtonsAndLogos">
+          <div class="ButtonContainer">
+            <div class="importExportSVGButton" id="importExportSVGButton">
+              <button id="buttonImport" class="importButton" title="Import story from .dst file" onclick="document.getElementById('import').click();">
+                <img src="./logo/unarchive.png">
+              </button>
+              <input type="file" accept=".dst" style="display:none;" id="import" onclick="this.value=null;" name="file" />
+              <button class="exportButton" id="export" title="Export story as .dst file">
+                <img src="./logo/archive.png">
+              </button>
+              <button class="svgDownloadButton" id="buttonSVG" title="Export story as SVG image">
+                <img src="./logo/image.png">
+              </button>
+              <button id="dictionaryButton" title="Edit dictionary">
+                <img src="./logo/spellcheck.png">
+              </button>
+              <button id="keyboardShortcutInfoButton" title="Show keyboard shortcuts">
+                <img src="./logo/shortCutInfo.png">
+              </button>
+            </div>
+              <div class="replayButtons">
+                <button id="buttonStartReplay" class="startReplayButton" title="Start replay">
+                  <img src="./logo/play.png">
+                </button>
+                <button id="buttonPreviousStep" class="prevoiusStepButton" title="Previous Step">
+                  <img src="./logo/previous.png">
+                </button>
+                <button id="buttonNextStep" class="NextStepButton" title="NextStep">
+                  <img src="./logo/forward.png">
+                </button>
+                <button id="buttonStopReplay" class="stopReplayButton" title="Stop replay">
+                  <img src="./logo/stop.png">
+                </button>
+                <div id="replayStep"> 0/0</div>
+              </div>
+          </div>
+          <div class="logoContainer">
+              <div id="imgWPS">
+                <img src="./logo/Quadrat_wps_de_Farbig.png" height="54" width="40" />
+              </div>
+              <div id="imgDST">
+                <!-- a href="http://domainstorytelling.org/" -->
+                <img src="./logo/dst_logo.png" height="74" width="74" />
+                <!-- /a -->
+              </div>
+          </div>
       </div>
     </div>
-    <div class="ButtonsAndLogos">
-        <div class="ButtonContainer">
-          <div class="importExportSVGButton" id="importExportSVGButton">
-            <button id="buttonImport" class="importButton" title="Import story from .dst file" onclick="document.getElementById('import').click();">
-              <img src="./logo/unarchive.png">
-            </button>
-            <input type="file" accept=".dst" style="display:none;" id="import" onclick="this.value=null;" name="file" />
-            <button class="exportButton" id="export" title="Export story as .dst file">
-              <img src="./logo/archive.png">
-            </button>
-            <button class="svgDownloadButton" id="buttonSVG" title="Export story as SVG image">
-              <img src="./logo/image.png">
-            </button>
-            <button id="dictionaryButton" title="Edit dictionary">
-              <img src="./logo/spellcheck.png">
-            </button>
-            <button id="keyboardShortcutInfoButton" title="Show keyboard shortcuts">
-              <img src="./logo/shortCutInfo.png">
-            </button>
-          </div>
-            <div class="replayButtons">
-              <button id="buttonStartReplay" class="startReplayButton" title="Start replay">
-                <img src="./logo/play.png">
-              </button>
-              <button id="buttonPreviousStep" class="prevoiusStepButton" title="Previous Step">
-                <img src="./logo/previous.png">
-              </button>
-              <button id="buttonNextStep" class="NextStepButton" title="NextStep">
-                <img src="./logo/forward.png">
-              </button>
-              <button id="buttonStopReplay" class="stopReplayButton" title="Stop replay">
-                <img src="./logo/stop.png">
-              </button>
-              <div id="replayStep"> 0/0</div>
-            </div>
-        </div>
-        <div class="logoContainer">
-            <div id="imgWPS">
-              <img src="./logo/Quadrat_wps_de_Farbig.png" height="54" width="40" />
-            </div>
-            <div id="imgDST">
-              <!-- a href="http://domainstorytelling.org/" -->
-              <img src="./logo/dst_logo.png" height="74" width="74" />
-              <!-- /a -->
-            </div>
-        </div>
-    </div>
-  </div>
+    
+    <div id="line"></div>
   
-  <div id="line"></div>
+    <div id="canvas"></div>
 
+</div>
   <div id="arrowDialog">
     <div id="arrow" class="arrow" style="display:none;"></div>
     <div id="dialog" style="display:none;">
@@ -141,8 +144,6 @@
     <br>
     <a href="http://www.domainstorytelling.org">domainstorytelling.org</a>
   </div>
-
-  <div id="canvas"></div>
 
   <div id="incompleteStoryInfo" style="display:none">
   <button id="closeIncompleteStoryInfo">X</button>
