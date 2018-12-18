@@ -125,454 +125,454 @@
     background-repeat: no-repeat;
   }
 
-  .icon-domain-commute::before{
+  .icon-domain-story-commute::before{
     font-family: "Material Icons";
     content: "commute";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-copyright::before{
+  .icon-domain-story-copyright::before{
     font-family: "Material Icons";
     content: "copyright";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-circle-arrows::before{
+  .icon-domain-story-circle-arrows::before{
     font-family: "Material Icons";
     content: "cached";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-credit-card::before{
+  .icon-domain-story-credit-card::before{
     font-family: "Material Icons";
     content: "credit_card";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-delete::before{
+  .icon-domain-story-delete::before{
     font-family: "Material Icons";
     content: "delete_forever";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-dns::before{
+  .icon-domain-story-dns::before{
     font-family: "Material Icons";
     content: "dns";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-favorite::before{
+  .icon-domain-story-favorite::before{
     font-family: "Material Icons";
     content: "favorite_border";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-gavel-::before{
+  .icon-domain-story-gavel-::before{
     font-family: "Material Icons";
     content: "gavel";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-blind::before{
+  .icon-domain-story-blind::before{
     font-family: "Material Icons";
     content: "group_work";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-hourglass::before{
+  .icon-domain-story-hourglass::before{
     font-family: "Material Icons";
     content: "hourglass_empty";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-world::before{
+  .icon-domain-story-world::before{
     font-family: "Material Icons";
     content: "public";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-motorcycle::before{
+  .icon-domain-story-motorcycle::before{
     font-family: "Material Icons";
     content: "motorcycle";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-pet::before{
+  .icon-domain-story-pet::before{
     font-family: "Material Icons";
     content: "pets";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-time::before{
+  .icon-domain-story-time::before{
     font-family: "Material Icons";
     content: "schedule";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-search::before{
+  .icon-domain-story-search::before{
     font-family: "Material Icons";
     content: "search";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-settings::before{
+  .icon-domain-story-settings::before{
     font-family: "Material Icons";
     content: "settings";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-cellphone::before{
+  .icon-domain-story-cellphone::before{
     font-family: "Material Icons";
     content: "settings_cell";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-shopping::before{
+  .icon-domain-story-shopping::before{
     font-family: "Material Icons";
     content: "shopping_cart";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-store::before{
+  .icon-domain-story-store::before{
     font-family: "Material Icons";
     content: "store";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-theater::before{
+  .icon-domain-story-theater::before{
     font-family: "Material Icons";
     content: "theaters";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-thumbs-up::before{
+  .icon-domain-story-thumbs-up::before{
     font-family: "Material Icons";
     content: "thumps_up";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-thumps-down::before{
+  .icon-domain-story-thumps-down::before{
     font-family: "Material Icons";
     content: "thumps_down";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-thumps-up-down::before{
+  .icon-domain-story-thumps-up-down::before{
     font-family: "Material Icons";
     content: "thumps_up_down";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-update::before{
+   .icon-domain-story-update::before{
     font-family: "Material Icons";
     content: "update";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-briefcase::before{
+   .icon-domain-story-briefcase::before{
     font-family: "Material Icons";
     content: "work_outline";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-microphone::before{
+   .icon-domain-story-microphone::before{
     font-family: "Material Icons";
     content: "mic_none";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-business::before{
+   .icon-domain-story-business::before{
     font-family: "Material Icons";
     content: "business";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-signal::before{
+   .icon-domain-story-signal::before{
     font-family: "Material Icons";
     content: "rss_feed";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-key::before{
+   .icon-domain-story-key::before{
     font-family: "Material Icons";
     content: "vpn_key";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-pencil::before{
+   .icon-domain-story-pencil::before{
     font-family: "Material Icons";
     content: "create";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-save::before{
+   .icon-domain-story-save::before{
     font-family: "Material Icons";
     content: "save";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-couch::before{
+   .icon-domain-story-couch::before{
     font-family: "Material Icons";
     content: "weekend";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-water::before{
+   .icon-domain-story-water::before{
     font-family: "Material Icons";
     content: "waves";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-attach::before{
+   .icon-domain-story-attach::before{
     font-family: "Material Icons";
     content: "attach_file";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-dollar::before{
+   .icon-domain-story-dollar::before{
     font-family: "Material Icons";
     content: "attach_money";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-sum::before{
+   .icon-domain-story-sum::before{
     font-family: "Material Icons";
     content: "functions";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-headset::before{
+   .icon-domain-story-headset::before{
     font-family: "Material Icons";
     content: "headset_mic";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-keyboard::before{
+   .icon-domain-story-keyboard::before{
     font-family: "Material Icons";
     content: "keyboard";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-mouse::before{
+   .icon-domain-story-mouse::before{
     font-family: "Material Icons";
     content: "mouse";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-router::before{
+   .icon-domain-story-router::before{
     font-family: "Material Icons";
     content: "router";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-scanner::before{
+   .icon-domain-story-scanner::before{
     font-family: "Material Icons";
     content: "scanner";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-security::before{
+   .icon-domain-story-security::before{
     font-family: "Material Icons";
     content: "securtity";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-tv::before{
+   .icon-domain-story-tv::before{
     font-family: "Material Icons";
     content: "tv";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-ruler::before{
+   .icon-domain-story-ruler::before{
     font-family: "Material Icons";
     content: "straighten";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-car::before{
+   .icon-domain-story-car::before{
     font-family: "Material Icons";
     content: "directions_car";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-bus::before{
+   .icon-domain-story-bus::before{
     font-family: "Material Icons";
     content: "directions_bus";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-train::before{
+   .icon-domain-story-train::before{
     font-family: "Material Icons";
     content: "train";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-hotel::before{
+   .icon-domain-story-hotel::before{
     font-family: "Material Icons";
     content: "hotel";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-dining::before{
+   .icon-domain-story-dining::before{
     font-family: "Material Icons";
     content: "local_dining";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-gas-station::before{
+   .icon-domain-story-gas-station::before{
     font-family: "Material Icons";
     content: "local_gas_station";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-truck::before{
+   .icon-domain-story-truck::before{
     font-family: "Material Icons";
     content: "local_shipping";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-taxi::before{
+   .icon-domain-story-taxi::before{
     font-family: "Material Icons";
     content: "local_taxi";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-education::before{
+   .icon-domain-story-education::before{
     font-family: "Material Icons";
     content: "school";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-meeting-room::before{
+   .icon-domain-story-meeting-room::before{
     font-family: "Material Icons";
     content: "meeting-room";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-bike::before{
+   .icon-domain-story-bike::before{
     font-family: "Material Icons";
     content: "directions_bike";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-boat::before{
+   .icon-domain-story-boat::before{
     font-family: "Material Icons";
     content: "directions_boat";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-walking::before{
+   .icon-domain-story-walking::before{
     font-family: "Material Icons";
     content: "directions_walk";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-traffic::before{
+   .icon-domain-story-traffic::before{
     font-family: "Material Icons";
     content: "traffic";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-boat::before{
+   .icon-domain-story-boat::before{
     font-family: "Material Icons";
     content: "directions_boat";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-shuttle::before {
+   .icon-domain-story-shuttle::before {
     font-family: "Material Icons";
     content: "aitport_shuttle";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-flight-takeoff::before {
+   .icon-domain-story-flight-takeoff::before {
     font-family: "Material Icons";
     content: "flight_takeoff";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-flight-landing::before {
+   .icon-domain-story-flight-landing::before {
     font-family: "Material Icons";
     content: "flight_land";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-video::before {
+   .icon-domain-story-video::before {
     font-family: "Material Icons";
     content: "video_label";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-desktop::before {
+   .icon-domain-story-desktop::before {
     font-family: "Material Icons";
     content: "desktop_windows";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-speaker-phone::before {
+   .icon-domain-story-speaker-phone::before {
     font-family: "Material Icons";
     content: "speaker_phone";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-tablet::before {
+   .icon-domain-story-tablet::before {
     font-family: "Material Icons";
     content: "tablet_android";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-cloud::before {
+   .icon-domain-story-cloud::before {
     font-family: "Material Icons";
     content: "cloud";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-assessment::before {
+   .icon-domain-story-assessment::before {
     font-family: "Material Icons";
     content: "assessment";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-dashboard::before {
+   .icon-domain-story-dashboard::before {
     font-family: "Material Icons";
     content: "dashboard";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-pie-chart::before {
+   .icon-domain-story-pie-chart::before {
     font-family: "Material Icons";
     content: "pie_chart";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-insert-chart::before {
+   .icon-domain-story-insert-chart::before {
     font-family: "Material Icons";
     content: "insert_chart";
     background-repeat: no-repeat;
   }
 
-  .icon-domain-picture-as-pdf::before {
+   .icon-domain-story-picture-as-pdf::before {
     font-family: "Material Icons";
     content: "picture_as_pdf";
     background-repeat: no-repeat;
   }
 
 
-  .icon-domain-view-list::before {
+   .icon-domain-story-view-list::before {
     font-family: "Material Icons";
     content: "view_list";
     background-repeat: no-repeat;
   }
 
 
-  .icon-domain-problem::before {
+   .icon-domain-story-problem::before {
     font-family: "Material Icons";
     content: "report_problem";
     background-repeat: no-repeat;
   }
 
 
-  .icon-domain-place::before {
+   .icon-domain-story-place::before {
     font-family: "Material Icons";
     content: "place";
     background-repeat: no-repeat;
