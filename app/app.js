@@ -65,6 +65,8 @@ window.bpmnjs = modeler;
 
 // HTML-Elements
 
+var image = document.createElement('img');
+
 var modal = document.getElementById('modal'),
     arrow = document.getElementById('arrow'),
     // Logos
@@ -468,18 +470,40 @@ function download(filename, text) {
   document.body.removeChild(element);
 }
 
+image.onclick = function(titlename) {
+  
+  var tempCanvas = document.createElement('canvas');
+  var ctx = tempCanvas.getContext('2d');
+  console.log(image);
+  ctx.drawImage(image, 0, 0);
+  var png64 = tempCanvas.toDataURL('image/png');
+  console.log(png64);
+  var ele = document.createElement('a');
+  ele.setAttribute('download', titlename +'.png');
+  ele.setAttribute('href', png64);
+  document.body.appendChild(ele);
+  ele.click();
+  document.removeChild(ele);
+}
+
 function downloadSVG(filename) {
+  var canv = document.getElementById('canvas');
+  var con = canv.getElementsByClassName('djs-container');
+  var svgs = con[0].getElementsByTagName('svg');
+  var top = new XMLSerializer().serializeToString(svgs[0]);
+
   var element = document.createElement('a');
   element.setAttribute('href', 'data:application/bpmn20-xml;charset=UTF-8,' + svgData);
   element.setAttribute('download', filename + '.svg');
+  image.setAttribute('src', 'image/svg+xml;base64,' + btoa(top));
 
   element.style.display = 'none';
   document.body.appendChild(element);
 
   element.click();
-
+  
   document.body.removeChild(element);
-}
+}‚
 
 function checkPressedKeys(keyCode, dialog, element) {
   const KEY_ENTER = 13;
