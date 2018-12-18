@@ -141,7 +141,8 @@ cursor: default;
 #replayStep{
   padding: 1px;
   opacity: 0;
-  margin-left: 5.2em;
+  margin-top: -2.05em;
+  margin-left: 13.3em;
 }
 
 #dialog, #numberDialog, #labelDialog {
