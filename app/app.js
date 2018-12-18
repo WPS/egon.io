@@ -754,7 +754,7 @@ function setEncoded(data) {
   var dataEnd = data.substring(viewBoxIndex);
   dataEnd.substring(viewBoxIndex);
 
-  data = dataStart + bounds +dataEnd;
+  data = dataStart + bounds + dataEnd;
 
   // remove <br> HTML-elements from the description since they create error in the SVG
   while (descriptionText.includes('<br>')) {
