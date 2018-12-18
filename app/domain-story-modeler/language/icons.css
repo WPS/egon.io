@@ -101,7 +101,7 @@
     background-repeat: no-repeat;
   }
 
-  .icon-domain-euro-::before{
+  .icon-domain-story-euro::before{
     font-family: "Material Icons";
     content: "euro_symbol";
     background-repeat: no-repeat;
@@ -109,7 +109,7 @@
 
   .icon-domain-story-courthouse::before{
     font-family: "Material Icons";
-    content: "acount_balance";
+    content: "account_balance";
     background-repeat: no-repeat;
   }
 
@@ -167,7 +167,7 @@
     background-repeat: no-repeat;
   }
   
-  .icon-domain-story-gavel-::before{
+  .icon-domain-story-gavel::before{
     font-family: "Material Icons";
     content: "gavel";
     background-repeat: no-repeat;
@@ -245,21 +245,21 @@
     background-repeat: no-repeat;
   }
   
-  .icon-domain-story-thumbs-up::before{
+  .icon-domain-story-thumb-up::before{
     font-family: "Material Icons";
-    content: "thumps_up";
+    content: "thumb_up";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-story-thumps-down::before{
+  .icon-domain-story-thumb-down::before{
     font-family: "Material Icons";
-    content: "thumps_down";
+    content: "thumb_down";
     background-repeat: no-repeat;
   }
   
-  .icon-domain-story-thumps-up-down::before{
+  .icon-domain-story-thumb-up-down::before{
     font-family: "Material Icons";
-    content: "thumps_up_down";
+    content: "thumbs_up_down";
     background-repeat: no-repeat;
   }
   
@@ -373,7 +373,7 @@
 
    .icon-domain-story-security::before{
     font-family: "Material Icons";
-    content: "securtity";
+    content: "security";
     background-repeat: no-repeat;
   }
 
@@ -445,7 +445,7 @@
 
    .icon-domain-story-meeting-room::before{
     font-family: "Material Icons";
-    content: "meeting-room";
+    content: "meeting_room";
     background-repeat: no-repeat;
   }
 
@@ -473,15 +473,15 @@
     background-repeat: no-repeat;
   }
 
-   .icon-domain-story-boat::before{
+   .icon-domain-story-plane::before{
     font-family: "Material Icons";
-    content: "directions_boat";
+    content: "flight";
     background-repeat: no-repeat;
   }
 
    .icon-domain-story-shuttle::before {
     font-family: "Material Icons";
-    content: "aitport_shuttle";
+    content: "airport_shuttle";
     background-repeat: no-repeat;
   }
 
