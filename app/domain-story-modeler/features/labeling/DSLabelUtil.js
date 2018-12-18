@@ -9,7 +9,6 @@ function getLabelAttr(semantic) {
     semantic.type.includes(WORKOBJECT) ||
     semantic.type.includes(ACTIVITY) ||
     semantic.type.includes(GROUP)) {
-
     return 'name';
   }
 
@@ -26,10 +25,14 @@ function getNumberAttr(semantic) {
 }
 
 export function getLabel(element) {
-  var semantic = element.businessObject,
-      attr = getLabelAttr(semantic);
-
-  if (attr) {
+  var semantic;
+  if(element.businessObject) {
+    semantic = element.businessObject; 
+  } else {
+    semantic = element;
+  }
+  var attr = getLabelAttr(semantic);
+  if (attr && semantic) {
     return semantic[attr] || '';
   }
 }
@@ -44,8 +47,13 @@ export function getNumber(element) {
 }
 
 export function setLabel(element, text) {
-  var semantic = element.businessObject,
-      attr = getLabelAttr(semantic);
+  var semantic;
+  if(element.businessObject) {
+    semantic = element.businessObject; 
+  } else {
+    semantic = element;
+  }
+  var attr = getLabelAttr(semantic);
 
   if (attr) {
     semantic[attr] = text;

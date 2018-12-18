@@ -132,7 +132,6 @@ function setText(element, text, textNumber) {
   var labelTarget = element.labelTarget || element;
 
   var numberTarget= element.numberTarget || element;
-
   setLabel(label, text);
   setNumber(number, textNumber);
 
