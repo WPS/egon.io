@@ -54,12 +54,9 @@ export function downloadPNG() {
 
   top = prepareSVG(top);
 
-  while (top.includes('#')) {
-    top = top.replace('#', '%23');
-  }
-
   image.width = width;
   image.height = height;
+  // since svg references the markers polylines with a # symbol, we get a depreciation-warning for having # in the data-URI
   image.src=('data:image/svg+xml,' + top);
 }
 
