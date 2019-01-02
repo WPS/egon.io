@@ -43,6 +43,13 @@ export function downloadPNG() {
   var canv = document.getElementById('canvas');
   var con = canv.getElementsByClassName('djs-container');
   var svgs = con[0].getElementsByTagName('svg');
+  var topSVG = svgs[0];
+  var bendpoints= topSVG.getElementsByClassName('djs-bendpoints');
+
+  // removes unwanted black dots in image
+  for (var i=0; i<bendpoints.length;i++) {
+    bendpoints[i].parentNode.removeChild(bendpoints[i]);
+  }
   var top = new XMLSerializer().serializeToString(svgs[0]);
 
   top = prepareSVG(top);
@@ -61,7 +68,7 @@ export function prepareSVG(top) {
 
   let { xLeft, xRight, yUp, yDown } = findMostOuterElements(top);
 
-  yUp -=75; // we need to adjust yUp to have space for the title and description
+  yUp -=25; // we need to adjust yUp to have space for the title and description
 
   if (xRight < 300) {
     xRight+= 300;
@@ -74,7 +81,8 @@ export function prepareSVG(top) {
   height = yDown;
 
   var viewBoxIndex = top.indexOf ('width="');
-  bounds = 'width="100%" height="100%" viewBox=" 0 -50 ' + xRight + ' ' + (yDown+50)+'" ';
+  bounds = 'width="100%" height="100%" viewBox=" 0 -100 ' + xRight + ' ' + (yDown + 125)+'" ';
+  // We add 125 Pixel as the lowe y bound, to compensate for the 100 pixel for the description with padding and an extra 25 pixel as padding to the bottom
   var dataStart = top.substring(0, viewBoxIndex);
   viewBoxIndex = top.indexOf('style="');
   var dataEnd = top.substring(viewBoxIndex);
@@ -84,7 +92,6 @@ export function prepareSVG(top) {
 
   // remove <br> HTML-elements from the description since they create error in the SVG
   var descriptionText = infoText.innerHTML;
-
   while (descriptionText.includes('<br>')) {
     descriptionText=descriptionText.replace('<br>', '\n');
   }
