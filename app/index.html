@@ -41,7 +41,7 @@
               <button class="exportButton" id="export" title="Export story as .dst file">
                 <img src="./logo/archive.png">
               </button>
-              <button class="svgDownloadButton" id="buttonSVG" title="Export story as SVG image">
+              <button class="downloadButton" id="buttonImageDownloads" title="Export story as SVG or PNG image">
                 <img src="./logo/image.png">
               </button>
               <button id="dictionaryButton" title="Edit dictionary">
@@ -100,6 +100,20 @@
         <button id="saveButton">Save</button>
         <button id="quitButton">Cancel</button>
       </div>
+    </div>
+  </div>
+
+  <div id="downloadDialog" style="display: none;">
+    <button id="downloadDialogCancelButton">X</button>
+    <br>
+    <div class="buttonContainer">
+      <button id="buttonSVG">  
+        SVG
+      </button>
+         
+      <button id=buttonPNG>
+        PNG
+      </button>
     </div>
   </div>
 

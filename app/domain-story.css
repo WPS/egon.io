@@ -116,10 +116,14 @@ cursor: default;
   opacity: 0;
 }
 
-#buttonImport, #export, #buttonSVG , #dictionaryButton{
+#buttonImport, #export, #buttonImageDownloads, #buttonSVG, #buttonPNG , #dictionaryButton{
   margin-right: -2px;
   background-color: white;
   border: 1px solid white;
+}
+
+#buttonPNG {
+  margin-left:1px;
 }
 
 #dictionaryButton{
@@ -127,7 +131,7 @@ cursor: default;
   pointer-events : 'none';
 }
 
-#buttonImport:hover, #export:hover, #buttonSVG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover #keyboardShortcutInfoDialogButtonCancel:hover, #keyboardShortcutInfoButton:hover{
+#buttonImport:hover, #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover #keyboardShortcutInfoDialogButtonCancel:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
   border: 1px solid #CCC;
   cursor: pointer;
 }
@@ -145,7 +149,7 @@ cursor: default;
   margin-left: 13.3em;
 }
 
-#dialog, #numberDialog, #labelDialog {
+#dialog, #numberDialog, #labelDialog, #downloadDialog {
   padding: 30px 30px 30px 30px;
   background-color:#FAFAFA;
   border-color: #CCC;
@@ -183,7 +187,7 @@ cursor: default;
   position: absolute;
 }
 
-#dictionary, #numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog{
+#dictionary, #numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog, #downloadDialog{
   top: 40%;
   left: 50%;
   z-index: 2;
@@ -252,7 +256,7 @@ cursor: default;
   padding: 4px;
 }
 
-#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel{
+#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel, #downloadDialogCancelButton{
   position: absolute;
   font-size: 9pt;
   right: 1px;
