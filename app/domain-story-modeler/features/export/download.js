@@ -6,6 +6,7 @@ var image = document.createElement('img'),
     title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
 var svgData;
+var width, height;
 
 export function download(filename, text) {
   var element = document.createElement('a');
@@ -23,9 +24,11 @@ export function download(filename, text) {
 image.onload = function() {
 
   var tempCanvas = document.createElement('canvas');
+  tempCanvas.width = width;
+  tempCanvas.height = height;
 
   var ctx = tempCanvas.getContext('2d');
-  ctx.drawImage(image, 0, 0);
+  ctx.drawImage(image, 0, 0, width, height);
 
   var png64 = tempCanvas.toDataURL('image/png');
   var ele = document.createElement('a');
@@ -48,58 +51,89 @@ export function downloadPNG() {
     top = top.replace('#', '%23');
   }
 
-  let { width, height, viewBox } = viewBoxCoordinates(top);
-  height += 80;
-
-  var xRight;
-  var splitViewBox = viewBox.split(/\s/);
-  xRight = +splitViewBox[2];
-
-  if (xRight < 300) {
-    xRight+= 300;
-    width+= 300;
-  }
-
+  image.width = width;
+  image.height = height;
   image.src=('data:image/svg+xml,' + top);
-
 }
 
 export function prepareSVG(top) {
+  var bounds = '';
 
-  let { width, height, viewBox } = viewBoxCoordinates(top);
-  height += 80;
+  let { xLeft, xRight, yUp, yDown } = findMostOuterElements(top);
 
-  var xLeft, xRight, yUp;
-  var splitViewBox = viewBox.split(/\s/);
-
-  xLeft = +splitViewBox[0];
-  yUp = +splitViewBox[1];
-  xRight = +splitViewBox[2];
+  yUp -=75; // we need to adjust yUp to have space for the title and description
 
   if (xRight < 300) {
     xRight+= 300;
-    width+= 300;
   }
+  if (yDown < 300) {
+    yDown += 300;
+  }
+
+  width = xRight;
+  height = yDown;
+
+  var viewBoxIndex = top.indexOf ('width="');
+  bounds = 'width="100%" height="100%" viewBox=" 0 -50 ' + xRight + ' ' + (yDown+50)+'" ';
+  var dataStart = top.substring(0, viewBoxIndex);
+  viewBoxIndex = top.indexOf('style="');
+  var dataEnd = top.substring(viewBoxIndex);
+  dataEnd.substring(viewBoxIndex);
+
+  top = dataStart + bounds + dataEnd;
 
   // remove <br> HTML-elements from the description since they create error in the SVG
   var descriptionText = infoText.innerHTML;
-  var titleText = title.innerHTML;
 
   while (descriptionText.includes('<br>')) {
     descriptionText=descriptionText.replace('<br>', '\n');
   }
-  titleText = titleText.replace('&lt;','').replace('&gt;','');
 
   var insertIndex = top.indexOf('<g class="viewport">') + 20;
 
   // to display the title and description in the PNG-file, we need to add a container for our text-elements
-  var insertText = createInsertText(titleText, descriptionText, xLeft, yUp);
+  var insertText = createInsertText('', descriptionText, xLeft, yUp);
 
   top = [top.slice(0,insertIndex), insertText, top.slice(insertIndex)].join('');
-  top = top.replace('100%', 5000);
-  top=top.replace('100%', 5000);
 
   return top;
+}
+
+function findMostOuterElements(top) {
+  var xLeft = 0;
+  var xRight = 0;
+  var yUp =0;
+  var yDown = 0;
+
+  const positionRegEx = /transform="translate\(([^"]+)\s+([^"]+)/g;
+  const match = top.match(positionRegEx);
+
+  match.forEach(element => {
+    element = element.replace('transform="translate(', '');
+    element = element.replace(')','');
+    var positions = element.split(' ');
+    if (xRight < positions[0]) {
+      xRight = +positions[0];
+    }
+    else if (xLeft > positions[0]) {
+      xLeft = positions[0];
+    }
+    if (yDown < positions[1]) {
+      yDown = +positions[1];
+    }
+    else if (yUp > positions[1]) {
+      yUp = positions[1];
+    }
+  });
+
+  xRight += 100;
+  yDown += 75;
+  return {
+    xLeft: xLeft,
+    xRight: xRight,
+    yUp: yUp,
+    yDown: yDown
+  };
 }
 
 export function downloadSVG(filename) {
@@ -187,8 +221,6 @@ export function setEncoded(data) {
   data = [data.slice(0,insertIndex), insertText, data.slice(insertIndex)].join('');
   svgData = encodeURIComponent(data);
 }
-
-
 
 const ViewBoxCoordinate = /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)"/;
 function viewBoxCoordinates(svg) {
