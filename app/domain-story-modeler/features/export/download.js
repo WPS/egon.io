@@ -50,7 +50,7 @@ export function downloadPNG() {
   for (var i=0; i<bendpoints.length;i++) {
     bendpoints[i].parentNode.removeChild(bendpoints[i]);
   }
-  var top = new XMLSerializer().serializeToString(svgs[0]);
+  var top = new XMLSerializer().serializeToString(topSVG);
 
   top = prepareSVG(top);
 
