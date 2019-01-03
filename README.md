@@ -34,7 +34,7 @@ Activities are depicted as arrows. Double click on an arrow to edit the activity
 #### File Management
 If you want to share your Domain Story or save it for future editing, you can export it as a .dst file by cklicking the export button ![Export Button](/images/archive.png). 
 To import a diagram use the upload button ![Upload Button](/images/unarchive.png).
-You can also export your diagram as a .svg file by clicking on the image button ![SVG Button](/images/image.png).
+You can also export your diagram as a .svg or .png file by clicking on the image button ![SVG Button](/images/image.png) and selectiong your prefered format.
 
 #### Replay
 The replay feature helps you to re-tell a Domain Story sentence by sentence. When you start a replay with the play button ![Play Button](/images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](/images/forward.png) shows the next activity and clicking the previous button ![Previous Button](/images/previous.png) shows the previous one. Editing is disabled in replay mode, but you can zoom (mouse wheel up and down) and scroll (ctrl + mouse wheel up and down). The stop the replay, click the stop button ![Stop Button](/images/stop.png). 
