@@ -23,7 +23,7 @@ Click on the headline to change the name of the Domain Story and describe it. Th
 Use ctrl+enter or alt+enter to add line breaks to the description.
 
 #### Context Menu
-If you drop an icon from the palette into the canvas you will see a context menu. To show the connection between two icons use the arrow. Also you can choose the next icon you want to connect to. If you choose one, it will automatically be connected. Delete the choosen icon by clicking on delete. You can click on the wrench to change the icon. By using the annotation icon, you can add comments for further information.
+If you drop an icon from the palette into the canvas you will see a context menu. To show the connection between two icons use the arrow. Also you can choose the next icon you want to connect to. If you choose one, it will automatically be connected. Delete the chosen icon by clicking on delete. You can click on the wrench to change the icon. By using the annotation icon, you can add comments for further information.
 
 #### Naming Actors and Work Objects
 Double click on an actor's or work object's icon to edit the name.
@@ -42,16 +42,16 @@ The replay feature helps you to re-tell a Domain Story sentence by sentence. Whe
 #### Customize Iconset
 The iconset can be customized programatically by adding an iconset-configuration in the app/domain-story-modeler/language/iconConfig.js file. Using the same scheme as for the default_conf you can  select icons as actors or workobjects.
 It is possible to create multiple custom iconsets depending on your domain and switching between them.
-We do not recommed adding too many icons, since the palette only holds two coloumns and, depending on your screen resolution, can easily become larger than the window.
+We do not recommend adding too many icons, since the palette only holds two columns and, depending on your screen resolution, can easily become larger than the window.
 A List of all icons can be seen in the allIcons_conf configuration.
 
 ### Examples
-The examples directory contains .dst files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
-The examples directory also contains a SVG file for every Domain Story. The images were created using the modeler.
+The examples' directory contains .dst files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
+The examples' directory also contains a SVG file for every Domain Story. The images were created using the modeler.
 
 ## For Developers
 Download the source code or clone the repository.
-Please note that we use the main branch for development. The main branch contains the latest features und bug fixes, but they might be undocumented and tested less thoroughly than a release. To be on the safe side, stick with the latest release branch.
+Please note that we use the main branch for development. The main branch contains the latest features and bug fixes, but they might be undocumented and tested less thoroughly than a release. To be on the safe side, stick with the latest release branch.
 
 Fetch dependencies:
 
