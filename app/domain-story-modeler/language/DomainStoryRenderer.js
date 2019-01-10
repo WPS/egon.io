@@ -319,6 +319,9 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   };
 
   this.drawActivity = function(p, element) {
+
+    adjustForTextOverlapp(element);
+
     if (element) {
       var attrs = computeStyle(attrs, {
         stroke: '#000000',
@@ -335,6 +338,48 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       return x;
     }
   };
+
+  function adjustForTextOverlapp(element) {
+    var source = element.source;
+    var target = element.target;
+
+    var waypoints = element.waypoints;
+    var startPoint = waypoints[0];
+    var endPoint = waypoints[waypoints.length -1];
+
+    // check if Startpoint is can overlapp with text
+    if (startPoint.y > source.y + 60) {
+      if ((startPoint.x > source.x + 3) && (startPoint.x < source.x + 72)) {
+        startPoint.y += getLineOffset(source) -70;
+      }
+    }
+    // check if Endpoint is can overlapp with text
+    if (endPoint.y > target.y +60) {
+      if ((endPoint.x > target.x + 3) && (endPoint.x < target.x + 72)) {
+        endPoint.y += getLineOffset(target) -70;
+      }
+    }
+  }
+
+  function getLineOffset(element) {
+    var id = element.id;
+    var offset =0;
+
+    var objects = document.getElementsByClassName('djs-element djs-shape');
+    for (var i=0; i<objects.length; i++) {
+      var data_id = objects.item(i).getAttribute('data-element-id');
+      if (data_id == id) {
+        var object = objects.item(i);
+        var text = object.getElementsByTagName('text')[0];
+        var tspans = text.getElementsByTagName('tspan');
+        var tspan = tspans[tspans.length -1];
+        var y = tspan.getAttribute('y');
+        offset = y;
+      }
+    }
+    return offset;
+  }
+
 
   this.drawDSConnection = function(p, element) {
     var attrs = computeStyle(attrs, {
