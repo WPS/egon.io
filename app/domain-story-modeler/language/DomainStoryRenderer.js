@@ -335,6 +335,8 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       renderExternalLabel(p, element);
       renderExternalNumber(p, element);
 
+      fixConnectionInHTML(element);
+
       return x;
     }
   };
@@ -350,13 +352,20 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     // check if Startpoint is can overlapp with text
     if (startPoint.y > source.y + 60) {
       if ((startPoint.x > source.x + 3) && (startPoint.x < source.x + 72)) {
-        startPoint.y += getLineOffset(source) -70;
+        var lineOffset = getLineOffset(source) -70;
+        if ((source.y +60 + lineOffset) > startPoint.y) {
+          startPoint.y += lineOffset;
+        }
       }
     }
+
     // check if Endpoint is can overlapp with text
     if (endPoint.y > target.y +60) {
       if ((endPoint.x > target.x + 3) && (endPoint.x < target.x + 72)) {
-        endPoint.y += getLineOffset(target) -70;
+        lineOffset = getLineOffset(target) - 70;
+        if ((target.y +60 + lineOffset) > endPoint.y) {
+          endPoint.y += lineOffset;
+        }
       }
     }
   }
@@ -380,6 +389,24 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     return offset;
   }
 
+  function fixConnectionInHTML(element) {
+    var connections = document.getElementsByClassName('djs-element djs-connection');
+
+    var wantedConnection;
+    for (var i=0; i<connections.length;i++) {
+      var connection= connections[i];
+      var id = connection.getAttribute('data-element-id');
+      if (id == element.businessObject.id) {
+        wantedConnection = connection;
+      }
+    }
+    if (wantedConnection) {
+      var polylines = wantedConnection.getElementsByTagName('polyline');
+      if (polylines.length > 1) {
+        polylines[1].setAttribute('points', polylines[0].getAttribute('points'));
+      }
+    }
+  }
 
   this.drawDSConnection = function(p, element) {
     var attrs = computeStyle(attrs, {
