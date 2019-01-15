@@ -349,7 +349,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     var startPoint = waypoints[0];
     var endPoint = waypoints[waypoints.length -1];
 
-    // check if Startpoint is can overlapp with text
+    // check if Startpoint can overlapp with text
     if (startPoint.y > source.y + 60) {
       if ((startPoint.x > source.x + 3) && (startPoint.x < source.x + 72)) {
         var lineOffset = getLineOffset(source) -70;
@@ -359,7 +359,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       }
     }
 
-    // check if Endpoint is can overlapp with text
+    // check if Endpoint can overlapp with text
     if (endPoint.y > target.y +60) {
       if ((endPoint.x > target.x + 3) && (endPoint.x < target.x + 72)) {
         lineOffset = getLineOffset(target) - 70;
