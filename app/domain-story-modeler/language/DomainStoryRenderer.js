@@ -335,7 +335,11 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       renderExternalLabel(p, element);
       renderExternalNumber(p, element);
 
-      fixConnectionInHTML(element);
+      // Just adjusting the start- and enpoint of the connection-element moves only the drawn connection,
+      // not the interactive line. This can be fixed by manually overriding thepoints of the interactive polyline
+      // in the HTMl with the points of the drawn one.
+      // This however does not adjust the surrounding box of the connection.
+      fixConnectionInHTML(p.parentElement);
 
       return x;
     }
@@ -389,17 +393,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     return offset;
   }
 
-  function fixConnectionInHTML(element) {
-    var connections = document.getElementsByClassName('djs-element djs-connection');
-
-    var wantedConnection;
-    for (var i=0; i<connections.length;i++) {
-      var connection= connections[i];
-      var id = connection.getAttribute('data-element-id');
-      if (id == element.businessObject.id) {
-        wantedConnection = connection;
-      }
-    }
+  function fixConnectionInHTML(wantedConnection) {
     if (wantedConnection) {
       var polylines = wantedConnection.getElementsByTagName('polyline');
       if (polylines.length > 1) {
