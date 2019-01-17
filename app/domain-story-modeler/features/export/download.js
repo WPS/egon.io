@@ -64,7 +64,7 @@ export function downloadPNG() {
 function URIHashtagFix(top) {
   var fix = false;
   var browser = navigator.browserSpecs;
-  console.log(browser);
+
   var name = browser.name;
   var version = browser.version;
 
