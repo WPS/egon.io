@@ -356,8 +356,8 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     // check if Startpoint can overlapp with text
     if (startPoint.y > source.y + 60) {
       if ((startPoint.x > source.x + 3) && (startPoint.x < source.x + 72)) {
-        var lineOffset = getLineOffset(source) -70;
-        if ((source.y +60 + lineOffset) > startPoint.y) {
+        var lineOffset = getLineOffset(source);
+        if ((source.y + 60 + lineOffset) > startPoint.y) {
           startPoint.y += lineOffset;
         }
       }
@@ -366,8 +366,8 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     // check if Endpoint can overlapp with text
     if (endPoint.y > target.y +60) {
       if ((endPoint.x > target.x + 3) && (endPoint.x < target.x + 72)) {
-        lineOffset = getLineOffset(target) - 70;
-        if ((target.y +60 + lineOffset) > endPoint.y) {
+        lineOffset = getLineOffset(target);
+        if ((target.y + 60 + lineOffset) > endPoint.y) {
           endPoint.y += lineOffset;
         }
       }
@@ -390,7 +390,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
         offset = y;
       }
     }
-    return offset;
+    return offset - 70;
   }
 
   function fixConnectionInHTML(wantedConnection) {
