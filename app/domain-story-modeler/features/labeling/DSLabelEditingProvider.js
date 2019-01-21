@@ -144,7 +144,7 @@ DSLabelEditingProvider.$inject = [
 DSLabelEditingProvider.prototype.activate = function(element) {
 
   // text
-  if(element.id === '__implicitroot') {
+  if (element.id === '__implicitroot') {
     return ;
   }
   var text = getLabel(element);

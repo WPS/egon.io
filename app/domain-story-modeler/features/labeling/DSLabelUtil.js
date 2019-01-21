@@ -26,8 +26,8 @@ function getNumberAttr(semantic) {
 
 export function getLabel(element) {
   var semantic;
-  if(element.businessObject) {
-    semantic = element.businessObject; 
+  if (element.businessObject) {
+    semantic = element.businessObject;
   } else {
     semantic = element;
   }
@@ -48,8 +48,8 @@ export function getNumber(element) {
 
 export function setLabel(element, text) {
   var semantic;
-  if(element.businessObject) {
-    semantic = element.businessObject; 
+  if (element.businessObject) {
+    semantic = element.businessObject;
   } else {
     semantic = element;
   }
