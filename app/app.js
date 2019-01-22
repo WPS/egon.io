@@ -314,7 +314,24 @@ brokenDSTDialogButtonCancel.addEventListener('click', function() {
 });
 
 exportButton.addEventListener('click', function() {
-  var object = modeler.getCustomElements();
+  var object ;
+  object= modeler.getCustomElements();
+
+  var objectIDs = [];
+  object.forEach(element => {
+    objectIDs.push(element.id);
+  });
+
+  var allObjects = getAllObjectsFromCanvas(canvas);
+
+  // check wether all objects from the canvas are present
+  // add objects that might be missing
+  allObjects.forEach(canvasObject => {
+    if (!objectIDs.includes(canvasObject.id)) {
+      object.unshift(canvasObject.businessObject);
+    }
+  });
+
   var text = info.innerText;
   var newObject = object.slice(0);
 
