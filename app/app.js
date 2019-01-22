@@ -34,7 +34,7 @@ import {
 } from './domain-story-modeler/util/CanvasObjects';
 import { allInWorkObjectRegistry, registerWorkObjects } from './domain-story-modeler/language/workObjectRegistry';
 import { allInActorRegistry, registerActors } from './domain-story-modeler/language/actorRegistry';
-import { ACTIVITY, ACTOR, WORKOBJECT, DOMAINSTORY } from './domain-story-modeler/language/elementTypes';
+import { ACTIVITY, ACTOR, WORKOBJECT, DOMAINSTORY, CONNECTION } from './domain-story-modeler/language/elementTypes';
 import { download, downloadSVG, downloadPNG, setEncoded } from './domain-story-modeler/features/export/download';
 
 var modeler = new DomainStoryModeler({
@@ -91,6 +91,7 @@ var modal = document.getElementById('modal'),
     headlineDialog = document.getElementById('dialog'),
     activityWithNumberDialog = document.getElementById('numberDialog'),
     activityWithoutNumberDialog = document.getElementById('labelDialog'),
+    brokenDSTDialog = document.getElementById('brokenDSTDialog'),
     versionDialog = document.getElementById('versionDialog'),
     incompleteStoryDialog = document.getElementById('incompleteStoryInfo'),
     wpsLogoDialog = document.getElementById('wpsLogoInfo'),
@@ -108,6 +109,7 @@ var modal = document.getElementById('modal'),
     dictionaryButtonOpen = document.getElementById('dictionaryButton'),
     dictionaryButtonSave = document.getElementById('closeDictionaryButtonSave'),
     dictionaryButtonCancel = document.getElementById('closeDictionaryButtonCancel'),
+    brokenDSTDialogButtonCancel = document.getElementById('brokenDSTDialogButtonCancel'),
     activityNumberDialogButtonSave = document.getElementById('numberSaveButton'),
     activityNumberDialogButtonCancel = document.getElementById('numberQuitButton'),
     activityLabelButtonSave = document.getElementById('labelSaveButton'),
@@ -307,6 +309,10 @@ dictionaryButtonCancel.addEventListener('click', function(e) {
   modal.style.display='none';
 });
 
+brokenDSTDialogButtonCancel.addEventListener('click', function() {
+  closeBrokenDSTDialog();
+});
+
 exportButton.addEventListener('click', function() {
   var object = modeler.getCustomElements();
   var text = info.innerText;
@@ -387,6 +393,12 @@ document.getElementById('import').onchange = function() {
         elements = updateCustomElementsPreviousv050(elements);
       }
 
+      var allReferences = checkElementReferencesAndRepair(elements);
+
+      if (!allReferences) {
+        showBrokenDSTDialog();
+      }
+
       updateRegistries(elements);
 
       var inputInfoText = sanitize(lastElement.info ? lastElement.info : '');
@@ -403,16 +415,38 @@ document.getElementById('import').onchange = function() {
     reader.readAsText(input);
 
     // to update the title of the svg, we need to tell the command stack, that a value has changed
-    var exportArtifacts = debounce(function() {
-
-      saveSVG(function(err, svg) {
-        setEncoded(err ? null : svg);
-      });
-    }, 500);
+    var exportArtifacts = debounce(fnDebounce, 500);
 
     eventBus.fire('commandStack.changed', exportArtifacts);
   }
 };
+
+function checkElementReferencesAndRepair(elements) {
+  var activities = [];
+  var objectIDs = [];
+
+  var complete = true;
+
+  elements.forEach(element => {
+    var type = element.type;
+    if (type == ACTIVITY || type == CONNECTION) {
+      activities.push(element);
+    } else {
+      objectIDs.push(element.id);
+    }
+  });
+
+  activities.forEach(activity => {
+    var source = activity.source;
+    var target = activity.target;
+    if (!objectIDs.includes(source) || !objectIDs.includes(target)) {
+      complete = false;
+      var activityIndex = elements.indexOf(activity);
+      elements = elements.splice(activityIndex,1);
+    }
+  });
+  return complete;
+}
 
 function updateRegistries(elements) {
   var actors = getElementsOfType(elements, 'actor');
@@ -552,6 +586,16 @@ function showVersionDialog() {
   modal.style.display = 'block';
 }
 
+function showBrokenDSTDialog() {
+  brokenDSTDialog.style.display = 'block';
+  modal.style.display = 'block';
+}
+
+function closeBrokenDSTDialog() {
+  brokenDSTDialog.style.display = 'none';
+  modal.style.display = 'none';
+}
+
 function closeDialog() {
   keysPressed = [];
   headlineDialog.style.display = 'none';
@@ -590,12 +634,7 @@ function saveDialog() {
   descriptionInputLast = inputText;
 
   // to update the title of the svg, we need to tell the command stack, that a value has changed
-  var exportArtifacts = debounce(function() {
-
-    saveSVG(function(err, svg) {
-      setEncoded(err ? null : svg);
-    });
-  }, 500);
+  var exportArtifacts = debounce(fnDebounce, 500);
 
   eventBus.fire('commandStack.changed', exportArtifacts);
 
@@ -726,17 +765,21 @@ function saveSVG(done) {
 }
 
 $(function() {
-  var exportArtifacts = debounce(function() {
-
-    saveSVG(function(err, svg) {
-      setEncoded(err ? null : svg);
-    });
-  }, 500);
+  var exportArtifacts = debounce(fnDebounce, 500);
 
   modeler.on('commandStack.changed', exportArtifacts);
 });
 
 // helper
+
+function fnDebounce() {
+  saveSVG(function(err, svg) {
+    if (err) {
+      console.log(err);
+    }
+    setEncoded(err ? null : svg);
+  });
+}
 
 function debounce(fn, timeout) {
   var timer;
