@@ -132,6 +132,7 @@ export function prepareSVG(top) {
 
   // remove <br> HTML-elements from the description since they create error in the SVG
   var descriptionText = infoText.innerHTML;
+  var titleText = title.innerHTML;
   while (descriptionText.includes('<br>')) {
     descriptionText=descriptionText.replace('<br>', '\n');
   }
@@ -139,7 +140,7 @@ export function prepareSVG(top) {
   var insertIndex = top.indexOf('<g class="viewport">') + 20;
 
   // to display the title and description in the PNG-file, we need to add a container for our text-elements
-  var insertText = createInsertText('', descriptionText, xLeft, yUp);
+  var insertText = createInsertText(titleText, descriptionText, xLeft, yUp);
 
   top = [top.slice(0,insertIndex), insertText, top.slice(insertIndex)].join('');
 
