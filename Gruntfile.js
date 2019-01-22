@@ -6,7 +6,7 @@ module.exports = function(grunt) {
   var path = require('path');
 
   /**
-   * bpmn-js dependencies cannot be copied with grunt-copy-deps.
+   * some dependencies cannot be copied with grunt-copy-deps.
    * Instead, resolve external project resources as file path.
    */
   function resolvePath(project, file) {
