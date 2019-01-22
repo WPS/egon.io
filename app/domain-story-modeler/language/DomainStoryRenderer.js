@@ -319,6 +319,9 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   };
 
   this.drawActivity = function(p, element) {
+
+    adjustForTextOverlapp(element);
+
     if (element) {
       var attrs = computeStyle(attrs, {
         stroke: '#000000',
@@ -332,9 +335,72 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       renderExternalLabel(p, element);
       renderExternalNumber(p, element);
 
+      // Just adjusting the start- and enpoint of the connection-element moves only the drawn connection,
+      // not the interactive line. This can be fixed by manually overriding thepoints of the interactive polyline
+      // in the HTMl with the points of the drawn one.
+      // This however does not adjust the surrounding box of the connection.
+      fixConnectionInHTML(p.parentElement);
+
       return x;
     }
   };
+
+  function adjustForTextOverlapp(element) {
+    var source = element.source;
+    var target = element.target;
+
+    var waypoints = element.waypoints;
+    var startPoint = waypoints[0];
+    var endPoint = waypoints[waypoints.length -1];
+
+    // check if Startpoint can overlapp with text
+    if (startPoint.y > source.y + 60) {
+      if ((startPoint.x > source.x + 3) && (startPoint.x < source.x + 72)) {
+        var lineOffset = getLineOffset(source);
+        if ((source.y + 60 + lineOffset) > startPoint.y) {
+          startPoint.y += lineOffset;
+        }
+      }
+    }
+
+    // check if Endpoint can overlapp with text
+    if (endPoint.y > target.y +60) {
+      if ((endPoint.x > target.x + 3) && (endPoint.x < target.x + 72)) {
+        lineOffset = getLineOffset(target);
+        if ((target.y + 60 + lineOffset) > endPoint.y) {
+          endPoint.y += lineOffset;
+        }
+      }
+    }
+  }
+
+  function getLineOffset(element) {
+    var id = element.id;
+    var offset =0;
+
+    var objects = document.getElementsByClassName('djs-element djs-shape');
+    for (var i=0; i<objects.length; i++) {
+      var data_id = objects.item(i).getAttribute('data-element-id');
+      if (data_id == id) {
+        var object = objects.item(i);
+        var text = object.getElementsByTagName('text')[0];
+        var tspans = text.getElementsByTagName('tspan');
+        var tspan = tspans[tspans.length -1];
+        var y = tspan.getAttribute('y');
+        offset = y;
+      }
+    }
+    return offset - 70;
+  }
+
+  function fixConnectionInHTML(wantedConnection) {
+    if (wantedConnection) {
+      var polylines = wantedConnection.getElementsByTagName('polyline');
+      if (polylines.length > 1) {
+        polylines[1].setAttribute('points', polylines[0].getAttribute('points'));
+      }
+    }
+  }
 
   this.drawDSConnection = function(p, element) {
     var attrs = computeStyle(attrs, {
