@@ -74,6 +74,16 @@ module.exports = function(grunt) {
             dest: 'dist'
           }
         ]
+      },
+      bootstrap: {
+        files: [
+          {
+            expand: true,
+            cwd: resolvePath('bootstrap', 'dist'),
+            src: ['**/css/bootstrap.css'],
+            dest: 'dist/dependencies'
+          }
+        ]
       }
     },
     watch: {
