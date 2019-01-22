@@ -131,7 +131,7 @@ cursor: default;
   pointer-events : 'none';
 }
 
-#buttonImport:hover, #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover #keyboardShortcutInfoDialogButtonCancel:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
+#buttonImport:hover, #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #brokenDSTDialogCuttonCancel:hover, #keyboardShortcutInfoDialogButtonCancel:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
   border: 1px solid #CCC;
   cursor: pointer;
 }
@@ -187,7 +187,7 @@ cursor: default;
   position: absolute;
 }
 
-#dictionary, #numberDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog, #downloadDialog{
+#dictionary, #numberDialog, #brokenDSTDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog, #downloadDialog{
   top: 40%;
   left: 50%;
   z-index: 2;
@@ -206,7 +206,7 @@ cursor: default;
   margin-left: -155px;
 }
 
-#wpsLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog{
+#wpsLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog, #brokenDSTDialog{
   font-size: 11pt;  
   border: solid 1px #aaaaab;
   padding-top: 3px;
@@ -256,7 +256,7 @@ cursor: default;
   padding: 4px;
 }
 
-#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel, #downloadDialogCancelButton{
+#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel, #downloadDialogCancelButton, #brokenDSTDialogButtonCancel{
   position: absolute;
   font-size: 9pt;
   right: 1px;
