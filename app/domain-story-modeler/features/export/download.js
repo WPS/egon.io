@@ -51,7 +51,6 @@ export function download(filename, text) {
 }
 
 image.onload = function() {
-
   var tempCanvas = document.createElement('canvas');
 
   // add a 10px buffer to the right and lower boundary
@@ -59,7 +58,7 @@ image.onload = function() {
   tempCanvas.height = height + 10;
 
   var ctx = tempCanvas.getContext('2d');
-  ctx.drawImage(image, 0, 0, width, height);
+  ctx.drawImage(image, 0, 0);
 
   var png64 = tempCanvas.toDataURL('image/png');
   var ele = document.createElement('a');
