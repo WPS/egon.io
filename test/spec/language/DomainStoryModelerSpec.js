@@ -5,11 +5,18 @@ import { initActorRegistry } from '../../../app/domain-story-modeler/language/Ac
 import { initWorkObjecttRegistry } from '../../../app/domain-story-modeler/language/WorkObjectRegistry';
 import { default_conf } from '../../../app/domain-story-modeler/language/iconConfig';
 import { updateCustomElementsPreviousv050 } from '../../../app/domain-story-modeler/util/CanvasObjects';
+import { checkElementReferencesAndRepair } from '../../../app/domain-story-modeler/util/ImportRepair';
 
 describe('domainStory modeler', function() {
 
   var jsonString = '[{"type":"domainStory:actorPerson","name":"","id":"shape_3050","x":178,"y":133,"width":30,"height":30},'+
   '{"type":"domainStory:workObjectDocument","name":"","id":"shape_8681","x":508,"y":133,"width":30,"height":30},'+
+  '{"type":"domainStory:activity","name":"","id":"connection_3004","number":1,"waypoints":[{"original":{"x":216,"y":171},"x":259,"y":171},{"original":{"x":546,"y":171},"x":508,"y":171}],"source":"shape_3050","target":"shape_8681"},'+
+  '{"info":"test"}]';
+
+  var brokenJsonString = '[{"type":"domainStory:actorPerson","name":"","id":"shape_3050","x":178,"y":133,"width":30,"height":30},'+
+  '{"type":"domainStory:workObjectDocument","name":"","id":"shape_8681","x":508,"y":133,"width":30,"height":30},'+
+  '{"type":"domainStory:activity","name":"","id":"connection_0001","number":1,"waypoints":[{"original":{"x":216,"y":171},"x":259,"y":171},{"original":{"x":546,"y":171},"x":508,"y":171}],"source":"shape_0001","target":"shape_0002"},'+
   '{"type":"domainStory:activity","name":"","id":"connection_3004","number":1,"waypoints":[{"original":{"x":216,"y":171},"x":259,"y":171},{"original":{"x":546,"y":171},"x":508,"y":171}],"source":"shape_3050","target":"shape_8681"},'+
   '{"info":"test"}]';
 
@@ -99,11 +106,13 @@ describe('domainStory modeler', function() {
   '{"version":"0.5.0"}]';
 
   var data = JSON.parse(jsonString);
+  var brokenData = JSON.parse(brokenJsonString);
   var oldIntricateV_0_2_0_Data = JSON.parse(oldIntricateV_0_2_0_JsonString);
   var oldIntricateV_0_3_0_Data = JSON.parse(oldIntricateV_0_3_0_JsonString);
   var intricateJSONString = JSON.parse(intricateV0_5_0_JsonString);
   // remove the info tag at the end before we load the data
   data.pop();
+  brokenData.pop();
   intricateJSONString.pop();
   oldIntricateV_0_2_0_Data.pop();
   oldIntricateV_0_3_0_Data.pop();
@@ -213,6 +222,105 @@ describe('domainStory modeler', function() {
       expect(extraActor).to.not.exist;
     });
   });
+
+
+  describe('domainStory import export Test broken data', function() {
+
+    initActorRegistry(default_conf.actors);
+    initWorkObjecttRegistry(default_conf.workObjects);
+
+    // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
+    if (!String.prototype.includes) {
+      String.prototype.includes = function() {'use strict';
+        return String.prototype.indexOf.apply(this, arguments) !== -1;
+      };
+    }
+    if (!String.prototype.endsWith) {
+      String.prototype.endsWith = function(searchString, position) {
+        var subjectString = this.toString();
+        if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+          position = subjectString.length;
+        }
+        position -= searchString.length;
+        var lastIndex = subjectString.indexOf(searchString, position);
+        return lastIndex !== -1 && lastIndex === position;
+      };
+    }
+    if (!Array.prototype.includes) {
+      Object.defineProperty(Array.prototype, 'includes', {
+        value: function(searchElement, fromIndex) {
+          if (this == null) {
+            throw new TypeError('"this" is null or not defined');
+          }
+          var o = Object(this);
+          var len = o.length >>> 0;
+
+          if (len === 0) {
+            return false;
+          }
+          var n = fromIndex | 0;
+          var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+
+          function sameValueZero(x, y) {
+            return x === y || (typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y));
+          }
+          while (k < len) {
+            if (sameValueZero(o[k], searchElement)) {
+              return true;
+            }
+            k++;
+          }
+          return false;
+        }
+      });
+    }
+
+    var modeler;
+
+    // spin up modeler with custom element, do this only once, using before each takes too long and triggers the timeout
+    modeler = new DomainStoryModeler({ container: container });
+    checkElementReferencesAndRepair(brokenData);
+    modeler.importCustomElements(brokenData, function(err) {
+      if (err) {
+        console.log(err);
+      }
+    });
+
+    it('should import domainStory element', function() {
+
+      // given
+      var elementRegistry = modeler.get('elementRegistry');
+      var domainStoryElements = modeler.getCustomElements();
+      // when
+
+      modeler.importCustomElements(domainStoryElements);
+      var actorPersonImport = elementRegistry.get('connection_3004');
+
+      domainStoryElements = modeler.getCustomElements();
+
+      // then
+      expect(actorPersonImport).to.exist;
+      expect(domainStoryElements[2].id).to.contain(actorPersonImport.id);
+
+    });
+
+    it('should export domainStory element', function() {
+
+      // given
+      var domainStoryElements = modeler.getCustomElements();
+
+      modeler.importCustomElements(domainStoryElements);
+
+      // when
+      var newObject= domainStoryElements.slice(0);
+      newObject.push({ info: 'test' });
+      var jsonExport=JSON.stringify(newObject);
+
+      // then
+      expect(jsonExport).to.eql(jsonString);
+    });
+  });
+
 
   describe('domainStory import Test old intricate data V_0_2_0', function() {
 
