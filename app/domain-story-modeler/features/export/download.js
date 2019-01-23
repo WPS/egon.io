@@ -53,8 +53,10 @@ export function download(filename, text) {
 image.onload = function() {
 
   var tempCanvas = document.createElement('canvas');
-  tempCanvas.width = width;
-  tempCanvas.height = height;
+
+  // add a 10px buffer to the right and lower boundary
+  tempCanvas.width = width + 10;
+  tempCanvas.height = height + 10;
 
   var ctx = tempCanvas.getContext('2d');
   ctx.drawImage(image, 0, 0, width, height);
