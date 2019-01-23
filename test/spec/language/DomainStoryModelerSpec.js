@@ -96,7 +96,7 @@ describe('domainStory modeler', function() {
   '{"type":"domainStory:activity","name":"with","id":"connection_0126","number":null,"waypoints":[{"original":{"x":841,"y":302},"x":866,"y":284},{"original":{"x":971,"y":209},"x":920,"y":245}],"source":"shape_2043","target":"shape_6138"},'+
   '{"type":"domainStory:activity","name":"hands over","id":"connection_1646","number":"11","waypoints":[{"original":{"x":710,"y":202},"x":710,"y":249},{"x":710,"y":513},{"original":{"x":560,"y":513},"x":603,"y":513}],"source":"shape_4658","target":"shape_7902"},'+
   '{"info":"Assumption: no line at box office, seats available, cash payment"},'+
-  '{"version":"0.4.0-dev"}]';
+  '{"version":"0.5.0"}]';
 
   var data = JSON.parse(jsonString);
   var oldIntricateV_0_2_0_Data = JSON.parse(oldIntricateV_0_2_0_JsonString);
