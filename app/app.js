@@ -34,8 +34,9 @@ import {
 } from './domain-story-modeler/util/CanvasObjects';
 import { allInWorkObjectRegistry, registerWorkObjects } from './domain-story-modeler/language/workObjectRegistry';
 import { allInActorRegistry, registerActors } from './domain-story-modeler/language/actorRegistry';
-import { ACTIVITY, ACTOR, WORKOBJECT, DOMAINSTORY, CONNECTION } from './domain-story-modeler/language/elementTypes';
+import { ACTIVITY, ACTOR, WORKOBJECT, DOMAINSTORY } from './domain-story-modeler/language/elementTypes';
 import { download, downloadSVG, downloadPNG, setEncoded, createObjectListForDownload } from './domain-story-modeler/features/export/download';
+import { checkElementReferencesAndRepair } from './domain-story-modeler/util/ImportRepair';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -416,33 +417,6 @@ document.getElementById('import').onchange = function() {
     eventBus.fire('commandStack.changed', exportArtifacts);
   }
 };
-
-function checkElementReferencesAndRepair(elements) {
-  var activities = [];
-  var objectIDs = [];
-
-  var complete = true;
-
-  elements.forEach(element => {
-    var type = element.type;
-    if (type == ACTIVITY || type == CONNECTION) {
-      activities.push(element);
-    } else {
-      objectIDs.push(element.id);
-    }
-  });
-
-  activities.forEach(activity => {
-    var source = activity.source;
-    var target = activity.target;
-    if (!objectIDs.includes(source) || !objectIDs.includes(target)) {
-      complete = false;
-      var activityIndex = elements.indexOf(activity);
-      elements = elements.splice(activityIndex,1);
-    }
-  });
-  return complete;
-}
 
 function updateRegistries(elements) {
   var actors = getElementsOfType(elements, 'actor');
