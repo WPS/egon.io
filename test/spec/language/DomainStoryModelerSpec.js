@@ -367,7 +367,7 @@ describe('domainStory modeler', function() {
       var newObject = domainStoryElements.slice(0);
 
       newObject.push({ info: 'Assumption: no line at box office, seats available, cash payment' });
-      newObject.push({ version: '0.4.0-dev' });
+      newObject.push({ version: '0.5.0' });
       var jsonExport = '' + JSON.stringify(newObject);
 
       // then
