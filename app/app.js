@@ -35,7 +35,7 @@ import {
 import { allInWorkObjectRegistry, registerWorkObjects } from './domain-story-modeler/language/workObjectRegistry';
 import { allInActorRegistry, registerActors } from './domain-story-modeler/language/actorRegistry';
 import { ACTIVITY, ACTOR, WORKOBJECT, DOMAINSTORY, CONNECTION } from './domain-story-modeler/language/elementTypes';
-import { download, downloadSVG, downloadPNG, setEncoded, prepareObjectsForDownload as createObjectListForDownload } from './domain-story-modeler/features/export/download';
+import { download, downloadSVG, downloadPNG, setEncoded, createObjectListForDownload } from './domain-story-modeler/features/export/download';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
