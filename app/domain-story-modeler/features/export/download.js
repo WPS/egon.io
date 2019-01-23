@@ -138,21 +138,13 @@ export function prepareSVG(top) {
 
   let { xLeft, xRight, yUp, yDown } = findMostOuterElements(top);
 
-  yUp -=25; // we need to adjust yUp to have space for the title and description
+  yUp -= 25; // we need to adjust yUp to have space for the title and description
 
-  if (xRight < 300) {
-    xRight+= 300;
-  }
-  if (yDown < 300) {
-    yDown += 300;
-  }
-
-  width = xRight;
-  height = yDown;
+  calculateWidthAndHeight(xLeft, xRight, yUp, yDown);
 
   var viewBoxIndex = top.indexOf ('width="');
-  bounds = 'width="100%" height="100%" viewBox=" 0 -100 ' + xRight + ' ' + (yDown + 125)+'" ';
-  // We add 125 Pixel as the lowe y bound, to compensate for the 100 pixel for the description with padding and an extra 25 pixel as padding to the bottom
+  bounds = 'width="100%" height="100%" viewBox=" ' + xLeft + ' ' + yUp + ' ' + xRight + ' ' + (yDown + 100)+'" ';
+  // We add 100 Pixel as the lower y bound, to compensate for the 100 pixel for the description with padding
   var dataStart = top.substring(0, viewBoxIndex);
   viewBoxIndex = top.indexOf('style="');
   var dataEnd = top.substring(viewBoxIndex);
@@ -194,13 +186,13 @@ function findMostOuterElements(top) {
       xRight = +positions[0];
     }
     else if (xLeft > positions[0]) {
-      xLeft = positions[0];
+      xLeft = +positions[0];
     }
     if (yDown < positions[1]) {
       yDown = +positions[1];
     }
     else if (yUp > positions[1]) {
-      yUp = positions[1];
+      yUp = +positions[1];
     }
   });
 
@@ -236,7 +228,7 @@ export function createInsertText(titleText, descriptionText, xLeft, yUp) {
 
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
   var insertText ='<g class="djs-group">'+
-        '<g class="djs-element djs-shape" style = "display:block" transform="translate('+(xLeft+10)+' '+(yUp-50)+')">'+
+        '<g class="djs-element djs-shape" style = "display:block" transform="translate('+ (xLeft + 10)+' '+(yUp + 25)+')">'+
         '<g class="djs-visual">'
         +'<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 30px; font-weight: normal; fill: rgb(0, 0, 0);"><tspan x="8" y="10">'
     +sanitize(titleText)+
@@ -304,4 +296,48 @@ const ViewBoxCoordinate = /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)
 function viewBoxCoordinates(svg) {
   const match = svg.match(ViewBoxCoordinate);
   return { width: +match[1], height : +match[2], viewBox: match[3] };
+}
+
+function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
+  if (xRight < 300 && xRight > 0) {
+    xRight += 300;
+  } else if (xRight > -300 && xRight < 0) {
+    xRight -= 300;
+  }
+  if (yDown < 300 && yDown >0) {
+    yDown += 300;
+  } else if (yDown > -300 && yDown < 0) {
+    yDown -= 300;
+  }
+
+  if (xLeft <0) {
+    if (xRight <0) {
+      width = -1* (xLeft + xRight);
+    }
+    else {
+      width = xRight - xLeft;
+    }
+  } else {
+    if (xRight < 0) {
+      width = xLeft - xRight;
+    } else {
+      width = xLeft + xRight;
+    }
+  }
+
+  if (yUp <0) {
+    if (yDown <0) {
+      height = -1* (yUp + yDown);
+    }
+    else {
+      height = yDown - yUp;
+    }
+  } else {
+    if (yDown < 0) {
+      height = yUp - yDown;
+    } else {
+      height = yUp + yDown;
+    }
+  }
+
 }
