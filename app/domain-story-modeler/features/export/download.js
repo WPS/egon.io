@@ -1,12 +1,41 @@
 'use strict';
 
 import sanitize from '../../util/Sanitizer';
+import { getAllObjectsFromCanvas } from '../../util/CanvasObjects';
 
 var image = document.createElement('img'),
     title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
 var svgData;
 var width, height;
+
+export function createObjectListForDownload(modeler, canvas, version) {
+
+  var customElements;
+  customElements = modeler.getCustomElements();
+
+  var elementIDs = [];
+  customElements.forEach(element => {
+    elementIDs.push(element.id);
+  });
+
+  var allObjectsFromCanvas = getAllObjectsFromCanvas(canvas);
+
+  // check wether all objects from the canvas are present
+  // add elements that might be missing
+  allObjectsFromCanvas.forEach(canvasElement => {
+    if (!elementIDs.includes(canvasElement.id)) {
+      customElements.unshift(canvasElement.businessObject);
+    }
+  });
+  var objectList = customElements.slice(0);
+
+  var text = infoText.innerText;
+
+  objectList.push({ info: text });
+  objectList.push({ version: version });
+  return objectList;
+}
 
 export function download(filename, text) {
   var element = document.createElement('a');

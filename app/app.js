@@ -35,7 +35,7 @@ import {
 import { allInWorkObjectRegistry, registerWorkObjects } from './domain-story-modeler/language/workObjectRegistry';
 import { allInActorRegistry, registerActors } from './domain-story-modeler/language/actorRegistry';
 import { ACTIVITY, ACTOR, WORKOBJECT, DOMAINSTORY, CONNECTION } from './domain-story-modeler/language/elementTypes';
-import { download, downloadSVG, downloadPNG, setEncoded } from './domain-story-modeler/features/export/download';
+import { download, downloadSVG, downloadPNG, setEncoded, prepareObjectsForDownload as createObjectListForDownload } from './domain-story-modeler/features/export/download';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -314,30 +314,9 @@ brokenDSTDialogButtonCancel.addEventListener('click', function() {
 });
 
 exportButton.addEventListener('click', function() {
-  var object ;
-  object= modeler.getCustomElements();
+  var objects = createObjectListForDownload(modeler, canvas, version);
 
-  var objectIDs = [];
-  object.forEach(element => {
-    objectIDs.push(element.id);
-  });
-
-  var allObjects = getAllObjectsFromCanvas(canvas);
-
-  // check wether all objects from the canvas are present
-  // add objects that might be missing
-  allObjects.forEach(canvasObject => {
-    if (!objectIDs.includes(canvasObject.id)) {
-      object.unshift(canvasObject.businessObject);
-    }
-  });
-
-  var text = info.innerText;
-  var newObject = object.slice(0);
-
-  newObject.push({ info: text });
-  newObject.push({ version: version });
-  var json = JSON.stringify(newObject);
+  var json = JSON.stringify(objects);
   var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
 
   // start file download
