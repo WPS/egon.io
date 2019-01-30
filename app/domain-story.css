@@ -116,10 +116,17 @@ cursor: default;
   opacity: 0;
 }
 
-#buttonImport, #export, #buttonImageDownloads, #buttonSVG, #buttonPNG , #dictionaryButton{
+#buttonImport, #export, #buttonImageDownloads, #dictionaryButton{
   margin-right: -2px;
   background-color: white;
   border: 1px solid white;
+}
+
+#buttonSVG, #buttonPNG{
+  margin-right: -2px;
+  font-size: 12pt;
+  background-color: white;
+  border: 1px solid #ddd;
 }
 
 #buttonPNG {
