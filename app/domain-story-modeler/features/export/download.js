@@ -138,7 +138,7 @@ export function prepareSVG(top) {
 
   let { xLeft, xRight, yUp, yDown } = findMostOuterElements(top);
 
-  yUp -= 25; // we need to adjust yUp to have space for the title and description
+  yUp -= 75; // we need to adjust yUp to have space for the title and description
 
   calculateWidthAndHeight(xLeft, xRight, yUp, yDown);
 
