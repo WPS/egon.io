@@ -35,7 +35,7 @@ export default function DSUpdateLabelHandler(modeling, textRenderer, commandStac
 
   function handlerFunction() {
 
-  /**
+    /**
    * Set the label and return the changed elements.
    *
    * Element parameter can be label itself or connection (i.e. sequence flow).
@@ -55,7 +55,7 @@ export default function DSUpdateLabelHandler(modeling, textRenderer, commandStac
         && !hasExternalLabel(element)
         && (newLabel !== '' || newNumber!=='')) {
 
-      // create label
+        // create label
         var paddingTop = 7;
 
         var labelCenter = getExternalLabelMid(element);

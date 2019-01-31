@@ -355,7 +355,7 @@ describe('domainStory modeler', function() {
 
     it('should import domainStory element', function() {
 
-    // given
+      // given
       var elementRegistry = modeler.get('elementRegistry');
       var domainStoryElements = modeler.getCustomElements();
       // when
@@ -450,7 +450,7 @@ describe('domainStory modeler', function() {
 
     it('should import domainStory element', function() {
 
-    // given
+      // given
       var elementRegistry = modeler.get('elementRegistry');
       var domainStoryElements = modeler.getCustomElements();
       // when
@@ -466,7 +466,7 @@ describe('domainStory modeler', function() {
 
     it('should export domainStory element', function() {
 
-    // given
+      // given
       var domainStoryElements = modeler.getCustomElements();
 
       modeler.importCustomElements(domainStoryElements);

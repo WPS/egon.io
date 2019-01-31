@@ -391,7 +391,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       }
     }
     return offset - 70;
-    return offset - 75;
   }
 
   function fixConnectionInHTML(wantedConnection) {
