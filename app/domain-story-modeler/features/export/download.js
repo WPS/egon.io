@@ -61,11 +61,13 @@ export function downloadPNG() {
   for (var i=0; i<bendpoints.length;i++) {
     bendpoints[i].parentNode.removeChild(bendpoints[i]);
   }
-  var top = new XMLSerializer().serializeToString(topSVG);
+  var svg = new XMLSerializer().serializeToString(topSVG);
 
-  top = prepareSVG(top);
+  svg = prepareSVG(svg);
 
-  top = URIHashtagFix(top);
+  svg = URIHashtagFix(svg);
+
+
   image.onload = function() {
     console.log('onload');
     var tempCanvas = document.createElement('canvas');
@@ -87,10 +89,10 @@ export function downloadPNG() {
 
   image.width = width;
   image.height = height;
-  image.src=('data:image/svg+xml,' + top);
+  image.src=('data:image/svg+xml,' + svg);
 }
 
-function URIHashtagFix(top) {
+function URIHashtagFix(svg) {
   var fix = false;
   var browser = navigator.browserSpecs;
 
@@ -108,11 +110,11 @@ function URIHashtagFix(top) {
     // versionNumber of implementation unknown
   }
   if (fix) {
-    while (top.includes('#')) {
-      top=top.replace('#', '%23');
+    while (svg.includes('#')) {
+      svg=svg.replace('#', '%23');
     }
   }
-  return top;
+  return svg;
 }
 
 navigator.browserSpecs = (function() {
@@ -132,24 +134,24 @@ navigator.browserSpecs = (function() {
   return { name:M[0], version:M[1] };
 })();
 
-export function prepareSVG(top) {
+export function prepareSVG(svg) {
   var bounds = '';
 
-  let { xLeft, xRight, yUp, yDown } = findMostOuterElements(top);
+  let { xLeft, xRight, yUp, yDown } = findMostOuterElements(svg);
 
   yUp -= 75; // we need to adjust yUp to have space for the title and description
 
   calculateWidthAndHeight(xLeft, xRight, yUp, yDown);
 
-  var viewBoxIndex = top.indexOf ('width="');
+  var viewBoxIndex = svg.indexOf ('width="');
   bounds = 'width="100%" height="100%" viewBox=" ' + xLeft + ' ' + yUp + ' ' + xRight + ' ' + (yDown + 100)+'" ';
   // We add 100 Pixel as the lower y bound, to compensate for the 100 pixel for the description with padding
-  var dataStart = top.substring(0, viewBoxIndex);
-  viewBoxIndex = top.indexOf('style="');
-  var dataEnd = top.substring(viewBoxIndex);
+  var dataStart = svg.substring(0, viewBoxIndex);
+  viewBoxIndex = svg.indexOf('style="');
+  var dataEnd = svg.substring(viewBoxIndex);
   dataEnd.substring(viewBoxIndex);
 
-  top = dataStart + bounds + dataEnd;
+  svg = dataStart + bounds + dataEnd;
 
   // remove <br> HTML-elements from the description since they create error in the SVG
   var descriptionText = infoText.innerHTML;
@@ -158,43 +160,44 @@ export function prepareSVG(top) {
     descriptionText=descriptionText.replace('<br>', '\n');
   }
 
-  var insertIndex = top.indexOf('<g class="viewport">') + 20;
+  var insertIndex = svg.indexOf('<g class="viewport">') + 20;
 
   // to display the title and description in the PNG-file, we need to add a container for our text-elements
   var insertText = createInsertText(titleText, descriptionText, xLeft, yUp);
 
-  top = [top.slice(0,insertIndex), insertText, top.slice(insertIndex)].join('');
+  svg = [svg.slice(0,insertIndex), insertText, svg.slice(insertIndex)].join('');
 
-  return top;
+  return svg;
 }
 
-function findMostOuterElements(top) {
+function findMostOuterElements(svg) {
   var xLeft = 0;
   var xRight = 0;
   var yUp =0;
   var yDown = 0;
 
   const positionRegEx = /transform="translate\(([^"]+)\s+([^"]+)/g;
-  const match = top.match(positionRegEx);
-
-  match.forEach(element => {
-    element = element.replace('transform="translate(', '');
-    element = element.replace(')','');
-    var positions = element.split(' ');
-    if (xRight < positions[0]) {
-      xRight = +positions[0];
-    }
-    else if (xLeft > positions[0]) {
-      xLeft = +positions[0];
-    }
-    if (yDown < positions[1]) {
-      yDown = +positions[1];
-    }
-    else if (yUp > positions[1]) {
-      yUp = +positions[1];
-    }
-  });
-
+  const match = svg.match(positionRegEx);
+  if (match) {
+    match.forEach(element => {
+      element = element.replace('transform="translate(', '');
+      element = element.replace(')','');
+      var positions = element.split(' ');
+      if (xRight < positions[0]) {
+        xRight = +positions[0];
+      }
+      else if (xLeft > positions[0]) {
+        xLeft = +positions[0];
+      }
+      if (yDown < positions[1]) {
+        yDown = +positions[1];
+      }
+      else if (yUp > positions[1]) {
+        yUp = +positions[1];
+      }
+    });
+  }
+    
   xRight += 100;
   yDown += 75;
   return {
