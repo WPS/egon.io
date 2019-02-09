@@ -50,25 +50,6 @@ export function download(filename, text) {
   document.body.removeChild(element);
 }
 
-image.onload = function() {
-  var tempCanvas = document.createElement('canvas');
-
-  // add a 10px buffer to the right and lower boundary
-  tempCanvas.width = width + 10;
-  tempCanvas.height = height + 10;
-
-  var ctx = tempCanvas.getContext('2d');
-  ctx.drawImage(image, 0, 0);
-
-  var png64 = tempCanvas.toDataURL('image/png');
-  var ele = document.createElement('a');
-  ele.setAttribute('download', title.innerText + '_' + new Date().toISOString().slice(0, 10) +'.png');
-  ele.setAttribute('href', png64);
-  document.body.appendChild(ele);
-  ele.click();
-  document.body.removeChild(ele);
-};
-
 export function downloadPNG() {
   var canv = document.getElementById('canvas');
   var con = canv.getElementsByClassName('djs-container');
@@ -85,6 +66,24 @@ export function downloadPNG() {
   top = prepareSVG(top);
 
   top = URIHashtagFix(top);
+  image.onload = function() {
+    console.log('onload');
+    var tempCanvas = document.createElement('canvas');
+    // add a 10px buffer to the right and lower boundary
+    tempCanvas.width = width + 10;
+    tempCanvas.height = height + 10;
+  
+    var ctx = tempCanvas.getContext('2d');
+    ctx.drawImage(image, 0, 0);
+  
+    var png64 = tempCanvas.toDataURL('image/png');
+    var ele = document.createElement('a');
+    ele.setAttribute('download', title.innerText + '_' + new Date().toISOString().slice(0, 10) +'.png');
+    ele.setAttribute('href', png64);
+    document.body.appendChild(ele);
+    ele.click();
+    document.body.removeChild(ele);
+  };
 
   image.width = width;
   image.height = height;
