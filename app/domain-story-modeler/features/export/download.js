@@ -288,7 +288,7 @@ export function setEncoded(data) {
   }
 
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
-  var insertText = createInsertText(titleText, descriptionText, xLeft, yUp);
+  var insertText = createInsertText(titleText, descriptionText, xLeft, yUp - 75);
 
   data = [data.slice(0,insertIndex), insertText, data.slice(insertIndex)].join('');
   svgData = encodeURIComponent(data);
