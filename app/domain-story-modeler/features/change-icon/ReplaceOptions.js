@@ -1,6 +1,6 @@
 import { getNameFromType } from '../../language/naming';
-import { getActorRegistry } from '../../language/ActorRegistry';
-import { getWorkObjectRegistry } from '../../language/WorkObjectRegistry';
+import { getActorRegistry } from '../../language/actorRegistry';
+import { getWorkObjectRegistry } from '../../language/workObjectRegistry';
 import { getIconForType } from '../../language/iconRegistry';
 
 'use strict';
