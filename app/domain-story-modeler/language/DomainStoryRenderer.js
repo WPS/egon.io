@@ -336,7 +336,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       renderExternalNumber(p, element);
 
       // Just adjusting the start- and enpoint of the connection-element moves only the drawn connection,
-      // not the interactive line. This can be fixed by manually overriding thepoints of the interactive polyline
+      // not the interactive line. This can be fixed by manually overriding the points of the interactive polyline
       // in the HTMl with the points of the drawn one.
       // This however does not adjust the surrounding box of the connection.
       fixConnectionInHTML(p.parentElement);
