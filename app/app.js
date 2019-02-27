@@ -319,13 +319,19 @@ brokenDSTDialogButtonCancel.addEventListener('click', function() {
 });
 
 exportButton.addEventListener('click', function() {
-  var objects = createObjectListForDSTDownload(modeler, canvas, version);
 
-  var json = JSON.stringify(objects);
-  var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
+  if (canvas._rootElement) {
 
-  // start file download
-  downloadDST(filename, json);
+    var objects = createObjectListForDSTDownload(canvas, version);
+
+    var json = JSON.stringify(objects);
+    var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
+
+    // start file download
+    downloadDST(filename, json);
+  } else {
+    showNoContentDialog();
+  }
 });
 
 svgSaveButton.addEventListener('click', function() {
@@ -345,7 +351,7 @@ incompleteStoryDialogButtonCancel.addEventListener('click', function() {
 });
 
 noContentOnCanvasDialogCuttonCancel.addEventListener('click', function() {
-closeNoContentDialog();
+  closeNoContentDialog();
 });
 
 versionDialogButtonCancel.addEventListener('click', function() {

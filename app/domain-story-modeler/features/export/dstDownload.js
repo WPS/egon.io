@@ -1,6 +1,6 @@
 'use strict';
 
-import { getAllObjectsFromCanvas } from '../../util/CanvasObjects';
+import { getAllObjectsFromCanvas, getAllGroups } from '../../util/CanvasObjects';
 
 var infoText = document.getElementById('infoText');
 
@@ -17,26 +17,19 @@ export function downloadDST(filename, text) {
   document.body.removeChild(element);
 }
 
-export function createObjectListForDSTDownload(modeler, canvas, version) {
-
-  var customElements;
-  customElements = modeler.getCustomElements();
-
-  var elementIDs = [];
-  customElements.forEach(element => {
-    elementIDs.push(element.id);
-  });
-
+export function createObjectListForDSTDownload(canvas, version) {
   var allObjectsFromCanvas = getAllObjectsFromCanvas(canvas);
+  var groups = getAllGroups(canvas);
 
-  // check wether all objects from the canvas are present
-  // add elements that might be missing
-  allObjectsFromCanvas.forEach(canvasElement => {
-    if (!elementIDs.includes(canvasElement.id)) {
-      customElements.unshift(canvasElement.businessObject);
-    }
+  var objectList = [];
+
+  allObjectsFromCanvas.forEach(canvasElement =>{
+    objectList.push(canvasElement.businessObject);
   });
-  var objectList = customElements.slice(0);
+
+  groups.forEach(group => {
+    objectList.push(group.businessObject);
+  });
 
   var text = infoText.innerText;
 

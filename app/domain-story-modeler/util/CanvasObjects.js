@@ -49,7 +49,7 @@ export function getAllObjectsFromCanvas(canvas) {
 }
 
 // returns all groups on the canvas and inside other groups
-function getAllGroups(canvas) {
+export function getAllGroups(canvas) {
   var canvasObjects=canvas._rootElement.children;
   var groupObjects=[];
   var allObjects=[];
