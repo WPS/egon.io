@@ -102,6 +102,7 @@ var modal = document.getElementById('modal'),
     dictionaryDialog = document.getElementById('dictionary'),
     keyboardShortcutInfoDialog = document.getElementById('keyboardShortcutInfoDialog'),
     downloadDialog = document.getElementById('downloadDialog'),
+    noContentOnCanvasDialog = document.getElementById('noContentOnCanvasInfo'),
     // Container
     activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
     workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
@@ -126,6 +127,7 @@ var modal = document.getElementById('modal'),
     keyboardShortcutInfoButton = document.getElementById('keyboardShortcutInfoButton'),
     keyboardShortcutInfoButtonCancel = document.getElementById('keyboardShortcutInfoDialogButtonCancel'),
     incompleteStoryDialogButtonCancel = document.getElementById('closeIncompleteStoryInfo'),
+    noContentOnCanvasDialogCuttonCancel = document.getElementById('closeNoContentOnCanvasInfo'),
     versionDialogButtonCancel = document.getElementById('closeVersionDialog');
 
 // interal variables
@@ -340,6 +342,10 @@ pngSaveButton.addEventListener('click', function() {
 incompleteStoryDialogButtonCancel.addEventListener('click', function() {
   modal.style.display = 'none';
   incompleteStoryDialog.style.display = 'none';
+});
+
+noContentOnCanvasDialogCuttonCancel.addEventListener('click', function() {
+closeNoContentDialog();
 });
 
 versionDialogButtonCancel.addEventListener('click', function() {
@@ -561,6 +567,16 @@ function showVersionDialog() {
 function showBrokenDSTDialog() {
   brokenDSTDialog.style.display = 'block';
   modal.style.display = 'block';
+}
+
+function showNoContentDialog() {
+  noContentOnCanvasDialog.style.display = 'block';
+  modal.style.display = 'block';
+}
+
+function closeNoContentDialog() {
+  noContentOnCanvasDialog.style.display = 'none';
+  modal.style.display = 'none';
 }
 
 function closeBrokenDSTDialog() {

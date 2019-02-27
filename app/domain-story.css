@@ -138,7 +138,7 @@ cursor: default;
   pointer-events : 'none';
 }
 
-#buttonImport:hover, #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #brokenDSTDialogCuttonCancel:hover, #keyboardShortcutInfoDialogButtonCancel:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
+#buttonImport:hover, #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #brokenDSTDialogCuttonCancel:hover, #closeNoContentOnCanvasInfo:hover, #keyboardShortcutInfoDialogButtonCancel:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
   border: 1px solid #CCC;
   cursor: pointer;
 }
@@ -194,7 +194,7 @@ cursor: default;
   position: absolute;
 }
 
-#dictionary, #numberDialog, #brokenDSTDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog, #downloadDialog{
+#dictionary, #numberDialog, #brokenDSTDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog, #downloadDialog, #noContentOnCanvasInfo{
   top: 40%;
   left: 50%;
   z-index: 2;
@@ -213,7 +213,7 @@ cursor: default;
   margin-left: -155px;
 }
 
-#wpsLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog, #brokenDSTDialog{
+#wpsLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog, #brokenDSTDialog, #noContentOnCanvasInfo{
   font-size: 11pt;  
   border: solid 1px #aaaaab;
   padding-top: 3px;
@@ -263,7 +263,7 @@ cursor: default;
   padding: 4px;
 }
 
-#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel, #downloadDialogCancelButton, #brokenDSTDialogButtonCancel{
+#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel, #downloadDialogCancelButton, #brokenDSTDialogButtonCancel, #closeNoContentOnCanvasInfo{
   position: absolute;
   font-size: 9pt;
   right: 1px;
