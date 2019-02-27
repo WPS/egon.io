@@ -35,7 +35,9 @@ import {
 import { allInWorkObjectRegistry, registerWorkObjects } from './domain-story-modeler/language/workObjectRegistry';
 import { allInActorRegistry, registerActors } from './domain-story-modeler/language/actorRegistry';
 import { ACTIVITY, ACTOR, WORKOBJECT, DOMAINSTORY } from './domain-story-modeler/language/elementTypes';
-import { download, downloadSVG, downloadPNG, setEncoded, createObjectListForDownload } from './domain-story-modeler/features/export/download';
+import { downloadDST, createObjectListForDSTDownload } from './domain-story-modeler/features/export/dstDownload';
+import { downloadSVG, setEncoded } from './domain-story-modeler/features/export/svgDownload';
+import { downloadPNG } from './domain-story-modeler/features/export/pngDownload';
 import { checkElementReferencesAndRepair } from './domain-story-modeler/util/ImportRepair';
 
 var modeler = new DomainStoryModeler({
@@ -315,13 +317,13 @@ brokenDSTDialogButtonCancel.addEventListener('click', function() {
 });
 
 exportButton.addEventListener('click', function() {
-  var objects = createObjectListForDownload(modeler, canvas, version);
+  var objects = createObjectListForDSTDownload(modeler, canvas, version);
 
   var json = JSON.stringify(objects);
   var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
 
   // start file download
-  download(filename, json);
+  downloadDST(filename, json);
 });
 
 svgSaveButton.addEventListener('click', function() {
