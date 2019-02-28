@@ -66,13 +66,13 @@ function findMostOuterElements(svg) {
         xRight = +positions[0];
       }
       else if (xLeft > positions[0]) {
-        xLeft = +positions[0];
+        xLeft = parseInt(positions[0]);
       }
       if (yDown < positions[1]) {
         yDown = +positions[1];
       }
       else if (yUp > positions[1]) {
-        yUp = +positions[1];
+        yUp = parseInt(positions[1]);
       }
     });
   }
@@ -166,46 +166,40 @@ function URIHashtagFix(svg) {
   return svg;
 }
 
-function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
-  if (xRight < 300 && xRight > 0) {
-    xRight += 300;
-  } else if (xRight > -300 && xRight < 0) {
-    xRight -= 300;
-  }
-  if (yDown < 300 && yDown >0) {
-    yDown += 300;
-  } else if (yDown > -300 && yDown < 0) {
-    yDown -= 300;
-  }
+export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
 
   if (xLeft <0) {
     if (xRight <0) {
-      width = -1* (xLeft + xRight);
+      width = Math.abs(xLeft - xRight);
     }
     else {
-      width = xRight - xLeft;
+      width = Math.abs(xLeft) + xRight;
     }
   } else {
-    if (xRight < 0) {
-      width = xLeft - xRight;
-    } else {
-      width = xLeft + xRight;
-    }
+    width = xRight - xLeft;
   }
 
   if (yUp <0) {
     if (yDown <0) {
-      height = -1* (yUp + yDown);
+      height = Math.abs(yUp - yDown);
     }
     else {
-      height = yDown - yUp;
+      height = Math.abs(yUp) + yDown;
     }
   } else {
-    if (yDown < 0) {
-      height = yUp - yDown;
-    } else {
-      height = yUp + yDown;
-    }
+    height = yDown- yUp;
   }
 
+  // If the domain-Story is smaller than 300px in width or height, increase its dimensions
+  if (height <300) {
+    height+=300;
+    yUp -= 150;
+    yDown += 150;
+  }
+  if (width <300) {
+    width +=300;
+    xLeft -= 150;
+    xRight += 150;
+  }
+  return [height, width];
 }
