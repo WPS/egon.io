@@ -13,8 +13,6 @@ import {
   createLine
 } from 'diagram-js/lib/util/RenderUtil';
 
-import sanitize from '../util/Sanitizer';
-
 import {
   append as svgAppend,
   attr as svgAttr,
@@ -226,7 +224,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   // render a label on the canvas
   function renderLabel(parentGfx, label, options, type) {
 
-    label = sanitize(label);
     var text = textRenderer.createText(label || '', options);
     var height = 0;
 

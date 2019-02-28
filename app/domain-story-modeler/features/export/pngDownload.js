@@ -1,6 +1,7 @@
 'use strict';
 
 import { createTitleAndDescriptionSVGElement } from './createTitleAndInfo';
+import sanitizeForDesktop from '../../util/Sanitizer';
 
 var image = document.createElement('img');
 var width, height;
@@ -37,7 +38,7 @@ export function downloadPNG() {
 
     var png64 = tempCanvas.toDataURL('image/png');
     var ele = document.createElement('a');
-    ele.setAttribute('download', title.innerText + '_' + new Date().toISOString().slice(0, 10) +'.png');
+    ele.setAttribute('download', sanitizeForDesktop(title.innerText) + '_' + new Date().toISOString().slice(0, 10) +'.png');
     ele.setAttribute('href', png64);
     document.body.appendChild(ele);
     ele.click();

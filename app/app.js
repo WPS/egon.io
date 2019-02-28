@@ -263,21 +263,17 @@ activityLabelButtonCancel.addEventListener('click', function() {
 
 titleInput.addEventListener('keydown', function(e) {
   checkPressedKeys(e.keyCode, 'titleDialog');
-  checkInput(titleInput);
 });
 
 titleInput.addEventListener('keyup', function(e) {
-  checkInput(titleInput);
   keyReleased(keysPressed, e.keyCode);
 });
 
 info.addEventListener('keydown', function(e) {
   checkPressedKeys(e.keyCode, 'infoDialog');
-  checkInput(info);
 });
 
 info.addEventListener('keyup', function(e) {
-  checkInput(info);
   keyReleased(keysPressed, e.keyCode);
 });
 
@@ -375,7 +371,6 @@ document.getElementById('import').onchange = function() {
     if (titleText.includes('.dst')) {
       titleText = titleText.replace('.dst','');
     }
-    titleText = sanitize(titleText);
     titleInput.value = titleText;
     title.innerText = titleText;
     titleInputLast = titleInput.value;
@@ -412,7 +407,7 @@ document.getElementById('import').onchange = function() {
 
       updateRegistries(elements);
 
-      var inputInfoText = sanitize(lastElement.info ? lastElement.info : '');
+      var inputInfoText = lastElement.info ? lastElement.info : '';
       info.innerText = inputInfoText;
       info.value = inputInfoText;
       descriptionInputLast = info.value;
@@ -615,12 +610,11 @@ function saveDialog() {
   var inputTitle = titleInput.value;
   var inputText = info.value;
   if (inputTitle !== '') {
-    title.innerText = sanitize(inputTitle);
+    title.innerText = inputTitle;
   }
   else {
     title.innerText = '<name of this Domain Story>';
   }
-  inputText = sanitize(inputText);
   info.innerText = inputText;
   infoText.innerText = inputText;
 

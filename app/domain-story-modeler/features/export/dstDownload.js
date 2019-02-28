@@ -1,10 +1,12 @@
 'use strict';
 
 import { getAllObjectsFromCanvas, getAllGroups } from '../../util/CanvasObjects';
+import sanitizeForDesktop from '../../util/Sanitizer';
 
 var infoText = document.getElementById('infoText');
 
 export function downloadDST(filename, text) {
+  filename = sanitizeForDesktop(filename);
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
   element.setAttribute('download', filename + '.dst');

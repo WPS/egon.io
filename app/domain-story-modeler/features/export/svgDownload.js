@@ -1,6 +1,7 @@
 'use strict';
 
 import { createTitleAndDescriptionSVGElement } from './createTitleAndInfo';
+import sanitizeForDesktop from '../../util/Sanitizer';
 
 var title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
@@ -10,7 +11,7 @@ export function downloadSVG(filename) {
 
   var element = document.createElement('a');
   element.setAttribute('href', 'data:application/bpmn20-xml;charset=UTF-8,' + svgData);
-  element.setAttribute('download', filename + '.svg');
+  element.setAttribute('download', sanitizeForDesktop(filename) + '.svg');
 
   element.style.display = 'none';
   document.body.appendChild(element);
