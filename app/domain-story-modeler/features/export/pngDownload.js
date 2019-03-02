@@ -9,16 +9,16 @@ var title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
 
 export function downloadPNG() {
-  var canv = document.getElementById('canvas');
-  var con = canv.getElementsByClassName('djs-container');
-  var svgs = con[0].getElementsByTagName('svg');
-  var topSVG = svgs[0];
-  var viewport = topSVG.getElementsByClassName('viewport')[0];
+  var canvas = document.getElementById('canvas');
+  var container = canvas.getElementsByClassName('djs-container');
+  var svgElements = container[0].getElementsByTagName('svg');
+  var outerSVGElement = svgElements[0];
+  var viewport = outerSVGElement.getElementsByClassName('viewport')[0];
   var layerBase= viewport.getElementsByClassName('layer-base')[0];
 
-  var bendpoints= topSVG.getElementsByClassName('djs-bendpoints');
-  var bendpoint= topSVG.getElementsByClassName('djs-bendpoint');
-  var segmentDraggers = topSVG.getElementsByClassName('djs-segment-dragger');
+  var bendpoints= outerSVGElement.getElementsByClassName('djs-bendpoints');
+  var bendpoint= outerSVGElement.getElementsByClassName('djs-bendpoint');
+  var segmentDraggers = outerSVGElement.getElementsByClassName('djs-segment-dragger');
 
   // removes unwanted black dots in image
   var i;
@@ -31,12 +31,10 @@ export function downloadPNG() {
   for (i=0; i<segmentDraggers.length;i++) {
     segmentDraggers[i].parentNode.removeChild(segmentDraggers[i]);
   }
-  var svg = new XMLSerializer().serializeToString(topSVG);
+
+  var svg = new XMLSerializer().serializeToString(outerSVGElement);
 
   svg = prepareSVG(svg, layerBase);
-
-  svg = URIHashtagFix(svg);
-
 
   image.onload = function() {
     var tempCanvas = document.createElement('canvas');
@@ -62,15 +60,12 @@ export function downloadPNG() {
 }
 
 function prepareSVG(svg, layertBase) {
-  var bounds = '';
   let { xLeft, xRight, yUp, yDown } = findMostOuterElements(layertBase);
-
-  yUp -= 75; // we need to adjust yUp to have space for the title and description
 
   calculateWidthAndHeight(xLeft, xRight, yUp, yDown);
 
   var viewBoxIndex = svg.indexOf ('width="');
-  bounds = 'width="'+width+'" height="'+height+'" viewBox=" ' + xLeft + ' ' + yUp + ' ' + (width)+ ' ' + (height)+'" ';
+  var bounds = 'width="'+width+'" height="'+height+'" viewBox=" ' + xLeft + ' ' + yUp + ' ' + (width)+ ' ' + (height)+'" ';
 
   var dataStart = svg.substring(0, viewBoxIndex);
   viewBoxIndex = svg.indexOf('style="');
@@ -79,7 +74,7 @@ function prepareSVG(svg, layertBase) {
 
   svg = dataStart + bounds + dataEnd;
 
-  // remove <br> HTML-elements from the description since they create error in the SVG
+  // remove <br> HTML-elements from the description since they create errors in the SVG
   var descriptionText = infoText.innerHTML;
   var titleText = title.innerHTML;
   while (descriptionText.includes('<br>')) {
@@ -90,12 +85,14 @@ function prepareSVG(svg, layertBase) {
 
   // to display the title and description in the PNG-file, we need to add a container for our text-elements
   var insertText = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp);
-
   svg = [svg.slice(0,insertIndex), insertText, svg.slice(insertIndex)].join('');
+
+  svg = URIHashtagFix(svg);
 
   return svg;
 }
 
+// fixes # symbols in data URIs not being escaped
 function URIHashtagFix(svg) {
   var fix = false;
 
@@ -125,6 +122,7 @@ function URIHashtagFix(svg) {
   if (name.includes('Chrome')) {
     if (version >= 72) {
       fix = true;
+      // https://www.chromestatus.com/features/5656049583390720
     }
   }
   else if (name.includes('Firefox')) {
@@ -229,6 +227,8 @@ function findMostOuterElements(svg) {
       yDown = elYDown;
     }
   }
+
+  yUp -= 75; // we need to adjust yUp to have space for the title and description
 
   return {
     xLeft: xLeft,
