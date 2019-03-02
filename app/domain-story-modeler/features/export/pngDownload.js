@@ -70,8 +70,8 @@ function prepareSVG(svg, layertBase) {
   calculateWidthAndHeight(xLeft, xRight, yUp, yDown);
 
   var viewBoxIndex = svg.indexOf ('width="');
-  bounds = 'width="100%" height="100%" viewBox=" ' + xLeft + ' ' + yUp + ' ' + xRight + ' ' + (yDown + 120)+'" ';
-  // We add 120 Pixel as the lower y bound, to compensate for the 120 pixel for the description with padding
+  bounds = 'width="'+width+'" height="'+height+'" viewBox=" ' + xLeft + ' ' + yUp + ' ' + (width)+ ' ' + (height)+'" ';
+
   var dataStart = svg.substring(0, viewBoxIndex);
   viewBoxIndex = svg.indexOf('style="');
   var dataEnd = svg.substring(viewBoxIndex);
