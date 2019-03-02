@@ -1,7 +1,5 @@
 'use strict';
 
-import { getAllGroups } from '../../util/CanvasObjects';
-
 import { createTitleAndDescriptionSVGElement } from './createTitleAndInfo';
 import sanitizeForDesktop from '../../util/Sanitizer';
 
