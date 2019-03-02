@@ -30,7 +30,8 @@ import {
   correctGroupChildren,
   getAllObjectsFromCanvas,
   getActivitesFromActors,
-  updateCustomElementsPreviousv050
+  updateCustomElementsPreviousv050,
+  getAllGroups
 } from './domain-story-modeler/util/CanvasObjects';
 import { allInWorkObjectRegistry, registerWorkObjects } from './domain-story-modeler/language/workObjectRegistry';
 import { allInActorRegistry, registerActors } from './domain-story-modeler/language/actorRegistry';
@@ -337,7 +338,12 @@ svgSaveButton.addEventListener('click', function() {
 });
 
 pngSaveButton.addEventListener('click', function() {
-  downloadPNG();
+  var groups = null;
+  if (canvas._rootElement) {
+    groups = getAllGroups(canvas);
+  }
+
+  downloadPNG(groups);
   closeImageDownloadDialog();
 });
 

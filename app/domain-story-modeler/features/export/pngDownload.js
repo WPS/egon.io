@@ -1,5 +1,7 @@
 'use strict';
 
+import { getAllGroups } from '../../util/CanvasObjects';
+
 import { createTitleAndDescriptionSVGElement } from './createTitleAndInfo';
 import sanitizeForDesktop from '../../util/Sanitizer';
 
@@ -8,7 +10,7 @@ var width, height;
 var title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
 
-export function downloadPNG() {
+export function downloadPNG(groups) {
   var canv = document.getElementById('canvas');
   var con = canv.getElementsByClassName('djs-container');
   var svgs = con[0].getElementsByTagName('svg');
@@ -21,7 +23,7 @@ export function downloadPNG() {
   }
   var svg = new XMLSerializer().serializeToString(topSVG);
 
-  svg = prepareSVG(svg);
+  svg = prepareSVG(svg, groups);
 
   svg = URIHashtagFix(svg);
 
@@ -50,7 +52,7 @@ export function downloadPNG() {
   image.src=('data:image/svg+xml,' + svg);
 }
 
-function findMostOuterElements(svg) {
+function findMostOuterElements(svg, HTMLGroups) {
   var xLeft = 0;
   var xRight = 0;
   var yUp =0;
@@ -78,7 +80,29 @@ function findMostOuterElements(svg) {
     });
   }
 
-  xRight += 100;
+  HTMLGroups.forEach(HTMLGroup => {
+
+    var rect = HTMLGroup.getElementsByTagName('rect')[0];
+    var rectWidth = rect.width;
+    var rectHeight = rect.height;
+
+    var positionsArray = HTMLGroup.outerHTML.match(positionRegEx);
+    var x = positionsArray[0][0];
+    var y = positionsArray[0][1];
+
+    var outerX = x + rectWidth;
+    var lowerY = y + rectHeight;
+
+    if (outerX > xRight) {
+      xRight = outerX;
+    }
+
+    if (lowerY > yDown) {
+      yDown = lowerY;
+    }
+  });
+
+  xRight += 150;
   yDown += 75;
   return {
     xLeft: xLeft,
@@ -88,10 +112,17 @@ function findMostOuterElements(svg) {
   };
 }
 
-function prepareSVG(svg) {
+function prepareSVG(svg, groups) {
   var bounds = '';
+  var HTMLGroups = [];
 
-  let { xLeft, xRight, yUp, yDown } = findMostOuterElements(svg);
+  if (groups) {
+    groups.forEach(group => {
+      HTMLGroups.push(document.querySelector('[data-element-id=' + group.id + ']'));
+    });
+  }
+
+  let { xLeft, xRight, yUp, yDown } = findMostOuterElements(svg, HTMLGroups);
 
   yUp -= 75; // we need to adjust yUp to have space for the title and description
 
