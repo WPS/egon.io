@@ -8,26 +8,37 @@ var width, height;
 var title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
 
-export function downloadPNG(groups) {
+export function downloadPNG() {
   var canv = document.getElementById('canvas');
   var con = canv.getElementsByClassName('djs-container');
   var svgs = con[0].getElementsByTagName('svg');
   var topSVG = svgs[0];
+  var viewport = topSVG.getElementsByClassName('viewport')[0];
+  var layerBase= viewport.getElementsByClassName('layer-base')[0];
+
   var bendpoints= topSVG.getElementsByClassName('djs-bendpoints');
+  var bendpoint= topSVG.getElementsByClassName('djs-bendpoint');
+  var segmentDraggers = topSVG.getElementsByClassName('djs-segment-dragger');
 
   // removes unwanted black dots in image
-  for (var i=0; i<bendpoints.length;i++) {
+  var i;
+  for (i=0; i<bendpoints.length;i++) {
     bendpoints[i].parentNode.removeChild(bendpoints[i]);
+  }
+  for (i=0; i<bendpoint.length;i++) {
+    bendpoint[i].parentNode.removeChild(bendpoint[i]);
+  }
+  for (i=0; i<segmentDraggers.length;i++) {
+    segmentDraggers[i].parentNode.removeChild(segmentDraggers[i]);
   }
   var svg = new XMLSerializer().serializeToString(topSVG);
 
-  svg = prepareSVG(svg, groups);
+  svg = prepareSVG(svg, layerBase);
 
   svg = URIHashtagFix(svg);
 
 
   image.onload = function() {
-    console.log('onload');
     var tempCanvas = document.createElement('canvas');
     // add a 10px buffer to the right and lower boundary
     tempCanvas.width = width + 10;
@@ -50,77 +61,9 @@ export function downloadPNG(groups) {
   image.src=('data:image/svg+xml,' + svg);
 }
 
-function findMostOuterElements(svg, HTMLGroups) {
-  var xLeft = 0;
-  var xRight = 0;
-  var yUp =0;
-  var yDown = 0;
-
-  const positionRegEx = /transform="translate\(([^"]+)\s+([^"]+)/g;
-  const match = svg.match(positionRegEx);
-  if (match) {
-    match.forEach(element => {
-      element = element.replace('transform="translate(', '');
-      element = element.replace(')','');
-      var positions = element.split(' ');
-      if (xRight < positions[0]) {
-        xRight = +positions[0];
-      }
-      else if (xLeft > positions[0]) {
-        xLeft = parseInt(positions[0]);
-      }
-      if (yDown < positions[1]) {
-        yDown = +positions[1];
-      }
-      else if (yUp > positions[1]) {
-        yUp = parseInt(positions[1]);
-      }
-    });
-  }
-
-  HTMLGroups.forEach(HTMLGroup => {
-
-    var rect = HTMLGroup.getElementsByTagName('rect')[0];
-    var rectWidth = rect.width;
-    var rectHeight = rect.height;
-
-    var positionsArray = HTMLGroup.outerHTML.match(positionRegEx);
-    var x = positionsArray[0][0];
-    var y = positionsArray[0][1];
-
-    var outerX = x + rectWidth;
-    var lowerY = y + rectHeight;
-
-    if (outerX > xRight) {
-      xRight = outerX;
-    }
-
-    if (lowerY > yDown) {
-      yDown = lowerY;
-    }
-  });
-
-  xRight += 150;
-  yDown += 75;
-  return {
-    xLeft: xLeft,
-    xRight: xRight,
-    yUp: yUp,
-    yDown: yDown
-  };
-}
-
-function prepareSVG(svg, groups) {
+function prepareSVG(svg, layertBase) {
   var bounds = '';
-  var HTMLGroups = [];
-
-  if (groups) {
-    groups.forEach(group => {
-      HTMLGroups.push(document.querySelector('[data-element-id=' + group.id + ']'));
-    });
-  }
-
-  let { xLeft, xRight, yUp, yDown } = findMostOuterElements(svg, HTMLGroups);
+  let { xLeft, xRight, yUp, yDown } = findMostOuterElements(layertBase);
 
   yUp -= 75; // we need to adjust yUp to have space for the title and description
 
@@ -232,4 +175,65 @@ export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
     xRight += 150;
   }
   return [height, width];
+}
+
+function findMostOuterElements(svg) {
+  var xLeft = 0;
+  var xRight = 0;
+  var yUp =0;
+  var yDown = 0;
+
+  var elements = svg.getElementsByClassName('djs-group');
+
+  for (var i=0; i<elements.length; i++) {
+
+    var element = elements[i];
+    var sub= element.children;
+
+    var elXLeft, elXRight, elYUp, elYDown;
+
+    var transform = sub[0].getAttribute('transform');
+    if (transform) {
+      var nums;
+
+      if (transform.includes('matrix')) {
+        transform.replace('matrix(', '');
+        transform.replace(')');
+        nums = transform.split(' ');
+        elXLeft = parseInt(nums[4]);
+        elYUp = parseInt(nums[5]);
+      } else {
+        transform.replace('translate(');
+        transform.replace(')');
+        nums = transform.split(' ');
+        elXLeft = parseInt(nums[0]);
+        elYUp = parseInt(nums[1]);
+      }
+
+      var rects = sub[0].getElementsByTagName('rect');
+      var outerRect = rects[rects.length-1];
+
+      elXRight = elXLeft + parseInt(outerRect.getAttribute('width'));
+      elYDown = elYUp + parseInt(outerRect.getAttribute('height'));
+    }
+    if (elXLeft < xLeft) {
+      xLeft = elXLeft;
+    }
+    if (elXRight > xRight) {
+      xRight = elXRight;
+    }
+    if (elYUp < yUp) {
+      yUp = elYUp;
+    }
+    if (elYDown > yDown) {
+      yDown = elYDown;
+    }
+  }
+
+  return {
+    xLeft: xLeft,
+    xRight: xRight,
+    yUp: yUp,
+    yDown: yDown
+  };
 }

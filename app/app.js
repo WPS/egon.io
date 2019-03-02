@@ -338,12 +338,7 @@ svgSaveButton.addEventListener('click', function() {
 });
 
 pngSaveButton.addEventListener('click', function() {
-  var groups = null;
-  if (canvas._rootElement) {
-    groups = getAllGroups(canvas);
-  }
-
-  downloadPNG(groups);
+  downloadPNG();
   closeImageDownloadDialog();
 });
 
