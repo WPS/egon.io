@@ -30,9 +30,7 @@ import {
   correctGroupChildren,
   getAllObjectsFromCanvas,
   getActivitesFromActors,
-  updateCustomElementsPreviousv050,
-  getAllGroups
-} from './domain-story-modeler/util/CanvasObjects';
+  updateCustomElementsPreviousv050 } from './domain-story-modeler/util/CanvasObjects';
 import { allInWorkObjectRegistry, registerWorkObjects } from './domain-story-modeler/language/workObjectRegistry';
 import { allInActorRegistry, registerActors } from './domain-story-modeler/language/actorRegistry';
 import { ACTIVITY, ACTOR, WORKOBJECT, DOMAINSTORY } from './domain-story-modeler/language/elementTypes';

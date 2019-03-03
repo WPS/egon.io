@@ -131,8 +131,6 @@ export function getActivitesFromActors(canvasObjects) {
   return activiesFromActors;
 }
 
-
-
 /**
  * Ensure backwards compatability.
  * Previously Document had no special name and was just adressed as workObject
