@@ -144,7 +144,7 @@ function createStep(tracedActivity, elementRegistry) {
     initialSource = elementRegistry.get(tracedActivity.businessObject.source);
 
     // add the first Object to the traced targets, this can only be a workObject, since actors cannot connect to other actors
-    var firstTarget = elementRegistry.get(tracedActivity.businessObject.target);
+    var firstTarget = elementRegistry.get(tracedActivity.target.id);
     targetObjects.push(firstTarget);
 
     // check the outgoing activities for each target
