@@ -150,7 +150,7 @@ function createStep(tracedActivity, elementRegistry) {
     // check the outgoing activities for each target
     for (var i = 0; i < targetObjects.length; i++) {
       var checkTarget = targetObjects[i];
-      if (!checkTarget.businessObject.type.includes('actor') && checkTarget.outgoing) {
+      if (checkTarget.businessObject && !checkTarget.businessObject.type.includes('actor') && checkTarget.outgoing) {
         // check the target for each outgoing activity
         checkTarget.outgoing.forEach(activity => {
           activities.push(activity);

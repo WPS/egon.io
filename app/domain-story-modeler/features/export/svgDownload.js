@@ -5,9 +5,11 @@ import sanitizeForDesktop from '../../util/Sanitizer';
 
 var title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
-var svgData;
+var svgData, cahcheData;
 
 export function downloadSVG(filename) {
+
+  createSVGData();
 
   var element = document.createElement('a');
   element.setAttribute('href', 'data:application/bpmn20-xml;charset=UTF-8,' + svgData);
@@ -22,13 +24,17 @@ export function downloadSVG(filename) {
 }
 
 export function setEncoded(data) {
+  cahcheData = data;
+}
+
+function createSVGData() {
   // to ensure that the title and description are inside the SVG container and do not overlapp with any elements,
   // we change the confines of the SVG viewbox
   var descriptionText = infoText.innerHTML;
   var titleText = title.innerHTML;
-  var viewBoxIndex = data.indexOf ('width="');
+  var viewBoxIndex = cahcheData.indexOf ('width="');
 
-  let { width, height, viewBox } = viewBoxCoordinates(data);
+  let { width, height, viewBox } = viewBoxCoordinates(cahcheData);
   height += 80;
 
   var xLeft, xRight, yUp, yDown;
@@ -46,12 +52,12 @@ export function setEncoded(data) {
   }
 
   bounds = 'width="' + width+ '" height=" '+ height+'" viewBox="' + xLeft + ' ' +(yUp - 80) + ' ' + xRight + ' ' + (yDown + 80);
-  var dataStart = data.substring(0, viewBoxIndex);
-  viewBoxIndex = data.indexOf('" version');
-  var dataEnd = data.substring(viewBoxIndex);
+  var dataStart = cahcheData.substring(0, viewBoxIndex);
+  viewBoxIndex = cahcheData.indexOf('" version');
+  var dataEnd = cahcheData.substring(viewBoxIndex);
   dataEnd.substring(viewBoxIndex);
 
-  data = dataStart + bounds + dataEnd;
+  cahcheData = dataStart + bounds + dataEnd;
 
   // remove <br> HTML-elements from the description since they create error in the SVG
   while (descriptionText.includes('<br>')) {
@@ -59,9 +65,9 @@ export function setEncoded(data) {
   }
   titleText = titleText.replace('&lt;','').replace('&gt;','');
 
-  var insertIndex = data.indexOf('</defs>');
+  var insertIndex = cahcheData.indexOf('</defs>');
   if (insertIndex < 0) {
-    insertIndex=data.indexOf('version="1.1">') + 14;
+    insertIndex = cahcheData.indexOf('version="1.1">') + 14;
   }
   else {
     insertIndex+=7;
@@ -70,8 +76,8 @@ export function setEncoded(data) {
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
   var insertText = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp - 75);
 
-  data = [data.slice(0,insertIndex), insertText, data.slice(insertIndex)].join('');
-  svgData = encodeURIComponent(data);
+  cahcheData = [cahcheData.slice(0,insertIndex), insertText, cahcheData.slice(insertIndex)].join('');
+  svgData = encodeURIComponent(cahcheData);
 }
 
 function viewBoxCoordinates(svg) {
