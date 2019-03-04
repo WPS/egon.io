@@ -2,6 +2,7 @@
 
 import { getAllObjectsFromCanvas, getAllGroups } from '../../util/CanvasObjects';
 import sanitizeForDesktop from '../../util/Sanitizer';
+import { ACTIVITY } from '../../language/elementTypes';
 
 var infoText = document.getElementById('infoText');
 
@@ -26,7 +27,13 @@ export function createObjectListForDSTDownload(canvas, version) {
   var objectList = [];
 
   allObjectsFromCanvas.forEach(canvasElement =>{
-    objectList.push(canvasElement.businessObject);
+    if (canvasElement.type == ACTIVITY) {
+      objectList.push(canvasElement.businessObject);
+    }
+    // ensure that Activities are always after Actors, Workobjects and Groups in .dst files
+    else {
+      objectList.unshift(canvasElement.businessObject);
+    }
   });
 
   groups.forEach(group => {
