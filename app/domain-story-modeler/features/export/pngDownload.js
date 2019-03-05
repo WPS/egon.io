@@ -3,7 +3,6 @@
 import { createTitleAndDescriptionSVGElement } from './createTitleAndInfo';
 import sanitizeForDesktop from '../../util/Sanitizer';
 
-var image = document.createElement('img');
 var width, height;
 var title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
@@ -36,6 +35,7 @@ export function downloadPNG() {
 
   svg = prepareSVG(svg, layerBase);
 
+  var image = document.createElement('img');
   image.onload = function() {
     var tempCanvas = document.createElement('canvas');
     // add a 10px buffer to the right and lower boundary
