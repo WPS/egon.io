@@ -13,23 +13,14 @@ export function downloadPNG() {
   var svgElements = container[0].getElementsByTagName('svg');
   var outerSVGElement = svgElements[0];
   var viewport = outerSVGElement.getElementsByClassName('viewport')[0];
-  var layerBase= viewport.getElementsByClassName('layer-base')[0];
+  var layerBase = viewport.getElementsByClassName('layer-base')[0];
 
-  var bendpoints= outerSVGElement.getElementsByClassName('djs-bendpoints');
-  var bendpoint= outerSVGElement.getElementsByClassName('djs-bendpoint');
-  var segmentDraggers = outerSVGElement.getElementsByClassName('djs-segment-dragger');
+  var layerResizers = viewport.getElementsByClassName('layer-resizers');
+  var layerOverlays = viewport.getElementsByClassName('layer-overlays');
 
   // removes unwanted black dots in image
-  var i;
-  for (i=0; i<bendpoints.length;i++) {
-    bendpoints[i].parentNode.removeChild(bendpoints[i]);
-  }
-  for (i=0; i<bendpoint.length;i++) {
-    bendpoint[i].parentNode.removeChild(bendpoint[i]);
-  }
-  for (i=0; i<segmentDraggers.length;i++) {
-    segmentDraggers[i].parentNode.removeChild(segmentDraggers[i]);
-  }
+  layerResizers[0].parentNode.removeChild(layerResizers[0]);
+  layerOverlays[0].parentNode.removeChild(layerOverlays[0]);
 
   var svg = new XMLSerializer().serializeToString(outerSVGElement);
 
