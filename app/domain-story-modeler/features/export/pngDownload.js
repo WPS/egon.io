@@ -19,8 +19,12 @@ export function downloadPNG() {
   var layerOverlays = viewport.getElementsByClassName('layer-overlays');
 
   // removes unwanted black dots in image
-  layerResizers[0].parentNode.removeChild(layerResizers[0]);
-  layerOverlays[0].parentNode.removeChild(layerOverlays[0]);
+  if (layerResizers[0]) {
+    layerResizers[0].parentNode.removeChild(layerResizers[0]);
+  }
+  if (layerOverlays[0]) {
+    layerOverlays[0].parentNode.removeChild(layerOverlays[0]);
+  }
 
   var svg = new XMLSerializer().serializeToString(outerSVGElement);
 
