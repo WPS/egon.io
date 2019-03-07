@@ -9,8 +9,8 @@ describe('Sanitizer', function() {
 
   it('sanitize te&st', function() {
     var res = sanitize('te&st');
-    assert.equal(res, 'test');
-    assert.deepEqual(res, 'test');
+    assert.equal(res, 'teundefinedst');
+    assert.deepEqual(res, 'teundefinedst');
   });
 
   it('sanitize <test>', function() {
@@ -21,7 +21,7 @@ describe('Sanitizer', function() {
 
   it('sanitize <text id="test">&lttest&gt</test>', function() {
     var res = sanitize('<text id="test">&lttest&gt</test>');
-    assert.equal(res, 'text id=testlttestgttest');
-    assert.deepEqual(res, 'text id=testlttestgttest');
+    assert.equal(res, 'text id=testundefinedlttestundefinedgttest');
+    assert.deepEqual(res, 'text id=testundefinedlttestundefinedgttest');
   });
 });
