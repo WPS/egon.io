@@ -26,7 +26,18 @@ export function downloadPNG() {
     layerOverlays[0].parentNode.removeChild(layerOverlays[0]);
   }
 
+  // remove canvas scrolling and scaling before serializeToString of SVG
+  var transform = viewport.getAttribute('transform');
+  if (transform) {
+    viewport.removeAttribute('transform');
+  }
+
   var svg = new XMLSerializer().serializeToString(outerSVGElement);
+
+  // re-add canvas scrolling and scaling
+  if (transform) {
+    viewport.setAttribute('transform', transform);
+  }
 
   svg = prepareSVG(svg, layerBase);
 
