@@ -22,6 +22,7 @@ input{
 }
 
 .headerAndCanvas {
+  margin-top: 5px;
   height: 100%;
   display: grid;
   grid-template-rows: 125px 1px auto;
@@ -29,6 +30,7 @@ input{
 
 .headlineContainer {
   display: grid;
+  margin-left: 5px;
   grid-template-columns: auto 285;
   grid-template-rows: 125px;
 }
