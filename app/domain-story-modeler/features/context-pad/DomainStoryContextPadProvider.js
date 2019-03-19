@@ -35,109 +35,28 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       connect.start(event, element, autoActivate);
     }
 
-    // entries only for specific types of elements:
-
     if (element.type.includes('workObject')) {
-      var actorTypes = getActorRegistry();
-
-      actorTypes.keysArray().forEach(actorType => {
-        var name = getNameFromType(actorType);
-        var icon = getIconForType(actorType);
-        var action = [];
-        action['append.actor' + name] = appendAction(actorType, icon, name, 'actors');
-        assign(actions, action);
-      });
-
-      // replace menu entry
-      assign(actions, {
-        'replace': {
-          group: 'edit',
-          className: 'bpmn-icon-screw-wrench',
-          title: translate('Change type'),
-          action: {
-            click: function(event, element) {
-
-              var position = assign(getReplaceMenuPosition(element), {
-                cursor: { x: event.x, y: event.y }
-              });
-              popupMenu.open(element, 'ds-replace', position);
-            }
-          }
-        }
-      });
-
-      assign(actions, {
-        'connect': {
-          group: 'connect',
-          className: 'bpmn-icon-connection',
-          title: translate('Connect using custom connection'),
-          action: {
-            click: startConnect,
-            dragstart: startConnect
-          }
-        }
-      });
-
-      assign(actions, {
-        'append.text-annotation': appendAction('domainStory:textAnnotation', 'bpmn-icon-text-annotation')
-      });
+      addActors(appendAction, actions);
+      addWorkObjects(appendAction, actions);
+      addChangeWorkObjectTypeMenu(actions);
+      addConnectWithActivity(actions, startConnect);
+      addTextAnnotation(actions);
     }
 
     else if (element.type.includes('actor')) {
-      var workObjectTypes = getWorkObjectRegistry();
-
-      workObjectTypes.keysArray().forEach(workObjectType => {
-        var name = getNameFromType(workObjectType);
-        var icon = getIconForType(workObjectType);
-        var action = [];
-        action['append.workObject' + name] = appendAction(workObjectType, icon, name, 'actors');
-        assign(actions, action);
-      });
-
-      // replace menu entry
-      assign(actions, {
-        'replace': {
-          group: 'edit',
-          className: 'bpmn-icon-screw-wrench',
-          title: translate('Change type'),
-          action: {
-            click: function(event, element) {
-
-              var position = assign(getReplaceMenuPosition(element), {
-                cursor: { x: event.x, y: event.y }
-              });
-              popupMenu.open(element, 'ds-replace', position);
-            }
-          }
-        }
-      });
-
-      assign(actions, {
-        'connect': {
-          group: 'connect',
-          className: 'bpmn-icon-connection',
-          title: translate('Connect using custom connection'),
-          action: {
-            click: startConnect,
-            dragstart: startConnect
-          }
-        }
-      });
-
-      assign(actions, {
-        'append.text-annotation': appendAction('domainStory:textAnnotation', 'bpmn-icon-text-annotation')
-      });
+      addWorkObjects(appendAction, actions);
+      addChangeActorTypeMenu(actions);
+      addConnectWithActivity(actions, startConnect);
+      addTextAnnotation(actions);
     }
 
     else if (element.type.includes(GROUP)) {
-      assign(actions, {
-        'append.text-annotation': appendAction(TEXTANNOTATION, 'bpmn-icon-text-annotation')
-      });
+      addTextAnnotation(actions);
     }
     else if (element.type.includes(ACTIVITY)) {
       // the change direction icon is appended at the end of the edit group by default,
-    // to make sure, that the delete icon is the last one, we remove it from the actions-object
-    // and add it after adding the change direction functionality
+      // to make sure, that the delete icon is the last one, we remove it from the actions-object
+      // and add it after adding the change direction functionality
       delete actions.delete;
 
       assign(actions, {
@@ -146,7 +65,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           className: 'icon-domain-story-changeDirection',
           title: translate('Change direction'),
           action: {
-          // event needs to be adressed
+            // event needs to be adressed
             click: function(event, element) {
               changeDirection(element);
             }
@@ -154,7 +73,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
         }
       });
 
-      assign(actions,{
+      assign(actions, {
         'delete': {
           group: 'edit',
           className: 'bpmn-icon-trash',
@@ -171,6 +90,84 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     return actions;
   };
 
+  function addChangeActorTypeMenu(actions) {
+    assign(actions, {
+      'replace': {
+        group: 'edit',
+        className: 'bpmn-icon-screw-wrench',
+        title: translate('Change type'),
+        action: {
+          click: function(event, element) {
+            var position = assign(getReplaceMenuPosition(element), {
+              cursor: { x: event.x, y: event.y }
+            });
+            popupMenu.open(element, 'ds-replace', position);
+          }
+        }
+      }
+    });
+  }
+
+  function addTextAnnotation(actions) {
+    assign(actions, {
+      'append.text-annotation': appendAction(TEXTANNOTATION, 'bpmn-icon-text-annotation')
+    });
+  }
+
+  function addConnectWithActivity(actions, startConnect) {
+    assign(actions, {
+      'connect': {
+        group: 'connect',
+        className: 'bpmn-icon-connection',
+        title: translate('Connect with activity'),
+        action: {
+          click: startConnect,
+          dragstart: startConnect
+        }
+      }
+    });
+  }
+
+  function addWorkObjects(appendAction, actions) {
+    var workObjectTypes = getWorkObjectRegistry();
+    workObjectTypes.keysArray().forEach(workObjectType => {
+      var name = getNameFromType(workObjectType);
+      var icon = getIconForType(workObjectType);
+      var action = [];
+      action['append.workObject' + name] = appendAction(workObjectType, icon, name, 'workObjects');
+      assign(actions, action);
+    });
+  }
+
+  function addActors(appendAction, actions) {
+    var actorTypes = getActorRegistry();
+    actorTypes.keysArray().forEach(actorType => {
+      var name = getNameFromType(actorType);
+      var icon = getIconForType(actorType);
+      var action = [];
+      action['append.actor' + name] = appendAction(actorType, icon, name, 'actors');
+      assign(actions, action);
+    });
+  }
+
+  function addChangeWorkObjectTypeMenu(actions) {
+    assign(actions, {
+      'replace': {
+        group: 'edit',
+        className: 'bpmn-icon-screw-wrench',
+        title: translate('Change type'),
+        action: {
+          click: function(event, element) {
+            var position = assign(getReplaceMenuPosition(element), {
+              cursor: { x: event.x, y: event.y }
+            });
+            popupMenu.open(element, 'ds-replace', position);
+          }
+        }
+      }
+    });
+  }
+
   // change the direction of an activity
   function changeDirection(element) {
     var context;
@@ -184,7 +181,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       newNumber = generateAutomaticNumber(element, canvas, commandStack);
     }
 
-    context ={
+    context = {
       businessObject: businessObject,
       newNumber: newNumber,
       element: element
