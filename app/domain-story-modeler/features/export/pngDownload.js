@@ -74,7 +74,7 @@ function prepareSVG(svg, layertBase) {
   var descriptionText = infoText.innerHTML;
   var titleText = title.innerHTML;
 
-  var { insertText , extraHeight } = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp + 15);
+  var { insertText , extraHeight } = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp + 15, width);
   height += extraHeight;
 
   var viewBoxIndex = svg.indexOf ('width="');

@@ -52,7 +52,7 @@ function createSVGData() {
     width+= 300;
   }
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
-  var { insertText, extraHeight } = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp);
+  var { insertText, extraHeight } = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp, width);
   height += extraHeight;
 
   bounds = 'width="' + width+ '" height=" '+ height+'" viewBox="' + xLeft + ' ' +(yUp -80) + ' ' + xRight + ' ' + (yDown + 30);
