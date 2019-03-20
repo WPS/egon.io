@@ -70,8 +70,16 @@ function prepareSVG(svg, layertBase) {
 
   calculateWidthAndHeight(xLeft, xRight, yUp, yDown);
 
+  // to display the title and description in the PNG-file, we need to add a container for our text-elements
+  var descriptionText = infoText.innerHTML;
+  var titleText = title.innerHTML;
+
+  var { insertText , extraHeight } = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp + 15);
+  height += extraHeight;
+
   var viewBoxIndex = svg.indexOf ('width="');
-  var bounds = 'width="'+width+'" height="'+height+'" viewBox=" ' + xLeft + ' ' + yUp + ' ' + (width)+ ' ' + (height)+'" ';
+  var bounds = 'width="' + width + '" height="' + (height) +
+    '" viewBox=" ' + xLeft + ' ' + (yUp - extraHeight) + ' ' + (width)+ ' ' + (height) + '" ';
 
   var dataStart = svg.substring(0, viewBoxIndex);
   viewBoxIndex = svg.indexOf('style="');
@@ -80,19 +88,9 @@ function prepareSVG(svg, layertBase) {
 
   svg = dataStart + bounds + dataEnd;
 
-  // remove <br> HTML-elements from the description since they create errors in the SVG
-  var descriptionText = infoText.innerHTML;
-  var titleText = title.innerHTML;
-  while (descriptionText.includes('<br>')) {
-    descriptionText=descriptionText.replace('<br>', '\n');
-  }
-
   var insertIndex = svg.indexOf('<g class="viewport">') + 20;
 
-  // to display the title and description in the PNG-file, we need to add a container for our text-elements
-  var insertText = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp);
   svg = [svg.slice(0,insertIndex), insertText, svg.slice(insertIndex)].join('');
-
   svg = URIHashtagFix(svg);
 
   return svg;
@@ -218,7 +216,7 @@ function findMostOuterElements(svg) {
       var outerRect = rects[rects.length-1];
 
       elXRight = elXLeft + parseInt(outerRect.getAttribute('width'));
-      elYDown = elYUp + parseInt(outerRect.getAttribute('height'));
+      elYDown = elYUp + (parseInt(sub[0].getBoundingClientRect().height));
     }
     if (elXLeft < xLeft) {
       xLeft = elXLeft;
