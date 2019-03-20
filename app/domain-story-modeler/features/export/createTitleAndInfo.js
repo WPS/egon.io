@@ -1,4 +1,5 @@
 'use strict';
+
 var extraHeight = 0;
 var titleHeight = 30, descriptionHeight = 15;
 var xOffset = 8;
@@ -13,23 +14,18 @@ export function createTitleAndDescriptionSVGElement(titleText, descriptionText, 
   var description = createDescription(descriptionText, width);
 
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
-  insertText ='<g class="djs-group">'+
-  '<g class="djs-element djs-shape" style = "display:block" transform="translate('+ (xLeft + 10)+' '+(yUp - extraHeight)+')">'+
-  '<g class="djs-visual">'
-  + title + description + '</g></g></g>';
+  insertText ='<g class="djs-group"><g class="djs-element djs-shape" style = "display:block" transform="translate('+
+    (xLeft + 10) + ' ' + (yUp - extraHeight) + ')"><g class="djs-visual">'
+    + title + description + '</g></g></g>';
   return { insertText, extraHeight };
 }
 
 function createTitle(text, width) {
-  var title ='';
-
   var tempCanvas = document.createElement('canvas');
   var ctx = tempCanvas.getContext('2d');
   ctx.font = '30px Arial';
 
-  title = createTextSpans(text, width, ctx, 10, titleHeight, 30);
-
-  return title;
+  return createTextSpans(text, width, ctx, 10, titleHeight, 30);
 }
 
 function createDescription(text, width) {
@@ -41,7 +37,6 @@ function createDescription(text, width) {
   ctx.font= '12px Arial';
 
   for (var i=0; i < descriptionParts.length;i++) {
-
     description+= createTextSpans(descriptionParts[i], width, ctx, 0, descriptionHeight, 12);
   }
   return description;
@@ -50,6 +45,8 @@ function createDescription(text, width) {
 function createTextSpans(text, width, ctx, yOffest, heightOffset, fontSize) {
   var textSpans='';
   var words = text.split(' ');
+
+  var textTag = '<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: ' + fontSize + '; font-weight: normal; fill: rgb(0, 0, 0);">';
 
   var textSpan = document.createElementNS(NS, 'tspan');
   var textNode = document.createTextNode(words[0]);
@@ -65,10 +62,11 @@ function createTextSpans(text, width, ctx, yOffest, heightOffset, fontSize) {
 
     if (ctx.measureText(textNode.data).width > (width - 16)) {
       extraHeight += heightOffset;
-      textSpan.firstChild.data = textSpan.firstChild.data.slice(0, len);
-      textSpans += '<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: ' + fontSize + '; font-weight: normal; fill: rgb(0, 0, 0);">'
-        + textSpan.outerHTML
-        + '</text>';
+      textSpan.firstChild.data = textSpan.firstChild.data.slice(0, len); // remove overflow word
+
+      textSpans += textTag + textSpan.outerHTML + '</text>'; // append line
+
+      // create new textspan for line break
       textSpan = document.createElementNS(NS, 'tspan');
       textNode = document.createTextNode(words[j]);
       textSpan.setAttribute('x', xOffset);
@@ -78,8 +76,6 @@ function createTextSpans(text, width, ctx, yOffest, heightOffset, fontSize) {
   }
   extraHeight += heightOffset;
 
-  textSpans += '<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: ' + fontSize + '; font-weight: normal; fill: rgb(0, 0, 0);">'
-    + textSpan.outerHTML
-    + '</text>';
+  textSpans += textTag + textSpan.outerHTML + '</text>';
   return textSpans;
 }
