@@ -13,8 +13,6 @@ import {
   createLine
 } from 'diagram-js/lib/util/RenderUtil';
 
-import sanitize from '../util/Sanitizer';
-
 import {
   append as svgAppend,
   attr as svgAttr,
@@ -37,6 +35,9 @@ import {
   labelPosition,
   calculateTextWidth
 } from '../features/labeling/DSLabelUtil';
+import { getActorSrc } from './actorRegistry';
+import { getWorkObjectSrc } from './workObjectRegistry';
+import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];
@@ -179,12 +180,12 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
 
       var box = numberBoxDefinitions(element);
 
-      if (semantic.number == null && element.source.type && element.source.type.includes('domainStory:actor')) {
+      if (semantic.number == null && element.source.type && element.source.type.includes(ACTOR)) {
         generateAutomaticNumber(element, canvas, commandStack);
       }
 
       // render the bacground for the number
-      if (semantic.number != '' && semantic.number != null && element.source.type.includes('domainStory:actor')) {
+      if (semantic.number != '' && semantic.number != null && element.source.type.includes(ACTOR)) {
         generateActivityNumber(parentGfx, element, box);
       } else {
         semantic.number = null;
@@ -223,7 +224,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   // render a label on the canvas
   function renderLabel(parentGfx, label, options, type) {
 
-    label = sanitize(label);
     var text = textRenderer.createText(label || '', options);
     var height = 0;
 
@@ -288,17 +288,8 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
         },
         actor;
 
-    switch (element.type) {
-    case 'domainStory:actorPerson':
-      actor = svgCreate('<svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-      break;
-    case 'domainStory:actorGroup':
-      actor = svgCreate('<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.5 13c-1.2 0-3.07.34-4.5 1-1.43-.67-3.3-1-4.5-1C5.33 13 1 14.08 1 16.25V19h22v-2.75c0-2.17-4.33-3.25-6.5-3.25zm-4 4.5h-10v-1.25c0-.54 2.56-1.75 5-1.75s5 1.21 5 1.75v1.25zm9 0H14v-1.25c0-.46-.2-.86-.52-1.22.88-.3 1.96-.53 3.02-.53 2.44 0 5 1.21 5 1.75v1.25zM7.5 12c1.93 0 3.5-1.57 3.5-3.5S9.43 5 7.5 5 4 6.57 4 8.5 5.57 12 7.5 12zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 5.5c1.93 0 3.5-1.57 3.5-3.5S18.43 5 16.5 5 13 6.57 13 8.5s1.57 3.5 3.5 3.5zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/></svg>');
-      break;
-    case 'domainStory:actorSystem':
-      actor = svgCreate('<svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20,18c1.1,0,2-0.9,2-2V6c0-1.1-0.9-2-2-2H4C2.9,4,2,4.9,2,6v10c0,1.1,0.9,2,2,2H0v2h24v-2H20z M4,6h16v10H4V6z"/></svg>');
-      break;
-    }
+    actor = svgCreate(getActorSrc(element.type));
+
     svgAttr(actor, svgDynamicSizeAttributes);
     svgAppend(p, actor);
 
@@ -315,27 +306,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       y: element.height / 2 - 25
     };
     var workObject;
-
-    switch (element.type) {
-    case 'domainStory:workObject':
-      workObject = svgCreate('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve"><g id="Header_x2F_BG" display="none"><rect x="-402" y="-270" display="inline" fill="#F1F1F2" width="520" height="520"/></g><g id="Bounding_Boxes"><g id="ui_x5F_spec_x5F_header_copy_3"></g><path fill="none" d="M0,0h24v24H0V0z"/></g><g id="Rounded" display="none"><g id="ui_x5F_spec_x5F_header_copy_5" display="inline"></g><path display="inline" d="M14.59,2.59C14.21,2.21,13.7,2,13.17,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.89,2,1.99,2H18c1.1,0,2-0.9,2-2V8.83c0-0.53-0.21-1.04-0.59-1.41L14.59,2.59z M15,18H9c-0.55,0-1-0.45-1-1v0c0-0.55,0.45-1,1-1h6c0.55,0,1,0.45,1,1v0C16,17.55,15.55,18,15,18z M15,14H9c-0.55,0-1-0.45-1-1v0c0-0.55,0.45-1,1-1h6c0.55,0,1,0.45,1,1v0C16,13.55,15.55,14,15,14z M13,8V3.5L18.5,9H14C13.45,9,13,8.55,13,8z"/></g><g id="Sharp" display="none"><g id="ui_x5F_spec_x5F_header_copy_4" display="inline"></g><path display="inline" d="M14,2H4v20h16V8L14,2z M16,18H8v-2h8V18z M16,14H8v-2h8V14z M13,9V3.5L18.5,9H13z"/></g><g id="Outline"><g id="ui_x5F_spec_x5F_header"></g><g><rect x="8" y="16" width="8" height="2"/><rect x="8" y="12" width="8" height="2"/><path d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.89,2,1.99,2H18c1.1,0,2-0.9,2-2V8L14,2z M18,20L6,20V4h7v5h5V20z"/></g></g><g id="Duotone" display="none"><g id="ui_x5F_spec_x5F_header_copy_2" display="inline"></g><g display="inline"><path opacity="0.3" d="M13,4H6v16l12,0V9h-5V4z M16,18H8v-2h8V18z M16,12v2H8v-2H16z"/><g><rect x="8" y="16" width="8" height="2"/><rect x="8" y="12" width="8" height="2"/><path d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.89,2,1.99,2H18c1.1,0,2-0.9,2-2V8L14,2z M18,20L6,20V4h7v5h5V20z"/></g></g></g><g id="Fill" display="none"><g id="ui_x5F_spec_x5F_header_copy" display="inline"></g><path display="inline" d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.89,2,1.99,2H18c1.1,0,2-0.9,2-2V8L14,2z M16,18H8v-2h8V18z M16,14H8v-2h8V14z M13,9V3.5L18.5,9H13z"/></g><g id="nyt_x5F_exporter_x5F_info" display="none"></g></svg>');
-      break;
-    case 'domainStory:workObjectFolder':
-      workObject = svgCreate('<svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0,0h24v24H0V0z"/><path d="M9.17,6l2,2H20v10L4,18V6H9.17 M10,4H4C2.9,4,2.01,4.9,2.01,6L2,18c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V8c0-1.1-0.9-2-2-2 h-8L10,4L10,4z"/></svg>');
-      break;
-    case 'domainStory:workObjectCall':
-      workObject = svgCreate('<svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0,0h24v24H0V0z"/><path d="M6.54,5C6.6,5.89,6.75,6.76,6.99,7.59l-1.2,1.2C5.38,7.59,5.12,6.32,5.03,5H6.54 M16.4,17.02c0.85,0.24,1.72,0.39,2.6,0.45 v1.49c-1.32-0.09-2.59-0.35-3.8-0.75L16.4,17.02 M7.5,3H4C3.45,3,3,3.45,3,4c0,9.39,7.61,17,17,17c0.55,0,1-0.45,1-1v-3.49	c0-0.55-0.45-1-1-1c-1.24,0-2.45-0.2-3.57-0.57c-0.1-0.04-0.21-0.05-0.31-0.05c-0.26,0-0.51,0.1-0.71,0.29l-2.2,2.2 c-2.83-1.45-5.15-3.76-6.59-6.59l2.2-2.2C9.1,8.31,9.18,7.92,9.07,7.57C8.7,6.45,8.5,5.25,8.5,4C8.5,3.45,8.05,3,7.5,3L7.5,3z"/></svg>');
-      break;
-    case 'domainStory:workObjectEmail':
-      workObject = svgCreate('<svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0,0h24v24H0V0z"/><path fill-opacity="0.9" d="M12,1.95c-5.52,0-10,4.48-10,10s4.48,10,10,10h5v-2h-5c-4.34,0-8-3.66-8-8s3.66-8,8-8s8,3.66,8,8v1.43 c0,0.79-0.71,1.57-1.5,1.57S17,14.17,17,13.38v-1.43c0-2.76-2.24-5-5-5s-5,2.24-5,5s2.24,5,5,5c1.38,0,2.64-0.56,3.54-1.47 c0.65,0.89,1.77,1.47,2.96,1.47c1.97,0,3.5-1.6,3.5-3.57v-1.43C22,6.43,17.52,1.95,12,1.95z M12,14.95c-1.66,0-3-1.34-3-3 s1.34-3,3-3s3,1.34,3,3S13.66,14.95,12,14.95z"/></svg>');
-      break;
-    case 'domainStory:workObjectBubble':
-      workObject = svgCreate('<svg fill="#000000" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>');
-      break;
-    case 'domainStory:workObjectInfo':
-      workObject = svgCreate('<svg fill="#000000" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z"/></svg>');
-      break;
-    }
+    workObject = svgCreate(getWorkObjectSrc(element.type));
 
     svgAttr(workObject, svgDynamicSizeAttributes);
     svgAppend(p, workObject);
@@ -345,6 +316,9 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   };
 
   this.drawActivity = function(p, element) {
+
+    adjustForTextOverlapp(element);
+
     if (element) {
       var attrs = computeStyle(attrs, {
         stroke: '#000000',
@@ -358,9 +332,72 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       renderExternalLabel(p, element);
       renderExternalNumber(p, element);
 
+      // Just adjusting the start- and enpoint of the connection-element moves only the drawn connection,
+      // not the interactive line. This can be fixed by manually overriding the points of the interactive polyline
+      // in the HTMl with the points of the drawn one.
+      // This however does not adjust the surrounding box of the connection.
+      fixConnectionInHTML(p.parentElement);
+
       return x;
     }
   };
+
+  function adjustForTextOverlapp(element) {
+    var source = element.source;
+    var target = element.target;
+
+    var waypoints = element.waypoints;
+    var startPoint = waypoints[0];
+    var endPoint = waypoints[waypoints.length -1];
+
+    // check if Startpoint can overlapp with text
+    if (startPoint.y > source.y + 60) {
+      if ((startPoint.x > source.x + 3) && (startPoint.x < source.x + 72)) {
+        var lineOffset = getLineOffset(source);
+        if ((source.y + 75 + lineOffset) > startPoint.y) {
+          startPoint.y += lineOffset;
+        }
+      }
+    }
+
+    // check if Endpoint can overlapp with text
+    if (endPoint.y > target.y +60) {
+      if ((endPoint.x > target.x + 3) && (endPoint.x < target.x + 72)) {
+        lineOffset = getLineOffset(target);
+        if ((target.y + 75 + lineOffset) > endPoint.y) {
+          endPoint.y += lineOffset;
+        }
+      }
+    }
+  }
+
+  function getLineOffset(element) {
+    var id = element.id;
+    var offset =0;
+
+    var objects = document.getElementsByClassName('djs-element djs-shape');
+    for (var i=0; i<objects.length; i++) {
+      var data_id = objects.item(i).getAttribute('data-element-id');
+      if (data_id == id) {
+        var object = objects.item(i);
+        var text = object.getElementsByTagName('text')[0];
+        var tspans = text.getElementsByTagName('tspan');
+        var tspan = tspans[tspans.length -1];
+        var y = tspan.getAttribute('y');
+        offset = y;
+      }
+    }
+    return offset - 70;
+  }
+
+  function fixConnectionInHTML(wantedConnection) {
+    if (wantedConnection) {
+      var polylines = wantedConnection.getElementsByTagName('polyline');
+      if (polylines.length > 1) {
+        polylines[1].setAttribute('points', polylines[0].getAttribute('points'));
+      }
+    }
+  }
 
   this.drawDSConnection = function(p, element) {
     var attrs = computeStyle(attrs, {
@@ -584,21 +621,16 @@ DomainStoryRenderer.prototype.canRender = function(element) {
 DomainStoryRenderer.prototype.drawShape = function(p, element) {
   var type = element.type;
 
-  switch (type) {
-  case 'domainStory:actorPerson':
-  case 'domainStory:actorGroup':
-  case 'domainStory:actorSystem':
+  if (type.includes(ACTOR)) {
     return this.drawActor(p, element);
-  case 'domainStory:workObject':
-  case 'domainStory:workObjectFolder':
-  case 'domainStory:workObjectCall':
-  case 'domainStory:workObjectEmail':
-  case 'domainStory:workObjectBubble':
-  case 'domainStory:workObjectInfo':
+  }
+  else if (type.includes(WORKOBJECT)) {
     return this.drawWorkObject(p, element);
-  case 'domainStory:textAnnotation':
+  }
+  else if (type.includes(TEXTANNOTATION)) {
     return this.drawAnnotation(p, element);
-  case 'domainStory:group':
+  }
+  else if (type.includes(GROUP)) {
     return this.drawGroup(p, element);
   }
 };
@@ -606,19 +638,13 @@ DomainStoryRenderer.prototype.drawShape = function(p, element) {
 DomainStoryRenderer.prototype.getShapePath = function(shape) {
   var type = shape.type;
 
-  switch (type) {
-  case 'domainStory:actorPerson':
-  case 'domainStory:actorGroup':
-  case 'domainStory:actorSystem':
+  if (type.includes(ACTOR)) {
     return this.getActorPath(shape);
-  case 'domainStory:workObject':
-  case 'domainStory:workObjectFolder':
-  case 'domainStory:workObjectCall':
-  case 'domainStory:workObjectEmail':
-  case 'domainStory:workObjectBubble':
-  case 'domainStory:workObjectInfo':
+  }
+  else if (type.includes(WORKOBJECT)) {
     return this.getWorkObjectPath(shape);
-  case 'domainStory:group':
+  }
+  else if (type.includes(GROUP)) {
     return this.getGroupPath(shape);
   }
 };
@@ -626,9 +652,9 @@ DomainStoryRenderer.prototype.getShapePath = function(shape) {
 DomainStoryRenderer.prototype.drawConnection = function(p, element) {
   var type = element.type;
 
-  if (type === 'domainStory:activity') {
+  if (type === ACTIVITY) {
     return this.drawActivity(p, element);
-  } else if (type === 'domainStory:connection') {
+  } else if (type === CONNECTION) {
     return this.drawDSConnection(p, element);
   }
 };
@@ -636,7 +662,7 @@ DomainStoryRenderer.prototype.drawConnection = function(p, element) {
 DomainStoryRenderer.prototype.getConnectionPath = function(connection) {
   var type = connection.type;
 
-  if (type === 'domainStory:activity' || type === 'domainStory:connection') {
+  if (type === ACTIVITY || type === CONNECTION) {
     return this.getActivityPath(connection);
   }
 };

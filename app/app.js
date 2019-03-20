@@ -20,7 +20,7 @@ import DSMassRenameHandlers from './domain-story-modeler/features/dictionary/DSM
 
 import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary, openDictionary } from './domain-story-modeler/features/dictionary/dictionary';
 
-import { isPlaying, initReplay } from './domain-story-modeler/features/replay/repaly';
+import { isPlaying, initReplay } from './domain-story-modeler/features/replay/replay';
 
 import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUtil';
 
@@ -29,8 +29,15 @@ import { updateExistingNumbersAtEditing } from './domain-story-modeler/features/
 import {
   correctGroupChildren,
   getAllObjectsFromCanvas,
-  getActivitesFromActors
-} from './domain-story-modeler/util/CanvasObjects';
+  getActivitesFromActors,
+  updateCustomElementsPreviousv050 } from './domain-story-modeler/util/CanvasObjects';
+import { allInWorkObjectRegistry, registerWorkObjects } from './domain-story-modeler/language/workObjectRegistry';
+import { allInActorRegistry, registerActors } from './domain-story-modeler/language/actorRegistry';
+import { ACTIVITY, ACTOR, WORKOBJECT, DOMAINSTORY } from './domain-story-modeler/language/elementTypes';
+import { downloadDST, createObjectListForDSTDownload } from './domain-story-modeler/features/export/dstDownload';
+import { downloadSVG, setEncoded } from './domain-story-modeler/features/export/svgDownload';
+import { downloadPNG } from './domain-story-modeler/features/export/pngDownload';
+import { checkElementReferencesAndRepair } from './domain-story-modeler/util/ImportRepair';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -43,8 +50,6 @@ var canvas = modeler.get('canvas');
 var eventBus = modeler.get('eventBus');
 var commandStack = modeler.get('commandStack');
 var elementRegistry = modeler.get('elementRegistry');
-
-const ViewBoxCoordinate = /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)"/;
 
 // we need to initiate the activity commandStack elements
 DSActivityHandlers(commandStack, eventBus, canvas);
@@ -88,12 +93,15 @@ var modal = document.getElementById('modal'),
     headlineDialog = document.getElementById('dialog'),
     activityWithNumberDialog = document.getElementById('numberDialog'),
     activityWithoutNumberDialog = document.getElementById('labelDialog'),
+    brokenDSTDialog = document.getElementById('brokenDSTDialog'),
     versionDialog = document.getElementById('versionDialog'),
     incompleteStoryDialog = document.getElementById('incompleteStoryInfo'),
     wpsLogoDialog = document.getElementById('wpsLogoInfo'),
     dstLogoDialog = document.getElementById('dstLogoInfo'),
     dictionaryDialog = document.getElementById('dictionary'),
     keyboardShortcutInfoDialog = document.getElementById('keyboardShortcutInfoDialog'),
+    downloadDialog = document.getElementById('downloadDialog'),
+    noContentOnCanvasDialog = document.getElementById('noContentOnCanvasInfo'),
     // Container
     activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
     workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
@@ -104,29 +112,32 @@ var modal = document.getElementById('modal'),
     dictionaryButtonOpen = document.getElementById('dictionaryButton'),
     dictionaryButtonSave = document.getElementById('closeDictionaryButtonSave'),
     dictionaryButtonCancel = document.getElementById('closeDictionaryButtonCancel'),
+    brokenDSTDialogButtonCancel = document.getElementById('brokenDSTDialogButtonCancel'),
     activityNumberDialogButtonSave = document.getElementById('numberSaveButton'),
     activityNumberDialogButtonCancel = document.getElementById('numberQuitButton'),
     activityLabelButtonSave = document.getElementById('labelSaveButton'),
     activityLabelButtonCancel = document.getElementById('labelQuitButton'),
+    buttonImageDownloads = document.getElementById('buttonImageDownloads'),
+    buttonImageDownloadsCancel = document.getElementById('downloadDialogCancelButton'),
+    pngSaveButton = document.getElementById('buttonPNG'),
     svgSaveButton = document.getElementById('buttonSVG'),
     wpsLogoButton = document.getElementById('closeWPSLogoInfo'),
     dstLogoButton = document.getElementById('closeDSTLogoInfo'),
     keyboardShortcutInfoButton = document.getElementById('keyboardShortcutInfoButton'),
     keyboardShortcutInfoButtonCancel = document.getElementById('keyboardShortcutInfoDialogButtonCancel'),
     incompleteStoryDialogButtonCancel = document.getElementById('closeIncompleteStoryInfo'),
+    noContentOnCanvasDialogCuttonCancel = document.getElementById('closeNoContentOnCanvasInfo'),
     versionDialogButtonCancel = document.getElementById('closeVersionDialog');
 
 // interal variables
 var keysPressed = [];
-var svgData;
-
 
 // eventBus listeners
 
 eventBus.on('element.dblclick', function(e) {
   if (!isPlaying()) {
     var element = e.element;
-    if (element.type == 'domainStory:activity') {
+    if (element.type == ACTIVITY) {
       var source = element.source;
 
       var dict = getActivityDictionary();
@@ -136,11 +147,11 @@ eventBus.on('element.dblclick', function(e) {
       // ensure the right number when changing the direction of an activity
       toggleStashUse(false);
 
-      if (source.type.includes('domainStory:actor')) {
+      if (source.type.includes(ACTOR)) {
         showActivityWithNumberDialog(element);
         document.getElementById('inputLabel').focus();
       }
-      else if (source.type.includes('domainStory:workObject')) {
+      else if (source.type.includes(WORKOBJECT)) {
         showActivityWithoutLabelDialog(element);
         document.getElementById('labelInputLabel').focus();
       }
@@ -220,12 +231,21 @@ dstLogoButton.addEventListener('click', function() {
   modal.style.display = 'none';
 });
 
+buttonImageDownloads.addEventListener('click', function() {
+  downloadDialog.style.display = 'block';
+  modal.style.display = 'block';
+});
+
 headlineDialogButtonSave.addEventListener('click', function() {
   saveDialog();
 });
 
 headlineDialogButtonCancel.addEventListener('click', function() {
   closeDialog();
+});
+
+buttonImageDownloadsCancel.addEventListener('click', function() {
+  closeImageDownloadDialog();
 });
 
 activityNumberDialogButtonCancel.addEventListener('click', function() {
@@ -242,21 +262,17 @@ activityLabelButtonCancel.addEventListener('click', function() {
 
 titleInput.addEventListener('keydown', function(e) {
   checkPressedKeys(e.keyCode, 'titleDialog');
-  checkInput(titleInput);
 });
 
 titleInput.addEventListener('keyup', function(e) {
-  checkInput(titleInput);
   keyReleased(keysPressed, e.keyCode);
 });
 
 info.addEventListener('keydown', function(e) {
   checkPressedKeys(e.keyCode, 'infoDialog');
-  checkInput(info);
 });
 
 info.addEventListener('keyup', function(e) {
-  checkInput(info);
   keyReleased(keysPressed, e.keyCode);
 });
 
@@ -293,28 +309,44 @@ dictionaryButtonCancel.addEventListener('click', function(e) {
   modal.style.display='none';
 });
 
+brokenDSTDialogButtonCancel.addEventListener('click', function() {
+  closeBrokenDSTDialog();
+});
+
 exportButton.addEventListener('click', function() {
-  var object = modeler.getCustomElements();
-  var text = info.innerText;
-  var newObject = object.slice(0);
 
-  newObject.push({ info: text });
-  newObject.push({ version: version });
-  var json = JSON.stringify(newObject);
-  var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
+  if (canvas._rootElement) {
 
-  // start file download
-  download(filename, json);
+    var objects = createObjectListForDSTDownload(canvas, version);
+
+    var json = JSON.stringify(objects);
+    var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
+
+    // start file download
+    downloadDST(filename, json);
+  } else {
+    showNoContentDialog();
+  }
 });
 
 svgSaveButton.addEventListener('click', function() {
   var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
   downloadSVG(filename);
+  closeImageDownloadDialog();
+});
+
+pngSaveButton.addEventListener('click', function() {
+  downloadPNG();
+  closeImageDownloadDialog();
 });
 
 incompleteStoryDialogButtonCancel.addEventListener('click', function() {
   modal.style.display = 'none';
   incompleteStoryDialog.style.display = 'none';
+});
+
+noContentOnCanvasDialogCuttonCancel.addEventListener('click', function() {
+  closeNoContentDialog();
 });
 
 versionDialogButtonCancel.addEventListener('click', function() {
@@ -334,8 +366,10 @@ document.getElementById('import').onchange = function() {
   var input = document.getElementById('import').files[0];
   var reader = new FileReader();
   if (input.name.endsWith('.dst')) {
-    var titleText = input.name.replace(/_\d+-\d+-\d+( ?_?\(\d+\))?.dst/, '');
-    titleText = sanitize(titleText);
+    var titleText = input.name.replace(/_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/, '');
+    if (titleText.includes('.dst')) {
+      titleText = titleText.replace('.dst','');
+    }
     titleInput.value = titleText;
     title.innerText = titleText;
     titleInputLast = titleInput.value;
@@ -361,9 +395,18 @@ document.getElementById('import').onchange = function() {
         importedVersionLabel.innerText = 'v' + importVersionNumber;
         modelerVersionLabel.innerText = 'v' + version;
         showVersionDialog();
+        elements = updateCustomElementsPreviousv050(elements);
       }
 
-      var inputInfoText = sanitize(lastElement.info ? lastElement.info : '');
+      var allReferences = checkElementReferencesAndRepair(elements);
+
+      if (!allReferences) {
+        showBrokenDSTDialog();
+      }
+
+      updateRegistries(elements);
+
+      var inputInfoText = lastElement.info ? lastElement.info : '';
       info.innerText = inputInfoText;
       info.value = inputInfoText;
       descriptionInputLast = info.value;
@@ -377,16 +420,33 @@ document.getElementById('import').onchange = function() {
     reader.readAsText(input);
 
     // to update the title of the svg, we need to tell the command stack, that a value has changed
-    var exportArtifacts = debounce(function() {
-
-      saveSVG(function(err, svg) {
-        setEncoded(err ? null : svg);
-      });
-    }, 500);
+    var exportArtifacts = debounce(fnDebounce, 500);
 
     eventBus.fire('commandStack.changed', exportArtifacts);
   }
 };
+
+function updateRegistries(elements) {
+  var actors = getElementsOfType(elements, 'actor');
+  var workObjects = getElementsOfType(elements, 'workObject');
+
+  if (!allInActorRegistry(actors)) {
+    registerActors(actors);
+  }
+  if (!allInWorkObjectRegistry(workObjects)) {
+    registerWorkObjects(workObjects);
+  }
+}
+
+function getElementsOfType(elements, type) {
+  var elementOfType =[];
+  elements.forEach(element => {
+    if (element.type.includes(DOMAINSTORY + type)) {
+      elementOfType.push(element);
+    }
+  });
+  return elementOfType;
+}
 
 function dictionaryKeyBehaviour(event) {
   const KEY_ENTER = 13;
@@ -424,32 +484,6 @@ function dictionaryClosed() {
   if (activityNewNames.length == oldActivityDictionary.length && workObjectNewNames.length==oldWorkobjectDictionary.length) {
     dictionaryDifferences(activityNewNames, oldActivityDictionary, workObjectNewNames, oldWorkobjectDictionary);
   }
-}
-
-function download(filename, text) {
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', filename + '.dst');
-
-  element.style.display = 'none';
-  document.body.appendChild(element);
-
-  element.click();
-
-  document.body.removeChild(element);
-}
-
-function downloadSVG(filename) {
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:application/bpmn20-xml;charset=UTF-8,' + svgData);
-  element.setAttribute('download', filename + '.svg');
-
-  element.style.display = 'none';
-  document.body.appendChild(element);
-
-  element.click();
-
-  document.body.removeChild(element);
 }
 
 function checkPressedKeys(keyCode, dialog, element) {
@@ -491,7 +525,7 @@ function dictionaryDifferences(activityNames, oldActivityDictionary, workObjectN
       activityNames[i]='';
     }
     if (!((activityNames[i].includes(oldActivityDictionary[i])) && (oldActivityDictionary[i].includes(activityNames[i])))) {
-      massChangeNames(oldActivityDictionary[i], activityNames[i], 'domainStory:activity');
+      massChangeNames(oldActivityDictionary[i], activityNames[i], ACTIVITY);
     }
   }
   for (i=0;i<oldWorkobjectDictionary.length;i++) {
@@ -499,7 +533,7 @@ function dictionaryDifferences(activityNames, oldActivityDictionary, workObjectN
       workObjectNames[i]='';
     }
     if (!((workObjectNames[i].includes(oldWorkobjectDictionary[i])) && (oldWorkobjectDictionary[i].includes(workObjectNames[i])))) {
-      massChangeNames(oldWorkobjectDictionary[i], workObjectNames[i], 'domainStory:workObject');
+      massChangeNames(oldWorkobjectDictionary[i], workObjectNames[i], WORKOBJECT);
     }
   }
   // delete old entires from stashes
@@ -530,11 +564,36 @@ function showVersionDialog() {
   modal.style.display = 'block';
 }
 
+function showBrokenDSTDialog() {
+  brokenDSTDialog.style.display = 'block';
+  modal.style.display = 'block';
+}
+
+function showNoContentDialog() {
+  noContentOnCanvasDialog.style.display = 'block';
+  modal.style.display = 'block';
+}
+
+function closeNoContentDialog() {
+  noContentOnCanvasDialog.style.display = 'none';
+  modal.style.display = 'none';
+}
+
+function closeBrokenDSTDialog() {
+  brokenDSTDialog.style.display = 'none';
+  modal.style.display = 'none';
+}
+
 function closeDialog() {
   keysPressed = [];
   headlineDialog.style.display = 'none';
   modal.style.display = 'none';
   arrow.style.display = 'none';
+}
+
+function closeImageDownloadDialog() {
+  downloadDialog.style.display = 'none';
+  modal.style.display = 'none';
 }
 
 function showDialog() {
@@ -550,12 +609,11 @@ function saveDialog() {
   var inputTitle = titleInput.value;
   var inputText = info.value;
   if (inputTitle !== '') {
-    title.innerText = sanitize(inputTitle);
+    title.innerText = inputTitle;
   }
   else {
     title.innerText = '<name of this Domain Story>';
   }
-  inputText = sanitize(inputText);
   info.innerText = inputText;
   infoText.innerText = inputText;
 
@@ -563,12 +621,7 @@ function saveDialog() {
   descriptionInputLast = inputText;
 
   // to update the title of the svg, we need to tell the command stack, that a value has changed
-  var exportArtifacts = debounce(function() {
-
-    saveSVG(function(err, svg) {
-      setEncoded(err ? null : svg);
-    });
-  }, 500);
+  var exportArtifacts = debounce(fnDebounce, 500);
 
   eventBus.fire('commandStack.changed', exportArtifacts);
 
@@ -684,88 +737,6 @@ function saveActivityInputLabelWithoutNumber(element) {
   cleanDictionaries(canvas);
 }
 
-// SVG download
-
-function saveSVG(done) {
-  modeler.saveSVG(done);
-}
-
-function viewBoxCoordinates(svg) {
-  const match = svg.match(ViewBoxCoordinate);
-  return { width: +match[1], height : +match[2], viewBox: match[3] };
-}
-
-function setEncoded(data) {
-  // to ensure that the title and description are inside the SVG container and do not overlapp with any elements,
-  // we change the confines of the SVG viewbox
-  var descriptionText = infoText.innerHTML;
-  var titleText = title.innerHTML;
-  var viewBoxIndex = data.indexOf ('width="');
-
-  let { width, height, viewBox } = viewBoxCoordinates(data);
-  height += 80;
-
-  var xLeft, xRight, yUp, yDown;
-  var bounds = '';
-  var splitViewBox = viewBox.split(/\s/);
-
-  xLeft = +splitViewBox[0];
-  yUp = +splitViewBox[1];
-  xRight = +splitViewBox[2];
-  yDown = +splitViewBox[3];
-
-  if (xRight < 300) {
-    xRight+= 300;
-    width+= 300;
-  }
-
-  bounds = 'width="' + width+ '" height=" '+ height+'" viewBox="' + xLeft + ' ' +(yUp - 80) + ' ' + xRight + ' ' + (yDown + 80);
-  var dataStart = data.substring(0, viewBoxIndex);
-  viewBoxIndex = data.indexOf('" version');
-  var dataEnd = data.substring(viewBoxIndex);
-  dataEnd.substring(viewBoxIndex);
-
-  data = dataStart + bounds +dataEnd;
-
-  // remove <br> HTML-elements from the description since they create error in the SVG
-  while (descriptionText.includes('<br>')) {
-    descriptionText=descriptionText.replace('<br>', '\n');
-  }
-  titleText = titleText.replace('&lt;','').replace('&gt;','');
-
-  var insertIndex = data.indexOf('</defs>');
-  if (insertIndex < 0) {
-    insertIndex=data.indexOf('version="1.1">') + 14;
-  }
-  else {
-    insertIndex+=7;
-  }
-
-  // to display the title and description in the SVG-file, we need to add a container for our text-elements
-  var insertText ='<g class="djs-group">'+
-      '<g class="djs-element djs-shape" style = "display:block" transform="translate('+(xLeft+10)+' '+(yUp-50)+')">'+
-      '<g class="djs-visual">'
-      +'<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 30px; font-weight: normal; fill: rgb(0, 0, 0);"><tspan x="8" y="10">'
-  +sanitize(titleText)+
-  '</tspan></text>'
-  +'<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 12px; font-weight: normal; fill: rgb(0, 0, 0);"><tspan x="8" y="30">'
-  +sanitize(descriptionText)+
-  '</tspan></text></g></g></g>';
-  data = [data.slice(0,insertIndex), insertText, data.slice(insertIndex)].join('');
-  svgData = encodeURIComponent(data);
-}
-
-$(function() {
-  var exportArtifacts = debounce(function() {
-
-    saveSVG(function(err, svg) {
-      setEncoded(err ? null : svg);
-    });
-  }, 500);
-
-  modeler.on('commandStack.changed', exportArtifacts);
-});
-
 function keyReleased(keysPressed, keyCode) {
   keysPressed[keyCode] = false;
 }
@@ -774,7 +745,28 @@ function checkInput(field) {
   field.value = sanitize(field.value);
 }
 
+// SVG functions
+
+function saveSVG(done) {
+  modeler.saveSVG(done);
+}
+
+$(function() {
+  var exportArtifacts = debounce(fnDebounce, 500);
+
+  modeler.on('commandStack.changed', exportArtifacts);
+});
+
 // helper
+
+function fnDebounce() {
+  saveSVG(function(err, svg) {
+    if (err) {
+      console.log(err);
+    }
+    setEncoded(err ? null : svg);
+  });
+}
 
 function debounce(fn, timeout) {
   var timer;

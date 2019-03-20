@@ -6,7 +6,7 @@ module.exports = function(grunt) {
   var path = require('path');
 
   /**
-   * bpmn-js dependencies cannot be copied with grunt-copy-deps.
+   * some dependencies cannot be copied with grunt-copy-deps.
    * Instead, resolve external project resources as file path.
    */
   function resolvePath(project, file) {
@@ -42,6 +42,7 @@ module.exports = function(grunt) {
         }
       }
     },
+    clean: ['dist'],
     copydeps: {
       target: {
         options: {
@@ -73,6 +74,16 @@ module.exports = function(grunt) {
             dest: 'dist'
           }
         ]
+      },
+      bootstrap: {
+        files: [
+          {
+            expand: true,
+            cwd: resolvePath('bootstrap', 'dist'),
+            src: ['**/css/bootstrap.css'],
+            dest: 'dist/dependencies'
+          }
+        ]
       }
     },
     watch: {
@@ -102,11 +113,13 @@ module.exports = function(grunt) {
   });
 
   // tasks
+  grunt.loadNpmTasks('grunt-contrib-clean'); // https://github.com/gruntjs/grunt-contrib-clean
   grunt.loadNpmTasks('grunt-copy-deps'); // https://www.npmjs.com/package/grunt-copy-deps
 
-  grunt.registerTask('build', ['copy', 'copydeps', 'browserify:app']);
+  grunt.registerTask('build', ['clean', 'copy', 'copydeps', 'browserify:app']);
 
   grunt.registerTask('auto-build', [
+    'clean',
     'copy',
     'copydeps',
     'browserify:watch',

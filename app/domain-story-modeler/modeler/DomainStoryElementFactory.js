@@ -10,7 +10,7 @@ import BpmnElementFactory from 'bpmn-js/lib/features/modeling/ElementFactory';
 
 import { DEFAULT_LABEL_SIZE } from 'bpmn-js/lib/util/LabelUtil';
 
-import DomainStoryIdFactory from '../util/DomainStoryIdFactory';
+import DomainStoryIdFactory from './DomainStoryIdFactory';
 /**
  * A custom factory that knows how to create BPMN _and_ custom elements.
  */
@@ -111,15 +111,6 @@ DomainStoryElementFactory.$inject = [
 DomainStoryElementFactory.prototype._getCustomElementSize = function(type) {
   var shapes = {
     __default: { width: 75, height: 75 },
-    'domainStory:actorPerson': { width: 75, height: 75 },
-    'domainStory:actorGroup': { width: 75, height: 75 },
-    'domainStory:actorSystem': { width: 75, height: 75 },
-    'domainStory:workObject': { width: 75, height: 75 },
-    'domainStory:workObjectFolder': { width: 75, height: 75 },
-    'domainStory:workObjectCall': { width: 75, height: 75 },
-    'domainStory:workObjectEmail': { width: 75, height: 75 },
-    'domainStory:workObjectBubble': { width: 75, height: 75 },
-    'domainStory:workObjectInfo': { width: 75, height: 75 },
     'domainStory:textAnnotation': { width: 100, height: 30 },
     'domainStory:group': { width: 525, height: 275 }
   };

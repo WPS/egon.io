@@ -4,6 +4,7 @@ import {
   getActivitesFromActors,
   getAllObjectsFromCanvas
 } from '../../util/CanvasObjects';
+import { CONNECTION, GROUP } from '../../language/elementTypes';
 
 var canvas;
 var elementRegistry;
@@ -21,15 +22,17 @@ export function isPlaying() {
   return replayOn;
 }
 
-var modal = document.getElementById('modal'),
-    startReplayButton = document.getElementById('buttonStartReplay'),
-    nextStepButton = document.getElementById('buttonNextStep'),
-    previousStepButton = document.getElementById('buttonPreviousStep'),
-    stopReplayButton = document.getElementById('buttonStopReplay'),
-    currentReplayStepLabel = document.getElementById('replayStep'),
-    headline = document.getElementById('headline'),
-    incompleteStoryDialog = document.getElementById('incompleteStoryInfo'),
-    importExportSVGButtonsContainer = document.getElementById('importExportSVGButton');
+let modal = document.getElementById('modal');
+let startReplayButton = document.getElementById('buttonStartReplay');
+let nextStepButton = document.getElementById('buttonNextStep');
+let previousStepButton = document.getElementById('buttonPreviousStep');
+let stopReplayButton = document.getElementById('buttonStopReplay');
+let currentReplayStepLabel = document.getElementById('replayStep');
+let headline = document.getElementById('headline');
+let incompleteStoryDialog = document.getElementById('incompleteStoryInfo');
+let importExportSVGButtonsContainer = document.getElementById('importExportSVGButton');
+
+/* test */
 
 startReplayButton.addEventListener('click', function() {
   var canvasObjects = canvas._rootElement.children;
@@ -80,7 +83,7 @@ stopReplayButton.addEventListener('click', function() {
     var i = 0;
 
     for (i = 0; i < canvasObjects.length; i++) {
-      if (canvasObjects[i].type.includes('domainStory:group')) {
+      if (canvasObjects[i].type.includes(GROUP)) {
         groupObjects.push(canvasObjects[i]);
       }
       else {
@@ -92,7 +95,7 @@ stopReplayButton.addEventListener('click', function() {
     while (groupObjects.length >= 1) {
       var currentgroup = groupObjects.pop();
       currentgroup.children.forEach(child => {
-        if (child.type.includes('domainStory:group')) {
+        if (child.type.includes(GROUP)) {
           groupObjects.push(child);
         }
         else {
@@ -141,13 +144,13 @@ function createStep(tracedActivity, elementRegistry) {
     initialSource = elementRegistry.get(tracedActivity.businessObject.source);
 
     // add the first Object to the traced targets, this can only be a workObject, since actors cannot connect to other actors
-    var firstTarget = elementRegistry.get(tracedActivity.businessObject.target);
+    var firstTarget = elementRegistry.get(tracedActivity.target.id);
     targetObjects.push(firstTarget);
 
     // check the outgoing activities for each target
     for (var i = 0; i < targetObjects.length; i++) {
       var checkTarget = targetObjects[i];
-      if (!checkTarget.businessObject.type.includes('actor') && checkTarget.outgoing) {
+      if (checkTarget.businessObject && !checkTarget.businessObject.type.includes('actor') && checkTarget.outgoing) {
         // check the target for each outgoing activity
         checkTarget.outgoing.forEach(activity => {
           activities.push(activity);
@@ -189,7 +192,7 @@ export function getAllShown(stepsUntilNow) {
     shownElements.push(step.source);
     if (step.source.outgoing) {
       step.source.outgoing.forEach(out => {
-        if (out.type.includes('domainStory:connection')) {
+        if (out.type.includes(CONNECTION)) {
           shownElements.push(out, out.target);
         }
       });
@@ -200,7 +203,7 @@ export function getAllShown(stepsUntilNow) {
       shownElements.push(target);
       if (target.outgoing) {
         target.outgoing.forEach(out => {
-          if (out.type.includes('domainStory:connection')) {
+          if (out.type.includes(CONNECTION)) {
             shownElements.push(out, out.target);
           }
         });
@@ -224,8 +227,8 @@ export function getAllNotShown(allObjects, shownElements) {
   // nor an annotation conntected to a group should be hidden
   allObjects.forEach(element => {
     if (!shownElements.includes(element)) {
-      if (element.type.includes('domainStory:connection')) {
-        if (!element.source.type.includes('domainStory:group')) {
+      if (element.type.includes(CONNECTION)) {
+        if (!element.source.type.includes(GROUP)) {
           notShownElements.push(element);
         }
         else {

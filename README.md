@@ -23,7 +23,7 @@ Click on the headline to change the name of the Domain Story and describe it. Th
 Use ctrl+enter or alt+enter to add line breaks to the description.
 
 #### Context Menu
-If you drop an icon from the palette into the canvas you will see a context menu. To show the connection between two icons use the arrow. Also you can choose the next icon you want to connect to. If you choose one, it will automatically be connected. Delete the choosen icon by clicking on delete. You can click on the wrench to change the icon. By using the annotation icon, you can add comments for further information.
+If you drop an icon from the palette into the canvas you will see a context menu. To show the connection between two icons use the arrow. Also you can choose the next icon you want to connect to. If you choose one, it will automatically be connected. Delete the chosen icon by clicking on delete. You can click on the wrench to change the icon. By using the annotation icon, you can add comments for further information.
 
 #### Naming Actors and Work Objects
 Double click on an actor's or work object's icon to edit the name.
@@ -32,20 +32,26 @@ Double click on an actor's or work object's icon to edit the name.
 Activities are depicted as arrows. Double click on an arrow to edit the activity's name. If you model an activity between an actor (person, people and system) and a workobject (folder, call, email, conversation, information) it will be numbered automatically. By double clicking on the arrow you can manually change the number. All other numbers are adjusted automatically.
 
 #### File Management
-If you want to share your Domain Story or save it for future editing, you can export it as a .dst file by cklicking the export button ![Export Button](/images/archive.png). 
+If you want to share your Domain Story or save it for future editing, you can export it as a .dst file by clicking the export button ![Export Button](/images/archive.png). 
 To import a diagram use the upload button ![Upload Button](/images/unarchive.png).
-You can also export your diagram as a .svg file by clicking on the image button ![SVG Button](/images/image.png).
+You can also export your diagram as a .svg or .png file by clicking on the image button ![SVG Button](/images/image.png) and selecting your preferred format.
 
 #### Replay
 The replay feature helps you to re-tell a Domain Story sentence by sentence. When you start a replay with the play button ![Play Button](/images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](/images/forward.png) shows the next activity and clicking the previous button ![Previous Button](/images/previous.png) shows the previous one. Editing is disabled in replay mode, but you can zoom (mouse wheel up and down) and scroll (ctrl + mouse wheel up and down). The stop the replay, click the stop button ![Stop Button](/images/stop.png). 
 
+#### Customize Iconset
+The iconset can be customized programatically by adding an iconset-configuration in the app/domain-story-modeler/language/iconConfig.js file. Using the same scheme as for the default_conf you can  select icons as actors or workobjects.
+It is possible to create multiple custom iconsets depending on your domain and switching between them.
+We do not recommend adding too many icons, since the palette only holds two columns and, depending on your screen resolution, can easily become larger than the window.
+A List of all icons can be seen in the allIcons_conf configuration.
+
 ### Examples
-The examples directory contains .dst files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
-The examples directory also contains a SVG file for every Domain Story. The images were created using the modeler.
+The examples' directory contains .dst files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
+The examples' directory also contains a SVG file for every Domain Story. The images were created using the modeler.
 
 ## For Developers
 Download the source code or clone the repository.
-Please note that we use the main branch for development. The main branch contains the latest features und bug fixes, but they might be undocumented and tested less thoroughly than a release. To be on the safe side, stick with the latest release branch.
+Please note that we use the main branch for development. The main branch contains the latest features and bug fixes, but they might be undocumented and tested less thoroughly than a release. To be on the safe side, stick with the latest release branch.
 
 Fetch dependencies:
 

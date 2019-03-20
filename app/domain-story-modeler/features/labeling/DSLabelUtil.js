@@ -1,40 +1,38 @@
 'use strict';
 
 import { is } from 'bpmn-js/lib/util/ModelUtil';
+import { ACTIVITY, ACTOR, WORKOBJECT, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
 
 function getLabelAttr(semantic) {
-  if (is(semantic, 'domainStory:actorPerson') ||
-    is(semantic, 'domainStory:actorGroup') ||
-    is(semantic, 'domainStory:actorSystem') ||
-    is(semantic, 'domainStory:workObject') ||
-    is(semantic, 'domainStory:workObjectFolder') ||
-    is(semantic, 'domainStory:workObjectCall') ||
-    is(semantic, 'domainStory:workObjectEmail') ||
-    is(semantic, 'domainStory:workObjectBubble') ||
-    is(semantic, 'domainStory:activity') ||
-    is(semantic, 'domainStory:group') ||
-    is(semantic, 'domainStory:workObjectInfo')) {
-
+  if (
+    semantic.type.includes(ACTOR) ||
+    semantic.type.includes(WORKOBJECT) ||
+    semantic.type.includes(ACTIVITY) ||
+    semantic.type.includes(GROUP)) {
     return 'name';
   }
 
-  if (is(semantic, 'domainStory:textAnnotation')) {
+  if (is(semantic, TEXTANNOTATION)) {
     return 'text';
   }
 }
 
 function getNumberAttr(semantic) {
-  if (is(semantic, 'domainStory:activity')) {
+  if (is(semantic, ACTIVITY)) {
 
     return 'number';
   }
 }
 
 export function getLabel(element) {
-  var semantic = element.businessObject,
-      attr = getLabelAttr(semantic);
-
-  if (attr) {
+  var semantic;
+  if (element.businessObject) {
+    semantic = element.businessObject;
+  } else {
+    semantic = element;
+  }
+  var attr = getLabelAttr(semantic);
+  if (attr && semantic) {
     return semantic[attr] || '';
   }
 }
@@ -49,8 +47,13 @@ export function getNumber(element) {
 }
 
 export function setLabel(element, text) {
-  var semantic = element.businessObject,
-      attr = getLabelAttr(semantic);
+  var semantic;
+  if (element.businessObject) {
+    semantic = element.businessObject;
+  } else {
+    semantic = element;
+  }
+  var attr = getLabelAttr(semantic);
 
   if (attr) {
     semantic[attr] = text;
@@ -83,7 +86,7 @@ export function autocomplete(inp, arr, element) {
   /* execute a function when someone writes in the text field:*/
   inp.addEventListener('input', function(e) {
     /* the direct editing field of actors and workobjects is a recycled html-element and has old values that need to be overridden*/
-    if (element.type.includes('domainStory:workObject')) {
+    if (element.type.includes(WORKOBJECT)) {
       this.value = this.innerHTML;
     }
     var autocompleteList, autocompleteItem, val = this.value;
@@ -119,7 +122,7 @@ export function autocomplete(inp, arr, element) {
       }
     }
     // if we edit an actor, we do not want auto-complete, since actors generally are unique
-    if (element.type.includes('domainStory:actor')) {
+    if (element.type.includes(ACTOR)) {
       autocompleteList.style.visibility = 'hidden';
     }
   });

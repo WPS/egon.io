@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="dependencies/bpmn-js/assets/bpmn-font/css/bpmn.css" /> <!-- for lasso tool, space tool etc. -->
   <link rel="stylesheet" href="dependencies/diagram-js.css" /> <!-- for palette -->
   <link rel="stylesheet" href="domain-story.css" />
+  <link rel="stylesheet" href="domain-story-modeler/language/icons.css"/>
   <link rel="stylesheet" href="font/material-icons.css" />
 
   <title>Domain Story Modeler. WPS – Workplace Solutions GmbH</title>
@@ -18,70 +19,73 @@
 
 <body>
   <div id="modal" style="display:none;"></div>
-
-  <div class="headlineContainer">
-    <div class="headlineAndInfo">
-      <h3 id="headline">
-        <text id="title">&ltname of this Domain Story&gt</text>
-        <i class="material-icons" id="edit">
-          create
-        </i>
-      </h3>
-      <div id="infoContainer">
-        <div id="infoText"></div>       
+  <div class ="headerAndCanvas">
+    <div class="headlineContainer">
+      <div class="headlineAndInfo">
+        <h3 id="headline">
+          <text id="title">&ltname of this Domain Story&gt</text>
+          <i class="material-icons" id="edit">
+            create
+          </i>
+        </h3>
+        <div id="infoContainer">
+          <div id="infoText"></div>       
+        </div>
+      </div>
+      <div class="ButtonsAndLogos">
+          <div class="ButtonContainer">
+            <div class="importExportSVGButton" id="importExportSVGButton">
+              <button id="buttonImport" class="importButton" title="Import story from .dst file" onclick="document.getElementById('import').click();">
+                <img src="./logo/unarchive.png">
+              </button>
+              <input type="file" accept=".dst" style="display:none;" id="import" onclick="this.value=null;" name="file" />
+              <button class="exportButton" id="export" title="Export story as .dst file">
+                <img src="./logo/archive.png">
+              </button>
+              <button class="downloadButton" id="buttonImageDownloads" title="Export story as SVG or PNG image">
+                <img src="./logo/image.png">
+              </button>
+              <button id="dictionaryButton" title="Edit dictionary">
+                <img src="./logo/spellcheck.png">
+              </button>
+              <button id="keyboardShortcutInfoButton" title="Show keyboard shortcuts">
+                <img src="./logo/shortCutInfo.png">
+              </button>
+            </div>
+              <div class="replayButtons">
+                <button id="buttonStartReplay" class="startReplayButton" title="Start replay">
+                  <img src="./logo/play.png">
+                </button>
+                <button id="buttonPreviousStep" class="prevoiusStepButton" title="Previous Step">
+                  <img src="./logo/previous.png">
+                </button>
+                <button id="buttonNextStep" class="NextStepButton" title="NextStep">
+                  <img src="./logo/forward.png">
+                </button>
+                <button id="buttonStopReplay" class="stopReplayButton" title="Stop replay">
+                  <img src="./logo/stop.png">
+                </button>
+                <div id="replayStep"> 0/0</div>
+              </div>
+          </div>
+          <div class="logoContainer">
+              <div id="imgWPS">
+                <img src="./logo/Quadrat_wps_de_Farbig.png" height="54" width="40" />
+              </div>
+              <div id="imgDST">
+                <!-- a href="http://domainstorytelling.org/" -->
+                <img src="./logo/dst_logo.png" height="74" width="74" />
+                <!-- /a -->
+              </div>
+          </div>
       </div>
     </div>
-    <div class="ButtonsAndLogos">
-        <div class="ButtonContainer">
-          <div class="importExportSVGButton" id="importExportSVGButton">
-            <button id="buttonImport" class="importButton" title="Import story from .dst file" onclick="document.getElementById('import').click();">
-              <img src="./logo/unarchive.png">
-            </button>
-            <input type="file" accept=".dst" style="display:none;" id="import" onclick="this.value=null;" name="file" />
-            <button class="exportButton" id="export" title="Export story as .dst file">
-              <img src="./logo/archive.png">
-            </button>
-            <button class="svgDownloadButton" id="buttonSVG" title="Export story as SVG image">
-              <img src="./logo/image.png">
-            </button>
-            <button id="dictionaryButton" title="Edit dictionary">
-              <img src="./logo/spellcheck.png">
-            </button>
-            <button id="keyboardShortcutInfoButton" title="Show keyboard shortcuts">
-              <img src="./logo/shortCutInfo.png">
-            </button>
-          </div>
-            <div class="replayButtons">
-              <button id="buttonStartReplay" class="startReplayButton" title="Start replay">
-                <img src="./logo/play.png">
-              </button>
-              <button id="buttonPreviousStep" class="prevoiusStepButton" title="Previous Step">
-                <img src="./logo/previous.png">
-              </button>
-              <button id="buttonNextStep" class="NextStepButton" title="NextStep">
-                <img src="./logo/forward.png">
-              </button>
-              <button id="buttonStopReplay" class="stopReplayButton" title="Stop replay">
-                <img src="./logo/stop.png">
-              </button>
-              <div id="replayStep"> 0/0</div>
-            </div>
-        </div>
-        <div class="logoContainer">
-            <div id="imgWPS">
-              <img src="./logo/Quadrat_wps_de_Farbig.png" height="54" width="40" />
-            </div>
-            <div id="imgDST">
-              <!-- a href="http://domainstorytelling.org/" -->
-              <img src="./logo/dst_logo.png" height="74" width="74" />
-              <!-- /a -->
-            </div>
-        </div>
-    </div>
-  </div>
+    
+    <div id="line"></div>
   
-  <div id="line"></div>
+    <div id="canvas"></div>
 
+</div>
   <div id="arrowDialog">
     <div id="arrow" class="arrow" style="display:none;"></div>
     <div id="dialog" style="display:none;">
@@ -97,6 +101,19 @@
         <button id="saveButton">Save</button>
         <button id="quitButton">Cancel</button>
       </div>
+    </div>
+  </div>
+
+  <div id="downloadDialog" style="display: none;">
+    <button id="downloadDialogCancelButton">X</button>
+    <br>
+    <div class="buttonContainer">
+      <button id="buttonSVG">  
+        SVG
+      </button>
+      <button id=buttonPNG>
+        PNG
+      </button>
     </div>
   </div>
 
@@ -162,6 +179,13 @@
     <text>Please fix the numbering in order to replay the story.</text>
   </div>
 
+  <div id="noContentOnCanvasInfo" style="display: none">
+    <button id="closeNoContentOnCanvasInfo">X</button>
+    <br>
+    <text>There currently is no content on the canvas.</text>
+    <text>Without Content the Canvas cannot be exported.</text>
+  </div>
+
   <div id="versionDialog" style="display:none">
     <button id="closeVersionDialog">X</button>
     <br>
@@ -170,6 +194,52 @@
     <text>. This modeler is version</text>
     <text id="modelerVersion"></text>
     <text>. Please check release notes for possible compatibility problems.</text>
+  </div>
+
+  <div id="brokenDSTDialog" style="display:none">
+    <button id="brokenDSTDialogButtonCancel">X</button>
+    <br>
+    <text>Your .dst File is incomplete, there most likely was an error during export.</text>
+    <text>Some of your Activities and DomainElements will be missing.</text>
+  </div>
+  
+  <div id= "keyboardShortcutInfoDialog" style="display:none">
+    <button id ="keyboardShortcutInfoDialogButtonCancel" style="float:right; margin-left:5px">X</button>
+    <br>
+      <table id="keyboardTable">
+        <thead>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Undo</td>
+            <td>ctrl + Z</td>
+          </tr>
+          <tr>
+            <td>Redo</td>
+            <td>ctrl + Y     or     ctrl + shift + Z</td>
+          </tr>
+          <tr>
+            <td>Select All</td>
+            <td>ctrl + A</td>
+          </tr>
+          <tr>
+            <td>Direct Editing</td>
+            <td>E</td>
+          </tr>
+          <tr>
+            <td>Hand Tool</td>
+            <td>H</td>
+          </tr>
+          <tr>
+            <td>Lasso Tool</td>
+            <td>L</td>
+          </tr>
+          <tr>
+            <td>Space Tool</td>
+            <td>S</td>
+          </tr>
+        </tbody>
+      </table>
   </div>
 
   <div id="dictionary" style="display:none">
@@ -188,45 +258,6 @@
       <button id="closeDictionaryButtonSave">Save</button>
       <button id="closeDictionaryButtonCancel">Cancel</button>
     </div>
-  </div>
-
-  <div id= "keyboardShortcutInfoDialog" style="display:none">
-    <button id ="keyboardShortcutInfoDialogButtonCancel" style="float:right; margin-left:5px">X</button>
-    
-    <table id="keyboardTable">
-      <thead>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Undo</td>
-          <td>ctrl + Z</td>
-        </tr>
-        <tr>
-          <td>Redo</td>
-          <td>ctrl + Y     or     ctrl + shift + Z</td>
-        </tr>
-        <tr>
-          <td>Select All</td>
-          <td>ctrl + A</td>
-        </tr>
-        <tr>
-          <td>Direct Editing</td>
-          <td>E</td>
-        </tr>
-        <tr>
-          <td>Hand Tool</td>
-          <td>H</td>
-        </tr>
-        <tr>
-          <td>Lasso Tool</td>
-          <td>L</td>
-        </tr>
-        <tr>
-          <td>Space Tool</td>
-          <td>S</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
   
   <script src="./app.js"></script>

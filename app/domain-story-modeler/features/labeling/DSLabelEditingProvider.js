@@ -18,6 +18,7 @@ import {
 
 import { cleanDictionaries, getWorkObjectDictionary } from '../dictionary/dictionary';
 import { isDomainStoryElement } from '../../util/TypeCheck';
+import { ACTIVITY, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
 
 var numberStash = 0;
 var stashUse = false;
@@ -46,7 +47,7 @@ export default function DSLabelEditingProvider(
   // listen to dblclick on non-root elements
   eventBus.on('element.dblclick', function(event) {
     activateDirectEdit(event.element, true);
-    if (is(event.element, 'domainStory:activity')) {
+    if (is(event.element, ACTIVITY)) {
       // if we edit an activity, we do not want the standard editing box
       numberStash = event.element.businessObject.number;
       stashUse = true;
@@ -98,7 +99,7 @@ export default function DSLabelEditingProvider(
     if (!canExecute) {
       return;
     }
-    if (!is(element, 'domainStory:activity')) {
+    if (!is(element, ACTIVITY)) {
       activateDirectEdit(element);
     }
   });
@@ -109,7 +110,7 @@ export default function DSLabelEditingProvider(
 
   function activateDirectEdit(element, force) {
     if (force ||
-      isAny(element, ['domainStory:textAnnotation']) ||
+      isAny(element, [TEXTANNOTATION]) ||
       isDomainStoryElement(element)) {
 
       directEditing.activate(element);
@@ -143,6 +144,9 @@ DSLabelEditingProvider.$inject = [
 DSLabelEditingProvider.prototype.activate = function(element) {
 
   // text
+  if (element.id === '__implicitroot') {
+    return ;
+  }
   var text = getLabel(element);
 
   if (text === undefined) {
@@ -168,7 +172,7 @@ DSLabelEditingProvider.prototype.activate = function(element) {
   }
 
   // text annotations
-  if (is(element, 'domainStory:textAnnotation')) {
+  if (is(element, TEXTANNOTATION)) {
     assign(options, {
       resizable: true,
       autoResize: true
@@ -223,7 +227,7 @@ DSLabelEditingProvider.prototype.getEditingBBox = function(element) {
   };
 
   // adjust for groups
-  if (is(element, 'domainStory:group')) {
+  if (is(element, GROUP)) {
 
     assign(bounds, {
       minWidth: bbox.width / 2.5 > 125 ? bbox.width / 2.5 : 125,
@@ -318,7 +322,7 @@ DSLabelEditingProvider.prototype.getEditingBBox = function(element) {
   }
 
   // text annotations
-  if (is(element, 'domainStory:textAnnotation')) {
+  if (is(element, TEXTANNOTATION)) {
     assign(bounds, {
       width: bbox.width,
       height: bbox.height,
@@ -348,7 +352,7 @@ DSLabelEditingProvider.prototype.update = function(
   var newBounds,
       bbox;
 
-  if (is(element, 'domainStory:textAnnotation')) {
+  if (is(element, TEXTANNOTATION)) {
 
     bbox = this._canvas.getAbsoluteBBox(element);
 

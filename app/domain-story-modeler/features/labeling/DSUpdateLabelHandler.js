@@ -18,6 +18,7 @@ import {
   getBusinessObject,
   is
 } from 'bpmn-js/lib/util/ModelUtil';
+import { TEXTANNOTATION } from '../../language/elementTypes';
 
 var NULL_DIMENSIONS = {
   width: 0,
@@ -34,7 +35,7 @@ export default function DSUpdateLabelHandler(modeling, textRenderer, commandStac
 
   function handlerFunction() {
 
-  /**
+    /**
    * Set the label and return the changed elements.
    *
    * Element parameter can be label itself or connection (i.e. sequence flow).
@@ -54,7 +55,7 @@ export default function DSUpdateLabelHandler(modeling, textRenderer, commandStac
         && !hasExternalLabel(element)
         && (newLabel !== '' || newNumber!=='')) {
 
-      // create label
+        // create label
         var paddingTop = 7;
 
         var labelCenter = getExternalLabelMid(element);
@@ -94,7 +95,7 @@ export default function DSUpdateLabelHandler(modeling, textRenderer, commandStac
       }
 
       // ignore internal labels for elements except text annotations
-      if (!isLabelExternal(element) && !is(element, 'domainStory:textAnnotation')) {
+      if (!isLabelExternal(element) && !is(element, TEXTANNOTATION)) {
         return;
       }
 
@@ -131,7 +132,6 @@ function setText(element, text, textNumber) {
   var labelTarget = element.labelTarget || element;
 
   var numberTarget= element.numberTarget || element;
-
   setLabel(label, text);
   setNumber(number, textNumber);
 

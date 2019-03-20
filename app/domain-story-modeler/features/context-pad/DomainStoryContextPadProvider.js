@@ -10,6 +10,11 @@ import {
   bind
 } from 'min-dash';
 import { generateAutomaticNumber } from '../numbering/numbering';
+import { getNameFromType } from '../../language/naming';
+import { getWorkObjectRegistry } from '../../language/workObjectRegistry';
+import { getActorRegistry } from '../../language/actorRegistry';
+import { getIconForType } from '../../language/iconRegistry';
+import { ACTIVITY, ACTOR, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
 
 
 
@@ -30,79 +35,28 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       connect.start(event, element, autoActivate);
     }
 
-    // entries only for specific types of elements:
-    switch (element.type) {
-    // Google Material Icon Font does not seem to allow to put the icon name inline
-    // since diagram-js's ContextPad does assume the icon is provided inline,
-    // we could either write our own ContextPad or fix the html manually.
-    // Here, we do the latter:
-    case 'domainStory:workObject':
-    case 'domainStory:workObjectFolder':
-    case 'domainStory:workObjectCall':
-    case 'domainStory:workObjectEmail':
-    case 'domainStory:workObjectBubble':
-    case 'domainStory:workObjectInfo':
+    if (element.type.includes('workObject')) {
+      addActors(appendAction, actions);
+      addWorkObjects(appendAction, actions);
+      addChangeWorkObjectTypeMenu(actions);
+      addConnectWithActivity(actions, startConnect);
+      addTextAnnotation(actions);
+    }
 
-      assign(actions, {
-        'append.actorPerson': appendAction('domainStory:actorPerson', 'icon-domain-story-actor-person', 'person', 'actors'),
-        'append.actorGroup':  appendAction('domainStory:actorGroup', 'icon-domain-story-actor-group', 'people', 'actors'),
-        'append.actorSystem': appendAction('domainStory:actorSystem', 'icon-domain-story-actor-system', 'system', 'actors')
-      });
+    else if (element.type.includes('actor')) {
+      addWorkObjects(appendAction, actions);
+      addChangeActorTypeMenu(actions);
+      addConnectWithActivity(actions, startConnect);
+      addTextAnnotation(actions);
+    }
 
-    case 'domainStory:actorPerson':
-    case 'domainStory:actorGroup':
-    case 'domainStory:actorSystem':
-
-      assign(actions, {
-        'append.workObject': appendAction('domainStory:workObject', 'icon-domain-story-workObject', 'workobject', 'workObjects'),
-        'append.workObjectFolder': appendAction('domainStory:workObjectFolder', 'icon-domain-story-workObject-folder', 'folder', 'workObjects'),
-        'append.workObjectCall': appendAction('domainStory:workObjectCall', 'icon-domain-story-workObject-call', 'call', 'workObjects'),
-        'append.workObjectEmail': appendAction('domainStory:workObjectEmail', 'icon-domain-story-workObject-email', 'email', 'workObjects'),
-        'append.workObjectBubble': appendAction('domainStory:workObjectBubble', 'icon-domain-story-workObject-bubble', 'conversation', 'workObjects'),
-        'append.workObjectInfo': appendAction('domainStory:workObjectInfo', 'icon-domain-story-workObject-info', 'information', 'workObjects')
-      });
-
-      // replace menu entry
-      assign(actions, {
-        'replace': {
-          group: 'edit',
-          className: 'bpmn-icon-screw-wrench',
-          title: translate('Change type'),
-          action: {
-            click: function(event, element) {
-
-              var position = assign(getReplaceMenuPosition(element), {
-                cursor: { x: event.x, y: event.y }
-              });
-              popupMenu.open(element, 'ds-replace', position);
-            }
-          }
-        }
-      });
-
-      assign(actions, {
-        'connect': {
-          group: 'connect',
-          className: 'bpmn-icon-connection',
-          title: translate('Connect using custom connection'),
-          action: {
-            click: startConnect,
-            dragstart: startConnect
-          }
-        }
-      });
-
-    case 'domainStory:group':
-
-      assign(actions, {
-        'append.text-annotation': appendAction('domainStory:textAnnotation', 'bpmn-icon-text-annotation')
-      });
-      break;
-
-    case 'domainStory:activity' :
-    // the change direction icon is appended at the end of the edit group by default,
-    // to make sure, that the delete icon is the last one, we remove it from the actions-object
-    // and add it after adding the change direction functionality
+    else if (element.type.includes(GROUP)) {
+      addTextAnnotation(actions);
+    }
+    else if (element.type.includes(ACTIVITY)) {
+      // the change direction icon is appended at the end of the edit group by default,
+      // to make sure, that the delete icon is the last one, we remove it from the actions-object
+      // and add it after adding the change direction functionality
       delete actions.delete;
 
       assign(actions, {
@@ -119,7 +73,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
         }
       });
 
-      assign(actions,{
+      assign(actions, {
         'delete': {
           group: 'edit',
           className: 'bpmn-icon-trash',
@@ -132,8 +86,87 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
         }
       });
     }
+
     return actions;
   };
+
+  function addChangeActorTypeMenu(actions) {
+    assign(actions, {
+      'replace': {
+        group: 'edit',
+        className: 'bpmn-icon-screw-wrench',
+        title: translate('Change type'),
+        action: {
+          click: function(event, element) {
+            var position = assign(getReplaceMenuPosition(element), {
+              cursor: { x: event.x, y: event.y }
+            });
+            popupMenu.open(element, 'ds-replace', position);
+          }
+        }
+      }
+    });
+  }
+
+  function addTextAnnotation(actions) {
+    assign(actions, {
+      'append.text-annotation': appendAction(TEXTANNOTATION, 'bpmn-icon-text-annotation')
+    });
+  }
+
+  function addConnectWithActivity(actions, startConnect) {
+    assign(actions, {
+      'connect': {
+        group: 'connect',
+        className: 'bpmn-icon-connection',
+        title: translate('Connect with activity'),
+        action: {
+          click: startConnect,
+          dragstart: startConnect
+        }
+      }
+    });
+  }
+
+  function addWorkObjects(appendAction, actions) {
+    var workObjectTypes = getWorkObjectRegistry();
+    workObjectTypes.keysArray().forEach(workObjectType => {
+      var name = getNameFromType(workObjectType);
+      var icon = getIconForType(workObjectType);
+      var action = [];
+      action['append.workObject' + name] = appendAction(workObjectType, icon, name, 'workObjects');
+      assign(actions, action);
+    });
+  }
+
+  function addActors(appendAction, actions) {
+    var actorTypes = getActorRegistry();
+    actorTypes.keysArray().forEach(actorType => {
+      var name = getNameFromType(actorType);
+      var icon = getIconForType(actorType);
+      var action = [];
+      action['append.actor' + name] = appendAction(actorType, icon, name, 'actors');
+      assign(actions, action);
+    });
+  }
+
+  function addChangeWorkObjectTypeMenu(actions) {
+    assign(actions, {
+      'replace': {
+        group: 'edit',
+        className: 'bpmn-icon-screw-wrench',
+        title: translate('Change type'),
+        action: {
+          click: function(event, element) {
+            var position = assign(getReplaceMenuPosition(element), {
+              cursor: { x: event.x, y: event.y }
+            });
+            popupMenu.open(element, 'ds-replace', position);
+          }
+        }
+      }
+    });
+  }
 
   // change the direction of an activity
   function changeDirection(element) {
@@ -141,14 +174,14 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     var businessObject = element.businessObject;
     var newNumber;
 
-    if (element.source.type.includes('domainStory:actor')) {
+    if (element.source.type.includes(ACTOR)) {
       newNumber = 0;
     }
     else {
       newNumber = generateAutomaticNumber(element, canvas, commandStack);
     }
 
-    context ={
+    context = {
       businessObject: businessObject,
       newNumber: newNumber,
       element: element

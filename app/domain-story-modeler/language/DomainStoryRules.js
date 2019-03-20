@@ -10,6 +10,7 @@ import inherits from 'inherits';
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 import RuleProvider from 'diagram-js/lib/features/rules/RuleProvider';
+import { ACTIVITY, CONNECTION, GROUP } from './elementTypes';
 
 var HIGH_PRIORITY = 1500;
 var MIN_SIZE = 125;
@@ -75,14 +76,14 @@ function canConnect(source, target) {
   // do not allow a connection to a connection(the special type of connection between an element and a comment box)
   // when the target is an annotation, the connection type is an annotation connection instead of an activity
   if (isAnnotation(target)) {
-    return { type: 'domainStory:connection' };
+    return { type: CONNECTION };
   }
 
-  return { type: 'domainStory:activity' };
+  return { type: ACTIVITY };
 }
 
 function canResize(shape, newBounds) {
-  if (is(shape, 'domainStory:group')) {
+  if (is(shape, GROUP)) {
     if (newBounds) {
 
       var lowerLeft = { x: shape.x, y: shape.y + shape.height };

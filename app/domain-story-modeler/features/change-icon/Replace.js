@@ -34,6 +34,16 @@ function replaceElement(oldElement, newElementData, modeling) {
 
     newElement = modeling.replaceShape(oldElement, newElementData, {});
   }
+  var outgoingActivities = newElement.outgoing;
+  var incomingActivties = newElement.incoming;
+
+  outgoingActivities.forEach(element => {
+    element.businessObject.source = newElement.id;
+  });
+
+  incomingActivties.forEach(element => {
+    element.businessObject.target = newElement.id;
+  });
 
   return newElement;
 }

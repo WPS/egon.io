@@ -1,6 +1,9 @@
 ---
 name: Bug report
 about: Create a report to help us improve
+title: ''
+labels: ''
+assignees: ''
 
 ---
 
@@ -22,8 +25,8 @@ Steps to reproduce the behavior:
 [If applicable, add screenshots to help explain your problem.]
 
 **Desktop (please complete the following information):**
- - Browser [e.g. chrome]
- - Version [e.g. 22]
+ - Modeler Version: v0.4.0
+ - Browser: [e.g. chrome 71.0]
  - OS: [e.g. Windows 10]
 
 **Additional context**

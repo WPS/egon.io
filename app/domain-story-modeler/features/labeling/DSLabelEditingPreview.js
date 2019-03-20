@@ -10,6 +10,7 @@ import {
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 import { translate } from 'diagram-js/lib/util/SvgTransformUtil';
+import { ACTIVITY, ACTOR, WORKOBJECT, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
 
 var MARKER_HIDDEN = 'djs-element-hidden',
     MARKER_LABEL_HIDDEN = 'djs-label-hidden';
@@ -34,7 +35,7 @@ export default function DSLabelEditingPreview(
     element = activeProvider.element.label || activeProvider.element;
 
     // text annotation
-    if (is(element, 'domainStory:textAnnotation')) {
+    if (is(element, TEXTANNOTATION)) {
       absoluteElementBBox = canvas.getAbsoluteBBox(element);
 
       gfx = svgCreate('g');
@@ -67,20 +68,14 @@ export default function DSLabelEditingPreview(
       translate(gfx, element.x, element.y);
     }
 
-    if (is(element, 'domainStory:textAnnotation') ||
+    if (is(element, TEXTANNOTATION) ||
       element.labelTarget) {
       canvas.addMarker(element, MARKER_HIDDEN);
-    } else if (is(element, 'domainStory:actorPerson') ||
-      is(element, 'domainStory:actorGroup') ||
-      is(element, 'domainStory:actorSystem') ||
-      is(element, 'domainStory:workObject') ||
-      is(element, 'domainStory:workObjectFolder') ||
-      is(element, 'domainStory:workObjectCall') ||
-      is(element, 'domainStory:workObjectEmail') ||
-      is(element, 'domainStory:workObjectBubble') ||
-      is(element, 'domainStory:activity') ||
-      is(element, 'domainStory:group') ||
-      is(element, 'domainStory:workObjectInfo')) {
+    } else if (
+      element.type.includes(ACTOR) ||
+      element.type.includes(WORKOBJECT) ||
+      element.type.includes(ACTIVITY) ||
+      element.type.includes(GROUP)) {
       canvas.addMarker(element, MARKER_LABEL_HIDDEN);
     }
   });
@@ -88,7 +83,7 @@ export default function DSLabelEditingPreview(
   eventBus.on('directEditing.resize', function(context) {
 
     // text annotation
-    if (is(element, 'domainStory:textAnnotation')) {
+    if (is(element, TEXTANNOTATION)) {
       var height = context.height,
           dy = context.dy;
 
