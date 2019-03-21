@@ -155,7 +155,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
         y: position.y
       };
 
-      if (semantic.name.length) {
+      if (semantic.name && semantic.name.length) {
         return renderLabel(parentGfx, semantic.name, {
           box: box,
           fitBox: true,

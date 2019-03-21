@@ -13,6 +13,8 @@ var replayOn = false;
 var currentStep = 0;
 var replaySteps = [];
 
+var errorStep =0;
+
 export function initReplay(inCanvas, inElementRegistry) {
   canvas = inCanvas;
   elementRegistry = inElementRegistry;
@@ -48,6 +50,27 @@ startReplayButton.addEventListener('click', function() {
       showCurrentStep();
     }
     else {
+      var errorText = '\nThe numbers: ';
+      for (var i=0; i<replaySteps.length; i++) {
+        if (errorStep[i]) {
+          errorText+= ((i + 1) + ',');
+        }
+      }
+      errorText = errorText.substring(0, errorText.length - 1);
+      errorText+= ' are missing!';
+
+      var oldText = incompleteStoryDialog.getElementsByTagName('text');
+      if (oldText) {
+        for (i=0; i < oldText.length; i++) {
+          incompleteStoryDialog.removeChild(oldText[i]);
+        }
+      }
+
+      var text = document.createElement('text');
+      text.innerHTML = ' The activities in this Domain Story are not numbered consecutively.<br>' +
+        'Please fix the numbering in order to replay the story.<br>' +
+        errorText;
+      incompleteStoryDialog.appendChild(text);
       incompleteStoryDialog.style.display = 'block';
       modal.style.display = 'block';
     }
@@ -172,10 +195,14 @@ function createStep(tracedActivity, elementRegistry) {
 }
 
 export function isStoryConsecutivelyNumbered(replaySteps) {
+  errorStep = [];
   var complete = true;
   for (var i = 0; i < replaySteps.length; i++) {
     if (!replaySteps[i].activities[0]) {
       complete = false;
+      errorStep[i] = true;
+    } else {
+      errorStep[i] = false;
     }
   }
   return complete;
