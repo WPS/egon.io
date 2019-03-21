@@ -29,7 +29,7 @@ import {
 
 import { getNumberStash } from '../features/labeling/DSLabelEditingProvider';
 
-import { numberBoxDefinitions, generateAutomaticNumber } from '../features/numbering/numbering';
+import { numberBoxDefinitions, generateAutomaticNumber, addNumberToRegistry } from '../features/numbering/numbering';
 
 import {
   labelPosition,
@@ -73,7 +73,8 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     box.x += 39;
     box.y -= 5;
 
-    renderNumber(parentGfx, semantic.number, numberStyle(box), element.type);
+    var newRenderedNumber = renderNumber(parentGfx, semantic.number, numberStyle(box), element.type);
+    addNumberToRegistry(newRenderedNumber, semantic.number);
   }
 
   // style functions

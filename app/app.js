@@ -22,7 +22,7 @@ import { isPlaying, initReplay } from './domain-story-modeler/features/replay/re
 
 import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUtil';
 
-import { updateExistingNumbersAtEditing } from './domain-story-modeler/features/numbering/numbering';
+import { updateExistingNumbersAtEditing, getNumberRegistry } from './domain-story-modeler/features/numbering/numbering';
 
 import {
   correctGroupChildren,
@@ -136,47 +136,120 @@ eventBus.on('element.dblclick', function(e) {
   if (!isPlaying()) {
     var element = e.element;
     if (element.type == ACTIVITY) {
-      var source = element.source;
+      activityDoubleClick(element);
+    } else {
+      var renderedNumberRegistry = getNumberRegistry();
 
-      var dict = getActivityDictionary();
-      autocomplete(activityInputLabelWithNumber, dict, element);
-      autocomplete(activityInputLabelWithoutNumber, dict, element);
+      if (renderedNumberRegistry.length > 1) {
 
-      // ensure the right number when changing the direction of an activity
-      toggleStashUse(false);
+        var canvasObjects = canvas._rootElement.children;
+        var allActivities = getActivitesFromActors(canvasObjects);
 
-      if (source.type.includes(ACTOR)) {
-        showActivityWithNumberDialog(element);
-        document.getElementById('inputLabel').focus();
+        if (allActivities.length >0) {
+
+          var htmlCanvas = document.getElementById('canvas');
+          var container = htmlCanvas.getElementsByClassName('djs-container');
+          var svgElements = container[0].getElementsByTagName('svg');
+          var outerSVGElement = svgElements[0];
+          var viewport = outerSVGElement.getElementsByClassName('viewport')[0];
+          var transform = viewport.getAttribute('transform');
+          var transformX = 0,
+              transformY = 0,
+              zoomX = 1,
+              zoomY = 1;
+          var nums;
+
+          var clickX = e.originalEvent.offsetX;
+          var clickY = e.originalEvent.offsetY;
+
+          if (transform) {
+            transform = transform.replace('matrix(', '');
+            transform.replace(')');
+            nums = transform.split(',');
+            zoomX = parseFloat(nums[0]);
+            zoomY = parseFloat(nums[3]);
+            transformX = parseInt(nums[4]);
+            transformY = parseInt(nums[5]);
+          }
+
+          var width = 25 * zoomX;
+          var height = 22 * zoomY;
+
+          for (var i = 1; i<renderedNumberRegistry.length; i++) {
+            var currentNum = renderedNumberRegistry[i];
+            var tspan = currentNum.getElementsByTagName('tspan')[0];
+            var tx = tspan.getAttribute('x');
+            var ty = tspan.getAttribute('y');
+            var tNumber = parseInt(tspan.innerHTML);
+
+            var elementX = (tx * zoomX) + (transformX - 5 * zoomX);
+            var elementY = (ty * zoomY) + (transformY - 15 * zoomY);
+
+            for (var j=0; j<allActivities.length; j++) {
+              var activity = allActivities[j];
+              if (activity.businessObject.number == tNumber) {
+                if (positionsMatch(width, height, elementX, elementY, clickX, clickY)) {
+                  activityDoubleClick(activity);
+                }
+              }
+            }
+
+          }
+        }
       }
-      else if (source.type.includes(WORKOBJECT)) {
-        showActivityWithoutLabelDialog(element);
-        document.getElementById('labelInputLabel').focus();
-      }
-
-      // onclick and key functions, that need the element to which the event belongs
-      activityLabelButtonSave.onclick = function() {
-        saveActivityInputLabelWithoutNumber(element);
-      };
-
-      activityNumberDialogButtonSave.onclick = function() {
-        saveActivityInputLabelWithNumber(element);
-      };
-
-      activityInputLabelWithoutNumber.onkeydown = function(e) {
-        checkPressedKeys(e.keyCode, 'labelDialog', element);
-      };
-
-      activityInputNumber.onkeydown = function(e) {
-        checkPressedKeys(e.keyCode, 'numberDialog', element);
-      };
-
-      activityInputLabelWithNumber.onkeydown = function(e) {
-        checkPressedKeys(e.keyCode, 'numberDialog', element);
-      };
     }
   }
 });
+
+function positionsMatch(width, height, elementX, elementY, clickX, clickY) {
+  if (clickX > elementX && clickX < (elementX + width)) {
+    if (clickY > elementY && clickY < (elementY + height)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function activityDoubleClick(activity) {
+  var source = activity.source;
+
+  var dict = getActivityDictionary();
+  autocomplete(activityInputLabelWithNumber, dict, activity);
+  autocomplete(activityInputLabelWithoutNumber, dict, activity);
+
+  // ensure the right number when changing the direction of an activity
+  toggleStashUse(false);
+
+  if (source.type.includes(ACTOR)) {
+    showActivityWithNumberDialog(activity);
+    document.getElementById('inputLabel').focus();
+  }
+  else if (source.type.includes(WORKOBJECT)) {
+    showActivityWithoutLabelDialog(activity);
+    document.getElementById('labelInputLabel').focus();
+  }
+
+  // onclick and key functions, that need the element to which the event belongs
+  activityLabelButtonSave.onclick = function() {
+    saveActivityInputLabelWithoutNumber(activity);
+  };
+
+  activityNumberDialogButtonSave.onclick = function() {
+    saveActivityInputLabelWithNumber(activity);
+  };
+
+  activityInputLabelWithoutNumber.onkeydown = function(e) {
+    checkPressedKeys(e.keyCode, 'labelDialog', activity);
+  };
+
+  activityInputNumber.onkeydown = function(e) {
+    checkPressedKeys(e.keyCode, 'numberDialog', activity);
+  };
+
+  activityInputLabelWithNumber.onkeydown = function(e) {
+    checkPressedKeys(e.keyCode, 'numberDialog', activity);
+  };
+}
 
 // when in replay, do not allow any interaction on the canvas
 eventBus.on([

@@ -4,6 +4,8 @@ import { labelPosition } from '../labeling/DSLabelUtil';
 
 import { getActivitesFromActors } from '../../util/CanvasObjects';
 
+var numberRegistry = [];
+
 // defines the box for activity numbers
 export function numberBoxDefinitions(element) {
   var alignement = 'center';
@@ -107,4 +109,12 @@ export function getNumbersAndIDs(canvas) {
     iDWithNumber.push({ id: id, number: number });
   }
   return iDWithNumber;
+}
+
+export function addNumberToRegistry(renderedNumber, number) {
+  numberRegistry[number] = renderedNumber;
+}
+
+export function getNumberRegistry() {
+  return numberRegistry.slice(0);
 }
