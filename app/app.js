@@ -10,8 +10,6 @@ import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/Search
 
 import DSActivityHandlers from './domain-story-modeler/modeler/DSActivityHandlers';
 
-import sanitize from './domain-story-modeler/util/Sanitizer';
-
 import { toggleStashUse } from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
 
 import { version } from '../package.json';
@@ -166,17 +164,14 @@ eventBus.on('element.dblclick', function(e) {
       };
 
       activityInputLabelWithoutNumber.onkeydown = function(e) {
-        checkInput(activityInputLabelWithoutNumber);
         checkPressedKeys(e.keyCode, 'labelDialog', element);
       };
 
       activityInputNumber.onkeydown = function(e) {
-        checkInput(activityInputNumber);
         checkPressedKeys(e.keyCode, 'numberDialog', element);
       };
 
       activityInputLabelWithNumber.onkeydown = function(e) {
-        checkInput(activityInputLabelWithNumber);
         checkPressedKeys(e.keyCode, 'numberDialog', element);
       };
     }
@@ -276,13 +271,8 @@ info.addEventListener('keyup', function(e) {
   keyReleased(keysPressed, e.keyCode);
 });
 
-activityInputLabelWithoutNumber.addEventListener('keyup', function() {
-  checkInput(activityInputLabelWithoutNumber);
-});
-
 activityInputLabelWithNumber.addEventListener('keyup', function(e) {
   keyReleased(keysPressed, e.keyCode);
-  checkInput(activityInputLabelWithNumber);
 });
 
 activityDictionaryContainer.addEventListener('keydown', function(e) {
@@ -739,10 +729,6 @@ function saveActivityInputLabelWithoutNumber(element) {
 
 function keyReleased(keysPressed, keyCode) {
   keysPressed[keyCode] = false;
-}
-
-function checkInput(field) {
-  field.value = sanitize(field.value);
 }
 
 // SVG functions
