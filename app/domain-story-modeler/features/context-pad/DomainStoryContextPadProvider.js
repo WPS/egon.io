@@ -180,7 +180,6 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     else {
       newNumber = generateAutomaticNumber(element, canvas, commandStack);
     }
-
     context = {
       businessObject: businessObject,
       newNumber: newNumber,

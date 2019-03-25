@@ -18,11 +18,7 @@ export default function DSActivityHandler(commandStack, eventBus, canvas) {
   function activity_changed(modeling) {
 
     this.preExecute = function(context) {
-      context.oldLabel = context.businessObject.name;
-
-      if (context.oldLabel.length < 1) {
-        context.oldLabel = ' ';
-      }
+      context.oldLabel = context.businessObject.name || ' ';
 
       var oldNumbersWithIDs = getNumbersAndIDs(canvas);
       modeling.updateLabel(context.businessObject, context.newLabel);
@@ -64,6 +60,7 @@ export default function DSActivityHandler(commandStack, eventBus, canvas) {
     this.preExecute = function(context) {
       context.oldNumber = context.businessObject.number;
       context.oldWaypoints= context.element.waypoints;
+      context.name = context.businessObject.name;
 
       if (!context.oldNumber) {
         context.oldNumber=0;
@@ -87,6 +84,7 @@ export default function DSActivityHandler(commandStack, eventBus, canvas) {
       element.target = swapSource;
       semantic.target = swapSource.id;
 
+      semantic.name = context.name;
       semantic.number = context.newNumber;
       element.waypoints = newWaypoints;
 
@@ -102,6 +100,8 @@ export default function DSActivityHandler(commandStack, eventBus, canvas) {
       semantic.source = semantic.target;
       element.target = swapSource;
       semantic.target = swapSource.id;
+
+      semantic.name = context.name;
 
       semantic.number = context.oldNumber;
       element.waypoints = context.oldWaypoints;
