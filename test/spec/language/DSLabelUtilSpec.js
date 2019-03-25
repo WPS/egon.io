@@ -1,6 +1,6 @@
 import '../../../app/domain-story-modeler/util/MathExtensions';
 
-import { selectPartOfActivity, labelPositionX, labelPosition, labelPositionY } from '../../../app/domain-story-modeler/features/labeling/DSLabelUtil';
+import { selectPartOfActivity, labelPositionX, labelPosition, labelPositionY, calculateTextWidth } from '../../../app/domain-story-modeler/features/labeling/DSLabelUtil';
 
 describe('DSLabelUtil', function() {
 
@@ -221,4 +221,28 @@ describe('DSLabelUtil', function() {
     assert.equal(res.selected, supposed.selected);
     assert.deepEqual(res.selected, supposed.selected);
   });
+
+  describe('calculateTextWidth', function() {
+    it('returns 0 for empty text', function() {
+      assert.equal(0, calculateTextWidth(''));
+    });
+
+    it('returns 0 for null', function() {
+      assert.equal(0, calculateTextWidth(null));
+    });
+
+    it('returns 0 for undefined', function() {
+      assert.equal(0, calculateTextWidth(undefined));
+    });
+
+    it('returns same value for same characters', function() {
+      assert.equal(calculateTextWidth('AIW'), calculateTextWidth('AIW'));
+      assert.equal(calculateTextWidth('AIW'), calculateTextWidth('IWA'));
+    });
+
+    it('distinguishes casing', function() {
+      assert.equal(calculateTextWidth('abcdefghi'), calculateTextWidth('ABCDEFGHI'));
+    });
+  });
+
 });
