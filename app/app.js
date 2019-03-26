@@ -25,17 +25,13 @@ import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUt
 import { updateExistingNumbersAtEditing, getNumberRegistry } from './domain-story-modeler/features/numbering/numbering';
 
 import {
-  correctGroupChildren,
   getAllObjectsFromCanvas,
-  getActivitesFromActors,
-  updateCustomElementsPreviousv050 } from './domain-story-modeler/util/CanvasObjects';
-import { allInWorkObjectRegistry, registerWorkObjects } from './domain-story-modeler/language/workObjectRegistry';
-import { allInActorRegistry, registerActors } from './domain-story-modeler/language/actorRegistry';
-import { ACTIVITY, ACTOR, WORKOBJECT, DOMAINSTORY } from './domain-story-modeler/language/elementTypes';
+  getActivitesFromActors } from './domain-story-modeler/util/CanvasObjects';
+import { ACTIVITY, ACTOR, WORKOBJECT } from './domain-story-modeler/language/elementTypes';
 import { downloadDST, createObjectListForDSTDownload } from './domain-story-modeler/features/export/dstDownload';
 import { downloadSVG, setEncoded } from './domain-story-modeler/features/export/svgDownload';
 import { downloadPNG } from './domain-story-modeler/features/export/pngDownload';
-import { checkElementReferencesAndRepair } from './domain-story-modeler/util/ImportRepair';
+import { importDST } from './domain-story-modeler/features/import/import';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -78,8 +74,6 @@ var modal = document.getElementById('modal'),
     title = document.getElementById('title'),
     info = document.getElementById('info'),
     infoText = document.getElementById('infoText'),
-    importedVersionLabel = document.getElementById('importedVersion'),
-    modelerVersionLabel = document.getElementById('modelerVersion'),
     // Inputs
     titleInput = document.getElementById('titleInput'),
     titleInputLast = '',
@@ -91,8 +85,6 @@ var modal = document.getElementById('modal'),
     headlineDialog = document.getElementById('dialog'),
     activityWithNumberDialog = document.getElementById('numberDialog'),
     activityWithoutNumberDialog = document.getElementById('labelDialog'),
-    brokenDSTDialog = document.getElementById('brokenDSTDialog'),
-    versionDialog = document.getElementById('versionDialog'),
     incompleteStoryDialog = document.getElementById('incompleteStoryInfo'),
     wpsLogoDialog = document.getElementById('wpsLogoInfo'),
     dstLogoDialog = document.getElementById('dstLogoInfo'),
@@ -110,7 +102,6 @@ var modal = document.getElementById('modal'),
     dictionaryButtonOpen = document.getElementById('dictionaryButton'),
     dictionaryButtonSave = document.getElementById('closeDictionaryButtonSave'),
     dictionaryButtonCancel = document.getElementById('closeDictionaryButtonCancel'),
-    brokenDSTDialogButtonCancel = document.getElementById('brokenDSTDialogButtonCancel'),
     activityNumberDialogButtonSave = document.getElementById('numberSaveButton'),
     activityNumberDialogButtonCancel = document.getElementById('numberQuitButton'),
     activityLabelButtonSave = document.getElementById('labelSaveButton'),
@@ -124,8 +115,7 @@ var modal = document.getElementById('modal'),
     keyboardShortcutInfoButton = document.getElementById('keyboardShortcutInfoButton'),
     keyboardShortcutInfoButtonCancel = document.getElementById('keyboardShortcutInfoDialogButtonCancel'),
     incompleteStoryDialogButtonCancel = document.getElementById('closeIncompleteStoryInfo'),
-    noContentOnCanvasDialogCuttonCancel = document.getElementById('closeNoContentOnCanvasInfo'),
-    versionDialogButtonCancel = document.getElementById('closeVersionDialog');
+    noContentOnCanvasDialogCuttonCancel = document.getElementById('closeNoContentOnCanvasInfo');
 
 // interal variables
 var keysPressed = [];
@@ -372,10 +362,6 @@ dictionaryButtonCancel.addEventListener('click', function(e) {
   modal.style.display='none';
 });
 
-brokenDSTDialogButtonCancel.addEventListener('click', function() {
-  closeBrokenDSTDialog();
-});
-
 exportButton.addEventListener('click', function() {
 
   if (canvas._rootElement) {
@@ -412,11 +398,6 @@ noContentOnCanvasDialogCuttonCancel.addEventListener('click', function() {
   closeNoContentDialog();
 });
 
-versionDialogButtonCancel.addEventListener('click', function() {
-  modal.style.display = 'none';
-  versionDialog.style.display = 'none';
-});
-
 keyboardShortcutInfoButton.addEventListener('click', function() {
   modal.style.display = 'block';
   keyboardShortcutInfoDialog.style.display = 'block';
@@ -427,89 +408,18 @@ keyboardShortcutInfoButton.addEventListener('click', function() {
 document.getElementById('import').onchange = function() {
 
   var input = document.getElementById('import').files[0];
-  var reader = new FileReader();
-  if (input.name.endsWith('.dst')) {
-    var titleText = input.name.replace(/_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/, '');
-    if (titleText.includes('.dst')) {
-      titleText = titleText.replace('.dst','');
-    }
-    titleInput.value = titleText;
-    title.innerText = titleText;
-    titleInputLast = titleInput.value;
 
-    reader.onloadend = function(e) {
-      var text = e.target.result;
+  importDST(input, version, canvas, eventBus, modeler);
 
-      var elements = JSON.parse(text);
-      var lastElement = elements.pop();
+  // to update the title of the svg, we need to tell the command stack, that a value has changed
+  var exportArtifacts = debounce(fnDebounce, 500);
 
-      var importVersionNumber = lastElement;
-      if (lastElement.version) {
-        lastElement = elements.pop();
-      }
+  eventBus.fire('commandStack.changed', exportArtifacts);
 
-      if (importVersionNumber.version) {
-        importVersionNumber = importVersionNumber.version;
-      } else {
-        importVersionNumber = '?';
-      }
-
-      if (version != importVersionNumber) {
-        importedVersionLabel.innerText = 'v' + importVersionNumber;
-        modelerVersionLabel.innerText = 'v' + version;
-        showVersionDialog();
-        elements = updateCustomElementsPreviousv050(elements);
-      }
-
-      var allReferences = checkElementReferencesAndRepair(elements);
-
-      if (!allReferences) {
-        showBrokenDSTDialog();
-      }
-
-      updateRegistries(elements);
-
-      var inputInfoText = lastElement.info ? lastElement.info : '';
-      info.innerText = inputInfoText;
-      info.value = inputInfoText;
-      descriptionInputLast = info.value;
-      infoText.innerText = inputInfoText;
-
-      modeler.importCustomElements(elements);
-      cleanDictionaries(canvas);
-      correctGroupChildren(canvas);
-    };
-
-    reader.readAsText(input);
-
-    // to update the title of the svg, we need to tell the command stack, that a value has changed
-    var exportArtifacts = debounce(fnDebounce, 500);
-
-    eventBus.fire('commandStack.changed', exportArtifacts);
-  }
+  titleInputLast = titleInput.value;
+  descriptionInputLast = info.value;
 };
 
-function updateRegistries(elements) {
-  var actors = getElementsOfType(elements, 'actor');
-  var workObjects = getElementsOfType(elements, 'workObject');
-
-  if (!allInActorRegistry(actors)) {
-    registerActors(actors);
-  }
-  if (!allInWorkObjectRegistry(workObjects)) {
-    registerWorkObjects(workObjects);
-  }
-}
-
-function getElementsOfType(elements, type) {
-  var elementOfType =[];
-  elements.forEach(element => {
-    if (element.type.includes(DOMAINSTORY + type)) {
-      elementOfType.push(element);
-    }
-  });
-  return elementOfType;
-}
 
 function dictionaryKeyBehaviour(event) {
   const KEY_ENTER = 13;
@@ -622,16 +532,6 @@ function massChangeNames(oldValue, newValue, type) {
 
 // dialog functions
 
-function showVersionDialog() {
-  versionDialog.style.display = 'block';
-  modal.style.display = 'block';
-}
-
-function showBrokenDSTDialog() {
-  brokenDSTDialog.style.display = 'block';
-  modal.style.display = 'block';
-}
-
 function showNoContentDialog() {
   noContentOnCanvasDialog.style.display = 'block';
   modal.style.display = 'block';
@@ -639,11 +539,6 @@ function showNoContentDialog() {
 
 function closeNoContentDialog() {
   noContentOnCanvasDialog.style.display = 'none';
-  modal.style.display = 'none';
-}
-
-function closeBrokenDSTDialog() {
-  brokenDSTDialog.style.display = 'none';
   modal.style.display = 'none';
 }
 
