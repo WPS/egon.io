@@ -116,6 +116,11 @@ function adjustPositions(elements) {
       waypoints.forEach(point => {
         point.x -= xLeft;
         point.y -= yUp;
+
+        if (point.original) {
+          point.original.x = point.x;
+          point.original.y = point.y;
+        }
       });
     } else {
       element.x -= xLeft;
