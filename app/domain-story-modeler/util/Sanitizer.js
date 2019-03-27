@@ -13,6 +13,6 @@ export default function sanitizeForDesktop(string) {
     '>': '',
     '|': ''
   };
-  const reg = /[&<>"/]/ig;
+  const reg = /[/\\:*?"<>|]/ig;
   return string ? string.replace(reg, (match)=>(map[match])) : '';
 }

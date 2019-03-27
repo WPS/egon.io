@@ -19,9 +19,9 @@ describe('Sanitizer', function() {
     assert.deepEqual(res, 'test');
   });
 
-  it('sanitize <text id="test">&lttest&gt</test>', function() {
-    var res = sanitizeFromDesktop('<text id="test">&lttest&gt</test>');
-    assert.equal(res, 'text id=test&test&gttest');
-    assert.deepEqual(res, 'text id=test&test&gttest');
+  it('sanitize <text id="test">&test&</test>', function() {
+    var res = sanitizeFromDesktop('<text id="test">&test&</test>');
+    assert.equal(res, 'text id=test&test&test');
+    assert.deepEqual(res, 'text id=test&test&test');
   });
 });
