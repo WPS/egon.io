@@ -5,9 +5,9 @@ import {
 
 import DomainStoryModeler from '../../../app/domain-story-modeler';
 import { assign } from 'min-dash';
-import { initActorIconRegistry } from '../../../app/domain-story-modeler/language/actoIconrRegistry';
 import { test_conf } from '../test_conf';
 import { CONNECTION } from '../../../app/domain-story-modeler/language/elementTypes';
+import { initActorIconRegistry } from '../../../app/domain-story-modeler/language/actorIconRegistry';
 
 
 describe('domainStory modeling', function() {

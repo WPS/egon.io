@@ -16,8 +16,6 @@ import { getActorIconRegistry } from '../../language/actorIconRegistry';
 import { getIconForType } from '../../language/iconRegistry';
 import { ACTIVITY, ACTOR, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
 
-
-
 export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
 
   injector.invoke(ContextPadProvider, this);

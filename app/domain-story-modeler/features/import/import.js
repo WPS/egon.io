@@ -2,10 +2,12 @@
 
 import { registerWorkObjectIcons, allInWorkObjectIconRegistry } from '../../language/workObjectIconRegistry';
 import { allInActorIconRegistry, registerActorIcons } from '../../language/actorIconRegistry';
-import { DOMAINSTORY, ACTIVITY, CONNECTION } from '../../language/elementTypes';
-import { updateCustomElementsPreviousv050, correctGroupChildren } from '../../util/CanvasObjects';
+import { DOMAINSTORY, ACTIVITY, CONNECTION, WORKOBJECT } from '../../language/elementTypes';
 import { checkElementReferencesAndRepair } from '../../util/ImportRepair';
 import { cleanDictionaries } from '../dictionary/dictionary';
+import { correctElementRegitryInit, getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
+import { isInDomainStoryGroup } from '../../util/TypeCheck';
+import { assign } from 'min-dash';
 
 var modal = document.getElementById('modal'),
     info = document.getElementById('info'),
@@ -19,23 +21,23 @@ var modal = document.getElementById('modal'),
     brokenDSTDialogButtonCancel = document.getElementById('brokenDSTDialogButtonCancel'),
     versionDialogButtonCancel = document.getElementById('closeVersionDialog');
 
+if (versionDialogButtonCancel) {
+  versionDialogButtonCancel.addEventListener('click', function() {
+    modal.style.display = 'none';
+    versionDialog.style.display = 'none';
+  });
 
-
-versionDialogButtonCancel.addEventListener('click', function() {
-  modal.style.display = 'none';
-  versionDialog.style.display = 'none';
-});
-
-brokenDSTDialogButtonCancel.addEventListener('click', function() {
-  closeBrokenDSTDialog();
-});
+  brokenDSTDialogButtonCancel.addEventListener('click', function() {
+    closeBrokenDSTDialog();
+  });
+}
 
 function closeBrokenDSTDialog() {
   brokenDSTDialog.style.display = 'none';
   modal.style.display = 'none';
 }
 
-export function importDST(input, version, canvas, eventBus, modeler) {
+export function importDST(input, version, modeler) {
 
   var reader = new FileReader();
   if (input.name.endsWith('.dst')) {
@@ -76,7 +78,7 @@ export function importDST(input, version, canvas, eventBus, modeler) {
         showBrokenDSTDialog();
       }
 
-      updateRegistries(elements);
+      updateIconRegistries(elements);
 
       var inputInfoText = lastElement.info ? lastElement.info : '';
       info.innerText = inputInfoText;
@@ -86,13 +88,68 @@ export function importDST(input, version, canvas, eventBus, modeler) {
       adjustPositions(elements);
 
       modeler.importCustomElements(elements);
-      cleanDictionaries(canvas);
-      correctGroupChildren(canvas);
+      correctElementRegitryInit();
+
+      cleanDictionaries();
+      correctGroupChildren();
     };
 
     reader.readAsText(input);
   }
 }
+
+
+
+// when importing a domain-story, the elements that are visually inside a group are not yet associated with it.
+// to ensure they are correctly associated, we add them to the group
+function correctGroupChildren() {
+  var allObjects = getAllCanvasObjects();
+  var groups = getAllGroups();
+
+  groups.forEach(group => {
+    var parent = group.parent;
+    parent.children.slice().forEach(innerShape => {
+      if ((innerShape.id) != group.id) {
+        if (innerShape.x >= group.x && innerShape.x <= group.x + group.width) {
+          if (innerShape.y >= group.y && innerShape.y <= group.y + group.height) {
+            innerShape.parent = group;
+            if (!group.children.includes(innerShape)) {
+              group.children.push(innerShape);
+            }
+          }
+        }
+      }
+    });
+  });
+  allObjects.forEach(shape => {
+    var businessObject = shape.businessObject;
+    if (isInDomainStoryGroup(shape)) {
+      assign(businessObject, {
+        parent: shape.parent.id
+      });
+    }
+  });
+}
+
+
+/**
+ * Ensure backwards compatability.
+ * Previously Document had no special name and was just adressed as workObject
+ * Bubble was renamed to Conversation
+ */
+
+export function updateCustomElementsPreviousv050(elements) {
+
+  for (var i=0; i< elements.length; i++) {
+    if (elements[i].type === WORKOBJECT) {
+      elements[i].type = WORKOBJECT + 'Document';
+    } else if (elements[i].type === WORKOBJECT + 'Bubble') {
+      elements[i].type = WORKOBJECT + 'Conversation';
+    }
+  }
+  return elements;
+}
+
 
 function adjustPositions(elements) {
   var xLeft , yUp;
@@ -129,15 +186,15 @@ function adjustPositions(elements) {
   });
 }
 
-function updateRegistries(elements) {
-  var actors = getElementsOfType(elements, 'actor');
-  var workObjects = getElementsOfType(elements, 'workObject');
+function updateIconRegistries(elements) {
+  var actorIcons = getElementsOfType(elements, 'actor');
+  var workObjectIcons = getElementsOfType(elements, 'workObject');
 
-  if (!allInActorIconRegistry(actors)) {
-    registerActorIcons(actors);
+  if (!allInActorIconRegistry(actorIcons)) {
+    registerActorIcons(actorIcons);
   }
-  if (!allInWorkObjectIconRegistry(workObjects)) {
-    registerWorkObjectIcons(workObjects);
+  if (!allInWorkObjectIconRegistry(workObjectIcons)) {
+    registerWorkObjectIcons(workObjectIcons);
   }
 }
 

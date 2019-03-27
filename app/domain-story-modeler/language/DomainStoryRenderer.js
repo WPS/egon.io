@@ -38,6 +38,7 @@ import {
 import { getActorIconSrc } from './actorIconRegistry';
 import { getWorkObjectIconSrc } from './workObjectIconRegistry';
 import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
+import { correctElementRegitryInit } from '../features/canvasElements/canvasElementRegistry';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];
@@ -299,7 +300,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   };
 
   this.drawWorkObject = function(p, element) {
-
     var svgDynamicSizeAttributes = {
       width: element.width * 0.65,
       height: element.height * 0.65,
@@ -317,7 +317,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   };
 
   this.drawActivity = function(p, element) {
-
     adjustForTextOverlapp(element);
 
     if (element) {
@@ -621,6 +620,7 @@ DomainStoryRenderer.prototype.canRender = function(element) {
 
 DomainStoryRenderer.prototype.drawShape = function(p, element) {
   var type = element.type;
+  correctElementRegitryInit();
 
   if (type.includes(ACTOR)) {
     return this.drawActor(p, element);

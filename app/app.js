@@ -24,14 +24,12 @@ import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUt
 
 import { updateExistingNumbersAtEditing, getNumberRegistry } from './domain-story-modeler/features/numbering/numbering';
 
-import {
-  getAllObjectsFromCanvas,
-  getActivitesFromActors } from './domain-story-modeler/util/CanvasObjects';
 import { ACTIVITY, ACTOR, WORKOBJECT } from './domain-story-modeler/language/elementTypes';
 import { downloadDST, createObjectListForDSTDownload } from './domain-story-modeler/features/export/dstDownload';
 import { downloadSVG, setEncoded } from './domain-story-modeler/features/export/svgDownload';
 import { downloadPNG } from './domain-story-modeler/features/export/pngDownload';
 import { importDST } from './domain-story-modeler/features/import/import';
+import { getActivitesFromActors, getAllCanvasObjects, initElementRegistry } from './domain-story-modeler/features/canvasElements/canvasElementRegistry';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -49,7 +47,8 @@ var elementRegistry = modeler.get('elementRegistry');
 DSActivityHandlers(commandStack, eventBus, canvas);
 DSMassRenameHandlers(commandStack, eventBus, canvas);
 
-initReplay(canvas, elementRegistry);
+initReplay(canvas);
+initElementRegistry(elementRegistry);
 
 // disable BPMN SearchPad
 SearchPad.prototype.toggle=function() { };
@@ -132,8 +131,7 @@ eventBus.on('element.dblclick', function(e) {
 
       if (renderedNumberRegistry.length > 1) {
 
-        var canvasObjects = canvas._rootElement.children;
-        var allActivities = getActivitesFromActors(canvasObjects);
+        var allActivities = getActivitesFromActors();
 
         if (allActivities.length >0) {
 
@@ -366,7 +364,7 @@ exportButton.addEventListener('click', function() {
 
   if (canvas._rootElement) {
 
-    var objects = createObjectListForDSTDownload(canvas, version);
+    var objects = createObjectListForDSTDownload(version);
 
     var json = JSON.stringify(objects);
     var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
@@ -409,7 +407,9 @@ document.getElementById('import').onchange = function() {
 
   var input = document.getElementById('import').files[0];
 
-  importDST(input, version, canvas, eventBus, modeler);
+  initElementRegistry(elementRegistry);
+
+  importDST(input, version, modeler);
 
   // to update the title of the svg, we need to tell the command stack, that a value has changed
   var exportArtifacts = debounce(fnDebounce, 500);
@@ -513,7 +513,7 @@ function dictionaryDifferences(activityNames, oldActivityDictionary, workObjectN
 }
 
 function massChangeNames(oldValue, newValue, type) {
-  var allObjects = getAllObjectsFromCanvas(canvas);
+  var allObjects = getAllCanvasObjects();
   var allRelevantObjects=[];
 
   allObjects.forEach(element =>{
@@ -645,9 +645,7 @@ function saveActivityInputLabelWithNumber(element) {
   activityInputNumber.value = '';
   keysPressed = [];
 
-  var canvasObjects = canvas._rootElement.children;
-
-  var activitiesFromActors = getActivitesFromActors(canvasObjects);
+  var activitiesFromActors = getActivitesFromActors();
 
   var index = activitiesFromActors.indexOf(element);
   activitiesFromActors.splice(index, 1);
@@ -660,7 +658,7 @@ function saveActivityInputLabelWithNumber(element) {
   });
 
   updateExistingNumbersAtEditing(activitiesFromActors, numberInput, eventBus);
-  cleanDictionaries(canvas);
+  cleanDictionaries();
 }
 
 function closeActivityInputLabelWithoutNumber() {
@@ -692,7 +690,7 @@ function saveActivityInputLabelWithoutNumber(element) {
     element: element
   });
 
-  cleanDictionaries(canvas);
+  cleanDictionaries();
 }
 
 function keyReleased(keysPressed, keyCode) {

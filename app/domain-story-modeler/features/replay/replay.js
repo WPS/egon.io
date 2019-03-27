@@ -1,10 +1,7 @@
 'use strict';
 
-import {
-  getActivitesFromActors,
-  getAllObjectsFromCanvas
-} from '../../util/CanvasObjects';
 import { CONNECTION, GROUP } from '../../language/elementTypes';
+import { getActivitesFromActors, getAllCanvasObjects } from '../canvasElements/canvasElementRegistry';
 
 var canvas;
 var elementRegistry;
@@ -15,9 +12,8 @@ var replaySteps = [];
 
 var errorStep =0;
 
-export function initReplay(inCanvas, inElementRegistry) {
+export function initReplay(inCanvas) {
   canvas = inCanvas;
-  elementRegistry = inElementRegistry;
 }
 
 export function isPlaying() {
@@ -37,8 +33,7 @@ let importExportSVGButtonsContainer = document.getElementById('importExportSVGBu
 /* test */
 
 startReplayButton.addEventListener('click', function() {
-  var canvasObjects = canvas._rootElement.children;
-  var activities = getActivitesFromActors(canvasObjects);
+  var activities = getActivitesFromActors();
 
   if (!replayOn && activities.length > 0) {
     replaySteps = traceActivities(activities, elementRegistry);
@@ -159,15 +154,15 @@ export function traceActivities(activitiesFromActors, elementRegistry) {
 }
 
 // create a step for the replay function
-function createStep(tracedActivity, elementRegistry) {
+function createStep(tracedActivity) {
   var initialSource;
   var activities = [tracedActivity];
   var targetObjects = [];
   if (tracedActivity) {
-    initialSource = elementRegistry.get(tracedActivity.businessObject.source);
+    initialSource = tracedActivity.source;
 
     // add the first Object to the traced targets, this can only be a workObject, since actors cannot connect to other actors
-    var firstTarget = elementRegistry.get(tracedActivity.target.id);
+    var firstTarget = tracedActivity.target;
     targetObjects.push(firstTarget);
 
     // check the outgoing activities for each target
@@ -177,7 +172,7 @@ function createStep(tracedActivity, elementRegistry) {
         // check the target for each outgoing activity
         checkTarget.outgoing.forEach(activity => {
           activities.push(activity);
-          var activityTarget = elementRegistry.get(activity.businessObject.target);
+          var activityTarget = activity.target;
           if (!targetObjects.includes(activityTarget)) {
             targetObjects.push(activityTarget);
           }
@@ -348,7 +343,7 @@ function showCurrentStep() {
     stepsUntilNow.push(replaySteps[i]);
   }
 
-  allObjects = getAllObjectsFromCanvas(canvas);
+  allObjects = getAllCanvasObjects(canvas);
 
   var shownElements = getAllShown(stepsUntilNow);
 

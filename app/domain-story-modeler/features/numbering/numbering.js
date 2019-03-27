@@ -1,8 +1,8 @@
 'use strict';
 
 import { labelPosition } from '../labeling/DSLabelUtil';
+import { getActivitesFromActors } from '../canvasElements/canvasElementRegistry';
 
-import { getActivitesFromActors } from '../../util/CanvasObjects';
 
 var numberRegistry = [];
 
@@ -29,12 +29,11 @@ export function numberBoxDefinitions(element) {
 // determine the next available number that is not yet used
 export function generateAutomaticNumber(elementActivity, canvas, commandStack) {
   var semantic = elementActivity.businessObject;
-  var canvasObjects = canvas._rootElement.children;
   var activiesFromActors = [];
   var usedNumbers = [0];
   var wantedNumber = -1;
 
-  activiesFromActors = getActivitesFromActors(canvasObjects);
+  activiesFromActors = getActivitesFromActors();
   activiesFromActors.forEach(element => {
     if (element.businessObject.number != null) {
       usedNumbers.push(element.businessObject.number);
