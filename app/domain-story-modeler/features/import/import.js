@@ -1,7 +1,7 @@
 'use strict';
 
-import { registerWorkObjects, allInWorkObjectRegistry } from '../../language/workObjectRegistry';
-import { allInActorRegistry, registerActors } from '../../language/actorRegistry';
+import { registerWorkObjectIcons, allInWorkObjectIconRegistry } from '../../language/workObjectIconRegistry';
+import { allInActorIconRegistry, registerActorIcons } from '../../language/actorIconRegistry';
 import { DOMAINSTORY, ACTIVITY, CONNECTION } from '../../language/elementTypes';
 import { updateCustomElementsPreviousv050, correctGroupChildren } from '../../util/CanvasObjects';
 import { checkElementReferencesAndRepair } from '../../util/ImportRepair';
@@ -133,11 +133,11 @@ function updateRegistries(elements) {
   var actors = getElementsOfType(elements, 'actor');
   var workObjects = getElementsOfType(elements, 'workObject');
 
-  if (!allInActorRegistry(actors)) {
-    registerActors(actors);
+  if (!allInActorIconRegistry(actors)) {
+    registerActorIcons(actors);
   }
-  if (!allInWorkObjectRegistry(workObjects)) {
-    registerWorkObjects(workObjects);
+  if (!allInWorkObjectIconRegistry(workObjects)) {
+    registerWorkObjectIcons(workObjects);
   }
 }
 

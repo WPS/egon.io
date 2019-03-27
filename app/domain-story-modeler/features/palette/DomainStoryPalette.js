@@ -3,8 +3,8 @@
 import { assign } from 'min-dash';
 import { getNameFromType } from '../../language/naming';
 import { getIconForType } from '../../language/iconRegistry';
-import { getWorkObjectRegistry, initWorkObjecttRegistry } from '../../language/workObjectRegistry';
-import { getActorRegistry, initActorRegistry } from '../../language/actorRegistry';
+import { getWorkObjectIconRegistry, initWorkObjectIconRegistry } from '../../language/workObjectIconRegistry';
+import { getActorIconRegistry, initActorIconRegistry } from '../../language/actorIconRegistry';
 import { getIconset } from '../../language/iconConfig';
 import { GROUP } from '../../language/elementTypes';
 
@@ -74,10 +74,10 @@ PaletteProvider.prototype.getPaletteEntries = function() {
 function initPalette(actions, spaceTool, lassoTool, createAction) {
   var config = getIconset();
 
-  initActorRegistry(config.actors);
-  initWorkObjecttRegistry(config.workObjects);
+  initActorIconRegistry(config.actors);
+  initWorkObjectIconRegistry(config.workObjects);
 
-  var actorTypes = getActorRegistry();
+  var actorTypes = getActorIconRegistry();
 
   actorTypes.keysArray().forEach(actorType => {
     var name = getNameFromType(actorType);
@@ -95,7 +95,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     }
   });
 
-  var workObjectTypes = getWorkObjectRegistry();
+  var workObjectTypes = getWorkObjectIconRegistry();
 
   workObjectTypes.keysArray().forEach(workObjectType => {
 

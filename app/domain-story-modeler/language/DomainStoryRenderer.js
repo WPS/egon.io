@@ -35,8 +35,8 @@ import {
   labelPosition,
   calculateTextWidth
 } from '../features/labeling/DSLabelUtil';
-import { getActorSrc } from './actorRegistry';
-import { getWorkObjectSrc } from './workObjectRegistry';
+import { getActorIconSrc } from './actorIconRegistry';
+import { getWorkObjectIconSrc } from './workObjectIconRegistry';
 import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
 
 var RENDERER_IDS = new Ids();
@@ -289,7 +289,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
         },
         actor;
 
-    actor = svgCreate(getActorSrc(element.type));
+    actor = svgCreate(getActorIconSrc(element.type));
 
     svgAttr(actor, svgDynamicSizeAttributes);
     svgAppend(p, actor);
@@ -307,7 +307,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       y: element.height / 2 - 25
     };
     var workObject;
-    workObject = svgCreate(getWorkObjectSrc(element.type));
+    workObject = svgCreate(getWorkObjectIconSrc(element.type));
 
     svgAttr(workObject, svgDynamicSizeAttributes);
     svgAppend(p, workObject);

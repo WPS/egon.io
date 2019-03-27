@@ -6,60 +6,60 @@ import { ACTOR } from './elementTypes';
 'use strict';
 
 var ActorTypes = require('collections/dict');
-var actorRegistry = new ActorTypes();
+var actorIconRegistry = new ActorTypes();
 
-export function getActorRegistry() {
-  return actorRegistry;
+export function getActorIconRegistry() {
+  return actorIconRegistry;
 }
 
-export function getActorRegistryKeys() {
-  return actorRegistry.keysArray();
+export function getActorIconRegistryKeys() {
+  return actorIconRegistry.keysArray();
 }
 
-export function allInActorRegistry(actors) {
+export function allInActorIconRegistry(actors) {
   var allIn = true;
   actors.forEach(actor => {
-    if (!actorRegistry.has(actor.type)) {
+    if (!actorIconRegistry.has(actor.type)) {
       allIn = false;
     }
   });
   return allIn;
 }
 
-export function registerActors(actors) {
+export function registerActorIcons(actors) {
   var allTypes=new ActorTypes();
   allTypes.addEach(all_icons);
 
   actors.forEach(actor => {
-    if (!actorRegistry.has(actor.type)) {
+    if (!actorIconRegistry.has(actor.type)) {
       const name = getNameFromType(actor.type);
-      registerActor(actor.type, allTypes.get(name));
+      registerActorIcon(actor.type, allTypes.get(name));
       registerIcon(actor.type, 'icon-domain-story-' + name.toLowerCase());
     }
   });
 }
 
-export function registerActor(name, src) {
+export function registerActorIcon(name, src) {
   if (!name.includes(ACTOR)) {
     name = ACTOR + name;
   }
-  actorRegistry.set(name, src);
+  actorIconRegistry.set(name, src);
 }
 
-export function getActorSrc(name) {
-  return actorRegistry.get(name);
+export function getActorIconSrc(name) {
+  return actorIconRegistry.get(name);
 }
 
-export function initActorRegistry(actors) {
+export function initActorIconRegistry(actors) {
   var allTypes=new ActorTypes();
   allTypes.addEach(all_icons);
 
   for (var i=0; i < actors.length; i++) {
     const key = ACTOR + actors[i];
-    actorRegistry.add(allTypes.get(actors[i]), key);
+    actorIconRegistry.add(allTypes.get(actors[i]), key);
   }
 
-  actorRegistry.keysArray().forEach(type => {
+  actorIconRegistry.keysArray().forEach(type => {
     var name = getNameFromType(type);
     registerIcon(type, 'icon-domain-story-' + name.toLowerCase());
   });
