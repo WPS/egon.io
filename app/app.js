@@ -417,7 +417,6 @@ document.getElementById('import').onchange = function() {
   eventBus.fire('commandStack.changed', exportArtifacts);
 
   titleInputLast = titleInput.value;
-  descriptionInputLast = info.value;
 };
 
 
@@ -555,6 +554,9 @@ function closeImageDownloadDialog() {
 }
 
 function showDialog() {
+  if (descriptionInputLast == '') {
+    descriptionInputLast = infoText.innerText;
+  }
   info.value = descriptionInputLast;
   titleInput.value = titleInputLast;
   headlineDialog.style.display = 'block';
