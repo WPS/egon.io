@@ -86,7 +86,6 @@ export function importDST(input, version, modeler) {
       infoText.innerText = inputInfoText;
 
       adjustPositions(elements);
-
       modeler.importCustomElements(elements);
       correctElementRegitryInit();
 
@@ -153,19 +152,29 @@ export function updateCustomElementsPreviousv050(elements) {
 
 function adjustPositions(elements) {
   var xLeft , yUp;
-  xLeft = elements[0].x;
-  yUp = elements[0].y;
+  var isFirst = true;
 
   elements.forEach(element => {
-    var elXLeft = parseFloat(element.x),
-        elYUp = parseFloat(element.y);
-    if (elXLeft < xLeft) {
-      xLeft = elXLeft;
-    }
-    if (elYUp < yUp) {
-      yUp = elYUp;
+    var elXLeft, elYUp;
+    if (element.type != ACTIVITY && element.type != CONNECTION) {
+      if (isFirst) {
+        xLeft = parseFloat(element.x);
+        yUp = parseFloat(element.y);
+      }
+      elXLeft= parseFloat(element.x);
+      elYUp = parseFloat(element.y);
+      if (elXLeft < xLeft) {
+        xLeft = elXLeft;
+      }
+      if (elYUp < yUp) {
+        yUp = elYUp;
+      }
     }
   });
+
+  // Add Padding for the Palette and the top
+  xLeft -= 75;
+  yUp -= 200;
 
   elements.forEach(element => {
     if (element.type == ACTIVITY || element.type == CONNECTION) {

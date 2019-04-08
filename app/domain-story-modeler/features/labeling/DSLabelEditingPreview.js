@@ -136,5 +136,5 @@ DSLabelEditingPreview.$inject = [
 // helpers ///////////////////
 
 function getStrokeColor() {
-  return 'black';
+  return document.getElementById('strokeColor').getAttribute('color');
 }
