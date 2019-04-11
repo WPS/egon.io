@@ -45,7 +45,7 @@ input{
 
 .topButtonRow{
   display: grid;
-  grid-template-columns: 100px auto 87px 200px 150px 150px auto 15px;
+  grid-template-columns: 120px auto 95px 300px auto 150px 187px 15px;
 }
 
 .iconListsContainer{
@@ -99,7 +99,8 @@ input{
 }
 
 #importConfigurationButton{
-  margin-right: 3px;
+  margin-left: 3px;
+  margin-right: 37px;
   height: 25px;
 }
 
@@ -114,9 +115,14 @@ input{
   height: 25px;
 }
 
+#iconCustomizationButton {
+  margin-top: 8px;
+  margin-left: 10px;
+}
+
 #cancelIconCustomizationButton{
   justify-self: right;
-  height: 25px;;
+  height: 25px;
 }
 
 .headerAndCanvas {

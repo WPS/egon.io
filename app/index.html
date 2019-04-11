@@ -70,7 +70,7 @@
               </button>
               <div id="replayStep"> 0/0</div>
               <button id="iconCustomizationButton">
-                cus
+                customize domain
               </button>
             </div>
           </div>
@@ -111,14 +111,14 @@
   <div id="iconCustomizationContainer"  style ="display:none">
     <div class="iconConfigCustomization">
       <div class="topButtonRow">
-        <button id="resetIconConfigButton">default</button>
+        <button id="resetIconConfigButton">reset to default</button>
         <div></div>
-        <div>domain name:</div>
+        <div>Domain Name:</div>
         <input type ="text" id="domainNameInput" value="default">
+        <div></div>
         <button id="exportConfigurationButton">export Configuration</button>
         <button id="importConfigurationButton" onclick="document.getElementById('importConfig').click()">import Configuration</button>
         <input type="file" accept=".config" style="display:none;" id="importConfig" onclick="this.value=null;" name="file" />
-        <div></div>
         <button id="cancelIconCustomizationButton">X</button>
       </div>
       <div class="iconListsContainer">
