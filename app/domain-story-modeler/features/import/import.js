@@ -1,13 +1,14 @@
 'use strict';
 
-import { registerWorkObjectIcons, allInWorkObjectIconRegistry } from '../../language/workObjectIconRegistry';
-import { allInActorIconRegistry, registerActorIcons } from '../../language/actorIconRegistry';
-import { DOMAINSTORY, ACTIVITY, CONNECTION, WORKOBJECT } from '../../language/elementTypes';
+import { registerWorkObjectIcons, allInWorkObjectIconRegistry, getWorkObjectIconRegistryKeys } from '../../language/workObjectIconRegistry';
+import { allInActorIconRegistry, registerActorIcons, getActorIconRegistryKeys } from '../../language/actorIconRegistry';
+import { DOMAINSTORY, ACTIVITY, CONNECTION, WORKOBJECT, ACTOR } from '../../language/elementTypes';
 import { checkElementReferencesAndRepair } from '../../util/ImportRepair';
 import { cleanDictionaries } from '../dictionary/dictionary';
 import { correctElementRegitryInit, getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
 import { isInDomainStoryGroup } from '../../util/TypeCheck';
 import { assign } from 'min-dash';
+import { storyPersistTag, saveIconConfiguration, loadConfiguration } from '../iconSetCustomization/persitence';
 
 var modal = document.getElementById('modal'),
     info = document.getElementById('info'),
@@ -37,6 +38,44 @@ function closeBrokenDSTDialog() {
   modal.style.display = 'none';
 }
 
+export function loadPersistedDST(modeler) {
+  var persitedStory = localStorage.getItem(storyPersistTag);
+  localStorage.removeItem(storyPersistTag);
+
+  var completeJSON = JSON.parse(persitedStory);
+
+  var titleText = completeJSON.title;
+
+  var title = document.getElementById('title');
+  title.innerText = titleText;
+
+  var elements = completeJSON.objects;
+  var lastElement = elements.pop();
+
+  var importVersionNumber = lastElement;
+  if (lastElement.version) {
+    lastElement = elements.pop();
+  }
+
+  if (importVersionNumber.version) {
+    importVersionNumber = importVersionNumber.version;
+  } else {
+    importVersionNumber = '?';
+  }
+
+  updateIconRegistries(elements);
+
+  var inputInfoText = lastElement.info ? lastElement.info : '';
+  info.innerText = inputInfoText;
+  info.value = inputInfoText;
+  infoText.innerText = inputInfoText;
+
+  modeler.importCustomElements(elements);
+  correctElementRegitryInit();
+
+  cleanDictionaries();
+}
+
 export function importDST(input, version, modeler) {
 
   var reader = new FileReader();
@@ -51,7 +90,16 @@ export function importDST(input, version, modeler) {
     reader.onloadend = function(e) {
       var text = e.target.result;
 
-      var elements = JSON.parse(text);
+      var config;
+      var elements;
+      var dstAndConfig = JSON.parse(text);
+      if (dstAndConfig.config) {
+        config = dstAndConfig.config;
+        elements = JSON.parse(dstAndConfig.dst);
+      } else {
+        elements = JSON.parse(text);
+      }
+
       var lastElement = elements.pop();
 
       var importVersionNumber = lastElement;
@@ -78,8 +126,6 @@ export function importDST(input, version, modeler) {
         showBrokenDSTDialog();
       }
 
-      updateIconRegistries(elements);
-
       var inputInfoText = lastElement.info ? lastElement.info : '';
       info.innerText = inputInfoText;
       info.value = inputInfoText;
@@ -89,6 +135,12 @@ export function importDST(input, version, modeler) {
       modeler.importCustomElements(elements);
       correctElementRegitryInit();
 
+      updateIconRegistries(elements);
+      if (config && configChanged(config)) {
+        loadConfiguration(config);
+        saveIconConfiguration();
+      }
+
       cleanDictionaries();
       correctGroupChildren();
     };
@@ -97,6 +149,40 @@ export function importDST(input, version, modeler) {
   }
 }
 
+
+function configChanged(config) {
+  var dictionary = require('collections/dict');
+  var customConfigJSON = JSON.parse(config);
+  var newActorsDict = new dictionary();
+  var newWorkObjectsDict = new dictionary();
+
+  newActorsDict.addEach(customConfigJSON.actors);
+  newWorkObjectsDict.addEach(customConfigJSON.workObjects);
+
+  var newActors = newActorsDict.keysArray();
+  var newWorkObjects = newWorkObjectsDict.keysArray();
+  var currentActors = getActorIconRegistryKeys();
+  var currentWorkObjects = getWorkObjectIconRegistryKeys();
+
+  var changed = false;
+  var i=0;
+  for (i=0; i<newActors.length; i++) {
+    if (!currentActors.includes(newActors[i]) || !currentActors.includes(ACTOR + newActors[i])) {
+      changed = true;
+      i = newActors.length;
+    }
+  }
+
+  if (changed) {
+    for (i=0; i<newWorkObjects.length; i++) {
+      if (!currentWorkObjects.includes(newWorkObjects[i]) || !currentWorkObjects.includes(WORKOBJECT + newWorkObjects[i])) {
+        changed = true;
+        i = newWorkObjects.length;
+      }
+    }
+  }
+  return changed;
+}
 
 
 // when importing a domain-story, the elements that are visually inside a group are not yet associated with it.

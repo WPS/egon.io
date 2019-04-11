@@ -21,9 +21,108 @@ input{
   z-index: 1;
 }
 
+#iconCustomizationContainer {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 11pt;  
+  border: solid 1px #aaaaab;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: white;
+  margin-right: 5px;
+  position: absolute;
+  z-index:2;
+}
+
+.iconConfigCustomization {
+  display: grid;
+  grid-template-rows: 25px auto 25px;
+}
+
+.topButtonRow{
+  display: grid;
+  grid-template-columns: 100px auto 87px 200px 150px 150px auto 15px;
+}
+
+.iconListsContainer{
+  margin-top: 3px; 
+  display: grid;
+  grid-template-columns: 49% 49%;
+}
+
+#allIconListContainer{
+  border: solid 1px #aaaaab;
+  margin-bottom: 3px;
+  margin-right: 2px;
+}
+
+#allIconsList{
+  max-height: 85vh;
+  overflow-y: scroll;
+}
+
+#selectedWorkObjectsList {
+  max-height: 45vh;
+  overflow-y: scroll;
+}
+
+#selectedActorsList {
+  max-height: 45vh;
+  overflow-y: scroll;
+}
+.selectedIconsContainer{
+  border: solid 1px #aaaaab;
+  margin-bottom: 3px;
+  margin-right: 2px;
+  display: grid;
+  grid-template-rows: 50% 1px 50%;
+}
+
+.bottomRowButtons{
+  margin-top: 5px;
+  display: grid;
+  grid-template-columns: auto 100px 100px;
+}
+
+
+#customIconConfigCancelButton{
+  justify-self: right;
+}
+
+#customIconConfigSaveButton{
+  justify-self: right;
+  height: 25px;
+}
+
+#importConfigurationButton{
+  margin-right: 3px;
+  height: 25px;
+}
+
+#exportConfigurationButton{
+  margin-left: 3px;
+  margin-right: 3px;
+  height: 25px;
+}
+
+#resetIconConfigButton{
+  justify-self: left;
+  height: 25px;
+}
+
+#cancelIconCustomizationButton{
+  justify-self: right;
+  height: 25px;;
+}
+
 .headerAndCanvas {
   margin-top: 5px;
   height: 100%;
+  width:100%;
   display: grid;
   grid-template-rows: 125px 1px auto;
 }
@@ -140,12 +239,12 @@ cursor: default;
   pointer-events : 'none';
 }
 
-#buttonImport:hover, #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #brokenDSTDialogCuttonCancel:hover, #closeNoContentOnCanvasInfo:hover, #keyboardShortcutInfoDialogButtonCancel:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
+#buttonImport:hover, #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #brokenDSTDialogCuttonCancel:hover, #closeNoContentOnCanvasInfo:hover, #keyboardShortcutInfoDialogButtonCancel:hover, #iconCustomizationButton:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
   border: 1px solid #CCC;
   cursor: pointer;
 }
 
-#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep ,#keyboardShortcutInfoButton{
+#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep ,#keyboardShortcutInfoButton, #iconCustomizationButton{
   background-color: white;
   border: 1px solid white;
   margin-right: -4px;

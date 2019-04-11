@@ -1,6 +1,6 @@
 import { registerIcon } from './iconRegistry';
 import { getNameFromType } from './naming';
-import { all_icons } from './all_Icons';
+import { all_icons, appendedIcons } from './all_Icons';
 import { WORKOBJECT } from './elementTypes';
 
 'use strict';
@@ -29,6 +29,7 @@ export function allInWorkObjectIconRegistry(workObjects) {
 export function registerWorkObjectIcons(workObjects) {
   var allTypes=new WorkObjectTypes();
   allTypes.addEach(all_icons);
+  allTypes.addEach(appendedIcons);
 
   workObjects.forEach(workObject => {
     if (!workObjectIconRegistry.has(workObject.type)) {
@@ -49,6 +50,10 @@ export function registerWorkObjectIcon(name, src) {
 
 export function getWorkObjectIconSrc(name) {
   return workObjectIconRegistry.get(name);
+}
+
+export function isInWorkObjectIconRegsitry(name) {
+  return workObjectIconRegistry.has(name);
 }
 
 export function initWorkObjectIconRegistry(workObjetcs) {

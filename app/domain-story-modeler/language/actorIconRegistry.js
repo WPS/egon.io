@@ -1,6 +1,6 @@
 import { registerIcon } from './iconRegistry';
 import { getNameFromType } from './naming';
-import { all_icons } from './all_Icons';
+import { all_icons, appendedIcons } from './all_Icons';
 import { ACTOR } from './elementTypes';
 
 'use strict';
@@ -29,6 +29,7 @@ export function allInActorIconRegistry(actors) {
 export function registerActorIcons(actors) {
   var allTypes=new ActorTypes();
   allTypes.addEach(all_icons);
+  allTypes.addEach(appendedIcons);
 
   actors.forEach(actor => {
     if (!actorIconRegistry.has(actor.type)) {
@@ -48,6 +49,10 @@ export function registerActorIcon(name, src) {
 
 export function getActorIconSrc(name) {
   return actorIconRegistry.get(name);
+}
+
+export function isInActorIconRegsitry(name) {
+  return actorIconRegistry.has(name);
 }
 
 export function initActorIconRegistry(actors) {

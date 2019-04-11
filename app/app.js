@@ -28,8 +28,10 @@ import { ACTIVITY, ACTOR, WORKOBJECT } from './domain-story-modeler/language/ele
 import { downloadDST, createObjectListForDSTDownload } from './domain-story-modeler/features/export/dstDownload';
 import { downloadSVG, setEncoded } from './domain-story-modeler/features/export/svgDownload';
 import { downloadPNG } from './domain-story-modeler/features/export/pngDownload';
-import { importDST } from './domain-story-modeler/features/import/import';
+import { importDST, loadPersistedDST } from './domain-story-modeler/features/import/import';
 import { getActivitesFromActors, getAllCanvasObjects, initElementRegistry } from './domain-story-modeler/features/canvasElements/canvasElementRegistry';
+import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/creation';
+import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration, importConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -56,6 +58,11 @@ SearchPad.prototype.toggle=function() { };
 modeler.createDiagram();
 // expose bpmnjs to window for debugging purposes
 window.bpmnjs = modeler;
+
+// if there is a persitent Story, load it
+if (localStorage.getItem(storyPersistTag)) {
+  loadPersistedDST(modeler);
+}
 
 // HTML-Elements
 
@@ -92,6 +99,7 @@ var modal = document.getElementById('modal'),
     downloadDialog = document.getElementById('downloadDialog'),
     noContentOnCanvasDialog = document.getElementById('noContentOnCanvasInfo'),
     // Container
+    iconCustomizationContainer = document.getElementById('iconCustomizationContainer'),
     activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
     workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
     // Buttons
@@ -111,6 +119,12 @@ var modal = document.getElementById('modal'),
     svgSaveButton = document.getElementById('buttonSVG'),
     wpsLogoButton = document.getElementById('closeWPSLogoInfo'),
     dstLogoButton = document.getElementById('closeDSTLogoInfo'),
+    exportConfigurationButton = document.getElementById('exportConfigurationButton'),
+    resetIconCustomizationButton = document.getElementById('resetIconConfigButton'),
+    cancelIconCustomizationButton = document.getElementById('cancelIconCustomizationButton'),
+    customIconConfigCancelButton = document.getElementById('customIconConfigCancelButton'),
+    iconCustomizationSaveButton = document.getElementById('customIconConfigSaveButton'),
+    iconCustomizationButton = document.getElementById('iconCustomizationButton'),
     keyboardShortcutInfoButton = document.getElementById('keyboardShortcutInfoButton'),
     keyboardShortcutInfoButtonCancel = document.getElementById('keyboardShortcutInfoDialogButtonCancel'),
     incompleteStoryDialogButtonCancel = document.getElementById('closeIncompleteStoryInfo'),
@@ -401,6 +415,35 @@ keyboardShortcutInfoButton.addEventListener('click', function() {
   keyboardShortcutInfoDialog.style.display = 'block';
 });
 
+iconCustomizationSaveButton.addEventListener('click', function() {
+  saveIconConfiguration();
+});
+
+cancelIconCustomizationButton.addEventListener('click', function() {
+  modal.style.display = 'none';
+  iconCustomizationContainer.style.display = 'none';
+});
+
+customIconConfigCancelButton.addEventListener('click', function() {
+  modal.style.display = 'none';
+  iconCustomizationContainer.style.display = 'none';
+});
+
+iconCustomizationButton.addEventListener('click', function() {
+  modal.style.display = 'block';
+  iconCustomizationContainer.style.display = 'block';
+  createListOfAllIcons();
+});
+
+
+resetIconCustomizationButton.addEventListener('click', function() {
+  setToDefault();
+});
+
+exportConfigurationButton.addEventListener('click', function() {
+  exportConfiguration();
+});
+
 // -----
 
 document.getElementById('import').onchange = function() {
@@ -417,6 +460,13 @@ document.getElementById('import').onchange = function() {
   eventBus.fire('commandStack.changed', exportArtifacts);
 
   titleInputLast = titleInput.value;
+};
+
+
+document.getElementById('importConfig').onchange = function() {
+  var input = document.getElementById('importConfig').files[0];
+
+  importConfiguration(input);
 };
 
 

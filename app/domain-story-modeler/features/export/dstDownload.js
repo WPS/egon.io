@@ -3,13 +3,37 @@
 import sanitizeForDesktop from '../../util/Sanitizer';
 import { ACTIVITY } from '../../language/elementTypes';
 import { getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
+import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary } from '../iconSetCustomization/dictionaries';
+import { createConfigFromDictionaries } from '../iconSetCustomization/persitence';
+import { getActorIconRegistry } from '../../language/actorIconRegistry';
+import { getWorkObjectIconRegistry } from '../../language/workObjectIconRegistry';
 
 var infoText = document.getElementById('infoText');
 
 export function downloadDST(filename, text) {
+
+  var actors = getSelectedActorsDictionary();
+  var workObjects = getSelectedWorkObjectsDictionary();
+  var configJSONString = {};
+
+  if (!actors.size>0) {
+    actors = getActorIconRegistry();
+  }
+  if (!workObjects.size>0) {
+    workObjects = getWorkObjectIconRegistry();
+  }
+
+  configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
+
+  var configAndDST = {
+    config: configJSONString,
+    dst: text
+  };
+  var json =JSON.stringify(configAndDST);
+
   filename = sanitizeForDesktop(filename);
   var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(json));
   element.setAttribute('download', filename + '.dst');
 
   element.style.display = 'none';
