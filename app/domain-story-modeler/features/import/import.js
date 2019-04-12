@@ -91,10 +91,12 @@ export function importDST(input, version, modeler) {
       var text = e.target.result;
 
       var config;
+      var configChanged = false;
       var elements;
       var dstAndConfig = JSON.parse(text);
       if (dstAndConfig.config) {
         config = dstAndConfig.config;
+        configChanged = configHasChanged(config);
         elements = JSON.parse(dstAndConfig.dst);
       } else {
         elements = JSON.parse(text);
@@ -131,13 +133,16 @@ export function importDST(input, version, modeler) {
       info.value = inputInfoText;
       infoText.innerText = inputInfoText;
 
+      if (config) {
+        loadConfiguration(config);
+      }
+      updateIconRegistries(elements);
+
       adjustPositions(elements);
       modeler.importCustomElements(elements);
       correctElementRegitryInit();
 
-      updateIconRegistries(elements);
-      if (config && configChanged(config)) {
-        loadConfiguration(config);
+      if (configChanged) {
         saveIconConfiguration();
       }
 
@@ -150,7 +155,7 @@ export function importDST(input, version, modeler) {
 }
 
 
-function configChanged(config) {
+function configHasChanged(config) {
   var dictionary = require('collections/dict');
   var customConfigJSON = JSON.parse(config);
   var newActorsDict = new dictionary();

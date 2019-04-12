@@ -117,7 +117,6 @@ export function loadConfiguration(customConfig) {
   var actors = customConfigJSON.actors;
   var workObjects = customConfigJSON.workObjects;
 
-
   var dictionary = require('collections/dict');
   var actorDict = new dictionary();
   var workObjectDict = new dictionary();
@@ -138,7 +137,6 @@ export function loadConfiguration(customConfig) {
     var listElement = createListElement(name);
     htmlList.appendChild(listElement);
   });
-
 
   var selectedActorsList = document.getElementById('selectedActorsList');
   var selectedWorkObjectList = document. getElementById('selectedWorkObjectsList');

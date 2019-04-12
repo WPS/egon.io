@@ -44,20 +44,21 @@ export function getIconset() {
 }
 
 export function appendSRCFile(actors, actorsDict, workObjects, workObjectsDict) {
-  var newAppendedIcons = {};
+  var newAppendedIcons = appendedIcons;
   var allIcons = getAllIconDictioary();
 
   actors.forEach(name => {
     if (!allIcons.has(name)) {
-      appendedIcons[name] = actorsDict.get(name);
+      newAppendedIcons[name] = actorsDict.get(name);
     }
   });
 
   workObjects.forEach(name => {
     if (!allIcons.has(name)) {
-      appendedIcons[name] = workObjectsDict.get(name);
+      newAppendedIcons[name] = workObjectsDict.get(name);
     }
   });
+
   overrideAppendedIcons(newAppendedIcons);
 }
 
