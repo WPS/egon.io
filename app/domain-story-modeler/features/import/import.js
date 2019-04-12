@@ -263,7 +263,7 @@ function adjustPositions(elements) {
     }
   });
 
-  // Add Padding for the Palette and the top
+  // add Padding for the Palette and the top
   xLeft -= 75;
   yUp -= 200;
 

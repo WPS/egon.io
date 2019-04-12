@@ -69,26 +69,26 @@ if (localStorage.getItem(storyPersistTag)) {
 
 var modal = document.getElementById('modal'),
     arrow = document.getElementById('arrow'),
-    // Logos
+    // logos
     wpsLogo = document.getElementById('imgWPS'),
     dstLogo = document.getElementById('imgDST'),
-    // Text-elements
+    // text-elements
     wpsInfotext = document.getElementById('wpsLogoInnerText'),
     wpsInfotextPart2 = document.getElementById('wpsLogoInnerText2'),
     dstInfotext = document.getElementById('dstLogoInnerText'),
-    // Labels
+    // labels
     headline = document.getElementById('headline'),
     title = document.getElementById('title'),
     info = document.getElementById('info'),
     infoText = document.getElementById('infoText'),
-    // Inputs
+    // inputs
     titleInput = document.getElementById('titleInput'),
     titleInputLast = '',
     descriptionInputLast = '',
     activityInputNumber = document.getElementById('inputNumber'),
     activityInputLabelWithNumber = document.getElementById('inputLabel'),
     activityInputLabelWithoutNumber = document.getElementById('labelInputLabel'),
-    // Dialogs
+    // dialogs
     headlineDialog = document.getElementById('dialog'),
     activityWithNumberDialog = document.getElementById('numberDialog'),
     activityWithoutNumberDialog = document.getElementById('labelDialog'),
@@ -99,11 +99,11 @@ var modal = document.getElementById('modal'),
     keyboardShortcutInfoDialog = document.getElementById('keyboardShortcutInfoDialog'),
     downloadDialog = document.getElementById('downloadDialog'),
     noContentOnCanvasDialog = document.getElementById('noContentOnCanvasInfo'),
-    // Container
+    // container
     iconCustomizationContainer = document.getElementById('iconCustomizationContainer'),
     activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
     workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
-    // Buttons
+    // buttons
     headlineDialogButtonSave = document.getElementById('saveButton'),
     headlineDialogButtonCancel = document.getElementById('quitButton'),
     exportButton = document.getElementById('export'),
