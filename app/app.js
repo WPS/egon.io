@@ -32,6 +32,7 @@ import { importDST, loadPersistedDST } from './domain-story-modeler/features/imp
 import { getActivitesFromActors, getAllCanvasObjects, initElementRegistry } from './domain-story-modeler/features/canvasElements/canvasElementRegistry';
 import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/creation';
 import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration, importConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
+import { addSVGToIconRegistry, addIMGToIconRegistry } from './domain-story-modeler/features/iconSetCustomization/customIcon';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -460,6 +461,22 @@ document.getElementById('import').onchange = function() {
   eventBus.fire('commandStack.changed', exportArtifacts);
 
   titleInputLast = titleInput.value;
+};
+
+document.getElementById('importSVG').onchange = function() {
+  var input = document.getElementById('importSVG').files[0];
+  var reader = new FileReader();
+  reader.onloadend = function(e) {
+    var file = e.target.result;
+    if (input.name.endsWith('.svg')) {
+      addSVGToIconRegistry(file, input.name.replace('.svg', ''));
+    } else {
+      var endIndex = input.name.lastIndexOf('.');
+      addIMGToIconRegistry(file, input.name.substring(0, endIndex));
+    }
+  };
+
+  reader.readAsText(input);
 };
 
 

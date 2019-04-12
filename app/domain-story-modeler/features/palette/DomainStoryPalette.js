@@ -7,6 +7,8 @@ import { getWorkObjectIconRegistry, initWorkObjectIconRegistry } from '../../lan
 import { getActorIconRegistry, initActorIconRegistry } from '../../language/actorIconRegistry';
 import { getIconset } from '../../language/iconConfig';
 import { GROUP } from '../../language/elementTypes';
+import { appendedIconsTag } from '../iconSetCustomization/persitence';
+import { overrideAppendedIcons } from '../../language/all_Icons';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
@@ -71,8 +73,36 @@ PaletteProvider.prototype.getPaletteEntries = function() {
   return initPalette(actions, spaceTool, lassoTool, createAction);
 };
 
+function appendCSSStyleCheat(customIcons) {
+  var sheet = document.getElementById('iconsCss').sheet;
+  var dictionary = require('collections/dict');
+  var customIconDict = new dictionary();
+
+  customIconDict.addEach(customIcons);
+  var customIconDictKeys = customIconDict.keysArray();
+
+  var css_rules_num = sheet.cssRules.length;
+
+  customIconDictKeys.forEach(name => {
+    var src = customIconDict.get(name);
+    var iconStyle = ('.icon-domain-story-' + name + '::before {'+
+        'content: url(\'data:image/svg+xml;utf8,' + src + '\');'+
+        ' background-repeat: no-repeat;'+
+        ' width: 25px; height: 25px;}');
+    sheet.insertRule(iconStyle, css_rules_num);
+    css_rules_num++;
+  });
+}
+
 function initPalette(actions, spaceTool, lassoTool, createAction) {
   var config = getIconset();
+
+
+  var customIcons = localStorage.getItem(appendedIconsTag);
+  if (customIcons) {
+    overrideAppendedIcons(JSON.parse(customIcons));
+    appendCSSStyleCheat(JSON.parse(customIcons));
+  }
 
   initActorIconRegistry(config.actors);
   initWorkObjectIconRegistry(config.workObjects);

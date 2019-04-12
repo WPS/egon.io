@@ -1,4 +1,4 @@
-import { customConfigTag, useCustomConfigTag, customConfigNameTag } from '../features/iconSetCustomization/persitence';
+import { customConfigTag, useCustomConfigTag, customConfigNameTag, appendedIconsTag } from '../features/iconSetCustomization/persitence';
 import { appendedIcons, overrideAppendedIcons } from './all_Icons';
 import { getAllIconDictioary } from '../features/iconSetCustomization/dictionaries';
 

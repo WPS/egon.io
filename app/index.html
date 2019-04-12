@@ -10,13 +10,16 @@
   <link rel="stylesheet" href="dependencies/bpmn-js/assets/bpmn-font/css/bpmn.css" /> <!-- for lasso tool, space tool etc. -->
   <link rel="stylesheet" href="dependencies/diagram-js.css" /> <!-- for palette -->
   <link rel="stylesheet" href="domain-story.css" />
-  <link rel="stylesheet" href="domain-story-modeler/language/icons.css"/>
-  <link rel="stylesheet" href="font/material-icons.css" />
+  <link rel="stylesheet" href="domain-story-modeler/language/icons.css" id="iconsCss"/>
+  <link rel="stylesheet" href="font/material-icons.css"/>
 
   <title>Domain Storytelling Modeler</title>
 </head>
 
 <body>
+
+  <input type="file" accept=".svg" style="display:none;" id="importSVG" onclick="this.value=null;" name="file" />
+
   <div id="modal" style="display:none;"></div>
   <div class ="headerAndCanvas">
     <div class="headlineContainer">
@@ -139,6 +142,7 @@
         </div>
       </div>
       <div id="bottomButtonRow">
+        <button id="uploadCutomIcon" onclick="document.getElementById('importICON').click();"> upload custom icon</button>
         <div></div>
         <button id="customIconConfigCancelButton">Cancel</button>
         <button id="customIconConfigSaveButton">Save</button>

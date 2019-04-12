@@ -11,6 +11,7 @@ import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 
 export const useCustomConfigTag = 'useCustomConfig';
 export const customConfigTag ='customConfig';
+export const appendedIconsTag = 'appendedIcons';
 export const storyPersistTag = 'persistetStory';
 export const customConfigNameTag ='persitedDomainName';
 
@@ -30,6 +31,7 @@ export function saveIconConfiguration() {
   var configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
   localStorage.setItem(useCustomConfigTag, true);
   localStorage.setItem(customConfigTag, configJSONString);
+  localStorage.setItem(appendedIconsTag, JSON.stringify(getAppendedIconDictionary()));
 
   var domainNameInput = document.getElementById('domainNameInput');
   localStorage.setItem(customConfigNameTag, domainNameInput.value);

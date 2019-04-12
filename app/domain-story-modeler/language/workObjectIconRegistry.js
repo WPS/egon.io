@@ -59,6 +59,7 @@ export function isInWorkObjectIconRegsitry(name) {
 export function initWorkObjectIconRegistry(workObjetcs) {
   var allTypes = new WorkObjectTypes();
   allTypes.addEach(all_icons);
+  allTypes.addEach(appendedIcons);
 
   for (var i=0; i < workObjetcs.length; i++) {
     const key = WORKOBJECT + workObjetcs[i];

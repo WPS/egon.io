@@ -85,17 +85,11 @@ input{
 .bottomRowButtons{
   margin-top: 5px;
   display: grid;
-  grid-template-columns: auto 100px 100px;
-}
-
-
-#customIconConfigCancelButton{
-  justify-self: right;
+  grid-template-columns: 150px auto 100px 100px;
 }
 
 #customIconConfigSaveButton{
-  justify-self: right;
-  height: 25px;
+  justify-self: end;
 }
 
 #importConfigurationButton{

@@ -289,7 +289,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
           height: element.height,
         },
         actor;
-
     actor = svgCreate(getActorIconSrc(element.type));
 
     svgAttr(actor, svgDynamicSizeAttributes);

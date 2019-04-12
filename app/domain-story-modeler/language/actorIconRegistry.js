@@ -58,6 +58,7 @@ export function isInActorIconRegsitry(name) {
 export function initActorIconRegistry(actors) {
   var allTypes=new ActorTypes();
   allTypes.addEach(all_icons);
+  allTypes.addEach(appendedIcons);
 
   for (var i=0; i < actors.length; i++) {
     const key = ACTOR + actors[i];
