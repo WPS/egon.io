@@ -289,7 +289,12 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
           height: element.height,
         },
         actor;
-    actor = svgCreate(getActorIconSrc(element.type));
+    var iconSRC = getActorIconSrc(element.type);
+    if (iconSRC.startsWith('data')) {
+      iconSRC = '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'+
+      '<image width="24" height="24" xlink:href="'+ iconSRC+ '"/></svg>';
+    }
+    actor = svgCreate(iconSRC);
 
     svgAttr(actor, svgDynamicSizeAttributes);
     svgAppend(p, actor);
@@ -306,7 +311,13 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       y: element.height / 2 - 25
     };
     var workObject;
-    workObject = svgCreate(getWorkObjectIconSrc(element.type));
+
+    var iconSRC = getWorkObjectIconSrc(element.type);
+    if (iconSRC.startsWith('data')) {
+      iconSRC = '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'+
+      '<image width="24" height="24" xlink:href="'+ iconSRC+ '"/></svg>';
+    }
+    workObject = svgCreate(iconSRC);
 
     svgAttr(workObject, svgDynamicSizeAttributes);
     svgAppend(p, workObject);

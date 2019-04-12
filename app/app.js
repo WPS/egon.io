@@ -466,17 +466,15 @@ document.getElementById('import').onchange = function() {
 document.getElementById('importSVG').onchange = function() {
   var input = document.getElementById('importSVG').files[0];
   var reader = new FileReader();
+
   reader.onloadend = function(e) {
     var file = e.target.result;
-    if (input.name.endsWith('.svg')) {
-      addSVGToIconRegistry(file, input.name.replace('.svg', ''));
-    } else {
-      var endIndex = input.name.lastIndexOf('.');
-      addIMGToIconRegistry(file, input.name.substring(0, endIndex));
-    }
+    var endIndex = input.name.lastIndexOf('.');
+    var type = input.name.substring(endIndex+1);
+    addIMGToIconRegistry(file, input.name.substring(0, endIndex), type);
   };
 
-  reader.readAsText(input);
+  reader.readAsDataURL(input);
 };
 
 

@@ -86,7 +86,7 @@ function appendCSSStyleCheat(customIcons) {
   customIconDictKeys.forEach(name => {
     var src = customIconDict.get(name);
     var iconStyle = ('.icon-domain-story-' + name + '::before {'+
-        'content: url(\'data:image/svg+xml;utf8,' + src + '\');'+
+        'content: url(\'' + src + '\');'+
         ' background-repeat: no-repeat;'+
         ' width: 25px; height: 25px;}');
     sheet.insertRule(iconStyle, css_rules_num);

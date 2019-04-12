@@ -109,7 +109,11 @@ export function createListElement(name) {
 
   imageElement.width = iconSize;
   imageElement.heigth = iconSize;
-  imageElement.src= ('data:image/svg+xml,' + iconSRC);
+  if (iconSRC.startsWith('data')) {
+    imageElement.src= iconSRC;
+  } else {
+    imageElement.src= ('data:image/svg+xml,' + iconSRC);
+  }
 
   nameElement.innerHTML = name;
 
@@ -151,7 +155,11 @@ export function createSelectedListEntry(name, src, list) {
 
   imageElement.width = iconSize;
   imageElement.heigth = iconSize;
-  imageElement.src= ('data:image/svg+xml,' + src);
+  if (src.startsWith('data')) {
+    imageElement.src= src;
+  } else {
+    imageElement.src= ('data:image/svg+xml,' + src);
+  }
 
   nameElement.innerHTML = name;
 
