@@ -7,6 +7,7 @@ import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary } from '.
 import { createConfigFromDictionaries } from '../iconSetCustomization/persitence';
 import { getActorIconDictionary } from '../../language/actorIconDictionary';
 import { getWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
+import { removeDirtyFlag } from './dirtyFlag';
 
 var infoText = document.getElementById('infoText');
 
@@ -40,6 +41,8 @@ export function downloadDST(filename, text) {
   document.body.appendChild(element);
 
   element.click();
+
+  removeDirtyFlag();
 
   document.body.removeChild(element);
 }

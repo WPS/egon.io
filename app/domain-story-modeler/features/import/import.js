@@ -9,6 +9,7 @@ import { correctElementRegitryInit, getAllCanvasObjects, getAllGroups } from '..
 import { isInDomainStoryGroup } from '../../util/TypeCheck';
 import { assign } from 'min-dash';
 import { storyPersistTag, saveIconConfiguration, loadConfiguration } from '../iconSetCustomization/persitence';
+import { removeDirtyFlag } from '../export/dirtyFlag';
 
 var modal = document.getElementById('modal'),
     info = document.getElementById('info'),
@@ -74,6 +75,8 @@ export function loadPersistedDST(modeler) {
   correctElementRegitryInit();
 
   cleanDictionaries();
+
+  removeDirtyFlag();
 }
 
 export function importDST(input, version, modeler) {
@@ -148,6 +151,8 @@ export function importDST(input, version, modeler) {
 
       cleanDictionaries();
       correctGroupChildren();
+
+      removeDirtyFlag();
     };
 
     reader.readAsText(input);

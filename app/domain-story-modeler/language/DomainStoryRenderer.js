@@ -39,6 +39,7 @@ import { getActorIconSrc } from './actorIconDictionary';
 import { getWorkObjectIconSrc } from './workObjectIconDictionary';
 import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
 import { correctElementRegitryInit } from '../features/canvasElements/canvasElementRegistry';
+import { makeDirty } from '../features/export/dirtyFlag';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];
@@ -637,6 +638,8 @@ DomainStoryRenderer.prototype.drawShape = function(p, element) {
       }
     });
   }
+
+  makeDirty();
 
   var type = element.type;
   correctElementRegitryInit();
