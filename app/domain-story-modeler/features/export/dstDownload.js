@@ -1,7 +1,7 @@
 'use strict';
 
 import sanitizeForDesktop from '../../util/Sanitizer';
-import { ACTIVITY } from '../../language/elementTypes';
+import { ACTIVITY, TEXTANNOTATION } from '../../language/elementTypes';
 import { getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
 import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary } from '../iconSetCustomization/dictionaries';
 import { createConfigFromDictionaries } from '../iconSetCustomization/persitence';
@@ -59,6 +59,10 @@ export function createObjectListForDSTDownload(version) {
     }
     // ensure that Activities are always after Actors, Workobjects and Groups in .dst files
     else {
+      if (canvasElement.type == TEXTANNOTATION) {
+        canvasElement.businessObject.width = canvasElement.width;
+        canvasElement.businessObject.height = canvasElement.height;
+      }
       objectList.unshift(canvasElement.businessObject);
     }
   });
