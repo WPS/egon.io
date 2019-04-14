@@ -4,7 +4,7 @@ import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary, getAppen
 import { createObjectListForDSTDownload } from '../export/dstDownload';
 import { version } from '../../../../package.json';
 import { appendSRCFile } from '../../language/iconConfig';
-import { createListElement, createSelectedListEntry } from './customizationDialog';
+import { createListElement, createListElementInSeletionList } from './customizationDialog';
 import { getActorIconDictionary } from '../../language/actorIconDictionary';
 import { getWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
@@ -123,13 +123,13 @@ export function loadConfiguration(customConfig) {
     actorDict.keysArray().forEach(name=> {
       if (childText.startsWith(name)) {
         child.children[2].children[2].checked = true;
-        createSelectedListEntry(name, getIconSource(name), selectedActorsList);
+        createListElementInSeletionList(name, getIconSource(name), selectedActorsList);
       }
     });
     workObjectDict.keysArray().forEach(name=> {
       if (childText.startsWith(name)) {
         child.children[2].children[4].checked = true;
-        createSelectedListEntry(name, getIconSource(name), selectedWorkObjectList);
+        createListElementInSeletionList(name, getIconSource(name), selectedWorkObjectList);
       }
     });
   }
