@@ -4,9 +4,9 @@ import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary, getAppen
 import { createObjectListForDSTDownload } from '../export/dstDownload';
 import { version } from '../../../../package.json';
 import { appendSRCFile } from '../../language/iconConfig';
-import { createListElement, createSelectedListEntry } from './creation';
-import { getActorIconRegistry } from '../../language/actorIconRegistry';
-import { getWorkObjectIconRegistry } from '../../language/workObjectIconRegistry';
+import { createListElement, createSelectedListEntry } from './customizationDialog';
+import { getActorIconDictionary } from '../../language/actorIconDictionary';
+import { getWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 
 export const useCustomConfigTag = 'useCustomConfig';
@@ -14,53 +14,6 @@ export const customConfigTag ='customConfig';
 export const appendedIconsTag = 'appendedIcons';
 export const storyPersistTag = 'persistetStory';
 export const customConfigNameTag ='persitedDomainName';
-
-export function saveIconConfiguration() {
-  persistStory();
-
-  var actors = getSelectedActorsDictionary();
-  var workObjects = getSelectedWorkObjectsDictionary();
-
-  if (!actors.size >0) {
-    actors = getActorIconRegistry();
-  }
-  if (!workObjects.size>0) {
-    workObjects = getWorkObjectIconRegistry();
-  }
-
-  var configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
-  localStorage.setItem(useCustomConfigTag, true);
-  localStorage.setItem(customConfigTag, configJSONString);
-  localStorage.setItem(appendedIconsTag, JSON.stringify(getAppendedIconDictionary()));
-
-  var domainNameInput = document.getElementById('domainNameInput');
-  localStorage.setItem(customConfigNameTag, domainNameInput.value);
-
-  location.reload();
-}
-
-export function createConfigFromDictionaries(actorsDict, workObjectsDict) {
-  var actors = actorsDict.keysArray();
-  var workObjects = workObjectsDict.keysArray();
-
-  var actorsJSON = {};
-  var workObjectJSON = {};
-
-  actors.forEach (actor => {
-    actorsJSON[actor.replace(ACTOR, '')] = actorsDict.get(actor);
-  });
-
-  workObjects.forEach(workObject => {
-    workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(workObject);
-  });
-
-  var config = {
-    'actors': actorsJSON,
-    'workObjects': workObjectJSON
-  };
-
-  return config;
-}
 
 export function setToDefault() {
   persistStory();
@@ -90,8 +43,6 @@ export function exportConfiguration() {
     element.click();
 
     document.body.removeChild(element);
-  } else {
-    // TODO showDialog
   }
 }
 
@@ -109,6 +60,30 @@ export function importConfiguration(input) {
     loadConfiguration(e.target.result);
   };
   reader.readAsText(input);
+}
+
+export function saveIconConfiguration() {
+  persistStory();
+
+  var actors = getSelectedActorsDictionary();
+  var workObjects = getSelectedWorkObjectsDictionary();
+
+  if (!actors.size >0) {
+    actors = getActorIconDictionary();
+  }
+  if (!workObjects.size>0) {
+    workObjects = getWorkObjectIconDictionary();
+  }
+
+  var configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
+  localStorage.setItem(useCustomConfigTag, true);
+  localStorage.setItem(customConfigTag, configJSONString);
+  localStorage.setItem(appendedIconsTag, JSON.stringify(getAppendedIconDictionary()));
+
+  var domainNameInput = document.getElementById('domainNameInput');
+  localStorage.setItem(customConfigNameTag, domainNameInput.value);
+
+  location.reload();
 }
 
 export function loadConfiguration(customConfig) {
@@ -164,6 +139,29 @@ export function loadConfiguration(customConfig) {
   workObjectDict.keysArray().forEach(name => {
     addToSelectedWorkObjects(name, getIconSource(name));
   });
+}
+
+export function createConfigFromDictionaries(actorsDict, workObjectsDict) {
+  var actors = actorsDict.keysArray();
+  var workObjects = workObjectsDict.keysArray();
+
+  var actorsJSON = {};
+  var workObjectJSON = {};
+
+  actors.forEach (actor => {
+    actorsJSON[actor.replace(ACTOR, '')] = actorsDict.get(actor);
+  });
+
+  workObjects.forEach(workObject => {
+    workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(workObject);
+  });
+
+  var config = {
+    'actors': actorsJSON,
+    'workObjects': workObjectJSON
+  };
+
+  return config;
 }
 
 function persistStory() {

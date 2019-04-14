@@ -35,8 +35,8 @@ import {
   labelPosition,
   calculateTextWidth
 } from '../features/labeling/DSLabelUtil';
-import { getActorIconSrc } from './actorIconRegistry';
-import { getWorkObjectIconSrc } from './workObjectIconRegistry';
+import { getActorIconSrc } from './actorIconDictionary';
+import { getWorkObjectIconSrc } from './workObjectIconDictionary';
 import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
 import { correctElementRegitryInit } from '../features/canvasElements/canvasElementRegistry';
 
@@ -311,7 +311,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       y: element.height / 2 - 25
     };
     var workObject;
-
     var iconSRC = getWorkObjectIconSrc(element.type);
     if (iconSRC.startsWith('data')) {
       iconSRC = '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'+
@@ -629,6 +628,16 @@ DomainStoryRenderer.prototype.canRender = function(element) {
 };
 
 DomainStoryRenderer.prototype.drawShape = function(p, element) {
+  // polyfill for tests
+  if (!String.prototype.startsWith) {
+    Object.defineProperty(String.prototype, 'startsWith', {
+      value: function(search, pos) {
+        pos = !pos || pos < 0 ? 0 : +pos;
+        return this.substring(pos, pos + search.length) === search;
+      }
+    });
+  }
+
   var type = element.type;
   correctElementRegitryInit();
 

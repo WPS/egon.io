@@ -30,9 +30,9 @@ import { downloadSVG, setEncoded } from './domain-story-modeler/features/export/
 import { downloadPNG } from './domain-story-modeler/features/export/pngDownload';
 import { importDST, loadPersistedDST } from './domain-story-modeler/features/import/import';
 import { getActivitesFromActors, getAllCanvasObjects, initElementRegistry } from './domain-story-modeler/features/canvasElements/canvasElementRegistry';
-import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/creation';
+import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/customizationDialog';
 import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration, importConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
-import { addIMGToIconRegistry } from './domain-story-modeler/features/iconSetCustomization/customIcon';
+import { addIMGToIconDictionary } from './domain-story-modeler/features/iconSetCustomization/appendIconDictionary';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -471,7 +471,7 @@ document.getElementById('importSVG').onchange = function() {
     var file = e.target.result;
     var endIndex = input.name.lastIndexOf('.');
     var type = input.name.substring(endIndex+1);
-    addIMGToIconRegistry(file, input.name.substring(0, endIndex), type);
+    addIMGToIconDictionary(file, input.name.substring(0, endIndex), type);
   };
 
   reader.readAsDataURL(input);

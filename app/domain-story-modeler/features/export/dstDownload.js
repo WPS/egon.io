@@ -5,8 +5,8 @@ import { ACTIVITY } from '../../language/elementTypes';
 import { getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
 import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary } from '../iconSetCustomization/dictionaries';
 import { createConfigFromDictionaries } from '../iconSetCustomization/persitence';
-import { getActorIconRegistry } from '../../language/actorIconRegistry';
-import { getWorkObjectIconRegistry } from '../../language/workObjectIconRegistry';
+import { getActorIconDictionary } from '../../language/actorIconDictionary';
+import { getWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
 
 var infoText = document.getElementById('infoText');
 
@@ -17,10 +17,10 @@ export function downloadDST(filename, text) {
   var configJSONString = {};
 
   if (!actors.size>0) {
-    actors = getActorIconRegistry();
+    actors = getActorIconDictionary();
   }
   if (!workObjects.size>0) {
-    workObjects = getWorkObjectIconRegistry();
+    workObjects = getWorkObjectIconDictionary();
   }
 
   configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));

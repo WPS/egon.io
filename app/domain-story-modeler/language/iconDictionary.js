@@ -3,11 +3,11 @@
 var Icons = require('collections/dict');
 var icons = new Icons();
 
-export function getIconRegistry() {
+export function getIconDictionary() {
   return icons;
 }
 
-export function getIconRegistryKeys() {
+export function getIconDictionaryKeys() {
   return icons.keysArray();
 }
 

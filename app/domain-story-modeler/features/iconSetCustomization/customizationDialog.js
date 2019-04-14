@@ -1,9 +1,8 @@
 'use strict';
-// TODO rename
 
-import { initializeAllIcons, getAllIconDictioary, deleteFromSelectedWorkObjectDictionary, deleteFromSelectedActorDictionary, getIconSource, addToSelectedActors, addToSelectedWorkObjects } from './dictionaries';
-import { isInActorIconRegsitry } from '../../language/actorIconRegistry';
-import { isInWorkObjectIconRegsitry } from '../../language/workObjectIconRegistry';
+import { initializeAllIcons, getAllIconDictioary, deleteFromSelectedWorkObjectDictionary, deleteFromSelectedActorDictionary, getIconSource, addToSelectedActors, addToSelectedWorkObjects, selectedCitionariesAreNotEmpty } from './dictionaries';
+import { isInActorIconDictionary } from '../../language/actorIconDictionary';
+import { isInWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 
 var htmlList = document.getElementById('allIconsList');
@@ -23,41 +22,6 @@ export function createListOfAllIcons() {
     var listElement = createListElement(name);
     htmlList.appendChild(listElement);
   });
-}
-
-function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, addToWorkObjects) {
-
-  deleteFromSelectedWorkObjectDictionary(currentSelectionName);
-  if (deleteFromSelectedActorDictionary(currentSelectionName)) {
-    removeChild(currentSelectionName, selectedActorsList);
-  } else {
-    removeChild(currentSelectionName, selectedWorkObjectList);
-  }
-
-  var iconSRC = getIconSource(currentSelectionName);
-  if (addToActors) {
-    addToSelectedActors(currentSelectionName, iconSRC);
-    createSelectedListEntry(currentSelectionName, iconSRC, selectedActorsList);
-  }
-  else if (addToWorkObjects) {
-    addToSelectedWorkObjects(currentSelectionName, iconSRC);
-    createSelectedListEntry(currentSelectionName, iconSRC, selectedWorkObjectList);
-  }
-}
-
-function removeChild(name, list) {
-  var children = list.children;
-  var wantedChild;
-  for (var i=0; i<children.length; i++) {
-    var child = children[i];
-    var innerText = child.innerText;
-    if (innerText.includes(name)) {
-      wantedChild = child;
-    }
-  }
-  if (wantedChild) {
-    list.removeChild(wantedChild);
-  }
 }
 
 export function createListElement(name) {
@@ -94,13 +58,13 @@ export function createListElement(name) {
   inputRadioWorkObject.setAttribute('name', name);
   inputRadioWorkObject.setAttribute('value', 'workObject');
 
-  if (isInActorIconRegsitry(ACTOR +name)) {
+  if (isInActorIconDictionary(ACTOR +name)) {
     inputRadioActor.checked = true;
-    createSelectedListEntry(name, getIconSource(name), selectedActorsList);
+    createListElementInSeletionList(name, getIconSource(name), selectedActorsList);
     addToSelectedActors(name, getIconSource(name));
-  } else if (isInWorkObjectIconRegsitry(WORKOBJECT + name)) {
+  } else if (isInWorkObjectIconDictionary(WORKOBJECT + name)) {
     inputRadioWorkObject.checked = true;
-    createSelectedListEntry(name, getIconSource(name), selectedWorkObjectList);
+    createListElementInSeletionList(name, getIconSource(name), selectedWorkObjectList);
     addToSelectedWorkObjects(name, getIconSource(name));
   }
   else {
@@ -148,7 +112,7 @@ export function createListElement(name) {
   return listElement;
 }
 
-export function createSelectedListEntry(name, src, list) {
+export function createListElementInSeletionList(name, src, list) {
   var listElement = document.createElement('li');
   var nameElement = document.createElement('text');
   var imageElement = document.createElement('img');
@@ -167,4 +131,56 @@ export function createSelectedListEntry(name, src, list) {
   listElement.appendChild(nameElement);
 
   list.appendChild(listElement);
+}
+
+function removeListEntry(name, list) {
+  var children = list.children;
+  var wantedChild;
+  for (var i=0; i<children.length; i++) {
+    var child = children[i];
+    var innerText = child.innerText;
+    if (innerText.includes(name)) {
+      wantedChild = child;
+    }
+  }
+  if (wantedChild) {
+    list.removeChild(wantedChild);
+  }
+}
+
+function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, addToWorkObjects) {
+
+  deleteFromSelectedWorkObjectDictionary(currentSelectionName);
+  if (deleteFromSelectedActorDictionary(currentSelectionName)) {
+    removeListEntry(currentSelectionName, selectedActorsList);
+  } else {
+    removeListEntry(currentSelectionName, selectedWorkObjectList);
+  }
+
+  var iconSRC = getIconSource(currentSelectionName);
+  if (addToActors) {
+    addToSelectedActors(currentSelectionName, iconSRC);
+    createListElementInSeletionList(currentSelectionName, iconSRC, selectedActorsList);
+  }
+  else if (addToWorkObjects) {
+    addToSelectedWorkObjects(currentSelectionName, iconSRC);
+    createListElementInSeletionList(currentSelectionName, iconSRC, selectedWorkObjectList);
+  }
+
+  var exportConfigurationButton = document.getElementById('exportConfigurationButton');
+  var customIconConfigSaveButton = document.getElementById('customIconConfigSaveButton');
+
+  if (selectedCitionariesAreNotEmpty()) {
+    exportConfigurationButton.disabled = false;
+    exportConfigurationButton.style.opacity = 1;
+
+    customIconConfigSaveButton.disabled = false;
+    customIconConfigSaveButton.style.opacity = 1;
+  } else {
+    exportConfigurationButton.disabled = true;
+    exportConfigurationButton.style.opacity = 0.5;
+
+    customIconConfigSaveButton.disabled = true;
+    customIconConfigSaveButton.style.opacity = 0.5;
+  }
 }

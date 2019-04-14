@@ -1,7 +1,7 @@
 'use strict';
 
-import { registerWorkObjectIcons, allInWorkObjectIconRegistry, getWorkObjectIconRegistryKeys } from '../../language/workObjectIconRegistry';
-import { allInActorIconRegistry, registerActorIcons, getActorIconRegistryKeys } from '../../language/actorIconRegistry';
+import { registerWorkObjectIcons, getWorkObjectIconDictionaryKeys, allInWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
+import { registerActorIcons, getActorIconDictionaryKeys, allInActorIconDictionary } from '../../language/actorIconDictionary';
 import { DOMAINSTORY, ACTIVITY, CONNECTION, WORKOBJECT, ACTOR } from '../../language/elementTypes';
 import { checkElementReferencesAndRepair } from '../../util/ImportRepair';
 import { cleanDictionaries } from '../dictionary/dictionary';
@@ -166,8 +166,8 @@ function configHasChanged(config) {
 
   var newActors = newActorsDict.keysArray();
   var newWorkObjects = newWorkObjectsDict.keysArray();
-  var currentActors = getActorIconRegistryKeys();
-  var currentWorkObjects = getWorkObjectIconRegistryKeys();
+  var currentActors = getActorIconDictionaryKeys();
+  var currentWorkObjects = getWorkObjectIconDictionaryKeys();
 
   var changed = false;
   var i=0;
@@ -290,10 +290,9 @@ function updateIconRegistries(elements) {
   var actorIcons = getElementsOfType(elements, 'actor');
   var workObjectIcons = getElementsOfType(elements, 'workObject');
 
-  if (!allInActorIconRegistry(actorIcons)) {
+  if (!allInActorIconDictionary(actorIcons)) {
     registerActorIcons(actorIcons);
-  }
-  if (!allInWorkObjectIconRegistry(workObjectIcons)) {
+  } else if (!allInWorkObjectIconDictionary(workObjectIcons)) {
     registerWorkObjectIcons(workObjectIcons);
   }
 }

@@ -60,3 +60,7 @@ export function deleteFromSelectedActorDictionary(name) {
 export function deleteFromSelectedWorkObjectDictionary(name) {
   return selectedAsWorkObjectDictionary.delete(name);
 }
+
+export function selectedCitionariesAreNotEmpty() {
+  return (selectedAsActorDictionary.length > 0 && selectedAsWorkObjectDictionary.length >0);
+}

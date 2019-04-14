@@ -2,9 +2,9 @@
 
 import { assign } from 'min-dash';
 import { getNameFromType } from '../../language/naming';
-import { getIconForType } from '../../language/iconRegistry';
-import { getWorkObjectIconRegistry, initWorkObjectIconRegistry } from '../../language/workObjectIconRegistry';
-import { getActorIconRegistry, initActorIconRegistry } from '../../language/actorIconRegistry';
+import { getIconForType } from '../../language/iconDictionary';
+import { initWorkObjectIconDictionary, getWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
+import { initActorIconDictionary, getActorIconDictionary } from '../../language/actorIconDictionary';
 import { getIconset } from '../../language/iconConfig';
 import { GROUP } from '../../language/elementTypes';
 import { appendedIconsTag } from '../iconSetCustomization/persitence';
@@ -104,10 +104,10 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     appendCSSStyleCheat(JSON.parse(customIcons));
   }
 
-  initActorIconRegistry(config.actors);
-  initWorkObjectIconRegistry(config.workObjects);
+  initActorIconDictionary(config.actors);
+  initWorkObjectIconDictionary(config.workObjects);
 
-  var actorTypes = getActorIconRegistry();
+  var actorTypes = getActorIconDictionary();
 
   actorTypes.keysArray().forEach(actorType => {
     var name = getNameFromType(actorType);
@@ -125,7 +125,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     }
   });
 
-  var workObjectTypes = getWorkObjectIconRegistry();
+  var workObjectTypes = getWorkObjectIconDictionary();
 
   workObjectTypes.keysArray().forEach(workObjectType => {
 

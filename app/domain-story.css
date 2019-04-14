@@ -82,14 +82,10 @@ input{
   grid-template-rows: 50% 1px 50%;
 }
 
-.bottomRowButtons{
+#bottomButtonRow{
   margin-top: 5px;
   display: grid;
-  grid-template-columns: 150px auto 100px 100px;
-}
-
-#customIconConfigSaveButton{
-  justify-self: end;
+  grid-template-columns: 150px auto 100px 100px 60px;
 }
 
 #importConfigurationButton{
@@ -117,6 +113,18 @@ input{
 #cancelIconCustomizationButton{
   justify-self: right;
   height: 25px;
+}
+
+#customIconConfigSaveButton {
+  height: 25px;
+}
+
+#customIconConfigCancelButton {
+  margin-right: 3px;
+}
+
+#uploadCutomIcon {
+  justify-self: start;
 }
 
 .headerAndCanvas {

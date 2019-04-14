@@ -7,7 +7,7 @@ import DomainStoryModeler from '../../../app/domain-story-modeler';
 import { assign } from 'min-dash';
 import { test_conf } from '../test_conf';
 import { CONNECTION } from '../../../app/domain-story-modeler/language/elementTypes';
-import { initActorIconRegistry } from '../../../app/domain-story-modeler/language/actorIconRegistry';
+import { initActorIconDictionary } from '../../../app/domain-story-modeler/language/actorIconDictionary';
 
 
 describe('domainStory modeling', function() {
@@ -43,7 +43,7 @@ describe('domainStory modeling', function() {
     it('should export custom element', inject(
       function(bpmnjs, elementRegistry, modeling) {
         // type has to be registered for test
-        initActorIconRegistry(test_conf);
+        initActorIconDictionary(test_conf);
 
         // given
         var customElement = {

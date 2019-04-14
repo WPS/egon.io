@@ -1,9 +1,9 @@
 'use strict';
 
 import { appendedIcons } from '../../language/all_Icons';
-import { createListElement } from './creation';
+import { createListElement } from './customizationDialog';
 
-export function addIMGToIconRegistry(input, name) {
+export function addIMGToIconDictionary(input, name) {
   appendedIcons[name] = input;
 
   var htmlList = document.getElementById('allIconsList');
