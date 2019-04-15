@@ -114,6 +114,7 @@ var allIcons_conf = {
     'Thumb-up', 'Thumb-down', 'Thumb-up-down',
     'Couch',
     'Education',
+    'Watch',
   ]
 };
 
