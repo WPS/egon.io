@@ -9,7 +9,7 @@ var htmlList = document.getElementById('allIconsList');
 var selectedActorsList = document.getElementById('selectedActorsList');
 var selectedWorkObjectList = document. getElementById('selectedWorkObjectsList');
 
-const iconSize = 15;
+const iconSize = 20;
 
 export function createListOfAllIcons() {
 
@@ -129,6 +129,7 @@ export function createListElementInSeletionList(name, src, list) {
   }
 
   nameElement.innerHTML = name;
+  nameElement.style.marginLeft ='5px';
 
   listElement.appendChild(imageElement);
   listElement.appendChild(nameElement);
