@@ -1,10 +1,7 @@
 'use strict';
 
-import {
-  getActivitesFromActors,
-  getAllObjectsFromCanvas
-} from '../../util/CanvasObjects';
 import { CONNECTION, GROUP } from '../../language/elementTypes';
+import { getActivitesFromActors, getAllCanvasObjects } from '../canvasElements/canvasElementRegistry';
 
 var canvas;
 var elementRegistry;
@@ -13,9 +10,10 @@ var replayOn = false;
 var currentStep = 0;
 var replaySteps = [];
 
-export function initReplay(inCanvas, inElementRegistry) {
+var errorStep =0;
+
+export function initReplay(inCanvas) {
   canvas = inCanvas;
-  elementRegistry = inElementRegistry;
 }
 
 export function isPlaying() {
@@ -35,8 +33,7 @@ let importExportSVGButtonsContainer = document.getElementById('importExportSVGBu
 /* test */
 
 startReplayButton.addEventListener('click', function() {
-  var canvasObjects = canvas._rootElement.children;
-  var activities = getActivitesFromActors(canvasObjects);
+  var activities = getActivitesFromActors();
 
   if (!replayOn && activities.length > 0) {
     replaySteps = traceActivities(activities, elementRegistry);
@@ -48,6 +45,27 @@ startReplayButton.addEventListener('click', function() {
       showCurrentStep();
     }
     else {
+      var errorText = '\nThe numbers: ';
+      for (var i=0; i<replaySteps.length; i++) {
+        if (errorStep[i]) {
+          errorText+= ((i + 1) + ',');
+        }
+      }
+      errorText = errorText.substring(0, errorText.length - 1);
+      errorText+= ' are missing!';
+
+      var oldText = incompleteStoryDialog.getElementsByTagName('text');
+      if (oldText) {
+        for (i=0; i < oldText.length; i++) {
+          incompleteStoryDialog.removeChild(oldText[i]);
+        }
+      }
+
+      var text = document.createElement('text');
+      text.innerHTML = ' The activities in this Domain Story are not numbered consecutively.<br>' +
+        'Please fix the numbering in order to replay the story.<br>' +
+        errorText;
+      incompleteStoryDialog.appendChild(text);
       incompleteStoryDialog.style.display = 'block';
       modal.style.display = 'block';
     }
@@ -136,15 +154,15 @@ export function traceActivities(activitiesFromActors, elementRegistry) {
 }
 
 // create a step for the replay function
-function createStep(tracedActivity, elementRegistry) {
+function createStep(tracedActivity) {
   var initialSource;
   var activities = [tracedActivity];
   var targetObjects = [];
   if (tracedActivity) {
-    initialSource = elementRegistry.get(tracedActivity.businessObject.source);
+    initialSource = tracedActivity.source;
 
     // add the first Object to the traced targets, this can only be a workObject, since actors cannot connect to other actors
-    var firstTarget = elementRegistry.get(tracedActivity.target.id);
+    var firstTarget = tracedActivity.target;
     targetObjects.push(firstTarget);
 
     // check the outgoing activities for each target
@@ -154,7 +172,7 @@ function createStep(tracedActivity, elementRegistry) {
         // check the target for each outgoing activity
         checkTarget.outgoing.forEach(activity => {
           activities.push(activity);
-          var activityTarget = elementRegistry.get(activity.businessObject.target);
+          var activityTarget = activity.target;
           if (!targetObjects.includes(activityTarget)) {
             targetObjects.push(activityTarget);
           }
@@ -172,10 +190,14 @@ function createStep(tracedActivity, elementRegistry) {
 }
 
 export function isStoryConsecutivelyNumbered(replaySteps) {
+  errorStep = [];
   var complete = true;
   for (var i = 0; i < replaySteps.length; i++) {
     if (!replaySteps[i].activities[0]) {
       complete = false;
+      errorStep[i] = true;
+    } else {
+      errorStep[i] = false;
     }
   }
   return complete;
@@ -321,7 +343,7 @@ function showCurrentStep() {
     stepsUntilNow.push(replaySteps[i]);
   }
 
-  allObjects = getAllObjectsFromCanvas(canvas);
+  allObjects = getAllCanvasObjects(canvas);
 
   var shownElements = getAllShown(stepsUntilNow);
 

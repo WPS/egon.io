@@ -29,15 +29,16 @@ import {
 
 import { getNumberStash } from '../features/labeling/DSLabelEditingProvider';
 
-import { numberBoxDefinitions, generateAutomaticNumber } from '../features/numbering/numbering';
+import { numberBoxDefinitions, generateAutomaticNumber, addNumberToRegistry } from '../features/numbering/numbering';
 
 import {
   labelPosition,
   calculateTextWidth
 } from '../features/labeling/DSLabelUtil';
-import { getActorSrc } from './actorRegistry';
-import { getWorkObjectSrc } from './workObjectRegistry';
+import { getActorIconSrc } from './actorIconRegistry';
+import { getWorkObjectIconSrc } from './workObjectIconRegistry';
 import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
+import { correctElementRegitryInit } from '../features/canvasElements/canvasElementRegistry';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];
@@ -73,7 +74,8 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     box.x += 39;
     box.y -= 5;
 
-    renderNumber(parentGfx, semantic.number, numberStyle(box), element.type);
+    var newRenderedNumber = renderNumber(parentGfx, semantic.number, numberStyle(box), element.type);
+    addNumberToRegistry(newRenderedNumber, semantic.number);
   }
 
   // style functions
@@ -154,7 +156,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
         y: position.y
       };
 
-      if (semantic.name.length) {
+      if (semantic.name && semantic.name.length) {
         return renderLabel(parentGfx, semantic.name, {
           box: box,
           fitBox: true,
@@ -288,7 +290,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
         },
         actor;
 
-    actor = svgCreate(getActorSrc(element.type));
+    actor = svgCreate(getActorIconSrc(element.type));
 
     svgAttr(actor, svgDynamicSizeAttributes);
     svgAppend(p, actor);
@@ -298,7 +300,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   };
 
   this.drawWorkObject = function(p, element) {
-
     var svgDynamicSizeAttributes = {
       width: element.width * 0.65,
       height: element.height * 0.65,
@@ -306,7 +307,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       y: element.height / 2 - 25
     };
     var workObject;
-    workObject = svgCreate(getWorkObjectSrc(element.type));
+    workObject = svgCreate(getWorkObjectIconSrc(element.type));
 
     svgAttr(workObject, svgDynamicSizeAttributes);
     svgAppend(p, workObject);
@@ -316,7 +317,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   };
 
   this.drawActivity = function(p, element) {
-
     adjustForTextOverlapp(element);
 
     if (element) {
@@ -620,6 +620,7 @@ DomainStoryRenderer.prototype.canRender = function(element) {
 
 DomainStoryRenderer.prototype.drawShape = function(p, element) {
   var type = element.type;
+  correctElementRegitryInit();
 
   if (type.includes(ACTOR)) {
     return this.drawActor(p, element);

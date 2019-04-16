@@ -306,7 +306,11 @@ export function selectPartOfActivity(waypoints, angleActivity) {
 
 // approximate the width of the label text, standard fontsize: 11
 export function calculateTextWidth(text) {
-  var fontsize = text.length * 5.1;
+  if (text == null || text.length == 0) {
+    return 0;
+  }
+
+  let fontsize = text.length * 5.1;
   fontsize = fontsize / 2;
   // add an initial offset to the absolute middle of the activity
   fontsize += 20;

@@ -1,11 +1,12 @@
 import TestContainer from 'mocha-test-container-support';
 
 import DomainStoryModeler from '../../../app/domain-story-modeler';
-import { initActorRegistry } from '../../../app/domain-story-modeler/language/ActorRegistry';
-import { initWorkObjecttRegistry } from '../../../app/domain-story-modeler/language/WorkObjectRegistry';
 import { default_conf } from '../../../app/domain-story-modeler/language/iconConfig';
-import { updateCustomElementsPreviousv050 } from '../../../app/domain-story-modeler/util/CanvasObjects';
 import { checkElementReferencesAndRepair } from '../../../app/domain-story-modeler/util/ImportRepair';
+import { testCase } from '../../../app/domain-story-modeler/features/canvasElements/canvasElementRegistry';
+import { initActorIconRegistry } from '../../../app/domain-story-modeler/language/actorIconRegistry';
+import { initWorkObjectIconRegistry } from '../../../app/domain-story-modeler/language/workObjectIconRegistry';
+import { updateCustomElementsPreviousv050 } from '../../../app/domain-story-modeler/features/import/import';
 
 describe('domainStory modeler', function() {
 
@@ -126,8 +127,9 @@ describe('domainStory modeler', function() {
 
   describe('domainStory import export Test simple data', function() {
 
-    initActorRegistry(default_conf.actors);
-    initWorkObjecttRegistry(default_conf.workObjects);
+    initActorIconRegistry(default_conf.actors);
+    initWorkObjectIconRegistry(default_conf.workObjects);
+    testCase();
 
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {
@@ -152,6 +154,7 @@ describe('domainStory modeler', function() {
     // spin up modeler with custom element, do this only once, using before each takes too long and triggers the timeout
     modeler = new DomainStoryModeler({ container: container });
     modeler.importCustomElements(data, function(err) {
+
       if (err) {
         console.log(err);
       }
@@ -226,8 +229,9 @@ describe('domainStory modeler', function() {
 
   describe('domainStory import export Test broken data', function() {
 
-    initActorRegistry(default_conf.actors);
-    initWorkObjecttRegistry(default_conf.workObjects);
+    initActorIconRegistry(default_conf.actors);
+    initWorkObjectIconRegistry(default_conf.workObjects);
+    testCase();
 
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {

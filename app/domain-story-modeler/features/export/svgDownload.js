@@ -5,7 +5,7 @@ import sanitizeForDesktop from '../../util/Sanitizer';
 
 var title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
-var svgData, cahcheData;
+var svgData, cacheData;
 
 export function downloadSVG(filename) {
 
@@ -24,7 +24,7 @@ export function downloadSVG(filename) {
 }
 
 export function setEncoded(data) {
-  cahcheData = data;
+  cacheData = data;
 }
 
 function createSVGData() {
@@ -32,10 +32,11 @@ function createSVGData() {
   // we change the confines of the SVG viewbox
   var descriptionText = infoText.innerHTML;
   var titleText = title.innerHTML;
-  var viewBoxIndex = cahcheData.indexOf ('width="');
+  var viewBoxIndex = cacheData.indexOf ('width="');
 
-  let { width, height, viewBox } = viewBoxCoordinates(cahcheData);
+  let { width, height, viewBox } = viewBoxCoordinates(cacheData);
   height += 80;
+
 
   var xLeft, xRight, yUp, yDown;
   var bounds = '';
@@ -50,34 +51,28 @@ function createSVGData() {
     xRight+= 300;
     width+= 300;
   }
+  // to display the title and description in the SVG-file, we need to add a container for our text-elements
+  var { insertText, extraHeight } = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp, width);
+  height += extraHeight;
 
-  bounds = 'width="' + width+ '" height=" '+ height+'" viewBox="' + xLeft + ' ' +(yUp - 80) + ' ' + xRight + ' ' + (yDown + 80);
-  var dataStart = cahcheData.substring(0, viewBoxIndex);
-  viewBoxIndex = cahcheData.indexOf('" version');
-  var dataEnd = cahcheData.substring(viewBoxIndex);
+  bounds = 'width="' + width+ '" height=" '+ height+'" viewBox="' + xLeft + ' ' +(yUp -80) + ' ' + xRight + ' ' + (yDown + 30);
+  var dataStart = cacheData.substring(0, viewBoxIndex);
+  viewBoxIndex = cacheData.indexOf('" version');
+  var dataEnd = cacheData.substring(viewBoxIndex);
   dataEnd.substring(viewBoxIndex);
 
-  cahcheData = dataStart + bounds + dataEnd;
+  cacheData = dataStart + bounds + dataEnd;
 
-  // remove <br> HTML-elements from the description since they create error in the SVG
-  while (descriptionText.includes('<br>')) {
-    descriptionText=descriptionText.replace('<br>', '\n');
-  }
-  titleText = titleText.replace('&lt;','').replace('&gt;','');
-
-  var insertIndex = cahcheData.indexOf('</defs>');
+  var insertIndex = cacheData.indexOf('</defs>');
   if (insertIndex < 0) {
-    insertIndex = cahcheData.indexOf('version="1.1">') + 14;
+    insertIndex = cacheData.indexOf('version="1.1">') + 14;
   }
   else {
     insertIndex+=7;
   }
 
-  // to display the title and description in the SVG-file, we need to add a container for our text-elements
-  var insertText = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp - 75);
-
-  cahcheData = [cahcheData.slice(0,insertIndex), insertText, cahcheData.slice(insertIndex)].join('');
-  svgData = encodeURIComponent(cahcheData);
+  cacheData = [cacheData.slice(0,insertIndex), insertText, cacheData.slice(insertIndex)].join('');
+  svgData = encodeURIComponent(cacheData);
 }
 
 function viewBoxCoordinates(svg) {

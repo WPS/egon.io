@@ -1,8 +1,8 @@
 'use strict';
 
-import { getAllObjectsFromCanvas, getAllGroups } from '../../util/CanvasObjects';
 import sanitizeForDesktop from '../../util/Sanitizer';
 import { ACTIVITY } from '../../language/elementTypes';
+import { getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
 
 var infoText = document.getElementById('infoText');
 
@@ -20,9 +20,9 @@ export function downloadDST(filename, text) {
   document.body.removeChild(element);
 }
 
-export function createObjectListForDSTDownload(canvas, version) {
-  var allObjectsFromCanvas = getAllObjectsFromCanvas(canvas);
-  var groups = getAllGroups(canvas);
+export function createObjectListForDSTDownload(version) {
+  var allObjectsFromCanvas = getAllCanvasObjects();
+  var groups = getAllGroups();
 
   var objectList = [];
 

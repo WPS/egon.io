@@ -10,8 +10,6 @@ import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/Search
 
 import DSActivityHandlers from './domain-story-modeler/modeler/DSActivityHandlers';
 
-import sanitize from './domain-story-modeler/util/Sanitizer';
-
 import { toggleStashUse } from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
 
 import { version } from '../package.json';
@@ -24,20 +22,14 @@ import { isPlaying, initReplay } from './domain-story-modeler/features/replay/re
 
 import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUtil';
 
-import { updateExistingNumbersAtEditing } from './domain-story-modeler/features/numbering/numbering';
+import { updateExistingNumbersAtEditing, getNumberRegistry } from './domain-story-modeler/features/numbering/numbering';
 
-import {
-  correctGroupChildren,
-  getAllObjectsFromCanvas,
-  getActivitesFromActors,
-  updateCustomElementsPreviousv050 } from './domain-story-modeler/util/CanvasObjects';
-import { allInWorkObjectRegistry, registerWorkObjects } from './domain-story-modeler/language/workObjectRegistry';
-import { allInActorRegistry, registerActors } from './domain-story-modeler/language/actorRegistry';
-import { ACTIVITY, ACTOR, WORKOBJECT, DOMAINSTORY } from './domain-story-modeler/language/elementTypes';
+import { ACTIVITY, ACTOR, WORKOBJECT } from './domain-story-modeler/language/elementTypes';
 import { downloadDST, createObjectListForDSTDownload } from './domain-story-modeler/features/export/dstDownload';
 import { downloadSVG, setEncoded } from './domain-story-modeler/features/export/svgDownload';
 import { downloadPNG } from './domain-story-modeler/features/export/pngDownload';
-import { checkElementReferencesAndRepair } from './domain-story-modeler/util/ImportRepair';
+import { importDST } from './domain-story-modeler/features/import/import';
+import { getActivitesFromActors, getAllCanvasObjects, initElementRegistry } from './domain-story-modeler/features/canvasElements/canvasElementRegistry';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -55,7 +47,8 @@ var elementRegistry = modeler.get('elementRegistry');
 DSActivityHandlers(commandStack, eventBus, canvas);
 DSMassRenameHandlers(commandStack, eventBus, canvas);
 
-initReplay(canvas, elementRegistry);
+initReplay(canvas);
+initElementRegistry(elementRegistry);
 
 // disable BPMN SearchPad
 SearchPad.prototype.toggle=function() { };
@@ -80,8 +73,6 @@ var modal = document.getElementById('modal'),
     title = document.getElementById('title'),
     info = document.getElementById('info'),
     infoText = document.getElementById('infoText'),
-    importedVersionLabel = document.getElementById('importedVersion'),
-    modelerVersionLabel = document.getElementById('modelerVersion'),
     // Inputs
     titleInput = document.getElementById('titleInput'),
     titleInputLast = '',
@@ -93,8 +84,6 @@ var modal = document.getElementById('modal'),
     headlineDialog = document.getElementById('dialog'),
     activityWithNumberDialog = document.getElementById('numberDialog'),
     activityWithoutNumberDialog = document.getElementById('labelDialog'),
-    brokenDSTDialog = document.getElementById('brokenDSTDialog'),
-    versionDialog = document.getElementById('versionDialog'),
     incompleteStoryDialog = document.getElementById('incompleteStoryInfo'),
     wpsLogoDialog = document.getElementById('wpsLogoInfo'),
     dstLogoDialog = document.getElementById('dstLogoInfo'),
@@ -112,7 +101,6 @@ var modal = document.getElementById('modal'),
     dictionaryButtonOpen = document.getElementById('dictionaryButton'),
     dictionaryButtonSave = document.getElementById('closeDictionaryButtonSave'),
     dictionaryButtonCancel = document.getElementById('closeDictionaryButtonCancel'),
-    brokenDSTDialogButtonCancel = document.getElementById('brokenDSTDialogButtonCancel'),
     activityNumberDialogButtonSave = document.getElementById('numberSaveButton'),
     activityNumberDialogButtonCancel = document.getElementById('numberQuitButton'),
     activityLabelButtonSave = document.getElementById('labelSaveButton'),
@@ -126,8 +114,7 @@ var modal = document.getElementById('modal'),
     keyboardShortcutInfoButton = document.getElementById('keyboardShortcutInfoButton'),
     keyboardShortcutInfoButtonCancel = document.getElementById('keyboardShortcutInfoDialogButtonCancel'),
     incompleteStoryDialogButtonCancel = document.getElementById('closeIncompleteStoryInfo'),
-    noContentOnCanvasDialogCuttonCancel = document.getElementById('closeNoContentOnCanvasInfo'),
-    versionDialogButtonCancel = document.getElementById('closeVersionDialog');
+    noContentOnCanvasDialogCuttonCancel = document.getElementById('closeNoContentOnCanvasInfo');
 
 // interal variables
 var keysPressed = [];
@@ -138,50 +125,119 @@ eventBus.on('element.dblclick', function(e) {
   if (!isPlaying()) {
     var element = e.element;
     if (element.type == ACTIVITY) {
-      var source = element.source;
+      activityDoubleClick(element);
+    } else {
+      var renderedNumberRegistry = getNumberRegistry();
 
-      var dict = getActivityDictionary();
-      autocomplete(activityInputLabelWithNumber, dict, element);
-      autocomplete(activityInputLabelWithoutNumber, dict, element);
+      if (renderedNumberRegistry.length > 1) {
 
-      // ensure the right number when changing the direction of an activity
-      toggleStashUse(false);
+        var allActivities = getActivitesFromActors();
 
-      if (source.type.includes(ACTOR)) {
-        showActivityWithNumberDialog(element);
-        document.getElementById('inputLabel').focus();
+        if (allActivities.length >0) {
+
+          var htmlCanvas = document.getElementById('canvas');
+          var container = htmlCanvas.getElementsByClassName('djs-container');
+          var svgElements = container[0].getElementsByTagName('svg');
+          var outerSVGElement = svgElements[0];
+          var viewport = outerSVGElement.getElementsByClassName('viewport')[0];
+          var transform = viewport.getAttribute('transform');
+          var transformX = 0,
+              transformY = 0,
+              zoomX = 1,
+              zoomY = 1;
+          var nums;
+
+          var clickX = e.originalEvent.offsetX;
+          var clickY = e.originalEvent.offsetY;
+
+          if (transform) {
+            transform = transform.replace('matrix(', '');
+            transform.replace(')');
+            nums = transform.split(',');
+            zoomX = parseFloat(nums[0]);
+            zoomY = parseFloat(nums[3]);
+            transformX = parseInt(nums[4]);
+            transformY = parseInt(nums[5]);
+          }
+
+          var width = 25 * zoomX;
+          var height = 22 * zoomY;
+
+          for (var i = 1; i<renderedNumberRegistry.length; i++) {
+            var currentNum = renderedNumberRegistry[i];
+            var tspan = currentNum.getElementsByTagName('tspan')[0];
+            var tx = tspan.getAttribute('x');
+            var ty = tspan.getAttribute('y');
+            var tNumber = parseInt(tspan.innerHTML);
+
+            var elementX = (tx * zoomX) + (transformX - 5 * zoomX);
+            var elementY = (ty * zoomY) + (transformY - 15 * zoomY);
+
+            for (var j=0; j<allActivities.length; j++) {
+              var activity = allActivities[j];
+              if (activity.businessObject.number == tNumber) {
+                if (positionsMatch(width, height, elementX, elementY, clickX, clickY)) {
+                  activityDoubleClick(activity);
+                }
+              }
+            }
+
+          }
+        }
       }
-      else if (source.type.includes(WORKOBJECT)) {
-        showActivityWithoutLabelDialog(element);
-        document.getElementById('labelInputLabel').focus();
-      }
-
-      // onclick and key functions, that need the element to which the event belongs
-      activityLabelButtonSave.onclick = function() {
-        saveActivityInputLabelWithoutNumber(element);
-      };
-
-      activityNumberDialogButtonSave.onclick = function() {
-        saveActivityInputLabelWithNumber(element);
-      };
-
-      activityInputLabelWithoutNumber.onkeydown = function(e) {
-        checkInput(activityInputLabelWithoutNumber);
-        checkPressedKeys(e.keyCode, 'labelDialog', element);
-      };
-
-      activityInputNumber.onkeydown = function(e) {
-        checkInput(activityInputNumber);
-        checkPressedKeys(e.keyCode, 'numberDialog', element);
-      };
-
-      activityInputLabelWithNumber.onkeydown = function(e) {
-        checkInput(activityInputLabelWithNumber);
-        checkPressedKeys(e.keyCode, 'numberDialog', element);
-      };
     }
   }
 });
+
+function positionsMatch(width, height, elementX, elementY, clickX, clickY) {
+  if (clickX > elementX && clickX < (elementX + width)) {
+    if (clickY > elementY && clickY < (elementY + height)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function activityDoubleClick(activity) {
+  var source = activity.source;
+
+  var dict = getActivityDictionary();
+  autocomplete(activityInputLabelWithNumber, dict, activity);
+  autocomplete(activityInputLabelWithoutNumber, dict, activity);
+
+  // ensure the right number when changing the direction of an activity
+  toggleStashUse(false);
+
+  if (source.type.includes(ACTOR)) {
+    showActivityWithNumberDialog(activity);
+    document.getElementById('inputLabel').focus();
+  }
+  else if (source.type.includes(WORKOBJECT)) {
+    showActivityWithoutLabelDialog(activity);
+    document.getElementById('labelInputLabel').focus();
+  }
+
+  // onclick and key functions, that need the element to which the event belongs
+  activityLabelButtonSave.onclick = function() {
+    saveActivityInputLabelWithoutNumber(activity);
+  };
+
+  activityNumberDialogButtonSave.onclick = function() {
+    saveActivityInputLabelWithNumber(activity);
+  };
+
+  activityInputLabelWithoutNumber.onkeydown = function(e) {
+    checkPressedKeys(e.keyCode, 'labelDialog', activity);
+  };
+
+  activityInputNumber.onkeydown = function(e) {
+    checkPressedKeys(e.keyCode, 'numberDialog', activity);
+  };
+
+  activityInputLabelWithNumber.onkeydown = function(e) {
+    checkPressedKeys(e.keyCode, 'numberDialog', activity);
+  };
+}
 
 // when in replay, do not allow any interaction on the canvas
 eventBus.on([
@@ -276,13 +332,8 @@ info.addEventListener('keyup', function(e) {
   keyReleased(keysPressed, e.keyCode);
 });
 
-activityInputLabelWithoutNumber.addEventListener('keyup', function() {
-  checkInput(activityInputLabelWithoutNumber);
-});
-
 activityInputLabelWithNumber.addEventListener('keyup', function(e) {
   keyReleased(keysPressed, e.keyCode);
-  checkInput(activityInputLabelWithNumber);
 });
 
 activityDictionaryContainer.addEventListener('keydown', function(e) {
@@ -309,15 +360,11 @@ dictionaryButtonCancel.addEventListener('click', function(e) {
   modal.style.display='none';
 });
 
-brokenDSTDialogButtonCancel.addEventListener('click', function() {
-  closeBrokenDSTDialog();
-});
-
 exportButton.addEventListener('click', function() {
 
   if (canvas._rootElement) {
 
-    var objects = createObjectListForDSTDownload(canvas, version);
+    var objects = createObjectListForDSTDownload(version);
 
     var json = JSON.stringify(objects);
     var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
@@ -349,11 +396,6 @@ noContentOnCanvasDialogCuttonCancel.addEventListener('click', function() {
   closeNoContentDialog();
 });
 
-versionDialogButtonCancel.addEventListener('click', function() {
-  modal.style.display = 'none';
-  versionDialog.style.display = 'none';
-});
-
 keyboardShortcutInfoButton.addEventListener('click', function() {
   modal.style.display = 'block';
   keyboardShortcutInfoDialog.style.display = 'block';
@@ -364,89 +406,19 @@ keyboardShortcutInfoButton.addEventListener('click', function() {
 document.getElementById('import').onchange = function() {
 
   var input = document.getElementById('import').files[0];
-  var reader = new FileReader();
-  if (input.name.endsWith('.dst')) {
-    var titleText = input.name.replace(/_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/, '');
-    if (titleText.includes('.dst')) {
-      titleText = titleText.replace('.dst','');
-    }
-    titleInput.value = titleText;
-    title.innerText = titleText;
-    titleInputLast = titleInput.value;
 
-    reader.onloadend = function(e) {
-      var text = e.target.result;
+  initElementRegistry(elementRegistry);
 
-      var elements = JSON.parse(text);
-      var lastElement = elements.pop();
+  importDST(input, version, modeler);
 
-      var importVersionNumber = lastElement;
-      if (lastElement.version) {
-        lastElement = elements.pop();
-      }
+  // to update the title of the svg, we need to tell the command stack, that a value has changed
+  var exportArtifacts = debounce(fnDebounce, 500);
 
-      if (importVersionNumber.version) {
-        importVersionNumber = importVersionNumber.version;
-      } else {
-        importVersionNumber = '?';
-      }
+  eventBus.fire('commandStack.changed', exportArtifacts);
 
-      if (version != importVersionNumber) {
-        importedVersionLabel.innerText = 'v' + importVersionNumber;
-        modelerVersionLabel.innerText = 'v' + version;
-        showVersionDialog();
-        elements = updateCustomElementsPreviousv050(elements);
-      }
-
-      var allReferences = checkElementReferencesAndRepair(elements);
-
-      if (!allReferences) {
-        showBrokenDSTDialog();
-      }
-
-      updateRegistries(elements);
-
-      var inputInfoText = lastElement.info ? lastElement.info : '';
-      info.innerText = inputInfoText;
-      info.value = inputInfoText;
-      descriptionInputLast = info.value;
-      infoText.innerText = inputInfoText;
-
-      modeler.importCustomElements(elements);
-      cleanDictionaries(canvas);
-      correctGroupChildren(canvas);
-    };
-
-    reader.readAsText(input);
-
-    // to update the title of the svg, we need to tell the command stack, that a value has changed
-    var exportArtifacts = debounce(fnDebounce, 500);
-
-    eventBus.fire('commandStack.changed', exportArtifacts);
-  }
+  titleInputLast = titleInput.value;
 };
 
-function updateRegistries(elements) {
-  var actors = getElementsOfType(elements, 'actor');
-  var workObjects = getElementsOfType(elements, 'workObject');
-
-  if (!allInActorRegistry(actors)) {
-    registerActors(actors);
-  }
-  if (!allInWorkObjectRegistry(workObjects)) {
-    registerWorkObjects(workObjects);
-  }
-}
-
-function getElementsOfType(elements, type) {
-  var elementOfType =[];
-  elements.forEach(element => {
-    if (element.type.includes(DOMAINSTORY + type)) {
-      elementOfType.push(element);
-    }
-  });
-  return elementOfType;
-}
 
 function dictionaryKeyBehaviour(event) {
   const KEY_ENTER = 13;
@@ -540,7 +512,7 @@ function dictionaryDifferences(activityNames, oldActivityDictionary, workObjectN
 }
 
 function massChangeNames(oldValue, newValue, type) {
-  var allObjects = getAllObjectsFromCanvas(canvas);
+  var allObjects = getAllCanvasObjects();
   var allRelevantObjects=[];
 
   allObjects.forEach(element =>{
@@ -559,16 +531,6 @@ function massChangeNames(oldValue, newValue, type) {
 
 // dialog functions
 
-function showVersionDialog() {
-  versionDialog.style.display = 'block';
-  modal.style.display = 'block';
-}
-
-function showBrokenDSTDialog() {
-  brokenDSTDialog.style.display = 'block';
-  modal.style.display = 'block';
-}
-
 function showNoContentDialog() {
   noContentOnCanvasDialog.style.display = 'block';
   modal.style.display = 'block';
@@ -576,11 +538,6 @@ function showNoContentDialog() {
 
 function closeNoContentDialog() {
   noContentOnCanvasDialog.style.display = 'none';
-  modal.style.display = 'none';
-}
-
-function closeBrokenDSTDialog() {
-  brokenDSTDialog.style.display = 'none';
   modal.style.display = 'none';
 }
 
@@ -597,6 +554,9 @@ function closeImageDownloadDialog() {
 }
 
 function showDialog() {
+  if (descriptionInputLast == '') {
+    descriptionInputLast = infoText.innerText;
+  }
   info.value = descriptionInputLast;
   titleInput.value = titleInputLast;
   headlineDialog.style.display = 'block';
@@ -687,9 +647,7 @@ function saveActivityInputLabelWithNumber(element) {
   activityInputNumber.value = '';
   keysPressed = [];
 
-  var canvasObjects = canvas._rootElement.children;
-
-  var activitiesFromActors = getActivitesFromActors(canvasObjects);
+  var activitiesFromActors = getActivitesFromActors();
 
   var index = activitiesFromActors.indexOf(element);
   activitiesFromActors.splice(index, 1);
@@ -702,7 +660,7 @@ function saveActivityInputLabelWithNumber(element) {
   });
 
   updateExistingNumbersAtEditing(activitiesFromActors, numberInput, eventBus);
-  cleanDictionaries(canvas);
+  cleanDictionaries();
 }
 
 function closeActivityInputLabelWithoutNumber() {
@@ -734,15 +692,11 @@ function saveActivityInputLabelWithoutNumber(element) {
     element: element
   });
 
-  cleanDictionaries(canvas);
+  cleanDictionaries();
 }
 
 function keyReleased(keysPressed, keyCode) {
   keysPressed[keyCode] = false;
-}
-
-function checkInput(field) {
-  field.value = sanitize(field.value);
 }
 
 // SVG functions
