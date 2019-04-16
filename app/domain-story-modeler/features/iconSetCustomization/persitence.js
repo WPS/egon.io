@@ -122,13 +122,13 @@ export function loadConfiguration(customConfig) {
 
     actorDict.keysArray().forEach(name=> {
       if (childText.startsWith(name)) {
-        child.children[2].children[2].checked = true;
+        child.children[0].children[1].checked = true;
         createListElementInSeletionList(name, getIconSource(name), selectedActorsList);
       }
     });
     workObjectDict.keysArray().forEach(name=> {
       if (childText.startsWith(name)) {
-        child.children[2].children[4].checked = true;
+        child.children[0].children[2].checked = true;
         createListElementInSeletionList(name, getIconSource(name), selectedWorkObjectList);
       }
     });

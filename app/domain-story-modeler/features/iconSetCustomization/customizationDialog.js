@@ -28,23 +28,20 @@ export function createListElement(name) {
   var iconSRC = getIconSource(name);
 
   var listElement = document.createElement('li');
-  var nameElement = document.createElement('text');
-  var imageElement = document.createElement('img');
   var radioElement = document.createElement('div');
+  var verticalLineElement = document.createElement('div');
+  var imageElement = document.createElement('img');
+  var nameElement = document.createElement('text');
 
   var inputRadioNone = document.createElement('input');
   var inputRadioActor = document.createElement('input');
   var inputRadioWorkObject = document.createElement('input');
 
-  var unselectedText = document.createElement('text');
-  var actorText = document.createElement('text');
-  var workObjectText = document.createElement('text');
+  listElement.style.display ='grid';
+  listElement.style.gridTemplateColumns = '125px 10px 30px auto';
 
-  unselectedText.innerHTML = ' ';
-  actorText.innerHTML='Actor';
-  workObjectText.innerHTML='WorkObject';
-
-  radioElement.style.display = 'inline';
+  radioElement.style.display = 'grid';
+  radioElement.style.gridTemplateColumns = '50px 45px 30px';
 
   inputRadioNone.setAttribute('type', 'radio');
   inputRadioNone.setAttribute('name', name);
@@ -71,8 +68,16 @@ export function createListElement(name) {
     inputRadioNone.checked = true;
   }
 
+  verticalLineElement.style.display = 'inline';
+  verticalLineElement.style.borderLeft = 'solid 1px black';
+  verticalLineElement.width ='1px';
+  verticalLineElement.heigth = '15px';
+  verticalLineElement.style.overflowY = 'visible';
+  verticalLineElement.style.marginLeft = '5px';
+
   imageElement.width = iconSize;
   imageElement.heigth = iconSize;
+  imageElement.style.marginLeft = '5px';
   if (iconSRC.startsWith('data')) {
     imageElement.src= iconSRC;
   } else {
@@ -82,16 +87,13 @@ export function createListElement(name) {
   nameElement.innerHTML = name;
 
   radioElement.appendChild(inputRadioNone);
-  radioElement.appendChild(unselectedText);
   radioElement.appendChild(inputRadioActor);
-  radioElement.appendChild(actorText);
   radioElement.appendChild(inputRadioWorkObject);
-  radioElement.appendChild(workObjectText);
 
   radioElement.addEventListener('click', function() {
     var children = radioElement.children;
-    var actorButton = children[2];
-    var workObjectButton = children[4];
+    var actorButton = children[1];
+    var workObjectButton = children[2];
 
     var currentSelectionName = actorButton.name;
     var addToActors = false;
@@ -105,9 +107,10 @@ export function createListElement(name) {
     updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, addToWorkObjects);
   });
 
+  listElement.appendChild(radioElement);
+  listElement.appendChild(verticalLineElement);
   listElement.appendChild(imageElement);
   listElement.appendChild(nameElement);
-  listElement.appendChild(radioElement);
 
   return listElement;
 }

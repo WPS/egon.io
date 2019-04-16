@@ -21,6 +21,13 @@ input{
   z-index: 1;
 }
 
+#allIconsListHeader {
+  position: relative;
+  left: 25px;
+  top: 5px;
+  font-size: 9pt;
+}
+
 #iconCustomizationContainer {
   top: 0;
   left: 0;
