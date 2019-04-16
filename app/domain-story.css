@@ -447,3 +447,101 @@ cursor: default;
   background-color: DodgerBlue !important; 
   color: #ffffff; 
 }
+
+/**
+ * from bpmn.io
+ */
+
+/**
+ * palette
+ */
+
+ .djs-palette {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+
+  box-sizing: border-box;
+  width: 32px;
+}
+
+.djs-palette .separator {
+  margin: 0 2px;
+  padding-top: 0px;
+
+  border: none;
+  border-bottom: solid 1px #DDD;
+
+  clear: both;
+}
+
+.djs-palette .entry:before {
+  vertical-align: middle;
+}
+
+.djs-palette .djs-palette-toggle {
+  cursor: pointer;
+}
+
+.djs-palette .entry,
+.djs-palette .djs-palette-toggle {
+  color: #333;
+  font-size: 26px;
+
+  text-align: center;
+}
+
+.djs-palette .entry {
+  float: left;
+}
+
+.djs-palette .entry img {
+  max-width: 100%;
+}
+
+.djs-palette .djs-palette-entries:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.djs-palette .djs-palette-toggle:hover {
+  background: #666;
+}
+
+.djs-palette .entry:hover {
+  color: rgb(255, 116, 0);
+}
+
+.djs-palette .highlighted-entry {
+  color: rgb(255, 116, 0) !important;
+}
+
+.djs-palette .entry,
+.djs-palette .djs-palette-toggle {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  cursor: default;
+}
+
+/**
+ * Palette open / two-column layout is controlled via
+ * classes on the palette. Events to hook into palette
+ * changed life-cycle are available in addition.
+ */
+.djs-palette.two-column.open {
+  width: 64px;
+}
+
+.djs-palette:not(.open) .djs-palette-entries {
+  display: none;
+}
+
+.djs-palette:not(.open) {
+  overflow: hidden;
+}
+
+.djs-palette.open .djs-palette-toggle {
+  display: none;
+}
