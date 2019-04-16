@@ -97,7 +97,6 @@ function appendCSSStyleCheat(customIcons) {
 function initPalette(actions, spaceTool, lassoTool, createAction) {
   var config = getIconset();
 
-
   var customIcons = localStorage.getItem(appendedIconsTag);
   if (customIcons) {
     overrideAppendedIcons(JSON.parse(customIcons));
