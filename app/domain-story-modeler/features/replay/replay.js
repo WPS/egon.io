@@ -345,6 +345,7 @@ function enableCanvasInteraction() {
   iconCustomizationButton.style.display = 'inline';
   iconCustomizationButton.style.position = 'relative';
   iconCustomizationButton.style.top = '-1em';
+  iconCustomizationButton.style.marginLeft = '3px';
 
   headerAndCanvas.style.gridTemplateRows = '125px 1px auto';
   replayButtons.style.marginTop = '1.4em';
