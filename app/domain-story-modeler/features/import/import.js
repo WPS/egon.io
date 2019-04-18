@@ -252,6 +252,7 @@ function adjustPositions(elements) {
       if (isFirst) {
         xLeft = parseFloat(element.x);
         yUp = parseFloat(element.y);
+        isFirst = false;
       }
       elXLeft= parseFloat(element.x);
       elYUp = parseFloat(element.y);
@@ -264,10 +265,10 @@ function adjustPositions(elements) {
     }
   });
 
-  if (xLeft < 75 || xLeft > 375 || yUp < 15 || yUp > 500) {
+  if (xLeft < 75 || xLeft > 150 || yUp < 0 || yUp > 50) {
     // add Padding for the Palette and the top
     xLeft -= 75;
-    yUp -= 200;
+    yUp -= 50;
 
     elements.forEach(element => {
       if (element.type == ACTIVITY || element.type == CONNECTION) {
