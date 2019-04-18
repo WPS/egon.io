@@ -159,7 +159,6 @@ export function importDST(input, version, modeler) {
   }
 }
 
-// TODO fix
 function configHasChanged(config) {
   var dictionary = require('collections/dict');
   var customConfigJSON = JSON.parse(config);
