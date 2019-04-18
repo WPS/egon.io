@@ -37,11 +37,12 @@ export function createListElement(name) {
   var inputRadioActor = document.createElement('input');
   var inputRadioWorkObject = document.createElement('input');
 
+  listElement.style.marginLeft = '5px';
   listElement.style.display ='grid';
   listElement.style.gridTemplateColumns = '125px 10px 30px auto';
 
   radioElement.style.display = 'grid';
-  radioElement.style.gridTemplateColumns = '50px 45px 30px';
+  radioElement.style.gridTemplateColumns = '45px 45px 30px';
 
   inputRadioNone.setAttribute('type', 'radio');
   inputRadioNone.setAttribute('name', name);
