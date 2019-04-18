@@ -73,12 +73,12 @@ input{
 }
 
 #selectedWorkObjectsList {
-  max-height: 45vh;
+  max-height: 41vh;
   overflow-y: scroll;
 }
 
 #selectedActorsList {
-  max-height: 45vh;
+  max-height: 41vh;
   overflow-y: scroll;
 }
 .selectedIconsContainer{
