@@ -159,6 +159,7 @@ export function importDST(input, version, modeler) {
   }
 }
 
+// TODO fix
 function configHasChanged(config) {
   var dictionary = require('collections/dict');
   var customConfigJSON = JSON.parse(config);
@@ -168,25 +169,26 @@ function configHasChanged(config) {
   newActorsDict.addEach(customConfigJSON.actors);
   newWorkObjectsDict.addEach(customConfigJSON.workObjects);
 
-  var newActors = newActorsDict.keysArray();
-  var newWorkObjects = newWorkObjectsDict.keysArray();
-  var currentActors = getActorIconDictionaryKeys();
-  var currentWorkObjects = getWorkObjectIconDictionaryKeys();
+  var newActorKeys = newActorsDict.keysArray();
+  var newWorkObjectKeys = newWorkObjectsDict.keysArray();
+  var currentActorKeys = getActorIconDictionaryKeys();
+  var currentWorkobjectKeys = getWorkObjectIconDictionaryKeys();
 
   var changed = false;
   var i=0;
-  for (i=0; i<newActors.length; i++) {
-    if (!currentActors.includes(newActors[i]) || !currentActors.includes(ACTOR + newActors[i])) {
+
+  for (i=0; i<newActorKeys.length; i++) {
+    if (!currentActorKeys.includes(newActorKeys[i]) && !currentActorKeys.includes(ACTOR + newActorKeys[i])) {
       changed = true;
-      i = newActors.length;
+      i = newActorKeys.length;
     }
   }
 
   if (changed) {
-    for (i=0; i<newWorkObjects.length; i++) {
-      if (!currentWorkObjects.includes(newWorkObjects[i]) || !currentWorkObjects.includes(WORKOBJECT + newWorkObjects[i])) {
+    for (i=0; i<newWorkObjectKeys.length; i++) {
+      if (!currentWorkobjectKeys.includes(newWorkObjectKeys[i]) && !currentWorkobjectKeys.includes(WORKOBJECT + newWorkObjectKeys[i])) {
         changed = true;
-        i = newWorkObjects.length;
+        i = newWorkObjectKeys.length;
       }
     }
   }
