@@ -53,6 +53,11 @@ input{
   grid-template-columns: 120px auto 95px 300px auto 150px 187px 15px;
 }
 
+#iconCustomizationButton {
+  position: relative; 
+  top: -1em;
+}
+
 .iconListsContainer{
   margin-top: 3px; 
   display: grid;
@@ -111,11 +116,6 @@ input{
   height: 25px;
 }
 
-#iconCustomizationButton {
-  margin-top: 13px;
-  margin-left: 10px;
-}
-
 #cancelIconCustomizationButton{
   justify-self: right;
   height: 25px;
@@ -164,6 +164,7 @@ input{
 }
 
 .ButtonContainer {
+  margin-top: 0.2em;
   grid-column: 1/1;
   position: relative;
 }
@@ -175,7 +176,7 @@ input{
 }
 
 .replayButtons {
-  margin-top: 1em;
+  margin-top: 1.4em;
 }
 
 #headline {

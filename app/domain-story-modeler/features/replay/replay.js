@@ -271,12 +271,33 @@ function disableCanvasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
 
+  var infoContainer = document.getElementById('infoContainer'),
+      headerAndCanvas = document.getElementsByClassName('headerAndCanvas')[0],
+      importExportButtons = document.getElementById('importExportSVGButton'),
+      logoContainer = document.getElementsByClassName('logoContainer')[0],
+      replayButtons = document.getElementsByClassName('replayButtons')[0],
+      currentDomainName = document.getElementById('currentDomainNameContainer'),
+      iconCustomizationButton = document.getElementById('iconCustomizationButton'),
+      replayStepButton = document.getElementById('replayStep');
+
+  infoContainer.style.display = 'none';
+  importExportButtons.style.display = 'none';
+  logoContainer.style.display = 'none';
+  iconCustomizationButton.style.display = 'none';
+  currentDomainName.style.display = 'none';
+
+  headerAndCanvas.style.gridTemplateRows = '55px 1px auto';
+  replayButtons.style.marginTop = 0;
+  replayButtons.style.marginRight = 20;
+  replayStepButton.style.marginLeft = 0;
+  replayStepButton.marginTop = 0;
+
   headline.style.pointerEvents = 'none';
 
   importExportSVGButtonsContainer.style.opacity = 0.2;
   importExportSVGButtonsContainer.style.pointerEvents = 'none';
 
-  startReplayButton.style.opacity = 0.2;
+  startReplayButton.style.opacity = 0;
   startReplayButton.style.pointerEvents = 'none';
 
   stopReplayButton.style.opacity = 1;
@@ -304,6 +325,30 @@ function enableCanvasInteraction() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
 
+  var infoContainer = document.getElementById('infoContainer'),
+      headerAndCanvas = document.getElementsByClassName('headerAndCanvas')[0],
+      importExportButtons = document.getElementById('importExportSVGButton'),
+      logoContainer = document.getElementsByClassName('logoContainer')[0],
+      replayButtons = document.getElementsByClassName('replayButtons')[0],
+      currentDomainName = document.getElementById('currentDomainNameContainer'),
+      iconCustomizationButton = document.getElementById('iconCustomizationButton'),
+      replayStepButton = document.getElementById('replayStep');
+
+  infoContainer.style.display = 'block';
+  importExportButtons.style.display = 'block';
+  logoContainer.style.display = 'block';
+  currentDomainName.style.display = 'block';
+
+  iconCustomizationButton.style.display = 'inline';
+  iconCustomizationButton.style.position = 'relative';
+  iconCustomizationButton.style.top = '-1em';
+
+  headerAndCanvas.style.gridTemplateRows = '125px 1px auto';
+  replayButtons.style.marginTop = '1.4em';
+  replayButtons.style.marginRight = 0;
+  replayStepButton.style.marginLeft = '13.3em';
+  replayStepButton.marginTop = '-2.05em';
+
   headline.style.pointerEvents = 'all';
 
   importExportSVGButtonsContainer.style.opacity = 1;
@@ -312,13 +357,13 @@ function enableCanvasInteraction() {
   startReplayButton.style.opacity = 1;
   startReplayButton.style.pointerEvents = 'all';
 
-  stopReplayButton.style.opacity = 0.2;
+  stopReplayButton.style.opacity = 0.0;
   stopReplayButton.style.pointerEvents = 'none';
 
-  nextStepButton.style.opacity = 0.2;
+  nextStepButton.style.opacity = 0.0;
   nextStepButton.style.pointerEvents = 'none';
 
-  previousStepButton.style.opacity = 0.2;
+  previousStepButton.style.opacity = 0.0;
   previousStepButton.style.pointerEvents = 'none';
 
   var i = 0;
