@@ -159,7 +159,6 @@ export function importDST(input, version, modeler) {
   }
 }
 
-
 function configHasChanged(config) {
   var dictionary = require('collections/dict');
   var customConfigJSON = JSON.parse(config);
@@ -194,7 +193,6 @@ function configHasChanged(config) {
   return changed;
 }
 
-
 // when importing a domain-story, the elements that are visually inside a group are not yet associated with it.
 // to ensure they are correctly associated, we add them to the group
 function correctGroupChildren() {
@@ -226,7 +224,6 @@ function correctGroupChildren() {
   });
 }
 
-
 /**
  * Ensure backwards compatability.
  * Previously Document had no special name and was just adressed as workObject
@@ -244,7 +241,6 @@ export function updateCustomElementsPreviousv050(elements) {
   }
   return elements;
 }
-
 
 function adjustPositions(elements) {
   var xLeft , yUp;
@@ -268,27 +264,29 @@ function adjustPositions(elements) {
     }
   });
 
-  // add Padding for the Palette and the top
-  xLeft -= 75;
-  yUp -= 200;
+  if (xLeft < 75 || xLeft > 375 || yUp < 15 || yUp > 500) {
+    // add Padding for the Palette and the top
+    xLeft -= 75;
+    yUp -= 200;
 
-  elements.forEach(element => {
-    if (element.type == ACTIVITY || element.type == CONNECTION) {
-      var waypoints = element.waypoints;
-      waypoints.forEach(point => {
-        point.x -= xLeft;
-        point.y -= yUp;
+    elements.forEach(element => {
+      if (element.type == ACTIVITY || element.type == CONNECTION) {
+        var waypoints = element.waypoints;
+        waypoints.forEach(point => {
+          point.x -= xLeft;
+          point.y -= yUp;
 
-        if (point.original) {
-          point.original.x = point.x;
-          point.original.y = point.y;
-        }
-      });
-    } else {
-      element.x -= xLeft;
-      element.y -= yUp;
-    }
-  });
+          if (point.original) {
+            point.original.x = point.x;
+            point.original.y = point.y;
+          }
+        });
+      } else {
+        element.x -= xLeft;
+        element.y -= yUp;
+      }
+    });
+  }
 }
 
 function updateIconRegistries(elements) {
