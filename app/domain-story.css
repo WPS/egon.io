@@ -8,8 +8,6 @@ input{
   margin-bottom: 20px;
 }
 
-/* Elements by class*/
-
 #modal{
   top: 0;
   left: 0;
@@ -58,7 +56,7 @@ input{
 .iconListsContainer{
   margin-top: 3px; 
   display: grid;
-  grid-template-columns: 49% 49%;
+  grid-template-columns: auto auto;
 }
 
 #allIconListContainer{
@@ -81,12 +79,13 @@ input{
   max-height: 41vh;
   overflow-y: scroll;
 }
+
 .selectedIconsContainer{
   border: solid 1px #aaaaab;
   margin-bottom: 3px;
   margin-right: 2px;
   display: grid;
-  grid-template-rows: 50% 1px 50%;
+  grid-template-rows: auto 1px auto;
 }
 
 #bottomButtonRow{
@@ -145,7 +144,7 @@ input{
 .headlineContainer {
   display: grid;
   margin-left: 5px;
-  grid-template-columns: auto 285;
+  grid-template-columns: auto 340px;
   grid-template-rows: 125px;
 }
 
@@ -385,8 +384,6 @@ cursor: default;
   right: 1px;
   top: 1px;
 }
-
-/* Elements by ID */
 
 .buttons{
   position: relative;
