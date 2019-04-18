@@ -1,5 +1,5 @@
-import { customConfigTag, useCustomConfigTag, customConfigNameTag, appendedIconsTag } from '../features/iconSetCustomization/persitence';
-import { appendedIcons, overrideAppendedIcons } from './all_Icons';
+import { customConfigTag, useCustomConfigTag, customConfigNameTag } from '../features/iconSetCustomization/persitence';
+import { overrideAppendedIcons } from './all_Icons';
 import { getAllIconDictioary } from '../features/iconSetCustomization/dictionaries';
 
 /**
@@ -44,7 +44,7 @@ export function getIconset() {
 }
 
 export function appendSRCFile(actors, actorsDict, workObjects, workObjectsDict) {
-  var newAppendedIcons = appendedIcons;
+  var newAppendedIcons = {};
   var allIcons = getAllIconDictioary();
 
   actors.forEach(name => {
@@ -58,7 +58,6 @@ export function appendSRCFile(actors, actorsDict, workObjects, workObjectsDict) 
       newAppendedIcons[name] = workObjectsDict.get(name);
     }
   });
-
   overrideAppendedIcons(newAppendedIcons);
 }
 

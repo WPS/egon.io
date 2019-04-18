@@ -64,3 +64,8 @@ export function deleteFromSelectedWorkObjectDictionary(name) {
 export function selectedCitionariesAreNotEmpty() {
   return (selectedAsActorDictionary.length > 0 && selectedAsWorkObjectDictionary.length >0);
 }
+
+export function resetSelectionDictionaries() {
+  selectedAsActorDictionary.clear();
+  selectedAsWorkObjectDictionary.clear();
+}

@@ -189,3 +189,17 @@ function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, a
     customIconConfigSaveButton.style.opacity = 0.5;
   }
 }
+
+
+export function resetHTMLSelectionList() {
+  var i=0;
+  for (i=selectedWorkObjectList.children.length -1; i>=0; i--) {
+    var child = selectedWorkObjectList.children[i];
+    selectedWorkObjectList.removeChild(child);
+  }
+
+  for (i=selectedActorsList.children.length -1; i>=0; i--) {
+    var child = selectedActorsList.children[i];
+    selectedActorsList.removeChild(child);
+  }
+}
