@@ -1,7 +1,7 @@
 'use strict';
 
 import { CONNECTION, GROUP } from '../../language/elementTypes';
-import { getActivitesFromActors, getAllCanvasObjects } from '../canvasElements/canvasElementRegistry';
+import { getActivitesFromActors, getAllCanvasObjects, wasInitialized } from '../canvasElements/canvasElementRegistry';
 
 var canvas;
 var elementRegistry;
@@ -33,41 +33,44 @@ let importExportSVGButtonsContainer = document.getElementById('importExportSVGBu
 /* test */
 
 startReplayButton.addEventListener('click', function() {
-  var activities = getActivitesFromActors();
+  if (wasInitialized()) {
 
-  if (!replayOn && activities.length > 0) {
-    replaySteps = traceActivities(activities, elementRegistry);
+    var activities = getActivitesFromActors();
 
-    if (isStoryConsecutivelyNumbered(replaySteps)) {
-      replayOn = true;
-      disableCanvasInteraction();
-      currentStep = 0;
-      showCurrentStep();
-    }
-    else {
-      var errorText = '\nThe numbers: ';
-      for (var i=0; i<replaySteps.length; i++) {
-        if (errorStep[i]) {
-          errorText+= ((i + 1) + ',');
-        }
+    if (!replayOn && activities.length > 0) {
+      replaySteps = traceActivities(activities, elementRegistry);
+
+      if (isStoryConsecutivelyNumbered(replaySteps)) {
+        replayOn = true;
+        disableCanvasInteraction();
+        currentStep = 0;
+        showCurrentStep();
       }
-      errorText = errorText.substring(0, errorText.length - 1);
-      errorText+= ' are missing!';
-
-      var oldText = incompleteStoryDialog.getElementsByTagName('text');
-      if (oldText) {
-        for (i=0; i < oldText.length; i++) {
-          incompleteStoryDialog.removeChild(oldText[i]);
+      else {
+        var errorText = '\nThe numbers: ';
+        for (var i=0; i<replaySteps.length; i++) {
+          if (errorStep[i]) {
+            errorText+= ((i + 1) + ',');
+          }
         }
-      }
+        errorText = errorText.substring(0, errorText.length - 1);
+        errorText+= ' are missing!';
 
-      var text = document.createElement('text');
-      text.innerHTML = ' The activities in this Domain Story are not numbered consecutively.<br>' +
+        var oldText = incompleteStoryDialog.getElementsByTagName('text');
+        if (oldText) {
+          for (i=0; i < oldText.length; i++) {
+            incompleteStoryDialog.removeChild(oldText[i]);
+          }
+        }
+
+        var text = document.createElement('text');
+        text.innerHTML = ' The activities in this Domain Story are not numbered consecutively.<br>' +
         'Please fix the numbering in order to replay the story.<br>' +
         errorText;
-      incompleteStoryDialog.appendChild(text);
-      incompleteStoryDialog.style.display = 'block';
-      modal.style.display = 'block';
+        incompleteStoryDialog.appendChild(text);
+        incompleteStoryDialog.style.display = 'block';
+        modal.style.display = 'block';
+      }
     }
   }
 });

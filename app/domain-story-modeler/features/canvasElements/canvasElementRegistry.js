@@ -5,6 +5,10 @@ import { WORKOBJECT, GROUP, ACTOR, CONNECTION, ACTIVITY } from '../../language/e
 var elementRegistry;
 var initCorrected = false;
 
+export function wasInitialized() {
+  return initCorrected;
+}
+
 export function initElementRegistry(registry) {
   initCorrected = false;
   elementRegistry = registry._elements;
