@@ -40,6 +40,7 @@ import { getWorkObjectIconSrc } from './workObjectIconDictionary';
 import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
 import { correctElementRegitryInit } from '../features/canvasElements/canvasElementRegistry';
 import { makeDirty } from '../features/export/dirtyFlag';
+import { updateSearch } from '../features/searchForText/search';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];
@@ -640,6 +641,7 @@ DomainStoryRenderer.prototype.drawShape = function(p, element) {
   }
 
   makeDirty();
+  updateSearch();
 
   var type = element.type;
   correctElementRegitryInit();
