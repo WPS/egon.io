@@ -26,6 +26,16 @@ input{
   font-size: 9pt;
 }
 
+.searchForTextDialog {
+  margin-top: -2.5em;
+  margin-left: 20px;
+  z-index: 1000;
+}
+
+#searchForTextInput {
+  width: 200px;
+}
+
 #iconCustomizationContainer {
   top: 0;
   left: 0;

@@ -33,6 +33,7 @@ import { getActivitesFromActors, getAllCanvasObjects, initElementRegistry } from
 import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/customizationDialog';
 import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration, importConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
 import { addIMGToIconDictionary } from './domain-story-modeler/features/iconSetCustomization/appendIconDictionary';
+import { openSearchForText } from './domain-story-modeler/features/searchForText/search';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -135,6 +136,13 @@ var modal = document.getElementById('modal'),
 var keysPressed = [];
 
 // eventBus listeners
+
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.key =='f') {
+    openSearchForText();
+    e.stopPropagation();
+  }
+});
 
 eventBus.on('element.dblclick', function(e) {
   if (!isPlaying()) {
