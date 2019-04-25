@@ -16,8 +16,7 @@ const highlightBackgroundColor = '#f6f6f6';
 const mainListOptions = {
   group: 'allIconList',
   sort: 'true',
-  delay: 50,
-  onEnd: function(event) {
+  onEnd: function() {
     updateBackgroundColors();
   }
 };
@@ -28,7 +27,6 @@ const actorListOptions = {
     put: ['actorIconList', 'workObjectIconList']
   },
   sort: 'true',
-  delay: 50,
   onEnd: function(event) {
     dropElement(event);
   }
@@ -40,7 +38,6 @@ const workObjectListOptions = {
     put: ['actorIconList', 'workObjectIconList']
   },
   sort: 'true',
-  delay: 50,
   onEnd: function(event) {
     dropElement(event);
   }
