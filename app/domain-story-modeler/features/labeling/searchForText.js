@@ -7,12 +7,11 @@ var isOpen = false;
 var canvasHasChanged = false;
 var allTSpan;
 var searchForTextInput = document.getElementById('searchForTextInput');
-var searchFortextContainer;
+var searchFortextContainer = document.getElementById('searchFortextContainer');
 var closeSearchForTextButton = document.getElementById('closeSearchForTextButton');
 
 
 export function openSearchForText() {
-  var searchFortextContainer = document.getElementById('searchFortextContainer');
 
   if (!isOpen) {
     isOpen = true;
