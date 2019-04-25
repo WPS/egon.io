@@ -42,7 +42,7 @@ startReplayButton.addEventListener('click', function() {
 
       if (isStoryConsecutivelyNumbered(replaySteps)) {
         replayOn = true;
-        disableCanvasInteraction();
+        startPresentationMode();
         currentStep = 0;
         showCurrentStep();
       }
@@ -95,7 +95,7 @@ previousStepButton.addEventListener('click', function() {
 
 stopReplayButton.addEventListener('click', function() {
   if (replayOn) {
-    enableCanvasInteraction();
+    stopPresentationMode();
 
     // show all canvas elements
     var allObjects = [];
@@ -270,14 +270,14 @@ export function getAllNotShown(allObjects, shownElements) {
 
 // replay functions
 
-function disableCanvasInteraction() {
+function startPresentationMode() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
 
   var infoContainer = document.getElementById('infoContainer'),
       headerAndCanvas = document.getElementsByClassName('headerAndCanvas')[0],
       importExportButtons = document.getElementById('importExportSVGButton'),
-      logoContainer = document.getElementsByClassName('logoContainer')[0],
+      buttonContainer = document.getElementsByClassName('ButtonContainer')[0],
       replayButtons = document.getElementsByClassName('replayButtons')[0],
       currentDomainName = document.getElementById('currentDomainNameContainer'),
       iconCustomizationButton = document.getElementById('iconCustomizationButton'),
@@ -285,11 +285,11 @@ function disableCanvasInteraction() {
 
   infoContainer.style.display = 'none';
   importExportButtons.style.display = 'none';
-  logoContainer.style.display = 'none';
   iconCustomizationButton.style.display = 'none';
   currentDomainName.style.display = 'none';
 
   headerAndCanvas.style.gridTemplateRows = '55px 1px auto';
+  buttonContainer.style.paddingLeft= '65px';
   replayButtons.style.marginTop = 0;
   replayButtons.style.marginRight = 20;
   replayStepButton.style.marginLeft = 0;
@@ -324,14 +324,14 @@ function disableCanvasInteraction() {
   currentReplayStepLabel.style.opacity = 1;
 }
 
-function enableCanvasInteraction() {
+function stopPresentationMode() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
 
   var infoContainer = document.getElementById('infoContainer'),
       headerAndCanvas = document.getElementsByClassName('headerAndCanvas')[0],
+      buttonContainer = document.getElementsByClassName('ButtonContainer')[0],
       importExportButtons = document.getElementById('importExportSVGButton'),
-      logoContainer = document.getElementsByClassName('logoContainer')[0],
       replayButtons = document.getElementsByClassName('replayButtons')[0],
       currentDomainName = document.getElementById('currentDomainNameContainer'),
       iconCustomizationButton = document.getElementById('iconCustomizationButton'),
@@ -339,15 +339,13 @@ function enableCanvasInteraction() {
 
   infoContainer.style.display = 'block';
   importExportButtons.style.display = 'block';
-  logoContainer.style.display = 'block';
   currentDomainName.style.display = 'block';
 
   iconCustomizationButton.style.display = 'inline';
   iconCustomizationButton.style.position = 'relative';
-  iconCustomizationButton.style.top = '-1em';
-  iconCustomizationButton.style.marginLeft = '3px';
 
   headerAndCanvas.style.gridTemplateRows = '125px 1px auto';
+  buttonContainer.style.paddingLeft = '';
   replayButtons.style.marginTop = '1.4em';
   replayButtons.style.marginRight = 0;
   replayStepButton.style.marginLeft = '13.3em';

@@ -149,10 +149,10 @@ input{
   grid-template-rows: 125px 1px auto;
 }
 
-.headlineContainer {
+.header {
   display: grid;
   margin-left: 5px;
-  grid-template-columns: auto 340px;
+  grid-template-columns: auto 275px;
   grid-template-rows: 125px;
 }
 
@@ -164,23 +164,15 @@ input{
   grid-template-rows: 40px 85px;
 }
 
-.ButtonsAndLogos{
-  grid-row: 1 / 1;
-  grid-column: 2 / 2;
-  display: grid;
-  justify-self: end;
-}
-
 .ButtonContainer {
   margin-top: 0.2em;
-  grid-column: 1/1;
   position: relative;
 }
 
 .logoContainer {
-  margin-left: 10px;
-  grid-column: 2/2;
-  position: relative;
+  position: absolute;
+  bottom: 75px;
+  right: 5px;
 }
 
 .replayButtons {
@@ -265,6 +257,10 @@ cursor: default;
 #buttonImport:hover, #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #brokenDSTDialogCuttonCancel:hover, #closeNoContentOnCanvasInfo:hover, #keyboardShortcutInfoDialogButtonCancel:hover, #iconCustomizationButton:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
   border: 1px solid #CCC;
   cursor: pointer;
+}
+
+#imgWPS:hover, #imgDST:hover {
+cursor: pointer;
 }
 
 #buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep ,#keyboardShortcutInfoButton, #iconCustomizationButton{
