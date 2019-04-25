@@ -11,11 +11,15 @@ var selectedWorkObjectList = document. getElementById('selectedWorkObjectsList')
 
 const Sortable = require('sortablejs');
 const iconSize = 20;
+const highlightBackgroundColor = '#ededed';
 
 const mainListOptions = {
   group: 'allIconList',
   sort: 'true',
-  delay: 50
+  delay: 50,
+  onEnd: function(event) {
+    updateBackgroundColors();
+  }
 };
 
 const actorListOptions = {
@@ -41,6 +45,18 @@ const workObjectListOptions = {
     dropElement(event);
   }
 };
+
+function updateBackgroundColors() {
+  var children = htmlList.children;
+  for (var i=0; i<children.length; i++) {
+    var child = children[i];
+    if (i%2 ==0) {
+      child.style.backgroundColor = highlightBackgroundColor;
+    } else {
+      child.style.backgroundColor = 'white';
+    }
+  }
+}
 
 function dropElement(event) {
   var target = event.to;
@@ -71,13 +87,15 @@ export function createListOfAllIcons() {
   var allIconDictionary = getAllIconDictioary();
 
   var allIconNames = allIconDictionary.keysArray();
+  var i=0;
   allIconNames.forEach(name => {
-    var listElement = createListElement(name);
+    var listElement = createListElement(name, (i%2)==0);
     htmlList.appendChild(listElement);
+    i++;
   });
 }
 
-export function createListElement(name) {
+export function createListElement(name, greyBackground) {
   var iconSRC = getIconSource(name);
 
   var listElement = document.createElement('li');
@@ -91,8 +109,13 @@ export function createListElement(name) {
   var inputRadioWorkObject = document.createElement('input');
 
   listElement.style.marginLeft = '5px';
+  listElement.style.height = '20px';
   listElement.style.display ='grid';
   listElement.style.gridTemplateColumns = '125px 10px 30px auto';
+  listElement.style.borderTop = 'solid 1px black';
+  if (greyBackground) {
+    listElement.style.backgroundColor = highlightBackgroundColor;
+  }
 
   radioElement.id = 'radioButtons';
   radioElement.style.display = 'grid';
@@ -159,7 +182,7 @@ export function createListElement(name) {
     else if (workObjectButton.checked) {
       addToWorkObjects = true;
     }
-    updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, addToWorkObjects);
+    updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, addToWorkObjects, true);
   });
 
   listElement.appendChild(radioElement);
