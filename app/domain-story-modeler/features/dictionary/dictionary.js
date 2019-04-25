@@ -85,7 +85,7 @@ export function openDictionary(canvas) {
     var activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
         workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
         modal = document.getElementById('modal'),
-        dictionaryDialog = document.getElementById('dictionary');
+        dictionaryDialog = document.getElementById('dictionaryDialog');
 
     activityDictionaryContainer.innerHTML = '';
     workobjectDictionaryContainer.innerHTML = '';

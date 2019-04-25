@@ -96,8 +96,8 @@ var modal = document.getElementById('modal'),
     incompleteStoryDialog = document.getElementById('incompleteStoryInfo'),
     wpsLogoDialog = document.getElementById('wpsLogoInfo'),
     dstLogoDialog = document.getElementById('dstLogoInfo'),
-    dictionaryDialog = document.getElementById('dictionary'),
-    keyboardShortcutInfoDialog = document.getElementById('keyboardShortcutInfoDialog'),
+    dictionaryDialog = document.getElementById('dictionaryDialog'),
+    keyboardShortcutInfo = document.getElementById('keyboardShortcutInfo'),
     downloadDialog = document.getElementById('downloadDialog'),
     noContentOnCanvasDialog = document.getElementById('noContentOnCanvasInfo'),
     // container
@@ -421,7 +421,7 @@ noContentOnCanvasDialogCuttonCancel.addEventListener('click', function() {
 
 keyboardShortcutInfoButton.addEventListener('click', function() {
   modal.style.display = 'block';
-  keyboardShortcutInfoDialog.style.display = 'block';
+  keyboardShortcutInfo.style.display = 'block';
 });
 
 iconCustomizationSaveButton.addEventListener('click', function() {
@@ -687,7 +687,7 @@ function showActivityWithoutLabelDialog(event) {
 }
 
 function closeKeyboardShortcutDialog() {
-  keyboardShortcutInfoDialog.style.display = 'none';
+  keyboardShortcutInfo.style.display = 'none';
   modal.style.display = 'none';
 }
 

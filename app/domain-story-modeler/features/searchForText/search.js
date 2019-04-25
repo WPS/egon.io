@@ -5,7 +5,7 @@ var isOpen = false;
 var canvasHasChanged = false;
 var allTSpan;
 var searchForTextInput = document.getElementById('searchForTextInput');
-var searchForTextDialog = document.getElementById('searchForTextDialog');
+var searchFortextContainer = document.getElementById('searchFortextContainer');
 var closeSearchForTextButton = document.getElementById('closeSearchForTextButton');
 
 
@@ -13,7 +13,7 @@ export function openSearchForText() {
   if (!isOpen) {
     isOpen = true;
     allTSpan = document.querySelectorAll('tspan');
-    searchForTextDialog.style.display = 'inherit';
+    searchFortextContainer.style.display = 'inherit';
   }
 
   searchForTextInput.focus();
@@ -47,7 +47,7 @@ closeSearchForTextButton.addEventListener('click', function(e) {
   removeHighlighting();
   isOpen = false;
   searchForTextInput.value='';
-  searchForTextDialog.style.display = 'none';
+  searchFortextContainer.style.display = 'none';
 });
 
 // svgs do not support background colors for text or tspan, thus we have to create a rectange as highlighting.

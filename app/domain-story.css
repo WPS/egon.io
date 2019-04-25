@@ -26,7 +26,7 @@ input{
   font-size: 9pt;
 }
 
-.searchForTextDialog {
+.searchFortextContainer {
   background: white;
   top: 3%;
   padding: 2px;
@@ -314,7 +314,7 @@ cursor: pointer;
   position: absolute;
 }
 
-#dictionary, #numberDialog, #brokenDSTDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog, #downloadDialog, #noContentOnCanvasInfo{
+#dictionaryDialog, #numberDialog, #brokenDSTInfo, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionInfo, #keyboardShortcutInfo, #downloadDialog, #noContentOnCanvasInfo{
   top: 40%;
   left: 50%;
   z-index: 2;
@@ -333,7 +333,7 @@ cursor: pointer;
   margin-left: -155px;
 }
 
-#wpsLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog, #brokenDSTDialog, #noContentOnCanvasInfo{
+#wpsLogoInfo, #incompleteStoryInfo, #versionInfo, #keyboardShortcutInfo, #brokenDSTInfo, #noContentOnCanvasInfo{
   font-size: 11pt;  
   border: solid 1px #aaaaab;
   padding-top: 3px;
@@ -345,7 +345,7 @@ cursor: pointer;
   margin-left: -175px;
 }
 
-#dictionary{
+#dictionaryDialog{
   position: absolute;
   border: solid 1px #aaaaab;
   padding-top: 3px;

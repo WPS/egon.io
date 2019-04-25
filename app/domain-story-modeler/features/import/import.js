@@ -16,8 +16,8 @@ var modal = document.getElementById('modal'),
     infoText = document.getElementById('infoText'),
     titleInput = document.getElementById('titleInput'),
     title = document.getElementById('title'),
-    versionDialog = document.getElementById('versionDialog'),
-    brokenDSTDialog = document.getElementById('brokenDSTDialog'),
+    versionInfo = document.getElementById('versionInfo'),
+    brokenDSTInfo = document.getElementById('brokenDSTInfo'),
     importedVersionLabel = document.getElementById('importedVersion'),
     modelerVersionLabel = document.getElementById('modelerVersion'),
     brokenDSTDialogButtonCancel = document.getElementById('brokenDSTDialogButtonCancel'),
@@ -26,7 +26,7 @@ var modal = document.getElementById('modal'),
 if (versionDialogButtonCancel) {
   versionDialogButtonCancel.addEventListener('click', function() {
     modal.style.display = 'none';
-    versionDialog.style.display = 'none';
+    versionInfo.style.display = 'none';
   });
 
   brokenDSTDialogButtonCancel.addEventListener('click', function() {
@@ -35,7 +35,7 @@ if (versionDialogButtonCancel) {
 }
 
 function closeBrokenDSTDialog() {
-  brokenDSTDialog.style.display = 'none';
+  brokenDSTInfo.style.display = 'none';
   modal.style.display = 'none';
 }
 
@@ -313,11 +313,11 @@ function getElementsOfType(elements, type) {
 }
 
 function showVersionDialog() {
-  versionDialog.style.display = 'block';
+  versionInfo.style.display = 'block';
   modal.style.display = 'block';
 }
 
 function showBrokenDSTDialog() {
-  brokenDSTDialog.style.display = 'block';
+  brokenDSTInfo.style.display = 'block';
   modal.style.display = 'block';
 }

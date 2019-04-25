@@ -90,6 +90,24 @@
     </div>
   </div>
 
+  <div id="wpsLogoInfo" style="display:none;">
+    <button id="closeWPSLogoInfo">X</button>
+    <br>
+    <text id="wpsLogoInnerText"></text>
+    <a href="https://www.wps.de">wps.de</a>
+    <text id="wpsLogoInnerText2"></text>
+    <br>
+    <a href="https://github.com/WPS/domain-story-modeler">https://github.com/WPS/domain-story-modeler</a>
+  </div>
+
+  <div id="dstLogoInfo" style="display:none;">
+    <button id="closeDSTLogoInfo">X</button>
+    <br>
+    <text id= "dstLogoInnerText"></text>
+    <br>
+    <a href="http://www.domainstorytelling.org">domainstorytelling.org</a>
+  </div>
+
   <div id="arrowDialog">
       <div id="arrow" class="arrow" style="display:none;"></div>
       <div id="dialog" style="display:none;">
@@ -165,31 +183,13 @@
     </div>
   </div>
 
-  <div class="searchForTextDialog" id="searchForTextDialog" style="display:none">
+  <div class="searchFortextContainer" id="searchFortextContainer" style="display:none">
     <text style="font-size: 11pt">
       Search for text:
     </text>
     <br>
     <input id="searchForTextInput">
     <button id="closeSearchForTextButton">X</button>
-  </div>
-
-  <div id="wpsLogoInfo" style="display:none;">
-    <button id="closeWPSLogoInfo">X</button>
-    <br>
-    <text id="wpsLogoInnerText"></text>
-    <a href="https://www.wps.de">wps.de</a>
-    <text id="wpsLogoInnerText2"></text>
-    <br>
-    <a href="https://github.com/WPS/domain-story-modeler">https://github.com/WPS/domain-story-modeler</a>
-  </div>
-
-  <div id="dstLogoInfo" style="display:none;">
-    <button id="closeDSTLogoInfo">X</button>
-    <br>
-    <text id= "dstLogoInnerText"></text>
-    <br>
-    <a href="http://www.domainstorytelling.org">domainstorytelling.org</a>
   </div>
 
   <div id="numberDialog" style="display:none;">
@@ -216,7 +216,7 @@
     </div>
   </div>
 
-  <div id= "keyboardShortcutInfoDialog" style="display:none">
+  <div id= "keyboardShortcutInfo" style="display:none">
     <button id ="keyboardShortcutInfoDialogButtonCancel" style="float:right; margin-left:5px">X</button>
     <br>
       <table id="keyboardTable">
@@ -259,7 +259,7 @@
       </table>
   </div>
 
-  <div id="dictionary" style="display:none">
+  <div id="dictionaryDialog" style="display:none">
     <div>
     <div id="activityDictionary" style="float:left">
       <text>Activities:</text>
@@ -289,7 +289,7 @@
     <text>Without Content the Canvas cannot be exported.</text>
   </div>
 
-  <div id="versionDialog" style="display:none">
+  <div id="versionInfo" style="display:none">
   <button id="closeVersionDialog">X</button>
   <br>
   <text>Your Domain Story was created with modeler version</text>
@@ -299,7 +299,7 @@
   <text>. Please check release notes for possible compatibility problems.</text>
   </div>
 
-  <div id="brokenDSTDialog" style="display:none">
+  <div id="brokenDSTInfo" style="display:none">
     <button id="brokenDSTDialogButtonCancel">X</button>
     <br>
     <text>Your .dst File is incomplete, there most likely was an error during export.</text>
