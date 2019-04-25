@@ -5,8 +5,8 @@ import { ACTIVITY, TEXTANNOTATION } from '../../language/elementTypes';
 import { getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
 import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary } from '../iconSetCustomization/dictionaries';
 import { createConfigFromDictionaries } from '../iconSetCustomization/persitence';
-import { getActorIconDictionary } from '../../language/actorIconDictionary';
-import { getWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
+import { getActorIconDictionary } from '../../language/icon/actorIconDictionary';
+import { getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
 import { removeDirtyFlag } from './dirtyFlag';
 
 var infoText = document.getElementById('infoText');

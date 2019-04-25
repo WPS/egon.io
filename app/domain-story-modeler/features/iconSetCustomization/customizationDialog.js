@@ -1,8 +1,8 @@
 'use strict';
 
 import { initializeAllIcons, getAllIconDictioary, deleteFromSelectedWorkObjectDictionary, deleteFromSelectedActorDictionary, getIconSource, addToSelectedActors, addToSelectedWorkObjects, selectedCitionariesAreNotEmpty } from './dictionaries';
-import { isInActorIconDictionary } from '../../language/actorIconDictionary';
-import { isInWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
+import { isInActorIconDictionary } from '../../language/icon/actorIconDictionary';
+import { isInWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 
 var htmlList = document.getElementById('allIconsList');
@@ -192,14 +192,14 @@ function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, a
 
 
 export function resetHTMLSelectionList() {
-  var i=0;
+  var i=0, child;
   for (i=selectedWorkObjectList.children.length -1; i>=0; i--) {
-    var child = selectedWorkObjectList.children[i];
+    child = selectedWorkObjectList.children[i];
     selectedWorkObjectList.removeChild(child);
   }
 
   for (i=selectedActorsList.children.length -1; i>=0; i--) {
-    var child = selectedActorsList.children[i];
+    child = selectedActorsList.children[i];
     selectedActorsList.removeChild(child);
   }
 }

@@ -1,7 +1,7 @@
 import { getNameFromType } from '../../language/naming';
-import { getActorIconDictionary } from '../../language/actorIconDictionary';
-import { getWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
-import { getIconForType } from '../../language/iconDictionary';
+import { getActorIconDictionary } from '../../language/icon/actorIconDictionary';
+import { getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
+import { getIconForType } from '../../language/icon/iconDictionary';
 
 'use strict';
 

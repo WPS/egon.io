@@ -1,6 +1,6 @@
 'use strict';
 
-import { all_icons, appendedIcons } from '../../language/all_Icons';
+import { all_icons, appendedIcons } from '../../language/icon/all_Icons';
 
 
 var CanvasObjectTypes = require('collections/dict');

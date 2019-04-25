@@ -3,10 +3,10 @@
 import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary, getAppendedIconDictionary, getIconSource, addToSelectedWorkObjects, addToSelectedActors, resetSelectionDictionaries } from './dictionaries';
 import { createObjectListForDSTDownload } from '../export/dstDownload';
 import { version } from '../../../../package.json';
-import { appendSRCFile } from '../../language/iconConfig';
+import { appendSRCFile } from '../../language/icon/iconConfig';
 import { createListElement, createListElementInSeletionList, resetHTMLSelectionList } from './customizationDialog';
-import { getActorIconDictionary } from '../../language/actorIconDictionary';
-import { getWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
+import { getActorIconDictionary } from '../../language/icon/actorIconDictionary';
+import { getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 
 export const useCustomConfigTag = 'useCustomConfig';

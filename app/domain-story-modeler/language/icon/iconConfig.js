@@ -1,6 +1,6 @@
-import { customConfigTag, useCustomConfigTag, customConfigNameTag } from '../features/iconSetCustomization/persitence';
+import { customConfigTag, useCustomConfigTag, customConfigNameTag } from '../../features/iconSetCustomization/persitence';
 import { overrideAppendedIcons } from './all_Icons';
-import { getAllIconDictioary } from '../features/iconSetCustomization/dictionaries';
+import { getAllIconDictioary } from '../../features/iconSetCustomization/dictionaries';
 
 /**
  * Select the Iconset which you want to use

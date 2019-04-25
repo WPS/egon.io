@@ -35,12 +35,12 @@ import {
   labelPosition,
   calculateTextWidth
 } from '../features/labeling/DSLabelUtil';
-import { getActorIconSrc } from './actorIconDictionary';
-import { getWorkObjectIconSrc } from './workObjectIconDictionary';
+import { getActorIconSrc } from './icon/actorIconDictionary';
+import { getWorkObjectIconSrc } from './icon/workObjectIconDictionary';
 import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
 import { correctElementRegitryInit } from '../features/canvasElements/canvasElementRegistry';
 import { makeDirty } from '../features/export/dirtyFlag';
-import { updateSearch } from '../features/searchForText/search';
+import { updateSearch } from '../features/labeling/searchForText';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];

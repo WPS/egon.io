@@ -1,9 +1,10 @@
-import { registerIcon } from './iconDictionary';
-import { getNameFromType } from './naming';
-import { all_icons, appendedIcons } from './all_Icons';
-import { ACTOR } from './elementTypes';
 
 'use strict';
+
+import { all_icons, appendedIcons } from './all_Icons';
+import { getNameFromType } from '../naming';
+import { registerIcon } from './iconDictionary';
+import { ACTOR } from '../elementTypes';
 
 var ActorTypes = require('collections/dict');
 var actorIconDictionary = new ActorTypes();

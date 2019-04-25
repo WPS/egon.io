@@ -33,7 +33,7 @@ import { getActivitesFromActors, getAllCanvasObjects, initElementRegistry } from
 import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/customizationDialog';
 import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration, importConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
 import { addIMGToIconDictionary } from './domain-story-modeler/features/iconSetCustomization/appendIconDictionary';
-import { openSearchForText } from './domain-story-modeler/features/searchForText/search';
+import { openSearchForText } from './domain-story-modeler/features/labeling/searchForText';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',

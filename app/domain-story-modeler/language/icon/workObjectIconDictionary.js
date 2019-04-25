@@ -1,7 +1,7 @@
 import { registerIcon } from './iconDictionary';
-import { getNameFromType } from './naming';
+import { getNameFromType } from '../naming';
 import { all_icons, appendedIcons } from './all_Icons';
-import { WORKOBJECT } from './elementTypes';
+import { WORKOBJECT } from '../elementTypes';
 
 'use strict';
 

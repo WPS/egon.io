@@ -1,7 +1,7 @@
 'use strict';
 
-import { registerWorkObjectIcons, getWorkObjectIconDictionaryKeys, allInWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
-import { registerActorIcons, getActorIconDictionaryKeys, allInActorIconDictionary } from '../../language/actorIconDictionary';
+import { registerWorkObjectIcons, getWorkObjectIconDictionaryKeys, allInWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
+import { registerActorIcons, getActorIconDictionaryKeys, allInActorIconDictionary } from '../../language/icon/actorIconDictionary';
 import { DOMAINSTORY, ACTIVITY, CONNECTION, WORKOBJECT, ACTOR } from '../../language/elementTypes';
 import { checkElementReferencesAndRepair } from './ImportRepair';
 import { cleanDictionaries } from '../dictionary/dictionary';

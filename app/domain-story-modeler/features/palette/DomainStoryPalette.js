@@ -2,13 +2,13 @@
 
 import { assign } from 'min-dash';
 import { getNameFromType } from '../../language/naming';
-import { getIconForType } from '../../language/iconDictionary';
-import { initWorkObjectIconDictionary, getWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
-import { initActorIconDictionary, getActorIconDictionary } from '../../language/actorIconDictionary';
-import { getIconset } from '../../language/iconConfig';
+import { getIconForType } from '../../language/icon/iconDictionary';
+import { initWorkObjectIconDictionary, getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
+import { initActorIconDictionary, getActorIconDictionary } from '../../language/icon/actorIconDictionary';
+import { getIconset } from '../../language/icon/iconConfig';
 import { GROUP } from '../../language/elementTypes';
 import { appendedIconsTag } from '../iconSetCustomization/persitence';
-import { overrideAppendedIcons } from '../../language/all_Icons';
+import { overrideAppendedIcons } from '../../language/icon/all_Icons';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.

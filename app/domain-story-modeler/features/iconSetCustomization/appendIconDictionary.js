@@ -1,6 +1,6 @@
 'use strict';
 
-import { appendedIcons } from '../../language/all_Icons';
+import { appendedIcons } from '../../language/icon/all_Icons';
 import { createListElement } from './customizationDialog';
 
 export function addIMGToIconDictionary(input, name) {

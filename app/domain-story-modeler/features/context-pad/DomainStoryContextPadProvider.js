@@ -11,9 +11,9 @@ import {
 } from 'min-dash';
 import { generateAutomaticNumber } from '../numbering/numbering';
 import { getNameFromType } from '../../language/naming';
-import { getWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
-import { getActorIconDictionary } from '../../language/actorIconDictionary';
-import { getIconForType } from '../../language/iconDictionary';
+import { getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
+import { getActorIconDictionary } from '../../language/icon/actorIconDictionary';
+import { getIconForType } from '../../language/icon/iconDictionary';
 import { ACTIVITY, ACTOR, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
 
 export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
