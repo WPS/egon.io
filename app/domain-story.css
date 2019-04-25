@@ -27,13 +27,15 @@ input{
 }
 
 .searchForTextDialog {
-  margin-top: -2.5em;
-  margin-left: 20px;
-  z-index: 1000;
+  top: 3%;
+  padding: 2px;
+  left: 45%;
+  z-index: 100000000;
+  position: absolute;
 }
 
 #searchForTextInput {
-  width: 200px;
+  width: 20em;
 }
 
 #iconCustomizationContainer {
