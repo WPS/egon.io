@@ -63,12 +63,6 @@ input{
   grid-template-columns: 120px auto 95px 300px auto 150px 187px 15px;
 }
 
-#iconCustomizationButton {
-  position: relative; 
-  top: -1em;
-  margin-left: 3px;
-}
-
 .iconListsContainer{
   margin-top: 3px; 
   display: grid;
