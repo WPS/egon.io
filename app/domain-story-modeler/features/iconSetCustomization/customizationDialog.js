@@ -9,9 +9,62 @@ var htmlList = document.getElementById('allIconsList');
 var selectedActorsList = document.getElementById('selectedActorsList');
 var selectedWorkObjectList = document. getElementById('selectedWorkObjectsList');
 
+const Sortable = require('sortablejs');
 const iconSize = 20;
 
+const mainListOptions = {
+  group: 'allIconList',
+  sort: 'true',
+  delay: 50
+};
+
+const actorListOptions = {
+  group: {
+    name: 'actorIconList',
+    put: ['actorIconList', 'workObjectIconList']
+  },
+  sort: 'true',
+  delay: 50,
+  onEnd: function(event) {
+    dropElement(event);
+  }
+};
+
+const workObjectListOptions = {
+  group: {
+    name: 'workObjectIconList',
+    put: ['actorIconList', 'workObjectIconList']
+  },
+  sort: 'true',
+  delay: 50,
+  onEnd: function(event) {
+    dropElement(event);
+  }
+};
+
+function dropElement(event) {
+  var target = event.to;
+  var source = event.srcElement;
+  var draggedItem = event.item;
+
+  var listEntryName = draggedItem.lastChild.innerText;
+  if (target != source) {
+    var addToActors, addToWorkObjects;
+    if (target == selectedActorsList) {
+      addToActors = true;
+      addToWorkObjects = false;
+    } else {
+      addToActors = false;
+      addToWorkObjects = true;
+    }
+    updateSelectedWorkObjectsAndActors(listEntryName, addToActors, addToWorkObjects, false);
+  }
+}
+
 export function createListOfAllIcons() {
+  new Sortable(htmlList, mainListOptions);
+  new Sortable(selectedActorsList, actorListOptions);
+  new Sortable(selectedWorkObjectList, workObjectListOptions);
 
   initializeAllIcons();
 
@@ -41,6 +94,7 @@ export function createListElement(name) {
   listElement.style.display ='grid';
   listElement.style.gridTemplateColumns = '125px 10px 30px auto';
 
+  radioElement.id = 'radioButtons';
   radioElement.style.display = 'grid';
   radioElement.style.gridTemplateColumns = '45px 45px 30px';
 
@@ -153,23 +207,31 @@ function removeListEntry(name, list) {
   }
 }
 
-function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, addToWorkObjects) {
+function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, addToWorkObjects, updateHTML) {
 
   deleteFromSelectedWorkObjectDictionary(currentSelectionName);
   if (deleteFromSelectedActorDictionary(currentSelectionName)) {
-    removeListEntry(currentSelectionName, selectedActorsList);
+    if (updateHTML) {
+      removeListEntry(currentSelectionName, selectedActorsList);
+    }
   } else {
-    removeListEntry(currentSelectionName, selectedWorkObjectList);
+    if (updateHTML) {
+      removeListEntry(currentSelectionName, selectedWorkObjectList);
+    }
   }
 
   var iconSRC = getIconSource(currentSelectionName);
   if (addToActors) {
     addToSelectedActors(currentSelectionName, iconSRC);
-    createListElementInSeletionList(currentSelectionName, iconSRC, selectedActorsList);
+    if (updateHTML) {
+      createListElementInSeletionList(currentSelectionName, iconSRC, selectedActorsList);
+    }
   }
   else if (addToWorkObjects) {
     addToSelectedWorkObjects(currentSelectionName, iconSRC);
-    createListElementInSeletionList(currentSelectionName, iconSRC, selectedWorkObjectList);
+    if (updateHTML) {
+      createListElementInSeletionList(currentSelectionName, iconSRC, selectedWorkObjectList);
+    }
   }
 
   var exportConfigurationButton = document.getElementById('exportConfigurationButton');
@@ -187,6 +249,23 @@ function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, a
 
     customIconConfigSaveButton.disabled = true;
     customIconConfigSaveButton.style.opacity = 0.5;
+  }
+
+  if (!updateHTML) {
+    var correspondingAllIconElement = document.evaluate('//text[contains(., \''+currentSelectionName +'\')]', document, null, XPathResult.ANY_TYPE, null).iterateNext().parentNode;
+    var radioButtons = correspondingAllIconElement.children[0];
+
+    //    var radioNone = radioButtons.children[0];
+    var radioActor = radioButtons.children[1];
+    var radioWorkObject = radioButtons.children[2];
+
+    if (addToActors) {
+      radioActor.checked = true;
+      radioWorkObject.checked = false;
+    } else {
+      radioActor.checked = false;
+      radioWorkObject.checked = true;
+    }
   }
 }
 
