@@ -19,24 +19,277 @@ input{
   z-index: 1;
 }
 
+.headerAndCanvas {
+  margin-top: 5px;
+  height: 100%;
+  width:100%;
+  display: grid;
+  grid-template-rows: 125px 1px auto;
+}
+
+/* header and Canvas*/
+.header {
+  display: grid;
+  margin-left: 5px;
+  grid-template-columns: auto 275px;
+  grid-template-rows: 125px;
+}
+
+.headlineAndInfo {
+  grid-row: 1 / 1;
+  grid-column: 1 / 1;
+  display: grid;
+  justify-self: stretch;
+  grid-template-rows: 40px 85px;
+}
+
+#headline {
+  font-size: 17pt;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto; 
+  -webkit-hyphenate-character: auto;  /* not supported by Chrome*/
+  margin-left: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  height: 40px;
+  cursor: pointer;
+}
+
+#headline:hover {
+  color: red;
+}
+
+#headline:hover > #edit {
+  opacity: 100;
+}
+
+#edit {
+  opacity: 0;
+}
+
+#infoText{
+  margin-bottom: 3px;
+  position: relative;
+  font-size: 10pt;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto; 
+  -webkit-hyphenate-character: auto;  /* not supported by Chrome*/
+}
+
+.infoText:hover{
+cursor: default;
+}
+
+.ButtonContainer {
+  margin-top: 0.2em;
+  position: relative;
+}
+
+#replayStep{
+  padding: 1px;
+  opacity: 0;
+  margin-top: -2.05em;
+  margin-left: 13.3em;
+}
+
+.replayButtons {
+  margin-top: 1.4em;
+}
+
+#line{
+  padding: 2px;
+  position: relative;
+  right: 0em;
+  left : 0em;
+  width: 100%;
+  border-bottom: solid 2px #CCC;
+  margin-top: -5px;
+}
+
+#canvas, #canvas > div{
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+
+/* Buttons */
+
+#exportConfigurationButton{
+  margin-left: 3px;
+  margin-right: 3px;
+  height: 25px;
+}
+
+#resetIconConfigButton{
+  justify-self: left;
+  height: 25px;
+}
+
+#cancelIconCustomizationButton{
+  justify-self: right;
+  height: 25px;
+}
+
+#customIconConfigSaveButton {
+  height: 25px;
+}
+
+#customIconConfigCancelButton {
+  margin-right: 3px;
+}
+
+#uploadCutomIcon {
+  justify-self: start;
+}
+
+#buttonImport, #export, #buttonImageDownloads, #dictionaryButton{
+  margin-right: -2px;
+  background-color: white;
+  border: 1px solid white;
+}
+
+#buttonSVG, #buttonPNG{
+  margin-right: -2px;
+  font-size: 12pt;
+  background-color: white;
+  border: 1px solid #ddd;
+}
+
+#buttonPNG {
+  margin-left:1px;
+}
+
+#dictionaryButton{
+  opacity : 0.2;
+  pointer-events : 'none';
+}
+
+#buttonImport:hover, #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #brokenDSTDialogCuttonCancel:hover, #closeNoContentOnCanvasInfo:hover, #keyboardShortcutInfoDialogButtonCancel:hover, #iconCustomizationButton:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
+  border: 1px solid #CCC;
+  cursor: pointer;
+}
+
+#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep ,#keyboardShortcutInfoButton, #iconCustomizationButton{
+  background-color: white;
+  border: 1px solid white;
+  margin-right: -4px;
+}
+
+#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel, #downloadDialogCancelButton, #brokenDSTDialogButtonCancel, #closeNoContentOnCanvasInfo{
+  position: absolute;
+  font-size: 9pt;
+  right: 1px;
+  top: 1px;
+}
+
+/* activity label input */
+#inputLabel [type=submit], #labelInputLabel [type=submit]{
+  background-color: DodgerBlue;
+  color: #fff;  
+}
+
+/* keyboard shortcut dialog table */
+
+#keyboardTable {
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-right: 3px;
+}
+
+#keyboardTable td{
+  padding-right: 10px;
+}
+
+/* Logo Container */
+
+.logoContainer {
+  position: absolute;
+  bottom: 75px;
+  right: 5px;
+}
+
+#imgWPS {
+  margin-left: 17px;
+}
+
+#imgWPS:hover, #imgDST:hover {
+cursor: pointer;
+}
+
+/* Info and Dialogs*/
+
+#dictionaryDialog, #numberDialog, #brokenDSTInfo, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionInfo, #keyboardShortcutInfo, #downloadDialog, #noContentOnCanvasInfo{
+  top: 40%;
+  left: 50%;
+  z-index: 2;
+  position: absolute;
+}
+
+#wpsLogoInfo, #incompleteStoryInfo, #versionInfo, #keyboardShortcutInfo, #brokenDSTInfo, #noContentOnCanvasInfo{
+  font-size: 11pt;  
+  border: solid 1px #aaaaab;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+  width: 350px;
+  margin-left: -175px;
+}
+
+#dstLogoInfo{
+  font-size: 11pt;  
+  border: solid 1px #aaaaab;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+  width: 310px;
+  margin-left: -155px;
+}
+
+#dialog, #numberDialog, #labelDialog, #downloadDialog {
+  padding: 30px 30px 30px 30px;
+  background-color:#FAFAFA;
+  border-color: #CCC;
+  border-radius: 2px;
+  border-width: 1px;
+  box-shadow: 2px 2px 5px silver;
+}
+
+#arrowDialog{
+  top:108px;
+  left:150px;
+  z-index: 2;
+  position: absolute;
+}
+
+.arrow{
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  border: 0.9rem solid transparent;
+  border-top-color: #FAFAFA;  
+  border-left-color: #FAFAFA;
+  -moz-transform: scale(0.9999);
+  transform: rotate(45deg);
+  left: 20px;
+  bottom: 305px;
+}
+
+/* Icon customization */
+
 #allIconsListHeader {
   position: relative;
   left: 25px;
   top: 5px;
   font-size: 9pt;
-}
-
-.searchFortextContainer {
-  background: white;
-  top: 3%;
-  padding: 2px;
-  left: 45%;
-  z-index: 100000000;
-  position: absolute;
-}
-
-#searchForTextInput {
-  width: 20em;
 }
 
 #iconCustomizationContainer {
@@ -113,237 +366,22 @@ input{
   height: 25px;
 }
 
-#exportConfigurationButton{
-  margin-left: 3px;
-  margin-right: 3px;
-  height: 25px;
-}
+/* search for text */
 
-#resetIconConfigButton{
-  justify-self: left;
-  height: 25px;
-}
-
-#cancelIconCustomizationButton{
-  justify-self: right;
-  height: 25px;
-}
-
-#customIconConfigSaveButton {
-  height: 25px;
-}
-
-#customIconConfigCancelButton {
-  margin-right: 3px;
-}
-
-#uploadCutomIcon {
-  justify-self: start;
-}
-
-.headerAndCanvas {
-  margin-top: 5px;
-  height: 100%;
-  width:100%;
-  display: grid;
-  grid-template-rows: 125px 1px auto;
-}
-
-.header {
-  display: grid;
-  margin-left: 5px;
-  grid-template-columns: auto 275px;
-  grid-template-rows: 125px;
-}
-
-.headlineAndInfo {
-  grid-row: 1 / 1;
-  grid-column: 1 / 1;
-  display: grid;
-  justify-self: stretch;
-  grid-template-rows: 40px 85px;
-}
-
-.ButtonContainer {
-  margin-top: 0.2em;
-  position: relative;
-}
-
-.logoContainer {
-  position: absolute;
-  bottom: 75px;
-  right: 5px;
-}
-
-.replayButtons {
-  margin-top: 1.4em;
-}
-
-#headline {
-  font-size: 17pt;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto; 
-  -webkit-hyphenate-character: auto;  /* not supported by Chrome*/
-  margin-left: 0px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  height: 40px;
-  cursor: pointer;
-}
-
-#headline:hover {
-  color: red;
-}
-
-#headline:hover > #edit {
-  opacity: 100;
-}
-
-#infoText{
-  margin-bottom: 3px;
-  position: relative;
-  font-size: 10pt;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto; 
-  -webkit-hyphenate-character: auto;  /* not supported by Chrome*/
-}
-
-.infoText:hover{
-cursor: default;
-}
-
-#imgWPS {
-  margin-left: 17px;
-}
-
-#line{
+.searchFortextContainer {
+  background: white;
+  top: 3%;
   padding: 2px;
-  position: relative;
-  right: 0em;
-  left : 0em;
-  width: 100%;
-  border-bottom: solid 2px #CCC;
-  margin-top: -5px;
-}
-
-#edit {
-  opacity: 0;
-}
-
-#buttonImport, #export, #buttonImageDownloads, #dictionaryButton{
-  margin-right: -2px;
-  background-color: white;
-  border: 1px solid white;
-}
-
-#buttonSVG, #buttonPNG{
-  margin-right: -2px;
-  font-size: 12pt;
-  background-color: white;
-  border: 1px solid #ddd;
-}
-
-#buttonPNG {
-  margin-left:1px;
-}
-
-#dictionaryButton{
-  opacity : 0.2;
-  pointer-events : 'none';
-}
-
-#buttonImport:hover, #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #brokenDSTDialogCuttonCancel:hover, #closeNoContentOnCanvasInfo:hover, #keyboardShortcutInfoDialogButtonCancel:hover, #iconCustomizationButton:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
-  border: 1px solid #CCC;
-  cursor: pointer;
-}
-
-#imgWPS:hover, #imgDST:hover {
-cursor: pointer;
-}
-
-#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep ,#keyboardShortcutInfoButton, #iconCustomizationButton{
-  background-color: white;
-  border: 1px solid white;
-  margin-right: -4px;
-}
-
-#replayStep{
-  padding: 1px;
-  opacity: 0;
-  margin-top: -2.05em;
-  margin-left: 13.3em;
-}
-
-#dialog, #numberDialog, #labelDialog, #downloadDialog {
-  padding: 30px 30px 30px 30px;
-  background-color:#FAFAFA;
-  border-color: #CCC;
-  border-radius: 2px;
-  border-width: 1px;
-  box-shadow: 2px 2px 5px silver;
-}
-
-#keyboardTable {
-  border-collapse: collapse;
-  table-layout: fixed;
-  margin-right: 3px;
-}
-
-#keyboardTable td{
-  padding-right: 10px;
-}
-
-#inputLabel [type=submit], #labelInputLabel [type=submit]{
-  background-color: DodgerBlue;
-  color: #fff;  
-}
-
-#canvas, #canvas > div{
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-  
-#arrowDialog{
-  top:108px;
-  left:150px;
-  z-index: 2;
+  left: 45%;
+  z-index: 100000000;
   position: absolute;
 }
 
-#dictionaryDialog, #numberDialog, #brokenDSTInfo, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionInfo, #keyboardShortcutInfo, #downloadDialog, #noContentOnCanvasInfo{
-  top: 40%;
-  left: 50%;
-  z-index: 2;
-  position: absolute;
+#searchForTextInput {
+  width: 20em;
 }
 
-#dstLogoInfo{
-  font-size: 11pt;  
-  border: solid 1px #aaaaab;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  padding-left: 10px;
-  padding-right: 10px;
-  background-color: white;
-  width: 310px;
-  margin-left: -155px;
-}
-
-#wpsLogoInfo, #incompleteStoryInfo, #versionInfo, #keyboardShortcutInfo, #brokenDSTInfo, #noContentOnCanvasInfo{
-  font-size: 11pt;  
-  border: solid 1px #aaaaab;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  padding-left: 10px;
-  padding-right: 10px;
-  background-color: white;
-  width: 350px;
-  margin-left: -175px;
-}
+/* dictionary */
 
 #dictionaryDialog{
   position: absolute;
@@ -383,48 +421,7 @@ cursor: pointer;
   padding: 4px;
 }
 
-#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel, #downloadDialogCancelButton, #brokenDSTDialogButtonCancel, #closeNoContentOnCanvasInfo{
-  position: absolute;
-  font-size: 9pt;
-  right: 1px;
-  top: 1px;
-}
-
-.buttons{
-  position: relative;
-  margin-top: -2px;
-  left: -2em;
-}
-
-.prevoiusStepButton, .NextStepButton, .stopReplayButton {
-  opacity: 0.2;
-  pointer-events: none;
-}
-
-.arrow{
-  content: "";
-  width: 0;
-  height: 0;
-  position: absolute;
-  border: 0.9rem solid transparent;
-  border-top-color: #FAFAFA;  
-  border-left-color: #FAFAFA;
-  -moz-transform: scale(0.9999);
-  transform: rotate(45deg);
-  left: 20px;
-  bottom: 305px;
-}
-
-.djs-context-pad.open{
-  margin-right: 18px;
-  border: solid 1px #80808054; 
-}
-
-.djs-context-pad.open > .group{
-  border: solid 1px #80808054;
-  padding: 1px;
-  background-color: white;
-}
+/* autocomplete */
 
 .autocomplete {
   /*the container must be positioned relative:*/
@@ -440,6 +437,7 @@ cursor: pointer;
   left: 0;
   text-align: left;
 }
+
 .autocomplete-items div {
   padding: 5px 10px 5px 10px;
   font-size: 10pt;
@@ -447,14 +445,29 @@ cursor: pointer;
   background-color: #fafafa; 
   border-bottom: 1px solid #d4d4d4; 
 }
+
 .autocomplete-items div:hover {
   /*when hovering an item:*/
   background-color: #fafafa; 
 }
+
 .autocomplete-active {
   /*when navigating through the items using the arrow keys:*/
   background-color: DodgerBlue !important; 
   color: #ffffff; 
+}
+
+/* BPMN elements */
+
+.djs-context-pad.open{
+  margin-right: 18px;
+  border: solid 1px #80808054; 
+}
+
+.djs-context-pad.open > .group{
+  border: solid 1px #80808054;
+  padding: 1px;
+  background-color: white;
 }
 
 /**
