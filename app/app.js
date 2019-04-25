@@ -368,7 +368,7 @@ workobjectDictionaryContainer.addEventListener('keydown', function(e) {
 });
 
 dictionaryButtonOpen.addEventListener('click', function() {
-  openDictionary(canvas);
+  openDictionary();
 });
 
 dictionaryButtonSave.addEventListener('click', function(e) {
