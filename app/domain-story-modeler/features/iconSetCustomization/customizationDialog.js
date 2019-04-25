@@ -1,6 +1,6 @@
 'use strict';
 
-import { initializeAllIcons, getAllIconDictioary, deleteFromSelectedWorkObjectDictionary, deleteFromSelectedActorDictionary, getIconSource, addToSelectedActors, addToSelectedWorkObjects, selectedCitionariesAreNotEmpty } from './dictionaries';
+import { initializeAllIcons, getAllIconDictioary, deleteFromSelectedWorkObjectDictionary, deleteFromSelectedActorDictionary, getIconSource, addToSelectedActors, addToSelectedWorkObjects, selectedCitionariesAreNotEmpty, getAppendedIconDictionary } from './dictionaries';
 import { isInActorIconDictionary } from '../../language/icon/actorIconDictionary';
 import { isInWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
@@ -11,7 +11,7 @@ var selectedWorkObjectList = document. getElementById('selectedWorkObjectsList')
 
 const Sortable = require('sortablejs');
 const iconSize = 20;
-const highlightBackgroundColor = '#ededed';
+const highlightBackgroundColor = '#f6f6f6';
 
 const mainListOptions = {
   group: 'allIconList',
@@ -89,6 +89,15 @@ export function createListOfAllIcons() {
   var allIconNames = allIconDictionary.keysArray();
   var i=0;
   allIconNames.forEach(name => {
+    var listElement = createListElement(name, (i%2)==0);
+    htmlList.appendChild(listElement);
+    i++;
+  });
+
+  var appendIconDictionary = getAppendedIconDictionary();
+  var allAppendIconNames = appendIconDictionary.keysArray();
+  console.log(allAppendIconNames);
+  allAppendIconNames.forEach(name => {
     var listElement = createListElement(name, (i%2)==0);
     htmlList.appendChild(listElement);
     i++;

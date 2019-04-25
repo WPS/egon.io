@@ -19,6 +19,7 @@ export function setToDefault() {
   persistStory();
   localStorage.removeItem(useCustomConfigTag);
   localStorage.removeItem(customConfigTag);
+  localStorage.removeItem(appendedIconsTag);
 
   location.reload();
 }
