@@ -366,21 +366,6 @@ cursor: pointer;
   height: 25px;
 }
 
-/* search for text */
-
-.searchFortextContainer {
-  background: white;
-  top: 3%;
-  padding: 2px;
-  left: 45%;
-  z-index: 100000000;
-  position: absolute;
-}
-
-#searchForTextInput {
-  width: 20em;
-}
-
 /* dictionary */
 
 #dictionaryDialog{
