@@ -30,8 +30,6 @@ let headline = document.getElementById('headline');
 let incompleteStoryDialog = document.getElementById('incompleteStoryInfo');
 let importExportSVGButtonsContainer = document.getElementById('importExportSVGButton');
 
-/* test */
-
 startReplayButton.addEventListener('click', function() {
   if (wasInitialized()) {
 

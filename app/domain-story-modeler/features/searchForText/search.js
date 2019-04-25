@@ -1,15 +1,19 @@
 'use strict';
 
+import { testMode } from '../../language/testmode';
+
 var highlightList = [];
 var isOpen = false;
 var canvasHasChanged = false;
 var allTSpan;
 var searchForTextInput = document.getElementById('searchForTextInput');
-var searchFortextContainer = document.getElementById('searchFortextContainer');
+var searchFortextContainer;
 var closeSearchForTextButton = document.getElementById('closeSearchForTextButton');
 
 
 export function openSearchForText() {
+  var searchFortextContainer = document.getElementById('searchFortextContainer');
+
   if (!isOpen) {
     isOpen = true;
     allTSpan = document.querySelectorAll('tspan');
@@ -23,32 +27,34 @@ export function updateSearch() {
   canvasHasChanged = true;
 }
 
-searchForTextInput.addEventListener('keyup', function() {
-  if (isOpen) {
-    removeHighlighting();
-    if (canvasHasChanged) {
-      canvasHasChanged = true;
-      allTSpan = document.querySelectorAll('tspan');
-    }
-    var text = searchForTextInput.value;
-    if (text.length > 0) {
-      for (var i=0; i<allTSpan.length; i++) {
-        var tspan = allTSpan[i];
-        if (tspan.innerHTML.includes(text)) {
-          highlightList.push(tspan);
-        }
+if (!testMode()) {
+  searchForTextInput.addEventListener('keyup', function() {
+    if (isOpen) {
+      removeHighlighting();
+      if (canvasHasChanged) {
+        canvasHasChanged = true;
+        allTSpan = document.querySelectorAll('tspan');
       }
-      hightlight();
+      var text = searchForTextInput.value;
+      if (text.length > 0) {
+        for (var i=0; i<allTSpan.length; i++) {
+          var tspan = allTSpan[i];
+          if (tspan.innerHTML.includes(text)) {
+            highlightList.push(tspan);
+          }
+        }
+        hightlight();
+      }
     }
-  }
-});
+  });
+  closeSearchForTextButton.addEventListener('click', function(e) {
+    removeHighlighting();
+    isOpen = false;
+    searchForTextInput.value='';
+    searchFortextContainer.style.display = 'none';
+  });
+}
 
-closeSearchForTextButton.addEventListener('click', function(e) {
-  removeHighlighting();
-  isOpen = false;
-  searchForTextInput.value='';
-  searchFortextContainer.style.display = 'none';
-});
 
 // svgs do not support background colors for text or tspan, thus we have to create a rectange as highlighting.
 // since svg elements are drawn in the order they appear in the DOM tree, we need to remove the text-element

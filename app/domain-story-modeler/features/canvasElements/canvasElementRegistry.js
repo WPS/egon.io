@@ -1,4 +1,5 @@
 import { WORKOBJECT, GROUP, ACTOR, CONNECTION, ACTIVITY } from '../../language/elementTypes';
+import { testMode } from '../../language/testmode';
 
 'use strict';
 
@@ -14,18 +15,16 @@ export function initElementRegistry(registry) {
   elementRegistry = registry._elements;
 }
 
-// during testing, the BPMN elementRegistry is never initilized. When testing importing a domainStory, we need to supress the correction of the elementRegistry to avoid null Pointer errors in correctElementRegitryInit().
-export function testCase() {
-  initCorrected = true;
-}
-
 // since the elementRegistry from BPMN does a lazy initialize, where it only gets the desired children, once an Object has been added via import or by the user.
 // once the desired children are present, we correct the referenced Object to the one we actually want.
 export function correctElementRegitryInit() {
-  if (!initCorrected) {
-    if (elementRegistry.__implicitroot) {
-      elementRegistry = elementRegistry.__implicitroot.element.children;
-      initCorrected = true;
+  if (!testMode) {
+
+    if (!initCorrected) {
+      if (elementRegistry.__implicitroot) {
+        elementRegistry = elementRegistry.__implicitroot.element.children;
+        initCorrected = true;
+      }
     }
   }
 }

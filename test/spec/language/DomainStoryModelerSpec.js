@@ -3,11 +3,12 @@ import TestContainer from 'mocha-test-container-support';
 import DomainStoryModeler from '../../../app/domain-story-modeler';
 import { default_conf } from '../../../app/domain-story-modeler/language/iconConfig';
 import { checkElementReferencesAndRepair } from '../../../app/domain-story-modeler/util/ImportRepair';
-import { testCase as elementRegistryTestCase } from '../../../app/domain-story-modeler/features/canvasElements/canvasElementRegistry';
 import { initActorIconDictionary } from '../../../app/domain-story-modeler/language/actorIconDictionary';
 import { initWorkObjectIconDictionary } from '../../../app/domain-story-modeler/language/workObjectIconDictionary';
 import { updateCustomElementsPreviousv050 } from '../../../app/domain-story-modeler/features/import/import';
-import { testCase as dirtyFlagTestCase } from '../../../app/domain-story-modeler/features/export/dirtyFlag';
+import { isTestMode } from '../../../app/domain-story-modeler/language/testmode';
+
+isTestMode();
 
 describe('domainStory modeler', function() {
 
@@ -130,8 +131,6 @@ describe('domainStory modeler', function() {
 
     initActorIconDictionary(default_conf.actors);
     initWorkObjectIconDictionary(default_conf.workObjects);
-    elementRegistryTestCase();
-    dirtyFlagTestCase();
 
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {
@@ -233,8 +232,6 @@ describe('domainStory modeler', function() {
 
     initActorIconDictionary(default_conf.actors);
     initWorkObjectIconDictionary(default_conf.workObjects);
-    elementRegistryTestCase();
-    dirtyFlagTestCase();
 
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {

@@ -1,20 +1,18 @@
 'use strict';
 
-var exportButtonIMG = document.getElementById('exportButtonIMG');
-var test = false;
+import { testMode } from '../../language/testmode';
 
-export function testCase() {
-  test = true;
-}
+var exportButtonIMG = document.getElementById('exportButtonIMG');
+
 
 export function makeDirty() {
-  if (!test) {
+  if (!testMode()) {
     exportButtonIMG.src = '../../../logo/archive_dirty.png';
   }
 }
 
 export function removeDirtyFlag() {
-  if (!test) {
+  if (!testMode()) {
     exportButtonIMG.src = '../../../logo/archive.png';
   }
 }
