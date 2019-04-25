@@ -3,7 +3,7 @@
 import { registerWorkObjectIcons, getWorkObjectIconDictionaryKeys, allInWorkObjectIconDictionary } from '../../language/workObjectIconDictionary';
 import { registerActorIcons, getActorIconDictionaryKeys, allInActorIconDictionary } from '../../language/actorIconDictionary';
 import { DOMAINSTORY, ACTIVITY, CONNECTION, WORKOBJECT, ACTOR } from '../../language/elementTypes';
-import { checkElementReferencesAndRepair } from '../../util/ImportRepair';
+import { checkElementReferencesAndRepair } from './ImportRepair';
 import { cleanDictionaries } from '../dictionary/dictionary';
 import { correctElementRegitryInit, getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
 import { isInDomainStoryGroup } from '../../util/TypeCheck';

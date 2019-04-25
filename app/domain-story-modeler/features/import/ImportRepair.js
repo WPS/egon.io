@@ -1,6 +1,6 @@
 'use strict';
 
-import { ACTIVITY, CONNECTION } from '../language/elementTypes';
+import { ACTIVITY, CONNECTION } from '../../language/elementTypes';
 
 export function checkElementReferencesAndRepair(elements) {
   var activities = [];
