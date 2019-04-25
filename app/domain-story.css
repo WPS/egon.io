@@ -27,6 +27,7 @@ input{
 }
 
 .searchForTextDialog {
+  background: white;
   top: 3%;
   padding: 2px;
   left: 45%;
