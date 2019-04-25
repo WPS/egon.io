@@ -96,7 +96,6 @@ export function createListOfAllIcons() {
 
   var appendIconDictionary = getAppendedIconDictionary();
   var allAppendIconNames = appendIconDictionary.keysArray();
-  console.log(allAppendIconNames);
   allAppendIconNames.forEach(name => {
     var listElement = createListElement(name, (i%2)==0);
     htmlList.appendChild(listElement);
