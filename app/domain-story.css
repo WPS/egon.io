@@ -549,3 +549,129 @@ cursor: pointer;
 .djs-palette.open .djs-palette-toggle {
   display: none;
 }
+
+
+/**
+ * outline styles
+ */
+
+ .djs-outline {
+  fill: none;
+  visibility: hidden;
+}
+
+.djs-element.hover .djs-outline,
+.djs-element.selected .djs-outline {
+  visibility: visible;
+  shape-rendering: crispEdges;
+  stroke-dasharray: 3,3;
+}
+
+.djs-element.selected .djs-outline {
+  stroke: #8888FF;
+  stroke-width: 1px;
+}
+
+.djs-element.hover .djs-outline {
+  stroke: #42aebb;
+}
+
+.djs-element.attach-ok .djs-visual > :nth-child(1) {
+  stroke: #42aebb !important;
+}
+
+/**
+* Selection box style
+*
+*/
+.djs-lasso-overlay {
+  fill: #42aebb;
+  stroke: #42aebb;
+
+}
+
+/**
+ * Resize styles
+ */
+.djs-resize-overlay {
+  stroke: #42aebb;
+}
+
+/**
+ * drag styles
+ */
+.djs-dragger .djs-visual circle,
+.djs-dragger .djs-visual path,
+.djs-dragger .djs-visual polygon,
+.djs-dragger .djs-visual polyline,
+.djs-dragger .djs-visual rect,
+.djs-dragger .djs-visual text {
+  fill: none !important;
+  stroke: #42aebb !important;
+}
+
+/**
+ * snapping
+ */
+.djs-snap-line {
+  stroke: #42aebb;
+  stroke: rgba(255, 195, 66, 0.50);
+}
+
+
+.djs-palette .entry:hover {
+  color: #42aebb;
+}
+
+.djs-palette .highlighted-entry {
+  color: #42aebb !important;
+}
+
+.djs-context-pad .entry:hover {
+  background: #42aebb;
+}
+
+.djs-popup .djs-popup-header .entry.active {
+  color: #42aebb;
+  border: solid 1px #42aebb;
+  background-color: #F6F6F6;
+}
+
+.djs-segment-dragger:hover .djs-visual,
+.djs-segment-dragger.djs-dragging .djs-visual,
+.djs-bendpoint:hover .djs-visual,
+.djs-bendpoint.floating .djs-visual {
+  fill: #42aebb;
+  stroke-opacity: 0.5;
+  stroke: black;
+}
+
+.djs-segment-dragger.djs-dragging .djs-visual,
+.djs-bendpoint.djs-dragging .djs-visual {
+  fill: #42aebb;
+}
+.djs-tooltip-error > * {
+  color: #42aebb;
+  border-left: solid 5px #42aebb;
+}
+
+.djs-search-input input:focus {
+  outline: none;
+  border-color: #52B415;
+}
+
+.djs-search-result:hover {
+  background: #fdffd6;
+}
+
+.djs-search-result-selected {
+  background: #42aebb;
+}
+
+.djs-search-result-selected:hover {
+  background: #42aebb;
+}
+
+.djs-search-overlay {
+  background: #42aebb;
+}
