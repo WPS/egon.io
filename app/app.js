@@ -469,15 +469,20 @@ document.getElementById('import').onchange = function() {
   titleInputLast = titleInput.value;
 };
 
-document.getElementById('importSVG').onchange = function() {
-  var input = document.getElementById('importSVG').files[0];
+document.getElementById('importIcon').onchange = function() {
+  var input = document.getElementById('importIcon').files[0];
   var reader = new FileReader();
+  var endIndex = input.name.lastIndexOf('.');
+  var name = input.name.substring(0, endIndex);
+  while (name.includes(' ')) {
+    name = name.replace(' ', '-');
+  }
+  console.log(name);
 
   reader.onloadend = function(e) {
     var file = e.target.result;
-    var endIndex = input.name.lastIndexOf('.');
     var type = input.name.substring(endIndex+1);
-    addIMGToIconDictionary(file, input.name.substring(0, endIndex), type);
+    addIMGToIconDictionary(file, name, type);
   };
 
   reader.readAsDataURL(input);
