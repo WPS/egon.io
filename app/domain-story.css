@@ -2,6 +2,7 @@ html, body {
   height: 99.3%;
   width: 99.9%;
   position: absolute;
+  font-family: Helvetica;
 }
 
 input{
@@ -516,12 +517,13 @@ cursor: pointer;
   background: #666;
 }
 
+
 .djs-palette .entry:hover {
-  color: rgb(255, 116, 0);
+  fill: #42aebb;
 }
 
 .djs-palette .highlighted-entry {
-  color: rgb(255, 116, 0) !important;
+  color: #42aebb !important;
 }
 
 .djs-palette .entry,
@@ -531,6 +533,7 @@ cursor: pointer;
   line-height: 30px;
   cursor: default;
 }
+
 
 /**
  * Palette open / two-column layout is controlled via
