@@ -123,7 +123,6 @@ var modal = document.getElementById('modal'),
     exportConfigurationButton = document.getElementById('exportConfigurationButton'),
     resetIconCustomizationButton = document.getElementById('resetIconConfigButton'),
     cancelIconCustomizationButton = document.getElementById('cancelIconCustomizationButton'),
-    customIconConfigCancelButton = document.getElementById('customIconConfigCancelButton'),
     iconCustomizationSaveButton = document.getElementById('customIconConfigSaveButton'),
     iconCustomizationButton = document.getElementById('iconCustomizationButton'),
     keyboardShortcutInfoButton = document.getElementById('keyboardShortcutInfoButton'),
@@ -427,11 +426,6 @@ iconCustomizationSaveButton.addEventListener('click', function() {
 });
 
 cancelIconCustomizationButton.addEventListener('click', function() {
-  modal.style.display = 'none';
-  iconCustomizationContainer.style.display = 'none';
-});
-
-customIconConfigCancelButton.addEventListener('click', function() {
   modal.style.display = 'none';
   iconCustomizationContainer.style.display = 'none';
 });

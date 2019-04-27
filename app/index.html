@@ -21,64 +21,63 @@
   <div id="modal" style="display:none;"></div>
   <div class ="headerAndCanvas">
     <div class="header">
-      <div class="headlineAndInfo">
+      <div id="headlineAndButtons">
         <h3 id="headline">
-          <text id="title">&ltname of this Domain Story&gt</text>
-          <i class="material-icons" id="edit">
-            create
-          </i>
+              <text id="title">&ltname of this Domain Story&gt</text>
+              <i class="material-icons" id="edit">
+                create
+              </i>
         </h3>
-        <div id="infoContainer">
-          <div id="infoText"></div>       
+        <div class="ButtonContainer">
+            <div id=editModeButtons>
+                <button id="buttonImport" class="importButton" title="Import story from .dst file" onclick="document.getElementById('import').click();">
+                    <img src="./logo/unarchive.png">
+                  </button>
+                  <input type="file" accept=".dst" style="display:none;" id="import" onclick="this.value=null;" name="file" />
+                  <button class="exportButton" id="export" title="Export story as .dst file">
+                    <img id="exportButtonIMG" src="./logo/archive.png">
+                  </button>
+                  <button class="downloadButton" id="buttonImageDownloads" title="Export story as SVG or PNG image">
+                    <img src="./logo/image.png">
+                  </button>
+                  <button id="dictionaryButton" title="Edit dictionary">
+                    <img src="./logo/spellcheck.png">
+                  </button>
+                  <button id="iconCustomizationButton">
+                    <img src="./logo//settings.png" title="Customize icons">
+                  </button><button id="buttonStartReplay" class="startReplayButton" title="Start replay">
+                      <img src="./logo/play.png">
+                  </button>
+                  <button id="keyboardShortcutInfoButton" title="Show keyboard shortcuts">
+                      <img src="./logo/shortCutInfo.png">
+                    </button>
+            </div>
+            <div id="presentationModeButtons" style="display: none">
+              <button id="buttonPreviousStep" class="prevoiusStepButton" title="Previous Step">
+                <img src="./logo/previous.png">
+              </button>
+              <button id="buttonNextStep" class="NextStepButton" title="NextStep">
+                <img src="./logo/forward.png">
+              </button>
+              <button id="buttonStopReplay" class="stopReplayButton" title="Stop replay">
+                <img src="./logo/stop.png">
+              </button>
+              <div id="replayStep"> 0/0</div>
+          </div>
+          <div></div>
         </div>
+      </div>
+      <div id="infoContainer">
+          <div id="infoText"></div>
         <div id="currentDomainNameContainer">
             <text>current Domain name: </text>
             <text id="currentDomainName">default</text>
         </div>
-      </div>
-      <div class="ButtonContainer">
-          <div class="importExportSVGButton" id="importExportSVGButton">
-            <button id="buttonImport" class="importButton" title="Import story from .dst file" onclick="document.getElementById('import').click();">
-              <img src="./logo/unarchive.png">
-            </button>
-            <input type="file" accept=".dst" style="display:none;" id="import" onclick="this.value=null;" name="file" />
-            <button class="exportButton" id="export" title="Export story as .dst file">
-              <img id="exportButtonIMG" src="./logo/archive.png">
-            </button>
-            <button class="downloadButton" id="buttonImageDownloads" title="Export story as SVG or PNG image">
-              <img src="./logo/image.png">
-            </button>
-            <button id="dictionaryButton" title="Edit dictionary">
-              <img src="./logo/spellcheck.png">
-            </button>
-            <button id="keyboardShortcutInfoButton" title="Show keyboard shortcuts">
-              <img src="./logo/shortCutInfo.png">
-            </button>
-          </div>
-            <div class="replayButtons">
-              <button id="buttonStartReplay" class="startReplayButton" title="Start replay">
-                <img src="./logo/play.png">
-              </button>
-              <button id="iconCustomizationButton">
-                <img src="./logo//settings.png" title="Customize icons">
-              </button>
-              <button id="buttonPreviousStep" class="prevoiusStepButton" title="Previous Step" style="opacity: 0;pointer-events: none">
-                <img src="./logo/previous.png">
-              </button>
-              <button id="buttonNextStep" class="NextStepButton" title="NextStep" style="opacity: 0;pointer-events: none">
-                <img src="./logo/forward.png">
-              </button>
-              <button id="buttonStopReplay" class="stopReplayButton" title="Stop replay" style="opacity: 0;pointer-events: none">
-                <img src="./logo/stop.png">
-              </button>
-              <div id="replayStep"> 0/0</div>
-            </div>
-      </div>
     </div>
-    <div id="line"></div>
-    <div id="canvas"></div>
   </div>
-
+  <div id="line"></div>
+  <div id="canvas"></div>
+</div>
   <div class="logoContainer">
     <div id="imgWPS">
       <img src="./logo/Quadrat_wps_de_Farbig.png" height="54" width="40" />
@@ -130,13 +129,18 @@
     <div class="iconConfigCustomization">
       <div class="topButtonRow">
         <button id="resetIconConfigButton">reset to default</button>
+        <button id="uploadCutomIcon" onclick="document.getElementById('importIcon').click();"> upload custom icon</button>
         <div></div>
         <div>Domain Name:</div>
         <input type ="text" id="domainNameInput" value="default">
         <div></div>
-        <button id="exportConfigurationButton">export Configuration</button>
-        <button id="importConfigurationButton" onclick="document.getElementById('importConfig').click()">import Configuration</button>
+        <img src="./logo/unarchive.png" id="importConfigurationButton" title="import icon configuration" onclick="document.getElementById('importConfig').click()">
+        <div></div>
+        <img id="exportConfigurationButton" src="./logo/archive.png" title="export icon configuration">
         <input type="file" accept=".config" style="display:none;" id="importConfig" onclick="this.value=null;" name="file" />
+        <div></div>
+        <img id="customIconConfigSaveButton" title="Save configuration" src="logo/done.png">
+        <div></div>
         <button id="cancelIconCustomizationButton">X</button>
       </div>
       <div class="iconListsContainer">
@@ -159,13 +163,6 @@
             <ul id="selectedWorkObjectsList"></ul>
           </div>
         </div>
-      </div>
-      <div id="bottomButtonRow">
-        <button id="uploadCutomIcon" onclick="document.getElementById('importIcon').click();"> upload custom icon</button>
-        <div></div>
-        <button id="customIconConfigCancelButton">Cancel</button>
-        <button id="customIconConfigSaveButton">Save</button>
-        <div></div>
       </div>
     </div>
   </div>

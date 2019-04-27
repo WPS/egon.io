@@ -20,6 +20,8 @@ input{
   z-index: 1;
 }
 
+/* header and Canvas*/
+
 .headerAndCanvas {
   margin-top: 5px;
   height: 100%;
@@ -28,20 +30,15 @@ input{
   grid-template-rows: 125px 1px auto;
 }
 
-/* header and Canvas*/
 .header {
   display: grid;
   margin-left: 5px;
-  grid-template-columns: auto 275px;
-  grid-template-rows: 125px;
+  grid-template-rows: 50px 75px;
 }
 
-.headlineAndInfo {
-  grid-row: 1 / 1;
-  grid-column: 1 / 1;
+#headlineAndButtons {
   display: grid;
-  justify-self: stretch;
-  grid-template-rows: 40px 85px;
+  grid-template-columns: auto 355px 3px;;
 }
 
 #headline {
@@ -69,7 +66,12 @@ input{
   opacity: 0;
 }
 
+#infoContainer{
+  height: 75px;
+}
+
 #infoText{
+  height: 100%;
   margin-bottom: 3px;
   position: relative;
   font-size: 10pt;
@@ -92,11 +94,7 @@ cursor: default;
   padding: 1px;
   opacity: 0;
   margin-top: -2.05em;
-  margin-left: 13.3em;
-}
-
-.replayButtons {
-  margin-top: 1.4em;
+  margin-left: 9.5em;
 }
 
 #line{
@@ -120,9 +118,15 @@ cursor: default;
 /* Buttons */
 
 #exportConfigurationButton{
-  margin-left: 3px;
-  margin-right: 3px;
-  height: 25px;
+  height: 36px;
+}
+
+#importConfigurationButton{
+  height: 36px;
+}
+
+#customIconConfigSaveButton {
+  height: 36px;
 }
 
 #resetIconConfigButton{
@@ -135,16 +139,12 @@ cursor: default;
   height: 25px;
 }
 
-#customIconConfigSaveButton {
-  height: 25px;
-}
-
 #customIconConfigCancelButton {
   margin-right: 3px;
 }
 
 #uploadCutomIcon {
-  justify-self: start;
+  height: 25px;
 }
 
 #buttonImport, #export, #buttonImageDownloads, #dictionaryButton{
@@ -169,7 +169,7 @@ cursor: default;
   pointer-events : 'none';
 }
 
-#buttonImport:hover, #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #brokenDSTDialogCuttonCancel:hover, #closeNoContentOnCanvasInfo:hover, #keyboardShortcutInfoDialogButtonCancel:hover, #iconCustomizationButton:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
+#buttonImport:hover, #customIconConfigSaveButton:hover, #importConfigurationButton:hover, #exportConfigurationButton:hover , #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #brokenDSTDialogCuttonCancel:hover, #closeNoContentOnCanvasInfo:hover, #keyboardShortcutInfoDialogButtonCancel:hover, #iconCustomizationButton:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
   border: 1px solid #CCC;
   cursor: pointer;
 }
@@ -312,12 +312,12 @@ cursor: pointer;
 
 .iconConfigCustomization {
   display: grid;
-  grid-template-rows: 25px auto 25px;
+  grid-template-rows: 36px auto;
 }
 
 .topButtonRow{
   display: grid;
-  grid-template-columns: 120px auto 95px 300px auto 150px 187px 15px;
+  grid-template-columns: 110px 140px auto 110px 250px auto 36px 3px 36px auto 36px auto 15px;
 }
 
 .iconListsContainer{
@@ -359,12 +359,6 @@ cursor: pointer;
   margin-top: 5px;
   display: grid;
   grid-template-columns: 150px auto 100px 100px 60px;
-}
-
-#importConfigurationButton{
-  margin-left: 3px;
-  margin-right: 37px;
-  height: 25px;
 }
 
 /* dictionary */
