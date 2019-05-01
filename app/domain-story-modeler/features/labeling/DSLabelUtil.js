@@ -102,23 +102,25 @@ export function autocomplete(inp, arr, element) {
     /* for each item in the array...*/
     for (const name of arr) {
       /* check if the item starts with the same letters as the text field value:*/
-      if (name.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+      if (val) {
+        if (name.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
         /* create a DIV element for each matching element:*/
-        autocompleteItem = document.createElement('DIV');
-        /* make the matching letters bold:*/
-        autocompleteItem.innerHTML = '<strong>' + name.substr(0, val.length) + '</strong>' + name.substr(val.length);
-        /* insert an input field that will hold the current name:*/
-        autocompleteItem.innerHTML += '<input type=\'hidden\' value=\'' + name + '\'>';
-        /* execute a function when someone clicks on the item (DIV element):*/
-        autocompleteItem.addEventListener('click', function(e) {
+          autocompleteItem = document.createElement('DIV');
+          /* make the matching letters bold:*/
+          autocompleteItem.innerHTML = '<strong>' + name.substr(0, val.length) + '</strong>' + name.substr(val.length);
+          /* insert an input field that will hold the current name:*/
+          autocompleteItem.innerHTML += '<input type=\'hidden\' value=\'' + name + '\'>';
+          /* execute a function when someone clicks on the item (DIV element):*/
+          autocompleteItem.addEventListener('click', function(e) {
           /* insert the value for the autocomplete text field:*/
-          inp.value = this.getElementsByTagName('input')[0].value;
-          inp.innerHTML = this.getElementsByTagName('input')[0].value;
-          /* close the list of autocompleted values,
+            inp.value = this.getElementsByTagName('input')[0].value;
+            inp.innerHTML = this.getElementsByTagName('input')[0].value;
+            /* close the list of autocompleted values,
               (or any other open lists of autocompleted values:*/
-          closeAllLists();
-        });
-        autocompleteList.appendChild(autocompleteItem);
+            closeAllLists();
+          });
+          autocompleteList.appendChild(autocompleteItem);
+        }
       }
     }
     // if we edit an actor, we do not want auto-complete, since actors generally are unique

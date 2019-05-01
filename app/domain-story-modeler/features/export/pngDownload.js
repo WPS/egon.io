@@ -165,7 +165,7 @@ export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
     height = yDown- yUp;
   }
 
-  // If the domain-Story is smaller than 300px in width or height, increase its dimensions
+  // if the domain-Story is smaller than 300px in width or height, increase its dimensions
   if (height <300) {
     height+=300;
     yUp -= 150;

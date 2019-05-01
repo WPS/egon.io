@@ -1,21 +1,48 @@
 'use strict';
 
 import sanitizeForDesktop from '../../util/Sanitizer';
-import { ACTIVITY } from '../../language/elementTypes';
+import { ACTIVITY, TEXTANNOTATION } from '../../language/elementTypes';
 import { getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
+import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary } from '../iconSetCustomization/dictionaries';
+import { createConfigFromDictionaries } from '../iconSetCustomization/persitence';
+import { getActorIconDictionary } from '../../language/icon/actorIconDictionary';
+import { getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
+import { removeDirtyFlag } from './dirtyFlag';
 
 var infoText = document.getElementById('infoText');
 
 export function downloadDST(filename, text) {
+
+  var actors = getSelectedActorsDictionary();
+  var workObjects = getSelectedWorkObjectsDictionary();
+  var configJSONString = {};
+
+  if (!actors.size>0) {
+    actors = getActorIconDictionary();
+  }
+  if (!workObjects.size>0) {
+    workObjects = getWorkObjectIconDictionary();
+  }
+
+  configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
+
+  var configAndDST = {
+    config: configJSONString,
+    dst: text
+  };
+  var json =JSON.stringify(configAndDST);
+
   filename = sanitizeForDesktop(filename);
   var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(json));
   element.setAttribute('download', filename + '.dst');
 
   element.style.display = 'none';
   document.body.appendChild(element);
 
   element.click();
+
+  removeDirtyFlag();
 
   document.body.removeChild(element);
 }
@@ -32,6 +59,10 @@ export function createObjectListForDSTDownload(version) {
     }
     // ensure that Activities are always after Actors, Workobjects and Groups in .dst files
     else {
+      if (canvasElement.type == TEXTANNOTATION) {
+        canvasElement.businessObject.width = canvasElement.width;
+        canvasElement.businessObject.height = canvasElement.height;
+      }
       objectList.unshift(canvasElement.businessObject);
     }
   });

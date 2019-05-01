@@ -1,21 +1,23 @@
 'use strict';
 
-import { registerWorkObjectIcons, allInWorkObjectIconRegistry } from '../../language/workObjectIconRegistry';
-import { allInActorIconRegistry, registerActorIcons } from '../../language/actorIconRegistry';
-import { DOMAINSTORY, ACTIVITY, CONNECTION, WORKOBJECT } from '../../language/elementTypes';
-import { checkElementReferencesAndRepair } from '../../util/ImportRepair';
+import { registerWorkObjectIcons, getWorkObjectIconDictionaryKeys, allInWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
+import { registerActorIcons, getActorIconDictionaryKeys, allInActorIconDictionary } from '../../language/icon/actorIconDictionary';
+import { DOMAINSTORY, ACTIVITY, CONNECTION, WORKOBJECT, ACTOR } from '../../language/elementTypes';
+import { checkElementReferencesAndRepair } from './ImportRepair';
 import { cleanDictionaries } from '../dictionary/dictionary';
 import { correctElementRegitryInit, getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
 import { isInDomainStoryGroup } from '../../util/TypeCheck';
 import { assign } from 'min-dash';
+import { storyPersistTag, saveIconConfiguration, loadConfiguration } from '../iconSetCustomization/persitence';
+import { removeDirtyFlag } from '../export/dirtyFlag';
 
 var modal = document.getElementById('modal'),
     info = document.getElementById('info'),
     infoText = document.getElementById('infoText'),
     titleInput = document.getElementById('titleInput'),
     title = document.getElementById('title'),
-    versionDialog = document.getElementById('versionDialog'),
-    brokenDSTDialog = document.getElementById('brokenDSTDialog'),
+    versionInfo = document.getElementById('versionInfo'),
+    brokenDSTInfo = document.getElementById('brokenDSTInfo'),
     importedVersionLabel = document.getElementById('importedVersion'),
     modelerVersionLabel = document.getElementById('modelerVersion'),
     brokenDSTDialogButtonCancel = document.getElementById('brokenDSTDialogButtonCancel'),
@@ -24,7 +26,7 @@ var modal = document.getElementById('modal'),
 if (versionDialogButtonCancel) {
   versionDialogButtonCancel.addEventListener('click', function() {
     modal.style.display = 'none';
-    versionDialog.style.display = 'none';
+    versionInfo.style.display = 'none';
   });
 
   brokenDSTDialogButtonCancel.addEventListener('click', function() {
@@ -33,8 +35,48 @@ if (versionDialogButtonCancel) {
 }
 
 function closeBrokenDSTDialog() {
-  brokenDSTDialog.style.display = 'none';
+  brokenDSTInfo.style.display = 'none';
   modal.style.display = 'none';
+}
+
+export function loadPersistedDST(modeler) {
+  var persitedStory = localStorage.getItem(storyPersistTag);
+  localStorage.removeItem(storyPersistTag);
+
+  var completeJSON = JSON.parse(persitedStory);
+
+  var titleText = completeJSON.title;
+
+  var title = document.getElementById('title');
+  title.innerText = titleText;
+
+  var elements = completeJSON.objects;
+  var lastElement = elements.pop();
+
+  var importVersionNumber = lastElement;
+  if (lastElement.version) {
+    lastElement = elements.pop();
+  }
+
+  if (importVersionNumber.version) {
+    importVersionNumber = importVersionNumber.version;
+  } else {
+    importVersionNumber = '?';
+  }
+
+  updateIconRegistries(elements);
+
+  var inputInfoText = lastElement.info ? lastElement.info : '';
+  info.innerText = inputInfoText;
+  info.value = inputInfoText;
+  infoText.innerText = inputInfoText;
+
+  modeler.importCustomElements(elements);
+  correctElementRegitryInit();
+
+  cleanDictionaries();
+
+  removeDirtyFlag();
 }
 
 export function importDST(input, version, modeler) {
@@ -51,7 +93,18 @@ export function importDST(input, version, modeler) {
     reader.onloadend = function(e) {
       var text = e.target.result;
 
-      var elements = JSON.parse(text);
+      var config;
+      var configChanged = false;
+      var elements;
+      var dstAndConfig = JSON.parse(text);
+      if (dstAndConfig.config) {
+        config = dstAndConfig.config;
+        configChanged = configHasChanged(config);
+        elements = JSON.parse(dstAndConfig.dst);
+      } else {
+        elements = JSON.parse(text);
+      }
+
       var lastElement = elements.pop();
 
       var importVersionNumber = lastElement;
@@ -78,26 +131,68 @@ export function importDST(input, version, modeler) {
         showBrokenDSTDialog();
       }
 
-      updateIconRegistries(elements);
-
       var inputInfoText = lastElement.info ? lastElement.info : '';
       info.innerText = inputInfoText;
       info.value = inputInfoText;
       infoText.innerText = inputInfoText;
 
+      if (config) {
+        loadConfiguration(config);
+      }
+      updateIconRegistries(elements);
+
       adjustPositions(elements);
       modeler.importCustomElements(elements);
       correctElementRegitryInit();
 
+      if (configChanged) {
+        saveIconConfiguration();
+      }
+
       cleanDictionaries();
       correctGroupChildren();
+
+      removeDirtyFlag();
     };
 
     reader.readAsText(input);
   }
 }
 
+function configHasChanged(config) {
+  var dictionary = require('collections/dict');
+  var customConfigJSON = JSON.parse(config);
+  var newActorsDict = new dictionary();
+  var newWorkObjectsDict = new dictionary();
 
+  newActorsDict.addEach(customConfigJSON.actors);
+  newWorkObjectsDict.addEach(customConfigJSON.workObjects);
+
+  var newActorKeys = newActorsDict.keysArray();
+  var newWorkObjectKeys = newWorkObjectsDict.keysArray();
+  var currentActorKeys = getActorIconDictionaryKeys();
+  var currentWorkobjectKeys = getWorkObjectIconDictionaryKeys();
+
+  var changed = false;
+  var i=0;
+
+  for (i=0; i<newActorKeys.length; i++) {
+    if (!currentActorKeys.includes(newActorKeys[i]) && !currentActorKeys.includes(ACTOR + newActorKeys[i])) {
+      changed = true;
+      i = newActorKeys.length;
+    }
+  }
+
+  if (changed) {
+    for (i=0; i<newWorkObjectKeys.length; i++) {
+      if (!currentWorkobjectKeys.includes(newWorkObjectKeys[i]) && !currentWorkobjectKeys.includes(WORKOBJECT + newWorkObjectKeys[i])) {
+        changed = true;
+        i = newWorkObjectKeys.length;
+      }
+    }
+  }
+  return changed;
+}
 
 // when importing a domain-story, the elements that are visually inside a group are not yet associated with it.
 // to ensure they are correctly associated, we add them to the group
@@ -130,7 +225,6 @@ function correctGroupChildren() {
   });
 }
 
-
 /**
  * Ensure backwards compatability.
  * Previously Document had no special name and was just adressed as workObject
@@ -149,7 +243,6 @@ export function updateCustomElementsPreviousv050(elements) {
   return elements;
 }
 
-
 function adjustPositions(elements) {
   var xLeft , yUp;
   var isFirst = true;
@@ -160,6 +253,7 @@ function adjustPositions(elements) {
       if (isFirst) {
         xLeft = parseFloat(element.x);
         yUp = parseFloat(element.y);
+        isFirst = false;
       }
       elXLeft= parseFloat(element.x);
       elYUp = parseFloat(element.y);
@@ -172,37 +266,38 @@ function adjustPositions(elements) {
     }
   });
 
-  // Add Padding for the Palette and the top
-  xLeft -= 75;
-  yUp -= 200;
+  if (xLeft < 75 || xLeft > 150 || yUp < 0 || yUp > 50) {
+    // add Padding for the Palette and the top
+    xLeft -= 75;
+    yUp -= 50;
 
-  elements.forEach(element => {
-    if (element.type == ACTIVITY || element.type == CONNECTION) {
-      var waypoints = element.waypoints;
-      waypoints.forEach(point => {
-        point.x -= xLeft;
-        point.y -= yUp;
+    elements.forEach(element => {
+      if (element.type == ACTIVITY || element.type == CONNECTION) {
+        var waypoints = element.waypoints;
+        waypoints.forEach(point => {
+          point.x -= xLeft;
+          point.y -= yUp;
 
-        if (point.original) {
-          point.original.x = point.x;
-          point.original.y = point.y;
-        }
-      });
-    } else {
-      element.x -= xLeft;
-      element.y -= yUp;
-    }
-  });
+          if (point.original) {
+            point.original.x = point.x;
+            point.original.y = point.y;
+          }
+        });
+      } else {
+        element.x -= xLeft;
+        element.y -= yUp;
+      }
+    });
+  }
 }
 
 function updateIconRegistries(elements) {
   var actorIcons = getElementsOfType(elements, 'actor');
   var workObjectIcons = getElementsOfType(elements, 'workObject');
 
-  if (!allInActorIconRegistry(actorIcons)) {
+  if (!allInActorIconDictionary(actorIcons)) {
     registerActorIcons(actorIcons);
-  }
-  if (!allInWorkObjectIconRegistry(workObjectIcons)) {
+  } else if (!allInWorkObjectIconDictionary(workObjectIcons)) {
     registerWorkObjectIcons(workObjectIcons);
   }
 }
@@ -218,11 +313,11 @@ function getElementsOfType(elements, type) {
 }
 
 function showVersionDialog() {
-  versionDialog.style.display = 'block';
+  versionInfo.style.display = 'block';
   modal.style.display = 'block';
 }
 
 function showBrokenDSTDialog() {
-  brokenDSTDialog.style.display = 'block';
+  brokenDSTInfo.style.display = 'block';
   modal.style.display = 'block';
 }

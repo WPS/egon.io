@@ -28,8 +28,11 @@ import { ACTIVITY, ACTOR, WORKOBJECT } from './domain-story-modeler/language/ele
 import { downloadDST, createObjectListForDSTDownload } from './domain-story-modeler/features/export/dstDownload';
 import { downloadSVG, setEncoded } from './domain-story-modeler/features/export/svgDownload';
 import { downloadPNG } from './domain-story-modeler/features/export/pngDownload';
-import { importDST } from './domain-story-modeler/features/import/import';
+import { importDST, loadPersistedDST } from './domain-story-modeler/features/import/import';
 import { getActivitesFromActors, getAllCanvasObjects, initElementRegistry } from './domain-story-modeler/features/canvasElements/canvasElementRegistry';
+import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/customizationDialog';
+import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration, importConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
+import { addIMGToIconDictionary } from './domain-story-modeler/features/iconSetCustomization/appendIconDictionary';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -57,44 +60,50 @@ modeler.createDiagram();
 // expose bpmnjs to window for debugging purposes
 window.bpmnjs = modeler;
 
+// if there is a persitent Story, load it
+if (localStorage.getItem(storyPersistTag)) {
+  loadPersistedDST(modeler);
+}
+
 // HTML-Elements
 
 var modal = document.getElementById('modal'),
     arrow = document.getElementById('arrow'),
-    // Logos
+    // logos
     wpsLogo = document.getElementById('imgWPS'),
     dstLogo = document.getElementById('imgDST'),
-    // Text-elements
+    // text-elements
     wpsInfotext = document.getElementById('wpsLogoInnerText'),
     wpsInfotextPart2 = document.getElementById('wpsLogoInnerText2'),
     dstInfotext = document.getElementById('dstLogoInnerText'),
-    // Labels
+    // labels
     headline = document.getElementById('headline'),
     title = document.getElementById('title'),
     info = document.getElementById('info'),
     infoText = document.getElementById('infoText'),
-    // Inputs
+    // inputs
     titleInput = document.getElementById('titleInput'),
     titleInputLast = '',
     descriptionInputLast = '',
     activityInputNumber = document.getElementById('inputNumber'),
     activityInputLabelWithNumber = document.getElementById('inputLabel'),
     activityInputLabelWithoutNumber = document.getElementById('labelInputLabel'),
-    // Dialogs
+    // dialogs
     headlineDialog = document.getElementById('dialog'),
     activityWithNumberDialog = document.getElementById('numberDialog'),
     activityWithoutNumberDialog = document.getElementById('labelDialog'),
     incompleteStoryDialog = document.getElementById('incompleteStoryInfo'),
     wpsLogoDialog = document.getElementById('wpsLogoInfo'),
     dstLogoDialog = document.getElementById('dstLogoInfo'),
-    dictionaryDialog = document.getElementById('dictionary'),
-    keyboardShortcutInfoDialog = document.getElementById('keyboardShortcutInfoDialog'),
+    dictionaryDialog = document.getElementById('dictionaryDialog'),
+    keyboardShortcutInfo = document.getElementById('keyboardShortcutInfo'),
     downloadDialog = document.getElementById('downloadDialog'),
     noContentOnCanvasDialog = document.getElementById('noContentOnCanvasInfo'),
-    // Container
+    // container
+    iconCustomizationContainer = document.getElementById('iconCustomizationContainer'),
     activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
     workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
-    // Buttons
+    // buttons
     headlineDialogButtonSave = document.getElementById('saveButton'),
     headlineDialogButtonCancel = document.getElementById('quitButton'),
     exportButton = document.getElementById('export'),
@@ -111,6 +120,11 @@ var modal = document.getElementById('modal'),
     svgSaveButton = document.getElementById('buttonSVG'),
     wpsLogoButton = document.getElementById('closeWPSLogoInfo'),
     dstLogoButton = document.getElementById('closeDSTLogoInfo'),
+    exportConfigurationButton = document.getElementById('exportConfigurationButton'),
+    resetIconCustomizationButton = document.getElementById('resetIconConfigButton'),
+    cancelIconCustomizationButton = document.getElementById('cancelIconCustomizationButton'),
+    iconCustomizationSaveButton = document.getElementById('customIconConfigSaveButton'),
+    iconCustomizationButton = document.getElementById('iconCustomizationButton'),
     keyboardShortcutInfoButton = document.getElementById('keyboardShortcutInfoButton'),
     keyboardShortcutInfoButtonCancel = document.getElementById('keyboardShortcutInfoDialogButtonCancel'),
     incompleteStoryDialogButtonCancel = document.getElementById('closeIncompleteStoryInfo'),
@@ -120,6 +134,12 @@ var modal = document.getElementById('modal'),
 var keysPressed = [];
 
 // eventBus listeners
+
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.key =='f') {
+    e.stopPropagation();
+  }
+});
 
 eventBus.on('element.dblclick', function(e) {
   if (!isPlaying()) {
@@ -345,7 +365,7 @@ workobjectDictionaryContainer.addEventListener('keydown', function(e) {
 });
 
 dictionaryButtonOpen.addEventListener('click', function() {
-  openDictionary(canvas);
+  openDictionary();
 });
 
 dictionaryButtonSave.addEventListener('click', function(e) {
@@ -398,7 +418,31 @@ noContentOnCanvasDialogCuttonCancel.addEventListener('click', function() {
 
 keyboardShortcutInfoButton.addEventListener('click', function() {
   modal.style.display = 'block';
-  keyboardShortcutInfoDialog.style.display = 'block';
+  keyboardShortcutInfo.style.display = 'block';
+});
+
+iconCustomizationSaveButton.addEventListener('click', function() {
+  saveIconConfiguration();
+});
+
+cancelIconCustomizationButton.addEventListener('click', function() {
+  modal.style.display = 'none';
+  iconCustomizationContainer.style.display = 'none';
+});
+
+iconCustomizationButton.addEventListener('click', function() {
+  modal.style.display = 'block';
+  iconCustomizationContainer.style.display = 'block';
+  createListOfAllIcons();
+});
+
+
+resetIconCustomizationButton.addEventListener('click', function() {
+  setToDefault();
+});
+
+exportConfigurationButton.addEventListener('click', function() {
+  exportConfiguration();
 });
 
 // -----
@@ -417,6 +461,32 @@ document.getElementById('import').onchange = function() {
   eventBus.fire('commandStack.changed', exportArtifacts);
 
   titleInputLast = titleInput.value;
+};
+
+document.getElementById('importIcon').onchange = function() {
+  var input = document.getElementById('importIcon').files[0];
+  var reader = new FileReader();
+  var endIndex = input.name.lastIndexOf('.');
+  var name = input.name.substring(0, endIndex);
+  while (name.includes(' ')) {
+    name = name.replace(' ', '-');
+  }
+  console.log(name);
+
+  reader.onloadend = function(e) {
+    var file = e.target.result;
+    var type = input.name.substring(endIndex+1);
+    addIMGToIconDictionary(file, name, type);
+  };
+
+  reader.readAsDataURL(input);
+};
+
+
+document.getElementById('importConfig').onchange = function() {
+  var input = document.getElementById('importConfig').files[0];
+
+  importConfiguration(input);
 };
 
 
@@ -614,7 +684,7 @@ function showActivityWithoutLabelDialog(event) {
 }
 
 function closeKeyboardShortcutDialog() {
-  keyboardShortcutInfoDialog.style.display = 'none';
+  keyboardShortcutInfo.style.display = 'none';
   modal.style.display = 'none';
 }
 

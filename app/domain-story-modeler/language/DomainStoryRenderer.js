@@ -35,10 +35,11 @@ import {
   labelPosition,
   calculateTextWidth
 } from '../features/labeling/DSLabelUtil';
-import { getActorIconSrc } from './actorIconRegistry';
-import { getWorkObjectIconSrc } from './workObjectIconRegistry';
+import { getActorIconSrc } from './icon/actorIconDictionary';
+import { getWorkObjectIconSrc } from './icon/workObjectIconDictionary';
 import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
 import { correctElementRegitryInit } from '../features/canvasElements/canvasElementRegistry';
+import { makeDirty } from '../features/export/dirtyFlag';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];
@@ -289,8 +290,12 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
           height: element.height,
         },
         actor;
-
-    actor = svgCreate(getActorIconSrc(element.type));
+    var iconSRC = getActorIconSrc(element.type);
+    if (iconSRC.startsWith('data')) {
+      iconSRC = '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'+
+      '<image width="24" height="24" xlink:href="'+ iconSRC+ '"/></svg>';
+    }
+    actor = svgCreate(iconSRC);
 
     svgAttr(actor, svgDynamicSizeAttributes);
     svgAppend(p, actor);
@@ -307,7 +312,12 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       y: element.height / 2 - 25
     };
     var workObject;
-    workObject = svgCreate(getWorkObjectIconSrc(element.type));
+    var iconSRC = getWorkObjectIconSrc(element.type);
+    if (iconSRC.startsWith('data')) {
+      iconSRC = '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'+
+      '<image width="24" height="24" xlink:href="'+ iconSRC+ '"/></svg>';
+    }
+    workObject = svgCreate(iconSRC);
 
     svgAttr(workObject, svgDynamicSizeAttributes);
     svgAppend(p, workObject);
@@ -332,10 +342,10 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       renderExternalLabel(p, element);
       renderExternalNumber(p, element);
 
-      // Just adjusting the start- and enpoint of the connection-element moves only the drawn connection,
+      // just adjusting the start- and enpoint of the connection-element moves only the drawn connection,
       // not the interactive line. This can be fixed by manually overriding the points of the interactive polyline
       // in the HTMl with the points of the drawn one.
-      // This however does not adjust the surrounding box of the connection.
+      // this however does not adjust the surrounding box of the connection.
       fixConnectionInHTML(p.parentElement);
 
       return x;
@@ -619,6 +629,18 @@ DomainStoryRenderer.prototype.canRender = function(element) {
 };
 
 DomainStoryRenderer.prototype.drawShape = function(p, element) {
+  // polyfill for tests
+  if (!String.prototype.startsWith) {
+    Object.defineProperty(String.prototype, 'startsWith', {
+      value: function(search, pos) {
+        pos = !pos || pos < 0 ? 0 : +pos;
+        return this.substring(pos, pos + search.length) === search;
+      }
+    });
+  }
+
+  makeDirty();
+
   var type = element.type;
   correctElementRegitryInit();
 

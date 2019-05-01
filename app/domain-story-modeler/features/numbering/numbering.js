@@ -113,7 +113,9 @@ export function getNumbersAndIDs(canvas) {
 export function addNumberToRegistry(renderedNumber, number) {
   numberRegistry[number] = renderedNumber;
 }
-
+/**
+ * @returns copy of registry
+ */
 export function getNumberRegistry() {
   return numberRegistry.slice(0);
 }

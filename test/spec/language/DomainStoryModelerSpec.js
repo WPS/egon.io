@@ -1,12 +1,14 @@
 import TestContainer from 'mocha-test-container-support';
 
 import DomainStoryModeler from '../../../app/domain-story-modeler';
-import { default_conf } from '../../../app/domain-story-modeler/language/iconConfig';
+import { default_conf } from '../../../app/domain-story-modeler/language/icon/iconConfig';
 import { checkElementReferencesAndRepair } from '../../../app/domain-story-modeler/util/ImportRepair';
-import { testCase } from '../../../app/domain-story-modeler/features/canvasElements/canvasElementRegistry';
-import { initActorIconRegistry } from '../../../app/domain-story-modeler/language/actorIconRegistry';
-import { initWorkObjectIconRegistry } from '../../../app/domain-story-modeler/language/workObjectIconRegistry';
+import { initActorIconDictionary } from '../../../app/domain-story-modeler/language/actorIconDictionary';
+import { initWorkObjectIconDictionary } from '../../../app/domain-story-modeler/language/workObjectIconDictionary';
 import { updateCustomElementsPreviousv050 } from '../../../app/domain-story-modeler/features/import/import';
+import { isTestMode } from '../../../app/domain-story-modeler/language/testmode';
+
+isTestMode();
 
 describe('domainStory modeler', function() {
 
@@ -127,9 +129,8 @@ describe('domainStory modeler', function() {
 
   describe('domainStory import export Test simple data', function() {
 
-    initActorIconRegistry(default_conf.actors);
-    initWorkObjectIconRegistry(default_conf.workObjects);
-    testCase();
+    initActorIconDictionary(default_conf.actors);
+    initWorkObjectIconDictionary(default_conf.workObjects);
 
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {
@@ -229,9 +230,8 @@ describe('domainStory modeler', function() {
 
   describe('domainStory import export Test broken data', function() {
 
-    initActorIconRegistry(default_conf.actors);
-    initWorkObjectIconRegistry(default_conf.workObjects);
-    testCase();
+    initActorIconDictionary(default_conf.actors);
+    initWorkObjectIconDictionary(default_conf.workObjects);
 
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {

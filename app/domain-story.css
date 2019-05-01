@@ -2,13 +2,12 @@ html, body {
   height: 99.3%;
   width: 99.9%;
   position: absolute;
+  font-family: Helvetica;
 }
 
 input{
   margin-bottom: 20px;
 }
-
-/* Elements by class*/
 
 #modal{
   top: 0;
@@ -21,48 +20,25 @@ input{
   z-index: 1;
 }
 
+/* header and Canvas*/
+
 .headerAndCanvas {
   margin-top: 5px;
   height: 100%;
+  width:100%;
   display: grid;
   grid-template-rows: 125px 1px auto;
 }
 
-.headlineContainer {
+.header {
   display: grid;
   margin-left: 5px;
-  grid-template-columns: auto 285;
-  grid-template-rows: 125px;
+  grid-template-rows: 50px 75px;
 }
 
-.headlineAndInfo {
-  grid-row: 1 / 1;
-  grid-column: 1 / 1;
+#headlineAndButtons {
   display: grid;
-  justify-self: stretch;
-  grid-template-rows: 40px 85px;
-}
-
-.ButtonsAndLogos{
-  grid-row: 1 / 1;
-  grid-column: 2 / 2;
-  display: grid;
-  justify-self: end;
-}
-
-.ButtonContainer {
-  grid-column: 1/1;
-  position: relative;
-}
-
-.logoContainer {
-  margin-left: 10px;
-  grid-column: 2/2;
-  position: relative;
-}
-
-.replayButtons {
-  margin-top: 1.3em;
+  grid-template-columns: auto 355px 3px;;
 }
 
 #headline {
@@ -79,14 +55,23 @@ input{
 }
 
 #headline:hover {
-  color: red;
+  color: #42aebb;
 }
 
 #headline:hover > #edit {
   opacity: 100;
 }
 
+#edit {
+  opacity: 0;
+}
+
+#infoContainer{
+  height: 75px;
+}
+
 #infoText{
+  height: 100%;
   margin-bottom: 3px;
   position: relative;
   font-size: 10pt;
@@ -100,8 +85,16 @@ input{
 cursor: default;
 }
 
-#imgWPS {
-  margin-left: 17px;
+.ButtonContainer {
+  margin-top: 0.2em;
+  position: relative;
+}
+
+#replayStep{
+  padding: 1px;
+  opacity: 0;
+  margin-top: -2.05em;
+  margin-left: 9.5em;
 }
 
 #line{
@@ -114,8 +107,44 @@ cursor: default;
   margin-top: -5px;
 }
 
-#edit {
-  opacity: 0;
+#canvas, #canvas > div{
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+
+/* Buttons */
+
+#exportConfigurationButton{
+  height: 36px;
+}
+
+#importConfigurationButton{
+  height: 36px;
+}
+
+#customIconConfigSaveButton {
+  height: 36px;
+}
+
+#resetIconConfigButton{
+  justify-self: left;
+  height: 25px;
+}
+
+#cancelIconCustomizationButton{
+  justify-self: right;
+  height: 25px;
+}
+
+#customIconConfigCancelButton {
+  margin-right: 3px;
+}
+
+#uploadCutomIcon {
+  height: 25px;
 }
 
 #buttonImport, #export, #buttonImageDownloads, #dictionaryButton{
@@ -140,32 +169,31 @@ cursor: default;
   pointer-events : 'none';
 }
 
-#buttonImport:hover, #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #brokenDSTDialogCuttonCancel:hover, #closeNoContentOnCanvasInfo:hover, #keyboardShortcutInfoDialogButtonCancel:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
+#buttonImport:hover, #customIconConfigSaveButton:hover, #importConfigurationButton:hover, #exportConfigurationButton:hover , #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #brokenDSTDialogCuttonCancel:hover, #closeNoContentOnCanvasInfo:hover, #keyboardShortcutInfoDialogButtonCancel:hover, #iconCustomizationButton:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
   border: 1px solid #CCC;
   cursor: pointer;
 }
 
-#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep ,#keyboardShortcutInfoButton{
+#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep ,#keyboardShortcutInfoButton, #iconCustomizationButton{
   background-color: white;
   border: 1px solid white;
   margin-right: -4px;
 }
 
-#replayStep{
-  padding: 1px;
-  opacity: 0;
-  margin-top: -2.05em;
-  margin-left: 13.3em;
+#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel, #downloadDialogCancelButton, #brokenDSTDialogButtonCancel, #closeNoContentOnCanvasInfo{
+  position: absolute;
+  font-size: 9pt;
+  right: 1px;
+  top: 1px;
 }
 
-#dialog, #numberDialog, #labelDialog, #downloadDialog {
-  padding: 30px 30px 30px 30px;
-  background-color:#FAFAFA;
-  border-color: #CCC;
-  border-radius: 2px;
-  border-width: 1px;
-  box-shadow: 2px 2px 5px silver;
+/* activity label input */
+#inputLabel [type=submit], #labelInputLabel [type=submit]{
+  background-color: DodgerBlue;
+  color: #fff;  
 }
+
+/* keyboard shortcut dialog table */
 
 #keyboardTable {
   border-collapse: collapse;
@@ -177,30 +205,41 @@ cursor: default;
   padding-right: 10px;
 }
 
-#inputLabel [type=submit], #labelInputLabel [type=submit]{
-  background-color: DodgerBlue;
-  color: #fff;  
-}
+/* Logo Container */
 
-#canvas, #canvas > div{
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-  
-#arrowDialog{
-  top:108px;
-  left:150px;
-  z-index: 2;
+.logoContainer {
   position: absolute;
+  bottom: 75px;
+  right: 5px;
 }
 
-#dictionary, #numberDialog, #brokenDSTDialog, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog, #downloadDialog, #noContentOnCanvasInfo{
+#imgWPS {
+  margin-left: 17px;
+}
+
+#imgWPS:hover, #imgDST:hover {
+cursor: pointer;
+}
+
+/* Info and Dialogs*/
+
+#dictionaryDialog, #numberDialog, #brokenDSTInfo, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionInfo, #keyboardShortcutInfo, #downloadDialog, #noContentOnCanvasInfo{
   top: 40%;
   left: 50%;
   z-index: 2;
   position: absolute;
+}
+
+#wpsLogoInfo, #incompleteStoryInfo, #versionInfo, #keyboardShortcutInfo, #brokenDSTInfo, #noContentOnCanvasInfo{
+  font-size: 11pt;  
+  border: solid 1px #aaaaab;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+  width: 350px;
+  margin-left: -175px;
 }
 
 #dstLogoInfo{
@@ -215,19 +254,116 @@ cursor: default;
   margin-left: -155px;
 }
 
-#wpsLogoInfo, #incompleteStoryInfo, #versionDialog, #keyboardShortcutInfoDialog, #brokenDSTDialog, #noContentOnCanvasInfo{
-  font-size: 11pt;  
-  border: solid 1px #aaaaab;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  padding-left: 10px;
-  padding-right: 10px;
-  background-color: white;
-  width: 350px;
-  margin-left: -175px;
+#dialog, #numberDialog, #labelDialog, #downloadDialog {
+  padding: 30px 30px 30px 30px;
+  background-color:#FAFAFA;
+  border-color: #CCC;
+  border-radius: 2px;
+  border-width: 1px;
+  box-shadow: 2px 2px 5px silver;
 }
 
-#dictionary{
+#arrowDialog{
+  top:108px;
+  left:150px;
+  z-index: 2;
+  position: absolute;
+}
+
+.arrow{
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  border: 0.9rem solid transparent;
+  border-top-color: #FAFAFA;  
+  border-left-color: #FAFAFA;
+  -moz-transform: scale(0.9999);
+  transform: rotate(45deg);
+  left: 20px;
+  bottom: 305px;
+}
+
+/* Icon customization */
+
+#allIconsListHeader {
+  position: relative;
+  left: 25px;
+  top: 5px;
+  font-size: 9pt;
+}
+
+#iconCustomizationContainer {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 11pt;  
+  border: solid 1px #aaaaab;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: white;
+  margin-right: 5px;
+  position: absolute;
+  z-index:2;
+}
+
+.iconConfigCustomization {
+  display: grid;
+  grid-template-rows: 36px auto;
+}
+
+.topButtonRow{
+  display: grid;
+  grid-template-columns: 110px 140px auto 110px 250px auto 36px 3px 36px auto 36px auto 15px;
+}
+
+.iconListsContainer{
+  margin-top: 3px; 
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+#allIconListContainer{
+  border: solid 1px #aaaaab;
+  margin-bottom: 3px;
+  margin-right: 2px;
+}
+
+#allIconsList{
+  max-height: 85vh;
+  overflow-y: scroll;
+}
+
+#selectedWorkObjectsList {
+  max-height: 41vh;
+  overflow-y: scroll;
+}
+
+#selectedActorsList {
+  max-height: 41vh;
+  overflow-y: scroll;
+}
+
+.selectedIconsContainer{
+  border: solid 1px #aaaaab;
+  margin-bottom: 3px;
+  margin-right: 2px;
+  display: grid;
+  grid-template-rows: auto 1px auto;
+}
+
+#bottomButtonRow{
+  margin-top: 5px;
+  display: grid;
+  grid-template-columns: 150px auto 100px 100px 60px;
+}
+
+/* dictionary */
+
+#dictionaryDialog{
   position: absolute;
   border: solid 1px #aaaaab;
   padding-top: 3px;
@@ -265,50 +401,7 @@ cursor: default;
   padding: 4px;
 }
 
-#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel, #downloadDialogCancelButton, #brokenDSTDialogButtonCancel, #closeNoContentOnCanvasInfo{
-  position: absolute;
-  font-size: 9pt;
-  right: 1px;
-  top: 1px;
-}
-
-/* Elements by ID */
-
-.buttons{
-  position: relative;
-  margin-top: -2px;
-  left: -2em;
-}
-
-.prevoiusStepButton, .NextStepButton, .stopReplayButton {
-  opacity: 0.2;
-  pointer-events: none;
-}
-
-.arrow{
-  content: "";
-  width: 0;
-  height: 0;
-  position: absolute;
-  border: 0.9rem solid transparent;
-  border-top-color: #FAFAFA;  
-  border-left-color: #FAFAFA;
-  -moz-transform: scale(0.9999);
-  transform: rotate(45deg);
-  left: 20px;
-  bottom: 305px;
-}
-
-.djs-context-pad.open{
-  margin-right: 18px;
-  border: solid 1px #80808054; 
-}
-
-.djs-context-pad.open > .group{
-  border: solid 1px #80808054;
-  padding: 1px;
-  background-color: white;
-}
+/* autocomplete */
 
 .autocomplete {
   /*the container must be positioned relative:*/
@@ -324,6 +417,7 @@ cursor: default;
   left: 0;
   text-align: left;
 }
+
 .autocomplete-items div {
   padding: 5px 10px 5px 10px;
   font-size: 10pt;
@@ -331,12 +425,253 @@ cursor: default;
   background-color: #fafafa; 
   border-bottom: 1px solid #d4d4d4; 
 }
+
 .autocomplete-items div:hover {
   /*when hovering an item:*/
   background-color: #fafafa; 
 }
+
 .autocomplete-active {
   /*when navigating through the items using the arrow keys:*/
   background-color: DodgerBlue !important; 
   color: #ffffff; 
+}
+
+/* BPMN elements */
+
+.djs-context-pad.open{
+  margin-right: 18px;
+  border: solid 1px #80808054; 
+}
+
+.djs-context-pad.open > .group{
+  border: solid 1px #80808054;
+  padding: 1px;
+  background-color: white;
+}
+
+/**
+ * from bpmn.io
+ */
+
+/**
+ * palette
+ */
+
+ .djs-palette {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+
+  box-sizing: border-box;
+  width: 32px;
+}
+
+.djs-palette .separator {
+  margin: 0 2px;
+  padding-top: 0px;
+
+  border: none;
+  border-bottom: solid 1px #DDD;
+
+  clear: both;
+}
+
+.djs-palette .entry:before {
+  vertical-align: middle;
+}
+
+.djs-palette .djs-palette-toggle {
+  cursor: pointer;
+}
+
+.djs-palette .entry,
+.djs-palette .djs-palette-toggle {
+  color: #333;
+  font-size: 26px;
+
+  text-align: center;
+}
+
+.djs-palette .entry {
+  float: left;
+}
+
+.djs-palette .entry img {
+  max-width: 100%;
+}
+
+.djs-palette .djs-palette-entries:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.djs-palette .djs-palette-toggle:hover {
+  background: #666;
+}
+
+
+.djs-palette .entry:hover {
+  fill: #42aebb;
+}
+
+.djs-palette .highlighted-entry {
+  color: #42aebb !important;
+}
+
+.djs-palette .entry,
+.djs-palette .djs-palette-toggle {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  cursor: default;
+}
+
+
+/**
+ * Palette open / two-column layout is controlled via
+ * classes on the palette. Events to hook into palette
+ * changed life-cycle are available in addition.
+ */
+.djs-palette.two-column.open {
+  width: 64px;
+}
+
+.djs-palette:not(.open) .djs-palette-entries {
+  display: none;
+}
+
+.djs-palette:not(.open) {
+  overflow: hidden;
+}
+
+.djs-palette.open .djs-palette-toggle {
+  display: none;
+}
+
+
+/**
+ * outline styles
+ */
+
+ .djs-outline {
+  fill: none;
+  visibility: hidden;
+}
+
+.djs-element.hover .djs-outline,
+.djs-element.selected .djs-outline {
+  visibility: visible;
+  shape-rendering: crispEdges;
+  stroke-dasharray: 3,3;
+}
+
+.djs-element.selected .djs-outline {
+  stroke: #8888FF;
+  stroke-width: 1px;
+}
+
+.djs-element.hover .djs-outline {
+  stroke: #42aebb;
+}
+
+.djs-element.attach-ok .djs-visual > :nth-child(1) {
+  stroke: #42aebb !important;
+}
+
+/**
+* Selection box style
+*
+*/
+.djs-lasso-overlay {
+  fill: #42aebb;
+  stroke: #42aebb;
+
+}
+
+/**
+ * Resize styles
+ */
+.djs-resize-overlay {
+  stroke: #42aebb;
+}
+
+/**
+ * drag styles
+ */
+.djs-dragger .djs-visual circle,
+.djs-dragger .djs-visual path,
+.djs-dragger .djs-visual polygon,
+.djs-dragger .djs-visual polyline,
+.djs-dragger .djs-visual rect,
+.djs-dragger .djs-visual text {
+  fill: none !important;
+  stroke: #42aebb !important;
+}
+
+/**
+ * snapping
+ */
+.djs-snap-line {
+  stroke: #42aebb;
+  stroke: rgba(255, 195, 66, 0.50);
+}
+
+
+.djs-palette .entry:hover {
+  color: #42aebb;
+}
+
+.djs-palette .highlighted-entry {
+  color: #42aebb !important;
+}
+
+.djs-context-pad .entry:hover {
+  background: #42aebb;
+}
+
+.djs-popup .djs-popup-header .entry.active {
+  color: #42aebb;
+  border: solid 1px #42aebb;
+  background-color: #F6F6F6;
+}
+
+.djs-segment-dragger:hover .djs-visual,
+.djs-segment-dragger.djs-dragging .djs-visual,
+.djs-bendpoint:hover .djs-visual,
+.djs-bendpoint.floating .djs-visual {
+  fill: #42aebb;
+  stroke-opacity: 0.5;
+  stroke: black;
+}
+
+.djs-segment-dragger.djs-dragging .djs-visual,
+.djs-bendpoint.djs-dragging .djs-visual {
+  fill: #42aebb;
+}
+.djs-tooltip-error > * {
+  color: #42aebb;
+  border-left: solid 5px #42aebb;
+}
+
+.djs-search-input input:focus {
+  outline: none;
+  border-color: #52B415;
+}
+
+.djs-search-result:hover {
+  background: #fdffd6;
+}
+
+.djs-search-result-selected {
+  background: #42aebb;
+}
+
+.djs-search-result-selected:hover {
+  background: #42aebb;
+}
+
+.djs-search-overlay {
+  background: #42aebb;
 }

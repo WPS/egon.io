@@ -2,11 +2,13 @@
 
 import { assign } from 'min-dash';
 import { getNameFromType } from '../../language/naming';
-import { getIconForType } from '../../language/iconRegistry';
-import { getWorkObjectIconRegistry, initWorkObjectIconRegistry } from '../../language/workObjectIconRegistry';
-import { getActorIconRegistry, initActorIconRegistry } from '../../language/actorIconRegistry';
-import { getIconset } from '../../language/iconConfig';
+import { getIconForType } from '../../language/icon/iconDictionary';
+import { initWorkObjectIconDictionary, getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
+import { initActorIconDictionary, getActorIconDictionary } from '../../language/icon/actorIconDictionary';
+import { getIconset } from '../../language/icon/iconConfig';
 import { GROUP } from '../../language/elementTypes';
+import { appendedIconsTag } from '../iconSetCustomization/persitence';
+import { overrideAppendedIcons } from '../../language/icon/all_Icons';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
@@ -71,13 +73,40 @@ PaletteProvider.prototype.getPaletteEntries = function() {
   return initPalette(actions, spaceTool, lassoTool, createAction);
 };
 
+function appendCSSStyleCheat(customIcons) {
+  var sheet = document.getElementById('iconsCss').sheet;
+  var dictionary = require('collections/dict');
+  var customIconDict = new dictionary();
+
+  customIconDict.addEach(customIcons);
+  var customIconDictKeys = customIconDict.keysArray();
+
+  var css_rules_num = sheet.cssRules.length;
+
+  customIconDictKeys.forEach(name => {
+    var src = customIconDict.get(name);
+    var iconStyle = ('.icon-domain-story-' + name + '::before {'+
+        'content: url(\'' + src + '\');'+
+        ' background-repeat: no-repeat;'+
+        ' width: 25px; height: 25px;}');
+    sheet.insertRule(iconStyle, css_rules_num);
+    css_rules_num++;
+  });
+}
+
 function initPalette(actions, spaceTool, lassoTool, createAction) {
   var config = getIconset();
 
-  initActorIconRegistry(config.actors);
-  initWorkObjectIconRegistry(config.workObjects);
+  var customIcons = localStorage.getItem(appendedIconsTag);
+  if (customIcons) {
+    overrideAppendedIcons(JSON.parse(customIcons));
+    appendCSSStyleCheat(JSON.parse(customIcons));
+  }
 
-  var actorTypes = getActorIconRegistry();
+  initActorIconDictionary(config.actors);
+  initWorkObjectIconDictionary(config.workObjects);
+
+  var actorTypes = getActorIconDictionary();
 
   actorTypes.keysArray().forEach(actorType => {
     var name = getNameFromType(actorType);
@@ -95,7 +124,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     }
   });
 
-  var workObjectTypes = getWorkObjectIconRegistry();
+  var workObjectTypes = getWorkObjectIconDictionary();
 
   workObjectTypes.keysArray().forEach(workObjectType => {
 

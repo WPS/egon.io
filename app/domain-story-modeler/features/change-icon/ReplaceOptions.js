@@ -1,12 +1,12 @@
 import { getNameFromType } from '../../language/naming';
-import { getActorIconRegistry } from '../../language/actorIconRegistry';
-import { getWorkObjectIconRegistry } from '../../language/workObjectIconRegistry';
-import { getIconForType } from '../../language/iconRegistry';
+import { getActorIconDictionary } from '../../language/icon/actorIconDictionary';
+import { getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
+import { getIconForType } from '../../language/icon/iconDictionary';
 
 'use strict';
 
 export function actorReplaceOptions(name) {
-  var actorTypes = getActorIconRegistry();
+  var actorTypes = getActorIconDictionary();
 
   var replaceOption = {};
   var i=0;
@@ -29,7 +29,7 @@ export function actorReplaceOptions(name) {
 }
 
 export function workObjectReplaceOptions(name) {
-  var workObjectTypes = getWorkObjectIconRegistry();
+  var workObjectTypes = getWorkObjectIconDictionary();
 
   var replaceOption = {};
   var i=0;

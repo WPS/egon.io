@@ -1,7 +1,7 @@
 'use strict';
 
 import { CONNECTION, GROUP } from '../../language/elementTypes';
-import { getActivitesFromActors, getAllCanvasObjects } from '../canvasElements/canvasElementRegistry';
+import { getActivitesFromActors, getAllCanvasObjects, wasInitialized } from '../canvasElements/canvasElementRegistry';
 
 var canvas;
 var elementRegistry;
@@ -26,48 +26,47 @@ let nextStepButton = document.getElementById('buttonNextStep');
 let previousStepButton = document.getElementById('buttonPreviousStep');
 let stopReplayButton = document.getElementById('buttonStopReplay');
 let currentReplayStepLabel = document.getElementById('replayStep');
-let headline = document.getElementById('headline');
 let incompleteStoryDialog = document.getElementById('incompleteStoryInfo');
-let importExportSVGButtonsContainer = document.getElementById('importExportSVGButton');
-
-/* test */
 
 startReplayButton.addEventListener('click', function() {
-  var activities = getActivitesFromActors();
+  if (wasInitialized()) {
 
-  if (!replayOn && activities.length > 0) {
-    replaySteps = traceActivities(activities, elementRegistry);
+    var activities = getActivitesFromActors();
 
-    if (isStoryConsecutivelyNumbered(replaySteps)) {
-      replayOn = true;
-      disableCanvasInteraction();
-      currentStep = 0;
-      showCurrentStep();
-    }
-    else {
-      var errorText = '\nThe numbers: ';
-      for (var i=0; i<replaySteps.length; i++) {
-        if (errorStep[i]) {
-          errorText+= ((i + 1) + ',');
-        }
+    if (!replayOn && activities.length > 0) {
+      replaySteps = traceActivities(activities, elementRegistry);
+
+      if (isStoryConsecutivelyNumbered(replaySteps)) {
+        replayOn = true;
+        presentationMode();
+        currentStep = 0;
+        showCurrentStep();
       }
-      errorText = errorText.substring(0, errorText.length - 1);
-      errorText+= ' are missing!';
-
-      var oldText = incompleteStoryDialog.getElementsByTagName('text');
-      if (oldText) {
-        for (i=0; i < oldText.length; i++) {
-          incompleteStoryDialog.removeChild(oldText[i]);
+      else {
+        var errorText = '\nThe numbers: ';
+        for (var i=0; i<replaySteps.length; i++) {
+          if (errorStep[i]) {
+            errorText+= ((i + 1) + ',');
+          }
         }
-      }
+        errorText = errorText.substring(0, errorText.length - 1);
+        errorText+= ' are missing!';
 
-      var text = document.createElement('text');
-      text.innerHTML = ' The activities in this Domain Story are not numbered consecutively.<br>' +
+        var oldText = incompleteStoryDialog.getElementsByTagName('text');
+        if (oldText) {
+          for (i=0; i < oldText.length; i++) {
+            incompleteStoryDialog.removeChild(oldText[i]);
+          }
+        }
+
+        var text = document.createElement('text');
+        text.innerHTML = ' The activities in this Domain Story are not numbered consecutively.<br>' +
         'Please fix the numbering in order to replay the story.<br>' +
         errorText;
-      incompleteStoryDialog.appendChild(text);
-      incompleteStoryDialog.style.display = 'block';
-      modal.style.display = 'block';
+        incompleteStoryDialog.appendChild(text);
+        incompleteStoryDialog.style.display = 'block';
+        modal.style.display = 'block';
+      }
     }
   }
 });
@@ -92,7 +91,7 @@ previousStepButton.addEventListener('click', function() {
 
 stopReplayButton.addEventListener('click', function() {
   if (replayOn) {
-    enableCanvasInteraction();
+    editMode();
 
     // show all canvas elements
     var allObjects = [];
@@ -267,26 +266,26 @@ export function getAllNotShown(allObjects, shownElements) {
 
 // replay functions
 
-function disableCanvasInteraction() {
+function presentationMode() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
 
-  headline.style.pointerEvents = 'none';
+  var infoContainer = document.getElementById('infoContainer');
+  infoContainer.style.display = 'none';
 
-  importExportSVGButtonsContainer.style.opacity = 0.2;
-  importExportSVGButtonsContainer.style.pointerEvents = 'none';
+  var editModeButtons = document.getElementById('editModeButtons');
+  editModeButtons.style.display = 'none';
+  editModeButtons.style.pointerEvents = 'none';
 
-  startReplayButton.style.opacity = 0.2;
-  startReplayButton.style.pointerEvents = 'none';
+  var presentationModeButtons = document.getElementById('presentationModeButtons');
+  presentationModeButtons.style.display = 'block';
+  presentationModeButtons.style.pointerEvents = 'all';
 
-  stopReplayButton.style.opacity = 1;
-  stopReplayButton.style.pointerEvents = 'all';
+  var headerAndCanvas = document.getElementsByClassName('headerAndCanvas')[0];
+  headerAndCanvas.style.gridTemplateRows = '50px 1px auto';
 
-  nextStepButton.style.opacity = 1;
-  nextStepButton.style.pointerEvents = 'all';
-
-  previousStepButton.style.opacity = 1;
-  previousStepButton.style.pointerEvents = 'all';
+  var headlineAndButtons = document.getElementById('headlineAndButtons');
+  headlineAndButtons.style.gridTemplateColumns= 'auto 230px 3px';
 
   var i = 0;
   for (i = 0; i < contextPadElements.length; i++) {
@@ -300,26 +299,26 @@ function disableCanvasInteraction() {
   currentReplayStepLabel.style.opacity = 1;
 }
 
-function enableCanvasInteraction() {
+function editMode() {
   var contextPadElements = document.getElementsByClassName('djs-context-pad');
   var paletteElements = document.getElementsByClassName('djs-palette');
 
-  headline.style.pointerEvents = 'all';
+  var infoContainer = document.getElementById('infoContainer');
+  infoContainer.style.display = 'inherit';
 
-  importExportSVGButtonsContainer.style.opacity = 1;
-  importExportSVGButtonsContainer.style.pointerEvents = 'all';
+  var editModeButtons = document.getElementById('editModeButtons');
+  editModeButtons.style.display = 'inherit';
+  editModeButtons.style.pointerEvents = 'all';
 
-  startReplayButton.style.opacity = 1;
-  startReplayButton.style.pointerEvents = 'all';
+  var presentationModeButtons = document.getElementById('presentationModeButtons');
+  presentationModeButtons.style.display = 'none';
+  presentationModeButtons.style.pointerEvents = 'none';
 
-  stopReplayButton.style.opacity = 0.2;
-  stopReplayButton.style.pointerEvents = 'none';
+  var headerAndCanvas = document.getElementsByClassName('headerAndCanvas')[0];
+  headerAndCanvas.style.gridTemplateRows = '125px 1px auto';
 
-  nextStepButton.style.opacity = 0.2;
-  nextStepButton.style.pointerEvents = 'none';
-
-  previousStepButton.style.opacity = 0.2;
-  previousStepButton.style.pointerEvents = 'none';
+  var headlineAndButtons = document.getElementById('headlineAndButtons');
+  headlineAndButtons.style.gridTemplateColumns= 'auto 355px 3px';
 
   var i = 0;
   for (i = 0; i < contextPadElements.length; i++) {

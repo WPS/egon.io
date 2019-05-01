@@ -1,5 +1,7 @@
 import { calculateWidthAndHeight } from '../../../app/domain-story-modeler/features/export/pngDownload';
+import { isTestMode } from '../../../app/domain-story-modeler/language/testmode';
 
+isTestMode();
 
 describe('pngDownload', function() {
 
