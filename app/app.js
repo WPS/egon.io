@@ -471,12 +471,10 @@ document.getElementById('importIcon').onchange = function() {
   while (name.includes(' ')) {
     name = name.replace(' ', '-');
   }
-  console.log(name);
 
   reader.onloadend = function(e) {
     var file = e.target.result;
-    var type = input.name.substring(endIndex+1);
-    addIMGToIconDictionary(file, name, type);
+    addIMGToIconDictionary(file, name);
   };
 
   reader.readAsDataURL(input);
