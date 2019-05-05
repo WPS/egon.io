@@ -72,7 +72,6 @@ function cleanWorkObjecDictionary() {
   });
 }
 
-
 // create the HTML-elements associated with the dictionary and display it
 export function openDictionary() {
 
@@ -113,4 +112,66 @@ export function openDictionary() {
 
   modal.style.display = 'block';
   dictionaryDialog.style.display = 'block';
+}
+
+export function dictionaryClosed(commandStack, activityDictionaryContainer, workobjectDictionaryContainer) {
+  var oldActivityDictionary = getActivityDictionary();
+  var oldWorkobjectDictionary = getWorkObjectDictionary();
+  var activityNewNames = [];
+  var workObjectNewNames = [];
+
+  activityDictionaryContainer.childNodes.forEach(child=>{
+    if (child.value) {
+      activityNewNames[child.id] = child.value;
+    }
+  });
+
+  workobjectDictionaryContainer.childNodes.forEach(child=>{
+    if (child.value) {
+      workObjectNewNames[child.id] = child.value;
+    }
+  });
+
+  if (activityNewNames.length == oldActivityDictionary.length && workObjectNewNames.length==oldWorkobjectDictionary.length) {
+    dictionaryDifferences(activityNewNames, oldActivityDictionary, workObjectNewNames, oldWorkobjectDictionary, commandStack);
+  }
+}
+
+function dictionaryDifferences(activityNames, oldActivityDictionary, workObjectNames, oldWorkobjectDictionary, commandStack) {
+  var i=0;
+  for (i=0;i<oldActivityDictionary.length;i++) {
+    if (!activityNames[i]) {
+      activityNames[i]='';
+    }
+    if (!((activityNames[i].includes(oldActivityDictionary[i])) && (oldActivityDictionary[i].includes(activityNames[i])))) {
+      massChangeNames(oldActivityDictionary[i], activityNames[i], ACTIVITY, commandStack);
+    }
+  }
+  for (i=0;i<oldWorkobjectDictionary.length;i++) {
+    if (!workObjectNames[i]) {
+      workObjectNames[i]='';
+    }
+    if (!((workObjectNames[i].includes(oldWorkobjectDictionary[i])) && (oldWorkobjectDictionary[i].includes(workObjectNames[i])))) {
+      massChangeNames(oldWorkobjectDictionary[i], workObjectNames[i], WORKOBJECT, commandStack);
+    }
+  }
+  // delete old entires from stashes
+}
+
+function massChangeNames(oldValue, newValue, type, commandStack) {
+  var allObjects = getAllCanvasObjects();
+  var allRelevantObjects=[];
+
+  allObjects.forEach(element =>{
+    if (element.type.includes(type) && element.businessObject.name == oldValue) {
+      allRelevantObjects.push(element);
+    }
+  });
+
+  var context = {
+    elements: allRelevantObjects,
+    newValue: newValue
+  };
+
+  commandStack.execute('domainStoryObjects.massRename', context);
 }

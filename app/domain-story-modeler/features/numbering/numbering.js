@@ -1,7 +1,7 @@
 'use strict';
 
-import { labelPosition } from '../labeling/DSLabelUtil';
 import { getActivitesFromActors } from '../canvasElements/canvasElementRegistry';
+import { labelPosition } from '../labeling/position';
 
 
 var numberRegistry = [];

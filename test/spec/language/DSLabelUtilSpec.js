@@ -1,7 +1,8 @@
 import '../../../app/domain-story-modeler/util/MathExtensions';
 
-import { selectPartOfActivity, labelPositionX, labelPosition, labelPositionY, calculateTextWidth } from '../../../app/domain-story-modeler/features/labeling/DSLabelUtil';
+import { selectPartOfActivity, calculateTextWidth } from '../../../app/domain-story-modeler/features/labeling/DSLabelUtil';
 import { isTestMode } from '../../../app/domain-story-modeler/language/testmode';
+import { labelPositionX, labelPositionY, labelPosition } from '../../../app/domain-story-modeler/features/labeling/position';
 
 isTestMode();
 

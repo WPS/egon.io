@@ -31,15 +31,13 @@ import { getNumberStash } from '../features/labeling/DSLabelEditingProvider';
 
 import { numberBoxDefinitions, generateAutomaticNumber, addNumberToRegistry } from '../features/numbering/numbering';
 
-import {
-  labelPosition,
-  calculateTextWidth
-} from '../features/labeling/DSLabelUtil';
+import { calculateTextWidth } from '../features/labeling/DSLabelUtil';
 import { getActorIconSrc } from './icon/actorIconDictionary';
 import { getWorkObjectIconSrc } from './icon/workObjectIconDictionary';
 import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
 import { correctElementRegitryInit } from '../features/canvasElements/canvasElementRegistry';
 import { makeDirty } from '../features/export/dirtyFlag';
+import { labelPosition } from '../features/labeling/position';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];

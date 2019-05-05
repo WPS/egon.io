@@ -7,8 +7,8 @@ import DomainStoryModeler from '../../../app/domain-story-modeler';
 import { assign } from 'min-dash';
 import { test_conf } from '../test_conf';
 import { CONNECTION } from '../../../app/domain-story-modeler/language/elementTypes';
-import { initActorIconDictionary } from '../../../app/domain-story-modeler/language/actorIconDictionary';
 import { isTestMode } from '../../../app/domain-story-modeler/language/testmode';
+import { initActorIconDictionary } from '../../../app/domain-story-modeler/language/icon/actorIconDictionary';
 
 isTestMode();
 

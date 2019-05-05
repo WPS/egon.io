@@ -5,11 +5,13 @@ import { registerActorIcons, getActorIconDictionaryKeys, allInActorIconDictionar
 import { DOMAINSTORY, ACTIVITY, CONNECTION, WORKOBJECT, ACTOR } from '../../language/elementTypes';
 import { checkElementReferencesAndRepair } from './ImportRepair';
 import { cleanDictionaries } from '../dictionary/dictionary';
-import { correctElementRegitryInit, getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
+import { correctElementRegitryInit, getAllCanvasObjects, getAllGroups, initElementRegistry } from '../canvasElements/canvasElementRegistry';
 import { isInDomainStoryGroup } from '../../util/TypeCheck';
 import { assign } from 'min-dash';
-import { storyPersistTag, saveIconConfiguration, loadConfiguration } from '../iconSetCustomization/persitence';
+import { storyPersistTag, saveIconConfiguration, loadConfiguration, importConfiguration } from '../iconSetCustomization/persitence';
 import { removeDirtyFlag } from '../export/dirtyFlag';
+import { addIMGToIconDictionary } from '../iconSetCustomization/appendIconDictionary';
+import { debounce } from '../../util/helpers';
 
 var modal = document.getElementById('modal'),
     info = document.getElementById('info'),
@@ -37,6 +39,48 @@ if (versionDialogButtonCancel) {
 function closeBrokenDSTDialog() {
   brokenDSTInfo.style.display = 'none';
   modal.style.display = 'none';
+}
+
+export function initImports(elementRegistry, version, modeler,eventBus, titleInputLast, fnDebounce) {
+  document.getElementById('import').onchange = function() {
+
+    var input = document.getElementById('import').files[0];
+
+    initElementRegistry(elementRegistry);
+
+    importDST(input, version, modeler);
+
+    // to update the title of the svg, we need to tell the command stack, that a value has changed
+    var exportArtifacts = debounce(fnDebounce, 500);
+
+    eventBus.fire('commandStack.changed', exportArtifacts);
+
+    titleInputLast = titleInput.value;
+  };
+
+  document.getElementById('importIcon').onchange = function() {
+    var input = document.getElementById('importIcon').files[0];
+    var reader = new FileReader();
+    var endIndex = input.name.lastIndexOf('.');
+    var name = input.name.substring(0, endIndex);
+    while (name.includes(' ')) {
+      name = name.replace(' ', '-');
+    }
+
+    reader.onloadend = function(e) {
+      var file = e.target.result;
+      addIMGToIconDictionary(file, name);
+    };
+
+    reader.readAsDataURL(input);
+  };
+
+
+  document.getElementById('importConfig').onchange = function() {
+    var input = document.getElementById('importConfig').files[0];
+
+    importConfiguration(input);
+  };
 }
 
 export function loadPersistedDST(modeler) {

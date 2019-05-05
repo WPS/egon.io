@@ -2,11 +2,11 @@ import TestContainer from 'mocha-test-container-support';
 
 import DomainStoryModeler from '../../../app/domain-story-modeler';
 import { default_conf } from '../../../app/domain-story-modeler/language/icon/iconConfig';
-import { checkElementReferencesAndRepair } from '../../../app/domain-story-modeler/util/ImportRepair';
-import { initActorIconDictionary } from '../../../app/domain-story-modeler/language/actorIconDictionary';
-import { initWorkObjectIconDictionary } from '../../../app/domain-story-modeler/language/workObjectIconDictionary';
 import { updateCustomElementsPreviousv050 } from '../../../app/domain-story-modeler/features/import/import';
 import { isTestMode } from '../../../app/domain-story-modeler/language/testmode';
+import { initWorkObjectIconDictionary } from '../../../app/domain-story-modeler/language/icon/workObjectIconDictionary';
+import { initActorIconDictionary } from '../../../app/domain-story-modeler/language/icon/actorIconDictionary';
+import { checkElementReferencesAndRepair } from '../../../app/domain-story-modeler/features/import/ImportRepair';
 
 isTestMode();
 

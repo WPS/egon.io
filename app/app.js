@@ -1,38 +1,26 @@
 'use strict';
 
 import $ from 'jquery';
-
 import './domain-story-modeler/util/MathExtensions';
-
 import DomainStoryModeler from './domain-story-modeler';
-
 import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';
-
 import DSActivityHandlers from './domain-story-modeler/modeler/DSActivityHandlers';
-
 import { toggleStashUse } from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
-
 import { version } from '../package.json';
-
 import DSMassRenameHandlers from './domain-story-modeler/features/dictionary/DSMassRenameHandlers';
-
-import { getActivityDictionary, cleanDictionaries, getWorkObjectDictionary, openDictionary } from './domain-story-modeler/features/dictionary/dictionary';
-
+import { getActivityDictionary, cleanDictionaries, openDictionary, dictionaryClosed } from './domain-story-modeler/features/dictionary/dictionary';
 import { isPlaying, initReplay } from './domain-story-modeler/features/replay/replay';
-
 import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUtil';
-
 import { updateExistingNumbersAtEditing, getNumberRegistry } from './domain-story-modeler/features/numbering/numbering';
-
 import { ACTIVITY, ACTOR, WORKOBJECT } from './domain-story-modeler/language/elementTypes';
 import { downloadDST, createObjectListForDSTDownload } from './domain-story-modeler/features/export/dstDownload';
 import { downloadSVG, setEncoded } from './domain-story-modeler/features/export/svgDownload';
 import { downloadPNG } from './domain-story-modeler/features/export/pngDownload';
-import { importDST, loadPersistedDST } from './domain-story-modeler/features/import/import';
-import { getActivitesFromActors, getAllCanvasObjects, initElementRegistry } from './domain-story-modeler/features/canvasElements/canvasElementRegistry';
+import { loadPersistedDST, initImports } from './domain-story-modeler/features/import/import';
+import { getActivitesFromActors, initElementRegistry } from './domain-story-modeler/features/canvasElements/canvasElementRegistry';
 import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/customizationDialog';
-import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration, importConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
-import { addIMGToIconDictionary } from './domain-story-modeler/features/iconSetCustomization/appendIconDictionary';
+import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
+import { debounce } from './domain-story-modeler/util/helpers';
 
 var modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -46,12 +34,17 @@ var eventBus = modeler.get('eventBus');
 var commandStack = modeler.get('commandStack');
 var elementRegistry = modeler.get('elementRegistry');
 
+// interal variables
+var keysPressed = [];
+var titleInputLast = '', descriptionInputLast = '';
+
 // we need to initiate the activity commandStack elements
 DSActivityHandlers(commandStack, eventBus, canvas);
 DSMassRenameHandlers(commandStack, eventBus, canvas);
 
 initReplay(canvas);
 initElementRegistry(elementRegistry);
+initImports(elementRegistry, version, modeler,eventBus, titleInputLast, fnDebounce);
 
 // disable BPMN SearchPad
 SearchPad.prototype.toggle=function() { };
@@ -60,13 +53,12 @@ modeler.createDiagram();
 // expose bpmnjs to window for debugging purposes
 window.bpmnjs = modeler;
 
-// if there is a persitent Story, load it
+// if there is a persited Story, load it
 if (localStorage.getItem(storyPersistTag)) {
   loadPersistedDST(modeler);
 }
 
 // HTML-Elements
-
 var modal = document.getElementById('modal'),
     arrow = document.getElementById('arrow'),
     // logos
@@ -83,8 +75,6 @@ var modal = document.getElementById('modal'),
     infoText = document.getElementById('infoText'),
     // inputs
     titleInput = document.getElementById('titleInput'),
-    titleInputLast = '',
-    descriptionInputLast = '',
     activityInputNumber = document.getElementById('inputNumber'),
     activityInputLabelWithNumber = document.getElementById('inputLabel'),
     activityInputLabelWithoutNumber = document.getElementById('labelInputLabel'),
@@ -130,17 +120,13 @@ var modal = document.getElementById('modal'),
     incompleteStoryDialogButtonCancel = document.getElementById('closeIncompleteStoryInfo'),
     noContentOnCanvasDialogCuttonCancel = document.getElementById('closeNoContentOnCanvasInfo');
 
-// interal variables
-var keysPressed = [];
+// ----
+
+wpsInfotext.innerText = 'Domain Story Modeler v' + version + '\nA tool to visualize Domain Stories in the browser.\nProvided by';
+wpsInfotextPart2.innerText = ' and licensed under GPLv3.';
+dstInfotext.innerText = 'Learn more about Domain Storytelling at';
 
 // eventBus listeners
-
-document.addEventListener('keydown', function(e) {
-  if (e.ctrlKey && e.key =='f') {
-    e.stopPropagation();
-  }
-});
-
 eventBus.on('element.dblclick', function(e) {
   if (!isPlaying()) {
     var element = e.element;
@@ -275,14 +261,7 @@ eventBus.on([
   }
 });
 
-// ----
-
-wpsInfotext.innerText = 'Domain Story Modeler v' + version + '\nA tool to visualize Domain Stories in the browser.\nProvided by';
-wpsInfotextPart2.innerText = ' and licensed under GPLv3.';
-dstInfotext.innerText = 'Learn more about Domain Storytelling at';
-
 // HTML-Element event listeners
-
 headline.addEventListener('click', function() {
   showDialog();
 });
@@ -369,7 +348,7 @@ dictionaryButtonOpen.addEventListener('click', function() {
 });
 
 dictionaryButtonSave.addEventListener('click', function(e) {
-  dictionaryClosed();
+  dictionaryClosed(commandStack, activityDictionaryContainer, workobjectDictionaryContainer);
 
   dictionaryDialog.style.display='none';
   modal.style.display='none';
@@ -447,47 +426,6 @@ exportConfigurationButton.addEventListener('click', function() {
 
 // -----
 
-document.getElementById('import').onchange = function() {
-
-  var input = document.getElementById('import').files[0];
-
-  initElementRegistry(elementRegistry);
-
-  importDST(input, version, modeler);
-
-  // to update the title of the svg, we need to tell the command stack, that a value has changed
-  var exportArtifacts = debounce(fnDebounce, 500);
-
-  eventBus.fire('commandStack.changed', exportArtifacts);
-
-  titleInputLast = titleInput.value;
-};
-
-document.getElementById('importIcon').onchange = function() {
-  var input = document.getElementById('importIcon').files[0];
-  var reader = new FileReader();
-  var endIndex = input.name.lastIndexOf('.');
-  var name = input.name.substring(0, endIndex);
-  while (name.includes(' ')) {
-    name = name.replace(' ', '-');
-  }
-
-  reader.onloadend = function(e) {
-    var file = e.target.result;
-    addIMGToIconDictionary(file, name);
-  };
-
-  reader.readAsDataURL(input);
-};
-
-
-document.getElementById('importConfig').onchange = function() {
-  var input = document.getElementById('importConfig').files[0];
-
-  importConfiguration(input);
-};
-
-
 function dictionaryKeyBehaviour(event) {
   const KEY_ENTER = 13;
   const KEY_ESC = 27;
@@ -500,29 +438,6 @@ function dictionaryKeyBehaviour(event) {
   else if (event.keyCode == KEY_ESC) {
     dictionaryDialog.style.display='none';
     modal.style.display='none';
-  }
-}
-
-function dictionaryClosed() {
-  var oldActivityDictionary = getActivityDictionary();
-  var oldWorkobjectDictionary = getWorkObjectDictionary();
-  var activityNewNames = [];
-  var workObjectNewNames = [];
-
-  activityDictionaryContainer.childNodes.forEach(child=>{
-    if (child.value) {
-      activityNewNames[child.id] = child.value;
-    }
-  });
-
-  workobjectDictionaryContainer.childNodes.forEach(child=>{
-    if (child.value) {
-      workObjectNewNames[child.id] = child.value;
-    }
-  });
-
-  if (activityNewNames.length == oldActivityDictionary.length && workObjectNewNames.length==oldWorkobjectDictionary.length) {
-    dictionaryDifferences(activityNewNames, oldActivityDictionary, workObjectNewNames, oldWorkobjectDictionary);
   }
 }
 
@@ -556,45 +471,6 @@ function checkPressedKeys(keyCode, dialog, element) {
       saveActivityInputLabelWithNumber(element);
     }
   }
-}
-
-function dictionaryDifferences(activityNames, oldActivityDictionary, workObjectNames, oldWorkobjectDictionary) {
-  var i=0;
-  for (i=0;i<oldActivityDictionary.length;i++) {
-    if (!activityNames[i]) {
-      activityNames[i]='';
-    }
-    if (!((activityNames[i].includes(oldActivityDictionary[i])) && (oldActivityDictionary[i].includes(activityNames[i])))) {
-      massChangeNames(oldActivityDictionary[i], activityNames[i], ACTIVITY);
-    }
-  }
-  for (i=0;i<oldWorkobjectDictionary.length;i++) {
-    if (!workObjectNames[i]) {
-      workObjectNames[i]='';
-    }
-    if (!((workObjectNames[i].includes(oldWorkobjectDictionary[i])) && (oldWorkobjectDictionary[i].includes(workObjectNames[i])))) {
-      massChangeNames(oldWorkobjectDictionary[i], workObjectNames[i], WORKOBJECT);
-    }
-  }
-  // delete old entires from stashes
-}
-
-function massChangeNames(oldValue, newValue, type) {
-  var allObjects = getAllCanvasObjects();
-  var allRelevantObjects=[];
-
-  allObjects.forEach(element =>{
-    if (element.type.includes(type) && element.businessObject.name == oldValue) {
-      allRelevantObjects.push(element);
-    }
-  });
-
-  var context = {
-    elements: allRelevantObjects,
-    newValue: newValue
-  };
-
-  commandStack.execute('domainStoryObjects.massRename', context);
 }
 
 // dialog functions
@@ -779,8 +655,6 @@ $(function() {
   modeler.on('commandStack.changed', exportArtifacts);
 });
 
-// helper
-
 function fnDebounce() {
   saveSVG(function(err, svg) {
     if (err) {
@@ -788,15 +662,4 @@ function fnDebounce() {
     }
     setEncoded(err ? null : svg);
   });
-}
-
-function debounce(fn, timeout) {
-  var timer;
-
-  return function() {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(fn, timeout);
-  };
 }
