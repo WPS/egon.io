@@ -38,7 +38,7 @@ input{
 
 #headlineAndButtons {
   display: grid;
-  grid-template-columns: auto 356px 3px;;
+  grid-template-columns: auto 360px 3px;
 }
 
 #headline {
@@ -181,7 +181,7 @@ cursor: default;
 }
 
 #iconCustomizationButton {
-  margin-right: -1px;
+  margin-right: 0px;
 }
 
 #closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel, #downloadDialogCancelButton, #brokenDSTDialogButtonCancel, #closeNoContentOnCanvasInfo{
