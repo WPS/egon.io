@@ -1,6 +1,7 @@
 import { customConfigTag, useCustomConfigTag, customConfigNameTag } from '../../features/iconSetCustomization/persitence';
 import { overrideAppendedIcons } from './all_Icons';
 import { getAllIconDictioary } from '../../features/iconSetCustomization/dictionaries';
+import { testMode } from '../testmode';
 
 /**
  * Select the Iconset which you want to use
@@ -8,19 +9,19 @@ import { getAllIconDictioary } from '../../features/iconSetCustomization/diction
 export function getIconset() {
   if (localStorage.getItem(useCustomConfigTag)) {
 
-    var domainName = localStorage.getItem(customConfigNameTag) || 'default';
-    var domainNameInput = document.getElementById('domainNameInput');
-    var currentDomainName = document.getElementById('currentDomainName');
-    domainNameInput.value = domainName;
-    currentDomainName.innerHTML = domainName;
-
+    if (!testMode()) {
+      var domainName = localStorage.getItem(customConfigNameTag) || 'default';
+      var domainNameInput = document.getElementById('domainNameInput');
+      var currentDomainName = document.getElementById('currentDomainName');
+      domainNameInput.value = domainName;
+      currentDomainName.innerHTML = domainName;
+    }
 
     var customConfig = localStorage.getItem(customConfigTag);
     var customConfigJSON = JSON.parse(customConfig);
 
     var actors = customConfigJSON.actors;
     var workObjects = customConfigJSON.workObjects;
-
 
     var dictionary = require('collections/dict');
     var actorDict = new dictionary();
