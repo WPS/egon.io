@@ -1,11 +1,9 @@
 'use strict';
 
-var test = false;
-
-export function activateTestMode() {
-  test = true;
-}
-
-export function isTestMode() {
-  return test;
+export function domExists() {
+  var domExists = true;
+  if (!document.getElementById('line')) {
+    domExists = false;
+  }
+  return domExists;
 }

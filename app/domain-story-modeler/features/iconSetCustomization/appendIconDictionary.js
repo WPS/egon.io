@@ -2,12 +2,12 @@
 
 import { appendedIcons } from '../../language/icon/all_Icons';
 import { createListElement } from './customizationDialog';
-import { isTestMode } from '../../language/testmode';
+import { domExists } from '../../language/testmode';
 
 export function addIMGToIconDictionary(input, name) {
   appendedIcons[name] = input;
 
-  if (!isTestMode()) {
+  if (domExists()) {
     var htmlList = document.getElementById('allIconsList');
     var listElement = createListElement(name);
     htmlList.appendChild(listElement);

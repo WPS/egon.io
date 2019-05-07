@@ -1,7 +1,7 @@
 import { customConfigTag, useCustomConfigTag, customConfigNameTag } from '../../features/iconSetCustomization/persitence';
 import { overrideAppendedIcons } from './all_Icons';
 import { getAllIconDictioary } from '../../features/iconSetCustomization/dictionaries';
-import { isTestMode } from '../testmode';
+import { domExists } from '../testmode';
 
 /**
  * Select the Iconset which you want to use
@@ -9,7 +9,7 @@ import { isTestMode } from '../testmode';
 export function getIconset() {
   if (localStorage.getItem(useCustomConfigTag)) {
 
-    if (!isTestMode()) {
+    if (domExists()) {
       var domainName = localStorage.getItem(customConfigNameTag) || 'default';
       var domainNameInput = document.getElementById('domainNameInput');
       var currentDomainName = document.getElementById('currentDomainName');

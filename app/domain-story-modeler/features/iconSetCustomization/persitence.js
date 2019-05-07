@@ -8,7 +8,7 @@ import { createListElement, createListElementInSeletionList, resetHTMLSelectionL
 import { getActorIconDictionary } from '../../language/icon/actorIconDictionary';
 import { getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
-import { isTestMode } from '../../language/testmode';
+import { domExists } from '../../language/testmode';
 
 export const useCustomConfigTag = 'useCustomConfig';
 export const customConfigTag ='customConfig';
@@ -112,7 +112,7 @@ export function loadConfiguration(customConfig) {
   var appendedDict = getAppendedIconDictionary();
 
 
-  if (!isTestMode()) {
+  if (domExists()) {
     updateHTMLLists(appendedDict, actorDict, workObjectDict);
   }
 

@@ -4,9 +4,13 @@ var exportButtonIMG = document.getElementById('exportButtonIMG');
 
 
 export function makeDirty() {
-  exportButtonIMG.src = '../../../logo/archive_dirty.png';
+  if (exportButtonIMG) {
+    exportButtonIMG.src = '../../../logo/archive_dirty.png';
+  }
 }
 
 export function removeDirtyFlag() {
-  exportButtonIMG.src = '../../../logo/archive.png';
+  if (exportButtonIMG) {
+    exportButtonIMG.src = '../../../logo/archive.png';
+  }
 }

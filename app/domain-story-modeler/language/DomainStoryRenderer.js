@@ -38,7 +38,6 @@ import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from '
 import { correctElementRegitryInit } from '../features/canvasElements/canvasElementRegistry';
 import { makeDirty } from '../features/export/dirtyFlag';
 import { labelPosition } from '../features/labeling/position';
-import { isTestMode } from './testmode';
 
 var RENDERER_IDS = new Ids();
 var numbers = [];
@@ -640,10 +639,8 @@ DomainStoryRenderer.prototype.drawShape = function(p, element) {
 
   var type = element.type;
 
-  if (!isTestMode()) {
-    correctElementRegitryInit();
-    makeDirty();
-  }
+  correctElementRegitryInit();
+  makeDirty();
 
   if (type.includes(ACTOR)) {
     return this.drawActor(p, element);

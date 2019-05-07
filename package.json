@@ -76,6 +76,7 @@
     "jquery": "^3.4.0",
     "min-dash": "^3.4.0",
     "popper.js": "^1.14.6",
+    "sinon": "^7.3.2",
     "sortablejs": "^1.9.0",
     "tiny-svg": "^2.2.1"
   }

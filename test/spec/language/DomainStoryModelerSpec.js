@@ -6,9 +6,11 @@ import { updateCustomElementsPreviousv050, readerFunction } from '../../../app/d
 import { initWorkObjectIconDictionary } from '../../../app/domain-story-modeler/language/icon/workObjectIconDictionary';
 import { initActorIconDictionary } from '../../../app/domain-story-modeler/language/icon/actorIconDictionary';
 import { checkElementReferencesAndRepair } from '../../../app/domain-story-modeler/features/import/ImportRepair';
-import { activateTestMode } from '../../../app/domain-story-modeler/language/testmode';
+import { setElementregistry, getElementRegistry } from '../../../app/domain-story-modeler/features/canvasElements/canvasElementRegistry';
 
-activateTestMode();
+var sinon = require('sinon');
+
+setElementregistry(sinon.mock(getElementRegistry()));
 
 describe('domainStory modeler', function() {
 

@@ -4,7 +4,7 @@ import { initializeAllIcons, getAllIconDictioary, deleteFromSelectedWorkObjectDi
 import { isInActorIconDictionary } from '../../language/icon/actorIconDictionary';
 import { isInWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
-import { isTestMode } from '../../language/testmode';
+import { domExists } from '../../language/testmode';
 
 var htmlList = document.getElementById('allIconsList');
 var selectedActorsList = document.getElementById('selectedActorsList');
@@ -200,7 +200,7 @@ export function createListElement(name, greyBackground) {
 }
 
 export function createListElementInSeletionList(name, src, list) {
-  if (!isTestMode()) {
+  if (domExists()) {
     var listElement = document.createElement('li');
     var nameElement = document.createElement('text');
     var imageElement = document.createElement('img');

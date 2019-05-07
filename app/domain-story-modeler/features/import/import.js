@@ -12,7 +12,7 @@ import { storyPersistTag, saveIconConfiguration, loadConfiguration, importConfig
 import { removeDirtyFlag } from '../export/dirtyFlag';
 import { addIMGToIconDictionary } from '../iconSetCustomization/appendIconDictionary';
 import { debounce } from '../../util/helpers';
-import { isTestMode } from '../../language/testmode';
+import { domExists } from '../../language/testmode';
 
 var modal = document.getElementById('modal'),
     info = document.getElementById('info'),
@@ -164,7 +164,7 @@ export function readerFunction(text, version, modeler) {
     lastElement = elements.pop();
   }
 
-  if (!isTestMode()) {
+  if (domExists()) {
     if (importVersionNumber.version) {
       importVersionNumber = importVersionNumber.version;
     } else {
@@ -199,7 +199,7 @@ export function readerFunction(text, version, modeler) {
   updateIconRegistries(elements);
   modeler.importCustomElements(elements);
 
-  if (!isTestMode()) {
+  if (domExists()) {
     if (configChanged) {
       saveIconConfiguration();
     }

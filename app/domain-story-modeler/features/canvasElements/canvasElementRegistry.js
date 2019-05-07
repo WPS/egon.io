@@ -148,3 +148,11 @@ export function getActivitesFromActors() {
   });
   return activiesFromActors;
 }
+
+export function getElementRegistry() {
+  return elementRegistry;
+}
+
+export function setElementregistry(stub) {
+  elementRegistry = stub;
+}
