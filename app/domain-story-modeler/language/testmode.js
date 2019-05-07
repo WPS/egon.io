@@ -2,10 +2,10 @@
 
 var test = false;
 
-export function isTestMode() {
+export function activateTestMode() {
   test = true;
 }
 
-export function testMode() {
+export function isTestMode() {
   return test;
 }

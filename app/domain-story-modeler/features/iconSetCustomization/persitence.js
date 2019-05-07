@@ -8,6 +8,7 @@ import { createListElement, createListElementInSeletionList, resetHTMLSelectionL
 import { getActorIconDictionary } from '../../language/icon/actorIconDictionary';
 import { getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
+import { isTestMode } from '../../language/testmode';
 
 export const useCustomConfigTag = 'useCustomConfig';
 export const customConfigTag ='customConfig';
@@ -96,7 +97,6 @@ export function loadConfiguration(customConfig) {
   var dictionary = require('collections/dict');
 
   resetSelectionDictionaries();
-  resetHTMLSelectionList();
 
   var actorDict = new dictionary();
   var workObjectDict = new dictionary();
@@ -111,15 +111,30 @@ export function loadConfiguration(customConfig) {
 
   var appendedDict = getAppendedIconDictionary();
 
+
+  if (!isTestMode()) {
+    updateHTMLLists(appendedDict, actorDict, workObjectDict);
+  }
+
+  actorDict.keysArray().forEach(name => {
+    addToSelectedActors(name, getIconSource(name));
+  });
+  workObjectDict.keysArray().forEach(name => {
+    addToSelectedWorkObjects(name, getIconSource(name));
+  });
+}
+
+function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
   var htmlList = document.getElementById('allIconsList');
+  var selectedActorsList = document.getElementById('selectedActorsList');
+  var selectedWorkObjectList = document. getElementById('selectedWorkObjectsList');
+
+  resetHTMLSelectionList();
 
   appendedDict.keysArray().forEach(name => {
     var listElement = createListElement(name);
     htmlList.appendChild(listElement);
   });
-
-  var selectedActorsList = document.getElementById('selectedActorsList');
-  var selectedWorkObjectList = document. getElementById('selectedWorkObjectsList');
 
   for (var i=0; i < htmlList.children.length; i++) {
     var child = htmlList.children[i];
@@ -138,12 +153,6 @@ export function loadConfiguration(customConfig) {
       }
     });
   }
-  actorDict.keysArray().forEach(name => {
-    addToSelectedActors(name, getIconSource(name));
-  });
-  workObjectDict.keysArray().forEach(name => {
-    addToSelectedWorkObjects(name, getIconSource(name));
-  });
 }
 
 export function createConfigFromDictionaries(actorsDict, workObjectsDict) {

@@ -1,7 +1,7 @@
 import DomainStoryIdFactory from '../../../app/domain-story-modeler/modeler/DomainStoryIdFactory';
-import { isTestMode } from '../../../app/domain-story-modeler/language/testmode';
+import { activateTestMode } from '../../../app/domain-story-modeler/language/testmode';
 
-isTestMode();
+activateTestMode();
 
 describe('DomainStoryIdFactory', function() {
 

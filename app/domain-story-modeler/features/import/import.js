@@ -12,6 +12,7 @@ import { storyPersistTag, saveIconConfiguration, loadConfiguration, importConfig
 import { removeDirtyFlag } from '../export/dirtyFlag';
 import { addIMGToIconDictionary } from '../iconSetCustomization/appendIconDictionary';
 import { debounce } from '../../util/helpers';
+import { isTestMode } from '../../language/testmode';
 
 var modal = document.getElementById('modal'),
     info = document.getElementById('info'),
@@ -135,75 +136,83 @@ export function importDST(input, version, modeler) {
     title.innerText = titleText;
 
     reader.onloadend = function(e) {
-      var text = e.target.result;
 
-      var config;
-      var configChanged = false;
-      var elements;
-      var dstAndConfig = JSON.parse(text);
-      if (dstAndConfig.config) {
-        config = dstAndConfig.config;
-        configChanged = configHasChanged(config);
-        elements = JSON.parse(dstAndConfig.dst);
-      } else {
-        elements = JSON.parse(text);
-      }
-
-      var lastElement = elements.pop();
-
-      var importVersionNumber = lastElement;
-      if (lastElement.version) {
-        lastElement = elements.pop();
-      }
-
-      if (importVersionNumber.version) {
-        importVersionNumber = importVersionNumber.version;
-      } else {
-        importVersionNumber = '?';
-      }
-
-      if (version != importVersionNumber) {
-        importedVersionLabel.innerText = 'v' + importVersionNumber;
-        modelerVersionLabel.innerText = 'v' + version;
-        showVersionDialog();
-        elements = updateCustomElementsPreviousv050(elements);
-      }
-
-      var allReferences = checkElementReferencesAndRepair(elements);
-
-      if (!allReferences) {
-        showBrokenDSTDialog();
-      }
-
-      var inputInfoText = lastElement.info ? lastElement.info : '';
-      info.innerText = inputInfoText;
-      info.value = inputInfoText;
-      infoText.innerText = inputInfoText;
-
-      if (config) {
-        loadConfiguration(config);
-      }
-      updateIconRegistries(elements);
-
-      adjustPositions(elements);
-      modeler.importCustomElements(elements);
-      correctElementRegitryInit();
-
-      if (configChanged) {
-        saveIconConfiguration();
-      }
-
-      cleanDictionaries();
-      correctGroupChildren();
-
-      removeDirtyFlag();
+      readerFunction(e.target.result, version, modeler);
     };
 
     reader.readAsText(input);
   }
 }
 
-function configHasChanged(config) {
+export function readerFunction(text, version, modeler) {
+  var config;
+  var configChanged = false;
+  var elements;
+  var dstAndConfig = JSON.parse(text);
+  if (dstAndConfig.config) {
+    config = dstAndConfig.config;
+    configChanged = configHasChanged(config);
+    elements = JSON.parse(dstAndConfig.dst);
+  } else {
+    elements = JSON.parse(text);
+  }
+
+  var lastElement = elements.pop();
+
+  var importVersionNumber = lastElement;
+  if (lastElement.version) {
+    lastElement = elements.pop();
+  }
+
+  if (!isTestMode()) {
+    if (importVersionNumber.version) {
+      importVersionNumber = importVersionNumber.version;
+    } else {
+      importVersionNumber = '?';
+    }
+
+    if (version != importVersionNumber) {
+      importedVersionLabel.innerText = 'v' + importVersionNumber;
+      modelerVersionLabel.innerText = 'v' + version;
+      showVersionDialog();
+      elements = updateCustomElementsPreviousv050(elements);
+    }
+
+    var allReferences = checkElementReferencesAndRepair(elements);
+
+    if (!allReferences) {
+      showBrokenDSTDialog();
+    }
+
+    var inputInfoText = lastElement.info ? lastElement.info : '';
+    info.innerText = inputInfoText;
+    info.value = inputInfoText;
+    infoText.innerText = inputInfoText;
+
+    adjustPositions(elements);
+  }
+
+  if (config) {
+    loadConfiguration(config);
+  }
+
+  updateIconRegistries(elements);
+  modeler.importCustomElements(elements);
+
+  if (!isTestMode()) {
+    if (configChanged) {
+      saveIconConfiguration();
+    }
+    correctElementRegitryInit();
+
+    cleanDictionaries();
+    correctGroupChildren();
+
+    removeDirtyFlag();
+  }
+}
+
+export function configHasChanged(config) {
   var dictionary = require('collections/dict');
   var customConfigJSON = JSON.parse(config);
   var newActorsDict = new dictionary();
@@ -341,7 +350,8 @@ function updateIconRegistries(elements) {
 
   if (!allInActorIconDictionary(actorIcons)) {
     registerActorIcons(actorIcons);
-  } else if (!allInWorkObjectIconDictionary(workObjectIcons)) {
+  }
+  if (!allInWorkObjectIconDictionary(workObjectIcons)) {
     registerWorkObjectIcons(workObjectIcons);
   }
 }

@@ -4,6 +4,7 @@ import { initializeAllIcons, getAllIconDictioary, deleteFromSelectedWorkObjectDi
 import { isInActorIconDictionary } from '../../language/icon/actorIconDictionary';
 import { isInWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
+import { isTestMode } from '../../language/testmode';
 
 var htmlList = document.getElementById('allIconsList');
 var selectedActorsList = document.getElementById('selectedActorsList');
@@ -199,25 +200,27 @@ export function createListElement(name, greyBackground) {
 }
 
 export function createListElementInSeletionList(name, src, list) {
-  var listElement = document.createElement('li');
-  var nameElement = document.createElement('text');
-  var imageElement = document.createElement('img');
+  if (!isTestMode()) {
+    var listElement = document.createElement('li');
+    var nameElement = document.createElement('text');
+    var imageElement = document.createElement('img');
 
-  imageElement.width = iconSize;
-  imageElement.heigth = iconSize;
-  if (src.startsWith('data')) {
-    imageElement.src= src;
-  } else {
-    imageElement.src= ('data:image/svg+xml,' + src);
+    imageElement.width = iconSize;
+    imageElement.heigth = iconSize;
+    if (src.startsWith('data')) {
+      imageElement.src= src;
+    } else {
+      imageElement.src= ('data:image/svg+xml,' + src);
+    }
+
+    nameElement.innerHTML = name;
+    nameElement.style.marginLeft ='5px';
+
+    listElement.appendChild(imageElement);
+    listElement.appendChild(nameElement);
+
+    list.appendChild(listElement);
   }
-
-  nameElement.innerHTML = name;
-  nameElement.style.marginLeft ='5px';
-
-  listElement.appendChild(imageElement);
-  listElement.appendChild(nameElement);
-
-  list.appendChild(listElement);
 }
 
 function removeListEntry(name, list) {
