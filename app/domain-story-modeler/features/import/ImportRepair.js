@@ -3,13 +3,13 @@
 import { ACTIVITY, CONNECTION } from '../../language/elementTypes';
 
 export function checkElementReferencesAndRepair(elements) {
-  var activities = [];
-  var objectIDs = [];
+  let activities = [];
+  let objectIDs = [];
 
-  var complete = true;
+  let complete = true;
 
   elements.forEach(element => {
-    var type = element.type;
+    let type = element.type;
     if (type == ACTIVITY || type == CONNECTION) {
       activities.push(element);
     } else {
@@ -18,11 +18,11 @@ export function checkElementReferencesAndRepair(elements) {
   });
 
   activities.forEach(activity => {
-    var source = activity.source;
-    var target = activity.target;
+    let source = activity.source;
+    let target = activity.target;
     if (!objectIDs.includes(source) || !objectIDs.includes(target)) {
       complete = false;
-      var activityIndex = elements.indexOf(activity);
+      let activityIndex = elements.indexOf(activity);
       elements = elements.splice(activityIndex,1);
     }
   });

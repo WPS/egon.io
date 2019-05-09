@@ -1,6 +1,6 @@
 'use strict';
 
-var test = false;
+let test = false;
 
 export function activateTestMode() {
   test = true;

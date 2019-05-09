@@ -6,9 +6,9 @@ import { isInWorkObjectIconDictionary } from '../../language/icon/workObjectIcon
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { isTestMode } from '../../language/testmode';
 
-var htmlList = document.getElementById('allIconsList');
-var selectedActorsList = document.getElementById('selectedActorsList');
-var selectedWorkObjectList = document. getElementById('selectedWorkObjectsList');
+let htmlList = document.getElementById('allIconsList');
+let selectedActorsList = document.getElementById('selectedActorsList');
+let selectedWorkObjectList = document. getElementById('selectedWorkObjectsList');
 
 const Sortable = require('sortablejs');
 const iconSize = 20;
@@ -45,9 +45,9 @@ const workObjectListOptions = {
 };
 
 function updateBackgroundColors() {
-  var children = htmlList.children;
-  for (var i=0; i<children.length; i++) {
-    var child = children[i];
+  let children = htmlList.children;
+  for (let i=0; i<children.length; i++) {
+    let child = children[i];
     if (i%2 ==0) {
       child.style.backgroundColor = highlightBackgroundColor;
     } else {
@@ -57,13 +57,13 @@ function updateBackgroundColors() {
 }
 
 function dropElement(event) {
-  var target = event.to;
-  var source = event.srcElement;
-  var draggedItem = event.item;
+  let target = event.to;
+  let source = event.srcElement;
+  let draggedItem = event.item;
 
-  var listEntryName = draggedItem.lastChild.innerText;
+  let listEntryName = draggedItem.lastChild.innerText;
   if (target != source) {
-    var addToActors, addToWorkObjects;
+    let addToActors, addToWorkObjects;
     if (target == selectedActorsList) {
       addToActors = true;
       addToWorkObjects = false;
@@ -82,37 +82,37 @@ export function createListOfAllIcons() {
 
   initializeAllIcons();
 
-  var allIconDictionary = getAllIconDictioary();
+  let allIconDictionary = getAllIconDictioary();
 
-  var allIconNames = allIconDictionary.keysArray();
-  var i=0;
+  let allIconNames = allIconDictionary.keysArray();
+  let i=0;
   allIconNames.forEach(name => {
-    var listElement = createListElement(name, (i%2)==0);
+    let listElement = createListElement(name, (i%2)==0);
     htmlList.appendChild(listElement);
     i++;
   });
 
-  var appendIconDictionary = getAppendedIconDictionary();
-  var allAppendIconNames = appendIconDictionary.keysArray();
+  let appendIconDictionary = getAppendedIconDictionary();
+  let allAppendIconNames = appendIconDictionary.keysArray();
   allAppendIconNames.forEach(name => {
-    var listElement = createListElement(name, (i%2)==0);
+    let listElement = createListElement(name, (i%2)==0);
     htmlList.appendChild(listElement);
     i++;
   });
 }
 
 export function createListElement(name, greyBackground) {
-  var iconSRC = getIconSource(name);
+  let iconSRC = getIconSource(name);
 
-  var listElement = document.createElement('li');
-  var radioElement = document.createElement('div');
-  var verticalLineElement = document.createElement('div');
-  var imageElement = document.createElement('img');
-  var nameElement = document.createElement('text');
+  let listElement = document.createElement('li');
+  let radioElement = document.createElement('div');
+  let verticalLineElement = document.createElement('div');
+  let imageElement = document.createElement('img');
+  let nameElement = document.createElement('text');
 
-  var inputRadioNone = document.createElement('input');
-  var inputRadioActor = document.createElement('input');
-  var inputRadioWorkObject = document.createElement('input');
+  let inputRadioNone = document.createElement('input');
+  let inputRadioActor = document.createElement('input');
+  let inputRadioWorkObject = document.createElement('input');
 
   listElement.style.marginLeft = '5px';
   listElement.style.height = '20px';
@@ -175,13 +175,13 @@ export function createListElement(name, greyBackground) {
   radioElement.appendChild(inputRadioWorkObject);
 
   radioElement.addEventListener('click', function() {
-    var children = radioElement.children;
-    var actorButton = children[1];
-    var workObjectButton = children[2];
+    let children = radioElement.children;
+    let actorButton = children[1];
+    let workObjectButton = children[2];
 
-    var currentSelectionName = actorButton.name;
-    var addToActors = false;
-    var addToWorkObjects = false;
+    let currentSelectionName = actorButton.name;
+    let addToActors = false;
+    let addToWorkObjects = false;
     if (actorButton.checked) {
       addToActors = true;
     }
@@ -201,9 +201,9 @@ export function createListElement(name, greyBackground) {
 
 export function createListElementInSeletionList(name, src, list) {
   if (!isTestMode()) {
-    var listElement = document.createElement('li');
-    var nameElement = document.createElement('text');
-    var imageElement = document.createElement('img');
+    let listElement = document.createElement('li');
+    let nameElement = document.createElement('text');
+    let imageElement = document.createElement('img');
 
     imageElement.width = iconSize;
     imageElement.heigth = iconSize;
@@ -224,11 +224,11 @@ export function createListElementInSeletionList(name, src, list) {
 }
 
 function removeListEntry(name, list) {
-  var children = list.children;
-  var wantedChild;
-  for (var i=0; i<children.length; i++) {
-    var child = children[i];
-    var innerText = child.innerText;
+  let children = list.children;
+  let wantedChild;
+  for (let i=0; i<children.length; i++) {
+    let child = children[i];
+    let innerText = child.innerText;
     if (innerText.includes(name)) {
       wantedChild = child;
     }
@@ -251,7 +251,7 @@ function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, a
     }
   }
 
-  var iconSRC = getIconSource(currentSelectionName);
+  let iconSRC = getIconSource(currentSelectionName);
   if (addToActors) {
     addToSelectedActors(currentSelectionName, iconSRC);
     if (updateHTML) {
@@ -265,8 +265,8 @@ function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, a
     }
   }
 
-  var exportConfigurationButton = document.getElementById('exportConfigurationButton');
-  var customIconConfigSaveButton = document.getElementById('customIconConfigSaveButton');
+  let exportConfigurationButton = document.getElementById('exportConfigurationButton');
+  let customIconConfigSaveButton = document.getElementById('customIconConfigSaveButton');
 
   if (selectedCitionariesAreNotEmpty()) {
     exportConfigurationButton.disabled = false;
@@ -283,12 +283,12 @@ function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, a
   }
 
   if (!updateHTML) {
-    var correspondingAllIconElement = document.evaluate('//text[contains(., \''+currentSelectionName +'\')]', document, null, XPathResult.ANY_TYPE, null).iterateNext().parentNode;
-    var radioButtons = correspondingAllIconElement.children[0];
+    let correspondingAllIconElement = document.evaluate('//text[contains(., \''+currentSelectionName +'\')]', document, null, XPathResult.ANY_TYPE, null).iterateNext().parentNode;
+    let radioButtons = correspondingAllIconElement.children[0];
 
-    //    var radioNone = radioButtons.children[0];
-    var radioActor = radioButtons.children[1];
-    var radioWorkObject = radioButtons.children[2];
+    //    let radioNone = radioButtons.children[0];
+    let radioActor = radioButtons.children[1];
+    let radioWorkObject = radioButtons.children[2];
 
     if (addToActors) {
       radioActor.checked = true;
@@ -302,7 +302,7 @@ function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, a
 
 
 export function resetHTMLSelectionList() {
-  var i=0, child;
+  let i=0, child;
   for (i=selectedWorkObjectList.children.length -1; i>=0; i--) {
     child = selectedWorkObjectList.children[i];
     selectedWorkObjectList.removeChild(child);

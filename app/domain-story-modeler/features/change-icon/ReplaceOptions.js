@@ -6,10 +6,10 @@ import { getIconForType } from '../../language/icon/iconDictionary';
 'use strict';
 
 export function actorReplaceOptions(name) {
-  var actorTypes = getActorIconDictionary();
+  const actorTypes = getActorIconDictionary();
 
-  var replaceOption = {};
-  var i=0;
+  let replaceOption = {};
+  let i=0;
 
   actorTypes.keysArray().forEach(actorType => {
     if (!name.includes(actorType)) {
@@ -29,10 +29,10 @@ export function actorReplaceOptions(name) {
 }
 
 export function workObjectReplaceOptions(name) {
-  var workObjectTypes = getWorkObjectIconDictionary();
+  const workObjectTypes = getWorkObjectIconDictionary();
 
-  var replaceOption = {};
-  var i=0;
+  let replaceOption = {};
+  let i=0;
 
   workObjectTypes.keysArray().forEach(workObjectType => {
     if (!name.includes(workObjectType)) {

@@ -3,13 +3,13 @@
 import { all_icons, appendedIcons } from '../../language/icon/all_Icons';
 
 
-var CanvasObjectTypes = require('collections/dict');
-var allIconDictionary= new CanvasObjectTypes();
-var selectedAsActorDictionary = new CanvasObjectTypes();
-var selectedAsWorkObjectDictionary = new CanvasObjectTypes();
+const CanvasObjectTypes = require('collections/dict');
+let allIconDictionary= new CanvasObjectTypes();
+let selectedAsActorDictionary = new CanvasObjectTypes();
+let selectedAsWorkObjectDictionary = new CanvasObjectTypes();
 
 export function getAppendedIconDictionary() {
-  var appendedDict = new CanvasObjectTypes();
+  let appendedDict = new CanvasObjectTypes();
   appendedDict.addEach(appendedIcons);
 
   return appendedDict;
@@ -17,13 +17,13 @@ export function getAppendedIconDictionary() {
 
 export function initializeAllIcons() {
 
-  var allIconsJSON = all_icons;
+  let allIconsJSON = all_icons;
 
   allIconDictionary.addEach(allIconsJSON);
 }
 
 export function getIconSource(name) {
-  var appendedDict = new CanvasObjectTypes();
+  let appendedDict = new CanvasObjectTypes();
   appendedDict.addEach(appendedIcons);
   if (allIconDictionary.has(name))
     return allIconDictionary.get(name);

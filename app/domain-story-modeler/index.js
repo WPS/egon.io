@@ -42,23 +42,23 @@ DomainStoryModeler.prototype._modules = [].concat(
  * @param {Object} customElement
  */
 DomainStoryModeler.prototype._addCustomShape = function(customElement) {
-  var parentId = customElement.parent;
+  let parentId = customElement.parent;
   delete customElement.children;
   delete customElement.parent;
   this._customElements.push(customElement);
 
-  var canvas = this.get('canvas'),
+  let canvas = this.get('canvas'),
       elementFactory = this.get('elementFactory');
 
-  var customAttrs = assign({ businessObject: customElement }, customElement);
-  var customShape = elementFactory.create('shape', customAttrs);
+  let customAttrs = assign({ businessObject: customElement }, customElement);
+  let customShape = elementFactory.create('shape', customAttrs);
 
   if (isGroup(customElement)) {
     this._groupElements[customElement.id] = customShape;
   }
 
   if (parentId) {
-    var parentShape = this._groupElements[parentId];
+    let parentShape = this._groupElements[parentId];
 
     if (isGroup(parentShape)) {
       return canvas.addShape(customShape, parentShape, parentShape.id);
@@ -71,13 +71,13 @@ DomainStoryModeler.prototype._addCustomConnection = function(customElement) {
 
   this._customElements.push(customElement);
 
-  var canvas = this.get('canvas'),
+  let canvas = this.get('canvas'),
       elementFactory = this.get('elementFactory'),
       elementRegistry = this.get('elementRegistry');
 
-  var customAttrs = assign({ businessObject: customElement }, customElement);
+  let customAttrs = assign({ businessObject: customElement }, customElement);
 
-  var connection = elementFactory.create('connection', assign(customAttrs, {
+  let connection = elementFactory.create('connection', assign(customAttrs, {
     source: elementRegistry.get(customElement.source),
     target: elementRegistry.get(customElement.target)
   }),
@@ -109,7 +109,7 @@ DomainStoryModeler.prototype.addCustomElements = function(customElements) {
     throw new Error('argument must be an array');
   }
 
-  var shapes = [],
+  let shapes = [],
       connections = [],
       groups = [];
 

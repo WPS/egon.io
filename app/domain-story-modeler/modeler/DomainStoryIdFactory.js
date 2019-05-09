@@ -1,6 +1,6 @@
 'use strict';
 
-var idList = [];
+let idList = [];
 
 export default function DomainStoryIdFactory() {
 }
@@ -15,9 +15,9 @@ DomainStoryIdFactory.prototype.registerId = function(id) {
 
 function generateId(type) {
 
-  var idNumber =fourDigitsId();
+  let idNumber =fourDigitsId();
 
-  var id = type + '_' + idSuffix(idNumber);
+  let id = type + '_' + idSuffix(idNumber);
 
   while (containsId(id)) {
     idNumber++;
@@ -30,7 +30,7 @@ function generateId(type) {
 }
 
 function idSuffix(idNumber) {
-  var id = '';
+  let id = '';
   if (idNumber > 9999) {
     id = 0;
   }
@@ -50,12 +50,12 @@ function idSuffix(idNumber) {
 }
 
 function fourDigitsId() {
-  var idNumber = Math.floor(Math.random() * 10000);
+  let idNumber = Math.floor(Math.random() * 10000);
   return idNumber;
 }
 
 function containsId(id) {
-  var same = false;
+  let same = false;
   idList.forEach(element => {
     if (id === element) {
       same = true;

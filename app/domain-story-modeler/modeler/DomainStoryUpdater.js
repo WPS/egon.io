@@ -30,7 +30,7 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
   CommandInterceptor.call(this, eventBus);
 
   function updateCustomElement(e) {
-    var context = e.context,
+    let context = e.context,
         shape = context.shape,
         businessObject = shape.businessObject;
 
@@ -38,8 +38,8 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
       return;
     }
 
-    var parent = shape.parent;
-    var customElements = bpmnjs._customElements;
+    let parent = shape.parent;
+    let customElements = bpmnjs._customElements;
 
     // make sure element is added / removed from bpmnjs.customElements
     if (!parent) {
@@ -86,7 +86,7 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
 
   function updateCustomConnection(e) {
 
-    var context = e.context,
+    let context = e.context,
         connection = context.connection,
         source = connection.source,
         target = connection.target,
@@ -99,8 +99,8 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
       source = e.newSource;
     }
 
-    var parent = connection.parent;
-    var customElements = bpmnjs._customElements;
+    let parent = connection.parent;
+    let customElements = bpmnjs._customElements;
 
     // make sure element is added / removed from bpmnjs.customElements
     if (!parent) {

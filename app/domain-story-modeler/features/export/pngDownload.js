@@ -3,20 +3,20 @@
 import { createTitleAndDescriptionSVGElement } from './createTitleAndInfo';
 import sanitizeForDesktop from '../../util/Sanitizer';
 
-var width, height;
-var title = document.getElementById('title'),
+let width, height;
+let title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
 
 export function downloadPNG() {
-  var canvas = document.getElementById('canvas');
-  var container = canvas.getElementsByClassName('djs-container');
-  var svgElements = container[0].getElementsByTagName('svg');
-  var outerSVGElement = svgElements[0];
-  var viewport = outerSVGElement.getElementsByClassName('viewport')[0];
-  var layerBase = viewport.getElementsByClassName('layer-base')[0];
+  let canvas = document.getElementById('canvas');
+  let container = canvas.getElementsByClassName('djs-container');
+  let svgElements = container[0].getElementsByTagName('svg');
+  let outerSVGElement = svgElements[0];
+  let viewport = outerSVGElement.getElementsByClassName('viewport')[0];
+  let layerBase = viewport.getElementsByClassName('layer-base')[0];
 
-  var layerResizers = viewport.getElementsByClassName('layer-resizers');
-  var layerOverlays = viewport.getElementsByClassName('layer-overlays');
+  let layerResizers = viewport.getElementsByClassName('layer-resizers');
+  let layerOverlays = viewport.getElementsByClassName('layer-overlays');
 
   // removes unwanted black dots in image
   if (layerResizers[0]) {
@@ -27,12 +27,12 @@ export function downloadPNG() {
   }
 
   // remove canvas scrolling and scaling before serializeToString of SVG
-  var transform = viewport.getAttribute('transform');
+  let transform = viewport.getAttribute('transform');
   if (transform) {
     viewport.removeAttribute('transform');
   }
 
-  var svg = new XMLSerializer().serializeToString(outerSVGElement);
+  let svg = new XMLSerializer().serializeToString(outerSVGElement);
 
   // re-add canvas scrolling and scaling
   if (transform) {
@@ -41,18 +41,18 @@ export function downloadPNG() {
 
   svg = prepareSVG(svg, layerBase);
 
-  var image = document.createElement('img');
+  let image = document.createElement('img');
   image.onload = function() {
-    var tempCanvas = document.createElement('canvas');
+    let tempCanvas = document.createElement('canvas');
     // add a 10px buffer to the right and lower boundary
     tempCanvas.width = width + 10;
     tempCanvas.height = height + 10;
 
-    var ctx = tempCanvas.getContext('2d');
+    let ctx = tempCanvas.getContext('2d');
     ctx.drawImage(image, 0, 0);
 
-    var png64 = tempCanvas.toDataURL('image/png');
-    var ele = document.createElement('a');
+    let png64 = tempCanvas.toDataURL('image/png');
+    let ele = document.createElement('a');
     ele.setAttribute('download', sanitizeForDesktop(title.innerText) + '_' + new Date().toISOString().slice(0, 10) +'.png');
     ele.setAttribute('href', png64);
     document.body.appendChild(ele);
@@ -71,24 +71,24 @@ function prepareSVG(svg, layertBase) {
   calculateWidthAndHeight(xLeft, xRight, yUp, yDown);
 
   // to display the title and description in the PNG-file, we need to add a container for our text-elements
-  var descriptionText = infoText.innerHTML;
-  var titleText = title.innerHTML;
+  let descriptionText = infoText.innerHTML;
+  let titleText = title.innerHTML;
 
-  var { insertText , extraHeight } = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp + 15, width);
+  let { insertText , extraHeight } = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp + 15, width);
   height += extraHeight;
 
-  var viewBoxIndex = svg.indexOf ('width="');
-  var bounds = 'width="' + width + '" height="' + (height) +
+  let viewBoxIndex = svg.indexOf ('width="');
+  let bounds = 'width="' + width + '" height="' + (height) +
     '" viewBox=" ' + xLeft + ' ' + (yUp - extraHeight) + ' ' + (width)+ ' ' + (height) + '" ';
 
-  var dataStart = svg.substring(0, viewBoxIndex);
+  let dataStart = svg.substring(0, viewBoxIndex);
   viewBoxIndex = svg.indexOf('style="');
-  var dataEnd = svg.substring(viewBoxIndex);
+  let dataEnd = svg.substring(viewBoxIndex);
   dataEnd.substring(viewBoxIndex);
 
   svg = dataStart + bounds + dataEnd;
 
-  var insertIndex = svg.indexOf('<g class="viewport">') + 20;
+  let insertIndex = svg.indexOf('<g class="viewport">') + 20;
 
   svg = [svg.slice(0,insertIndex), insertText, svg.slice(insertIndex)].join('');
   svg = URIHashtagFix(svg);
@@ -98,10 +98,10 @@ function prepareSVG(svg, layertBase) {
 
 // fixes # symbols in data URIs not being escaped
 function URIHashtagFix(svg) {
-  var fix = false;
+  let fix = false;
 
   navigator.browserSpecs = (function() {
-    var ua = navigator.userAgent, tem,
+    let ua = navigator.userAgent, tem,
         M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
     if (/trident/i.test(M[1])) {
       tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
@@ -117,10 +117,10 @@ function URIHashtagFix(svg) {
     return { name:M[0], version:M[1] };
   })();
 
-  var browser = navigator.browserSpecs;
+  let browser = navigator.browserSpecs;
 
-  var name = browser.name;
-  var version = browser.version;
+  let name = browser.name;
+  let version = browser.version;
 
   // only implemented in chrome and firefox at the moment
   if (name.includes('Chrome')) {
@@ -180,23 +180,23 @@ export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
 }
 
 function findMostOuterElements(svg) {
-  var xLeft = 0;
-  var xRight = 0;
-  var yUp =0;
-  var yDown = 0;
+  let xLeft = 0;
+  let xRight = 0;
+  let yUp =0;
+  let yDown = 0;
 
-  var elements = svg.getElementsByClassName('djs-group');
+  let elements = svg.getElementsByClassName('djs-group');
 
-  for (var i=0; i<elements.length; i++) {
+  for (let i=0; i<elements.length; i++) {
 
-    var element = elements[i];
-    var sub= element.children;
+    let element = elements[i];
+    let sub= element.children;
 
-    var elXLeft, elXRight, elYUp, elYDown;
+    let elXLeft, elXRight, elYUp, elYDown;
 
-    var transform = sub[0].getAttribute('transform');
+    let transform = sub[0].getAttribute('transform');
     if (transform) {
-      var nums;
+      let nums;
 
       if (transform.includes('matrix')) {
         transform.replace('matrix(', '');
@@ -212,8 +212,8 @@ function findMostOuterElements(svg) {
         elYUp = parseInt(nums[1]);
       }
 
-      var rects = sub[0].getElementsByTagName('rect');
-      var outerRect = rects[rects.length-1];
+      let rects = sub[0].getElementsByTagName('rect');
+      let outerRect = rects[rects.length-1];
 
       elXRight = elXLeft + parseInt(outerRect.getAttribute('width'));
       elYDown = elYUp + (parseInt(sub[0].getBoundingClientRect().height));

@@ -5,8 +5,8 @@ import { WORKOBJECT } from '../elementTypes';
 
 'use strict';
 
-var WorkObjectTypes = require('collections/dict');
-var workObjectIconDictionary = new WorkObjectTypes();
+const WorkObjectTypes = require('collections/dict');
+let workObjectIconDictionary = new WorkObjectTypes();
 
 export function getWorkObjectIconDictionary() {
   return workObjectIconDictionary;
@@ -17,7 +17,7 @@ export function getWorkObjectIconDictionaryKeys() {
 }
 
 export function allInWorkObjectIconDictionary(workObjects) {
-  var allIn = true;
+  let allIn = true;
   workObjects.forEach(workObject => {
     if (!workObjectIconDictionary.has(workObject.type)) {
       allIn = false;
@@ -27,7 +27,7 @@ export function allInWorkObjectIconDictionary(workObjects) {
 }
 
 export function registerWorkObjectIcons(workObjects) {
-  var allTypes=new WorkObjectTypes();
+  let allTypes=new WorkObjectTypes();
   allTypes.addEach(all_icons);
   allTypes.addEach(appendedIcons);
 
@@ -57,17 +57,17 @@ export function isInWorkObjectIconDictionary(name) {
 }
 
 export function initWorkObjectIconDictionary(workObjetcs) {
-  var allTypes = new WorkObjectTypes();
+  let allTypes = new WorkObjectTypes();
   allTypes.addEach(all_icons);
   allTypes.addEach(appendedIcons);
 
-  for (var i=0; i < workObjetcs.length; i++) {
+  for (let i=0; i < workObjetcs.length; i++) {
     const key = WORKOBJECT + workObjetcs[i];
     workObjectIconDictionary.add(allTypes.get(workObjetcs[i]), key);
   }
 
   workObjectIconDictionary.keysArray().forEach(type => {
-    var name = getNameFromType(type);
+    let name = getNameFromType(type);
     registerIcon(type, 'icon-domain-story-' + name.toLowerCase());
   });
 }

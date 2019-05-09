@@ -12,10 +12,10 @@ import { is } from 'bpmn-js/lib/util/ModelUtil';
 import { translate } from 'diagram-js/lib/util/SvgTransformUtil';
 import { ACTIVITY, ACTOR, WORKOBJECT, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
 
-var MARKER_HIDDEN = 'djs-element-hidden',
-    MARKER_LABEL_HIDDEN = 'djs-label-hidden';
+const MARKER_HIDDEN = 'djs-element-hidden',
+      MARKER_LABEL_HIDDEN = 'djs-label-hidden';
 
-var annotationBoxHeight = 0;
+let annotationBoxHeight = 0;
 
 export function getAnnotationBoxHeight() {
   return annotationBoxHeight;
@@ -24,13 +24,13 @@ export function getAnnotationBoxHeight() {
 export default function DSLabelEditingPreview(
     eventBus, canvas, pathMap) {
 
-  var self = this;
+  let self = this;
 
-  var defaultLayer = canvas.getDefaultLayer();
-  var element, absoluteElementBBox, gfx;
+  let defaultLayer = canvas.getDefaultLayer();
+  let element, absoluteElementBBox, gfx;
 
   eventBus.on('directEditing.activate', function(context) {
-    var activeProvider = context.active;
+    let activeProvider = context.active;
 
     element = activeProvider.element.label || activeProvider.element;
 
@@ -42,7 +42,7 @@ export default function DSLabelEditingPreview(
 
       annotationBoxHeight = element.height;
 
-      var textPathData = pathMap.getScaledPath('TEXT_ANNOTATION', {
+      let textPathData = pathMap.getScaledPath('TEXT_ANNOTATION', {
         xScaleFactor: 1,
         yScaleFactor: 1,
         containerWidth: element.width,
@@ -53,7 +53,7 @@ export default function DSLabelEditingPreview(
         }
       });
 
-      var path = self.path = svgCreate('path');
+      let path = self.path = svgCreate('path');
 
       svgAttr(path, {
         d: textPathData,
@@ -84,13 +84,13 @@ export default function DSLabelEditingPreview(
 
     // text annotation
     if (is(element, TEXTANNOTATION)) {
-      var height = context.height,
+      let height = context.height,
           dy = context.dy;
 
-      var newElementHeight = Math.max(element.height / absoluteElementBBox.height * (height + dy), 0);
+      let newElementHeight = Math.max(element.height / absoluteElementBBox.height * (height + dy), 0);
       annotationBoxHeight = newElementHeight;
 
-      var textPathData = pathMap.getScaledPath('TEXT_ANNOTATION', {
+      let textPathData = pathMap.getScaledPath('TEXT_ANNOTATION', {
         xScaleFactor: 1,
         yScaleFactor: 1,
         containerWidth: element.width,
@@ -108,7 +108,7 @@ export default function DSLabelEditingPreview(
   });
 
   eventBus.on(['directEditing.complete', 'directEditing.cancel'], function(context) {
-    var activeProvider = context.active;
+    let activeProvider = context.active;
 
     if (activeProvider) {
       canvas.removeMarker(activeProvider.element.label || activeProvider.element, MARKER_HIDDEN);

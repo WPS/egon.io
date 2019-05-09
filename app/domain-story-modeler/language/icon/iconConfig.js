@@ -10,22 +10,22 @@ export function getIconset() {
   if (localStorage.getItem(useCustomConfigTag)) {
 
     if (!isTestMode()) {
-      var domainName = localStorage.getItem(customConfigNameTag) || 'default';
-      var domainNameInput = document.getElementById('domainNameInput');
-      var currentDomainName = document.getElementById('currentDomainName');
+      let domainName = localStorage.getItem(customConfigNameTag) || 'default';
+      let domainNameInput = document.getElementById('domainNameInput');
+      let currentDomainName = document.getElementById('currentDomainName');
       domainNameInput.value = domainName;
       currentDomainName.innerHTML = domainName;
     }
 
-    var customConfig = localStorage.getItem(customConfigTag);
-    var customConfigJSON = JSON.parse(customConfig);
+    let customConfig = localStorage.getItem(customConfigTag);
+    let customConfigJSON = JSON.parse(customConfig);
 
-    var actors = customConfigJSON.actors;
-    var workObjects = customConfigJSON.workObjects;
+    let actors = customConfigJSON.actors;
+    let workObjects = customConfigJSON.workObjects;
 
-    var dictionary = require('collections/dict');
-    var actorDict = new dictionary();
-    var workObjectDict = new dictionary();
+    let dictionary = require('collections/dict');
+    let actorDict = new dictionary();
+    let workObjectDict = new dictionary();
 
     actorDict.addEach(actors);
     workObjectDict.addEach(workObjects);
@@ -35,7 +35,7 @@ export function getIconset() {
 
     appendSRCFile(actors, actorDict, workObjects, workObjectDict);
 
-    var custom_conf = {
+    let custom_conf = {
       'actors': actors,
       'workObjects': workObjects
     };
@@ -45,8 +45,8 @@ export function getIconset() {
 }
 
 export function appendSRCFile(actors, actorsDict, workObjects, workObjectsDict) {
-  var newAppendedIcons = {};
-  var allIcons = getAllIconDictioary();
+  let newAppendedIcons = {};
+  let allIcons = getAllIconDictioary();
 
   actors.forEach(name => {
     if (!allIcons.has(name)) {
@@ -70,7 +70,7 @@ export function appendSRCFile(actors, actorsDict, workObjects, workObjectsDict) 
   * This is just for reference
   */
 
-var allIcons_conf = {
+const allIcons_conf = {
   'actors': [
     'Person',
     'Group',
@@ -121,7 +121,7 @@ var allIcons_conf = {
 /**
  * Default Iconset
  */
-export var default_conf = {
+export const default_conf = {
   'actors': [
     'Person',
     'Group',

@@ -17,8 +17,8 @@ import DomainStoryIdFactory from './DomainStoryIdFactory';
 export default function DomainStoryElementFactory(bpmnFactory, moddle) {
   BpmnElementFactory.call(this, bpmnFactory, moddle);
 
-  var self = this;
-  var domainStoryIdFactory = new DomainStoryIdFactory();
+  let self = this;
+  let domainStoryIdFactory = new DomainStoryIdFactory();
 
   /**
    * create a diagram-js element with the given type (any of shape, connection, label).
@@ -29,7 +29,7 @@ export default function DomainStoryElementFactory(bpmnFactory, moddle) {
    * @return {djs.model.Base}
    */
   this.create = function(elementType, attrs) {
-    var type = attrs.type;
+    let type = attrs.type;
 
     if (elementType === 'label') {
       return self.baseCreate(elementType, assign({ type: 'label' }, DEFAULT_LABEL_SIZE, attrs));
@@ -57,7 +57,7 @@ export default function DomainStoryElementFactory(bpmnFactory, moddle) {
 
         }
       }
-      var id = attrs.id;
+      let id = attrs.id;
       attrs.businessObject.get = function(key) {
         if (key == 'id') {
           return id;
@@ -109,7 +109,7 @@ DomainStoryElementFactory.$inject = [
  * @return {Dimensions} a {width, height} object representing the size of the element
  */
 DomainStoryElementFactory.prototype._getCustomElementSize = function(type) {
-  var shapes = {
+  let shapes = {
     __default: { width: 75, height: 75 },
     'domainStory:textAnnotation': { width: 100, height: 30 },
     'domainStory:group': { width: 525, height: 275 }

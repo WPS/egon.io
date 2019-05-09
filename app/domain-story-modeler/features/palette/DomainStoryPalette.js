@@ -35,7 +35,7 @@ PaletteProvider.$inject = [
 
 PaletteProvider.prototype.getPaletteEntries = function() {
 
-  var actions = {},
+  let actions = {},
       create = this._create,
       elementFactory = this._elementFactory,
       spaceTool = this._spaceTool,
@@ -44,7 +44,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
   function createAction(type, group, className, title, options) {
 
     function createListener(event) {
-      var shape = elementFactory.createShape(assign({ type: type }, options));
+      let shape = elementFactory.createShape(assign({ type: type }, options));
 
       assign(shape.businessObject, {
         id: shape.id
@@ -57,7 +57,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       create.start(event, shape);
     }
 
-    var shortType = type.replace(/^domainStory:/, '');
+    let shortType = type.replace(/^domainStory:/, '');
 
     return {
       group: group,
@@ -74,18 +74,18 @@ PaletteProvider.prototype.getPaletteEntries = function() {
 };
 
 function appendCSSStyleCheat(customIcons) {
-  var sheet = document.getElementById('iconsCss').sheet;
-  var dictionary = require('collections/dict');
-  var customIconDict = new dictionary();
+  let sheet = document.getElementById('iconsCss').sheet;
+  let dictionary = require('collections/dict');
+  let customIconDict = new dictionary();
 
   customIconDict.addEach(customIcons);
-  var customIconDictKeys = customIconDict.keysArray();
+  let customIconDictKeys = customIconDict.keysArray();
 
-  var css_rules_num = sheet.cssRules.length;
+  let css_rules_num = sheet.cssRules.length;
 
   customIconDictKeys.forEach(name => {
-    var src = customIconDict.get(name);
-    var iconStyle = ('.icon-domain-story-' + name + '::before {'+
+    let src = customIconDict.get(name);
+    let iconStyle = ('.icon-domain-story-' + name + '::before {'+
         'content: url(\'' + src + '\');'+
         ' background-repeat: no-repeat;'+
         ' width: 25px; height: 25px;}');
@@ -95,9 +95,9 @@ function appendCSSStyleCheat(customIcons) {
 }
 
 function initPalette(actions, spaceTool, lassoTool, createAction) {
-  var config = getIconset();
+  let config = getIconset();
 
-  var customIcons = localStorage.getItem(appendedIconsTag);
+  let customIcons = localStorage.getItem(appendedIconsTag);
   if (customIcons) {
     overrideAppendedIcons(JSON.parse(customIcons));
     appendCSSStyleCheat(JSON.parse(customIcons));
@@ -106,13 +106,13 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   initActorIconDictionary(config.actors);
   initWorkObjectIconDictionary(config.workObjects);
 
-  var actorTypes = getActorIconDictionary();
+  let actorTypes = getActorIconDictionary();
 
   actorTypes.keysArray().forEach(actorType => {
-    var name = getNameFromType(actorType);
-    var icon = getIconForType(actorType);
+    let name = getNameFromType(actorType);
+    let icon = getIconForType(actorType);
 
-    var action = [];
+    let action = [];
     action['domainStory-actor'+name] = createAction(actorType, 'actor', icon, name);
     assign(actions, action);
   });
@@ -124,14 +124,14 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     }
   });
 
-  var workObjectTypes = getWorkObjectIconDictionary();
+  let workObjectTypes = getWorkObjectIconDictionary();
 
   workObjectTypes.keysArray().forEach(workObjectType => {
 
-    var name = getNameFromType(workObjectType);
-    var icon = getIconForType(workObjectType);
+    let name = getNameFromType(workObjectType);
+    let icon = getIconForType(workObjectType);
 
-    var action = [];
+    let action = [];
     action['domainStory-actor'+name] = createAction(workObjectType, 'actor', icon, name);
     assign(actions, action);
   });

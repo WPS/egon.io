@@ -1,7 +1,7 @@
 'use strict';
 
 export function debounce(fn, timeout) {
-  var timer;
+  let timer;
 
   return function() {
     if (timer) {

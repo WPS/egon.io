@@ -6,8 +6,8 @@ import { getNameFromType } from '../naming';
 import { registerIcon } from './iconDictionary';
 import { ACTOR } from '../elementTypes';
 
-var ActorTypes = require('collections/dict');
-var actorIconDictionary = new ActorTypes();
+const ActorTypes = require('collections/dict');
+let actorIconDictionary = new ActorTypes();
 
 export function getActorIconDictionary() {
   return actorIconDictionary;
@@ -18,7 +18,7 @@ export function getActorIconDictionaryKeys() {
 }
 
 export function allInActorIconDictionary(actors) {
-  var allIn = true;
+  let allIn = true;
   actors.forEach(actor => {
     if (!actorIconDictionary.has(actor.type)) {
       allIn = false;
@@ -28,7 +28,7 @@ export function allInActorIconDictionary(actors) {
 }
 
 export function registerActorIcons(actors) {
-  var allTypes=new ActorTypes();
+  let allTypes=new ActorTypes();
   allTypes.addEach(all_icons);
   allTypes.addEach(appendedIcons);
 
@@ -57,17 +57,17 @@ export function isInActorIconDictionary(name) {
 }
 
 export function initActorIconDictionary(actors) {
-  var allTypes=new ActorTypes();
+  let allTypes=new ActorTypes();
   allTypes.addEach(all_icons);
   allTypes.addEach(appendedIcons);
 
-  for (var i=0; i < actors.length; i++) {
+  for (let i=0; i < actors.length; i++) {
     const key = ACTOR + actors[i];
     actorIconDictionary.add(allTypes.get(actors[i]), key);
   }
 
   actorIconDictionary.keysArray().forEach(type => {
-    var name = getNameFromType(type);
+    let name = getNameFromType(type);
     registerIcon(type, 'icon-domain-story-' + name.toLowerCase());
   });
 }

@@ -22,21 +22,21 @@ import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCus
 import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
 import { debounce } from './domain-story-modeler/util/helpers';
 
-var modeler = new DomainStoryModeler({
+let modeler = new DomainStoryModeler({
   container: '#canvas',
   keyboard: {
     bindTo: document
   }
 });
 
-var canvas = modeler.get('canvas');
-var eventBus = modeler.get('eventBus');
-var commandStack = modeler.get('commandStack');
-var elementRegistry = modeler.get('elementRegistry');
+let canvas = modeler.get('canvas');
+let eventBus = modeler.get('eventBus');
+let commandStack = modeler.get('commandStack');
+let elementRegistry = modeler.get('elementRegistry');
 
-// interal variables
-var keysPressed = [];
-var titleInputLast = '', descriptionInputLast = '';
+// interal letiables
+let keysPressed = [];
+let titleInputLast = '', descriptionInputLast = '';
 
 // we need to initiate the activity commandStack elements
 DSActivityHandlers(commandStack, eventBus, canvas);
@@ -59,7 +59,7 @@ if (localStorage.getItem(storyPersistTag)) {
 }
 
 // HTML-Elements
-var modal = document.getElementById('modal'),
+let modal = document.getElementById('modal'),
     arrow = document.getElementById('arrow'),
     // logos
     wpsLogo = document.getElementById('imgWPS'),
@@ -129,32 +129,32 @@ dstInfotext.innerText = 'Learn more about Domain Storytelling at';
 // eventBus listeners
 eventBus.on('element.dblclick', function(e) {
   if (!isPlaying()) {
-    var element = e.element;
+    let element = e.element;
     if (element.type == ACTIVITY) {
       activityDoubleClick(element);
     } else {
-      var renderedNumberRegistry = getNumberRegistry();
+      let renderedNumberRegistry = getNumberRegistry();
 
       if (renderedNumberRegistry.length > 1) {
 
-        var allActivities = getActivitesFromActors();
+        let allActivities = getActivitesFromActors();
 
         if (allActivities.length >0) {
 
-          var htmlCanvas = document.getElementById('canvas');
-          var container = htmlCanvas.getElementsByClassName('djs-container');
-          var svgElements = container[0].getElementsByTagName('svg');
-          var outerSVGElement = svgElements[0];
-          var viewport = outerSVGElement.getElementsByClassName('viewport')[0];
-          var transform = viewport.getAttribute('transform');
-          var transformX = 0,
+          let htmlCanvas = document.getElementById('canvas');
+          let container = htmlCanvas.getElementsByClassName('djs-container');
+          let svgElements = container[0].getElementsByTagName('svg');
+          let outerSVGElement = svgElements[0];
+          let viewport = outerSVGElement.getElementsByClassName('viewport')[0];
+          let transform = viewport.getAttribute('transform');
+          let transformX = 0,
               transformY = 0,
               zoomX = 1,
               zoomY = 1;
-          var nums;
+          let nums;
 
-          var clickX = e.originalEvent.offsetX;
-          var clickY = e.originalEvent.offsetY;
+          let clickX = e.originalEvent.offsetX;
+          let clickY = e.originalEvent.offsetY;
 
           if (transform) {
             transform = transform.replace('matrix(', '');
@@ -166,21 +166,21 @@ eventBus.on('element.dblclick', function(e) {
             transformY = parseInt(nums[5]);
           }
 
-          var width = 25 * zoomX;
-          var height = 22 * zoomY;
+          let width = 25 * zoomX;
+          let height = 22 * zoomY;
 
-          for (var i = 1; i<renderedNumberRegistry.length; i++) {
-            var currentNum = renderedNumberRegistry[i];
-            var tspan = currentNum.getElementsByTagName('tspan')[0];
-            var tx = tspan.getAttribute('x');
-            var ty = tspan.getAttribute('y');
-            var tNumber = parseInt(tspan.innerHTML);
+          for (let i = 1; i<renderedNumberRegistry.length; i++) {
+            let currentNum = renderedNumberRegistry[i];
+            let tspan = currentNum.getElementsByTagName('tspan')[0];
+            let tx = tspan.getAttribute('x');
+            let ty = tspan.getAttribute('y');
+            let tNumber = parseInt(tspan.innerHTML);
 
-            var elementX = (tx * zoomX) + (transformX - 5 * zoomX);
-            var elementY = (ty * zoomY) + (transformY - 15 * zoomY);
+            let elementX = (tx * zoomX) + (transformX - 5 * zoomX);
+            let elementY = (ty * zoomY) + (transformY - 15 * zoomY);
 
-            for (var j=0; j<allActivities.length; j++) {
-              var activity = allActivities[j];
+            for (let j=0; j<allActivities.length; j++) {
+              let activity = allActivities[j];
               if (activity.businessObject.number == tNumber) {
                 if (positionsMatch(width, height, elementX, elementY, clickX, clickY)) {
                   activityDoubleClick(activity);
@@ -205,9 +205,9 @@ function positionsMatch(width, height, elementX, elementY, clickX, clickY) {
 }
 
 function activityDoubleClick(activity) {
-  var source = activity.source;
+  let source = activity.source;
 
-  var dict = getActivityDictionary();
+  let dict = getActivityDictionary();
   autocomplete(activityInputLabelWithNumber, dict, activity);
   autocomplete(activityInputLabelWithoutNumber, dict, activity);
 
@@ -363,10 +363,10 @@ exportButton.addEventListener('click', function() {
 
   if (canvas._rootElement) {
 
-    var objects = createObjectListForDSTDownload(version);
+    let objects = createObjectListForDSTDownload(version);
 
-    var json = JSON.stringify(objects);
-    var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
+    let json = JSON.stringify(objects);
+    let filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
 
     // start file download
     downloadDST(filename, json);
@@ -376,7 +376,7 @@ exportButton.addEventListener('click', function() {
 });
 
 svgSaveButton.addEventListener('click', function() {
-  var filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
+  let filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
   downloadSVG(filename);
   closeImageDownloadDialog();
 });
@@ -510,8 +510,8 @@ function showDialog() {
 }
 
 function saveDialog() {
-  var inputTitle = titleInput.value;
-  var inputText = info.value;
+  let inputTitle = titleInput.value;
+  let inputText = info.value;
   if (inputTitle !== '') {
     title.innerText = inputTitle;
   }
@@ -525,7 +525,7 @@ function saveDialog() {
   descriptionInputLast = inputText;
 
   // to update the title of the svg, we need to tell the command stack, that a value has changed
-  var exportArtifacts = debounce(fnDebounce, 500);
+  let exportArtifacts = debounce(fnDebounce, 500);
 
   eventBus.fire('commandStack.changed', exportArtifacts);
 
@@ -571,9 +571,9 @@ function closeActivityInputLabelWithNumber() {
 }
 
 function saveActivityInputLabelWithNumber(element) {
-  var labelInput = '';
-  var numberInput = '';
-  var activityDictionary = getActivityDictionary();
+  let labelInput = '';
+  let numberInput = '';
+  let activityDictionary = getActivityDictionary();
   if (activityInputLabelWithNumber != '') {
     labelInput = activityInputLabelWithNumber.value;
     if (!activityDictionary.includes(labelInput)) {
@@ -591,9 +591,9 @@ function saveActivityInputLabelWithNumber(element) {
   activityInputNumber.value = '';
   keysPressed = [];
 
-  var activitiesFromActors = getActivitesFromActors();
+  let activitiesFromActors = getActivitesFromActors();
 
-  var index = activitiesFromActors.indexOf(element);
+  let index = activitiesFromActors.indexOf(element);
   activitiesFromActors.splice(index, 1);
 
   commandStack.execute('activity.changed', {
@@ -615,8 +615,8 @@ function closeActivityInputLabelWithoutNumber() {
 }
 
 function saveActivityInputLabelWithoutNumber(element) {
-  var labelInput = '';
-  var activityDictionary = getActivityDictionary();
+  let labelInput = '';
+  let activityDictionary = getActivityDictionary();
   if (activityInputLabelWithoutNumber != '') {
     labelInput = activityInputLabelWithoutNumber.value;
     if (!activityDictionary.includes(labelInput)) {
@@ -650,7 +650,7 @@ function saveSVG(done) {
 }
 
 $(function() {
-  var exportArtifacts = debounce(fnDebounce, 500);
+  let exportArtifacts = debounce(fnDebounce, 500);
 
   modeler.on('commandStack.changed', exportArtifacts);
 });

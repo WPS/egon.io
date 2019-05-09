@@ -1,6 +1,6 @@
 'use strict';
 
-var exportButtonIMG = document.getElementById('exportButtonIMG');
+let exportButtonIMG = document.getElementById('exportButtonIMG');
 
 
 export function makeDirty() {

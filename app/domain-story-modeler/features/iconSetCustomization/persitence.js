@@ -26,16 +26,16 @@ export function setToDefault() {
 }
 
 export function exportConfiguration() {
-  var actors = getSelectedActorsDictionary();
-  var workObjects = getSelectedWorkObjectsDictionary();
+  let actors = getSelectedActorsDictionary();
+  let workObjects = getSelectedWorkObjectsDictionary();
 
   if (actors.size >0 && workObjects.size>0) {
-    var configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
+    let configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
 
-    var domainNameInput = document.getElementById('domainNameInput');
+    let domainNameInput = document.getElementById('domainNameInput');
 
-    var filename = domainNameInput.value || 'domain';
-    var element = document.createElement('a');
+    let filename = domainNameInput.value || 'domain';
+    let element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(configJSONString));
     element.setAttribute('download', filename + '.config');
 
@@ -50,11 +50,11 @@ export function exportConfiguration() {
 
 export function importConfiguration(input) {
 
-  var reader = new FileReader();
+  let reader = new FileReader();
 
   if (input.name.endsWith('.config')) {
-    var domainName = input.name.replace('.config', '');
-    var domainNameInput = document.getElementById('domainNameInput');
+    let domainName = input.name.replace('.config', '');
+    let domainNameInput = document.getElementById('domainNameInput');
     domainNameInput.value = domainName;
   }
 
@@ -67,8 +67,8 @@ export function importConfiguration(input) {
 export function saveIconConfiguration() {
   persistStory();
 
-  var actors = getSelectedActorsDictionary();
-  var workObjects = getSelectedWorkObjectsDictionary();
+  let actors = getSelectedActorsDictionary();
+  let workObjects = getSelectedWorkObjectsDictionary();
 
   if (!actors.size >0) {
     actors = getActorIconDictionary();
@@ -77,29 +77,29 @@ export function saveIconConfiguration() {
     workObjects = getWorkObjectIconDictionary();
   }
 
-  var configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
+  let configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
   localStorage.setItem(useCustomConfigTag, true);
   localStorage.setItem(customConfigTag, configJSONString);
   localStorage.setItem(appendedIconsTag, JSON.stringify(getAppendedIconDictionary()));
 
-  var domainNameInput = document.getElementById('domainNameInput');
+  let domainNameInput = document.getElementById('domainNameInput');
   localStorage.setItem(customConfigNameTag, domainNameInput.value);
 
   location.reload();
 }
 
 export function loadConfiguration(customConfig) {
-  var customConfigJSON = JSON.parse(customConfig);
+  let customConfigJSON = JSON.parse(customConfig);
 
-  var actors = customConfigJSON.actors;
-  var workObjects = customConfigJSON.workObjects;
+  let actors = customConfigJSON.actors;
+  let workObjects = customConfigJSON.workObjects;
 
-  var dictionary = require('collections/dict');
+  let dictionary = require('collections/dict');
 
   resetSelectionDictionaries();
 
-  var actorDict = new dictionary();
-  var workObjectDict = new dictionary();
+  let actorDict = new dictionary();
+  let workObjectDict = new dictionary();
 
   actorDict.addEach(actors);
   workObjectDict.addEach(workObjects);
@@ -109,7 +109,7 @@ export function loadConfiguration(customConfig) {
 
   appendSRCFile(actors, actorDict, workObjects, workObjectDict);
 
-  var appendedDict = getAppendedIconDictionary();
+  let appendedDict = getAppendedIconDictionary();
 
 
   if (!isTestMode()) {
@@ -125,20 +125,20 @@ export function loadConfiguration(customConfig) {
 }
 
 function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
-  var htmlList = document.getElementById('allIconsList');
-  var selectedActorsList = document.getElementById('selectedActorsList');
-  var selectedWorkObjectList = document. getElementById('selectedWorkObjectsList');
+  let htmlList = document.getElementById('allIconsList');
+  let selectedActorsList = document.getElementById('selectedActorsList');
+  let selectedWorkObjectList = document. getElementById('selectedWorkObjectsList');
 
   resetHTMLSelectionList();
 
   appendedDict.keysArray().forEach(name => {
-    var listElement = createListElement(name);
+    let listElement = createListElement(name);
     htmlList.appendChild(listElement);
   });
 
-  for (var i=0; i < htmlList.children.length; i++) {
-    var child = htmlList.children[i];
-    var childText = child.innerText;
+  for (let i=0; i < htmlList.children.length; i++) {
+    let child = htmlList.children[i];
+    let childText = child.innerText;
 
     actorDict.keysArray().forEach(name=> {
       if (childText.startsWith(name)) {
@@ -156,11 +156,11 @@ function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
 }
 
 export function createConfigFromDictionaries(actorsDict, workObjectsDict) {
-  var actors = actorsDict.keysArray();
-  var workObjects = workObjectsDict.keysArray();
+  let actors = actorsDict.keysArray();
+  let workObjects = workObjectsDict.keysArray();
 
-  var actorsJSON = {};
-  var workObjectJSON = {};
+  let actorsJSON = {};
+  let workObjectJSON = {};
 
   actors.forEach (actor => {
     actorsJSON[actor.replace(ACTOR, '')] = actorsDict.get(actor);
@@ -170,7 +170,7 @@ export function createConfigFromDictionaries(actorsDict, workObjectsDict) {
     workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(workObject);
   });
 
-  var config = {
+  let config = {
     'actors': actorsJSON,
     'workObjects': workObjectJSON
   };
@@ -179,16 +179,16 @@ export function createConfigFromDictionaries(actorsDict, workObjectsDict) {
 }
 
 function persistStory() {
-  var title = document.getElementById('title');
-  var objects = createObjectListForDSTDownload(version);
-  var titleText = title.innerText;
+  let title = document.getElementById('title');
+  let objects = createObjectListForDSTDownload(version);
+  let titleText = title.innerText;
 
-  var completeJSON = {
+  let completeJSON = {
     title: titleText,
     objects: objects
   };
 
-  var storyJSON = JSON.stringify(completeJSON);
+  let storyJSON = JSON.stringify(completeJSON);
 
   localStorage.setItem(storyPersistTag, storyJSON);
 }
