@@ -303,7 +303,8 @@ function editMode() {
   let paletteElements = document.getElementsByClassName('djs-palette');
 
   let infoContainer = document.getElementById('infoContainer');
-  infoContainer.style.display = 'inherit';
+  infoContainer.style.display = 'block';
+  infoContainer.style.height = '75px';
 
   let editModeButtons = document.getElementById('editModeButtons');
   editModeButtons.style.display = 'inherit';
