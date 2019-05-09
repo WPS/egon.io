@@ -1,7 +1,4 @@
 import '../../../app/domain-story-modeler/util/MathExtensions';
-import { activateTestMode } from '../../../app/domain-story-modeler/language/testmode';
-
-activateTestMode();
 
 describe ('MathExtensions', function() {
 
