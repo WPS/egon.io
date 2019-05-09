@@ -25,20 +25,20 @@ function getNumberAttr(semantic) {
 }
 
 export function getLabel(element) {
-  var semantic;
+  let semantic;
   if (element.businessObject) {
     semantic = element.businessObject;
   } else {
     semantic = element;
   }
-  var attr = getLabelAttr(semantic);
+  let attr = getLabelAttr(semantic);
   if (attr && semantic) {
     return semantic[attr] || '';
   }
 }
 
 export function getNumber(element) {
-  var semantic = element.businessObject,
+  let semantic = element.businessObject,
       attr = getNumberAttr(semantic);
 
   if (attr) {
@@ -47,13 +47,13 @@ export function getNumber(element) {
 }
 
 export function setLabel(element, text) {
-  var semantic;
+  let semantic;
   if (element.businessObject) {
     semantic = element.businessObject;
   } else {
     semantic = element;
   }
-  var attr = getLabelAttr(semantic);
+  let attr = getLabelAttr(semantic);
 
   if (attr) {
     semantic[attr] = text;
@@ -63,7 +63,7 @@ export function setLabel(element, text) {
 }
 
 export function setNumber(element, textNumber) {
-  var semantic = element.businessObject,
+  let semantic = element.businessObject,
       attr = getNumberAttr(semantic);
 
   if (attr) {
@@ -75,13 +75,13 @@ export function setNumber(element, textNumber) {
 
 // select at which part of the activity the label should be attached to
 export function selectPartOfActivity(waypoints, angleActivity) {
-  var selectedActivity = 0;
-  var i = 0;
-  var linelength = 49;
+  let selectedActivity = 0;
+  let i = 0;
+  let linelength = 49;
 
   for (i = 0; i < waypoints.length; i++) {
     if ((angleActivity[i] == 0) || (angleActivity[i] == 180)) {
-      var length = Math.abs(waypoints[i].x - waypoints[i + 1].x);
+      let length = Math.abs(waypoints[i].x - waypoints[i + 1].x);
       if (length > linelength) {
         selectedActivity = i;
       }
@@ -111,14 +111,14 @@ export function autocomplete(inp, arr, element) {
 
   /* the autocomplete function takes three arguments,
   the text field element and an array of possible autocompleted values and an optional element to which it is appended:*/
-  var currentFocus;
+  let currentFocus;
   /* execute a function when someone writes in the text field:*/
   inp.addEventListener('input', function(e) {
     /* the direct editing field of actors and workobjects is a recycled html-element and has old values that need to be overridden*/
     if (element.type.includes(WORKOBJECT)) {
       this.value = this.innerHTML;
     }
-    var autocompleteList, autocompleteItem, val = this.value;
+    let autocompleteList, autocompleteItem, val = this.value;
     /* close any already open lists of autocompleted values*/
     closeAllLists();
     currentFocus = -1;
@@ -160,17 +160,17 @@ export function autocomplete(inp, arr, element) {
 
   /* execute a function presses a key on the keyboard:*/
   inp.addEventListener('keydown', function(e) {
-    var autocompleteList = document.getElementById('autocomplete-list');
+    let autocompleteList = document.getElementById('autocomplete-list');
     if (autocompleteList) autocompleteList = autocompleteList.getElementsByTagName('div');
     if (e.keyCode == 40) {
       /* If the arrow DOWN key is pressed,
-        increase the currentFocus variable:*/
+        increase the currentFocus letiable:*/
       currentFocus++;
       /* and and make the current item more visible:*/
       addActive(autocompleteList);
     } else if (e.keyCode == 38) { // up
       /* If the arrow UP key is pressed,
-        decrease the currentFocus variable:*/
+        decrease the currentFocus letiable:*/
       currentFocus--;
       /* and and make the current item more visible:*/
       addActive(autocompleteList);
@@ -205,7 +205,7 @@ export function autocomplete(inp, arr, element) {
   function closeAllLists(survivor) {
     /* close all autocomplete lists in the document,
     except the one passed as an argument:*/
-    var autocompleteList = document.getElementsByClassName('autocomplete-items');
+    let autocompleteList = document.getElementsByClassName('autocomplete-items');
     for (const item of autocompleteList) {
       if (survivor != item && survivor != inp) {
         item.parentNode.removeChild(item);

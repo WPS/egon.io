@@ -3,9 +3,8 @@ import TestContainer from 'mocha-test-container-support';
 import DomainStoryModeler from '../../../app/domain-story-modeler';
 import { default_conf } from '../../../app/domain-story-modeler/language/icon/iconConfig';
 import { updateCustomElementsPreviousv050, readerFunction } from '../../../app/domain-story-modeler/features/import/import';
-import { initWorkObjectIconDictionary } from '../../../app/domain-story-modeler/language/icon/workObjectIconDictionary';
-import { initActorIconDictionary } from '../../../app/domain-story-modeler/language/icon/actorIconDictionary';
 import { checkElementReferencesAndRepair } from '../../../app/domain-story-modeler/features/import/ImportRepair';
+import { initTypeDictionaries } from '../../../app/domain-story-modeler/language/icon/dictionaries';
 import { setElementregistry, getElementRegistry } from '../../../app/domain-story-modeler/features/canvasElements/canvasElementRegistry';
 
 var sinon = require('sinon');
@@ -14,18 +13,18 @@ setElementregistry(sinon.mock(getElementRegistry()));
 
 describe('domainStory modeler', function() {
 
-  var jsonString = '[{"type":"domainStory:actorPerson","name":"","id":"shape_3050","x":178,"y":133,"width":30,"height":30},'+
+  const jsonString = '[{"type":"domainStory:actorPerson","name":"","id":"shape_3050","x":178,"y":133,"width":30,"height":30},'+
   '{"type":"domainStory:workObjectDocument","name":"","id":"shape_8681","x":508,"y":133,"width":30,"height":30},'+
   '{"type":"domainStory:activity","name":"","id":"connection_3004","number":1,"waypoints":[{"original":{"x":216,"y":171},"x":259,"y":171},{"original":{"x":546,"y":171},"x":508,"y":171}],"source":"shape_3050","target":"shape_8681"},'+
   '{"info":"test"}]';
 
-  var brokenJsonString = '[{"type":"domainStory:actorPerson","name":"","id":"shape_3050","x":178,"y":133,"width":30,"height":30},'+
+  const brokenJsonString = '[{"type":"domainStory:actorPerson","name":"","id":"shape_3050","x":178,"y":133,"width":30,"height":30},'+
   '{"type":"domainStory:workObjectDocument","name":"","id":"shape_8681","x":508,"y":133,"width":30,"height":30},'+
   '{"type":"domainStory:activity","name":"","id":"connection_0001","number":1,"waypoints":[{"original":{"x":216,"y":171},"x":259,"y":171},{"original":{"x":546,"y":171},"x":508,"y":171}],"source":"shape_0001","target":"shape_0002"},'+
   '{"type":"domainStory:activity","name":"","id":"connection_3004","number":1,"waypoints":[{"original":{"x":216,"y":171},"x":259,"y":171},{"original":{"x":546,"y":171},"x":508,"y":171}],"source":"shape_3050","target":"shape_8681"},'+
   '{"info":"test"}]';
 
-  var oldIntricateV_0_2_0_JsonString = '[{"type":"domainStory:group","name":"ein gruppenname","id":"shape_9638","x":751,"y":330,"height":275,"width":525},'+
+  const oldIntricateV_0_2_0_JsonString = '[{"type":"domainStory:group","name":"ein gruppenname","id":"shape_9638","x":751,"y":330,"height":275,"width":525},'+
   '{"type":"domainStory:actorPerson","name":"ein actor name","id":"shape_6458","x":547,"y":223},'+
   '{"type":"domainStory:workObject","name":"","id":"shape_8970","x":681,"y":223},'+
   '{"type":"domainStory:actorSystem","name":"","id":"shape_8118","x":976,"y":223},'+
@@ -49,7 +48,7 @@ describe('domainStory modeler', function() {
   '{"info":"Eine Beschreibung"}]';
 
 
-  var oldIntricateV_0_3_0_JsonString = '[{"type":"domainStory:group","name":"ein gruppenname","id":"shape_9638","x":751,"y":330,"height":275,"width":525},'+
+  const oldIntricateV_0_3_0_JsonString = '[{"type":"domainStory:group","name":"ein gruppenname","id":"shape_9638","x":751,"y":330,"height":275,"width":525},'+
   '{"type":"domainStory:actorPerson","name":"ein actor name","id":"shape_6458","x":547,"y":223},'+
   '{"type":"domainStory:workObject","name":"","id":"shape_8970","x":681,"y":223},'+
   '{"type":"domainStory:actorSystem","name":"","id":"shape_8118","x":976,"y":223},'+
@@ -72,7 +71,7 @@ describe('domainStory modeler', function() {
   '{"type":"domainStory:connection","name":"","id":"connection_0733","waypoints":[{"original":{"x":1014,"y":261},"x":1046,"y":251},{"original":{"x":1159,"y":216},"x":1111,"y":231}],"source":"shape_8118","target":"shape_3367"},'+
   '{"info":"Eine Beschreibung"}]';
 
-  var intricateV0_5_0_JsonString = '[{"type":"domainStory:actorPerson","name":"movie-goer","id":"shape_9977","x":214,"y":164},'+
+  const intricateV0_5_0_JsonString = '[{"type":"domainStory:actorPerson","name":"movie-goer","id":"shape_9977","x":214,"y":164},'+
   '{"type":"domainStory:workObjectDocument","name":"schedule","id":"shape_3526","x":214,"y":-45},'+
   '{"type":"domainStory:textAnnotation","name":"","id":"shape_1144","x":316,"y":-43,"text":"e.g. on billboard","number":27.874564459930312},'+
   '{"type":"domainStory:actorPerson","name":"cashier","id":"shape_4658","x":672,"y":164},'+
@@ -110,7 +109,7 @@ describe('domainStory modeler', function() {
   '{"info":"Assumption: no line at box office, seats available, cash payment"},'+
   '{"version":"0.5.0"}]';
 
-  var intricateConfig = {
+  const intricateConfig = {
     'actors': {
       'Person': '<svg viewBox="0 0 24 24" xmlns="http: //www.w3.org/2000/svg"><path d="M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
       'Group': '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.5 13c-1.2 0-3.07.34-4.5 1-1.43-.67-3.3-1-4.5-1C5.33 13 1 14.08 1 16.25V19h22v-2.75c0-2.17-4.33-3.25-6.5-3.25zm-4 4.5h-10v-1.25c0-.54 2.56-1.75 5-1.75s5 1.21 5 1.75v1.25zm9 0H14v-1.25c0-.46-.2-.86-.52-1.22.88-.3 1.96-.53 3.02-.53 2.44 0 5 1.21 5 1.75v1.25zM7.5 12c1.93 0 3.5-1.57 3.5-3.5S9.43 5 7.5 5 4 6.57 4 8.5 5.57 12 7.5 12zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 5.5c1.93 0 3.5-1.57 3.5-3.5S18.43 5 16.5 5 13 6.57 13 8.5s1.57 3.5 3.5 3.5zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/></svg>',
@@ -127,7 +126,8 @@ describe('domainStory modeler', function() {
       'Flag': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>'
     }
   };
-  var intricateV0_6_0_JSONString = '['+
+
+  const intricateV0_6_0_JSONString = '['+
   '{"type":"domainStory:workObjectFlag","name":"","id":"shape_2670","x":795,"y":-51},'+
   '{"type":"domainStory:actorPet","name":"","id":"shape_4433","x":474,"y":-51},'+
   '{"type":"domainStory:actorPerson","name":"movie-goer","id":"shape_9977","x":214,"y":164},'+
@@ -168,11 +168,11 @@ describe('domainStory modeler', function() {
   '{"info":"Assumption: no line at box office, seats available, cash payment"},'+
   '{"version":"0.5.0"}]';
 
-  var data = JSON.parse(jsonString);
-  var brokenData = JSON.parse(brokenJsonString);
-  var oldIntricateV_0_2_0_Data = JSON.parse(oldIntricateV_0_2_0_JsonString);
-  var oldIntricateV_0_3_0_Data = JSON.parse(oldIntricateV_0_3_0_JsonString);
-  var oldIntricateV0_5_0_Data = JSON.parse(intricateV0_5_0_JsonString);
+  let data = JSON.parse(jsonString);
+  let brokenData = JSON.parse(brokenJsonString);
+  let oldIntricateV_0_2_0_Data = JSON.parse(oldIntricateV_0_2_0_JsonString);
+  let oldIntricateV_0_3_0_Data = JSON.parse(oldIntricateV_0_3_0_JsonString);
+  let oldIntricateV0_5_0_Data = JSON.parse(intricateV0_5_0_JsonString);
   // remove the info tag at the end before we load the data
   data.pop();
   brokenData.pop();
@@ -181,7 +181,7 @@ describe('domainStory modeler', function() {
   oldIntricateV_0_3_0_Data.pop();
   oldIntricateV0_5_0_Data.pop();
 
-  var container;
+  let container;
 
   beforeEach(function() {
     container = TestContainer.get(this);
@@ -189,8 +189,7 @@ describe('domainStory modeler', function() {
 
   describe('domainStory import export Test simple data', function() {
 
-    initActorIconDictionary(default_conf.actors);
-    initWorkObjectIconDictionary(default_conf.workObjects);
+    initTypeDictionaries(default_conf.actors, default_conf.workObjects);
 
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {
@@ -200,17 +199,17 @@ describe('domainStory modeler', function() {
     }
     if (!String.prototype.endsWith) {
       String.prototype.endsWith = function(searchString, position) {
-        var subjectString = this.toString();
+        const subjectString = this.toString();
         if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
           position = subjectString.length;
         }
         position -= searchString.length;
-        var lastIndex = subjectString.indexOf(searchString, position);
+        const lastIndex = subjectString.indexOf(searchString, position);
         return lastIndex !== -1 && lastIndex === position;
       };
     }
 
-    var modeler;
+    let modeler;
 
     // spin up modeler with custom element, do this only once, using before each takes too long and triggers the timeout
     modeler = new DomainStoryModeler({ container: container });
@@ -224,12 +223,12 @@ describe('domainStory modeler', function() {
     it('should import domainStory element', function() {
 
       // given
-      var elementRegistry = modeler.get('elementRegistry');
-      var domainStoryElements = modeler.getCustomElements();
+      let elementRegistry = modeler.get('elementRegistry');
+      let domainStoryElements = modeler.getCustomElements();
       // when
 
       modeler.importCustomElements(domainStoryElements);
-      var actorPersonImport = elementRegistry.get('shape_3050');
+      const actorPersonImport = elementRegistry.get('shape_3050');
 
       domainStoryElements = modeler.getCustomElements();
 
@@ -242,14 +241,14 @@ describe('domainStory modeler', function() {
     it('should export domainStory element', function() {
 
       // given
-      var domainStoryElements = modeler.getCustomElements();
+      let domainStoryElements = modeler.getCustomElements();
 
       modeler.importCustomElements(domainStoryElements);
 
       // when
-      var newObject= domainStoryElements.slice(0);
+      let newObject= domainStoryElements.slice(0);
       newObject.push({ info: 'test' });
-      var jsonExport=JSON.stringify(newObject);
+      const jsonExport=JSON.stringify(newObject);
 
       // then
       expect(jsonExport).to.eql(jsonString);
@@ -259,20 +258,20 @@ describe('domainStory modeler', function() {
     it('should not import wrong file type',function() {
 
       // given
-      var testData='[{"type":"domainStory:actorPerson","name":"","id":"shape_0001","x":178,"y":133,"width":30,"height":30}]';
-      var elementRegistry = modeler.get('elementRegistry');
-      var input = {
+      const testData='[{"type":"domainStory:actorPerson","name":"","id":"shape_0001","x":178,"y":133,"width":30,"height":30}]';
+      let elementRegistry = modeler.get('elementRegistry');
+      const input = {
         name:'thisIsAName.wrongF.dstiletype',
         testData
       };
-      var reader = new FileReader();
+      const reader = new FileReader();
 
       // when
       if (input.name.endsWith('.dst')) {
         reader.onloadend = function(e) {
-          var text = e.target.result;
+          let text = e.target.result;
 
-          var elements = JSON.parse(text);
+          let elements = JSON.parse(text);
           elements.pop(); // to get rid of the info tag at the end
 
           modeler.importCustomElements(elements);
@@ -282,7 +281,7 @@ describe('domainStory modeler', function() {
       }
 
       // then
-      var extraActor= elementRegistry.get('shape_0001');
+      const extraActor= elementRegistry.get('shape_0001');
       expect(extraActor).to.not.exist;
     });
   });
@@ -290,8 +289,7 @@ describe('domainStory modeler', function() {
 
   describe('domainStory import export Test broken data', function() {
 
-    initActorIconDictionary(default_conf.actors);
-    initWorkObjectIconDictionary(default_conf.workObjects);
+    initTypeDictionaries(default_conf.actors, default_conf.workObjects);
 
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {
@@ -301,12 +299,12 @@ describe('domainStory modeler', function() {
     }
     if (!String.prototype.endsWith) {
       String.prototype.endsWith = function(searchString, position) {
-        var subjectString = this.toString();
+        const subjectString = this.toString();
         if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
           position = subjectString.length;
         }
         position -= searchString.length;
-        var lastIndex = subjectString.indexOf(searchString, position);
+        const lastIndex = subjectString.indexOf(searchString, position);
         return lastIndex !== -1 && lastIndex === position;
       };
     }
@@ -316,14 +314,14 @@ describe('domainStory modeler', function() {
           if (this == null) {
             throw new TypeError('"this" is null or not defined');
           }
-          var o = Object(this);
-          var len = o.length >>> 0;
+          const o = Object(this);
+          const len = o.length >>> 0;
 
           if (len === 0) {
             return false;
           }
-          var n = fromIndex | 0;
-          var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+          const n = fromIndex | 0;
+          let k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
 
           function sameValueZero(x, y) {
             return x === y || (typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y));
@@ -339,7 +337,7 @@ describe('domainStory modeler', function() {
       });
     }
 
-    var modeler;
+    let modeler;
 
     // spin up modeler with custom element, do this only once, using before each takes too long and triggers the timeout
     modeler = new DomainStoryModeler({ container: container });
@@ -353,12 +351,12 @@ describe('domainStory modeler', function() {
     it('should import domainStory element', function() {
 
       // given
-      var elementRegistry = modeler.get('elementRegistry');
-      var domainStoryElements = modeler.getCustomElements();
+      let elementRegistry = modeler.get('elementRegistry');
+      let domainStoryElements = modeler.getCustomElements();
       // when
 
       modeler.importCustomElements(domainStoryElements);
-      var actorPersonImport = elementRegistry.get('connection_3004');
+      const actorPersonImport = elementRegistry.get('connection_3004');
 
       domainStoryElements = modeler.getCustomElements();
 
@@ -371,14 +369,14 @@ describe('domainStory modeler', function() {
     it('should export domainStory element', function() {
 
       // given
-      var domainStoryElements = modeler.getCustomElements();
+      let domainStoryElements = modeler.getCustomElements();
 
       modeler.importCustomElements(domainStoryElements);
 
       // when
-      var newObject= domainStoryElements.slice(0);
+      let newObject= domainStoryElements.slice(0);
       newObject.push({ info: 'test' });
-      var jsonExport=JSON.stringify(newObject);
+      const jsonExport=JSON.stringify(newObject);
 
       // then
       expect(jsonExport).to.eql(jsonString);
@@ -396,17 +394,17 @@ describe('domainStory modeler', function() {
     }
     if (!String.prototype.endsWith) {
       String.prototype.endsWith = function(searchString, position) {
-        var subjectString = this.toString();
+        const subjectString = this.toString();
         if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
           position = subjectString.length;
         }
         position -= searchString.length;
-        var lastIndex = subjectString.indexOf(searchString, position);
+        const lastIndex = subjectString.indexOf(searchString, position);
         return lastIndex !== -1 && lastIndex === position;
       };
     }
 
-    var modeler;
+    let modeler;
 
     // spin up modeler with custom element, do this only once, using before each takes too long and triggers the timeout
     modeler = new DomainStoryModeler({ container: container });
@@ -420,12 +418,12 @@ describe('domainStory modeler', function() {
     it('should import domainStory element', function() {
 
       // given
-      var elementRegistry = modeler.get('elementRegistry');
-      var domainStoryElements = modeler.getCustomElements();
+      let elementRegistry = modeler.get('elementRegistry');
+      let domainStoryElements = modeler.getCustomElements();
       // when
 
       modeler.importCustomElements(domainStoryElements);
-      var actorPersonImport = elementRegistry.get('shape_6458');
+      const actorPersonImport = elementRegistry.get('shape_6458');
 
       domainStoryElements = modeler.getCustomElements();
 
@@ -444,17 +442,17 @@ describe('domainStory modeler', function() {
     }
     if (!String.prototype.endsWith) {
       String.prototype.endsWith = function(searchString, position) {
-        var subjectString = this.toString();
+        const subjectString = this.toString();
         if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
           position = subjectString.length;
         }
         position -= searchString.length;
-        var lastIndex = subjectString.indexOf(searchString, position);
+        const lastIndex = subjectString.indexOf(searchString, position);
         return lastIndex !== -1 && lastIndex === position;
       };
     }
 
-    var modeler;
+    let modeler;
 
     // spin up modeler with custom element, do this only once, using before each takes too long and triggers the timeout
     modeler = new DomainStoryModeler({ container: container });
@@ -468,12 +466,12 @@ describe('domainStory modeler', function() {
     it('should import domainStory element', function() {
 
       // given
-      var elementRegistry = modeler.get('elementRegistry');
-      var domainStoryElements = modeler.getCustomElements();
+      let elementRegistry = modeler.get('elementRegistry');
+      let domainStoryElements = modeler.getCustomElements();
       // when
 
       modeler.importCustomElements(domainStoryElements);
-      var actorPersonImport = elementRegistry.get('shape_8808');
+      const actorPersonImport = elementRegistry.get('shape_8808');
 
       domainStoryElements = modeler.getCustomElements();
 
@@ -492,17 +490,17 @@ describe('domainStory modeler', function() {
     }
     if (!String.prototype.endsWith) {
       String.prototype.endsWith = function(searchString, position) {
-        var subjectString = this.toString();
+        const subjectString = this.toString();
         if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
           position = subjectString.length;
         }
         position -= searchString.length;
-        var lastIndex = subjectString.indexOf(searchString, position);
+        const lastIndex = subjectString.indexOf(searchString, position);
         return lastIndex !== -1 && lastIndex === position;
       };
     }
 
-    var modeler;
+    let modeler;
 
     // spin up modeler with custom element, do this only once, using before each takes too long and triggers the timeout
     modeler = new DomainStoryModeler({ container: container });
@@ -515,12 +513,12 @@ describe('domainStory modeler', function() {
     it('should import domainStory element', function() {
 
       // given
-      var elementRegistry = modeler.get('elementRegistry');
-      var domainStoryElements = modeler.getCustomElements();
+      let elementRegistry = modeler.get('elementRegistry');
+      let domainStoryElements = modeler.getCustomElements();
       // when
 
       modeler.importCustomElements(domainStoryElements);
-      var actorPersonImport = elementRegistry.get('shape_3387');
+      const actorPersonImport = elementRegistry.get('shape_3387');
 
       domainStoryElements = modeler.getCustomElements();
 
@@ -531,24 +529,24 @@ describe('domainStory modeler', function() {
     it('should export domainStory element', function() {
 
       // given
-      var domainStoryElements = modeler.getCustomElements();
+      let domainStoryElements = modeler.getCustomElements();
 
       modeler.importCustomElements(domainStoryElements);
 
       // when
-      var newObject = domainStoryElements.slice(0);
+      let newObject = domainStoryElements.slice(0);
 
       newObject.push({ info: 'Assumption: no line at box office, seats available, cash payment' });
       newObject.push({ version: '0.5.0' });
-      var jsonExport = '' + JSON.stringify(newObject);
+      let jsonExport = '' + JSON.stringify(newObject);
 
       // then
-      var jsonLength = jsonExport.length;
-      var jsonElements = [];
+      const jsonLength = jsonExport.length;
+      let jsonElements = [];
 
-      var index = jsonExport.indexOf('}')+1;
+      let index = jsonExport.indexOf('}')+1;
       while (index > 0) {
-        var substring = jsonExport.slice(1, index);
+        let substring = jsonExport.slice(1, index);
         jsonElements.push(substring);
         jsonExport = jsonExport.slice(index);
         index= jsonExport.indexOf('}')+1;
@@ -572,22 +570,22 @@ describe('domainStory modeler', function() {
     }
     if (!String.prototype.endsWith) {
       String.prototype.endsWith = function(searchString, position) {
-        var subjectString = this.toString();
+        const subjectString = this.toString();
         if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
           position = subjectString.length;
         }
         position -= searchString.length;
-        var lastIndex = subjectString.indexOf(searchString, position);
+        const lastIndex = subjectString.indexOf(searchString, position);
         return lastIndex !== -1 && lastIndex === position;
       };
     }
 
-    var modeler;
+    let modeler;
 
     // spin up modeler with custom element, do this only once, using before each takes too long and triggers the timeout
     modeler = new DomainStoryModeler({ container: container });
 
-    var intricateV0_6_0_JSONStringWithCustomConfig = JSON.stringify({
+    const intricateV0_6_0_JSONStringWithCustomConfig = JSON.stringify({
       'config': JSON.stringify(intricateConfig),
       'dst': intricateV0_6_0_JSONString
     });
@@ -597,12 +595,12 @@ describe('domainStory modeler', function() {
     it('should import domainStory element', function() {
 
       // given
-      var elementRegistry = modeler.get('elementRegistry');
-      var domainStoryElements = modeler.getCustomElements();
+      let elementRegistry = modeler.get('elementRegistry');
+      let domainStoryElements = modeler.getCustomElements();
       // when
 
       modeler.importCustomElements(domainStoryElements);
-      var actorPersonImport = elementRegistry.get('shape_3387');
+      const actorPersonImport = elementRegistry.get('shape_3387');
 
       domainStoryElements = modeler.getCustomElements();
 
@@ -613,24 +611,24 @@ describe('domainStory modeler', function() {
     it('should export domainStory element', function() {
 
       // given
-      var domainStoryElements = modeler.getCustomElements();
+      let domainStoryElements = modeler.getCustomElements();
 
       modeler.importCustomElements(domainStoryElements);
 
       // when
-      var newObject = domainStoryElements.slice(0);
+      let newObject = domainStoryElements.slice(0);
 
       newObject.push({ info: 'Assumption: no line at box office, seats available, cash payment' });
       newObject.push({ version: '0.5.0' });
-      var jsonExport = '' + JSON.stringify(newObject);
+      let jsonExport = '' + JSON.stringify(newObject);
 
       // then
-      var jsonLength = jsonExport.length;
-      var jsonElements = [];
+      const jsonLength = jsonExport.length;
+      let jsonElements = [];
 
-      var index = jsonExport.indexOf('}')+1;
+      let index = jsonExport.indexOf('}')+1;
       while (index > 0) {
-        var substring = jsonExport.slice(1, index);
+        let substring = jsonExport.slice(1, index);
         jsonElements.push(substring);
         jsonExport = jsonExport.slice(index);
         index= jsonExport.indexOf('}')+1;

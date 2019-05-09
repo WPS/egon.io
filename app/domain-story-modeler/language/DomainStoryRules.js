@@ -12,8 +12,8 @@ import { is } from 'bpmn-js/lib/util/ModelUtil';
 import RuleProvider from 'diagram-js/lib/features/rules/RuleProvider';
 import { ACTIVITY, CONNECTION, GROUP } from './elementTypes';
 
-var HIGH_PRIORITY = 1500;
-var MIN_SIZE = 125;
+const HIGH_PRIORITY = 1500;
+const MIN_SIZE = 125;
 
 function isDomainStory(element) {
   return element && /^domainStory:/.test(element.type);
@@ -86,9 +86,9 @@ function canResize(shape, newBounds) {
   if (is(shape, GROUP)) {
     if (newBounds) {
 
-      var lowerLeft = { x: shape.x, y: shape.y + shape.height };
-      var lowerRight = { x: shape.x + shape.width, y: shape.y + shape.height };
-      var upperRight = { x: shape.x + shape.width, y: shape.y };
+      let lowerLeft = { x: shape.x, y: shape.y + shape.height };
+      let lowerRight = { x: shape.x + shape.width, y: shape.y + shape.height };
+      let upperRight = { x: shape.x + shape.width, y: shape.y };
 
       if (newBounds.x != shape.x && newBounds.y != shape.y) {
         // upper left
@@ -210,14 +210,14 @@ DomainStoryRules.prototype.init = function() {
 
   this.addRule('elements.move', HIGH_PRIORITY, function(context) {
 
-    var target = context.target,
+    let target = context.target,
         shapes = context.shapes;
 
-    var type;
+    let type;
 
     // do not allow mixed movements of custom / BPMN shapes
     // if any shape cannot be moved, the group cannot be moved, too
-    var allowed = reduce(shapes, function(result, s) {
+    let allowed = reduce(shapes, function(result, s) {
       if (type === undefined) {
         type = isDomainStory(s);
       }
@@ -235,26 +235,26 @@ DomainStoryRules.prototype.init = function() {
   });
 
   this.addRule('shape.create', HIGH_PRIORITY, function(context) {
-    var target = context.target,
+    let target = context.target,
         shape = context.shape;
 
     return canCreate(shape, target);
   });
 
   this.addRule('connection.create', HIGH_PRIORITY, function(context) {
-    var source = context.source,
+    let source = context.source,
         target = context.target;
 
     return canConnect(source, target);
   });
 
   this.addRule('connection.reconnectStart', HIGH_PRIORITY, function(context) {
-    var connection = context.connection,
+    let connection = context.connection,
         source = context.hover || context.source,
         target = connection.target;
 
     // --------------------------------------------------------------
-    var result = canConnectToAnnotation(source, target, connection);
+    let result = canConnectToAnnotation(source, target, connection);
 
     if (!result) {
       return;
@@ -265,12 +265,12 @@ DomainStoryRules.prototype.init = function() {
   });
 
   this.addRule('connection.reconnectEnd', HIGH_PRIORITY, function(context) {
-    var connection = context.connection,
+    let connection = context.connection,
         source = connection.source,
         target = context.hover || context.target;
 
     // --------------------------------------------------------------
-    var result = canConnectToAnnotation(source, target, connection);
+    let result = canConnectToAnnotation(source, target, connection);
 
     if (!result) {
       return;
@@ -284,7 +284,7 @@ DomainStoryRules.prototype.init = function() {
 
   this.addRule('shape.resize', function(context) {
 
-    var shape = context.shape,
+    let shape = context.shape,
         newBounds = context.newBounds;
 
     return canResize(shape, newBounds);

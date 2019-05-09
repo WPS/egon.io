@@ -7,7 +7,7 @@ export default function DSMassRenameHandler(commandStack, eventBus) {
   function massRename(modeling) {
 
     this.preExecute = function(context) {
-      var relevantElements = context.elements;
+      let relevantElements = context.elements;
 
       context.oldLabel = relevantElements[0].businessObject.name;
 
@@ -17,9 +17,9 @@ export default function DSMassRenameHandler(commandStack, eventBus) {
     };
 
     this.execute = function(context) {
-      var relevantElements = context.elements;
+      let relevantElements = context.elements;
       relevantElements.forEach(element =>{
-        var semantic=element.businessObject;
+        let semantic=element.businessObject;
         semantic.name=context.newValue;
 
         eventBus.fire('element.changed', { element });
@@ -27,9 +27,9 @@ export default function DSMassRenameHandler(commandStack, eventBus) {
     };
 
     this.revert = function(context) {
-      var relevantElements = context.elements;
+      let relevantElements = context.elements;
       relevantElements.forEach(element =>{
-        var semantic=element.businessObject;
+        let semantic=element.businessObject;
         semantic.name=context.oldLabel;
 
         eventBus.fire('element.changed', { element });

@@ -1,39 +1,38 @@
 'use strict';
 
 import sanitizeForDesktop from '../../util/Sanitizer';
-import { ACTIVITY, TEXTANNOTATION } from '../../language/elementTypes';
+import { ACTIVITY, TEXTANNOTATION, ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
 import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary } from '../iconSetCustomization/dictionaries';
 import { createConfigFromDictionaries } from '../iconSetCustomization/persitence';
-import { getActorIconDictionary } from '../../language/icon/actorIconDictionary';
-import { getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
 import { removeDirtyFlag } from './dirtyFlag';
+import { getTypeDictionary } from '../../language/icon/dictionaries';
 
-var infoText = document.getElementById('infoText');
+let infoText = document.getElementById('infoText');
 
 export function downloadDST(filename, text) {
 
-  var actors = getSelectedActorsDictionary();
-  var workObjects = getSelectedWorkObjectsDictionary();
-  var configJSONString = {};
+  let actors = getSelectedActorsDictionary();
+  let workObjects = getSelectedWorkObjectsDictionary();
+  let configJSONString = {};
 
   if (!actors.size>0) {
-    actors = getActorIconDictionary();
+    actors = getTypeDictionary(ACTOR);
   }
   if (!workObjects.size>0) {
-    workObjects = getWorkObjectIconDictionary();
+    workObjects = getTypeDictionary(WORKOBJECT);
   }
 
   configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
 
-  var configAndDST = {
+  let configAndDST = {
     config: configJSONString,
     dst: text
   };
-  var json =JSON.stringify(configAndDST);
+  let json =JSON.stringify(configAndDST);
 
   filename = sanitizeForDesktop(filename);
-  var element = document.createElement('a');
+  let element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(json));
   element.setAttribute('download', filename + '.dst');
 
@@ -48,10 +47,10 @@ export function downloadDST(filename, text) {
 }
 
 export function createObjectListForDSTDownload(version) {
-  var allObjectsFromCanvas = getAllCanvasObjects();
-  var groups = getAllGroups();
+  let allObjectsFromCanvas = getAllCanvasObjects();
+  let groups = getAllGroups();
 
-  var objectList = [];
+  let objectList = [];
 
   allObjectsFromCanvas.forEach(canvasElement =>{
     if (canvasElement.type == ACTIVITY) {
@@ -71,7 +70,7 @@ export function createObjectListForDSTDownload(version) {
     objectList.push(group.businessObject);
   });
 
-  var text = infoText.innerText;
+  let text = infoText.innerText;
 
   objectList.push({ info: text });
   objectList.push({ version: version });

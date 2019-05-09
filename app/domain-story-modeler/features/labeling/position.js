@@ -4,18 +4,18 @@ import { selectPartOfActivity } from './DSLabelUtil';
 
 // determine the position of the label at the activity
 export function labelPosition(waypoints) {
-  var amountWaypoints = waypoints.length;
-  var determinedPosition = {};
-  var xPos = 0;
-  var yPos = 0;
+  let amountWaypoints = waypoints.length;
+  let determinedPosition = {};
+  let xPos = 0;
+  let yPos = 0;
 
   if (amountWaypoints > 2) {
-    var angleActivity = new Array(amountWaypoints - 1);
-    for (var i = 0; i < amountWaypoints - 1; i++) { // calculate the angles of the activities
+    let angleActivity = new Array(amountWaypoints - 1);
+    for (let i = 0; i < amountWaypoints - 1; i++) { // calculate the angles of the activities
       angleActivity[i] = Math.angleBetween(waypoints[i], waypoints[i + 1]);
     }
 
-    var selectedActivity = selectPartOfActivity(waypoints, angleActivity);
+    let selectedActivity = selectPartOfActivity(waypoints, angleActivity);
 
     xPos = labelPositionX(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
     yPos = labelPositionY(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
@@ -44,9 +44,9 @@ export function labelPosition(waypoints) {
 
 // calculate the X position of the label
 export function labelPositionX(startPoint, endPoint) {
-  var angle = Math.angleBetween(startPoint, endPoint);
-  var offsetX = 0;
-  var scaledangle = 0;
+  let angle = Math.angleBetween(startPoint, endPoint);
+  let offsetX = 0;
+  let scaledangle = 0;
   if (angle == 0 || angle == 180 || angle == 90 || angle == 270) {
     offsetX = 0;
   }
@@ -70,9 +70,9 @@ export function labelPositionX(startPoint, endPoint) {
 
 // calculate the Y position of the label
 export function labelPositionY(startPoint, endPoint) {
-  var angle = Math.angleBetween(startPoint, endPoint);
-  var offsetY = 0;
-  var scaledangle = 0;
+  let angle = Math.angleBetween(startPoint, endPoint);
+  let offsetY = 0;
+  let scaledangle = 0;
 
   if (angle == 0 || angle == 180) {
     offsetY = 15;

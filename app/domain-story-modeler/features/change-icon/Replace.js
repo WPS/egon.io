@@ -20,9 +20,9 @@ export default function Replace(modeling) {
  */
 function replaceElement(oldElement, newElementData, modeling) {
 
-  // var modeling = this._modeling;
+  // let modeling = this._modeling;
 
-  var newElement = null;
+  let newElement = null;
 
   if (!oldElement.waypoints) {
     // set center of element for modeling API
@@ -34,8 +34,8 @@ function replaceElement(oldElement, newElementData, modeling) {
 
     newElement = modeling.replaceShape(oldElement, newElementData, {});
   }
-  var outgoingActivities = newElement.outgoing;
-  var incomingActivties = newElement.incoming;
+  let outgoingActivities = newElement.outgoing;
+  let incomingActivties = newElement.incoming;
 
   outgoingActivities.forEach(element => {
     element.businessObject.source = newElement.id;

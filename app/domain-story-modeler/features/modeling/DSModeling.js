@@ -42,7 +42,7 @@ Modeling.prototype.updateNumber = function(element, newNumber, newBounds) {
 };
 
 Modeling.prototype.replaceShape = function(oldShape, newShape, hints) {
-  var context = {
+  let context = {
     oldShape: oldShape,
     newData: newShape,
     hints: hints || {}

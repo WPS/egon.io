@@ -1,17 +1,17 @@
 'use strict';
 
-var extraHeight = 0;
-var titleHeight = 30, descriptionHeight = 15;
-var xOffset = 8;
-var NS='http://www.w3.org/2000/svg';
+let extraHeight = 0;
+const titleHeight = 30, descriptionHeight = 15;
+const xOffset = 8;
+const NS='http://www.w3.org/2000/svg';
 
 export function createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp, width) {
 
   titleText = titleText.replace('&lt;','').replace('&gt;','');
 
-  var insertText = '';
-  var title = createTitle(titleText, width);
-  var description = createDescription(descriptionText, width);
+  let insertText = '';
+  let title = createTitle(titleText, width);
+  let description = createDescription(descriptionText, width);
 
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
   insertText ='<g class="djs-group"><g class="djs-element djs-shape" style = "display:block" transform="translate('+
@@ -21,43 +21,43 @@ export function createTitleAndDescriptionSVGElement(titleText, descriptionText, 
 }
 
 function createTitle(text, width) {
-  var tempCanvas = document.createElement('canvas');
-  var ctx = tempCanvas.getContext('2d');
+  let tempCanvas = document.createElement('canvas');
+  let ctx = tempCanvas.getContext('2d');
   ctx.font = '30px Arial';
 
   return createTextSpans(text, width, ctx, 10, titleHeight, 30);
 }
 
 function createDescription(text, width) {
-  var description ='';
-  var descriptionParts = text.split('<br>');
+  let description ='';
+  let descriptionParts = text.split('<br>');
 
-  var tempCanvas = document.createElement('canvas');
-  var ctx = tempCanvas.getContext('2d');
+  let tempCanvas = document.createElement('canvas');
+  let ctx = tempCanvas.getContext('2d');
   ctx.font= '12px Arial';
 
-  for (var i=0; i < descriptionParts.length;i++) {
+  for (let i=0; i < descriptionParts.length;i++) {
     description+= createTextSpans(descriptionParts[i], width, ctx, 0, descriptionHeight, 12);
   }
   return description;
 }
 
 function createTextSpans(text, width, ctx, yOffest, heightOffset, fontSize) {
-  var textSpans='';
-  var words = text.split(' ');
+  let textSpans='';
+  let words = text.split(' ');
 
-  var textTag = '<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: ' + fontSize + '; font-weight: normal; fill: rgb(0, 0, 0);">';
+  let textTag = '<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: ' + fontSize + '; font-weight: normal; fill: rgb(0, 0, 0);">';
 
-  var textSpan = document.createElementNS(NS, 'tspan');
-  var textNode = document.createTextNode(words[0]);
+  let textSpan = document.createElementNS(NS, 'tspan');
+  let textNode = document.createTextNode(words[0]);
 
   textSpan.setAttribute('x', xOffset);
   textSpan.setAttribute('y', (yOffest + extraHeight));
   textSpan.setAttribute('font-size', fontSize);
   textSpan.appendChild(textNode);
 
-  for (var j =1; j<words.length; j++) {
-    var len = textSpan.firstChild.data.length;
+  for (let j =1; j<words.length; j++) {
+    let len = textSpan.firstChild.data.length;
     textNode.data += ' ' + words[j];
 
     if (ctx.measureText(textNode.data).width > (width - 16)) {

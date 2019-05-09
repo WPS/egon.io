@@ -1,7 +1,5 @@
 'use strict';
 
-import { registerWorkObjectIcons, getWorkObjectIconDictionaryKeys, allInWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
-import { registerActorIcons, getActorIconDictionaryKeys, allInActorIconDictionary } from '../../language/icon/actorIconDictionary';
 import { DOMAINSTORY, ACTIVITY, CONNECTION, WORKOBJECT, ACTOR } from '../../language/elementTypes';
 import { checkElementReferencesAndRepair } from './ImportRepair';
 import { cleanDictionaries } from '../dictionary/dictionary';
@@ -13,8 +11,9 @@ import { removeDirtyFlag } from '../export/dirtyFlag';
 import { addIMGToIconDictionary } from '../iconSetCustomization/appendIconDictionary';
 import { debounce } from '../../util/helpers';
 import { domExists } from '../../language/testmode';
+import { getTypeDictionaryKeys, allInTypeDictionary, registerIcons } from '../../language/icon/dictionaries';
 
-var modal = document.getElementById('modal'),
+let modal = document.getElementById('modal'),
     info = document.getElementById('info'),
     infoText = document.getElementById('infoText'),
     titleInput = document.getElementById('titleInput'),
@@ -45,14 +44,14 @@ function closeBrokenDSTDialog() {
 export function initImports(elementRegistry, version, modeler,eventBus, titleInputLast, fnDebounce) {
   document.getElementById('import').onchange = function() {
 
-    var input = document.getElementById('import').files[0];
+    let input = document.getElementById('import').files[0];
 
     initElementRegistry(elementRegistry);
 
     importDST(input, version, modeler);
 
     // to update the title of the svg, we need to tell the command stack, that a value has changed
-    var exportArtifacts = debounce(fnDebounce, 500);
+    let exportArtifacts = debounce(fnDebounce, 500);
 
     eventBus.fire('commandStack.changed', exportArtifacts);
 
@@ -60,16 +59,16 @@ export function initImports(elementRegistry, version, modeler,eventBus, titleInp
   };
 
   document.getElementById('importIcon').onchange = function() {
-    var input = document.getElementById('importIcon').files[0];
-    var reader = new FileReader();
-    var endIndex = input.name.lastIndexOf('.');
-    var name = input.name.substring(0, endIndex);
+    let input = document.getElementById('importIcon').files[0];
+    let reader = new FileReader();
+    let endIndex = input.name.lastIndexOf('.');
+    let name = input.name.substring(0, endIndex);
     while (name.includes(' ')) {
       name = name.replace(' ', '-');
     }
 
     reader.onloadend = function(e) {
-      var file = e.target.result;
+      let file = e.target.result;
       addIMGToIconDictionary(file, name);
     };
 
@@ -78,27 +77,27 @@ export function initImports(elementRegistry, version, modeler,eventBus, titleInp
 
 
   document.getElementById('importConfig').onchange = function() {
-    var input = document.getElementById('importConfig').files[0];
+    let input = document.getElementById('importConfig').files[0];
 
     importConfiguration(input);
   };
 }
 
 export function loadPersistedDST(modeler) {
-  var persitedStory = localStorage.getItem(storyPersistTag);
+  let persitedStory = localStorage.getItem(storyPersistTag);
   localStorage.removeItem(storyPersistTag);
 
-  var completeJSON = JSON.parse(persitedStory);
+  let completeJSON = JSON.parse(persitedStory);
 
-  var titleText = completeJSON.title;
+  let titleText = completeJSON.title;
 
-  var title = document.getElementById('title');
+  let title = document.getElementById('title');
   title.innerText = titleText;
 
-  var elements = completeJSON.objects;
-  var lastElement = elements.pop();
+  let elements = completeJSON.objects;
+  let lastElement = elements.pop();
 
-  var importVersionNumber = lastElement;
+  let importVersionNumber = lastElement;
   if (lastElement.version) {
     lastElement = elements.pop();
   }
@@ -111,7 +110,7 @@ export function loadPersistedDST(modeler) {
 
   updateIconRegistries(elements);
 
-  var inputInfoText = lastElement.info ? lastElement.info : '';
+  let inputInfoText = lastElement.info ? lastElement.info : '';
   info.innerText = inputInfoText;
   info.value = inputInfoText;
   infoText.innerText = inputInfoText;
@@ -126,9 +125,9 @@ export function loadPersistedDST(modeler) {
 
 export function importDST(input, version, modeler) {
 
-  var reader = new FileReader();
+  let reader = new FileReader();
   if (input.name.endsWith('.dst')) {
-    var titleText = input.name.replace(/_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/, '');
+    let titleText = input.name.replace(/_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/, '');
     if (titleText.includes('.dst')) {
       titleText = titleText.replace('.dst','');
     }
@@ -145,10 +144,10 @@ export function importDST(input, version, modeler) {
 }
 
 export function readerFunction(text, version, modeler) {
-  var config;
-  var configChanged = false;
-  var elements;
-  var dstAndConfig = JSON.parse(text);
+  let config;
+  let configChanged = false;
+  let elements;
+  let dstAndConfig = JSON.parse(text);
   if (dstAndConfig.config) {
     config = dstAndConfig.config;
     configChanged = configHasChanged(config);
@@ -157,9 +156,9 @@ export function readerFunction(text, version, modeler) {
     elements = JSON.parse(text);
   }
 
-  var lastElement = elements.pop();
+  let lastElement = elements.pop();
 
-  var importVersionNumber = lastElement;
+  let importVersionNumber = lastElement;
   if (lastElement.version) {
     lastElement = elements.pop();
   }
@@ -178,13 +177,13 @@ export function readerFunction(text, version, modeler) {
       elements = updateCustomElementsPreviousv050(elements);
     }
 
-    var allReferences = checkElementReferencesAndRepair(elements);
+    let allReferences = checkElementReferencesAndRepair(elements);
 
     if (!allReferences) {
       showBrokenDSTDialog();
     }
 
-    var inputInfoText = lastElement.info ? lastElement.info : '';
+    let inputInfoText = lastElement.info ? lastElement.info : '';
     info.innerText = inputInfoText;
     info.value = inputInfoText;
     infoText.innerText = inputInfoText;
@@ -213,21 +212,21 @@ export function readerFunction(text, version, modeler) {
 }
 
 export function configHasChanged(config) {
-  var dictionary = require('collections/dict');
-  var customConfigJSON = JSON.parse(config);
-  var newActorsDict = new dictionary();
-  var newWorkObjectsDict = new dictionary();
+  let dictionary = require('collections/dict');
+  let customConfigJSON = JSON.parse(config);
+  let newActorsDict = new dictionary();
+  let newWorkObjectsDict = new dictionary();
 
   newActorsDict.addEach(customConfigJSON.actors);
   newWorkObjectsDict.addEach(customConfigJSON.workObjects);
 
-  var newActorKeys = newActorsDict.keysArray();
-  var newWorkObjectKeys = newWorkObjectsDict.keysArray();
-  var currentActorKeys = getActorIconDictionaryKeys();
-  var currentWorkobjectKeys = getWorkObjectIconDictionaryKeys();
+  let newActorKeys = newActorsDict.keysArray();
+  let newWorkObjectKeys = newWorkObjectsDict.keysArray();
+  let currentActorKeys = getTypeDictionaryKeys(ACTOR);
+  let currentWorkobjectKeys = getTypeDictionaryKeys(WORKOBJECT);
 
-  var changed = false;
-  var i=0;
+  let changed = false;
+  let i=0;
 
   for (i=0; i<newActorKeys.length; i++) {
     if (!currentActorKeys.includes(newActorKeys[i]) && !currentActorKeys.includes(ACTOR + newActorKeys[i])) {
@@ -250,11 +249,11 @@ export function configHasChanged(config) {
 // when importing a domain-story, the elements that are visually inside a group are not yet associated with it.
 // to ensure they are correctly associated, we add them to the group
 function correctGroupChildren() {
-  var allObjects = getAllCanvasObjects();
-  var groups = getAllGroups();
+  let allObjects = getAllCanvasObjects();
+  let groups = getAllGroups();
 
   groups.forEach(group => {
-    var parent = group.parent;
+    let parent = group.parent;
     parent.children.slice().forEach(innerShape => {
       if ((innerShape.id) != group.id) {
         if (innerShape.x >= group.x && innerShape.x <= group.x + group.width) {
@@ -269,7 +268,7 @@ function correctGroupChildren() {
     });
   });
   allObjects.forEach(shape => {
-    var businessObject = shape.businessObject;
+    let businessObject = shape.businessObject;
     if (isInDomainStoryGroup(shape)) {
       assign(businessObject, {
         parent: shape.parent.id
@@ -286,7 +285,7 @@ function correctGroupChildren() {
 
 export function updateCustomElementsPreviousv050(elements) {
 
-  for (var i=0; i< elements.length; i++) {
+  for (let i=0; i< elements.length; i++) {
     if (elements[i].type === WORKOBJECT) {
       elements[i].type = WORKOBJECT + 'Document';
     } else if (elements[i].type === WORKOBJECT + 'Bubble') {
@@ -297,11 +296,11 @@ export function updateCustomElementsPreviousv050(elements) {
 }
 
 function adjustPositions(elements) {
-  var xLeft , yUp;
-  var isFirst = true;
+  let xLeft , yUp;
+  let isFirst = true;
 
   elements.forEach(element => {
-    var elXLeft, elYUp;
+    let elXLeft, elYUp;
     if (element.type != ACTIVITY && element.type != CONNECTION) {
       if (isFirst) {
         xLeft = parseFloat(element.x);
@@ -326,7 +325,7 @@ function adjustPositions(elements) {
 
     elements.forEach(element => {
       if (element.type == ACTIVITY || element.type == CONNECTION) {
-        var waypoints = element.waypoints;
+        let waypoints = element.waypoints;
         waypoints.forEach(point => {
           point.x -= xLeft;
           point.y -= yUp;
@@ -345,19 +344,19 @@ function adjustPositions(elements) {
 }
 
 function updateIconRegistries(elements) {
-  var actorIcons = getElementsOfType(elements, 'actor');
-  var workObjectIcons = getElementsOfType(elements, 'workObject');
+  let actorIcons = getElementsOfType(elements, 'actor');
+  let workObjectIcons = getElementsOfType(elements, 'workObject');
 
-  if (!allInActorIconDictionary(actorIcons)) {
-    registerActorIcons(actorIcons);
+  if (!allInTypeDictionary(ACTOR, actorIcons)) {
+    registerIcons(ACTOR, actorIcons);
   }
-  if (!allInWorkObjectIconDictionary(workObjectIcons)) {
-    registerWorkObjectIcons(workObjectIcons);
+  if (!allInTypeDictionary(WORKOBJECT, workObjectIcons)) {
+    registerIcons(WORKOBJECT, workObjectIcons);
   }
 }
 
 function getElementsOfType(elements, type) {
-  var elementOfType =[];
+  let elementOfType =[];
   elements.forEach(element => {
     if (element.type.includes(DOMAINSTORY + type)) {
       elementOfType.push(element);

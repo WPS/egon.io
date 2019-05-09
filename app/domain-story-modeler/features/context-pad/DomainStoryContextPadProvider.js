@@ -11,23 +11,22 @@ import {
 } from 'min-dash';
 import { generateAutomaticNumber } from '../numbering/numbering';
 import { getNameFromType } from '../../language/naming';
-import { getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
-import { getActorIconDictionary } from '../../language/icon/actorIconDictionary';
 import { getIconForType } from '../../language/icon/iconDictionary';
-import { ACTIVITY, ACTOR, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
+import { ACTIVITY, ACTOR, GROUP, TEXTANNOTATION, WORKOBJECT } from '../../language/elementTypes';
+import { getTypeDictionary } from '../../language/icon/dictionaries';
 
 export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
 
   injector.invoke(ContextPadProvider, this);
-  var autoPlace = injector.get('autoPlace', false);
+  let autoPlace = injector.get('autoPlace', false);
 
-  var cached = bind(this.getContextPadEntries, this);
+  let cached = bind(this.getContextPadEntries, this);
 
   popupMenu.registerProvider('ds-replace', replaceMenuProvider);
   popupMenu.registerProvider('bpmn-replace', replaceMenuProvider);
 
   this.getContextPadEntries = function(element) {
-    var actions = cached(element);
+    let actions = cached(element);
 
     function startConnect(event, element, autoActivate) {
       connect.start(event, element, autoActivate);
@@ -96,7 +95,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
         title: translate('Change type'),
         action: {
           click: function(event, element) {
-            var position = assign(getReplaceMenuPosition(element), {
+            let position = assign(getReplaceMenuPosition(element), {
               cursor: { x: event.x, y: event.y }
             });
             popupMenu.open(element, 'ds-replace', position);
@@ -127,22 +126,22 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   }
 
   function addWorkObjects(appendAction, actions) {
-    var workObjectTypes = getWorkObjectIconDictionary();
+    let workObjectTypes = getTypeDictionary(WORKOBJECT);
     workObjectTypes.keysArray().forEach(workObjectType => {
-      var name = getNameFromType(workObjectType);
-      var icon = getIconForType(workObjectType);
-      var action = [];
+      let name = getNameFromType(workObjectType);
+      let icon = getIconForType(workObjectType);
+      let action = [];
       action['append.workObject' + name] = appendAction(workObjectType, icon, name, 'workObjects');
       assign(actions, action);
     });
   }
 
   function addActors(appendAction, actions) {
-    var actorTypes = getActorIconDictionary();
+    let actorTypes = getTypeDictionary(ACTOR);
     actorTypes.keysArray().forEach(actorType => {
-      var name = getNameFromType(actorType);
-      var icon = getIconForType(actorType);
-      var action = [];
+      let name = getNameFromType(actorType);
+      let icon = getIconForType(actorType);
+      let action = [];
       action['append.actor' + name] = appendAction(actorType, icon, name, 'actors');
       assign(actions, action);
     });
@@ -156,7 +155,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
         title: translate('Change type'),
         action: {
           click: function(event, element) {
-            var position = assign(getReplaceMenuPosition(element), {
+            let position = assign(getReplaceMenuPosition(element), {
               cursor: { x: event.x, y: event.y }
             });
             popupMenu.open(element, 'ds-replace', position);
@@ -168,9 +167,9 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
   // change the direction of an activity
   function changeDirection(element) {
-    var context;
-    var businessObject = element.businessObject;
-    var newNumber;
+    let context;
+    let businessObject = element.businessObject;
+    let newNumber;
 
     if (element.source.type.includes(ACTOR)) {
       newNumber = 0;
@@ -188,18 +187,18 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
   function getReplaceMenuPosition(element) {
 
-    var Y_OFFSET = 5;
+    let Y_OFFSET = 5;
 
-    var diagramContainer = canvas.getContainer(),
+    let diagramContainer = canvas.getContainer(),
         pad = contextPad.getPad(element).html;
 
-    var diagramRect = diagramContainer.getBoundingClientRect(),
+    let diagramRect = diagramContainer.getBoundingClientRect(),
         padRect = pad.getBoundingClientRect();
 
-    var top = padRect.top - diagramRect.top;
-    var left = padRect.left - diagramRect.left;
+    let top = padRect.top - diagramRect.top;
+    let left = padRect.left - diagramRect.left;
 
-    var pos = {
+    let pos = {
       x: left,
       y: top + padRect.height + Y_OFFSET
     };
@@ -226,12 +225,12 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
     function appendStart(event, element) {
 
-      var shape = elementFactory.createShape(assign({ type: type }, options));
+      let shape = elementFactory.createShape(assign({ type: type }, options));
       create.start(event, shape, element);
     }
 
     autoPlace ? function(element) {
-      var shape = elementFactory.createShape(assign({ type: type }, options));
+      let shape = elementFactory.createShape(assign({ type: type }, options));
 
       autoPlace.append(element, shape);
     } : appendStart;

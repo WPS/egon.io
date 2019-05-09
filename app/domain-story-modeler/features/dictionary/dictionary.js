@@ -3,8 +3,8 @@ import { ACTIVITY, WORKOBJECT } from '../../language/elementTypes';
 import { getAllCanvasObjects } from '../canvasElements/canvasElementRegistry';
 
 
-var activityDictionary = [];
-var workObjectDictionary = [];
+let activityDictionary = [];
+let workObjectDictionary = [];
 
 // dictionary Getter & Setter
 export function getActivityDictionary() {
@@ -19,7 +19,7 @@ export function cleanDictionaries() {
   cleanActicityDictionary();
   cleanWorkObjecDictionary();
 
-  var dictionaryButton = document.getElementById('dictionaryButton');
+  let dictionaryButton = document.getElementById('dictionaryButton');
 
   if (activityDictionary.length > 0 || workObjectDictionary.length > 0) {
     dictionaryButton.style.opacity = 1;
@@ -43,9 +43,9 @@ export function cleanDictionaries() {
 // rework the activity-dictionary with the changed labels on the canvas
 function cleanActicityDictionary() {
   activityDictionary = [];
-  var allObjects = getAllCanvasObjects();
+  let allObjects = getAllCanvasObjects();
   allObjects.forEach(element => {
-    var name = element.businessObject.name;
+    let name = element.businessObject.name;
     if (name && name.length > 0 && element.type.includes(ACTIVITY) && !activityDictionary.includes(name)) {
       activityDictionary.push(name);
     }
@@ -59,10 +59,10 @@ function cleanActicityDictionary() {
 function cleanWorkObjecDictionary() {
   workObjectDictionary = [];
 
-  var allObjects = getAllCanvasObjects();
+  let allObjects = getAllCanvasObjects();
 
   allObjects.forEach(element => {
-    var name = element.businessObject.name;
+    let name = element.businessObject.name;
     if (name && name.length > 0 && element.type.includes(WORKOBJECT) && !workObjectDictionary.includes(name)) {
       workObjectDictionary.push(name);
     }
@@ -77,10 +77,10 @@ export function openDictionary() {
 
   cleanDictionaries();
 
-  var element, i = 0;
-  var activityDictionary = getActivityDictionary(),
+  let element, i = 0;
+  let activityDictionary = getActivityDictionary(),
       workobjectDictionary = getWorkObjectDictionary();
-  var activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
+  let activityDictionaryContainer = document.getElementById('activityDictionaryContainer'),
       workobjectDictionaryContainer = document.getElementById('workobjectDictionaryContainer'),
       modal = document.getElementById('modal'),
       dictionaryDialog = document.getElementById('dictionaryDialog');
@@ -115,10 +115,10 @@ export function openDictionary() {
 }
 
 export function dictionaryClosed(commandStack, activityDictionaryContainer, workobjectDictionaryContainer) {
-  var oldActivityDictionary = getActivityDictionary();
-  var oldWorkobjectDictionary = getWorkObjectDictionary();
-  var activityNewNames = [];
-  var workObjectNewNames = [];
+  let oldActivityDictionary = getActivityDictionary();
+  let oldWorkobjectDictionary = getWorkObjectDictionary();
+  let activityNewNames = [];
+  let workObjectNewNames = [];
 
   activityDictionaryContainer.childNodes.forEach(child=>{
     if (child.value) {
@@ -138,7 +138,7 @@ export function dictionaryClosed(commandStack, activityDictionaryContainer, work
 }
 
 function dictionaryDifferences(activityNames, oldActivityDictionary, workObjectNames, oldWorkobjectDictionary, commandStack) {
-  var i=0;
+  let i=0;
   for (i=0;i<oldActivityDictionary.length;i++) {
     if (!activityNames[i]) {
       activityNames[i]='';
@@ -159,8 +159,8 @@ function dictionaryDifferences(activityNames, oldActivityDictionary, workObjectN
 }
 
 function massChangeNames(oldValue, newValue, type, commandStack) {
-  var allObjects = getAllCanvasObjects();
-  var allRelevantObjects=[];
+  let allObjects = getAllCanvasObjects();
+  let allRelevantObjects=[];
 
   allObjects.forEach(element =>{
     if (element.type.includes(type) && element.businessObject.name == oldValue) {
@@ -168,7 +168,7 @@ function massChangeNames(oldValue, newValue, type, commandStack) {
     }
   });
 
-  var context = {
+  let context = {
     elements: allRelevantObjects,
     newValue: newValue
   };

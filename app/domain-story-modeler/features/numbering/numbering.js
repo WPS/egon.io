@@ -4,18 +4,18 @@ import { getActivitesFromActors } from '../canvasElements/canvasElementRegistry'
 import { labelPosition } from '../labeling/position';
 
 
-var numberRegistry = [];
+let numberRegistry = [];
 
 // defines the box for activity numbers
 export function numberBoxDefinitions(element) {
-  var alignement = 'center';
-  var boxWidth = 30;
-  var boxHeight = 30;
-  var position = labelPosition(element.waypoints);
-  var xPos = position.x - 50;
-  var yPos = position.y - 19;
+  let alignement = 'center';
+  let boxWidth = 30;
+  let boxHeight = 30;
+  let position = labelPosition(element.waypoints);
+  let xPos = position.x - 50;
+  let yPos = position.y - 19;
 
-  var box = {
+  let box = {
     textAlign: alignement,
     width: boxWidth,
     height: boxHeight,
@@ -28,10 +28,10 @@ export function numberBoxDefinitions(element) {
 
 // determine the next available number that is not yet used
 export function generateAutomaticNumber(elementActivity, canvas, commandStack) {
-  var semantic = elementActivity.businessObject;
-  var activiesFromActors = [];
-  var usedNumbers = [0];
-  var wantedNumber = -1;
+  let semantic = elementActivity.businessObject;
+  let activiesFromActors = [];
+  let usedNumbers = [0];
+  let wantedNumber = -1;
 
   activiesFromActors = getActivitesFromActors();
   activiesFromActors.forEach(element => {
@@ -39,7 +39,7 @@ export function generateAutomaticNumber(elementActivity, canvas, commandStack) {
       usedNumbers.push(element.businessObject.number);
     }
   });
-  for (var i = 0; i < usedNumbers.length; i++) {
+  for (let i = 0; i < usedNumbers.length; i++) {
     if ((!usedNumbers.includes(i))) {
       if (!usedNumbers.includes(String(i))) {
         wantedNumber = i;
@@ -58,7 +58,7 @@ export function generateAutomaticNumber(elementActivity, canvas, commandStack) {
 export function updateExistingNumbersAtGeneration(activiesFromActors, wantedNumber, commandStack) {
   activiesFromActors.forEach(element => {
 
-    var number = +element.businessObject.number;
+    let number = +element.businessObject.number;
 
     if (number >= wantedNumber) {
       wantedNumber++;
@@ -77,16 +77,16 @@ export function updateExistingNumbersAtGeneration(activiesFromActors, wantedNumb
 // update the numbers at the activities when editing an activity
 export function updateExistingNumbersAtEditing(activiesFromActors, wantedNumber, eventBus) {
   // get a sorted list of all activities that could need changing
-  var sortedActivities = [];
+  let sortedActivities = [];
   activiesFromActors.forEach(activity => {
     sortedActivities[activity.businessObject.number] = activity;
   });
 
   // set the number of each activity to the next highest number, starting from the number, we overrode
-  for (var currentNumber = wantedNumber; currentNumber < sortedActivities.length; currentNumber++) {
-    var element = sortedActivities[currentNumber];
+  for (let currentNumber = wantedNumber; currentNumber < sortedActivities.length; currentNumber++) {
+    let element = sortedActivities[currentNumber];
     if (element) {
-      var businessObject = element.businessObject;
+      let businessObject = element.businessObject;
       if (businessObject) {
         wantedNumber++;
         businessObject.number = wantedNumber;
@@ -98,13 +98,13 @@ export function updateExistingNumbersAtEditing(activiesFromActors, wantedNumber,
 
 // get the IDs of activities with their associated number, only returns activities that are originating from an actor
 export function getNumbersAndIDs(canvas) {
-  var iDWithNumber = [];
-  var canvasObjects = canvas._rootElement.children;
-  var activities = getActivitesFromActors(canvasObjects);
+  let iDWithNumber = [];
+  let canvasObjects = canvas._rootElement.children;
+  let activities = getActivitesFromActors(canvasObjects);
 
-  for (var i = activities.length - 1; i >= 0; i--) {
-    var id = activities[i].businessObject.id;
-    var number = activities[i].businessObject.number;
+  for (let i = activities.length - 1; i >= 0; i--) {
+    let id = activities[i].businessObject.id;
+    let number = activities[i].businessObject.number;
     iDWithNumber.push({ id: id, number: number });
   }
   return iDWithNumber;
