@@ -181,7 +181,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       let box = numberBoxDefinitions(element);
 
       if (semantic.number == null && element.source.type && element.source.type.includes(ACTOR)) {
-        generateAutomaticNumber(element, canvas, commandStack);
+        generateAutomaticNumber(element, commandStack);
       }
 
       // render the bacground for the number

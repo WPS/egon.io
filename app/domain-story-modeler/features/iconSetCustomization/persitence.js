@@ -28,8 +28,10 @@ export function exportConfiguration() {
   let actors = getSelectedActorsDictionary();
   let workObjects = getSelectedWorkObjectsDictionary();
 
+  let configJSONString;
+
   if (actors.size >0 && workObjects.size>0) {
-    let configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
+    configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
 
     let domainNameInput = document.getElementById('domainNameInput');
 
@@ -45,6 +47,8 @@ export function exportConfiguration() {
 
     document.body.removeChild(element);
   }
+
+  return configJSONString;
 }
 
 export function importConfiguration(input) {

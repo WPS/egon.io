@@ -7,7 +7,7 @@ import { getActivitesFromActors } from '../features/canvasElements/canvasElement
  * commandStack Handler for changes at activities
  */
 
-export default function DSActivityHandler(commandStack, eventBus, canvas) {
+export default function DSActivityHandler(commandStack, eventBus) {
 
   commandStack.registerHandler('activity.directionChange', activity_directionChange);
   commandStack.registerHandler('activity.changed', activity_changed);
@@ -20,7 +20,7 @@ export default function DSActivityHandler(commandStack, eventBus, canvas) {
     this.preExecute = function(context) {
       context.oldLabel = context.businessObject.name || ' ';
 
-      let oldNumbersWithIDs = getNumbersAndIDs(canvas);
+      let oldNumbersWithIDs = getNumbersAndIDs();
       modeling.updateLabel(context.businessObject, context.newLabel);
       modeling.updateNumber(context.businessObject, context.newNumber);
 

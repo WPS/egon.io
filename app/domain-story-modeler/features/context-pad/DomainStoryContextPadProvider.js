@@ -175,7 +175,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       newNumber = 0;
     }
     else {
-      newNumber = generateAutomaticNumber(element, canvas, commandStack);
+      newNumber = generateAutomaticNumber(element, commandStack);
     }
     context = {
       businessObject: businessObject,

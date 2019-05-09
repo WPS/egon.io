@@ -299,7 +299,6 @@ function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, a
   }
 }
 
-
 export function resetHTMLSelectionList() {
   let i=0, child;
   for (i=selectedWorkObjectList.children.length -1; i>=0; i--) {

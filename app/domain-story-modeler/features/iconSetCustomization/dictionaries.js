@@ -16,7 +16,6 @@ export function getAppendedIconDictionary() {
 }
 
 export function initializeAllIcons() {
-
   let allIconsJSON = all_icons;
 
   allIconDictionary.addEach(allIconsJSON);

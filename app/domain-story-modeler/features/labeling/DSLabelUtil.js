@@ -1,7 +1,7 @@
 'use strict';
 
 import { is } from 'bpmn-js/lib/util/ModelUtil';
-import { ACTIVITY, ACTOR, WORKOBJECT, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
+import { ACTOR, WORKOBJECT, ACTIVITY, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
 
 function getLabelAttr(semantic) {
   if (

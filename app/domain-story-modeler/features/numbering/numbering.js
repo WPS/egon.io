@@ -27,7 +27,7 @@ export function numberBoxDefinitions(element) {
 
 
 // determine the next available number that is not yet used
-export function generateAutomaticNumber(elementActivity, canvas, commandStack) {
+export function generateAutomaticNumber(elementActivity, commandStack) {
   let semantic = elementActivity.businessObject;
   let activiesFromActors = [];
   let usedNumbers = [0];
@@ -97,10 +97,9 @@ export function updateExistingNumbersAtEditing(activiesFromActors, wantedNumber,
 }
 
 // get the IDs of activities with their associated number, only returns activities that are originating from an actor
-export function getNumbersAndIDs(canvas) {
+export function getNumbersAndIDs() {
   let iDWithNumber = [];
-  let canvasObjects = canvas._rootElement.children;
-  let activities = getActivitesFromActors(canvasObjects);
+  let activities = getActivitesFromActors();
 
   for (let i = activities.length - 1; i >= 0; i--) {
     let id = activities[i].businessObject.id;
