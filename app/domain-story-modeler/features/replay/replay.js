@@ -4,21 +4,12 @@ import { CONNECTION, GROUP } from '../../language/elementTypes';
 import { getActivitesFromActors, getAllCanvasObjects, wasInitialized } from '../canvasElements/canvasElementRegistry';
 
 let canvas;
-let elementRegistry;
 
 let replayOn = false;
 let currentStep = 0;
 let replaySteps = [];
 
-let errorStep =0;
-
-export function initReplay(inCanvas) {
-  canvas = inCanvas;
-}
-
-export function isPlaying() {
-  return replayOn;
-}
+let errorStep = 0;
 
 let modal = document.getElementById('modal');
 let startReplayButton = document.getElementById('buttonStartReplay');
@@ -28,111 +19,119 @@ let stopReplayButton = document.getElementById('buttonStopReplay');
 let currentReplayStepLabel = document.getElementById('replayStep');
 let incompleteStoryDialog = document.getElementById('incompleteStoryInfo');
 
-startReplayButton.addEventListener('click', function() {
-  if (wasInitialized()) {
+export function initReplay(inCanvas) {
+  canvas = inCanvas;
 
-    let activities = getActivitesFromActors();
+  startReplayButton.addEventListener('click', function() {
+    if (wasInitialized()) {
 
-    if (!replayOn && activities.length > 0) {
-      replaySteps = traceActivities(activities, elementRegistry);
+      let activities = getActivitesFromActors();
 
-      if (isStoryConsecutivelyNumbered(replaySteps)) {
-        replayOn = true;
-        presentationMode();
-        currentStep = 0;
-        showCurrentStep();
-      }
-      else {
-        let errorText = '\nThe numbers: ';
-        for (var i=0; i<replaySteps.length; i++) {
-          if (errorStep[i]) {
-            errorText+= ((i + 1) + ',');
-          }
-        }
-        errorText = errorText.substring(0, errorText.length - 1);
-        errorText+= ' are missing!';
+      if (!replayOn && activities.length > 0) {
+        replaySteps = traceActivities(activities);
 
-        let oldText = incompleteStoryDialog.getElementsByTagName('text');
-        if (oldText) {
-          for (i=0; i < oldText.length; i++) {
-            incompleteStoryDialog.removeChild(oldText[i]);
-          }
-        }
-
-        let text = document.createElement('text');
-        text.innerHTML = ' The activities in this Domain Story are not numbered consecutively.<br>' +
-        'Please fix the numbering in order to replay the story.<br>' +
-        errorText;
-        incompleteStoryDialog.appendChild(text);
-        incompleteStoryDialog.style.display = 'block';
-        modal.style.display = 'block';
-      }
-    }
-  }
-});
-
-nextStepButton.addEventListener('click', function() {
-  if (replayOn) {
-    if (currentStep < replaySteps.length - 1) {
-      currentStep += 1;
-      showCurrentStep();
-    }
-  }
-});
-
-previousStepButton.addEventListener('click', function() {
-  if (replayOn) {
-    if (currentStep > 0) {
-      currentStep -= 1;
-      showCurrentStep();
-    }
-  }
-});
-
-stopReplayButton.addEventListener('click', function() {
-  if (replayOn) {
-    editMode();
-
-    // show all canvas elements
-    let allObjects = [];
-    let groupObjects = [];
-    let canvasObjects = canvas._rootElement.children;
-    let i = 0;
-
-    for (i = 0; i < canvasObjects.length; i++) {
-      if (canvasObjects[i].type.includes(GROUP)) {
-        groupObjects.push(canvasObjects[i]);
-      }
-      else {
-        allObjects.push(canvasObjects[i]);
-      }
-    }
-
-    i = groupObjects.length - 1;
-    while (groupObjects.length >= 1) {
-      let currentgroup = groupObjects.pop();
-      currentgroup.children.forEach(child => {
-        if (child.type.includes(GROUP)) {
-          groupObjects.push(child);
+        if (isStoryConsecutivelyNumbered(replaySteps)) {
+          replayOn = true;
+          presentationMode();
+          currentStep = 0;
+          showCurrentStep();
         }
         else {
-          allObjects.push(child);
-        }
-      });
-      i = groupObjects.length - 1;
-    }
-    allObjects.forEach(element => {
-      let domObject = document.querySelector('[data-element-id=' + element.id + ']');
-      domObject.style.display = 'block';
-    });
+          let errorText = '\nThe numbers: ';
+          for (var i=0; i<replaySteps.length; i++) {
+            if (errorStep[i]) {
+              errorText+= ((i + 1) + ',');
+            }
+          }
+          errorText = errorText.substring(0, errorText.length - 1);
+          errorText+= ' are missing!';
 
-    replayOn = false;
-    currentStep = 0;
-  }
-});
+          let oldText = incompleteStoryDialog.getElementsByTagName('text');
+          if (oldText) {
+            for (i=0; i < oldText.length; i++) {
+              incompleteStoryDialog.removeChild(oldText[i]);
+            }
+          }
+
+          let text = document.createElement('text');
+          text.innerHTML = ' The activities in this Domain Story are not numbered consecutively.<br>' +
+        'Please fix the numbering in order to replay the story.<br>' +
+        errorText;
+          incompleteStoryDialog.appendChild(text);
+          incompleteStoryDialog.style.display = 'block';
+          modal.style.display = 'block';
+        }
+      }
+    }
+  });
+
+  nextStepButton.addEventListener('click', function() {
+    if (replayOn) {
+      if (currentStep < replaySteps.length - 1) {
+        currentStep += 1;
+        showCurrentStep();
+      }
+    }
+  });
+
+  previousStepButton.addEventListener('click', function() {
+    if (replayOn) {
+      if (currentStep > 0) {
+        currentStep -= 1;
+        showCurrentStep();
+      }
+    }
+  });
+
+  stopReplayButton.addEventListener('click', function() {
+    if (replayOn) {
+      editMode();
+
+      // show all canvas elements
+      let allObjects = [];
+      let groupObjects = [];
+      let canvasObjects = canvas._rootElement.children;
+      let i = 0;
+
+      for (i = 0; i < canvasObjects.length; i++) {
+        if (canvasObjects[i].type.includes(GROUP)) {
+          groupObjects.push(canvasObjects[i]);
+        }
+        else {
+          allObjects.push(canvasObjects[i]);
+        }
+      }
+
+      i = groupObjects.length - 1;
+      while (groupObjects.length >= 1) {
+        let currentgroup = groupObjects.pop();
+        currentgroup.children.forEach(child => {
+          if (child.type.includes(GROUP)) {
+            groupObjects.push(child);
+          }
+          else {
+            allObjects.push(child);
+          }
+        });
+        i = groupObjects.length - 1;
+      }
+      allObjects.forEach(element => {
+        let domObject = document.querySelector('[data-element-id=' + element.id + ']');
+        domObject.style.display = 'block';
+      });
+
+      replayOn = false;
+      currentStep = 0;
+    }
+  });
+}
+
+export function isPlaying() {
+  return replayOn;
+}
 
 // create a trace through all activities, that recreates the path from the beginning to the end of the story
-export function traceActivities(activitiesFromActors, elementRegistry) {
+export function traceActivities(activitiesFromActors) {
   let tracedActivities = [];
 
   // order the activities with numbers by their number
@@ -145,7 +144,7 @@ export function traceActivities(activitiesFromActors, elementRegistry) {
 
   // create a step for each activity with a number
   for (let i = 0; i < tracedActivities.length; i++) {
-    let traceStep = createStep(tracedActivities[i], elementRegistry);
+    let traceStep = createStep(tracedActivities[i]);
 
     allSteps.push(traceStep);
   }
@@ -153,7 +152,7 @@ export function traceActivities(activitiesFromActors, elementRegistry) {
 }
 
 // create a step for the replay function
-function createStep(tracedActivity) {
+export function createStep(tracedActivity) {
   let initialSource;
   let activities = [tracedActivity];
   let targetObjects = [];
