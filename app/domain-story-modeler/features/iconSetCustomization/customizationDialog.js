@@ -1,10 +1,9 @@
 'use strict';
 
 import { initializeAllIcons, getAllIconDictioary, deleteFromSelectedWorkObjectDictionary, deleteFromSelectedActorDictionary, getIconSource, addToSelectedActors, addToSelectedWorkObjects, selectedCitionariesAreNotEmpty, getAppendedIconDictionary } from './dictionaries';
-import { isInActorIconDictionary } from '../../language/icon/actorIconDictionary';
-import { isInWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { isTestMode } from '../../language/testmode';
+import { isInTypeDictionary } from '../../language/icon/dictionaries';
 
 let htmlList = document.getElementById('allIconsList');
 let selectedActorsList = document.getElementById('selectedActorsList');
@@ -139,11 +138,11 @@ export function createListElement(name, greyBackground) {
   inputRadioWorkObject.setAttribute('name', name);
   inputRadioWorkObject.setAttribute('value', 'workObject');
 
-  if (isInActorIconDictionary(ACTOR +name)) {
+  if (isInTypeDictionary(ACTOR, ACTOR +name)) {
     inputRadioActor.checked = true;
     createListElementInSeletionList(name, getIconSource(name), selectedActorsList);
     addToSelectedActors(name, getIconSource(name));
-  } else if (isInWorkObjectIconDictionary(WORKOBJECT + name)) {
+  } else if (isInTypeDictionary(WORKOBJECT, WORKOBJECT + name)) {
     inputRadioWorkObject.checked = true;
     createListElementInSeletionList(name, getIconSource(name), selectedWorkObjectList);
     addToSelectedWorkObjects(name, getIconSource(name));

@@ -5,10 +5,9 @@ import { createObjectListForDSTDownload } from '../export/dstDownload';
 import { version } from '../../../../package.json';
 import { appendSRCFile } from '../../language/icon/iconConfig';
 import { createListElement, createListElementInSeletionList, resetHTMLSelectionList } from './customizationDialog';
-import { getActorIconDictionary } from '../../language/icon/actorIconDictionary';
-import { getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { isTestMode } from '../../language/testmode';
+import { getTypeDictionary } from '../../language/icon/dictionaries';
 
 export const useCustomConfigTag = 'useCustomConfig';
 export const customConfigTag ='customConfig';
@@ -71,10 +70,10 @@ export function saveIconConfiguration() {
   let workObjects = getSelectedWorkObjectsDictionary();
 
   if (!actors.size >0) {
-    actors = getActorIconDictionary();
+    actors = getTypeDictionary(ACTOR);
   }
   if (!workObjects.size>0) {
-    workObjects = getWorkObjectIconDictionary();
+    workObjects = getTypeDictionary(WORKOBJECT);
   }
 
   let configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
@@ -110,7 +109,6 @@ export function loadConfiguration(customConfig) {
   appendSRCFile(actors, actorDict, workObjects, workObjectDict);
 
   let appendedDict = getAppendedIconDictionary();
-
 
   if (!isTestMode()) {
     updateHTMLLists(appendedDict, actorDict, workObjectDict);

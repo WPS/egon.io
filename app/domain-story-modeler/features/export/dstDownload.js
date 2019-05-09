@@ -1,13 +1,12 @@
 'use strict';
 
 import sanitizeForDesktop from '../../util/Sanitizer';
-import { ACTIVITY, TEXTANNOTATION } from '../../language/elementTypes';
+import { ACTIVITY, TEXTANNOTATION, ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
 import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary } from '../iconSetCustomization/dictionaries';
 import { createConfigFromDictionaries } from '../iconSetCustomization/persitence';
-import { getActorIconDictionary } from '../../language/icon/actorIconDictionary';
-import { getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
 import { removeDirtyFlag } from './dirtyFlag';
+import { getTypeDictionary } from '../../language/icon/dictionaries';
 
 let infoText = document.getElementById('infoText');
 
@@ -18,10 +17,10 @@ export function downloadDST(filename, text) {
   let configJSONString = {};
 
   if (!actors.size>0) {
-    actors = getActorIconDictionary();
+    actors = getTypeDictionary(ACTOR);
   }
   if (!workObjects.size>0) {
-    workObjects = getWorkObjectIconDictionary();
+    workObjects = getTypeDictionary(WORKOBJECT);
   }
 
   configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));

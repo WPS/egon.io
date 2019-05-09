@@ -3,12 +3,11 @@
 import { assign } from 'min-dash';
 import { getNameFromType } from '../../language/naming';
 import { getIconForType } from '../../language/icon/iconDictionary';
-import { initWorkObjectIconDictionary, getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
-import { initActorIconDictionary, getActorIconDictionary } from '../../language/icon/actorIconDictionary';
 import { getIconset } from '../../language/icon/iconConfig';
-import { GROUP } from '../../language/elementTypes';
+import { GROUP, ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { appendedIconsTag } from '../iconSetCustomization/persitence';
 import { overrideAppendedIcons } from '../../language/icon/all_Icons';
+import { initTypeDictionaries, getTypeDictionary } from '../../language/icon/dictionaries';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
@@ -103,10 +102,9 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     appendCSSStyleCheat(JSON.parse(customIcons));
   }
 
-  initActorIconDictionary(config.actors);
-  initWorkObjectIconDictionary(config.workObjects);
+  initTypeDictionaries(config.actors, config.workObjects);
 
-  let actorTypes = getActorIconDictionary();
+  let actorTypes = getTypeDictionary(ACTOR);
 
   actorTypes.keysArray().forEach(actorType => {
     let name = getNameFromType(actorType);
@@ -124,7 +122,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     }
   });
 
-  let workObjectTypes = getWorkObjectIconDictionary();
+  let workObjectTypes = getTypeDictionary(WORKOBJECT);
 
   workObjectTypes.keysArray().forEach(workObjectType => {
 

@@ -11,10 +11,9 @@ import {
 } from 'min-dash';
 import { generateAutomaticNumber } from '../numbering/numbering';
 import { getNameFromType } from '../../language/naming';
-import { getWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
-import { getActorIconDictionary } from '../../language/icon/actorIconDictionary';
 import { getIconForType } from '../../language/icon/iconDictionary';
-import { ACTIVITY, ACTOR, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
+import { ACTIVITY, ACTOR, GROUP, TEXTANNOTATION, WORKOBJECT } from '../../language/elementTypes';
+import { getTypeDictionary } from '../../language/icon/dictionaries';
 
 export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
 
@@ -127,7 +126,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   }
 
   function addWorkObjects(appendAction, actions) {
-    let workObjectTypes = getWorkObjectIconDictionary();
+    let workObjectTypes = getTypeDictionary(WORKOBJECT);
     workObjectTypes.keysArray().forEach(workObjectType => {
       let name = getNameFromType(workObjectType);
       let icon = getIconForType(workObjectType);
@@ -138,7 +137,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   }
 
   function addActors(appendAction, actions) {
-    let actorTypes = getActorIconDictionary();
+    let actorTypes = getTypeDictionary(ACTOR);
     actorTypes.keysArray().forEach(actorType => {
       let name = getNameFromType(actorType);
       let icon = getIconForType(actorType);

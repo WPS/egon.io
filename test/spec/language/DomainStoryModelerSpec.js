@@ -3,10 +3,9 @@ import TestContainer from 'mocha-test-container-support';
 import DomainStoryModeler from '../../../app/domain-story-modeler';
 import { default_conf } from '../../../app/domain-story-modeler/language/icon/iconConfig';
 import { updateCustomElementsPreviousv050, readerFunction } from '../../../app/domain-story-modeler/features/import/import';
-import { initWorkObjectIconDictionary } from '../../../app/domain-story-modeler/language/icon/workObjectIconDictionary';
-import { initActorIconDictionary } from '../../../app/domain-story-modeler/language/icon/actorIconDictionary';
 import { checkElementReferencesAndRepair } from '../../../app/domain-story-modeler/features/import/ImportRepair';
 import { activateTestMode } from '../../../app/domain-story-modeler/language/testmode';
+import { initTypeDictionaries } from '../../../app/domain-story-modeler/language/icon/dictionaries';
 
 activateTestMode();
 
@@ -188,8 +187,7 @@ describe('domainStory modeler', function() {
 
   describe('domainStory import export Test simple data', function() {
 
-    initActorIconDictionary(default_conf.actors);
-    initWorkObjectIconDictionary(default_conf.workObjects);
+    initTypeDictionaries(default_conf.actors, default_conf.workObjects);
 
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {
@@ -289,8 +287,7 @@ describe('domainStory modeler', function() {
 
   describe('domainStory import export Test broken data', function() {
 
-    initActorIconDictionary(default_conf.actors);
-    initWorkObjectIconDictionary(default_conf.workObjects);
+    initTypeDictionaries(default_conf.actors, default_conf.workObjects);
 
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {

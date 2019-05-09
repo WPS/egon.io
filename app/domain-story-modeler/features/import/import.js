@@ -1,7 +1,5 @@
 'use strict';
 
-import { registerWorkObjectIcons, getWorkObjectIconDictionaryKeys, allInWorkObjectIconDictionary } from '../../language/icon/workObjectIconDictionary';
-import { registerActorIcons, getActorIconDictionaryKeys, allInActorIconDictionary } from '../../language/icon/actorIconDictionary';
 import { DOMAINSTORY, ACTIVITY, CONNECTION, WORKOBJECT, ACTOR } from '../../language/elementTypes';
 import { checkElementReferencesAndRepair } from './ImportRepair';
 import { cleanDictionaries } from '../dictionary/dictionary';
@@ -13,6 +11,7 @@ import { removeDirtyFlag } from '../export/dirtyFlag';
 import { addIMGToIconDictionary } from '../iconSetCustomization/appendIconDictionary';
 import { debounce } from '../../util/helpers';
 import { isTestMode } from '../../language/testmode';
+import { getTypeDictionaryKeys, allInTypeDictionary, registerIcons } from '../../language/icon/dictionaries';
 
 let modal = document.getElementById('modal'),
     info = document.getElementById('info'),
@@ -223,8 +222,8 @@ export function configHasChanged(config) {
 
   let newActorKeys = newActorsDict.keysArray();
   let newWorkObjectKeys = newWorkObjectsDict.keysArray();
-  let currentActorKeys = getActorIconDictionaryKeys();
-  let currentWorkobjectKeys = getWorkObjectIconDictionaryKeys();
+  let currentActorKeys = getTypeDictionaryKeys(ACTOR);
+  let currentWorkobjectKeys = getTypeDictionaryKeys(WORKOBJECT);
 
   let changed = false;
   let i=0;
@@ -348,11 +347,11 @@ function updateIconRegistries(elements) {
   let actorIcons = getElementsOfType(elements, 'actor');
   let workObjectIcons = getElementsOfType(elements, 'workObject');
 
-  if (!allInActorIconDictionary(actorIcons)) {
-    registerActorIcons(actorIcons);
+  if (!allInTypeDictionary(ACTOR, actorIcons)) {
+    registerIcons(ACTOR, actorIcons);
   }
-  if (!allInWorkObjectIconDictionary(workObjectIcons)) {
-    registerWorkObjectIcons(workObjectIcons);
+  if (!allInTypeDictionary(WORKOBJECT, workObjectIcons)) {
+    registerIcons(WORKOBJECT, workObjectIcons);
   }
 }
 

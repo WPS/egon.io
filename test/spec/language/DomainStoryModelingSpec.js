@@ -8,7 +8,8 @@ import { assign } from 'min-dash';
 import { test_conf } from '../test_conf';
 import { CONNECTION } from '../../../app/domain-story-modeler/language/elementTypes';
 import { activateTestMode } from '../../../app/domain-story-modeler/language/testmode';
-import { initActorIconDictionary } from '../../../app/domain-story-modeler/language/icon/actorIconDictionary';
+import { initTypeDictionaries } from '../../../app/domain-story-modeler/language/icon/dictionaries';
+import { default_conf } from '../../../app/domain-story-modeler/language/icon/iconConfig';
 
 activateTestMode();
 
@@ -45,7 +46,7 @@ describe('domainStory modeling', function() {
     it('should export custom element', inject(
       function(bpmnjs, elementRegistry, modeling) {
         // type has to be registered for test
-        initActorIconDictionary(test_conf);
+        initTypeDictionaries(test_conf.actors);
 
         // given
         const customElement = {

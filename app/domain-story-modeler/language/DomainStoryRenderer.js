@@ -32,13 +32,12 @@ import { getNumberStash } from '../features/labeling/DSLabelEditingProvider';
 import { numberBoxDefinitions, generateAutomaticNumber, addNumberToRegistry } from '../features/numbering/numbering';
 
 import { calculateTextWidth } from '../features/labeling/DSLabelUtil';
-import { getActorIconSrc } from './icon/actorIconDictionary';
-import { getWorkObjectIconSrc } from './icon/workObjectIconDictionary';
 import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
 import { correctElementRegitryInit } from '../features/canvasElements/canvasElementRegistry';
 import { makeDirty } from '../features/export/dirtyFlag';
 import { labelPosition } from '../features/labeling/position';
 import { isTestMode } from './testmode';
+import { getTypeIconSRC } from './icon/dictionaries';
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
@@ -289,7 +288,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
           height: element.height,
         },
         actor;
-    let iconSRC = getActorIconSrc(element.type);
+    let iconSRC = getTypeIconSRC(ACTOR, element.type);
     if (iconSRC.startsWith('data')) {
       iconSRC = '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'+
       '<image width="24" height="24" xlink:href="'+ iconSRC+ '"/></svg>';
@@ -305,13 +304,13 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
 
   this.drawWorkObject = function(p, element) {
     let svgDynamicSizeAttributes = {
-      width: element.width * 0.65,
-      height: element.height * 0.65,
-      x: element.width / 2 - 25,
-      y: element.height / 2 - 25
-    };
-    let workObject;
-    let iconSRC = getWorkObjectIconSrc(element.type);
+          width: element.width * 0.65,
+          height: element.height * 0.65,
+          x: element.width / 2 - 25,
+          y: element.height / 2 - 25
+        },
+        workObject;
+    let iconSRC = getTypeIconSRC(WORKOBJECT, element.type);
     if (iconSRC.startsWith('data')) {
       iconSRC = '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'+
       '<image width="24" height="24" xlink:href="'+ iconSRC+ '"/></svg>';
