@@ -9,7 +9,6 @@ import { test_conf } from '../test_conf';
 import { CONNECTION } from '../../../app/domain-story-modeler/language/elementTypes';
 import { activateTestMode } from '../../../app/domain-story-modeler/language/testmode';
 import { initTypeDictionaries } from '../../../app/domain-story-modeler/language/icon/dictionaries';
-import { default_conf } from '../../../app/domain-story-modeler/language/icon/iconConfig';
 
 activateTestMode();
 

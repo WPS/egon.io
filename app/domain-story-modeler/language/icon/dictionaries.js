@@ -92,9 +92,9 @@ export function initTypeDictionaries(actors, workObjetcs) {
     actorIconDictionary.add(allTypes.get(actors[i]), key);
   }
 
-  actorIconDictionary.keysArray().forEach(type => {
-    let name = getNameFromType(type);
-    registerIcon(ACTOR, 'icon-domain-story-' + name.toLowerCase());
+  actorIconDictionary.keysArray().forEach(actor => {
+    let name = getNameFromType(actor);
+    registerIcon(actor, 'icon-domain-story-' + name.toLowerCase());
   });
 
   for (let i=0; i < workObjetcs.length; i++) {
@@ -102,9 +102,9 @@ export function initTypeDictionaries(actors, workObjetcs) {
     workObjectDictionary.add(allTypes.get(workObjetcs[i]), key);
   }
 
-  workObjectDictionary.keysArray().forEach(type => {
-    let name = getNameFromType(type);
-    registerIcon(WORKOBJECT, 'icon-domain-story-' + name.toLowerCase());
+  workObjectDictionary.keysArray().forEach(workObject => {
+    let name = getNameFromType(workObject);
+    registerIcon(workObject, 'icon-domain-story-' + name.toLowerCase());
   });
 }
 
