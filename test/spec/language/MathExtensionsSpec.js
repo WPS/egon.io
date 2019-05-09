@@ -6,17 +6,17 @@ activateTestMode();
 describe ('MathExtensions', function() {
 
   it('Math.angleBetween test', function() {
-    var startPoint = {
+    const startPoint = {
       x: 10,
       y: 10
     };
 
-    var endPoint = {
+    const endPoint = {
       x: 20,
       y: 0
     };
 
-    var res = Math.angleBetween(startPoint, endPoint);
+    const res = Math.angleBetween(startPoint, endPoint);
     assert.equal(res, 45);
     assert.deepEqual(res, 45);
   });

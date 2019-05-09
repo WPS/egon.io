@@ -14,7 +14,7 @@ activateTestMode();
 
 describe('domainStory modeling', function() {
 
-  var xml = require('./diagram.bpmn');
+  const xml = require('./diagram.bpmn');
 
   beforeEach(bootstrapBpmnJS(DomainStoryModeler, xml));
 
@@ -24,12 +24,12 @@ describe('domainStory modeling', function() {
     beforeEach(inject(function(bpmnjs) {
 
 
-      var businessObject = {
+      const businessObject = {
 
         type: 'custom:triangle',
         id: 'CustomTriangle_1',
       };
-      var customShape = {
+      const customShape = {
         businessObject: businessObject,
         type: 'custom:triangle',
         id: 'CustomTriangle_1',
@@ -48,7 +48,7 @@ describe('domainStory modeling', function() {
         initActorIconDictionary(test_conf);
 
         // given
-        var customElement = {
+        const customElement = {
           type: 'domainStory:actorPerson',
           id: 'CustomActor_1',
           x: 200,
@@ -57,7 +57,7 @@ describe('domainStory modeling', function() {
           width: 100
         };
 
-        var businessObject={
+        const businessObject={
           type: 'domainStory:actorPerson',
           id: 'CustomActor_1',
           x: 150,
@@ -65,8 +65,8 @@ describe('domainStory modeling', function() {
         };
 
         assign({ businessObject: businessObject }, customElement);
-        var position = { x: customElement.x, y: customElement.y },
-            target = elementRegistry.get('Process_1');
+        const position = { x: customElement.x, y: customElement.y },
+              target = elementRegistry.get('Process_1');
 
         modeling.createShape(
           customElement,
@@ -75,7 +75,7 @@ describe('domainStory modeling', function() {
         );
 
         // when
-        var customElements = bpmnjs.getCustomElements();
+        const customElements = bpmnjs.getCustomElements();
 
         // then
         // we can only check for parts of our element since the create shape function adds parts to the shape, we cannot model here
@@ -87,10 +87,10 @@ describe('domainStory modeling', function() {
     it('should not resize custom shape', inject(function(elementRegistry, rules) {
 
       // given
-      var customElement = elementRegistry.get('CustomTriangle_1');
+      const customElement = elementRegistry.get('CustomTriangle_1');
 
       // when
-      var allowed = rules.allowed('resize', { shape: customElement });
+      const allowed = rules.allowed('resize', { shape: customElement });
 
       // then
       expect(allowed).to.be.false;
@@ -100,7 +100,7 @@ describe('domainStory modeling', function() {
     it('should update custom element', inject(function(elementRegistry, modeling) {
 
       // given
-      var customElement = elementRegistry.get('CustomTriangle_1');
+      const customElement = elementRegistry.get('CustomTriangle_1');
 
       // when
       modeling.moveShape(customElement, { x: 200, y: 50 }, customElement.parent);
@@ -116,7 +116,7 @@ describe('domainStory modeling', function() {
 
     beforeEach(inject(function(bpmnjs) {
 
-      var customShape = {
+      const customShape = {
         type: 'custom:triangle',
         id: 'CustomTriangle_1',
         x: 400,
@@ -131,8 +131,8 @@ describe('domainStory modeling', function() {
       function(bpmnjs, elementRegistry, modeling) {
 
         // given
-        var customShape = elementRegistry.get('CustomTriangle_1'),
-            taskShape = elementRegistry.get('Task_1');
+        const customShape = elementRegistry.get('CustomTriangle_1'),
+              taskShape = elementRegistry.get('Task_1');
 
         modeling.connect(customShape, taskShape, {
           type: CONNECTION,
@@ -140,10 +140,10 @@ describe('domainStory modeling', function() {
         });
 
         // when
-        var customElements = bpmnjs.getCustomElements();
+        const customElements = bpmnjs.getCustomElements();
 
         // then
-        var ids = customElements.map(function(element) {
+        const ids = customElements.map(function(element) {
           return element.id;
         });
 
@@ -155,11 +155,11 @@ describe('domainStory modeling', function() {
       function(elementRegistry, rules) {
 
         // given
-        var customShape = elementRegistry.get('CustomTriangle_1'),
-            startEventShape = elementRegistry.get('StartEvent_1');
+        const customShape = elementRegistry.get('CustomTriangle_1'),
+              startEventShape = elementRegistry.get('StartEvent_1');
 
         // when
-        var allowed = rules.allowed('connection.create', {
+        const allowed = rules.allowed('connection.create', {
           source: customShape,
           target: startEventShape
         });
@@ -173,10 +173,10 @@ describe('domainStory modeling', function() {
     it('should reconnect start', inject(function(bpmnjs, elementRegistry, modeling) {
 
       // given
-      var customShape = elementRegistry.get('CustomTriangle_1'),
-          taskShape = elementRegistry.get('Task_1');
+      const customShape = elementRegistry.get('CustomTriangle_1'),
+            taskShape = elementRegistry.get('Task_1');
 
-      var customConnection = modeling.connect(customShape, taskShape, {
+      const customConnection = modeling.connect(customShape, taskShape, {
         type: CONNECTION
       });
 
@@ -187,7 +187,7 @@ describe('domainStory modeling', function() {
         y: 300
       }]);
 
-      var customCircle = elementRegistry.get('CustomCircle_1');
+      const customCircle = elementRegistry.get('CustomCircle_1');
 
       // when
       modeling.reconnectStart(customConnection, customCircle, {
@@ -204,11 +204,11 @@ describe('domainStory modeling', function() {
     it('should reconnect end', inject(function(bpmnjs, elementRegistry, modeling) {
 
       // given
-      var customShape = elementRegistry.get('CustomTriangle_1'),
-          taskShape1 = elementRegistry.get('Task_1'),
-          taskShape2 = elementRegistry.get('Task_2');
+      const customShape = elementRegistry.get('CustomTriangle_1'),
+            taskShape1 = elementRegistry.get('Task_1'),
+            taskShape2 = elementRegistry.get('Task_2');
 
-      var customConnection = modeling.connect(customShape, taskShape1, {
+      const customConnection = modeling.connect(customShape, taskShape1, {
         type: CONNECTION
       });
 
@@ -227,10 +227,10 @@ describe('domainStory modeling', function() {
     it('should update custom connection', inject(function(elementRegistry, modeling) {
 
       // given
-      var customElement = elementRegistry.get('CustomTriangle_1'),
-          taskShape = elementRegistry.get('Task_1');
+      const customElement = elementRegistry.get('CustomTriangle_1'),
+            taskShape = elementRegistry.get('Task_1');
 
-      var customConnection = modeling.connect(customElement, taskShape, {
+      const customConnection = modeling.connect(customElement, taskShape, {
         type: CONNECTION
       });
 
@@ -239,8 +239,8 @@ describe('domainStory modeling', function() {
 
       // then
 
-      var waypoint1 = customConnection.businessObject.waypoints[0];
-      var waypoint2 = customConnection.businessObject.waypoints[1];
+      const waypoint1 = customConnection.businessObject.waypoints[0];
+      const waypoint2 = customConnection.businessObject.waypoints[1];
 
       expect(waypoint1.x).to.eql(600);
       expect(waypoint1.y).to.eql(351);
@@ -253,11 +253,11 @@ describe('domainStory modeling', function() {
       function(bpmnjs, elementRegistry, modeling) {
 
         // given
-        var customShape = elementRegistry.get('CustomTriangle_1'),
-            taskShape = elementRegistry.get('Task_1'),
-            customElements = bpmnjs.getCustomElements();
+        const customShape = elementRegistry.get('CustomTriangle_1'),
+              taskShape = elementRegistry.get('Task_1'),
+              customElements = bpmnjs.getCustomElements();
 
-        var customConnection = modeling.connect(customShape, taskShape, {
+        const customConnection = modeling.connect(customShape, taskShape, {
           type: CONNECTION
         });
 
