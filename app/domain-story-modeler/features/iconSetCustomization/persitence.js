@@ -93,7 +93,7 @@ export function loadConfiguration(customConfig) {
   let actors = customConfigJSON.actors;
   let workObjects = customConfigJSON.workObjects;
 
-  let dictionary = require('collections/dict');
+  const dictionary = require('collections/dict');
 
   resetSelectionDictionaries();
 
