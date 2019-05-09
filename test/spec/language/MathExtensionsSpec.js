@@ -20,4 +20,14 @@ describe ('MathExtensions', function() {
     assert.equal(res, 45);
     assert.deepEqual(res, 45);
   });
+
+  it('Math.degrees', function() {
+    const rad = 0.5;
+    const deg = 28.64788975654116;
+
+    const converted = Math.degrees(rad);
+
+    assert.equal(deg, converted);
+    assert.deepEqual(deg, converted);
+  });
 });
