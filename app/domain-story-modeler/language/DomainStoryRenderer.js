@@ -672,6 +672,8 @@ DomainStoryRenderer.prototype.getShapePath = function(shape) {
 DomainStoryRenderer.prototype.drawConnection = function(p, element) {
   let type = element.type;
 
+  makeDirty();
+
   if (type === ACTIVITY) {
     return this.drawActivity(p, element);
   } else if (type === CONNECTION) {
