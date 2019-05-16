@@ -25,8 +25,6 @@ describe('', function() {
     const actorsJSON = json.actors;
     const workObjectsJSON = json.workObjects;
 
-    console.log(actorsJSON);
-
     expect(actorsJSON).to.exist;
     expect(actorsJSON.Person).to.exist;
     expect(workObjectsJSON).to.exist;
