@@ -133,8 +133,14 @@ export function getTypeDictionaryKeys(type) {
 export function getTypeIconSRC(type, name) {
   let collection;
   if (type == ACTOR) {
+    if (!name.startsWith(ACTOR)) {
+      name = ACTOR + name;
+    }
     collection = actorIconDictionary;
   } else if (type == WORKOBJECT) {
+    if (!name.startsWith(WORKOBJECT)) {
+      name = WORKOBJECT + name;
+    }
     collection = workObjectDictionary;
   }
 
