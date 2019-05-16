@@ -22,41 +22,21 @@ import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCus
 import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
 import { debounce } from './domain-story-modeler/util/helpers';
 
-let modeler = new DomainStoryModeler({
+const modeler = new DomainStoryModeler({
   container: '#canvas',
   keyboard: {
     bindTo: document
   }
 });
+const canvas = modeler.get('canvas');
+const eventBus = modeler.get('eventBus');
+const commandStack = modeler.get('commandStack');
+const elementRegistry = modeler.get('elementRegistry');
 
-let canvas = modeler.get('canvas');
-let eventBus = modeler.get('eventBus');
-let commandStack = modeler.get('commandStack');
-let elementRegistry = modeler.get('elementRegistry');
+initialize(canvas, elementRegistry, version, modeler, eventBus, titleInputLast, fnDebounce);
 
-// interal letiables
-let keysPressed = [];
-let titleInputLast = '', descriptionInputLast = '';
-
-// we need to initiate the activity commandStack elements
-DSActivityHandlers(commandStack, eventBus, canvas);
-DSMassRenameHandlers(commandStack, eventBus, canvas);
-
-initReplay(canvas);
-initElementRegistry(elementRegistry);
-initImports(elementRegistry, version, modeler,eventBus, titleInputLast, fnDebounce);
-
-// disable BPMN SearchPad
-SearchPad.prototype.toggle=function() { };
-
-modeler.createDiagram();
-// expose bpmnjs to window for debugging purposes
-window.bpmnjs = modeler;
-
-// if there is a persited Story, load it
-if (localStorage.getItem(storyPersistTag)) {
-  loadPersistedDST(modeler);
-}
+// interal variables
+let keysPressed = [], titleInputLast = '', descriptionInputLast = '';
 
 // HTML-Elements
 let modal = document.getElementById('modal'),
@@ -120,32 +100,54 @@ let modal = document.getElementById('modal'),
     incompleteStoryDialogButtonCancel = document.getElementById('closeIncompleteStoryInfo'),
     noContentOnCanvasDialogCuttonCancel = document.getElementById('closeNoContentOnCanvasInfo');
 
-// ----
-
 wpsInfotext.innerText = 'Domain Story Modeler v' + version + '\nA tool to visualize Domain Stories in the browser.\nProvided by';
 wpsInfotextPart2.innerText = ' and licensed under GPLv3.';
 dstInfotext.innerText = 'Learn more about Domain Storytelling at';
 
+// ----
+function initialize(canvas, elementRegistry, version, modeler, eventBus, titleInputLast, fnDebounce) {
+
+  // we need to initiate the activity commandStack elements
+  DSActivityHandlers(commandStack, eventBus, canvas);
+  DSMassRenameHandlers(commandStack, eventBus, canvas);
+
+  initReplay(canvas);
+  initElementRegistry(elementRegistry);
+  initImports(elementRegistry, version, modeler,eventBus, titleInputLast, fnDebounce);
+
+  // disable BPMN SearchPad
+  SearchPad.prototype.toggle=function() { };
+
+  modeler.createDiagram();
+  // expose bpmnjs to window for debugging purposes
+  window.bpmnjs = modeler;
+
+  // if there is a persited Story, load it
+  if (localStorage.getItem(storyPersistTag)) {
+    loadPersistedDST(modeler);
+  }
+}
+
 // eventBus listeners
 eventBus.on('element.dblclick', function(e) {
   if (!isPlaying()) {
-    let element = e.element;
+    const element = e.element;
     if (element.type == ACTIVITY) {
       activityDoubleClick(element);
     } else {
-      let renderedNumberRegistry = getNumberRegistry();
+      const renderedNumberRegistry = getNumberRegistry();
 
       if (renderedNumberRegistry.length > 1) {
 
-        let allActivities = getActivitesFromActors();
+        const allActivities = getActivitesFromActors();
 
         if (allActivities.length >0) {
 
-          let htmlCanvas = document.getElementById('canvas');
-          let container = htmlCanvas.getElementsByClassName('djs-container');
-          let svgElements = container[0].getElementsByTagName('svg');
-          let outerSVGElement = svgElements[0];
-          let viewport = outerSVGElement.getElementsByClassName('viewport')[0];
+          const htmlCanvas = document.getElementById('canvas');
+          const container = htmlCanvas.getElementsByClassName('djs-container');
+          const svgElements = container[0].getElementsByTagName('svg');
+          const outerSVGElement = svgElements[0];
+          const viewport = outerSVGElement.getElementsByClassName('viewport')[0];
           let transform = viewport.getAttribute('transform');
           let transformX = 0,
               transformY = 0,
@@ -153,8 +155,8 @@ eventBus.on('element.dblclick', function(e) {
               zoomY = 1;
           let nums;
 
-          let clickX = e.originalEvent.offsetX;
-          let clickY = e.originalEvent.offsetY;
+          const clickX = e.originalEvent.offsetX;
+          const clickY = e.originalEvent.offsetY;
 
           if (transform) {
             transform = transform.replace('matrix(', '');
@@ -166,18 +168,18 @@ eventBus.on('element.dblclick', function(e) {
             transformY = parseInt(nums[5]);
           }
 
-          let width = 25 * zoomX;
-          let height = 22 * zoomY;
+          const width = 25 * zoomX;
+          const height = 22 * zoomY;
 
           for (let i = 1; i<renderedNumberRegistry.length; i++) {
-            let currentNum = renderedNumberRegistry[i];
-            let tspan = currentNum.getElementsByTagName('tspan')[0];
-            let tx = tspan.getAttribute('x');
-            let ty = tspan.getAttribute('y');
-            let tNumber = parseInt(tspan.innerHTML);
+            const currentNum = renderedNumberRegistry[i];
+            const tspan = currentNum.getElementsByTagName('tspan')[0];
+            const tx = tspan.getAttribute('x');
+            const ty = tspan.getAttribute('y');
+            const tNumber = parseInt(tspan.innerHTML);
 
-            let elementX = (tx * zoomX) + (transformX - 5 * zoomX);
-            let elementY = (ty * zoomY) + (transformY - 15 * zoomY);
+            const elementX = (tx * zoomX) + (transformX - 5 * zoomX);
+            const elementY = (ty * zoomY) + (transformY - 15 * zoomY);
 
             for (let j=0; j<allActivities.length; j++) {
               let activity = allActivities[j];
@@ -205,9 +207,9 @@ function positionsMatch(width, height, elementX, elementY, clickX, clickY) {
 }
 
 function activityDoubleClick(activity) {
-  let source = activity.source;
+  const source = activity.source;
 
-  let dict = getActivityDictionary();
+  const dict = getActivityDictionary();
   autocomplete(activityInputLabelWithNumber, dict, activity);
   autocomplete(activityInputLabelWithoutNumber, dict, activity);
 
@@ -263,7 +265,7 @@ eventBus.on([
 
 // HTML-Element event listeners
 headline.addEventListener('click', function() {
-  showDialog();
+  showHeadlineDialog();
 });
 
 wpsLogo.addEventListener('click', function() {
@@ -292,11 +294,11 @@ buttonImageDownloads.addEventListener('click', function() {
 });
 
 headlineDialogButtonSave.addEventListener('click', function() {
-  saveDialog();
+  saveHeadlineDialog();
 });
 
 headlineDialogButtonCancel.addEventListener('click', function() {
-  closeDialog();
+  closeHeadlineDialog();
 });
 
 buttonImageDownloadsCancel.addEventListener('click', function() {
@@ -304,7 +306,7 @@ buttonImageDownloadsCancel.addEventListener('click', function() {
 });
 
 activityNumberDialogButtonCancel.addEventListener('click', function() {
-  closeActivityInputLabelWithNumber();
+  closeActivityInputLabelWithNumberDialog();
 });
 
 keyboardShortcutInfoButtonCancel.addEventListener('click', function() {
@@ -312,7 +314,7 @@ keyboardShortcutInfoButtonCancel.addEventListener('click', function() {
 });
 
 activityLabelButtonCancel.addEventListener('click', function() {
-  closeActivityInputLabelWithoutNumber();
+  closeActivityInputLabelWithoutNumberDialog();
 });
 
 titleInput.addEventListener('keydown', function(e) {
@@ -363,10 +365,10 @@ exportButton.addEventListener('click', function() {
 
   if (canvas._rootElement) {
 
-    let objects = createObjectListForDSTDownload(version);
+    const objects = createObjectListForDSTDownload(version);
 
-    let json = JSON.stringify(objects);
-    let filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
+    const json = JSON.stringify(objects);
+    const filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
 
     // start file download
     downloadDST(filename, json);
@@ -376,7 +378,7 @@ exportButton.addEventListener('click', function() {
 });
 
 svgSaveButton.addEventListener('click', function() {
-  let filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
+  const filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
   downloadSVG(filename);
   closeImageDownloadDialog();
 });
@@ -451,9 +453,9 @@ function checkPressedKeys(keyCode, dialog, element) {
   keysPressed[keyCode] = true;
 
   if (keysPressed[KEY_ESC]) {
-    closeDialog();
-    closeActivityInputLabelWithoutNumber();
-    closeActivityInputLabelWithNumber();
+    closeHeadlineDialog();
+    closeActivityInputLabelWithoutNumberDialog();
+    closeActivityInputLabelWithNumberDialog();
   }
   else if ((keysPressed[KEY_CTRL] && keysPressed[KEY_ENTER]) || (keysPressed[KEY_ALT] && keysPressed[KEY_ENTER])) {
     if (dialog == 'infoDialog') {
@@ -462,7 +464,7 @@ function checkPressedKeys(keyCode, dialog, element) {
   }
   else if (keysPressed[KEY_ENTER] && !keysPressed[KEY_SHIFT]) {
     if (dialog == 'titleDialog' || dialog == 'infoDialog') {
-      saveDialog();
+      saveHeadlineDialog();
     }
     else if (dialog == 'labelDialog') {
       saveActivityInputLabelWithoutNumber(element);
@@ -485,7 +487,7 @@ function closeNoContentDialog() {
   modal.style.display = 'none';
 }
 
-function closeDialog() {
+function closeHeadlineDialog() {
   keysPressed = [];
   headlineDialog.style.display = 'none';
   modal.style.display = 'none';
@@ -497,7 +499,7 @@ function closeImageDownloadDialog() {
   modal.style.display = 'none';
 }
 
-function showDialog() {
+function showHeadlineDialog() {
   if (descriptionInputLast == '') {
     descriptionInputLast = infoText.innerText;
   }
@@ -509,9 +511,9 @@ function showDialog() {
   titleInput.focus();
 }
 
-function saveDialog() {
-  let inputTitle = titleInput.value;
-  let inputText = info.value;
+function saveHeadlineDialog() {
+  const inputTitle = titleInput.value;
+  const inputText = info.value;
   if (inputTitle !== '') {
     title.innerText = inputTitle;
   }
@@ -525,12 +527,12 @@ function saveDialog() {
   descriptionInputLast = inputText;
 
   // to update the title of the svg, we need to tell the command stack, that a value has changed
-  let exportArtifacts = debounce(fnDebounce, 500);
+  const exportArtifacts = debounce(fnDebounce, 500);
 
   eventBus.fire('commandStack.changed', exportArtifacts);
 
   keysPressed = [];
-  closeDialog();
+  closeHeadlineDialog();
 }
 
 function showActivityWithNumberDialog(event) {
@@ -562,7 +564,7 @@ function closeKeyboardShortcutDialog() {
   modal.style.display = 'none';
 }
 
-function closeActivityInputLabelWithNumber() {
+function closeActivityInputLabelWithNumberDialog() {
   activityInputLabelWithNumber.value = '';
   activityInputNumber.value = '';
   keysPressed = [];
@@ -573,7 +575,7 @@ function closeActivityInputLabelWithNumber() {
 function saveActivityInputLabelWithNumber(element) {
   let labelInput = '';
   let numberInput = '';
-  let activityDictionary = getActivityDictionary();
+  const activityDictionary = getActivityDictionary();
   if (activityInputLabelWithNumber != '') {
     labelInput = activityInputLabelWithNumber.value;
     if (!activityDictionary.includes(labelInput)) {
@@ -591,9 +593,9 @@ function saveActivityInputLabelWithNumber(element) {
   activityInputNumber.value = '';
   keysPressed = [];
 
-  let activitiesFromActors = getActivitesFromActors();
+  const activitiesFromActors = getActivitesFromActors();
 
-  let index = activitiesFromActors.indexOf(element);
+  const index = activitiesFromActors.indexOf(element);
   activitiesFromActors.splice(index, 1);
 
   commandStack.execute('activity.changed', {
@@ -607,7 +609,7 @@ function saveActivityInputLabelWithNumber(element) {
   cleanDictionaries();
 }
 
-function closeActivityInputLabelWithoutNumber() {
+function closeActivityInputLabelWithoutNumberDialog() {
   activityInputLabelWithoutNumber.value = '';
   keysPressed = [];
   activityWithoutNumberDialog.style.display = 'none';
@@ -616,7 +618,7 @@ function closeActivityInputLabelWithoutNumber() {
 
 function saveActivityInputLabelWithoutNumber(element) {
   let labelInput = '';
-  let activityDictionary = getActivityDictionary();
+  const activityDictionary = getActivityDictionary();
   if (activityInputLabelWithoutNumber != '') {
     labelInput = activityInputLabelWithoutNumber.value;
     if (!activityDictionary.includes(labelInput)) {
@@ -644,21 +646,19 @@ function keyReleased(keysPressed, keyCode) {
 }
 
 // SVG functions
-
 function saveSVG(done) {
   modeler.saveSVG(done);
 }
 
 $(function() {
-  let exportArtifacts = debounce(fnDebounce, 500);
-
+  const exportArtifacts = debounce(fnDebounce, 500);
   modeler.on('commandStack.changed', exportArtifacts);
 });
 
 function fnDebounce() {
   saveSVG(function(err, svg) {
     if (err) {
-      console.log(err);
+      alert('There was an error saving the SVG.\n' + err);
     }
     setEncoded(err ? null : svg);
   });
