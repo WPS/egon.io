@@ -4,6 +4,7 @@ import $ from 'jquery';
 import './domain-story-modeler/util/MathExtensions';
 import DomainStoryModeler from './domain-story-modeler';
 import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';
+import EventBus from 'diagram-js/lib/core/EventBus';
 import DSActivityHandlers from './domain-story-modeler/modeler/DSActivityHandlers';
 import { toggleStashUse } from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
 import { version } from '../package.json';
@@ -118,6 +119,43 @@ function initialize(canvas, elementRegistry, version, modeler, eventBus, titleIn
   // disable BPMN SearchPad
   SearchPad.prototype.toggle=function() { };
 
+  // override the invoke Listener function of the EventBus
+  // per default the command ctrl + F is rerouted and the Browser-Search function disabled
+  // to circumvent this rerouting, we return when the event is a key Event with ctrl + f pressed
+  EventBus.prototype._invokeListener = function(event, args, listener) {
+
+    if (event.keyEvent && event.keyEvent.key == 'f' && event.keyEvent.ctrlKey) {
+      return;
+    }
+
+    var returnValue;
+
+    try {
+      // returning false prevents the default action
+      returnValue = invokeFunction(listener.callback, args);
+
+      // stop propagation on return value
+      if (returnValue !== undefined) {
+        event.returnValue = returnValue;
+        event.stopPropagation();
+      }
+
+      // prevent default on return false
+      if (returnValue === false) {
+        event.preventDefault();
+      }
+    } catch (e) {
+      if (!this.handleError(e)) {
+        console.error('unhandled error in event listener');
+        console.error(e.stack);
+
+        throw e;
+      }
+    }
+
+    return returnValue;
+  };
+
   modeler.createDiagram();
   // expose bpmnjs to window for debugging purposes
   window.bpmnjs = modeler;
@@ -126,6 +164,19 @@ function initialize(canvas, elementRegistry, version, modeler, eventBus, titleIn
   if (localStorage.getItem(storyPersistTag)) {
     loadPersistedDST(modeler);
   }
+}
+
+/**
+ * From BPMN.io
+ * Invoke function. Be fast...
+ *
+ * @param {Function} fn
+ * @param {Array<Object>} args
+ *
+ * @return {Any}
+ */
+function invokeFunction(fn, args) {
+  return fn.apply(null, args);
 }
 
 document.onkeydown = function(e) {
