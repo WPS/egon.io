@@ -128,6 +128,37 @@ function initialize(canvas, elementRegistry, version, modeler, eventBus, titleIn
   }
 }
 
+document.onkeydown = function(e) {
+  if (e.ctrlKey && e.key == 's') {
+
+    initiateDSTDownload();
+
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  else if (e.ctrlKey && e.key == 'l') {
+
+    document.getElementById('import').click();
+    e.preventDefault();
+    e.stopPropagation();
+  }
+};
+
+function initiateDSTDownload() {
+  if (canvas._rootElement) {
+
+    const objects = createObjectListForDSTDownload(version);
+
+    const json = JSON.stringify(objects);
+    const filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
+
+    // start file download
+    downloadDST(filename, json);
+  } else {
+    showNoContentDialog();
+  }
+}
+
 // eventBus listeners
 eventBus.on('element.dblclick', function(e) {
   if (!isPlaying()) {
@@ -362,19 +393,7 @@ dictionaryButtonCancel.addEventListener('click', function(e) {
 });
 
 exportButton.addEventListener('click', function() {
-
-  if (canvas._rootElement) {
-
-    const objects = createObjectListForDSTDownload(version);
-
-    const json = JSON.stringify(objects);
-    const filename = title.innerText + '_' + new Date().toISOString().slice(0, 10);
-
-    // start file download
-    downloadDST(filename, json);
-  } else {
-    showNoContentDialog();
-  }
+  initiateDSTDownload();
 });
 
 svgSaveButton.addEventListener('click', function() {
