@@ -1,6 +1,6 @@
 html, body {
-  height: 99.3%;
-  width: 99.9%;
+  height: 99.2%;
+  width: 99.4%;
   position: absolute;
   font-family: Helvetica;
 }
@@ -38,7 +38,7 @@ input{
 
 #headlineAndButtons {
   display: grid;
-  grid-template-columns: auto 360px 3px;
+  grid-template-columns: auto 390px 3px;
 }
 
 #headline {

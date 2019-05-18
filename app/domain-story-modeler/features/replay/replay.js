@@ -318,7 +318,7 @@ function editMode() {
   headerAndCanvas.style.gridTemplateRows = '125px 1px auto';
 
   let headlineAndButtons = document.getElementById('headlineAndButtons');
-  headlineAndButtons.style.gridTemplateColumns= 'auto 360px 3px';
+  headlineAndButtons.style.gridTemplateColumns= 'auto 390px 3px';
 
   let i = 0;
   for (i = 0; i < contextPadElements.length; i++) {
