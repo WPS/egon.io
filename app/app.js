@@ -22,6 +22,7 @@ import { getActivitesFromActors, initElementRegistry } from './domain-story-mode
 import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/customizationDialog';
 import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
 import { debounce } from './domain-story-modeler/util/helpers';
+import { isDirty } from './domain-story-modeler/features/export/dirtyFlag';
 
 const modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -346,6 +347,12 @@ eventBus.on([
 });
 
 // HTML-Element event listeners
+
+// show a dialog if there are unsaved changes in the domain Story
+window.onbeforeunload = function() {
+  return isDirty();
+};
+
 headline.addEventListener('click', function() {
   showHeadlineDialog();
 });
