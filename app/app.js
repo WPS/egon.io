@@ -350,7 +350,7 @@ eventBus.on([
 
 // show a dialog if there are unsaved changes in the domain Story
 window.onbeforeunload = function() {
-  return isDirty();
+  if (isDirty()) return true;
 };
 
 headline.addEventListener('click', function() {
