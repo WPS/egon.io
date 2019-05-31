@@ -23,8 +23,8 @@ export function downloadDST(filename, text) {
     workObjects = getTypeDictionary(WORKOBJECT);
   }
 
-  configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
 
+  configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects, document.getElementById('currentDomainName').innerText));
   let configAndDST = {
     config: configJSONString,
     dst: text
@@ -70,7 +70,10 @@ export function createObjectListForDSTDownload(version) {
     objectList.push(group.businessObject);
   });
 
-  let text = infoText.innerText;
+  let text = '';
+  if (infoText) {
+    text = infoText.innerText ;
+  }
 
   objectList.push({ info: text });
   objectList.push({ version: version });

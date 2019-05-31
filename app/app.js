@@ -17,12 +17,12 @@ import { ACTIVITY, ACTOR, WORKOBJECT } from './domain-story-modeler/language/ele
 import { downloadDST, createObjectListForDSTDownload } from './domain-story-modeler/features/export/dstDownload';
 import { downloadSVG, setEncoded } from './domain-story-modeler/features/export/svgDownload';
 import { downloadPNG } from './domain-story-modeler/features/export/pngDownload';
-import { loadPersistedDST, initImports } from './domain-story-modeler/features/import/import';
+import { loadPersistedDST, initImports, getDescriptionInputLast, setDescriptionInputLast, getTitleInputLast, setTitleInputLast } from './domain-story-modeler/features/import/import';
 import { getActivitesFromActors, initElementRegistry } from './domain-story-modeler/features/canvasElements/canvasElementRegistry';
 import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/customizationDialog';
 import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
 import { debounce } from './domain-story-modeler/util/helpers';
-import { isDirty } from './domain-story-modeler/features/export/dirtyFlag';
+import { isDirty, makeDirty } from './domain-story-modeler/features/export/dirtyFlag';
 
 const modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -35,10 +35,10 @@ const eventBus = modeler.get('eventBus');
 const commandStack = modeler.get('commandStack');
 const elementRegistry = modeler.get('elementRegistry');
 
-initialize(canvas, elementRegistry, version, modeler, eventBus, titleInputLast, fnDebounce);
+initialize(canvas, elementRegistry, version, modeler, eventBus, fnDebounce);
 
 // interal variables
-let keysPressed = [], titleInputLast = '', descriptionInputLast = '';
+let keysPressed = [];
 
 // HTML-Elements
 let modal = document.getElementById('modal'),
@@ -107,7 +107,7 @@ wpsInfotextPart2.innerText = ' and licensed under GPLv3.';
 dstInfotext.innerText = 'Learn more about Domain Storytelling at';
 
 // ----
-function initialize(canvas, elementRegistry, version, modeler, eventBus, titleInputLast, fnDebounce) {
+function initialize(canvas, elementRegistry, version, modeler, eventBus, fnDebounce) {
 
   // we need to initiate the activity commandStack elements
   DSActivityHandlers(commandStack, eventBus, canvas);
@@ -115,7 +115,7 @@ function initialize(canvas, elementRegistry, version, modeler, eventBus, titleIn
 
   initReplay(canvas);
   initElementRegistry(elementRegistry);
-  initImports(elementRegistry, version, modeler,eventBus, titleInputLast, fnDebounce);
+  initImports(elementRegistry, version, modeler,eventBus, fnDebounce);
 
   // disable BPMN SearchPad
   SearchPad.prototype.toggle=function() { };
@@ -577,11 +577,14 @@ function closeImageDownloadDialog() {
 }
 
 function showHeadlineDialog() {
-  if (descriptionInputLast == '') {
-    descriptionInputLast = infoText.innerText;
+  if (getDescriptionInputLast() == '') {
+    setDescriptionInputLast(infoText.innerText);
   }
-  info.value = descriptionInputLast;
-  titleInput.value = titleInputLast;
+  if (getTitleInputLast() == '') {
+    setTitleInputLast(title.innerText);
+  }
+  info.value = getDescriptionInputLast();
+  titleInput.value = getTitleInputLast();
   headlineDialog.style.display = 'block';
   modal.style.display = 'block';
   arrow.style.display = 'block';
@@ -600,8 +603,8 @@ function saveHeadlineDialog() {
   info.innerText = inputText;
   infoText.innerText = inputText;
 
-  titleInputLast = inputTitle;
-  descriptionInputLast = inputText;
+  setTitleInputLast(inputTitle);
+  setDescriptionInputLast(inputText);
 
   // to update the title of the svg, we need to tell the command stack, that a value has changed
   const exportArtifacts = debounce(fnDebounce, 500);
@@ -609,6 +612,7 @@ function saveHeadlineDialog() {
   eventBus.fire('commandStack.changed', exportArtifacts);
 
   keysPressed = [];
+  makeDirty();
   closeHeadlineDialog();
 }
 

@@ -6,7 +6,7 @@ import { cleanDictionaries } from '../dictionary/dictionary';
 import { correctElementRegitryInit, getAllCanvasObjects, getAllGroups, initElementRegistry } from '../canvasElements/canvasElementRegistry';
 import { isInDomainStoryGroup } from '../../util/TypeCheck';
 import { assign } from 'min-dash';
-import { storyPersistTag, saveIconConfiguration, loadConfiguration, importConfiguration } from '../iconSetCustomization/persitence';
+import { storyPersistTag, loadConfiguration, importConfiguration, saveIconConfiguration } from '../iconSetCustomization/persitence';
 import { removeDirtyFlag } from '../export/dirtyFlag';
 import { addIMGToIconDictionary } from '../iconSetCustomization/appendIconDictionary';
 import { debounce } from '../../util/helpers';
@@ -25,6 +25,8 @@ let modal = document.getElementById('modal'),
     brokenDSTDialogButtonCancel = document.getElementById('brokenDSTDialogButtonCancel'),
     versionDialogButtonCancel = document.getElementById('closeVersionDialog');
 
+let titleInputLast = '', descriptionInputLast = '';
+
 if (versionDialogButtonCancel) {
   versionDialogButtonCancel.addEventListener('click', function() {
     modal.style.display = 'none';
@@ -36,12 +38,28 @@ if (versionDialogButtonCancel) {
   });
 }
 
+export function getTitleInputLast() {
+  return titleInputLast;
+}
+
+export function getDescriptionInputLast() {
+  return descriptionInputLast;
+}
+
+export function setDescriptionInputLast(description) {
+  descriptionInputLast = description;
+}
+
+export function setTitleInputLast(title) {
+  titleInputLast = title;
+}
+
 function closeBrokenDSTDialog() {
   brokenDSTInfo.style.display = 'none';
   modal.style.display = 'none';
 }
 
-export function initImports(elementRegistry, version, modeler,eventBus, titleInputLast, fnDebounce) {
+export function initImports(elementRegistry, version, modeler,eventBus, fnDebounce) {
   document.getElementById('import').onchange = function() {
 
     let input = document.getElementById('import').files[0];
@@ -84,6 +102,7 @@ export function initImports(elementRegistry, version, modeler,eventBus, titleInp
 }
 
 export function loadPersistedDST(modeler) {
+  titleInputLast = '', descriptionInputLast = '';
   let persitedStory = localStorage.getItem(storyPersistTag);
   localStorage.removeItem(storyPersistTag);
 
@@ -124,6 +143,8 @@ export function loadPersistedDST(modeler) {
 }
 
 export function importDST(input, version, modeler) {
+  titleInputLast = '';
+  descriptionInputLast = '';
 
   let reader = new FileReader();
   if (input.name.endsWith('.dst')) {
@@ -151,6 +172,13 @@ export function readerFunction(text, version, modeler) {
   if (dstAndConfig.config) {
     config = dstAndConfig.config;
     configChanged = configHasChanged(config);
+    if (configChanged) {
+      const name = loadConfiguration(config);
+      if (domExists()) {
+        const domainNameInput = document.getElementById('domainNameInput');
+        domainNameInput.value = name;
+      }
+    }
     elements = JSON.parse(dstAndConfig.dst);
   } else {
     elements = JSON.parse(text);
@@ -191,17 +219,14 @@ export function readerFunction(text, version, modeler) {
     adjustPositions(elements);
   }
 
-  if (config) {
-    loadConfiguration(config);
-  }
-
   updateIconRegistries(elements);
   modeler.importCustomElements(elements);
 
+  if (configChanged) {
+    saveIconConfiguration();
+  }
+
   if (domExists()) {
-    if (configChanged) {
-      saveIconConfiguration();
-    }
     correctElementRegitryInit();
 
     cleanDictionaries();

@@ -14,6 +14,7 @@ import { getNameFromType } from '../../language/naming';
 import { getIconForType } from '../../language/icon/iconDictionary';
 import { ACTIVITY, ACTOR, GROUP, TEXTANNOTATION, WORKOBJECT } from '../../language/elementTypes';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
+import { makeDirty } from '../export/dirtyFlag';
 
 export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
 
@@ -78,6 +79,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           action: {
             click: function(event, element) {
               modeling.removeElements({ element });
+              makeDirty();
             }
           }
         }

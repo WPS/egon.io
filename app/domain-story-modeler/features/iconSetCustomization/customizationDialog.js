@@ -1,6 +1,6 @@
 'use strict';
 
-import { initializeAllIcons, getAllIconDictioary, deleteFromSelectedWorkObjectDictionary, deleteFromSelectedActorDictionary, getIconSource, addToSelectedActors, addToSelectedWorkObjects, selectedCitionariesAreNotEmpty, getAppendedIconDictionary } from './dictionaries';
+import { initializeAllIcons, getAllIconDictioary, deleteFromSelectedWorkObjectDictionary, deleteFromSelectedActorDictionary, getIconSource, addToSelectedActors, addToSelectedWorkObjects, selectedCitionariesAreNotEmpty, getAppendedIconDictionary, resetSelectionDictionaries } from './dictionaries';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { domExists } from '../../language/testmode';
 import { isInTypeDictionary } from '../../language/icon/dictionaries';
@@ -74,7 +74,86 @@ function dropElement(event) {
   }
 }
 
+function removeListEntry(name, list) {
+  let children = list.children;
+  let wantedChild;
+  for (let i=0; i<children.length; i++) {
+    let child = children[i];
+    let innerText = child.innerText;
+    if (innerText.includes(name)) {
+      wantedChild = child;
+    }
+  }
+  if (wantedChild) {
+    list.removeChild(wantedChild);
+  }
+}
+
+function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, addToWorkObjects, updateHTML) {
+
+  deleteFromSelectedWorkObjectDictionary(currentSelectionName);
+  if (deleteFromSelectedActorDictionary(currentSelectionName)) {
+    if (updateHTML) {
+      removeListEntry(currentSelectionName, selectedActorsList);
+    }
+  } else {
+    if (updateHTML) {
+      removeListEntry(currentSelectionName, selectedWorkObjectList);
+    }
+  }
+
+  let iconSRC = getIconSource(currentSelectionName);
+  if (addToActors) {
+    addToSelectedActors(currentSelectionName, iconSRC);
+    if (updateHTML) {
+      createListElementInSeletionList(currentSelectionName, iconSRC, selectedActorsList);
+    }
+  }
+  else if (addToWorkObjects) {
+    addToSelectedWorkObjects(currentSelectionName, iconSRC);
+    if (updateHTML) {
+      createListElementInSeletionList(currentSelectionName, iconSRC, selectedWorkObjectList);
+    }
+  }
+
+  let exportConfigurationButton = document.getElementById('exportConfigurationButton');
+  let customIconConfigSaveButton = document.getElementById('customIconConfigSaveButton');
+
+  if (selectedCitionariesAreNotEmpty()) {
+    exportConfigurationButton.disabled = false;
+    exportConfigurationButton.style.opacity = 1;
+
+    customIconConfigSaveButton.disabled = false;
+    customIconConfigSaveButton.style.opacity = 1;
+  } else {
+    exportConfigurationButton.disabled = true;
+    exportConfigurationButton.style.opacity = 0.5;
+
+    customIconConfigSaveButton.disabled = true;
+    customIconConfigSaveButton.style.opacity = 0.5;
+  }
+
+  if (!updateHTML) {
+    let correspondingAllIconElement = document.evaluate('//text[contains(., \''+currentSelectionName +'\')]', document, null, XPathResult.ANY_TYPE, null).iterateNext().parentNode;
+    let radioButtons = correspondingAllIconElement.children[0];
+
+    //    let radioNone = radioButtons.children[0];
+    let radioActor = radioButtons.children[1];
+    let radioWorkObject = radioButtons.children[2];
+
+    if (addToActors) {
+      radioActor.checked = true;
+      radioWorkObject.checked = false;
+    } else {
+      radioActor.checked = false;
+      radioWorkObject.checked = true;
+    }
+  }
+}
+
 export function createListOfAllIcons() {
+  resetHTMLSelectionList();
+  resetSelectionDictionaries();
   new Sortable(htmlList, mainListOptions);
   new Sortable(selectedActorsList, actorListOptions);
   new Sortable(selectedWorkObjectList, workObjectListOptions);
@@ -198,7 +277,34 @@ export function createListElement(name, greyBackground) {
   return listElement;
 }
 
+export function resetHTMLSelectionList() {
+  if (domExists()) {
+
+    let i=0, child;
+    for (i=selectedWorkObjectList.children.length -1; i>=0; i--) {
+      child = selectedWorkObjectList.children[i];
+      selectedWorkObjectList.removeChild(child);
+    }
+
+    for (i=selectedActorsList.children.length -1; i>=0; i--) {
+      child = selectedActorsList.children[i];
+      selectedActorsList.removeChild(child);
+    }
+  }
+}
+
 export function createListElementInSeletionList(name, src, list) {
+
+  let children = list.children;
+  for (let i=0; i< children.length; i++) {
+    let child = children[i];
+    const listElementName = child.children[1].innerText;
+    if (name == listElementName) {
+      return;
+    }
+  }
+  list.children;
+
   if (domExists()) {
     var listElement = document.createElement('li');
     var nameElement = document.createElement('text');
@@ -219,95 +325,5 @@ export function createListElementInSeletionList(name, src, list) {
     listElement.appendChild(nameElement);
 
     list.appendChild(listElement);
-  }
-}
-
-function removeListEntry(name, list) {
-  let children = list.children;
-  let wantedChild;
-  for (let i=0; i<children.length; i++) {
-    let child = children[i];
-    let innerText = child.innerText;
-    if (innerText.includes(name)) {
-      wantedChild = child;
-    }
-  }
-  if (wantedChild) {
-    list.removeChild(wantedChild);
-  }
-}
-
-function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, addToWorkObjects, updateHTML) {
-
-  deleteFromSelectedWorkObjectDictionary(currentSelectionName);
-  if (deleteFromSelectedActorDictionary(currentSelectionName)) {
-    if (updateHTML) {
-      removeListEntry(currentSelectionName, selectedActorsList);
-    }
-  } else {
-    if (updateHTML) {
-      removeListEntry(currentSelectionName, selectedWorkObjectList);
-    }
-  }
-
-  let iconSRC = getIconSource(currentSelectionName);
-  if (addToActors) {
-    addToSelectedActors(currentSelectionName, iconSRC);
-    if (updateHTML) {
-      createListElementInSeletionList(currentSelectionName, iconSRC, selectedActorsList);
-    }
-  }
-  else if (addToWorkObjects) {
-    addToSelectedWorkObjects(currentSelectionName, iconSRC);
-    if (updateHTML) {
-      createListElementInSeletionList(currentSelectionName, iconSRC, selectedWorkObjectList);
-    }
-  }
-
-  let exportConfigurationButton = document.getElementById('exportConfigurationButton');
-  let customIconConfigSaveButton = document.getElementById('customIconConfigSaveButton');
-
-  if (selectedCitionariesAreNotEmpty()) {
-    exportConfigurationButton.disabled = false;
-    exportConfigurationButton.style.opacity = 1;
-
-    customIconConfigSaveButton.disabled = false;
-    customIconConfigSaveButton.style.opacity = 1;
-  } else {
-    exportConfigurationButton.disabled = true;
-    exportConfigurationButton.style.opacity = 0.5;
-
-    customIconConfigSaveButton.disabled = true;
-    customIconConfigSaveButton.style.opacity = 0.5;
-  }
-
-  if (!updateHTML) {
-    let correspondingAllIconElement = document.evaluate('//text[contains(., \''+currentSelectionName +'\')]', document, null, XPathResult.ANY_TYPE, null).iterateNext().parentNode;
-    let radioButtons = correspondingAllIconElement.children[0];
-
-    //    let radioNone = radioButtons.children[0];
-    let radioActor = radioButtons.children[1];
-    let radioWorkObject = radioButtons.children[2];
-
-    if (addToActors) {
-      radioActor.checked = true;
-      radioWorkObject.checked = false;
-    } else {
-      radioActor.checked = false;
-      radioWorkObject.checked = true;
-    }
-  }
-}
-
-export function resetHTMLSelectionList() {
-  let i=0, child;
-  for (i=selectedWorkObjectList.children.length -1; i>=0; i--) {
-    child = selectedWorkObjectList.children[i];
-    selectedWorkObjectList.removeChild(child);
-  }
-
-  for (i=selectedActorsList.children.length -1; i>=0; i--) {
-    child = selectedActorsList.children[i];
-    selectedActorsList.removeChild(child);
   }
 }

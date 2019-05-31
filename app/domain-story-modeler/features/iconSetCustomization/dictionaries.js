@@ -11,7 +11,11 @@ let selectedAsWorkObjectDictionary = new CanvasObjectTypes();
 export function getAppendedIconDictionary() {
   let appendedDict = new CanvasObjectTypes();
   appendedDict.addEach(appendedIcons);
-
+  appendedDict.keysArray().forEach(name => {
+    if (allIconDictionary.has(name)) {
+      appendedDict.delete(name);
+    }
+  });
   return appendedDict;
 }
 

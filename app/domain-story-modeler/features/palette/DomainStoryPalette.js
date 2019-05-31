@@ -8,6 +8,7 @@ import { GROUP, ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { appendedIconsTag } from '../iconSetCustomization/persitence';
 import { overrideAppendedIcons } from '../../language/icon/all_Icons';
 import { initTypeDictionaries, getTypeDictionary } from '../../language/icon/dictionaries';
+import { domExists } from '../../language/testmode';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
@@ -98,8 +99,11 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
 
   let customIcons = localStorage.getItem(appendedIconsTag);
   if (customIcons) {
-    overrideAppendedIcons(JSON.parse(customIcons));
-    appendCSSStyleCheat(JSON.parse(customIcons));
+    customIcons = JSON.parse(customIcons);
+    overrideAppendedIcons(customIcons);
+    if (domExists()) {
+      appendCSSStyleCheat(customIcons);
+    }
   }
 
   initTypeDictionaries(config.actors, config.workObjects);

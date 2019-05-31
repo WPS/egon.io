@@ -20,8 +20,9 @@ export function setToDefault() {
   localStorage.removeItem(useCustomConfigTag);
   localStorage.removeItem(customConfigTag);
   localStorage.removeItem(appendedIconsTag);
-
-  location.reload();
+  if (domExists()) {
+    location.reload();
+  }
 }
 
 export function exportConfiguration() {
@@ -31,7 +32,7 @@ export function exportConfiguration() {
   let configJSONString;
 
   if (actors.size >0 && workObjects.size>0) {
-    configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
+    configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects, document.getElementById('domainNameInput').value));
 
     let domainNameInput = document.getElementById('domainNameInput');
 
@@ -55,20 +56,19 @@ export function importConfiguration(input) {
 
   let reader = new FileReader();
 
-  if (input.name.endsWith('.config')) {
-    let domainName = input.name.replace('.config', '');
-    let domainNameInput = document.getElementById('domainNameInput');
-    domainNameInput.value = domainName;
-  }
-
   reader.onloadend = function(e) {
-    loadConfiguration(e.target.result);
+    let domainName = loadConfiguration(e.target.result);
+    if (!domainName && input.name.endsWith('.config')) {
+      domainName = input.name.replace('.config');
+    }
+    const domainNameInput = document.getElementById('domainNameInput');
+    domainNameInput.value = domainName;
   };
   reader.readAsText(input);
 }
 
-export function saveIconConfiguration() {
-  persistStory();
+export function saveIconConfiguration(elements) {
+  persistStory(elements);
 
   let actors = getSelectedActorsDictionary();
   let workObjects = getSelectedWorkObjectsDictionary();
@@ -80,26 +80,34 @@ export function saveIconConfiguration() {
     workObjects = getTypeDictionary(WORKOBJECT);
   }
 
-  let configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects));
+  let domainNameInput = document.getElementById('domainNameInput');
+  let name = '';
+  if (domainNameInput) {
+    name = domainNameInput.value;
+  }
+  let configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects, name));
   localStorage.setItem(useCustomConfigTag, true);
   localStorage.setItem(customConfigTag, configJSONString);
   localStorage.setItem(appendedIconsTag, JSON.stringify(getAppendedIconDictionary()));
 
-  let domainNameInput = document.getElementById('domainNameInput');
-  localStorage.setItem(customConfigNameTag, domainNameInput.value);
+  localStorage.setItem(customConfigNameTag, name);
 
-  location.reload();
+  if (domExists()) {
+    location.reload();
+  }
 }
 
 export function loadConfiguration(customConfig) {
   let customConfigJSON = JSON.parse(customConfig);
 
+  const configurationName = customConfigJSON.name;
   let actors = customConfigJSON.actors;
   let workObjects = customConfigJSON.workObjects;
 
   const dictionary = require('collections/dict');
 
   resetSelectionDictionaries();
+  resetHTMLSelectionList();
 
   let actorDict = new dictionary();
   let workObjectDict = new dictionary();
@@ -124,6 +132,7 @@ export function loadConfiguration(customConfig) {
   workObjectDict.keysArray().forEach(name => {
     addToSelectedWorkObjects(name, getIconSource(name));
   });
+  return configurationName;
 }
 
 function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
@@ -157,7 +166,7 @@ function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
   }
 }
 
-export function createConfigFromDictionaries(actorsDict, workObjectsDict) {
+export function createConfigFromDictionaries(actorsDict, workObjectsDict, name) {
   let actors = actorsDict.keysArray();
   let workObjects = workObjectsDict.keysArray();
 
@@ -173,6 +182,7 @@ export function createConfigFromDictionaries(actorsDict, workObjectsDict) {
   });
 
   let config = {
+    'name': name,
     'actors': actorsJSON,
     'workObjects': workObjectJSON
   };
@@ -183,7 +193,10 @@ export function createConfigFromDictionaries(actorsDict, workObjectsDict) {
 function persistStory() {
   let title = document.getElementById('title');
   let objects = createObjectListForDSTDownload(version);
-  let titleText = title.innerText;
+  let titleText = '';
+  if (title) {
+    titleText = title.innerText;
+  }
 
   let completeJSON = {
     title: titleText,
