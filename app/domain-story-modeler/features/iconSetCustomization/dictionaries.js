@@ -64,7 +64,7 @@ export function deleteFromSelectedWorkObjectDictionary(name) {
   return selectedAsWorkObjectDictionary.delete(name);
 }
 
-export function selectedCitionariesAreNotEmpty() {
+export function selectedDitionariesAreNotEmpty() {
   return (selectedAsActorDictionary.length > 0 && selectedAsWorkObjectDictionary.length >0);
 }
 

@@ -9,7 +9,7 @@ export function checkElementReferencesAndRepair(elements) {
   let complete = true;
 
   elements.forEach(element => {
-    let type = element.type;
+    const type = element.type;
     if (type == ACTIVITY || type == CONNECTION) {
       activities.push(element);
     } else {
@@ -18,11 +18,11 @@ export function checkElementReferencesAndRepair(elements) {
   });
 
   activities.forEach(activity => {
-    let source = activity.source;
-    let target = activity.target;
+    const source = activity.source;
+    const target = activity.target;
     if (!objectIDs.includes(source) || !objectIDs.includes(target)) {
       complete = false;
-      let activityIndex = elements.indexOf(activity);
+      const activityIndex = elements.indexOf(activity);
       elements = elements.splice(activityIndex,1);
     }
   });

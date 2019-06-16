@@ -28,19 +28,17 @@ export function setToDefault() {
 export function exportConfiguration() {
   let actors = getSelectedActorsDictionary();
   let workObjects = getSelectedWorkObjectsDictionary();
-
   let configJSONString;
 
   if (actors.size >0 && workObjects.size>0) {
     configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects, document.getElementById('domainNameInput').value));
 
     let domainNameInput = document.getElementById('domainNameInput');
-
     let filename = domainNameInput.value || 'domain';
     let element = document.createElement('a');
+
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(configJSONString));
     element.setAttribute('download', filename + '.config');
-
     element.style.display = 'none';
     document.body.appendChild(element);
 
@@ -53,7 +51,6 @@ export function exportConfiguration() {
 }
 
 export function importConfiguration(input) {
-
   let reader = new FileReader();
 
   reader.onloadend = function(e) {
@@ -72,6 +69,8 @@ export function saveIconConfiguration(elements) {
 
   let actors = getSelectedActorsDictionary();
   let workObjects = getSelectedWorkObjectsDictionary();
+  let domainNameInput = document.getElementById('domainNameInput');
+  let name = '';
 
   if (!actors.size >0) {
     actors = getTypeDictionary(ACTOR);
@@ -79,17 +78,15 @@ export function saveIconConfiguration(elements) {
   if (!workObjects.size>0) {
     workObjects = getTypeDictionary(WORKOBJECT);
   }
-
-  let domainNameInput = document.getElementById('domainNameInput');
-  let name = '';
   if (domainNameInput) {
     name = domainNameInput.value;
   }
+
   let configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects, name));
+
   localStorage.setItem(useCustomConfigTag, true);
   localStorage.setItem(customConfigTag, configJSONString);
   localStorage.setItem(appendedIconsTag, JSON.stringify(getAppendedIconDictionary()));
-
   localStorage.setItem(customConfigNameTag, name);
 
   if (domExists()) {
@@ -98,23 +95,21 @@ export function saveIconConfiguration(elements) {
 }
 
 export function loadConfiguration(customConfig) {
+  const dictionary = require('collections/dict');
+  let actorDict = new dictionary();
+  let workObjectDict = new dictionary();
+
   let customConfigJSON = JSON.parse(customConfig);
 
   const configurationName = customConfigJSON.name;
   let actors = customConfigJSON.actors;
   let workObjects = customConfigJSON.workObjects;
 
-  const dictionary = require('collections/dict');
-
   resetSelectionDictionaries();
   resetHTMLSelectionList();
 
-  let actorDict = new dictionary();
-  let workObjectDict = new dictionary();
-
   actorDict.addEach(actors);
   workObjectDict.addEach(workObjects);
-
   actors = actorDict.keysArray();
   workObjects = workObjectDict.keysArray();
 
@@ -132,6 +127,7 @@ export function loadConfiguration(customConfig) {
   workObjectDict.keysArray().forEach(name => {
     addToSelectedWorkObjects(name, getIconSource(name));
   });
+
   return configurationName;
 }
 
@@ -169,7 +165,6 @@ function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
 export function createConfigFromDictionaries(actorsDict, workObjectsDict, name) {
   let actors = actorsDict.keysArray();
   let workObjects = workObjectsDict.keysArray();
-
   let actorsJSON = {};
   let workObjectJSON = {};
 
@@ -191,19 +186,18 @@ export function createConfigFromDictionaries(actorsDict, workObjectsDict, name) 
 }
 
 function persistStory() {
-  let title = document.getElementById('title');
   let objects = createObjectListForDSTDownload(version);
+  let title = document.getElementById('title');
   let titleText = '';
+
   if (title) {
     titleText = title.innerText;
   }
 
-  let completeJSON = {
-    title: titleText,
-    objects: objects
-  };
-
-  let storyJSON = JSON.stringify(completeJSON);
-
-  localStorage.setItem(storyPersistTag, storyJSON);
+  localStorage.setItem(storyPersistTag, JSON.stringify(
+    {
+      title: titleText,
+      objects: objects
+    }
+  ));
 }
