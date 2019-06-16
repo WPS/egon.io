@@ -3,6 +3,7 @@ html, body {
   width: 99.4%;
   position: absolute;
   font-family: Helvetica;
+  overflow: hidden;
 }
 
 input{
@@ -52,6 +53,10 @@ input{
   margin-bottom: 0px;
   height: 40px;
   cursor: pointer;
+}
+
+#currentDomainNameContainer {
+  font-size: 10pt;
 }
 
 #headline:hover {
