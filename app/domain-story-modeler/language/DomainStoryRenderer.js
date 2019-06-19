@@ -140,7 +140,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       let xStart = position.x;
 
       // if the activity is horizontal, we want to center the label
-      if (angle == 0 || angle == 180) {
+      if (angle === 0 || angle === 180) {
         boxWidth = Math.abs(startPoint.x - endPoint.x);
         alignment = 'center';
         xStart = (startPoint.x + endPoint.x)/2 - calculateTextWidth(semantic.name);
@@ -427,7 +427,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     if (element.businessObject.text) {
       let height = getAnnotationBoxHeight();
 
-      if (height == 0 && element.businessObject.number) {
+      if (height === 0 && element.businessObject.number) {
         height = element.businessObject.number;
       }
       assign(element, {

@@ -48,7 +48,7 @@ function updateBackgroundColors() {
   const children = htmlList.children;
   for (let i=0; i<children.length; i++) {
     const child = children[i];
-    if (i%2 ==0) {
+    if (i%2 === 0) {
       child.style.backgroundColor = highlightBackgroundColor;
     } else {
       child.style.backgroundColor = 'white';
@@ -164,7 +164,7 @@ export function createListOfAllIcons() {
 
   let i=0;
   allIconNames.forEach(name => {
-    const listElement = createListElement(name, (i%2)==0);
+    const listElement = createListElement(name, (i%2) === 0);
     htmlList.appendChild(listElement);
     i++;
   });
@@ -172,7 +172,7 @@ export function createListOfAllIcons() {
   const appendIconDictionary = getAppendedIconDictionary();
   const allAppendIconNames = appendIconDictionary.keysArray();
   allAppendIconNames.forEach(name => {
-    const listElement = createListElement(name, (i%2)==0);
+    const listElement = createListElement(name, (i%2) === 0);
     htmlList.appendChild(listElement);
     i++;
   });

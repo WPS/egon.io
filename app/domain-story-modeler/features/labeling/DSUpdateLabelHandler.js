@@ -53,7 +53,7 @@ export default function DSUpdateLabelHandler(modeling, textRenderer, commandStac
       if (!isLabel(element)
         && isLabelExternal(element)
         && !hasExternalLabel(element)
-        && (newLabel !== '' || newNumber!=='')) {
+        && (newLabel !== '' || newNumber !== '')) {
 
         // create label
         let paddingTop = 7;

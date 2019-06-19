@@ -29,16 +29,16 @@ Math.angleBetween = function(startPoint, endPoint) {
 
   // since the arcus-tangens only gives values between 0 and 90, we have to adjust for the quadrant we are in
 
-  if (quadrant == 0) {
+  if (quadrant === 0) {
     return 90 - Math.degrees(Math.atan2(opposite, adjacenten));
   }
-  if (quadrant == 1) {
+  if (quadrant === 1) {
     return 90 + Math.degrees(Math.atan2(opposite, adjacenten));
   }
-  if (quadrant == 2) {
+  if (quadrant === 2) {
     return 270 - Math.degrees(Math.atan2(opposite, adjacenten));
   }
-  if (quadrant == 3) {
+  if (quadrant === 3) {
     return 270 + Math.degrees(Math.atan2(opposite, adjacenten));
   }
 };

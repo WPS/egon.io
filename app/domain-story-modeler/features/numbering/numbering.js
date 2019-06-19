@@ -47,7 +47,7 @@ export function generateAutomaticNumber(elementActivity, commandStack) {
       }
     }
   }
-  if (wantedNumber == -1) {
+  if (wantedNumber === -1) {
     wantedNumber = usedNumbers.length;
   }
   updateExistingNumbersAtGeneration(activiesFromActors, wantedNumber, commandStack);

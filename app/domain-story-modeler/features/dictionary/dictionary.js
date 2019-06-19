@@ -132,7 +132,7 @@ export function dictionaryClosed(commandStack, activityDictionaryContainer, work
     }
   });
 
-  if (activityNewNames.length == oldActivityDictionary.length && workObjectNewNames.length==oldWorkobjectDictionary.length) {
+  if (activityNewNames.length === oldActivityDictionary.length && workObjectNewNames.length === oldWorkobjectDictionary.length) {
     dictionaryDifferences(activityNewNames, oldActivityDictionary, workObjectNewNames, oldWorkobjectDictionary, commandStack);
   }
 }

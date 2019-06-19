@@ -80,7 +80,7 @@ export function selectPartOfActivity(waypoints, angleActivity) {
   let linelength = 49;
 
   for (i = 0; i < waypoints.length; i++) {
-    if ((angleActivity[i] == 0) || (angleActivity[i] == 180)) {
+    if ((angleActivity[i] === 0) || (angleActivity[i] === 180)) {
       let length = Math.abs(waypoints[i].x - waypoints[i + 1].x);
       if (length > linelength) {
         selectedActivity = i;
@@ -92,7 +92,7 @@ export function selectPartOfActivity(waypoints, angleActivity) {
 
 // approximate the width of the label text, standard fontsize: 11
 export function calculateTextWidth(text) {
-  if (text == null || text.length == 0) {
+  if (!text) {
     return 0;
   }
 
@@ -162,19 +162,19 @@ export function autocomplete(inp, arr, element) {
   inp.addEventListener('keydown', function(e) {
     let autocompleteList = document.getElementById('autocomplete-list');
     if (autocompleteList) autocompleteList = autocompleteList.getElementsByTagName('div');
-    if (e.keyCode == 40) {
+    if (e.keyCode === 40) {
       /* If the arrow DOWN key is pressed,
         increase the currentFocus letiable:*/
       currentFocus++;
       /* and and make the current item more visible:*/
       addActive(autocompleteList);
-    } else if (e.keyCode == 38) { // up
+    } else if (e.keyCode === 38) { // up
       /* If the arrow UP key is pressed,
         decrease the currentFocus letiable:*/
       currentFocus--;
       /* and and make the current item more visible:*/
       addActive(autocompleteList);
-    } else if (e.keyCode == 13) {
+    } else if (e.keyCode === 13) {
       /* If the ENTER key is pressed, prevent the form from being submitted,*/
       e.preventDefault();
       if (currentFocus > -1) {

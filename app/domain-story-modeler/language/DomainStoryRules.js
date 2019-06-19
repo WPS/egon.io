@@ -54,7 +54,7 @@ function canConnect(source, target) {
   }
 
   // do not allow a connection from one element to itself
-  if (source == target) {
+  if (source === target) {
     return;
   }
 
@@ -100,14 +100,14 @@ function canResize(shape, newBounds) {
         }
       }
 
-      if (newBounds.x != shape.x && newBounds.y == shape.y) {
+      if (newBounds.x != shape.x && newBounds.y === shape.y) {
         // lower left
         if (newBounds.x > upperRight.x - MIN_SIZE) {
           assign(newBounds, { x: upperRight.x - MIN_SIZE });
         }
       }
 
-      if (newBounds.x == shape.x && newBounds.y != shape.y) {
+      if (newBounds.x === shape.x && newBounds.y != shape.y) {
         // upper right
         if (newBounds.y > lowerLeft.y - MIN_SIZE) {
           assign(newBounds, { y: lowerLeft.y - MIN_SIZE });
@@ -131,7 +131,7 @@ function canResize(shape, newBounds) {
   return false;
 }
 
-function canAttach(elements, target, source, position) {
+function canAttach(elements, target, source) {
 
   if (!Array.isArray(elements)) {
     elements = [elements];

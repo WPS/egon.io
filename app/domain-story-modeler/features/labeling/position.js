@@ -47,7 +47,7 @@ export function labelPositionX(startPoint, endPoint) {
   let angle = Math.angleBetween(startPoint, endPoint);
   let offsetX = 0;
   let scaledangle = 0;
-  if (angle == 0 || angle == 180 || angle == 90 || angle == 270) {
+  if (angle === 0 || angle === 180 || angle === 90 || angle === 270) {
     offsetX = 0;
   }
   else if (angle > 0 && angle < 90) { // endpoint in upper right quadrant
@@ -74,10 +74,10 @@ export function labelPositionY(startPoint, endPoint) {
   let offsetY = 0;
   let scaledangle = 0;
 
-  if (angle == 0 || angle == 180) {
+  if (angle === 0 || angle === 180) {
     offsetY = 15;
   }
-  else if (angle == 90 || angle == 270) {
+  else if (angle === 90 || angle === 270) {
     offsetY = 0;
   }
   else if (angle > 0 && angle < 90) { // endpoint in upper right quadrant

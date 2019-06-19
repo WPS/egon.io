@@ -266,7 +266,7 @@ eventBus.on('element.dblclick', function(e) {
 
             for (let j=0; j<allActivities.length; j++) {
               let activity = allActivities[j];
-              if (activity.businessObject.number == tNumber) {
+              if (activity.businessObject.number === tNumber) {
                 if (positionsMatch(width, height, elementX, elementY, clickX, clickY)) {
                   activityDoubleClick(activity);
                 }
@@ -509,12 +509,12 @@ function dictionaryKeyBehaviour(event) {
   const KEY_ENTER = 13;
   const KEY_ESC = 27;
 
-  if (event.keyCode == KEY_ENTER) {
+  if (event.keyCode === KEY_ENTER) {
     dictionaryClosed();
     dictionaryDialog.style.display='none';
     modal.style.display='none';
   }
-  else if (event.keyCode == KEY_ESC) {
+  else if (event.keyCode === KEY_ESC) {
     dictionaryDialog.style.display='none';
     modal.style.display='none';
   }
