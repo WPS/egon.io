@@ -8,6 +8,7 @@ import {
 } from '../canvasElements/canvasElementRegistry';
 
 let canvas;
+const map = require('collections/map');
 
 let replayOn = false;
 let currentStep = 0;
@@ -159,19 +160,20 @@ export function isPlaying() {
 
 // create a trace through all activities, that recreates the path from the beginning to the end of the story
 export function traceActivities(activitiesFromActors) {
-  let tracedActivities = [];
+  const tracedActivityMap = new map();
 
   // order the activities with numbers by their number
   activitiesFromActors.forEach(element => {
     let number = element.businessObject.number;
-    tracedActivities[number - 1] = element;
+    let tracedItem = tracedActivityMap.get(number-1) || [];
+    tracedItem.push(element);
+    tracedActivityMap.set(number-1, tracedItem);
   });
 
   let allSteps = [];
-
   // create a step for each activity with a number
-  for (let i = 0; i < tracedActivities.length; i++) {
-    let traceStep = createStep(tracedActivities[i]);
+  for (let i = 0; i < tracedActivityMap.keysArray().length; i++) {
+    let traceStep = createStep(tracedActivityMap.get(i));
 
     allSteps.push(traceStep);
   }
@@ -181,7 +183,7 @@ export function traceActivities(activitiesFromActors) {
 // create a step for the replay function
 export function createStep(tracedActivity) {
   let initialSource;
-  let activities = [tracedActivity];
+  let activities = tracedActivity;
   let targetObjects = [];
   if (tracedActivity) {
     initialSource = tracedActivity.source;
@@ -208,7 +210,7 @@ export function createStep(tracedActivity) {
         });
       }
     }
-  }
+  });
 
   let tracedStep = {
     source: initialSource,
