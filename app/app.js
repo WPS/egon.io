@@ -103,6 +103,9 @@ let modal = document.getElementById('modal'),
     activityInputNumber = document.getElementById('inputNumber'),
     activityInputLabelWithNumber = document.getElementById('inputLabel'),
     activityInputLabelWithoutNumber = document.getElementById('labelInputLabel'),
+    multipleNumberAllowedCheckBox = document.getElementById(
+      'multipleNumberAllowed'
+    ),
     // dialogs
     headlineDialog = document.getElementById('dialog'),
     activityWithNumberDialog = document.getElementById('numberDialog'),
@@ -716,6 +719,12 @@ function showActivityWithNumberDialog(event) {
   activityInputLabelWithNumber.value = '';
   activityInputNumber.value = '';
 
+  const numberAsNumber = +event.businessObject.number;
+  const numberIsAlloedMultipleTimes =
+    getMultipleNumberRegistry()[numberAsNumber] === true;
+
+  multipleNumberAllowedCheckBox.checked = numberIsAlloedMultipleTimes;
+
   if (event.businessObject.name != null) {
     activityInputLabelWithNumber.value = event.businessObject.name;
   }
@@ -750,6 +759,8 @@ function closeActivityInputLabelWithNumberDialog() {
 function saveActivityInputLabelWithNumber(element) {
   let labelInput = '';
   let numberInput = '';
+  const multipleNumberAllowed = multipleNumberAllowedCheckBox.checked;
+
   const activityDictionary = getActivityDictionary();
   if (activityInputLabelWithNumber != '') {
     labelInput = activityInputLabelWithNumber.value;
@@ -760,6 +771,7 @@ function saveActivityInputLabelWithNumber(element) {
   if (activityInputNumber != '') {
     numberInput = activityInputNumber.value;
   }
+  const numberInputAsNumber = +numberInput;
 
   activityWithNumberDialog.style.display = 'none';
   modal.style.display = 'none';
@@ -769,9 +781,12 @@ function saveActivityInputLabelWithNumber(element) {
   keysPressed = [];
 
   const activitiesFromActors = getActivitesFromActors();
-
   const index = activitiesFromActors.indexOf(element);
+
   activitiesFromActors.splice(index, 1);
+
+  setNumberIsMultiple(numberInputAsNumber, multipleNumberAllowed);
+  element.businessObject.multipleNumberAllowed = multipleNumberAllowed;
 
   commandStack.execute('activity.changed', {
     businessObject: element.businessObject,
@@ -779,8 +794,17 @@ function saveActivityInputLabelWithNumber(element) {
     newNumber: numberInput,
     element: element
   });
-
-  updateExistingNumbersAtEditing(activitiesFromActors, numberInput, eventBus);
+  if (element.businessObject.multipleNumberAllowed !== false) {
+    if (getMultipleNumberRegistry()[numberInputAsNumber] === false) {
+      updateExistingNumbersAtEditing(
+        activitiesFromActors,
+        numberInput,
+        eventBus
+      );
+    }
+  } else if (element.businessObject.multipleNumberAllowed === false) {
+    updateExistingNumbersAtEditing(activitiesFromActors, numberInput, eventBus);
+  }
   cleanDictionaries();
 }
 
