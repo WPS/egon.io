@@ -185,32 +185,35 @@ export function createStep(tracedActivity) {
   let initialSource;
   let activities = tracedActivity;
   let targetObjects = [];
-  if (tracedActivity) {
-    initialSource = tracedActivity.source;
 
-    // add the first Object to the traced targets, this can only be a workObject, since actors cannot connect to other actors
-    let firstTarget = tracedActivity.target;
-    targetObjects.push(firstTarget);
+  tracedActivity.forEach(parrallelStep => {
+    if (parrallelStep) {
+      initialSource = parrallelStep.source;
 
-    // check the outgoing activities for each target
-    for (let i = 0; i < targetObjects.length; i++) {
-      let checkTarget = targetObjects[i];
-      if (
-        checkTarget.businessObject &&
-        !checkTarget.businessObject.type.includes('actor') &&
-        checkTarget.outgoing
-      ) {
-        // check the target for each outgoing activity
-        checkTarget.outgoing.forEach(activity => {
-          activities.push(activity);
-          let activityTarget = activity.target;
-          if (!targetObjects.includes(activityTarget)) {
-            targetObjects.push(activityTarget);
-          }
-        });
+      // add the first Object to the traced targets, this can only be a workObject, since actors cannot connect to other actors
+      let firstTarget = parrallelStep.target;
+      targetObjects.push(firstTarget);
+
+      // check the outgoing activities for each target
+      for (let i = 0; i < targetObjects.length; i++) {
+        let checkTarget = targetObjects[i];
+        if (
+          checkTarget.businessObject &&
+          !checkTarget.businessObject.type.includes('actor') &&
+          checkTarget.outgoing
+        ) {
+          // check the target for each outgoing activity
+          checkTarget.outgoing.forEach(activity => {
+            activities.push(activity);
+            let activityTarget = activity.target;
+            if (!targetObjects.includes(activityTarget)) {
+              targetObjects.push(activityTarget);
+            }
+          });
+        }
       }
     }
-  }
+  });
 
   let tracedStep = {
     source: initialSource,

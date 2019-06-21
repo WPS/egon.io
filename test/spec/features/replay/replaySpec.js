@@ -1,8 +1,15 @@
-import { isStoryConsecutivelyNumbered, createStep, traceActivities } from '../../../../app/domain-story-modeler/features/replay/replay';
-import { ACTOR, WORKOBJECT, ACTIVITY } from '../../../../app/domain-story-modeler/language/elementTypes';
+import {
+  isStoryConsecutivelyNumbered,
+  createStep,
+  traceActivities
+} from '../../../../app/domain-story-modeler/features/replay/replay';
+import {
+  ACTOR,
+  WORKOBJECT,
+  ACTIVITY
+} from '../../../../app/domain-story-modeler/language/elementTypes';
 
 describe('replay', function() {
-
   it('isStoryConsecutivelyNumbered true', function() {
     // Given
     const replaySteps = [
@@ -12,7 +19,7 @@ describe('replay', function() {
       { activities: [1] },
       { activities: [1] },
       { activities: [1] },
-      { activities: [1] },
+      { activities: [1] }
     ];
 
     // When
@@ -31,7 +38,7 @@ describe('replay', function() {
       { activities: [' '] },
       { activities: [' '] },
       { activities: [' '] },
-      { activities: [' '] },
+      { activities: [' '] }
     ];
 
     // When
@@ -41,28 +48,31 @@ describe('replay', function() {
     expect(isConsecutive).to.be.false;
   });
 
-  it('createStep', function() { // fix test
+  it('createStep', function() {
+    // fix test
     // Given
-    const activityTrace = [{
-      type: ACTIVITY,
-      businessObject: {},
-      source: 'initial',
-      target: {
-        businessObject: {
-          type:WORKOBJECT
-        },
-        outgoing: [
-          {
-            type: ACTIVITY,
-            target: {
-              businessObject: {
-                type:ACTOR
+    const activityTrace = [
+      {
+        type: ACTIVITY,
+        businessObject: {},
+        source: 'initial',
+        target: {
+          businessObject: {
+            type: WORKOBJECT
+          },
+          outgoing: [
+            {
+              type: ACTIVITY,
+              target: {
+                businessObject: {
+                  type: ACTOR
+                }
               }
             }
-          }
-        ]
+          ]
+        }
       }
-    }];
+    ];
     // When
 
     const step = createStep(activityTrace);
@@ -89,36 +99,37 @@ describe('replay', function() {
             number: 1,
             target: {
               businessObject: {
-                type:WORKOBJECT
+                type: WORKOBJECT
               },
               outgoing: [
                 {
                   type: ACTIVITY,
                   target: {
                     businessObject: {
-                      type:ACTOR
+                      type: ACTOR
                     }
                   }
                 }
               ]
             }
-          }, tracedActivity2 = {
+          },
+          tracedActivity2 = {
             type: ACTIVITY,
             businessObject: {
-              number:2
+              number: 2
             },
             source: 'initial',
             number: 2,
             target: {
               businessObject: {
-                type:WORKOBJECT
+                type: WORKOBJECT
               },
               outgoing: [
                 {
                   type: ACTIVITY,
                   target: {
                     businessObject: {
-                      type:ACTOR
+                      type: ACTOR
                     }
                   }
                 }
