@@ -23,7 +23,9 @@ import {
 import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUtil';
 import {
   updateExistingNumbersAtEditing,
-  getNumberRegistry
+  getNumberRegistry,
+  getMultipleNumberRegistry,
+  setNumberIsMultiple
 } from './domain-story-modeler/features/numbering/numbering';
 import {
   ACTIVITY,

@@ -165,9 +165,9 @@ export function traceActivities(activitiesFromActors) {
   // order the activities with numbers by their number
   activitiesFromActors.forEach(element => {
     let number = element.businessObject.number;
-    let tracedItem = tracedActivityMap.get(number-1) || [];
+    let tracedItem = tracedActivityMap.get(number - 1) || [];
     tracedItem.push(element);
-    tracedActivityMap.set(number-1, tracedItem);
+    tracedActivityMap.set(number - 1, tracedItem);
   });
 
   let allSteps = [];
@@ -210,7 +210,7 @@ export function createStep(tracedActivity) {
         });
       }
     }
-  });
+  }
 
   let tracedStep = {
     source: initialSource,
