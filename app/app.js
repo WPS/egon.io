@@ -254,7 +254,7 @@ eventBus.on('element.dblclick', function(e) {
           const width = 25 * zoomX;
           const height = 22 * zoomY;
 
-          for (let i = 1; i<renderedNumberRegistry.length; i++) {
+          for (let i = 0; i<renderedNumberRegistry.length; i++) {
             const currentNum = renderedNumberRegistry[i];
             const tspan = currentNum.getElementsByTagName('tspan')[0];
             const tx = tspan.getAttribute('x');
