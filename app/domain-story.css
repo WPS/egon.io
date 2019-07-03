@@ -293,6 +293,14 @@ cursor: pointer;
   bottom: 305px;
 }
 
+#titleInput {
+  width: 99%;
+}
+
+#descriptionInput {
+  width: 99%;
+}
+
 /* Icon customization */
 
 #allIconsListHeader {
