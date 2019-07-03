@@ -257,19 +257,21 @@ eventBus.on('element.dblclick', function(e) {
 
           for (let i = 1; i<renderedNumberRegistry.length; i++) {
             const currentNum = renderedNumberRegistry[i];
-            const tspan = currentNum.getElementsByTagName('tspan')[0];
-            const tx = tspan.getAttribute('x');
-            const ty = tspan.getAttribute('y');
-            const tNumber = parseInt(tspan.innerHTML);
+            if (currentNum) {
+              const tspan = currentNum.getElementsByTagName('tspan')[0];
+              const tx = tspan.getAttribute('x');
+              const ty = tspan.getAttribute('y');
+              const tNumber = parseInt(tspan.innerHTML);
 
-            const elementX = (tx * zoomX) + (transformX - 5 * zoomX);
-            const elementY = (ty * zoomY) + (transformY - 15 * zoomY);
+              const elementX = (tx * zoomX) + (transformX - 5 * zoomX);
+              const elementY = (ty * zoomY) + (transformY - 15 * zoomY);
 
-            for (let j=0; j<allActivities.length; j++) {
-              let activity = allActivities[j];
-              if (activity.businessObject.number === tNumber) {
-                if (positionsMatch(width, height, elementX, elementY, clickX, clickY)) {
-                  activityDoubleClick(activity);
+              for (let j=0; j<allActivities.length; j++) {
+                let activity = allActivities[j];
+                if (activity.businessObject.number === tNumber) {
+                  if (positionsMatch(width, height, elementX, elementY, clickX, clickY)) {
+                    activityDoubleClick(activity);
+                  }
                 }
               }
             }

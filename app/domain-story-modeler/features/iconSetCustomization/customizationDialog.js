@@ -13,6 +13,8 @@ const Sortable = require('sortablejs');
 const iconSize = 20;
 const highlightBackgroundColor = '#f6f6f6';
 
+let alreadyAddedNames = [];
+
 // options for drag&drop lists
 const mainListOptions = {
   group: 'allIconList',
@@ -164,9 +166,12 @@ export function createListOfAllIcons() {
 
   let i=0;
   allIconNames.forEach(name => {
-    const listElement = createListElement(name, (i%2) === 0);
-    htmlList.appendChild(listElement);
-    i++;
+    if (!alreadyAddedNames .includes(name)) {
+      const listElement = createListElement(name, (i%2) === 0);
+      htmlList.appendChild(listElement);
+      i++;
+      alreadyAddedNames.push(name);
+    }
   });
 
   const appendIconDictionary = getAppendedIconDictionary();
