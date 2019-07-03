@@ -38,7 +38,7 @@ export function exportConfiguration() {
     let element = document.createElement('a');
 
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(configJSONString));
-    element.setAttribute('download', filename + '.config');
+    element.setAttribute('download', filename + '.domain');
     element.style.display = 'none';
     document.body.appendChild(element);
 
@@ -55,8 +55,8 @@ export function importConfiguration(input) {
 
   reader.onloadend = function(e) {
     let domainName = loadConfiguration(e.target.result);
-    if (!domainName && input.name.endsWith('.config')) {
-      domainName = input.name.replace('.config');
+    if (!domainName && input.name.endsWith('.domain')) {
+      domainName = input.name.replace('.domain');
     }
     const domainNameInput = document.getElementById('domainNameInput');
     domainNameInput.value = domainName;
