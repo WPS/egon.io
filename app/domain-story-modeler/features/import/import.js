@@ -154,8 +154,8 @@ export function readerFunction(text, version, modeler) {
   let configChanged = false;
   let dstAndConfig = JSON.parse(text);
 
-  if (dstAndConfig.config) {
-    config = dstAndConfig.config;
+  if (dstAndConfig.domain) {
+    config = dstAndConfig.domain;
     configChanged = configHasChanged(config);
     if (configChanged) {
       const name = loadConfiguration(config);
