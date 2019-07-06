@@ -586,7 +586,7 @@ describe('domainStory modeler', function() {
     modeler = new DomainStoryModeler({ container: container });
 
     const intricateV0_6_0_JSONStringWithCustomConfig = JSON.stringify({
-      'config': JSON.stringify(intricateConfig),
+      'domain': JSON.stringify(intricateConfig),
       'dst': intricateV0_6_0_JSONString
     });
 
