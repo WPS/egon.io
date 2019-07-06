@@ -166,7 +166,20 @@ export function readerFunction(text, version, modeler) {
     }
     elements = JSON.parse(dstAndConfig.dst);
   } else {
-    elements = JSON.parse(text);
+    if (dstAndConfig.config) {
+      config = dstAndConfig.config;
+      configChanged = configHasChanged(config);
+      if (configChanged) {
+        const name = loadConfiguration(config);
+        if (domExists()) {
+          const domainNameInput = document.getElementById('domainNameInput');
+          domainNameInput.value = name;
+        }
+      }
+      elements = JSON.parse(dstAndConfig.dst);
+    } else {
+      elements = JSON.parse(text);
+    }
   }
 
   let lastElement = elements.pop();
