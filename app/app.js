@@ -10,7 +10,7 @@ import { toggleStashUse } from './domain-story-modeler/features/labeling/DSLabel
 import { version } from '../package.json';
 import DSMassRenameHandlers from './domain-story-modeler/features/dictionary/DSMassRenameHandlers';
 import { getActivityDictionary, cleanDictionaries, openDictionary, dictionaryClosed } from './domain-story-modeler/features/dictionary/dictionary';
-import { isPlaying, initReplay } from './domain-story-modeler/features/replay/replay';
+import { isPlaying, initReplay, getReplayOn } from './domain-story-modeler/features/replay/replay';
 import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUtil';
 import { updateExistingNumbersAtEditing, getNumberRegistry } from './domain-story-modeler/features/numbering/numbering';
 import { ACTIVITY, ACTOR, WORKOBJECT } from './domain-story-modeler/language/elementTypes';
@@ -743,6 +743,8 @@ function fnDebounce() {
     if (err) {
       alert('There was an error saving the SVG.\n' + err);
     }
-    setEncoded(err ? null : svg);
+    if (!getReplayOn()) {
+      setEncoded(err ? null : svg);
+    }
   });
 }

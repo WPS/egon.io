@@ -26,7 +26,7 @@ export function downloadDST(filename, text) {
 
   configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects, document.getElementById('currentDomainName').innerText));
   let configAndDST = {
-    config: configJSONString,
+    domain: configJSONString,
     dst: text
   };
   let json =JSON.stringify(configAndDST);
