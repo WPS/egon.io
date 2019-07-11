@@ -130,18 +130,19 @@ cursor: default;
   height: 36px;
 }
 
-#customIconConfigSaveButton {
-  height: 36px;
-}
 
 #resetIconConfigButton{
   justify-self: left;
   height: 25px;
 }
 
-#cancelIconCustomizationButton{
-  justify-self: right;
+#customIconConfigSaveButton {
   height: 25px;
+}
+
+#cancelIconCustomizationButton{
+  height: 25px;
+  justify-self: right;
 }
 
 #customIconConfigCancelButton {
@@ -334,7 +335,7 @@ cursor: pointer;
 
 .topButtonRow{
   display: grid;
-  grid-template-columns: 110px 140px auto 110px 250px auto 36px 3px 36px auto 36px auto 15px;
+  grid-template-columns: 110px 140px auto 110px 250px auto 36px 3px 36px auto 44px 47px 15px;
 }
 
 .iconListsContainer{
