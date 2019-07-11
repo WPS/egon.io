@@ -512,7 +512,7 @@ function dictionaryKeyBehaviour(event) {
   const KEY_ESC = 27;
 
   if (event.keyCode === KEY_ENTER) {
-    dictionaryClosed();
+    dictionaryClosed(commandStack, activityDictionaryContainer, workobjectDictionaryContainer);
     dictionaryDialog.style.display='none';
     modal.style.display='none';
   }
