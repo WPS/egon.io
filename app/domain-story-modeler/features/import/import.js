@@ -9,7 +9,7 @@ import { assign } from 'min-dash';
 import { storyPersistTag, loadConfiguration, importConfiguration, saveIconConfiguration } from '../iconSetCustomization/persitence';
 import { removeDirtyFlag } from '../export/dirtyFlag';
 import { addIMGToIconDictionary } from '../iconSetCustomization/appendIconDictionary';
-import { debounce } from '../../util/helpers';
+import { debounce, changeWebsiteTitle } from '../../util/helpers';
 import { domExists } from '../../language/testmode';
 import { getTypeDictionaryKeys, allInTypeDictionary, registerIcons } from '../../language/icon/dictionaries';
 
@@ -103,6 +103,7 @@ export function loadPersistedDST(modeler) {
 
   const title = document.getElementById('title');
   title.innerText = titleText;
+  changeWebsiteTitle(titleText);
 
   let lastElement = elements.pop();
   let importVersionNumber = lastElement;
@@ -140,6 +141,7 @@ export function importDST(input, version, modeler) {
     }
     titleInput.value = titleText;
     title.innerText = titleText;
+    changeWebsiteTitle(titleText);
 
     reader.onloadend = function(e) {
       readerFunction(e.target.result, version, modeler);

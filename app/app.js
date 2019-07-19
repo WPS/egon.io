@@ -21,7 +21,7 @@ import { loadPersistedDST, initImports, getDescriptionInputLast, setDescriptionI
 import { getActivitesFromActors, initElementRegistry } from './domain-story-modeler/features/canvasElements/canvasElementRegistry';
 import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/customizationDialog';
 import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
-import { debounce } from './domain-story-modeler/util/helpers';
+import { debounce, changeWebsiteTitle } from './domain-story-modeler/util/helpers';
 import { isDirty, makeDirty } from './domain-story-modeler/features/export/dirtyFlag';
 
 const modeler = new DomainStoryModeler({
@@ -607,6 +607,7 @@ function saveHeadlineDialog() {
 
   setTitleInputLast(inputTitle);
   setDescriptionInputLast(inputText);
+  changeWebsiteTitle(inputTitle);
 
   // to update the title of the svg, we need to tell the command stack, that a value has changed
   const exportArtifacts = debounce(fnDebounce, 500);
