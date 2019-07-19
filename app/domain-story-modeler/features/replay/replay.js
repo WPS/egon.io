@@ -20,6 +20,10 @@ let stopReplayButton = document.getElementById('buttonStopReplay');
 let currentReplayStepLabel = document.getElementById('replayStep');
 let incompleteStoryDialog = document.getElementById('incompleteStoryInfo');
 
+export function getReplayOn() {
+  return replayOn;
+}
+
 export function initReplay(inCanvas) {
   canvas = inCanvas;
 

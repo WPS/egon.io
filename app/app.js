@@ -10,7 +10,7 @@ import { toggleStashUse } from './domain-story-modeler/features/labeling/DSLabel
 import { version } from '../package.json';
 import DSMassRenameHandlers from './domain-story-modeler/features/dictionary/DSMassRenameHandlers';
 import { getActivityDictionary, cleanDictionaries, openDictionary, dictionaryClosed } from './domain-story-modeler/features/dictionary/dictionary';
-import { isPlaying, initReplay } from './domain-story-modeler/features/replay/replay';
+import { isPlaying, initReplay, getReplayOn } from './domain-story-modeler/features/replay/replay';
 import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUtil';
 import { updateExistingNumbersAtEditing, getNumberRegistry, getMultipleNumberRegistry, setNumberIsMultiple } from './domain-story-modeler/features/numbering/numbering';
 import { ACTIVITY, ACTOR, WORKOBJECT } from './domain-story-modeler/language/elementTypes';
@@ -21,7 +21,7 @@ import { loadPersistedDST, initImports, getDescriptionInputLast, setDescriptionI
 import { getActivitesFromActors, initElementRegistry } from './domain-story-modeler/features/canvasElements/canvasElementRegistry';
 import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/customizationDialog';
 import { setToDefault, saveIconConfiguration, storyPersistTag, exportConfiguration } from './domain-story-modeler/features/iconSetCustomization/persitence';
-import { debounce } from './domain-story-modeler/util/helpers';
+import { debounce, changeWebsiteTitle } from './domain-story-modeler/util/helpers';
 import { isDirty, makeDirty } from './domain-story-modeler/features/export/dirtyFlag';
 
 const modeler = new DomainStoryModeler({
@@ -513,7 +513,7 @@ function dictionaryKeyBehaviour(event) {
   const KEY_ESC = 27;
 
   if (event.keyCode === KEY_ENTER) {
-    dictionaryClosed();
+    dictionaryClosed(commandStack, activityDictionaryContainer, workobjectDictionaryContainer);
     dictionaryDialog.style.display='none';
     modal.style.display='none';
   }
@@ -608,6 +608,7 @@ function saveHeadlineDialog() {
 
   setTitleInputLast(inputTitle);
   setDescriptionInputLast(inputText);
+  changeWebsiteTitle(inputTitle);
 
   // to update the title of the svg, we need to tell the command stack, that a value has changed
   const exportArtifacts = debounce(fnDebounce, 500);
@@ -760,6 +761,8 @@ function fnDebounce() {
     if (err) {
       alert('There was an error saving the SVG.\n' + err);
     }
-    setEncoded(err ? null : svg);
+    if (!getReplayOn()) {
+      setEncoded(err ? null : svg);
+    }
   });
 }

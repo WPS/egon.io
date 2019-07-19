@@ -24,9 +24,7 @@
       <div id="headlineAndButtons">
         <h3 id="headline">
               <text id="title">&ltname of this Domain Story&gt</text>
-              <i class="material-icons" id="edit">
-                create
-              </i>
+              <img src="./logo/edit_blue.png" id="edit">
         </h3>
         <div class="ButtonContainer">
             <div id=editModeButtons>
@@ -39,6 +37,7 @@
                   <input type="file" accept=".dst" style="display:none;" id="import" onclick="this.value=null;" name="file" />
                   <button class="exportButton" id="export" title="Export story as .dst file">
                     <img id="exportButtonIMG" src="./logo/archive.png">
+                    <img id="exportButtonIMGDirty" src = "./logo/archive_dirty.png" style="display: none">
                   </button>
                   <button class="downloadButton" id="buttonImageDownloads" title="Export story as SVG or PNG image">
                     <img src="./logo/image.png">
@@ -115,7 +114,7 @@
         <input type="text" id="titleInput" maxlength="160" />
       </div>
       <div id="dialogInfo">Description:</div>
-      <div>
+      <div id="descriptionInput">
         <textarea name="Text1" cols="40" rows="5" id="info" maxlength="500"></textarea>
       </div>
       <div id="dialogButtons">
@@ -137,11 +136,11 @@
         <img src="./logo/unarchive.png" id="importConfigurationButton" title="import icon configuration" onclick="document.getElementById('importConfig').click()">
         <div></div>
         <img id="exportConfigurationButton" src="./logo/archive.png" title="export icon configuration">
-        <input type="file" accept=".config" style="display:none;" id="importConfig" onclick="this.value=null;" name="file" />
+        <input type="file" accept=".domain" style="display:none;" id="importConfig" onclick="this.value=null;" name="file" />
         <div></div>
-        <img id="customIconConfigSaveButton" title="Save configuration" src="logo/done.png">
+        <button id="customIconConfigSaveButton">Save</button>
         <div></div>
-        <button id="cancelIconCustomizationButton">X</button>
+        <button id="cancelIconCustomizationButton">Cancel</button>
       </div>
       <div class="iconListsContainer">
         <div id="allIconListContainer">

@@ -162,10 +162,10 @@ export function createListOfAllIcons() {
   new Sortable(selectedWorkObjectList, workObjectListOptions);
 
   let allIconDictionary = getAllIconDictioary();
-  let allIconNames = allIconDictionary.keysArray();
+  const allIconNamesSorted = allIconDictionary.keysArray().sort();
 
   let i=0;
-  allIconNames.forEach(name => {
+  allIconNamesSorted.forEach(name => {
     if (!alreadyAddedNames .includes(name)) {
       const listElement = createListElement(name, (i%2) === 0);
       htmlList.appendChild(listElement);

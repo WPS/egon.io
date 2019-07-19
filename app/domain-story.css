@@ -130,18 +130,19 @@ cursor: default;
   height: 36px;
 }
 
-#customIconConfigSaveButton {
-  height: 36px;
-}
 
 #resetIconConfigButton{
   justify-self: left;
   height: 25px;
 }
 
-#cancelIconCustomizationButton{
-  justify-self: right;
+#customIconConfigSaveButton {
   height: 25px;
+}
+
+#cancelIconCustomizationButton{
+  height: 25px;
+  justify-self: right;
 }
 
 #customIconConfigCancelButton {
@@ -273,8 +274,8 @@ cursor: pointer;
 }
 
 #arrowDialog{
-  top:108px;
-  left:150px;
+  top:50px;
+  left:52px;
   z-index: 2;
   position: absolute;
 }
@@ -289,8 +290,16 @@ cursor: pointer;
   border-left-color: #FAFAFA;
   -moz-transform: scale(0.9999);
   transform: rotate(45deg);
-  left: 20px;
-  bottom: 305px;
+  left: 6px;
+  bottom: 228px;
+}
+
+#titleInput {
+  width: 99%;
+}
+
+#descriptionInput {
+  width: 99%;
 }
 
 /* Icon customization */
@@ -326,7 +335,7 @@ cursor: pointer;
 
 .topButtonRow{
   display: grid;
-  grid-template-columns: 110px 140px auto 110px 250px auto 36px 3px 36px auto 36px auto 15px;
+  grid-template-columns: 110px 140px auto 110px 250px auto 36px 3px 36px auto 44px 47px 15px;
 }
 
 .iconListsContainer{

@@ -10,3 +10,7 @@ export function debounce(fn, timeout) {
     timer = setTimeout(fn, timeout);
   };
 }
+
+export function changeWebsiteTitle(title) {
+  document.title = title + ' - Domain Storytelling Modeler';
+}
