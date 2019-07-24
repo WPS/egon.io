@@ -67,9 +67,9 @@
     "watchify": "^3.11.1"
   },
   "dependencies": {
-    "bpmn-js": "^3.4.1",
+    "bpmn-js": "^4.0.3",
     "collections": "^5.1.9",
-    "diagram-js": "^3.3.0",
+    "diagram-js": "^4.0.2",
     "diagram-js-direct-editing": "^1.5.0",
     "inherits": "^2.0.4",
     "jquery": "^3.4.1",

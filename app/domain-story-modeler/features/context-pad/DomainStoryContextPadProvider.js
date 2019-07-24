@@ -4,20 +4,34 @@ import inherits from 'inherits';
 
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
 
-
-import {
-  assign,
-  bind
-} from 'min-dash';
+import { assign, bind } from 'min-dash';
 import { generateAutomaticNumber } from '../numbering/numbering';
 import { getNameFromType } from '../../language/naming';
 import { getIconForType } from '../../language/icon/iconDictionary';
-import { ACTIVITY, ACTOR, GROUP, TEXTANNOTATION, WORKOBJECT } from '../../language/elementTypes';
+import {
+  ACTIVITY,
+  ACTOR,
+  GROUP,
+  TEXTANNOTATION,
+  WORKOBJECT
+} from '../../language/elementTypes';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
 import { makeDirty } from '../export/dirtyFlag';
 
-export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
-
+export default function DomainStoryContextPadProvider(
+    injector,
+    connect,
+    translate,
+    elementFactory,
+    create,
+    canvas,
+    contextPad,
+    popupMenu,
+    replaceMenuProvider,
+    commandStack,
+    eventBus,
+    modeling
+) {
   injector.invoke(ContextPadProvider, this);
   let autoPlace = injector.get('autoPlace', false);
 
@@ -39,26 +53,21 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       addChangeWorkObjectTypeMenu(actions);
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
-    }
-
-    else if (element.type.includes('actor')) {
+    } else if (element.type.includes('actor')) {
       addWorkObjects(appendAction, actions);
       addChangeActorTypeMenu(actions);
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
-    }
-
-    else if (element.type.includes(GROUP)) {
+    } else if (element.type.includes(GROUP)) {
       addTextAnnotation(actions);
-    }
-    else if (element.type.includes(ACTIVITY)) {
+    } else if (element.type.includes(ACTIVITY)) {
       // the change direction icon is appended at the end of the edit group by default,
       // to make sure, that the delete icon is the last one, we remove it from the actions-object
       // and add it after adding the change direction functionality
       delete actions.delete;
 
       assign(actions, {
-        'changeDirection': {
+        changeDirection: {
           group: 'edit',
           className: 'icon-domain-story-changeDirection',
           title: translate('Change direction'),
@@ -72,7 +81,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       });
 
       assign(actions, {
-        'delete': {
+        delete: {
           group: 'edit',
           className: 'bpmn-icon-trash',
           title: 'Remove',
@@ -91,7 +100,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
   function addChangeActorTypeMenu(actions) {
     assign(actions, {
-      'replace': {
+      replace: {
         group: 'edit',
         className: 'bpmn-icon-screw-wrench',
         title: translate('Change type'),
@@ -109,13 +118,16 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
   function addTextAnnotation(actions) {
     assign(actions, {
-      'append.text-annotation': appendAction(TEXTANNOTATION, 'bpmn-icon-text-annotation')
+      'append.text-annotation': appendAction(
+        TEXTANNOTATION,
+        'bpmn-icon-text-annotation'
+      )
     });
   }
 
   function addConnectWithActivity(actions, startConnect) {
     assign(actions, {
-      'connect': {
+      connect: {
         group: 'connect',
         className: 'bpmn-icon-connection',
         title: translate('Connect with activity'),
@@ -133,7 +145,12 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       let name = getNameFromType(workObjectType);
       let icon = getIconForType(workObjectType);
       let action = [];
-      action['append.workObject' + name] = appendAction(workObjectType, icon, name, 'workObjects');
+      action['append.workObject' + name] = appendAction(
+        workObjectType,
+        icon,
+        name,
+        'workObjects'
+      );
       assign(actions, action);
     });
   }
@@ -144,14 +161,19 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       let name = getNameFromType(actorType);
       let icon = getIconForType(actorType);
       let action = [];
-      action['append.actor' + name] = appendAction(actorType, icon, name, 'actors');
+      action['append.actor' + name] = appendAction(
+        actorType,
+        icon,
+        name,
+        'actors'
+      );
       assign(actions, action);
     });
   }
 
   function addChangeWorkObjectTypeMenu(actions) {
     assign(actions, {
-      'replace': {
+      replace: {
         group: 'edit',
         className: 'bpmn-icon-screw-wrench',
         title: translate('Change type'),
@@ -175,8 +197,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
     if (element.source.type.includes(ACTOR)) {
       newNumber = 0;
-    }
-    else {
+    } else {
       newNumber = generateAutomaticNumber(element, commandStack);
     }
     context = {
@@ -188,7 +209,6 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   }
 
   function getReplaceMenuPosition(element) {
-
     let Y_OFFSET = 5;
 
     let diagramContainer = canvas.getContainer(),
@@ -209,33 +229,35 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   }
 
   /**
-  * create an append action
-  *
-  * @param {String} type
-  * @param {String} className
-  * @param {String} [title]
-  * @param {Object} [options]
-  *
-  * @return {Object} descriptor
-  */
+   * create an append action
+   *
+   * @param {String} type
+   * @param {String} className
+   * @param {String} [title]
+   * @param {Object} [options]
+   *
+   * @return {Object} descriptor
+   */
   function appendAction(type, className, title, group, options) {
-
     if (typeof title !== 'string') {
       options = title;
       title = translate('{type}', { type: type.replace(/^domainStory:/, '') });
     }
 
     function appendStart(event, element) {
-
       let shape = elementFactory.createShape(assign({ type: type }, options));
       create.start(event, shape, element);
     }
 
-    autoPlace ? function(element) {
-      let shape = elementFactory.createShape(assign({ type: type }, options));
+    autoPlace
+      ? function(element) {
+        let shape = elementFactory.createShape(
+          assign({ type: type }, options)
+        );
 
-      autoPlace.append(element, shape);
-    } : appendStart;
+        autoPlace.append(element, shape);
+      }
+      : appendStart;
 
     return {
       group: group,
