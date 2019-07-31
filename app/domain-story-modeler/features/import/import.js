@@ -1,17 +1,37 @@
 'use strict';
 
-import { DOMAINSTORY, ACTIVITY, CONNECTION, WORKOBJECT, ACTOR } from '../../language/elementTypes';
+import {
+  DOMAINSTORY,
+  ACTIVITY,
+  CONNECTION,
+  WORKOBJECT,
+  ACTOR
+} from '../../language/elementTypes';
 import { checkElementReferencesAndRepair } from './ImportRepair';
 import { cleanDictionaries } from '../dictionary/dictionary';
-import { correctElementRegitryInit, getAllCanvasObjects, getAllGroups, initElementRegistry } from '../canvasElements/canvasElementRegistry';
+import {
+  correctElementRegitryInit,
+  getAllCanvasObjects,
+  getAllGroups,
+  initElementRegistry
+} from '../canvasElements/canvasElementRegistry';
 import { isInDomainStoryGroup } from '../../util/TypeCheck';
 import { assign } from 'min-dash';
-import { storyPersistTag, loadConfiguration, importConfiguration, saveIconConfiguration } from '../iconSetCustomization/persitence';
+import {
+  storyPersistTag,
+  loadConfiguration,
+  importConfiguration,
+  saveIconConfiguration
+} from '../iconSetCustomization/persitence';
 import { removeDirtyFlag } from '../export/dirtyFlag';
 import { addIMGToIconDictionary } from '../iconSetCustomization/appendIconDictionary';
 import { debounce, changeWebsiteTitle } from '../../util/helpers';
 import { domExists } from '../../language/testmode';
-import { getTypeDictionaryKeys, allInTypeDictionary, registerIcons } from '../../language/icon/dictionaries';
+import {
+  getTypeDictionaryKeys,
+  allInTypeDictionary,
+  registerIcons
+} from '../../language/icon/dictionaries';
 
 let modal = document.getElementById('modal'),
     info = document.getElementById('info'),
@@ -22,10 +42,13 @@ let modal = document.getElementById('modal'),
     brokenDSTInfo = document.getElementById('brokenDSTInfo'),
     importedVersionLabel = document.getElementById('importedVersion'),
     modelerVersionLabel = document.getElementById('modelerVersion'),
-    brokenDSTDialogButtonCancel = document.getElementById('brokenDSTDialogButtonCancel'),
+    brokenDSTDialogButtonCancel = document.getElementById(
+      'brokenDSTDialogButtonCancel'
+    ),
     versionDialogButtonCancel = document.getElementById('closeVersionDialog');
 
-let titleInputLast = '', descriptionInputLast = '';
+let titleInputLast = '',
+    descriptionInputLast = '';
 
 if (versionDialogButtonCancel) {
   versionDialogButtonCancel.addEventListener('click', function() {
@@ -59,7 +82,13 @@ function closeBrokenDSTDialog() {
   modal.style.display = 'none';
 }
 
-export function initImports(elementRegistry, version, modeler,eventBus, fnDebounce) {
+export function initImports(
+    elementRegistry,
+    version,
+    modeler,
+    eventBus,
+    fnDebounce
+) {
   document.getElementById('import').onchange = function() {
     initElementRegistry(elementRegistry);
     importDST(document.getElementById('import').files[0], version, modeler);
@@ -80,7 +109,7 @@ export function initImports(elementRegistry, version, modeler,eventBus, fnDeboun
     }
 
     reader.onloadend = function(e) {
-      addIMGToIconDictionary(e.target.result, name);
+      addIMGToIconDictionary(e.target.result, name + '-custom');
     };
 
     reader.readAsDataURL(inputIcon);
@@ -92,7 +121,7 @@ export function initImports(elementRegistry, version, modeler,eventBus, fnDeboun
 }
 
 export function loadPersistedDST(modeler) {
-  titleInputLast = '', descriptionInputLast = '';
+  (titleInputLast = ''), (descriptionInputLast = '');
 
   const persitedStory = localStorage.getItem(storyPersistTag);
   localStorage.removeItem(storyPersistTag);
@@ -135,9 +164,12 @@ export function importDST(input, version, modeler) {
 
   const reader = new FileReader();
   if (input.name.endsWith('.dst')) {
-    let titleText = input.name.replace(/_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/, '');
+    let titleText = input.name.replace(
+      /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/,
+      ''
+    );
     if (titleText.includes('.dst')) {
-      titleText = titleText.replace('.dst','');
+      titleText = titleText.replace('.dst', '');
     }
     titleInput.value = titleText;
     title.innerText = titleText;
@@ -245,15 +277,21 @@ export function configHasChanged(config) {
 
   let changed = false;
 
-  for (let i=0; i<newActorKeys.length; i++) {
-    if (!currentActorKeys.includes(newActorKeys[i]) && !currentActorKeys.includes(ACTOR + newActorKeys[i])) {
+  for (let i = 0; i < newActorKeys.length; i++) {
+    if (
+      !currentActorKeys.includes(newActorKeys[i]) &&
+      !currentActorKeys.includes(ACTOR + newActorKeys[i])
+    ) {
       changed = true;
       i = newActorKeys.length;
     }
   }
   if (!changed) {
-    for (let i=0; i<newWorkObjectKeys.length; i++) {
-      if (!currentWorkobjectKeys.includes(newWorkObjectKeys[i]) && !currentWorkobjectKeys.includes(WORKOBJECT + newWorkObjectKeys[i])) {
+    for (let i = 0; i < newWorkObjectKeys.length; i++) {
+      if (
+        !currentWorkobjectKeys.includes(newWorkObjectKeys[i]) &&
+        !currentWorkobjectKeys.includes(WORKOBJECT + newWorkObjectKeys[i])
+      ) {
         changed = true;
         i = newWorkObjectKeys.length;
       }
@@ -271,9 +309,12 @@ function correctGroupChildren() {
   groups.forEach(group => {
     const parent = group.parent;
     parent.children.slice().forEach(innerShape => {
-      if ((innerShape.id) != group.id) {
+      if (innerShape.id != group.id) {
         if (innerShape.x >= group.x && innerShape.x <= group.x + group.width) {
-          if (innerShape.y >= group.y && innerShape.y <= group.y + group.height) {
+          if (
+            innerShape.y >= group.y &&
+            innerShape.y <= group.y + group.height
+          ) {
             innerShape.parent = group;
             if (!group.children.includes(innerShape)) {
               group.children.push(innerShape);
@@ -300,7 +341,7 @@ function correctGroupChildren() {
  */
 
 export function updateCustomElementsPreviousv050(elements) {
-  for (let i=0; i< elements.length; i++) {
+  for (let i = 0; i < elements.length; i++) {
     if (elements[i].type === WORKOBJECT) {
       elements[i].type = WORKOBJECT + 'Document';
     } else if (elements[i].type === WORKOBJECT + 'Bubble') {
@@ -311,7 +352,7 @@ export function updateCustomElementsPreviousv050(elements) {
 }
 
 function adjustPositions(elements) {
-  let xLeft , yUp;
+  let xLeft, yUp;
   let isFirst = true;
 
   elements.forEach(element => {
@@ -322,7 +363,7 @@ function adjustPositions(elements) {
         yUp = parseFloat(element.y);
         isFirst = false;
       }
-      elXLeft= parseFloat(element.x);
+      elXLeft = parseFloat(element.x);
       elYUp = parseFloat(element.y);
       if (elXLeft < xLeft) {
         xLeft = elXLeft;
@@ -371,7 +412,7 @@ function updateIconRegistries(elements) {
 }
 
 function getElementsOfType(elements, type) {
-  let elementOfType =[];
+  let elementOfType = [];
   elements.forEach(element => {
     if (element.type.includes(DOMAINSTORY + type)) {
       elementOfType.push(element);
