@@ -7,15 +7,23 @@ import { getIconset } from '../../language/icon/iconConfig';
 import { GROUP, ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { appendedIconsTag } from '../iconSetCustomization/persitence';
 import { overrideAppendedIcons } from '../../language/icon/all_Icons';
-import { initTypeDictionaries, getTypeDictionary } from '../../language/icon/dictionaries';
+import {
+  initTypeDictionaries,
+  getTypeDictionary
+} from '../../language/icon/dictionaries';
 import { domExists } from '../../language/testmode';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
  */
 
-export default function PaletteProvider(palette, create, elementFactory, spaceTool, lassoTool) {
-
+export default function PaletteProvider(
+    palette,
+    create,
+    elementFactory,
+    spaceTool,
+    lassoTool
+) {
   this._create = create;
   this._elementFactory = elementFactory;
   this._spaceTool = spaceTool;
@@ -34,7 +42,6 @@ PaletteProvider.$inject = [
 ];
 
 PaletteProvider.prototype.getPaletteEntries = function() {
-
   let actions = {},
       create = this._create,
       elementFactory = this._elementFactory,
@@ -42,7 +49,6 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       lassoTool = this._lassoTool;
 
   function createAction(type, group, className, title, options) {
-
     function createListener(event) {
       let shape = elementFactory.createShape(assign({ type: type }, options));
 
@@ -74,23 +80,20 @@ PaletteProvider.prototype.getPaletteEntries = function() {
 };
 
 function appendCSSStyleCheat(customIcons) {
-  let sheet = document.getElementById('iconsCss').sheet;
+  const sheetEl = document.createElement('style');
+  document.head.appendChild(sheetEl);
+
   let dictionary = require('collections/dict');
   let customIconDict = new dictionary();
 
   customIconDict.addEach(customIcons);
   let customIconDictKeys = customIconDict.keysArray();
 
-  let css_rules_num = sheet.cssRules.length;
-
   customIconDictKeys.forEach(name => {
-    let src = customIconDict.get(name);
-    let iconStyle = ('.icon-domain-story-' + name + '::before {'+
-        'content: url(\'' + src + '\');'+
-        ' background-repeat: no-repeat;'+
-        ' width: 25px; height: 25px;}');
-    sheet.insertRule(iconStyle, css_rules_num);
-    css_rules_num++;
+    const src = customIconDict.get(name);
+    const iconStyle =
+      '.icon-domain-story-' + name + '{' + 'content: url("' + src + '");}';
+    sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
   });
 }
 
@@ -115,7 +118,12 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     let icon = getIconForType(actorType);
 
     let action = [];
-    action['domainStory-actor'+name] = createAction(actorType, 'actor', icon, name);
+    action['domainStory-actor' + name] = createAction(
+      actorType,
+      'actor',
+      icon,
+      name
+    );
     assign(actions, action);
   });
 
@@ -129,12 +137,16 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   let workObjectTypes = getTypeDictionary(WORKOBJECT);
 
   workObjectTypes.keysArray().forEach(workObjectType => {
-
     let name = getNameFromType(workObjectType);
     let icon = getIconForType(workObjectType);
 
     let action = [];
-    action['domainStory-actor'+name] = createAction(workObjectType, 'actor', icon, name);
+    action['domainStory-actor' + name] = createAction(
+      workObjectType,
+      'actor',
+      icon,
+      name
+    );
     assign(actions, action);
   });
 
@@ -144,7 +156,10 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
       separator: true
     },
     'domainStory-group': createAction(
-      GROUP, 'group', 'icon-domain-story-tool-group', 'group'
+      GROUP,
+      'group',
+      'icon-domain-story-tool-group',
+      'group'
     ),
     'group-separator': {
       group: 'group',
