@@ -125,8 +125,6 @@ const allIcons_conf = {
     'Pencil',
     'How-To-Reg',
     'Settings',
-    'Save',
-    'Delete',
     'Wrench',
     'Headset',
     'Keyboard',
