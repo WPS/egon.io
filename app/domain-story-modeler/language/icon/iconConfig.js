@@ -1,11 +1,16 @@
 import {
   customConfigTag,
   useCustomConfigTag,
-  customConfigNameTag
+  customConfigNameTag,
+  storyPersistTag,
+  useNecessaryConfigTag
 } from '../../features/iconSetCustomization/persitence';
 import { overrideAppendedIcons } from './all_Icons';
 import { getAllIconDictioary } from '../../features/iconSetCustomization/dictionaries';
 import { domExists } from '../testmode';
+import { WORKOBJECT, ACTOR } from '../elementTypes';
+import { registerIcon } from './iconDictionary';
+import { getTypeIconSRC } from './dictionaries';
 
 /**
  * Select the Iconset which you want to use
@@ -13,9 +18,9 @@ import { domExists } from '../testmode';
 export function getIconset() {
   if (localStorage.getItem(useCustomConfigTag)) {
     if (domExists()) {
-      var domainName = localStorage.getItem(customConfigNameTag) || 'default';
-      var domainNameInput = document.getElementById('domainNameInput');
-      var currentDomainName = document.getElementById('currentDomainName');
+      let domainName = localStorage.getItem(customConfigNameTag) || 'default';
+      let domainNameInput = document.getElementById('domainNameInput');
+      let currentDomainName = document.getElementById('currentDomainName');
       domainNameInput.value = domainName;
       currentDomainName.innerHTML = domainName;
     }
@@ -43,7 +48,50 @@ export function getIconset() {
       workObjects: workObjects
     };
     return custom_conf;
-  } else return default_conf;
+  }
+  if (localStorage.getItem(useNecessaryConfigTag)) {
+    if (domExists()) {
+      let domainName = localStorage.getItem(customConfigNameTag) || 'default';
+      let domainNameInput = document.getElementById('domainNameInput');
+      let currentDomainName = document.getElementById('currentDomainName');
+      domainNameInput.value = domainName;
+      currentDomainName.innerHTML = domainName;
+    }
+
+    let customConfig = localStorage.getItem(customConfigTag);
+    let customConfigJSON = JSON.parse(customConfig);
+
+    let actors = customConfigJSON.actors;
+    let workObjects = customConfigJSON.workObjects;
+
+    let dictionary = require('collections/dict');
+    let actorDict = new dictionary();
+    let workObjectDict = new dictionary();
+
+    actorDict.addEach(actors);
+    workObjectDict.addEach(workObjects);
+
+    actors = actorDict.keysArray();
+    workObjects = workObjectDict.keysArray();
+
+    default_conf.actors.forEach(actor => {
+      actors.push(actor);
+    });
+
+    default_conf.workObjects.forEach(workObject => {
+      workObjects.push(workObject);
+    });
+
+    appendSRCFile(actors, actorDict, workObjects, workObjectDict);
+
+    let custom_conf = {
+      actors: actors,
+      workObjects: workObjects
+    };
+    return custom_conf;
+  }
+  return default_conf;
+
 }
 
 export function appendSRCFile(
