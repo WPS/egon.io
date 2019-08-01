@@ -9,6 +9,8 @@ You can try the modeler online at https://www.wps.de/modeler.
 To run the modeler locally, download the latest release from [GitHub](https://github.com/WPS/domain-story-modeler/releases).
 Extract the zip file and open index.html in your browser.
 
+**Important:** Starting with v1.0.0, the modeler requires that your browser allows third party cookies (How to turn on third party cookies in [Firefox](https://support.mozilla.org/en-US/kb/disable-third-party-cookies) and [Chrome](https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=en)). We rely on storing your moddeler's configuration in your browser. That enabled us to develop a cool feature that allwos you to choose which icons you want to use for modeling (see below). 
+
 ### Usage
 This is a short guide on how to use the Domain Story Modeler.
 We recommend to switch your browser to full screen mode (in most browsers: press F11 key) to increase the available modeling space.
@@ -29,11 +31,10 @@ If you drop an icon from the palette into the canvas you will see a context menu
 Double click on an actor's or work object's icon to edit the name.
 
 #### Naming and Numbering of Activities
-Activities are depicted as arrows. Double click on an arrow to edit the activity's name. If you model an activity between an actor (person, people and system) and a workobject (folder, call, email, conversation, information) it will be numbered automatically. By double clicking on the arrow you can manually change the number. All other numbers are adjusted automatically.
+Activities are depicted as arrows. Double click on an arrow to edit the activity's name. If you model an activity between an actor (person, people and system) and a workobject (folder, call, email, conversation, information) it will be numbered automatically. By double clicking on the arrow or the number you can manually change the number. All other numbers are adjusted automatically.
 
-#### File Management
-If you want to share your Domain Story or save it for future editing, you can export it as a .dst file by clicking the export button ![Export Button](/images/archive.png). 
-To import a diagram use the upload button ![Upload Button](/images/unarchive.png).
+#### Save and Export Domain Stories
+If you want to save your Domain Story, you can export it as a .dst file by clicking the export button ![Export Button](/images/archive.png). To import a Domain Story, use the upload button ![Upload Button](/images/unarchive.png).
 You can also export your diagram as a .svg or .png file by clicking on the image button ![SVG Button](/images/image.png) and selecting your preferred format.
 
 #### Replay
