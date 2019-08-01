@@ -20,6 +20,7 @@ export function setToDefault() {
   localStorage.removeItem(useCustomConfigTag);
   localStorage.removeItem(customConfigTag);
   localStorage.removeItem(appendedIconsTag);
+  localStorage.removeItem(customConfigNameTag);
   if (domExists()) {
     location.reload();
   }
