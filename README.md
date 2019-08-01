@@ -1,4 +1,4 @@
-## Domain Storytelling Modeler
+## Domain Story Modeler
 A tool to visualize Domain Stories in your browser.
 
 ### About 
@@ -21,30 +21,33 @@ Shows the icons you can choose to record your Domain Story (actors and work obje
 - the space tool creates or removes space. Click and drag the crosshair to the right or down to create space, or drag to the left or to the top to remove space.
 
 #### Headline
-Click on the headline to change the name of the Domain Story and describe it. The description can contain information about assumptions (e.g. that the domain story describes a "happy path" scenario) and variations (e.g. optional steps).
+Click on the headline to change the name of the Domain Story and describe it. The description can contain information about assumptions (e.g. that the domain story describes a "happy path" scenario) and variations (e.g. optional activities).
 Use ctrl+enter or alt+enter to add line breaks to the description.
 
 #### Context Menu
 If you drop an icon from the palette into the canvas you will see a context menu. To show the connection between two icons use the arrow. Also you can choose the next icon you want to connect to. If you choose one, it will automatically be connected. Delete the chosen icon by clicking on delete. You can click on the wrench to change the icon. By using the annotation icon, you can add comments for further information.
 
 #### Naming Actors and Work Objects
-Double click on an actor's or work object's icon to edit the name.
+Double click on an actor's or work object's icon to edit the name. To rename multiple work objects, click the ![Dictionary Button](/images/spellcheck.png).
 
 #### Naming and Numbering of Activities
 Activities are depicted as arrows. Double click on an arrow to edit the activity's name. If you model an activity between an actor (person, people and system) and a workobject (folder, call, email, conversation, information) it will be numbered automatically. By double clicking on the arrow or the number you can manually change the number. All other numbers are adjusted automatically.
 
 #### Save and Export Domain Stories
-If you want to save your Domain Story, you can export it as a .dst file by clicking the export button ![Export Button](/images/archive.png). To import a Domain Story, use the upload button ![Upload Button](/images/unarchive.png).
+If you want to save your Domain Story, download it as a .dst file by clicking the export button ![Export Button](/images/archive.png). To continue working on a Domain Story, import a .dst file using the upload button ![Upload Button](/images/unarchive.png).
 You can also export your diagram as a .svg or .png file by clicking on the image button ![SVG Button](/images/image.png) and selecting your preferred format.
 
 #### Replay
-The replay feature helps you to re-tell a Domain Story sentence by sentence. When you start a replay with the play button ![Play Button](/images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](/images/forward.png) shows the next activity and clicking the previous button ![Previous Button](/images/previous.png) shows the previous one. Editing is disabled in replay mode, but you can zoom (mouse wheel up and down) and scroll (ctrl + mouse wheel up and down). The stop the replay, click the stop button ![Stop Button](/images/stop.png). 
+The replay feature helps you to re-tell a Domain Story sentence by sentence. When you start a replay with the play button ![Play Button](/images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](/images/forward.png) shows the next activity and clicking the previous button ![Previous Button](/images/previous.png) shows the previous one. Editing is disabled in replay mode, but you can zoom (mouse wheel up and down) and scroll (ctrl + mouse wheel up and down). The stop the replay, click the stop button ![Stop Button](/images/stop.png).
+
+#### Configuring the icon set
+TODO
 
 ### Examples
 The examples' directory contains .dst files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
 The examples' directory also contains a SVG file for every Domain Story. The images were created using the modeler.
 
-## For Developers
+### For Developers
 Download the source code or clone the repository.
 Please note that we use the main branch for development. The main branch contains the latest features and bug fixes, but they might be undocumented and tested less thoroughly than a release. To be on the safe side, stick with the latest release branch.
 
@@ -59,15 +62,10 @@ Build and open the modeler in your browser:
 ```
 npm run dev
 ```
-
-#### Customize Iconset
-
-**ATTENTION FORKERS:** Iconset customization will be changed with release v0.6.0 so that coding is no longer required to change icons (see issue #32).
-
-The iconset can be customized programatically by adding an iconset-configuration in the app/domain-story-modeler/language/iconConfig.js file. Using the same scheme as for the default_conf you can  select icons as actors or workobjects.
-It is possible to create multiple custom iconsets depending on your domain and switching between them.
-We do not recommend adding too many icons, since the palette only holds two columns and, depending on your screen resolution, can easily become larger than the window.
-A List of all icons can be seen in the allIcons_conf configuration.
+Create distributable bundle:
+```
+npm run all
+```
 
 ## License
 The Domain Story Modeler is licensed under GPLv3.0.
