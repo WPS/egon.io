@@ -8,25 +8,18 @@ import { createListElement, createListElementInSeletionList, resetHTMLSelectionL
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { domExists } from '../../language/testmode';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
-import { all_icons } from '../../language/icon/all_Icons';
 
 export const useCustomConfigTag = 'useCustomConfig';
-export const useNecessaryConfigTag = 'useNecessaryConfig';
 export const customConfigTag ='customConfig';
 export const appendedIconsTag = 'appendedIcons';
 export const storyPersistTag = 'persistetStory';
 export const customConfigNameTag ='persitedDomainName';
-
-const Collection = require('collections/dict');
 
 export function setToDefault() {
   persistStory();
   localStorage.removeItem(useCustomConfigTag);
   localStorage.removeItem(customConfigTag);
   localStorage.removeItem(appendedIconsTag);
-  localStorage.removeItem(customConfigNameTag);
-  localStorage.setItem(useNecessaryConfigTag, true);
-  persistNecessaryConfig();
   if (domExists()) {
     location.reload();
   }
@@ -207,37 +200,4 @@ function persistStory() {
       objects: objects
     }
   ));
-}
-
-function persistNecessaryConfig() {
-  let currentConfig= createConfigFromDictionaries(getSelectedActorsDictionary(), getSelectedWorkObjectsDictionary(), '');
-
-  let currentActors = new Collection();
-  currentActors.addEach(currentConfig.actors);
-  let currentWorkobjects = new Collection();
-  currentWorkobjects.addEach(currentConfig.workObjects);
-  let newActors = {};
-  let newWorkobjects = {};
-
-  currentActors.keysArray().forEach(name => {
-    if (!all_icons[name]) {
-      newActors[name] = currentActors.get(name);
-    }
-  });
-
-  currentWorkobjects.keysArray().forEach(name => {
-    if (!all_icons[name]) {
-      newWorkobjects[name] = currentWorkobjects.get(name);
-    }
-  });
-
-  let config = {
-    'name': '',
-    'actors': newActors,
-    'workObjects': newWorkobjects
-  };
-
-
-  localStorage.setItem(customConfigTag, JSON.stringify(config));
-  localStorage.setItem(appendedIconsTag, JSON.stringify(getAppendedIconDictionary()));
 }

@@ -32,7 +32,6 @@ import {
   allInTypeDictionary,
   registerIcons
 } from '../../language/icon/dictionaries';
-import { sanitizeIconName } from '../../util/Sanitizer';
 
 let modal = document.getElementById('modal'),
     info = document.getElementById('info'),
@@ -104,7 +103,10 @@ export function initImports(
     const inputIcon = document.getElementById('importIcon').files[0];
     let reader = new FileReader();
     const endIndex = inputIcon.name.lastIndexOf('.');
-    let name = sanitizeIconName(inputIcon.name.substring(0, endIndex));
+    let name = inputIcon.name.substring(0, endIndex);
+    while (name.includes(' ')) {
+      name = name.replace(' ', '-');
+    }
 
     reader.onloadend = function(e) {
       addIMGToIconDictionary(e.target.result, name + '-custom');

@@ -1,12 +1,12 @@
 'use strict';
 
+import sanitizeForDesktop from '../../util/Sanitizer';
 import { ACTIVITY, TEXTANNOTATION, ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
 import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary } from '../iconSetCustomization/dictionaries';
 import { createConfigFromDictionaries } from '../iconSetCustomization/persitence';
 import { removeDirtyFlag } from './dirtyFlag';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
-import { sanitizeForDesktop } from '../../util/Sanitizer';
 
 let infoText = document.getElementById('infoText');
 

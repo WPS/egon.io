@@ -1,23 +1,13 @@
 'use strict';
 
-import {
-  initializeAllIcons,
-  getAllIconDictioary,
-  deleteFromSelectedWorkObjectDictionary,
-  deleteFromSelectedActorDictionary,
-  getIconSource,
-  addToSelectedActors,
-  addToSelectedWorkObjects,
-  selectedDitionariesAreNotEmpty,
-  getAppendedIconDictionary
-} from './dictionaries';
+import { initializeAllIcons, getAllIconDictioary, deleteFromSelectedWorkObjectDictionary, deleteFromSelectedActorDictionary, getIconSource, addToSelectedActors, addToSelectedWorkObjects, selectedDitionariesAreNotEmpty, getAppendedIconDictionary, resetSelectionDictionaries } from './dictionaries';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { domExists } from '../../language/testmode';
 import { isInTypeDictionary } from '../../language/icon/dictionaries';
 
 let htmlList = document.getElementById('allIconsList');
 let selectedActorsList = document.getElementById('selectedActorsList');
-let selectedWorkObjectList = document.getElementById('selectedWorkObjectsList');
+let selectedWorkObjectList = document. getElementById('selectedWorkObjectsList');
 
 const Sortable = require('sortablejs');
 const iconSize = 20;
@@ -58,9 +48,9 @@ const workObjectListOptions = {
 
 function updateBackgroundColors() {
   const children = htmlList.children;
-  for (let i = 0; i < children.length; i++) {
+  for (let i=0; i<children.length; i++) {
     const child = children[i];
-    if (i % 2 === 0) {
+    if (i%2 === 0) {
       child.style.backgroundColor = highlightBackgroundColor;
     } else {
       child.style.backgroundColor = 'white';
@@ -83,19 +73,14 @@ function dropElement(event) {
       addToActors = false;
       addToWorkObjects = true;
     }
-    updateSelectedWorkObjectsAndActors(
-      listEntryName,
-      addToActors,
-      addToWorkObjects,
-      false
-    );
+    updateSelectedWorkObjectsAndActors(listEntryName, addToActors, addToWorkObjects, false);
   }
 }
 
 function removeListEntry(name, list) {
   const children = list.children;
   let wantedChild;
-  for (let i = 0; i < children.length; i++) {
+  for (let i=0; i<children.length; i++) {
     const child = children[i];
     let innerText = child.innerText;
     if (innerText.includes(name)) {
@@ -107,18 +92,9 @@ function removeListEntry(name, list) {
   }
 }
 
-function updateSelectedWorkObjectsAndActors(
-    currentSelectionName,
-    addToActors,
-    addToWorkObjects,
-    updateHTML
-) {
-  const exportConfigurationButton = document.getElementById(
-    'exportConfigurationButton'
-  );
-  const customIconConfigSaveButton = document.getElementById(
-    'customIconConfigSaveButton'
-  );
+function updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, addToWorkObjects, updateHTML) {
+  const exportConfigurationButton = document.getElementById('exportConfigurationButton');
+  const customIconConfigSaveButton = document.getElementById('customIconConfigSaveButton');
   const iconSRC = getIconSource(currentSelectionName);
 
   deleteFromSelectedWorkObjectDictionary(currentSelectionName);
@@ -135,20 +111,13 @@ function updateSelectedWorkObjectsAndActors(
   if (addToActors) {
     addToSelectedActors(currentSelectionName, iconSRC);
     if (updateHTML) {
-      createListElementInSeletionList(
-        currentSelectionName,
-        iconSRC,
-        selectedActorsList
-      );
+      createListElementInSeletionList(currentSelectionName, iconSRC, selectedActorsList);
     }
-  } else if (addToWorkObjects) {
+  }
+  else if (addToWorkObjects) {
     addToSelectedWorkObjects(currentSelectionName, iconSRC);
     if (updateHTML) {
-      createListElementInSeletionList(
-        currentSelectionName,
-        iconSRC,
-        selectedWorkObjectList
-      );
+      createListElementInSeletionList(currentSelectionName, iconSRC, selectedWorkObjectList);
     }
   }
 
@@ -167,15 +136,7 @@ function updateSelectedWorkObjectsAndActors(
   }
 
   if (!updateHTML) {
-    const correspondingAllIconElement = document
-      .evaluate(
-        "//text[contains(., '" + currentSelectionName + "')]",
-        document,
-        null,
-        XPathResult.ANY_TYPE,
-        null
-      )
-      .iterateNext().parentNode;
+    const correspondingAllIconElement = document.evaluate('//text[contains(., \''+currentSelectionName +'\')]', document, null, XPathResult.ANY_TYPE, null).iterateNext().parentNode;
 
     const radioButtons = correspondingAllIconElement.children[0];
     const radioActor = radioButtons.children[1];
@@ -193,6 +154,7 @@ function updateSelectedWorkObjectsAndActors(
 
 export function createListOfAllIcons() {
   resetHTMLSelectionList();
+  resetSelectionDictionaries();
   initializeAllIcons();
 
   new Sortable(htmlList, mainListOptions);
@@ -202,10 +164,10 @@ export function createListOfAllIcons() {
   let allIconDictionary = getAllIconDictioary();
   const allIconNamesSorted = allIconDictionary.keysArray().sort();
 
-  let i = 0;
+  let i=0;
   allIconNamesSorted.forEach(name => {
-    if (!alreadyAddedNames.includes(name)) {
-      const listElement = createListElement(name, i % 2 === 0);
+    if (!alreadyAddedNames .includes(name)) {
+      const listElement = createListElement(name, (i%2) === 0);
       htmlList.appendChild(listElement);
       i++;
       alreadyAddedNames.push(name);
@@ -215,7 +177,7 @@ export function createListOfAllIcons() {
   const appendIconDictionary = getAppendedIconDictionary();
   const allAppendIconNames = appendIconDictionary.keysArray();
   allAppendIconNames.forEach(name => {
-    const listElement = createListElement(name, i % 2 === 0);
+    const listElement = createListElement(name, (i%2) === 0);
     htmlList.appendChild(listElement);
     i++;
   });
@@ -238,7 +200,7 @@ export function createListElement(name, greyBackground) {
 
   listElement.style.marginLeft = '5px';
   listElement.style.height = '20px';
-  listElement.style.display = 'grid';
+  listElement.style.display ='grid';
   listElement.style.gridTemplateColumns = '125px 10px 30px auto';
   listElement.style.borderTop = 'solid 1px black';
   if (greyBackground) {
@@ -263,7 +225,7 @@ export function createListElement(name, greyBackground) {
 
   verticalLineElement.style.display = 'inline';
   verticalLineElement.style.borderLeft = 'solid 1px black';
-  verticalLineElement.width = '1px';
+  verticalLineElement.width ='1px';
   verticalLineElement.heigth = '15px';
   verticalLineElement.style.overflowY = 'visible';
   verticalLineElement.style.marginLeft = '5px';
@@ -272,28 +234,21 @@ export function createListElement(name, greyBackground) {
   imageElement.heigth = iconSize;
   imageElement.style.marginLeft = '5px';
   if (iconSRC.startsWith('data')) {
-    imageElement.src = iconSRC;
+    imageElement.src= iconSRC;
   } else {
-    imageElement.src = 'data:image/svg+xml,' + iconSRC;
+    imageElement.src= ('data:image/svg+xml,' + iconSRC);
   }
 
-  if (isInTypeDictionary(ACTOR, ACTOR + name)) {
+  if (isInTypeDictionary(ACTOR, ACTOR +name)) {
     inputRadioActor.checked = true;
-    createListElementInSeletionList(
-      name,
-      getIconSource(name),
-      selectedActorsList
-    );
+    createListElementInSeletionList(name, getIconSource(name), selectedActorsList);
     addToSelectedActors(name, getIconSource(name));
   } else if (isInTypeDictionary(WORKOBJECT, WORKOBJECT + name)) {
     inputRadioWorkObject.checked = true;
-    createListElementInSeletionList(
-      name,
-      getIconSource(name),
-      selectedWorkObjectList
-    );
+    createListElementInSeletionList(name, getIconSource(name), selectedWorkObjectList);
     addToSelectedWorkObjects(name, getIconSource(name));
-  } else {
+  }
+  else {
     inputRadioNone.checked = true;
   }
 
@@ -310,15 +265,11 @@ export function createListElement(name, greyBackground) {
     let addToWorkObjects = false;
     if (actorButton.checked) {
       addToActors = true;
-    } else if (workObjectButton.checked) {
+    }
+    else if (workObjectButton.checked) {
       addToWorkObjects = true;
     }
-    updateSelectedWorkObjectsAndActors(
-      currentSelectionName,
-      addToActors,
-      addToWorkObjects,
-      true
-    );
+    updateSelectedWorkObjectsAndActors(currentSelectionName, addToActors, addToWorkObjects, true);
   });
 
   listElement.appendChild(radioElement);
@@ -331,13 +282,14 @@ export function createListElement(name, greyBackground) {
 
 export function resetHTMLSelectionList() {
   if (domExists()) {
-    let i = 0;
-    for (i = selectedWorkObjectList.children.length - 1; i >= 0; i--) {
+
+    let i=0;
+    for (i=selectedWorkObjectList.children.length -1; i>=0; i--) {
       const child = selectedWorkObjectList.children[i];
       selectedWorkObjectList.removeChild(child);
     }
 
-    for (i = selectedActorsList.children.length - 1; i >= 0; i--) {
+    for (i=selectedActorsList.children.length -1; i>=0; i--) {
       const child = selectedActorsList.children[i];
       selectedActorsList.removeChild(child);
     }
@@ -345,8 +297,9 @@ export function resetHTMLSelectionList() {
 }
 
 export function createListElementInSeletionList(name, src, list) {
+
   const children = list.children;
-  for (let i = 0; i < children.length; i++) {
+  for (let i=0; i< children.length; i++) {
     const child = children[i];
     const listElementName = child.children[1].innerText;
     if (name == listElementName) {
@@ -362,13 +315,13 @@ export function createListElementInSeletionList(name, src, list) {
     imageElement.width = iconSize;
     imageElement.heigth = iconSize;
     if (src.startsWith('data')) {
-      imageElement.src = src;
+      imageElement.src= src;
     } else {
-      imageElement.src = 'data:image/svg+xml,' + src;
+      imageElement.src= ('data:image/svg+xml,' + src);
     }
 
     nameElement.innerHTML = name;
-    nameElement.style.marginLeft = '5px';
+    nameElement.style.marginLeft ='5px';
 
     listElement.appendChild(imageElement);
     listElement.appendChild(nameElement);
