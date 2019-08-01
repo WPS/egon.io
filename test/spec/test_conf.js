@@ -1,4 +1,4 @@
-export var test_conf = {
+export const test_conf = {
   'actors': [
     'Person'
   ],

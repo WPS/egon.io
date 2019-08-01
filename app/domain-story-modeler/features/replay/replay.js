@@ -42,7 +42,7 @@ export function initReplay(inCanvas) {
         }
         else {
           let errorText = '\nThe numbers: ';
-          for (var i=0; i<replaySteps.length; i++) {
+          for (let i=0; i<replaySteps.length; i++) {
             if (errorStep[i]) {
               errorText+= ((i + 1) + ',');
             }
@@ -52,7 +52,7 @@ export function initReplay(inCanvas) {
 
           let oldText = incompleteStoryDialog.getElementsByTagName('text');
           if (oldText) {
-            for (i=0; i < oldText.length; i++) {
+            for (let i=0; i < oldText.length; i++) {
               incompleteStoryDialog.removeChild(oldText[i]);
             }
           }

@@ -13,9 +13,9 @@ import { domExists } from '../testmode';
 export function getIconset() {
   if (localStorage.getItem(useCustomConfigTag)) {
     if (domExists()) {
-      var domainName = localStorage.getItem(customConfigNameTag) || 'default';
-      var domainNameInput = document.getElementById('domainNameInput');
-      var currentDomainName = document.getElementById('currentDomainName');
+      let domainName = localStorage.getItem(customConfigNameTag) || 'default';
+      let domainNameInput = document.getElementById('domainNameInput');
+      let currentDomainName = document.getElementById('currentDomainName');
       domainNameInput.value = domainName;
       currentDomainName.innerHTML = domainName;
     }

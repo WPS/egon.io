@@ -129,7 +129,7 @@ function initialize(canvas, elementRegistry, version, modeler, eventBus, fnDebou
       return;
     }
 
-    var returnValue;
+    let returnValue;
 
     try {
       // returning false prevents the default action
