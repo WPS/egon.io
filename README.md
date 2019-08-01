@@ -50,7 +50,7 @@ Click on ![Gear Button](/images/gear.png) to open the icon configuration. Config
 
 If you import a Domain Story from a .dst file, your icon configuration will change automatically to the one with which the Domain Story was created - even if you do not have the corresponding .domain file.
 
-**Beta feature:** If you want to use icons that are not in the predefined set that comes with the modeler, you can upload your own icons.
+**Beta feature:** If you want to use icons that are not in the predefined set that comes with the modeler, you can upload your own icons. Different image formats are allowed, but you will achieve best results with SVG because it is scalable (like the icons that come with the modeler). Also, we recommend to use square images because they look better in the pallete and the context pad.
 
 ### Examples
 The examples' directory contains .dst files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
