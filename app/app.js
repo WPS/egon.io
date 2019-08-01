@@ -208,7 +208,7 @@ function initialize(
       return;
     }
 
-    var returnValue;
+    let returnValue;
 
     try {
       // returning false prevents the default action

@@ -8,8 +8,8 @@ export function addIMGToIconDictionary(input, name) {
   appendedIcons[name] = input;
 
   if (domExists()) {
-    var htmlList = document.getElementById('allIconsList');
-    var listElement = createListElement(name);
+    const htmlList = document.getElementById('allIconsList');
+    const listElement = createListElement(name);
     htmlList.appendChild(listElement);
   }
 }

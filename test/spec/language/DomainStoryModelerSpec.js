@@ -7,7 +7,7 @@ import { checkElementReferencesAndRepair } from '../../../app/domain-story-model
 import { initTypeDictionaries } from '../../../app/domain-story-modeler/language/icon/dictionaries';
 import { setElementregistry, getElementRegistry } from '../../../app/domain-story-modeler/features/canvasElements/canvasElementRegistry';
 
-var sinon = require('sinon');
+const sinon = require('sinon');
 
 setElementregistry(sinon.mock(getElementRegistry()));
 
