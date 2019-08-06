@@ -342,11 +342,6 @@ eventBus.on('element.dblclick', function(e) {
 
               allActivities.forEach(activity => {
                 const activityNumber = +activity.businessObject.number;
-                console.log(
-                  activityNumber,
-                  tNumber,
-                  activityNumber === tNumber
-                );
                 if (activityNumber === tNumber) {
                   if (
                     positionsMatch(
