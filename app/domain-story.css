@@ -28,7 +28,7 @@ input{
   height: 100%;
   width:100%;
   display: grid;
-  grid-template-rows: 125px 1px auto;
+  grid-template-rows: 1px 125px 1px auto;
 }
 
 .header {
