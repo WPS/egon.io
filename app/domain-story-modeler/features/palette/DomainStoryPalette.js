@@ -92,7 +92,12 @@ function appendCSSStyleCheat(customIcons) {
   customIconDictKeys.forEach(name => {
     const src = customIconDict.get(name);
     const iconStyle =
-      '.icon-domain-story-' + name + '{' + 'content: url("' + src + '");}';
+      '.icon-domain-story-' +
+      name +
+      '{' +
+      'content: url("' +
+      src +
+      '"); margin: 3px; height: 24px !important; width: 24px !important;}'; // TODO change style such that important is not necessarcy
     sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
   });
 }

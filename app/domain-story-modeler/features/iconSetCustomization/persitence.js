@@ -1,25 +1,45 @@
 'use strict';
 
-import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary, getAppendedIconDictionary, getIconSource, addToSelectedWorkObjects, addToSelectedActors, resetSelectionDictionaries } from './dictionaries';
+import {
+  getSelectedActorsDictionary,
+  getSelectedWorkObjectsDictionary,
+  getAppendedIconDictionary,
+  getIconSource,
+  addToSelectedWorkObjects,
+  addToSelectedActors,
+  resetSelectionDictionaries
+} from './dictionaries';
 import { createObjectListForDSTDownload } from '../export/dstDownload';
 import { version } from '../../../../package.json';
 import { appendSRCFile } from '../../language/icon/iconConfig';
-import { createListElement, createListElementInSeletionList, resetHTMLSelectionList } from './customizationDialog';
+import {
+  createListElement,
+  createListElementInSeletionList,
+  resetHTMLSelectionList
+} from './customizationDialog';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { domExists } from '../../language/testmode';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
+import { all_icons } from '../../language/icon/all_Icons';
+import { getAllCanvasObjects } from '../canvasElements/canvasElementRegistry';
 
 export const useCustomConfigTag = 'useCustomConfig';
-export const customConfigTag ='customConfig';
+export const useNecessaryConfigTag = 'useNecessaryConfig';
+export const customConfigTag = 'customConfig';
 export const appendedIconsTag = 'appendedIcons';
 export const storyPersistTag = 'persistetStory';
-export const customConfigNameTag ='persitedDomainName';
+export const customConfigNameTag = 'persitedDomainName';
+
+const Collection = require('collections/dict');
 
 export function setToDefault() {
   persistStory();
   localStorage.removeItem(useCustomConfigTag);
   localStorage.removeItem(customConfigTag);
   localStorage.removeItem(appendedIconsTag);
+  localStorage.removeItem(customConfigNameTag);
+  localStorage.setItem(useNecessaryConfigTag, true);
+  persistNecessaryConfig();
   if (domExists()) {
     location.reload();
   }
@@ -30,14 +50,23 @@ export function exportConfiguration() {
   let workObjects = getSelectedWorkObjectsDictionary();
   let configJSONString;
 
-  if (actors.size >0 && workObjects.size>0) {
-    configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects, document.getElementById('domainNameInput').value));
+  if (actors.size > 0 && workObjects.size > 0) {
+    configJSONString = JSON.stringify(
+      createConfigFromDictionaries(
+        actors,
+        workObjects,
+        document.getElementById('domainNameInput').value
+      )
+    );
 
     let domainNameInput = document.getElementById('domainNameInput');
     let filename = domainNameInput.value || 'domain';
     let element = document.createElement('a');
 
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(configJSONString));
+    element.setAttribute(
+      'href',
+      'data:text/plain;charset=utf-8,' + encodeURIComponent(configJSONString)
+    );
     element.setAttribute('download', filename + '.domain');
     element.style.display = 'none';
     document.body.appendChild(element);
@@ -72,21 +101,26 @@ export function saveIconConfiguration(elements) {
   let domainNameInput = document.getElementById('domainNameInput');
   let name = '';
 
-  if (!actors.size >0) {
+  if (!actors.size > 0) {
     actors = getTypeDictionary(ACTOR);
   }
-  if (!workObjects.size>0) {
+  if (!workObjects.size > 0) {
     workObjects = getTypeDictionary(WORKOBJECT);
   }
   if (domainNameInput) {
     name = domainNameInput.value;
   }
 
-  let configJSONString = JSON.stringify(createConfigFromDictionaries(actors, workObjects, name));
+  let configJSONString = JSON.stringify(
+    createConfigFromDictionaries(actors, workObjects, name)
+  );
 
   localStorage.setItem(useCustomConfigTag, true);
   localStorage.setItem(customConfigTag, configJSONString);
-  localStorage.setItem(appendedIconsTag, JSON.stringify(getAppendedIconDictionary()));
+  localStorage.setItem(
+    appendedIconsTag,
+    JSON.stringify(getAppendedIconDictionary())
+  );
   localStorage.setItem(customConfigNameTag, name);
 
   if (domExists()) {
@@ -134,7 +168,9 @@ export function loadConfiguration(customConfig) {
 function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
   let htmlList = document.getElementById('allIconsList');
   let selectedActorsList = document.getElementById('selectedActorsList');
-  let selectedWorkObjectList = document. getElementById('selectedWorkObjectsList');
+  let selectedWorkObjectList = document.getElementById(
+    'selectedWorkObjectsList'
+  );
 
   resetHTMLSelectionList();
 
@@ -143,43 +179,57 @@ function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
     htmlList.appendChild(listElement);
   });
 
-  for (let i=0; i < htmlList.children.length; i++) {
+  for (let i = 0; i < htmlList.children.length; i++) {
     let child = htmlList.children[i];
     let childText = child.innerText;
 
-    actorDict.keysArray().forEach(name=> {
+    actorDict.keysArray().forEach(name => {
       if (childText.startsWith(name)) {
         child.children[0].children[1].checked = true;
-        createListElementInSeletionList(name, getIconSource(name), selectedActorsList);
+        createListElementInSeletionList(
+          name,
+          getIconSource(name),
+          selectedActorsList
+        );
       }
     });
-    workObjectDict.keysArray().forEach(name=> {
+    workObjectDict.keysArray().forEach(name => {
       if (childText.startsWith(name)) {
         child.children[0].children[2].checked = true;
-        createListElementInSeletionList(name, getIconSource(name), selectedWorkObjectList);
+        createListElementInSeletionList(
+          name,
+          getIconSource(name),
+          selectedWorkObjectList
+        );
       }
     });
   }
 }
 
-export function createConfigFromDictionaries(actorsDict, workObjectsDict, name) {
+export function createConfigFromDictionaries(
+    actorsDict,
+    workObjectsDict,
+    name
+) {
   let actors = actorsDict.keysArray();
   let workObjects = workObjectsDict.keysArray();
   let actorsJSON = {};
   let workObjectJSON = {};
 
-  actors.forEach (actor => {
+  actors.forEach(actor => {
     actorsJSON[actor.replace(ACTOR, '')] = actorsDict.get(actor);
   });
 
   workObjects.forEach(workObject => {
-    workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(workObject);
+    workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(
+      workObject
+    );
   });
 
   let config = {
-    'name': name,
-    'actors': actorsJSON,
-    'workObjects': workObjectJSON
+    name: name,
+    actors: actorsJSON,
+    workObjects: workObjectJSON
   };
 
   return config;
@@ -194,10 +244,75 @@ function persistStory() {
     titleText = title.innerText;
   }
 
-  localStorage.setItem(storyPersistTag, JSON.stringify(
-    {
+  localStorage.setItem(
+    storyPersistTag,
+    JSON.stringify({
       title: titleText,
       objects: objects
+    })
+  );
+}
+
+function persistNecessaryConfig() {
+  let currentConfig = createConfigFromDictionaries(
+    getSelectedActorsDictionary(),
+    getSelectedWorkObjectsDictionary(),
+    ''
+  );
+
+  let currentActors = new Collection();
+  currentActors.addEach(currentConfig.actors);
+  let currentWorkobjects = new Collection();
+  currentWorkobjects.addEach(currentConfig.workObjects);
+  let allActors = new Collection();
+  let allWorkobjects = new Collection();
+
+  currentActors.keysArray().forEach(name => {
+    if (!all_icons[name]) {
+      allActors.add(currentActors.get(name), name);
     }
-  ));
+  });
+
+  currentWorkobjects.keysArray().forEach(name => {
+    if (!all_icons[name]) {
+      allWorkobjects.add(currentWorkobjects.get(name), name);
+    }
+  });
+
+  const allCanvasObjects = getAllCanvasObjects();
+  let canvasObjectTypes = [];
+  allCanvasObjects.forEach(object => {
+    console.log(object);
+    const objectType = object.type.replace(ACTOR, '').replace(WORKOBJECT, '');
+    if (!canvasObjectTypes.includes(objectType)) {
+      canvasObjectTypes.push(objectType);
+    }
+  });
+
+  let newActors = {};
+  let newWorkobjects = {};
+  console.log(canvasObjectTypes, allActors);
+  allActors.keysArray().forEach(key => {
+    if (canvasObjectTypes.includes(key)) {
+      newActors[key] = allActors.get(key);
+    }
+  });
+  allWorkobjects.keysArray().forEach(key => {
+    if (canvasObjectTypes.includes(key)) {
+      newWorkobjects[key] = allWorkobjects.get(key);
+    }
+  });
+  console.log(newActors);
+
+  let config = {
+    name: '',
+    actors: newActors,
+    workObjects: newWorkobjects
+  };
+
+  localStorage.setItem(customConfigTag, JSON.stringify(config));
+  localStorage.setItem(
+    appendedIconsTag,
+    JSON.stringify(getAppendedIconDictionary())
+  );
 }

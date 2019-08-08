@@ -1,7 +1,7 @@
 'use strict';
 
 // sanitize user-Input to be Desktop-Filename safe
-export default function sanitizeForDesktop(string) {
+export function sanitizeForDesktop(string) {
   const map = {
     '/': '',
     '\\': '',
@@ -15,4 +15,23 @@ export default function sanitizeForDesktop(string) {
   };
   const reg = /[/\\:*?"<>|]/ig;
   return string ? string.replace(reg, (match)=>(map[match])) : '';
+}
+
+export function sanitizeIconName(name) {
+  const map = {
+    '/': '',
+    '\\': '',
+    ':': '',
+    '*': '',
+    '?': '',
+    '"': '',
+    '<': '',
+    '>': '',
+    '|': '',
+    '(': '',
+    ')': '',
+    ' ': '-'
+  };
+  const reg = /[/\\:*?"<>|() ]/ig;
+  return name ? name.replace(reg, (match)=>(map[match])) : '';
 }

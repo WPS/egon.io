@@ -179,7 +179,7 @@ export function autocomplete(inp, arr, element) {
       e.preventDefault();
       if (currentFocus > -1) {
         /* and simulate a click on the "active" item:*/
-        if (autocompleteList) autocompleteList[currentFocus].click();
+        if (autocompleteList && autocomplete[currentFocus]) autocompleteList[currentFocus].click();
       }
     }
   });

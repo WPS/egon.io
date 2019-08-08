@@ -1,7 +1,7 @@
 'use strict';
 
 export function domExists() {
-  var domExists = true;
+  let domExists = true;
   if (!document.getElementById('line')) {
     domExists = false;
   }
