@@ -5,6 +5,7 @@ import { labelPosition } from '../labeling/position';
 
 
 let numberRegistry = [];
+let multipleNumberRegistry = [false];
 
 // defines the box for activity numbers
 export function numberBoxDefinitions(element) {
@@ -56,6 +57,7 @@ export function generateAutomaticNumber(elementActivity, commandStack) {
 
 // update the numbers at the activities when generating a new activity
 export function updateExistingNumbersAtGeneration(activiesFromActors, wantedNumber, commandStack) {
+
   activiesFromActors.forEach(element => {
 
     let number = +element.businessObject.number;
@@ -112,9 +114,17 @@ export function getNumbersAndIDs() {
 export function addNumberToRegistry(renderedNumber, number) {
   numberRegistry[number] = renderedNumber;
 }
+
+export function setNumberIsMultiple(number, multi) {
+  multipleNumberRegistry[number] = multi;
+}
 /**
  * @returns copy of registry
  */
 export function getNumberRegistry() {
   return numberRegistry.slice(0);
+}
+
+export function getMultipleNumberRegistry() {
+  return multipleNumberRegistry.slice(0);
 }

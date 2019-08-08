@@ -41,9 +41,9 @@ describe('replay', function() {
     expect(isConsecutive).to.be.false;
   });
 
-  it('createStep', function() {
+  it('createStep', function() { // fix test
     // Given
-    const tracedActivity = {
+    const activityTrace = [{
       type: ACTIVITY,
       businessObject: {},
       source: 'initial',
@@ -62,16 +62,15 @@ describe('replay', function() {
           }
         ]
       }
-    };
-
+    }];
     // When
 
-    const step = createStep(tracedActivity);
+    const step = createStep(activityTrace);
 
     // Then
 
     expect(step.source).to.exist;
-    assert.equal(step.source, tracedActivity.source);
+    assert.equal(step.source, activityTrace[0].source);
     expect(step.activities).to.exist;
     assert.equal(step.activities.length, 2);
     expect(step.targets).to.exist;
