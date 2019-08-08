@@ -316,7 +316,7 @@ function presentationMode() {
   presentationModeButtons.style.pointerEvents = 'all';
 
   let headerAndCanvas = document.getElementsByClassName('headerAndCanvas')[0];
-  headerAndCanvas.style.gridTemplateRows = '50px 1px auto';
+  headerAndCanvas.style.gridTemplateRows = '0px 50px 1px auto';
 
   let headlineAndButtons = document.getElementById('headlineAndButtons');
   headlineAndButtons.style.gridTemplateColumns = 'auto 230px 3px';
@@ -352,7 +352,7 @@ function editMode() {
   presentationModeButtons.style.pointerEvents = 'none';
 
   let headerAndCanvas = document.getElementsByClassName('headerAndCanvas')[0];
-  headerAndCanvas.style.gridTemplateRows = '125px 1px auto';
+  headerAndCanvas.style.gridTemplateRows = '0px 125px 1px auto';
 
   let headlineAndButtons = document.getElementById('headlineAndButtons');
   headlineAndButtons.style.gridTemplateColumns = 'auto 390px 3px';

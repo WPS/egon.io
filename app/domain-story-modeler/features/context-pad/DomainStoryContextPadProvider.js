@@ -3,7 +3,7 @@
 import inherits from 'inherits';
 
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
-
+import Picker from 'vanilla-picker';
 
 import {
   assign,
@@ -15,8 +15,54 @@ import { getIconForType } from '../../language/icon/iconDictionary';
 import { ACTIVITY, ACTOR, GROUP, TEXTANNOTATION, WORKOBJECT } from '../../language/elementTypes';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
 import { makeDirty } from '../export/dirtyFlag';
+import { getAllStandardIconKeys } from '../../language/icon/all_Icons';
+import { getAllCanvasObjects, getAllGroups, getAllActivities } from '../canvasElements/canvasElementRegistry';
 
 export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
+
+  const picker = new Picker(document.getElementById('pickerAnchor'));
+  const pickerOptions = {
+    color: 'black',
+    popup: 'bottom'
+  };
+  let selectedID;
+
+  picker.setOptions(pickerOptions);
+  picker.onDone = function(color) {
+    if (selectedID.includes('shape')) {
+      const allGroups = getAllGroups();
+      const allCanvasObjects = getAllCanvasObjects();
+
+      const isDone=pickerFunction(allCanvasObjects, color);
+
+      if (!isDone) {
+        pickerFunction(allGroups, color);
+      }
+    }
+    else if (selectedID.includes('connection')) {
+      const allActivities = getAllActivities();
+      pickerFunction(allActivities, color);
+    }
+  };
+
+  function pickerFunction(objects, color) {
+    let isDone = false;
+    objects.forEach(elem => {
+      if (elem.id == selectedID) {
+
+        const context = {
+          businessObject: elem.businessObject,
+          newColor: color.hex,
+          element: elem
+        };
+
+        commandStack.execute('element.colorChange', context);
+        makeDirty();
+        isDone=true;
+      }
+    });
+    return isDone;
+  }
 
   injector.invoke(ContextPadProvider, this);
   let autoPlace = injector.get('autoPlace', false);
@@ -33,7 +79,12 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       connect.start(event, element, autoActivate);
     }
 
+    const allStandardIconKeys = getAllStandardIconKeys();
+
     if (element.type.includes('workObject')) {
+      if (allStandardIconKeys.has(element.type.replace(WORKOBJECT, ''))) {
+        addColorChange(actions);
+      }
       addActors(appendAction, actions);
       addWorkObjects(appendAction, actions);
       addChangeWorkObjectTypeMenu(actions);
@@ -42,6 +93,9 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     }
 
     else if (element.type.includes('actor')) {
+      if (allStandardIconKeys.has(element.type.replace(ACTOR, ''))) {
+        addColorChange(actions);
+      }
       addWorkObjects(appendAction, actions);
       addChangeActorTypeMenu(actions);
       addConnectWithActivity(actions, startConnect);
@@ -50,6 +104,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
     else if (element.type.includes(GROUP)) {
       addTextAnnotation(actions);
+      addColorChange(actions);
     }
     else if (element.type.includes(ACTIVITY)) {
       // the change direction icon is appended at the end of the edit group by default,
@@ -70,6 +125,8 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           }
         }
       });
+
+      addColorChange(actions);
 
       assign(actions, {
         'delete': {
@@ -101,6 +158,23 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
               cursor: { x: event.x, y: event.y }
             });
             popupMenu.open(element, 'ds-replace', position);
+          }
+        }
+      }
+    });
+  }
+
+  function addColorChange(actions) {
+    assign(actions, {
+      'colorChange': {
+        group:'edit',
+        className:'icon-domain-story-color-picker',
+        title: translate('Change color'),
+        action: {
+          click: function(event, element) {
+            selectedID = element.id;
+            picker.show();
+
           }
         }
       }

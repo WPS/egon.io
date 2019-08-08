@@ -68,6 +68,7 @@ import {
   isDirty,
   makeDirty
 } from './domain-story-modeler/features/export/dirtyFlag';
+import DSElementHandler from './domain-story-modeler/modeler/DSElementHandler';
 
 const modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -195,8 +196,9 @@ function initialize(
     fnDebounce
 ) {
   // we need to initiate the activity commandStack elements
-  DSActivityHandlers(commandStack, eventBus, canvas);
-  DSMassRenameHandlers(commandStack, eventBus, canvas);
+  DSActivityHandlers(commandStack, eventBus);
+  DSMassRenameHandlers(commandStack, eventBus);
+  DSElementHandler(commandStack, eventBus);
 
   initReplay(canvas);
   initElementRegistry(elementRegistry);

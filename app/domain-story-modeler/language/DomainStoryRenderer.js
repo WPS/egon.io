@@ -40,6 +40,7 @@ import { getTypeIconSRC } from './icon/dictionaries';
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
+const DEFAULT_COLOR = 'black';
 /**
  * a renderer that knows how to render custom elements.
  */
@@ -271,9 +272,12 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
 
   // draw functions
   this.drawGroup = function(parentGfx, element) {
+    if (!element.businessObject.pickedColor) {
+      element.businessObject.pickedColor ='black';
+    }
     let rect = drawRect(parentGfx, element.width, element.height, 0, assign({
       fill: 'none',
-      stroke: 'black',
+      stroke: element.businessObject.pickedColor,
     }, element.attrs));
 
     renderEmbeddedLabel(parentGfx, element, 'left-top', 8);
@@ -288,9 +292,22 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
         },
         actor;
     let iconSRC = getTypeIconSRC(ACTOR, element.type);
+
     if (iconSRC.startsWith('data')) {
       iconSRC = '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'+
       '<image width="24" height="24" xlink:href="'+ iconSRC+ '"/></svg>';
+    }
+    else {
+      if (!element.businessObject.pickedColor) {
+        element.businessObject.pickedColor = DEFAULT_COLOR;
+      }
+      const match = iconSRC.match(/fill=".*?"/);
+      if (match && match.length > 1) {
+        iconSRC=iconSRC.replace(/fill=".*?"/, 'fill="'+ element.businessObject.pickedColor +'"');
+      } else {
+        const index = iconSRC.indexOf('<svg ') + 5;
+        iconSRC = iconSRC.substring(0, index) + ' fill=" '+ element.businessObject.pickedColor +'" ' + iconSRC.substring(index);
+      }
     }
     actor = svgCreate(iconSRC);
 
@@ -314,6 +331,17 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       iconSRC = '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'+
       '<image width="24" height="24" xlink:href="'+ iconSRC+ '"/></svg>';
     }
+    else {
+      if (!element.businessObject.pickedColor) {
+        element.businessObject.pickedColor = DEFAULT_COLOR;
+      }
+      if (iconSRC.match(/fill=".*?"/).length > 1) {
+        iconSRC=iconSRC.replace(/fill=".*?"/, 'fill="'+ element.businessObject.pickedColor +'"');
+      } else {
+        const index = iconSRC.indexOf('<svg ') + 5;
+        iconSRC = iconSRC.substring(0, index) + ' fill=" '+ element.businessObject.pickedColor +'" ' + iconSRC.substring(index);
+      }
+    }
     workObject = svgCreate(iconSRC);
 
     svgAttr(workObject, svgDynamicSizeAttributes);
@@ -327,12 +355,15 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     adjustForTextOverlapp(element);
 
     if (element) {
+      if (!element.businessObject.pickedColor) {
+        element.businessObject.pickedColor='black';
+      }
       let attrs = computeStyle(attrs, {
-        stroke: '#000000',
+        stroke: element.businessObject.pickedColor,
         fill: 'none',
         strokeWidth: 1.5,
         strokeLinejoin: 'round',
-        markerEnd: marker('activity', 'black', '#000000')
+        markerEnd: marker('activity', 'black', element.businessObject.pickedColor)
       });
 
       let x = svgAppend(p, createLine(element.waypoints, attrs));
