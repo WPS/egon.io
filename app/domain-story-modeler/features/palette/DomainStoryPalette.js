@@ -93,7 +93,7 @@ function appendCSSStyleCheat(customIcons) {
     const src = customIconDict.get(name);
     const iconStyle =
       '.icon-domain-story-' +
-      name +
+      name.toLowerCase() +
       '{' +
       'content: url("' +
       src +
