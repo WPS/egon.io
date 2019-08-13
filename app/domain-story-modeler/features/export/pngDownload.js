@@ -242,6 +242,15 @@ function findMostOuterElements(svg) {
 
       elXRight = elXLeft + parseInt(outerRect.getAttribute('width'));
       elYDown = elYUp + parseInt(sub[0].getBoundingClientRect().height);
+    } else {
+      let rects = element.getElementsByTagName('rect');
+      let outerRect = rects[rects.length - 1];
+
+      elXLeft = parseInt(outerRect.getAttribute('x'));
+      elYUp = parseInt(outerRect.getAttribute('y'));
+
+      elXRight = elXLeft + parseInt(outerRect.getAttribute('width'));
+      elYDown = elYUp + parseInt(outerRect.getAttribute('height')) + 20; // Add 20 px as Padding for text at the bottom
     }
     if (elXLeft < xLeft) {
       xLeft = elXLeft;
