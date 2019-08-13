@@ -1,18 +1,20 @@
 'use strict';
 
 import { createTitleAndDescriptionSVGElement } from './createTitleAndInfo';
-import sanitizeForDesktop from '../../util/Sanitizer';
+import { sanitizeForDesktop } from '../../util/Sanitizer';
 
 let title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
 let svgData, cacheData;
 
 export function downloadSVG(filename) {
-
   createSVGData();
 
   let element = document.createElement('a');
-  element.setAttribute('href', 'data:application/bpmn20-xml;charset=UTF-8,' + svgData);
+  element.setAttribute(
+    'href',
+    'data:application/bpmn20-xml;charset=UTF-8,' + svgData
+  );
   element.setAttribute('download', sanitizeForDesktop(filename) + '.svg');
 
   element.style.display = 'none';
@@ -32,11 +34,10 @@ function createSVGData() {
   // we change the confines of the SVG viewbox
   let descriptionText = infoText.innerHTML;
   let titleText = title.innerHTML;
-  let viewBoxIndex = cacheData.indexOf ('width="');
+  let viewBoxIndex = cacheData.indexOf('width="');
 
   let { width, height, viewBox } = viewBoxCoordinates(cacheData);
   height += 80;
-
 
   let xLeft, xRight, yUp, yDown;
   let bounds = '';
@@ -48,14 +49,32 @@ function createSVGData() {
   yDown = +splitViewBox[3];
 
   if (xRight < 300) {
-    xRight+= 300;
-    width+= 300;
+    xRight += 300;
+    width += 300;
   }
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
-  let { insertText, extraHeight } = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp, width);
+  let { insertText, extraHeight } = createTitleAndDescriptionSVGElement(
+    titleText,
+    descriptionText,
+    xLeft,
+    yUp,
+    width
+  );
   height += extraHeight;
 
-  bounds = 'width="' + width+ '" height=" '+ height+'" viewBox="' + xLeft + ' ' +(yUp -80) + ' ' + xRight + ' ' + (yDown + 30);
+  bounds =
+    'width="' +
+    width +
+    '" height=" ' +
+    height +
+    '" viewBox="' +
+    xLeft +
+    ' ' +
+    (yUp - 80) +
+    ' ' +
+    xRight +
+    ' ' +
+    (yDown + 30);
   let dataStart = cacheData.substring(0, viewBoxIndex);
   viewBoxIndex = cacheData.indexOf('" version');
   let dataEnd = cacheData.substring(viewBoxIndex);
@@ -66,17 +85,20 @@ function createSVGData() {
   let insertIndex = cacheData.indexOf('</defs>');
   if (insertIndex < 0) {
     insertIndex = cacheData.indexOf('version="1.1">') + 14;
-  }
-  else {
-    insertIndex+=7;
+  } else {
+    insertIndex += 7;
   }
 
-  cacheData = [cacheData.slice(0,insertIndex), insertText, cacheData.slice(insertIndex)].join('');
+  cacheData = [
+    cacheData.slice(0, insertIndex),
+    insertText,
+    cacheData.slice(insertIndex)
+  ].join('');
   svgData = encodeURIComponent(cacheData);
 }
 
 function viewBoxCoordinates(svg) {
   const ViewBoxCoordinate = /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)"/;
   const match = svg.match(ViewBoxCoordinate);
-  return { width: +match[1], height : +match[2], viewBox: match[3] };
+  return { width: +match[1], height: +match[2], viewBox: match[3] };
 }

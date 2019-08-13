@@ -1,7 +1,7 @@
 'use strict';
 
 import { createTitleAndDescriptionSVGElement } from './createTitleAndInfo';
-import sanitizeForDesktop from '../../util/Sanitizer';
+import { sanitizeForDesktop } from '../../util/Sanitizer';
 
 let width, height;
 let title = document.getElementById('title'),
@@ -53,7 +53,13 @@ export function downloadPNG() {
 
     let png64 = tempCanvas.toDataURL('image/png');
     let ele = document.createElement('a');
-    ele.setAttribute('download', sanitizeForDesktop(title.innerText) + '_' + new Date().toISOString().slice(0, 10) +'.png');
+    ele.setAttribute(
+      'download',
+      sanitizeForDesktop(title.innerText) +
+        '_' +
+        new Date().toISOString().slice(0, 10) +
+        '.png'
+    );
     ele.setAttribute('href', png64);
     document.body.appendChild(ele);
     ele.click();
@@ -62,7 +68,7 @@ export function downloadPNG() {
 
   image.width = width;
   image.height = height;
-  image.src=('data:image/svg+xml,' + svg);
+  image.src = 'data:image/svg+xml,' + svg;
 }
 
 function prepareSVG(svg, layertBase) {
@@ -74,12 +80,30 @@ function prepareSVG(svg, layertBase) {
   let descriptionText = infoText.innerHTML;
   let titleText = title.innerHTML;
 
-  let { insertText , extraHeight } = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp + 15, width);
+  let { insertText, extraHeight } = createTitleAndDescriptionSVGElement(
+    titleText,
+    descriptionText,
+    xLeft,
+    yUp + 15,
+    width
+  );
   height += extraHeight;
 
-  let viewBoxIndex = svg.indexOf ('width="');
-  let bounds = 'width="' + width + '" height="' + (height) +
-    '" viewBox=" ' + xLeft + ' ' + (yUp - extraHeight) + ' ' + (width)+ ' ' + (height) + '" ';
+  let viewBoxIndex = svg.indexOf('width="');
+  let bounds =
+    'width="' +
+    width +
+    '" height="' +
+    height +
+    '" viewBox=" ' +
+    xLeft +
+    ' ' +
+    (yUp - extraHeight) +
+    ' ' +
+    width +
+    ' ' +
+    height +
+    '" ';
 
   let dataStart = svg.substring(0, viewBoxIndex);
   viewBoxIndex = svg.indexOf('style="');
@@ -90,7 +114,9 @@ function prepareSVG(svg, layertBase) {
 
   let insertIndex = svg.indexOf('<g class="viewport">') + 20;
 
-  svg = [svg.slice(0,insertIndex), insertText, svg.slice(insertIndex)].join('');
+  svg = [svg.slice(0, insertIndex), insertText, svg.slice(insertIndex)].join(
+    ''
+  );
   svg = URIHashtagFix(svg);
 
   return svg;
@@ -101,20 +127,24 @@ function URIHashtagFix(svg) {
   let fix = false;
 
   navigator.browserSpecs = (function() {
-    let ua = navigator.userAgent, tem,
-        M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    let ua = navigator.userAgent,
+        tem,
+        M =
+        ua.match(
+          /(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i
+        ) || [];
     if (/trident/i.test(M[1])) {
       tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
-      return { name:'IE',version:(tem[1] || '') };
+      return { name: 'IE', version: tem[1] || '' };
     }
-    if (M[1]=== 'Chrome') {
+    if (M[1] === 'Chrome') {
       tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
-      if (tem != null) return { name:tem[1].replace('OPR', 'Opera'),version:tem[2] };
+      if (tem != null)
+        return { name: tem[1].replace('OPR', 'Opera'), version: tem[2] };
     }
-    M = M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
-    if ((tem = ua.match(/version\/(\d+)/i))!= null)
-      M.splice(1, 1, tem[1]);
-    return { name:M[0], version:M[1] };
+    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+    if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
+    return { name: M[0], version: M[1] };
   })();
 
   let browser = navigator.browserSpecs;
@@ -128,51 +158,47 @@ function URIHashtagFix(svg) {
       fix = true;
       // https://www.chromestatus.com/features/5656049583390720
     }
-  }
-  else if (name.includes('Firefox')) {
+  } else if (name.includes('Firefox')) {
     fix = true;
     // versionNumber of implementation unknown
   }
   if (fix) {
     while (svg.includes('#')) {
-      svg=svg.replace('#', '%23');
+      svg = svg.replace('#', '%23');
     }
   }
   return svg;
 }
 
 export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
-
-  if (xLeft <0) {
-    if (xRight <0) {
+  if (xLeft < 0) {
+    if (xRight < 0) {
       width = Math.abs(xLeft - xRight);
-    }
-    else {
+    } else {
       width = Math.abs(xLeft) + xRight;
     }
   } else {
     width = xRight - xLeft;
   }
 
-  if (yUp <0) {
-    if (yDown <0) {
+  if (yUp < 0) {
+    if (yDown < 0) {
       height = Math.abs(yUp - yDown);
-    }
-    else {
+    } else {
       height = Math.abs(yUp) + yDown;
     }
   } else {
-    height = yDown- yUp;
+    height = yDown - yUp;
   }
 
   // if the domain-Story is smaller than 300px in width or height, increase its dimensions
-  if (height <300) {
-    height+=300;
+  if (height < 300) {
+    height += 300;
     yUp -= 150;
     yDown += 150;
   }
-  if (width <300) {
-    width +=300;
+  if (width < 300) {
+    width += 300;
     xLeft -= 150;
     xRight += 150;
   }
@@ -182,15 +208,14 @@ export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
 function findMostOuterElements(svg) {
   let xLeft = 0;
   let xRight = 0;
-  let yUp =0;
+  let yUp = 0;
   let yDown = 0;
 
   let elements = svg.getElementsByClassName('djs-group');
 
-  for (let i=0; i<elements.length; i++) {
-
+  for (let i = 0; i < elements.length; i++) {
     let element = elements[i];
-    let sub= element.children;
+    let sub = element.children;
 
     let elXLeft, elXRight, elYUp, elYDown;
 
@@ -213,10 +238,10 @@ function findMostOuterElements(svg) {
       }
 
       let rects = sub[0].getElementsByTagName('rect');
-      let outerRect = rects[rects.length-1];
+      let outerRect = rects[rects.length - 1];
 
       elXRight = elXLeft + parseInt(outerRect.getAttribute('width'));
-      elYDown = elYUp + (parseInt(sub[0].getBoundingClientRect().height));
+      elYDown = elYUp + parseInt(sub[0].getBoundingClientRect().height);
     }
     if (elXLeft < xLeft) {
       xLeft = elXLeft;
