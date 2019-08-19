@@ -1,14 +1,21 @@
 'use strict';
 
 import { is } from 'bpmn-js/lib/util/ModelUtil';
-import { ACTOR, WORKOBJECT, ACTIVITY, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
+import {
+  ACTOR,
+  WORKOBJECT,
+  ACTIVITY,
+  GROUP,
+  TEXTANNOTATION
+} from '../../language/elementTypes';
 
 function getLabelAttr(semantic) {
   if (
     semantic.type.includes(ACTOR) ||
     semantic.type.includes(WORKOBJECT) ||
     semantic.type.includes(ACTIVITY) ||
-    semantic.type.includes(GROUP)) {
+    semantic.type.includes(GROUP)
+  ) {
     return 'name';
   }
 
@@ -19,7 +26,6 @@ function getLabelAttr(semantic) {
 
 function getNumberAttr(semantic) {
   if (is(semantic, ACTIVITY)) {
-
     return 'number';
   }
 }
@@ -80,7 +86,7 @@ export function selectPartOfActivity(waypoints, angleActivity) {
   let linelength = 49;
 
   for (i = 0; i < waypoints.length; i++) {
-    if ((angleActivity[i] === 0) || (angleActivity[i] === 180)) {
+    if (angleActivity[i] === 0 || angleActivity[i] === 180) {
       let length = Math.abs(waypoints[i].x - waypoints[i + 1].x);
       if (length > linelength) {
         selectedActivity = i;
@@ -118,7 +124,9 @@ export function autocomplete(inp, arr, element) {
     if (element.type.includes(WORKOBJECT)) {
       this.value = this.innerHTML;
     }
-    let autocompleteList, autocompleteItem, val = this.value;
+    let autocompleteList,
+        autocompleteItem,
+        val = this.value;
     /* close any already open lists of autocompleted values*/
     closeAllLists();
     currentFocus = -1;
@@ -133,21 +141,26 @@ export function autocomplete(inp, arr, element) {
       /* check if the item starts with the same letters as the text field value:*/
       if (val) {
         if (name.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-        /* create a DIV element for each matching element:*/
+          /* create a DIV element for each matching element:*/
           autocompleteItem = document.createElement('DIV');
           /* make the matching letters bold:*/
-          autocompleteItem.innerHTML = '<strong>' + name.substr(0, val.length) + '</strong>' + name.substr(val.length);
+          autocompleteItem.innerHTML =
+            '<strong>' +
+            name.substr(0, val.length) +
+            '</strong>' +
+            name.substr(val.length);
           /* insert an input field that will hold the current name:*/
-          autocompleteItem.innerHTML += '<input type=\'hidden\' value=\'' + name + '\'>';
+          autocompleteItem.innerHTML +=
+            "<input type='hidden' value='" + name + "'>";
           /* execute a function when someone clicks on the item (DIV element):*/
-          autocompleteItem.addEventListener('click', function(e) {
-          /* insert the value for the autocomplete text field:*/
+          autocompleteItem.onclick = function(e) {
+            /* insert the value for the autocomplete text field:*/
             inp.value = this.getElementsByTagName('input')[0].value;
             inp.innerHTML = this.getElementsByTagName('input')[0].value;
             /* close the list of autocompleted values,
               (or any other open lists of autocompleted values:*/
             closeAllLists();
-          });
+          };
           autocompleteList.appendChild(autocompleteItem);
         }
       }
@@ -159,16 +172,19 @@ export function autocomplete(inp, arr, element) {
   });
 
   /* execute a function presses a key on the keyboard:*/
-  inp.addEventListener('keydown', function(e) {
+  inp.onkeydown = function(e) {
     let autocompleteList = document.getElementById('autocomplete-list');
-    if (autocompleteList) autocompleteList = autocompleteList.getElementsByTagName('div');
+    if (autocompleteList) {
+      autocompleteList = autocompleteList.getElementsByTagName('div');
+    }
     if (e.keyCode === 40) {
       /* If the arrow DOWN key is pressed,
         increase the currentFocus letiable:*/
       currentFocus++;
       /* and and make the current item more visible:*/
       addActive(autocompleteList);
-    } else if (e.keyCode === 38) { // up
+    } else if (e.keyCode === 38) {
+      // up
       /* If the arrow UP key is pressed,
         decrease the currentFocus letiable:*/
       currentFocus--;
@@ -179,10 +195,12 @@ export function autocomplete(inp, arr, element) {
       e.preventDefault();
       if (currentFocus > -1) {
         /* and simulate a click on the "active" item:*/
-        if (autocompleteList && autocomplete[currentFocus]) autocompleteList[currentFocus].click();
+        if (autocompleteList && autocompleteList[currentFocus]) {
+          autocompleteList[currentFocus].click();
+        }
       }
     }
-  });
+  };
 
   function addActive(autocompleteList) {
     /* a function to classify an item as "active":*/
@@ -190,22 +208,26 @@ export function autocomplete(inp, arr, element) {
     /* start by removing the "active" class on all items:*/
     removeActive(autocompleteList);
     if (currentFocus >= autocompleteList.length) currentFocus = 0;
-    if (currentFocus < 0) currentFocus = (autocompleteList.length - 1);
+    if (currentFocus < 0) currentFocus = autocompleteList.length - 1;
     /* add class "autocomplete-active":*/
     autocompleteList[currentFocus].classList.add('autocomplete-active');
   }
 
   function removeActive(autocompleteList) {
     /* a function to remove the "active" class from all autocomplete items:*/
-    for (const item of autocompleteList) {
-      item.classList.remove('autocomplete-active');
+    if (autocompleteList.length > 1) {
+      for (const item of autocompleteList) {
+        item.classList.remove('autocomplete-active');
+      }
     }
   }
 
   function closeAllLists(survivor) {
     /* close all autocomplete lists in the document,
     except the one passed as an argument:*/
-    let autocompleteList = document.getElementsByClassName('autocomplete-items');
+    let autocompleteList = document.getElementsByClassName(
+      'autocomplete-items'
+    );
     for (const item of autocompleteList) {
       if (survivor != item && survivor != inp) {
         item.parentNode.removeChild(item);
