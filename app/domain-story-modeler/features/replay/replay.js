@@ -1,7 +1,11 @@
 'use strict';
 
 import { CONNECTION, GROUP } from '../../language/elementTypes';
-import { getActivitesFromActors, getAllCanvasObjects, wasInitialized } from '../canvasElements/canvasElementRegistry';
+import {
+  getActivitesFromActors,
+  getAllCanvasObjects,
+  wasInitialized
+} from '../canvasElements/canvasElementRegistry';
 
 let canvas;
 
@@ -26,9 +30,20 @@ export function getReplayOn() {
 export function initReplay(inCanvas) {
   canvas = inCanvas;
 
+  document.addEventListener('keydown', function(e) {
+    if (replayOn) {
+      if (e.keyCode == 37 || e.keyCode == 40) {
+        // leftArrow or downArrow
+        previousStep();
+      } else if (e.keyCode == 39 || e.keyCode == 38) {
+        // rightArrow or UpArrow
+        nextStep();
+      }
+    }
+  });
+
   startReplayButton.addEventListener('click', function() {
     if (wasInitialized()) {
-
       let activities = getActivitesFromActors();
 
       if (!replayOn && activities.length > 0) {
@@ -39,28 +54,28 @@ export function initReplay(inCanvas) {
           presentationMode();
           currentStep = 0;
           showCurrentStep();
-        }
-        else {
+        } else {
           let errorText = '\nThe numbers: ';
-          for (let i=0; i<replaySteps.length; i++) {
+          for (let i = 0; i < replaySteps.length; i++) {
             if (errorStep[i]) {
-              errorText+= ((i + 1) + ',');
+              errorText += i + 1 + ',';
             }
           }
           errorText = errorText.substring(0, errorText.length - 1);
-          errorText+= ' are missing!';
+          errorText += ' are missing!';
 
           let oldText = incompleteStoryDialog.getElementsByTagName('text');
           if (oldText) {
-            for (let i=0; i < oldText.length; i++) {
+            for (let i = 0; i < oldText.length; i++) {
               incompleteStoryDialog.removeChild(oldText[i]);
             }
           }
 
           let text = document.createElement('text');
-          text.innerHTML = ' The activities in this Domain Story are not numbered consecutively.<br>' +
-        'Please fix the numbering in order to replay the story.<br>' +
-        errorText;
+          text.innerHTML =
+            ' The activities in this Domain Story are not numbered consecutively.<br>' +
+            'Please fix the numbering in order to replay the story.<br>' +
+            errorText;
           incompleteStoryDialog.appendChild(text);
           incompleteStoryDialog.style.display = 'block';
           modal.style.display = 'block';
@@ -70,21 +85,11 @@ export function initReplay(inCanvas) {
   });
 
   nextStepButton.addEventListener('click', function() {
-    if (replayOn) {
-      if (currentStep < replaySteps.length - 1) {
-        currentStep += 1;
-        showCurrentStep();
-      }
-    }
+    nextStep();
   });
 
   previousStepButton.addEventListener('click', function() {
-    if (replayOn) {
-      if (currentStep > 0) {
-        currentStep -= 1;
-        showCurrentStep();
-      }
-    }
+    previousStep();
   });
 
   stopReplayButton.addEventListener('click', function() {
@@ -100,8 +105,7 @@ export function initReplay(inCanvas) {
       for (i = 0; i < canvasObjects.length; i++) {
         if (canvasObjects[i].type.includes(GROUP)) {
           groupObjects.push(canvasObjects[i]);
-        }
-        else {
+        } else {
           allObjects.push(canvasObjects[i]);
         }
       }
@@ -112,15 +116,16 @@ export function initReplay(inCanvas) {
         currentgroup.children.forEach(child => {
           if (child.type.includes(GROUP)) {
             groupObjects.push(child);
-          }
-          else {
+          } else {
             allObjects.push(child);
           }
         });
         i = groupObjects.length - 1;
       }
       allObjects.forEach(element => {
-        let domObject = document.querySelector('[data-element-id=' + element.id + ']');
+        let domObject = document.querySelector(
+          '[data-element-id=' + element.id + ']'
+        );
         domObject.style.display = 'block';
       });
 
@@ -128,6 +133,24 @@ export function initReplay(inCanvas) {
       currentStep = 0;
     }
   });
+}
+
+function nextStep() {
+  if (replayOn) {
+    if (currentStep < replaySteps.length - 1) {
+      currentStep += 1;
+      showCurrentStep();
+    }
+  }
+}
+
+function previousStep() {
+  if (replayOn) {
+    if (currentStep > 0) {
+      currentStep -= 1;
+      showCurrentStep();
+    }
+  }
 }
 
 export function isPlaying() {
@@ -170,7 +193,11 @@ export function createStep(tracedActivity) {
     // check the outgoing activities for each target
     for (let i = 0; i < targetObjects.length; i++) {
       let checkTarget = targetObjects[i];
-      if (checkTarget.businessObject && !checkTarget.businessObject.type.includes('actor') && checkTarget.outgoing) {
+      if (
+        checkTarget.businessObject &&
+        !checkTarget.businessObject.type.includes('actor') &&
+        checkTarget.outgoing
+      ) {
         // check the target for each outgoing activity
         checkTarget.outgoing.forEach(activity => {
           activities.push(activity);
@@ -211,7 +238,6 @@ export function getAllShown(stepsUntilNow) {
 
   // for each step until the current one, add all referenced elements to the list of shown elements
   stepsUntilNow.forEach(step => {
-
     // add the source of the step and their annotations to the shown elements
     shownElements.push(step.source);
     if (step.source.outgoing) {
@@ -254,12 +280,10 @@ export function getAllNotShown(allObjects, shownElements) {
       if (element.type.includes(CONNECTION)) {
         if (!element.source.type.includes(GROUP)) {
           notShownElements.push(element);
-        }
-        else {
+        } else {
           shownElements.push(element.target);
         }
-      }
-      else {
+      } else {
         notShownElements.push(element);
       }
     }
@@ -280,7 +304,9 @@ function presentationMode() {
   editModeButtons.style.display = 'none';
   editModeButtons.style.pointerEvents = 'none';
 
-  let presentationModeButtons = document.getElementById('presentationModeButtons');
+  let presentationModeButtons = document.getElementById(
+    'presentationModeButtons'
+  );
   presentationModeButtons.style.display = 'block';
   presentationModeButtons.style.pointerEvents = 'all';
 
@@ -288,7 +314,7 @@ function presentationMode() {
   headerAndCanvas.style.gridTemplateRows = '50px 1px auto';
 
   let headlineAndButtons = document.getElementById('headlineAndButtons');
-  headlineAndButtons.style.gridTemplateColumns= 'auto 230px 3px';
+  headlineAndButtons.style.gridTemplateColumns = 'auto 230px 3px';
 
   let i = 0;
   for (i = 0; i < contextPadElements.length; i++) {
@@ -314,7 +340,9 @@ function editMode() {
   editModeButtons.style.display = 'inherit';
   editModeButtons.style.pointerEvents = 'all';
 
-  let presentationModeButtons = document.getElementById('presentationModeButtons');
+  let presentationModeButtons = document.getElementById(
+    'presentationModeButtons'
+  );
   presentationModeButtons.style.display = 'none';
   presentationModeButtons.style.pointerEvents = 'none';
 
@@ -322,7 +350,7 @@ function editMode() {
   headerAndCanvas.style.gridTemplateRows = '125px 1px auto';
 
   let headlineAndButtons = document.getElementById('headlineAndButtons');
-  headlineAndButtons.style.gridTemplateColumns= 'auto 390px 3px';
+  headlineAndButtons.style.gridTemplateColumns = 'auto 390px 3px';
 
   let i = 0;
   for (i = 0; i < contextPadElements.length; i++) {
@@ -340,7 +368,8 @@ function showCurrentStep() {
   let allObjects = [];
   let i = 0;
 
-  currentReplayStepLabel.innerText = (currentStep + 1) + ' / ' + replaySteps.length;
+  currentReplayStepLabel.innerText =
+    currentStep + 1 + ' / ' + replaySteps.length;
 
   for (i = 0; i <= currentStep; i++) {
     stepsUntilNow.push(replaySteps[i]);
@@ -354,12 +383,16 @@ function showCurrentStep() {
 
   // hide all elements, that are not to be shown
   notShownElements.forEach(element => {
-    let domObject = document.querySelector('[data-element-id=' + element.id + ']');
+    let domObject = document.querySelector(
+      '[data-element-id=' + element.id + ']'
+    );
     domObject.style.display = 'none';
   });
 
   shownElements.forEach(element => {
-    let domObject = document.querySelector('[data-element-id=' + element.id + ']');
+    let domObject = document.querySelector(
+      '[data-element-id=' + element.id + ']'
+    );
     domObject.style.display = 'block';
   });
 }
