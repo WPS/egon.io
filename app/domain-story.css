@@ -705,6 +705,10 @@ input {
   background-color: #f6f6f6;
 }
 
+.djs-popup-body .entry {
+  width: auto !important;
+}
+
 .djs-segment-dragger:hover .djs-visual,
 .djs-segment-dragger.djs-dragging .djs-visual,
 .djs-bendpoint:hover .djs-visual,
