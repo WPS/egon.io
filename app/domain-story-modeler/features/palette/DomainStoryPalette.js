@@ -94,7 +94,7 @@ function appendCSSStyleCheat(customIcons) {
     const iconStyle =
       '.icon-domain-story-' +
       name.toLowerCase() +
-      '{' +
+      '::before{' +
       'content: url("' +
       src +
       '"); margin: 3px; height: 22px !important; width: 22px !important;}'; // TODO change style such that important is not necessarcy
