@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 99.2%;
   width: 99.4%;
   position: absolute;
@@ -6,11 +7,11 @@ html, body {
   overflow: hidden;
 }
 
-input{
+input {
   margin-bottom: 20px;
 }
 
-#modal{
+#modal {
   top: 0;
   left: 0;
   right: 0;
@@ -26,7 +27,7 @@ input{
 .headerAndCanvas {
   margin-top: 5px;
   height: 100%;
-  width:100%;
+  width: 100%;
   display: grid;
   grid-template-rows: 125px 1px auto;
 }
@@ -46,8 +47,8 @@ input{
   font-size: 17pt;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  hyphens: auto; 
-  -webkit-hyphenate-character: auto;  /* not supported by Chrome*/
+  hyphens: auto;
+  -webkit-hyphenate-character: auto; /* not supported by Chrome*/
   margin-left: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -71,23 +72,23 @@ input{
   opacity: 0;
 }
 
-#infoContainer{
+#infoContainer {
   height: 75px;
 }
 
-#infoText{
+#infoText {
   height: 100%;
   margin-bottom: 3px;
   position: relative;
   font-size: 10pt;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  hyphens: auto; 
-  -webkit-hyphenate-character: auto;  /* not supported by Chrome*/
+  hyphens: auto;
+  -webkit-hyphenate-character: auto; /* not supported by Chrome*/
 }
 
-.infoText:hover{
-cursor: default;
+.infoText:hover {
+  cursor: default;
 }
 
 .ButtonContainer {
@@ -95,43 +96,42 @@ cursor: default;
   position: relative;
 }
 
-#replayStep{
+#replayStep {
   padding: 1px;
   opacity: 0;
   margin-top: -2.05em;
   margin-left: 9.5em;
 }
 
-#line{
+#line {
   padding: 2px;
   position: relative;
   right: 0em;
-  left : 0em;
+  left: 0em;
   width: 100%;
-  border-bottom: solid 2px #CCC;
+  border-bottom: solid 2px #ccc;
   margin-top: -5px;
 }
 
-#canvas, #canvas > div{
+#canvas,
+#canvas > div {
   top: 0px;
   width: 100%;
   height: 100%;
   position: relative;
 }
 
-
 /* Buttons */
 
-#exportConfigurationButton{
+#exportConfigurationButton {
   height: 36px;
 }
 
-#importConfigurationButton{
+#importConfigurationButton {
   height: 36px;
 }
 
-
-#resetIconConfigButton{
+#resetIconConfigButton {
   justify-self: left;
   height: 25px;
 }
@@ -140,7 +140,7 @@ cursor: default;
   height: 25px;
 }
 
-#cancelIconCustomizationButton{
+#cancelIconCustomizationButton {
   height: 25px;
   justify-self: right;
 }
@@ -153,13 +153,17 @@ cursor: default;
   height: 25px;
 }
 
-#buttonImport, #export, #buttonImageDownloads, #dictionaryButton{
+#buttonImport,
+#export,
+#buttonImageDownloads,
+#dictionaryButton {
   margin-right: -2px;
   background-color: white;
   border: 1px solid white;
 }
 
-#buttonSVG, #buttonPNG{
+#buttonSVG,
+#buttonPNG {
   margin-right: -2px;
   font-size: 12pt;
   background-color: white;
@@ -167,20 +171,42 @@ cursor: default;
 }
 
 #buttonPNG {
-  margin-left:1px;
+  margin-left: 1px;
 }
 
-#dictionaryButton{
-  opacity : 0.2;
-  pointer-events : 'none';
+#dictionaryButton {
+  opacity: 0.2;
+  pointer-events: "none";
 }
 
-#buttonImport:hover, #customIconConfigSaveButton:hover, #importConfigurationButton:hover, #exportConfigurationButton:hover , #export:hover, #buttonImageDownloads:hover, #buttonSVG:hover, #buttonPNG:hover, #buttonStartReplay:hover, #buttonStopReplay:hover, #buttonNextStep:hover, #buttonPreviousStep:hover, #brokenDSTDialogCuttonCancel:hover, #closeNoContentOnCanvasInfo:hover, #keyboardShortcutInfoDialogButtonCancel:hover, #iconCustomizationButton:hover, #downloadDialogCancelButton:hover, #keyboardShortcutInfoButton:hover{
-  border: 1px solid #CCC;
+#buttonImport:hover,
+#customIconConfigSaveButton:hover,
+#importConfigurationButton:hover,
+#exportConfigurationButton:hover,
+#export:hover,
+#buttonImageDownloads:hover,
+#buttonSVG:hover,
+#buttonPNG:hover,
+#buttonStartReplay:hover,
+#buttonStopReplay:hover,
+#buttonNextStep:hover,
+#buttonPreviousStep:hover,
+#brokenDSTDialogCuttonCancel:hover,
+#closeNoContentOnCanvasInfo:hover,
+#keyboardShortcutInfoDialogButtonCancel:hover,
+#iconCustomizationButton:hover,
+#downloadDialogCancelButton:hover,
+#keyboardShortcutInfoButton:hover {
+  border: 1px solid #ccc;
   cursor: pointer;
 }
 
-#buttonStartReplay, #buttonStopReplay, #buttonNextStep, #buttonPreviousStep ,#keyboardShortcutInfoButton, #iconCustomizationButton{
+#buttonStartReplay,
+#buttonStopReplay,
+#buttonNextStep,
+#buttonPreviousStep,
+#keyboardShortcutInfoButton,
+#iconCustomizationButton {
   background-color: white;
   border: 1px solid white;
   margin-right: -4px;
@@ -190,7 +216,14 @@ cursor: default;
   margin-right: 0px;
 }
 
-#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel, #downloadDialogCancelButton, #brokenDSTDialogButtonCancel, #closeNoContentOnCanvasInfo{
+#closeDSTLogoInfo,
+#closeWPSLogoInfo,
+#closeIncompleteStoryInfo,
+#closeVersionDialog,
+#keyboardShortcutInfoDialogButtonCancel,
+#downloadDialogCancelButton,
+#brokenDSTDialogButtonCancel,
+#closeNoContentOnCanvasInfo {
   position: absolute;
   font-size: 9pt;
   right: 1px;
@@ -198,9 +231,10 @@ cursor: default;
 }
 
 /* activity label input */
-#inputLabel [type=submit], #labelInputLabel [type=submit]{
+#inputLabel [type="submit"],
+#labelInputLabel [type="submit"] {
   background-color: DodgerBlue;
-  color: #fff;  
+  color: #fff;
 }
 
 /* keyboard shortcut dialog table */
@@ -211,7 +245,7 @@ cursor: default;
   margin-right: 3px;
 }
 
-#keyboardTable td{
+#keyboardTable td {
   padding-right: 10px;
 }
 
@@ -227,21 +261,37 @@ cursor: default;
   margin-left: 17px;
 }
 
-#imgWPS:hover, #imgDST:hover {
-cursor: pointer;
+#imgWPS:hover,
+#imgDST:hover {
+  cursor: pointer;
 }
 
 /* Info and Dialogs*/
 
-#dictionaryDialog, #numberDialog, #brokenDSTInfo, #labelDialog, #wpsLogoInfo, #dstLogoInfo, #incompleteStoryInfo, #versionInfo, #keyboardShortcutInfo, #downloadDialog, #noContentOnCanvasInfo{
+#dictionaryDialog,
+#numberDialog,
+#brokenDSTInfo,
+#labelDialog,
+#wpsLogoInfo,
+#dstLogoInfo,
+#incompleteStoryInfo,
+#versionInfo,
+#keyboardShortcutInfo,
+#downloadDialog,
+#noContentOnCanvasInfo {
   top: 40%;
   left: 50%;
   z-index: 2;
   position: absolute;
 }
 
-#wpsLogoInfo, #incompleteStoryInfo, #versionInfo, #keyboardShortcutInfo, #brokenDSTInfo, #noContentOnCanvasInfo{
-  font-size: 11pt;  
+#wpsLogoInfo,
+#incompleteStoryInfo,
+#versionInfo,
+#keyboardShortcutInfo,
+#brokenDSTInfo,
+#noContentOnCanvasInfo {
+  font-size: 11pt;
   border: solid 1px #aaaaab;
   padding-top: 3px;
   padding-bottom: 3px;
@@ -252,8 +302,8 @@ cursor: pointer;
   margin-left: -175px;
 }
 
-#dstLogoInfo{
-  font-size: 11pt;  
+#dstLogoInfo {
+  font-size: 11pt;
   border: solid 1px #aaaaab;
   padding-top: 3px;
   padding-bottom: 3px;
@@ -264,30 +314,33 @@ cursor: pointer;
   margin-left: -155px;
 }
 
-#dialog, #numberDialog, #labelDialog, #downloadDialog {
+#dialog,
+#numberDialog,
+#labelDialog,
+#downloadDialog {
   padding: 30px 30px 30px 30px;
-  background-color:#FAFAFA;
-  border-color: #CCC;
+  background-color: #fafafa;
+  border-color: #ccc;
   border-radius: 2px;
   border-width: 1px;
   box-shadow: 2px 2px 5px silver;
 }
 
-#arrowDialog{
-  top:50px;
-  left:52px;
+#arrowDialog {
+  top: 50px;
+  left: 52px;
   z-index: 2;
   position: absolute;
 }
 
-.arrow{
+.arrow {
   content: "";
   width: 0;
   height: 0;
   position: absolute;
   border: 0.9rem solid transparent;
-  border-top-color: #FAFAFA;  
-  border-left-color: #FAFAFA;
+  border-top-color: #fafafa;
+  border-left-color: #fafafa;
   -moz-transform: scale(0.9999);
   transform: rotate(45deg);
   left: 6px;
@@ -316,7 +369,7 @@ cursor: pointer;
   left: 0;
   right: 0;
   bottom: 0;
-  font-size: 11pt;  
+  font-size: 11pt;
   border: solid 1px #aaaaab;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -325,7 +378,7 @@ cursor: pointer;
   background-color: white;
   margin-right: 5px;
   position: absolute;
-  z-index:2;
+  z-index: 2;
 }
 
 .iconConfigCustomization {
@@ -333,24 +386,24 @@ cursor: pointer;
   grid-template-rows: 36px auto;
 }
 
-.topButtonRow{
+.topButtonRow {
   display: grid;
   grid-template-columns: 110px 140px auto 110px 250px auto 36px 3px 36px auto 44px 47px 15px;
 }
 
-.iconListsContainer{
-  margin-top: 3px; 
+.iconListsContainer {
+  margin-top: 3px;
   display: grid;
   grid-template-columns: auto auto;
 }
 
-#allIconListContainer{
+#allIconListContainer {
   border: solid 1px #aaaaab;
   margin-bottom: 3px;
   margin-right: 2px;
 }
 
-#allIconsList{
+#allIconsList {
   max-height: 85vh;
   overflow-y: scroll;
 }
@@ -365,7 +418,7 @@ cursor: pointer;
   overflow-y: scroll;
 }
 
-.selectedIconsContainer{
+.selectedIconsContainer {
   border: solid 1px #aaaaab;
   margin-bottom: 3px;
   margin-right: 2px;
@@ -373,7 +426,7 @@ cursor: pointer;
   grid-template-rows: auto 1px auto;
 }
 
-#bottomButtonRow{
+#bottomButtonRow {
   margin-top: 5px;
   display: grid;
   grid-template-columns: 150px auto 100px 100px 60px;
@@ -381,7 +434,7 @@ cursor: pointer;
 
 /* dictionary */
 
-#dictionaryDialog{
+#dictionaryDialog {
   position: absolute;
   border: solid 1px #aaaaab;
   padding-top: 3px;
@@ -394,27 +447,29 @@ cursor: pointer;
   left: 25%;
 }
 
-#activityDictionary, #workobjectDictionary{
+#activityDictionary,
+#workobjectDictionary {
   position: relative;
 }
 
-#workobjectDictionary{
+#workobjectDictionary {
   margin-left: 10px;
   right: 5px;
 }
 
-#activityDictionaryContainer, #workobjectDictionaryContainer{
-  width: 300px; 
+#activityDictionaryContainer,
+#workobjectDictionaryContainer {
+  width: 300px;
   overflow-y: scroll;
   height: 300px;
   border: solid 1px #aaaaab;
 }
 
-#workobjectDictionaryContainer{
+#workobjectDictionaryContainer {
   margin-right: -50px;
 }
 
-#dictionaryButtons{
+#dictionaryButtons {
   bottom: 5px;
   padding: 4px;
 }
@@ -431,7 +486,7 @@ cursor: pointer;
   position: absolute;
   border: 1px solid #a9a9a9;
   z-index: 99;
-  top:100%;
+  top: 100%;
   left: 0;
   text-align: left;
 }
@@ -440,29 +495,29 @@ cursor: pointer;
   padding: 5px 10px 5px 10px;
   font-size: 10pt;
   cursor: pointer;
-  background-color: #fafafa; 
-  border-bottom: 1px solid #d4d4d4; 
+  background-color: #fafafa;
+  border-bottom: 1px solid #d4d4d4;
 }
 
 .autocomplete-items div:hover {
   /*when hovering an item:*/
-  background-color: #fafafa; 
+  background-color: #fafafa;
 }
 
 .autocomplete-active {
   /*when navigating through the items using the arrow keys:*/
-  background-color: DodgerBlue !important; 
-  color: #ffffff; 
+  background-color: DodgerBlue !important;
+  color: #ffffff;
 }
 
 /* BPMN elements */
 
-.djs-context-pad.open{
+.djs-context-pad.open {
   margin-right: 18px;
-  border: solid 1px #80808054; 
+  border: solid 1px #80808054;
 }
 
-.djs-context-pad.open > .group{
+.djs-context-pad.open > .group {
   border: solid 1px #80808054;
   padding: 1px;
   background-color: white;
@@ -476,7 +531,7 @@ cursor: pointer;
  * palette
  */
 
- .djs-palette {
+.djs-palette {
   position: absolute;
   left: 20px;
   top: 20px;
@@ -490,7 +545,7 @@ cursor: pointer;
   padding-top: 0px;
 
   border: none;
-  border-bottom: solid 1px #DDD;
+  border-bottom: solid 1px #ddd;
 
   clear: both;
 }
@@ -520,7 +575,7 @@ cursor: pointer;
 }
 
 .djs-palette .djs-palette-entries:after {
-  content: '';
+  content: "";
   display: table;
   clear: both;
 }
@@ -528,7 +583,6 @@ cursor: pointer;
 .djs-palette .djs-palette-toggle:hover {
   background: #666;
 }
-
 
 .djs-palette .entry:hover {
   fill: #42aebb;
@@ -545,7 +599,6 @@ cursor: pointer;
   line-height: 30px;
   cursor: default;
 }
-
 
 /**
  * Palette open / two-column layout is controlled via
@@ -568,12 +621,11 @@ cursor: pointer;
   display: none;
 }
 
-
 /**
  * outline styles
  */
 
- .djs-outline {
+.djs-outline {
   fill: none;
   visibility: hidden;
 }
@@ -582,11 +634,11 @@ cursor: pointer;
 .djs-element.selected .djs-outline {
   visibility: visible;
   shape-rendering: crispEdges;
-  stroke-dasharray: 3,3;
+  stroke-dasharray: 3, 3;
 }
 
 .djs-element.selected .djs-outline {
-  stroke: #8888FF;
+  stroke: #8888ff;
   stroke-width: 1px;
 }
 
@@ -605,7 +657,6 @@ cursor: pointer;
 .djs-lasso-overlay {
   fill: #42aebb;
   stroke: #42aebb;
-
 }
 
 /**
@@ -633,9 +684,8 @@ cursor: pointer;
  */
 .djs-snap-line {
   stroke: #42aebb;
-  stroke: rgba(255, 195, 66, 0.50);
+  stroke: rgba(255, 195, 66, 0.5);
 }
-
 
 .djs-palette .entry:hover {
   color: #42aebb;
@@ -652,7 +702,11 @@ cursor: pointer;
 .djs-popup .djs-popup-header .entry.active {
   color: #42aebb;
   border: solid 1px #42aebb;
-  background-color: #F6F6F6;
+  background-color: #f6f6f6;
+}
+
+.djs-popup-body .entry {
+  width: auto !important;
 }
 
 .djs-segment-dragger:hover .djs-visual,
@@ -675,7 +729,7 @@ cursor: pointer;
 
 .djs-search-input input:focus {
   outline: none;
-  border-color: #52B415;
+  border-color: #52b415;
 }
 
 .djs-search-result:hover {

@@ -94,10 +94,10 @@ function appendCSSStyleCheat(customIcons) {
     const iconStyle =
       '.icon-domain-story-' +
       name.toLowerCase() +
-      '{' +
+      '::before{' +
       'content: url("' +
       src +
-      '"); margin: 3px; height: 24px !important; width: 24px !important;}'; // TODO change style such that important is not necessarcy
+      '"); margin: 3px; height: 22px !important; width: 22px !important;}'; // TODO change style such that important is not necessarcy
     sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
   });
 }
