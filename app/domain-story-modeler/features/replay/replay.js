@@ -12,6 +12,7 @@ let canvas;
 let replayOn = false;
 let currentStep = 0;
 let replaySteps = [];
+let initialViewbox;
 
 let errorStep = 0;
 
@@ -32,6 +33,7 @@ export function initReplay(inCanvas) {
 
   startReplayButton.addEventListener('click', function() {
     if (wasInitialized()) {
+      initialViewbox = canvas.viewbox();
       let activities = getActivitesFromActors();
 
       if (!replayOn && activities.length > 0) {
@@ -129,6 +131,7 @@ export function initReplay(inCanvas) {
 
       replayOn = false;
       currentStep = 0;
+      canvas.viewbox(initialViewbox);
     }
   });
 }
@@ -381,7 +384,8 @@ function showCurrentStep() {
 }
 
 function currentStepNotInView() {
-  const currentViewport = { x: 0, y: 0, width: 0, height: 0 }; // TODO get current viewport-dimansions
+  const currentViewbox = canvas.viewbox();
+
   const step = replaySteps[currentStep];
 
   let elements = [];
@@ -413,13 +417,13 @@ function currentStepNotInView() {
     }
   });
 
-  if (currentViewport.x < stepBounds.x && currentViewport.y < stepBounds.y) {
+  if (currentViewbox.x < stepBounds.x && currentViewbox.y < stepBounds.y) {
     if (
-      currentViewport.x + currentViewport.width >
+      currentViewbox.x + currentViewbox.width >
       stepBounds.x + stepBounds.width
     ) {
       if (
-        currentViewport.y + currentViewport.height >
+        currentViewbox.y + currentViewbox.height >
         stepBounds.y + stepBounds.height
       ) {
         return false;
@@ -430,9 +434,21 @@ function currentStepNotInView() {
 }
 
 function focusOnActiveActivity() {
+  console.log(initialViewbox);
   const step = replaySteps[currentStep];
   const activitiesInStep = step.activities;
   const activityToFocusOn = activitiesInStep[0];
+  const elX = activityToFocusOn.waypoints[0].x - initialViewbox.width / 2;
+  const elY = activityToFocusOn.waypoints[0].y - initialViewbox.height / 2;
+  let stepViewbox = {
+    x: elX,
+    y: elY,
+    height: initialViewbox.height,
+    width: initialViewbox.width,
+    scale: initialViewbox.scale,
+    outer: initialViewbox.outer,
+    inner: initialViewbox.inner
+  };
 
-  canvas.zoom(1, 0, activityToFocusOn);
+  canvas.viewbox(stepViewbox);
 }
