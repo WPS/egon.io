@@ -13,6 +13,7 @@ const map = require('collections/map');
 let replayOn = false;
 let currentStep = 0;
 let replaySteps = [];
+let initialViewbox;
 
 let errorStep = 0;
 
@@ -45,6 +46,7 @@ export function initReplay(inCanvas) {
 
   startReplayButton.addEventListener('click', function() {
     if (wasInitialized()) {
+      initialViewbox = canvas.viewbox();
       let activities = getActivitesFromActors();
 
       if (!replayOn && activities.length > 0) {
@@ -132,6 +134,7 @@ export function initReplay(inCanvas) {
 
       replayOn = false;
       currentStep = 0;
+      canvas.viewbox(initialViewbox);
     }
   });
 }
@@ -400,4 +403,77 @@ function showCurrentStep() {
     );
     domObject.style.display = 'block';
   });
+  if (currentStepNotInView()) {
+    focusOnActiveActivity();
+  }
+}
+
+function currentStepNotInView() {
+  const currentViewbox = canvas.viewbox();
+
+  const step = replaySteps[currentStep];
+
+  let elements = [];
+  step.targets.forEach(target => {
+    elements.push(target);
+  });
+
+  let initialElement = step.source;
+  let stepBounds = {
+    x: initialElement.x,
+    y: initialElement.y,
+    width: initialElement.width,
+    height: initialElement.height
+  };
+  elements.forEach(element => {
+    if (element.x < stepBounds.x) {
+      stepBounds.x = element.x;
+    } else {
+      if (stepBounds.width < element.x + element.width) {
+        stepBounds.width = element.x + element.width;
+      }
+    }
+    if (element.y < stepBounds.y) {
+      stepBounds.y = element.y;
+    } else {
+      if (stepBounds.height < element.y + element.height) {
+        stepBounds.height = element.y + element.height;
+      }
+    }
+  });
+
+  if (currentViewbox.x < stepBounds.x && currentViewbox.y < stepBounds.y) {
+    if (
+      currentViewbox.x + currentViewbox.width >
+      stepBounds.x + stepBounds.width
+    ) {
+      if (
+        currentViewbox.y + currentViewbox.height >
+        stepBounds.y + stepBounds.height
+      ) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function focusOnActiveActivity() {
+  console.log(initialViewbox);
+  const step = replaySteps[currentStep];
+  const activitiesInStep = step.activities;
+  const activityToFocusOn = activitiesInStep[0];
+  const elX = activityToFocusOn.waypoints[0].x - initialViewbox.width / 2;
+  const elY = activityToFocusOn.waypoints[0].y - initialViewbox.height / 2;
+  let stepViewbox = {
+    x: elX,
+    y: elY,
+    height: initialViewbox.height,
+    width: initialViewbox.width,
+    scale: initialViewbox.scale,
+    outer: initialViewbox.outer,
+    inner: initialViewbox.inner
+  };
+
+  canvas.viewbox(stepViewbox);
 }
