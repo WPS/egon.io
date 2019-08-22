@@ -269,7 +269,7 @@ export function createListElement(name, greyBackground) {
   verticalLineElement.style.marginLeft = '5px';
 
   imageElement.width = iconSize;
-  imageElement.heigth = iconSize;
+  imageElement.height = iconSize;
   imageElement.style.marginLeft = '5px';
   if (iconSRC.startsWith('data')) {
     imageElement.src = iconSRC;
