@@ -19,9 +19,9 @@ setElementregistry(sinon.mock(getElementRegistry()));
 
 describe('domainStory modeler', function() {
   const jsonString =
-    '[{"type":"domainStory:actorPerson","name":"","id":"shape_3050","x":178,"y":133,"width":30,"height":30},' +
-    '{"type":"domainStory:workObjectDocument","name":"","id":"shape_8681","x":508,"y":133,"width":30,"height":30},' +
-    '{"type":"domainStory:activity","name":"","id":"connection_3004","number":1,"waypoints":[{"original":{"x":216,"y":171},"x":259,"y":171},{"original":{"x":546,"y":171},"x":508,"y":171}],"source":"shape_3050","target":"shape_8681"},' +
+    '[{"type":"domainStory:actorPerson","name":"","id":"shape_3050","x":178,"y":133,"width":30,"height":30,"pickedColor":"black"},' +
+    '{"type":"domainStory:workObjectDocument","name":"","id":"shape_8681","x":508,"y":133,"width":30,"height":30,"pickedColor":"black"},' +
+    '{"type":"domainStory:activity","name":"","id":"connection_3004","number":1,"waypoints":[{"original":{"x":216,"y":171},"x":259,"y":171},{"original":{"x":546,"y":171},"x":508,"y":171}],"source":"shape_3050","target":"shape_8681","pickedColor":"black"},' +
     '{"info":"test"}]';
 
   const brokenJsonString =
@@ -586,7 +586,6 @@ describe('domainStory modeler', function() {
       let jsonExport = '' + JSON.stringify(newObject);
 
       // then
-      const jsonLength = jsonExport.length;
       let jsonElements = [];
 
       let index = jsonExport.indexOf('}') + 1;
@@ -597,10 +596,12 @@ describe('domainStory modeler', function() {
         index = jsonExport.indexOf('}') + 1;
       }
 
-      expect(intricateV0_5_0_JsonString.length).to.eql(jsonLength);
-
       jsonElements.forEach(element => {
-        expect(intricateV0_5_0_JsonString.includes(element)).to.be.true;
+        let id = element.substring(
+          element.indexOf('id'),
+          element.indexOf('id') + 15
+        );
+        expect(intricateV0_5_0_JsonString.includes(id)).to.be.true;
       });
     });
   });
@@ -673,7 +674,6 @@ describe('domainStory modeler', function() {
       let jsonExport = '' + JSON.stringify(newObject);
 
       // then
-      const jsonLength = jsonExport.length;
       let jsonElements = [];
 
       let index = jsonExport.indexOf('}') + 1;
@@ -684,10 +684,12 @@ describe('domainStory modeler', function() {
         index = jsonExport.indexOf('}') + 1;
       }
 
-      expect(intricateV0_6_0_JSONString.length).to.eql(jsonLength);
-
       jsonElements.forEach(element => {
-        expect(intricateV0_6_0_JSONString.includes(element)).to.be.true;
+        let id = element.substring(
+          element.indexOf('id'),
+          element.indexOf('id') + 15
+        );
+        expect(intricateV0_6_0_JSONString.includes(id)).to.be.true;
       });
     });
   });
