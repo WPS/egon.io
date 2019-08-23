@@ -98,8 +98,26 @@ export function saveIconConfiguration(elements) {
 
   let actors = getSelectedActorsDictionary();
   let workObjects = getSelectedWorkObjectsDictionary();
+  let actorOrder = [], workobjectOrder = [];
+  let selectedActorsList = document.getElementById('selectedActorsList');
+  let selectedWorkObjectList = document.getElementById(
+    'selectedWorkObjectsList'
+  );
   let domainNameInput = document.getElementById('domainNameInput');
   let name = '';
+
+  let actorsListNames = selectedActorsList.getElementsByTagName('text');
+  let workObjectListNames = selectedWorkObjectList.getElementsByTagName('text');
+
+  for (let i=0; i<actorsListNames.length; i++) {
+    name = actorsListNames[i].outerText;
+    actorOrder.push(name);
+  }
+
+  for (let i=0; i<workObjectListNames.length; i++) {
+    name = workObjectListNames[i].outerText;
+    workobjectOrder.push(name);
+  }
 
   if (!actors.size > 0) {
     actors = getTypeDictionary(ACTOR);
@@ -112,7 +130,7 @@ export function saveIconConfiguration(elements) {
   }
 
   let configJSONString = JSON.stringify(
-    createConfigFromDictionaries(actors, workObjects, name)
+    createConfigFromDictionaries(actors, actorOrder, workObjects, workobjectOrder, name)
   );
 
   localStorage.setItem(useCustomConfigTag, true);
@@ -208,7 +226,9 @@ function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
 
 export function createConfigFromDictionaries(
     actorsDict,
+    actorOrder,
     workObjectsDict,
+    workobjactOrder,
     name
 ) {
   let actors = actorsDict.keysArray();
@@ -216,14 +236,31 @@ export function createConfigFromDictionaries(
   let actorsJSON = {};
   let workObjectJSON = {};
 
+  if (actorOrder) {
+    actorOrder.forEach(actor => {
+      actorsJSON[actor.replace(ACTOR, '')] = actorsDict.get(actor);
+    });
+  }
+  if (workobjactOrder) {
+    workobjactOrder.forEach(workObject => {
+      workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(
+        workObject
+      );
+    });
+  }
+
   actors.forEach(actor => {
-    actorsJSON[actor.replace(ACTOR, '')] = actorsDict.get(actor);
+    if (!actorOrder || !actorOrder.includes(actor)) {
+      actorsJSON[actor.replace(ACTOR, '')] = actorsDict.get(actor);
+    }
   });
 
   workObjects.forEach(workObject => {
-    workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(
-      workObject
-    );
+    if (!workobjactOrder || !workobjactOrder.includes(workObject)) {
+      workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(
+        workObject
+      );
+    }
   });
 
   let config = {
@@ -256,7 +293,9 @@ function persistStory() {
 function persistNecessaryConfig() {
   let currentConfig = createConfigFromDictionaries(
     getSelectedActorsDictionary(),
+    null,
     getSelectedWorkObjectsDictionary(),
+    null,
     ''
   );
 

@@ -17,7 +17,7 @@ describe('persitence ', function() {
     const workObjects = getSelectedWorkObjectsDictionary();
 
     // When
-    const json = createConfigFromDictionaries(actors, workObjects);
+    const json = createConfigFromDictionaries(actors, null, workObjects, null);
 
     // Then
     const actorsJSON = json.actors;
