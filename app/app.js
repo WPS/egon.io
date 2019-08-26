@@ -707,7 +707,6 @@ function saveHeadlineDialog() {
     oldTitle: title.innerText,
     oldDescription:infoText.innerText
   };
-  console.log(headerValues);
   commandStack.execute('story.updateHeadlineAndDescription', headerValues);
   // to update the title of the svg, we need to tell the command stack, that a value has changed
   const exportArtifacts = debounce(fnDebounce, 500);
