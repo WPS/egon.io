@@ -61,14 +61,14 @@ import {
   exportConfiguration
 } from './domain-story-modeler/features/iconSetCustomization/persitence';
 import {
-  debounce,
-  changeWebsiteTitle
+  debounce
 } from './domain-story-modeler/util/helpers';
 import {
   isDirty,
   makeDirty
 } from './domain-story-modeler/features/export/dirtyFlag';
 import DSElementHandler from './domain-story-modeler/modeler/DSElementHandler';
+import headlineAndDescriptionUpdateHandler from './domain-story-modeler/features/headlineAndDescription/headlineAndDescriptionUpdateHandler';
 
 const modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -199,6 +199,7 @@ function initialize(
   DSActivityHandlers(commandStack, eventBus);
   DSMassRenameHandlers(commandStack, eventBus);
   DSElementHandler(commandStack, eventBus);
+  headlineAndDescriptionUpdateHandler(commandStack);
 
   initReplay(canvas);
   initElementRegistry(elementRegistry);
@@ -693,24 +694,26 @@ function showHeadlineDialog() {
 }
 
 function saveHeadlineDialog() {
-  const inputTitle = titleInput.value;
+
+  let inputTitle = titleInput.value;
   const inputText = info.value;
-  if (inputTitle !== '') {
-    title.innerText = inputTitle;
-  } else {
-    title.innerText = '<name of this Domain Story>';
+  if (!inputTitle) {
+    inputTitle = '<name of this Domain Story>';
   }
-  info.innerText = inputText;
-  infoText.innerText = inputText;
 
-  setTitleInputLast(inputTitle);
-  setDescriptionInputLast(inputText);
-  changeWebsiteTitle(inputTitle);
-
+  const headerValues = {
+    newTitle: inputTitle,
+    newDescription: inputText,
+    oldTitle: title.innerText,
+    oldDescription:infoText.innerText
+  };
+  console.log(headerValues);
+  commandStack.execute('story.updateHeadlineAndDescription', headerValues);
   // to update the title of the svg, we need to tell the command stack, that a value has changed
   const exportArtifacts = debounce(fnDebounce, 500);
 
   eventBus.fire('commandStack.changed', exportArtifacts);
+
 
   keysPressed = [];
   makeDirty();

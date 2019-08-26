@@ -459,7 +459,6 @@ function currentStepNotInView() {
 }
 
 function focusOnActiveActivity() {
-  console.log(initialViewbox);
   const step = replaySteps[currentStep];
   const activitiesInStep = step.activities;
   const activityToFocusOn = activitiesInStep[0];
