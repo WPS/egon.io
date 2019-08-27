@@ -106,32 +106,36 @@ export function saveIconConfiguration(elements) {
   let domainNameInput = document.getElementById('domainNameInput');
   let name = '';
 
-  let actorsListNames = selectedActorsList.getElementsByTagName('text');
-  let workObjectListNames = selectedWorkObjectList.getElementsByTagName('text');
+  if (selectedActorsList) {
 
-  for (let i=0; i<actorsListNames.length; i++) {
-    name = actorsListNames[i].outerText;
-    actorOrder.push(name);
-  }
+    let actorsListNames = selectedActorsList.getElementsByTagName('text');
+    let workObjectListNames = selectedWorkObjectList.getElementsByTagName('text');
 
-  for (let i=0; i<workObjectListNames.length; i++) {
-    name = workObjectListNames[i].outerText;
-    workobjectOrder.push(name);
-  }
+    for (let i=0; i<actorsListNames.length; i++) {
+      name = actorsListNames[i].outerText;
+      actorOrder.push(name);
+    }
 
-  if (!actors.size > 0) {
-    actors = getTypeDictionary(ACTOR);
-  }
-  if (!workObjects.size > 0) {
-    workObjects = getTypeDictionary(WORKOBJECT);
-  }
-  if (domainNameInput) {
-    name = domainNameInput.value;
-  }
+    for (let i=0; i<workObjectListNames.length; i++) {
+      name = workObjectListNames[i].outerText;
+      workobjectOrder.push(name);
+    }
 
+    if (!actors.size > 0) {
+      actors = getTypeDictionary(ACTOR);
+    }
+    if (!workObjects.size > 0) {
+      workObjects = getTypeDictionary(WORKOBJECT);
+    }
+    if (domainNameInput) {
+      name = domainNameInput.value;
+    }
+
+  }
   let configJSONString = JSON.stringify(
     createConfigFromDictionaries(actors, actorOrder, workObjects, workobjectOrder, name)
   );
+
 
   localStorage.setItem(useCustomConfigTag, true);
   localStorage.setItem(customConfigTag, configJSONString);
