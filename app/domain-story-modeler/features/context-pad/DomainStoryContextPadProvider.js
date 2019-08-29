@@ -85,21 +85,21 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       if (allStandardIconKeys.has(element.type.replace(WORKOBJECT, ''))) {
         addColorChange(actions);
       }
+      addConnectWithActivity(actions, startConnect);
+      addTextAnnotation(actions);
       addActors(appendAction, actions);
       addWorkObjects(appendAction, actions);
       addChangeWorkObjectTypeMenu(actions);
-      addConnectWithActivity(actions, startConnect);
-      addTextAnnotation(actions);
     }
 
     else if (element.type.includes('actor')) {
       if (allStandardIconKeys.has(element.type.replace(ACTOR, ''))) {
         addColorChange(actions);
       }
-      addWorkObjects(appendAction, actions);
-      addChangeActorTypeMenu(actions);
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
+      addWorkObjects(appendAction, actions);
+      addChangeActorTypeMenu(actions);
     }
 
     else if (element.type.includes(GROUP)) {
@@ -183,7 +183,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
   function addTextAnnotation(actions) {
     assign(actions, {
-      'append.text-annotation': appendAction(TEXTANNOTATION, 'bpmn-icon-text-annotation')
+      'append.text-annotation': appendAction(TEXTANNOTATION, 'bpmn-icon-text-annotation', 'textannotation', 'connect')
     });
   }
 
