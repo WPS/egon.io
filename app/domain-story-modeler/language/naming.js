@@ -5,7 +5,7 @@ import { ACTOR, WORKOBJECT } from './elementTypes';
 
 export function getNameFromType(type) {
 
-  // Polyfill for test
+  // polyfill for test
   if (!String.prototype.includes) {
     String.prototype.includes = function(search, start) {
       'use strict';

@@ -20,7 +20,7 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 import { TEXTANNOTATION } from '../../language/elementTypes';
 
-var NULL_DIMENSIONS = {
+const NULL_DIMENSIONS = {
   width: 0,
   height: 0
 };
@@ -45,7 +45,7 @@ export default function DSUpdateLabelHandler(modeling, textRenderer, commandStac
    */
 
     this.preExecute = function(ctx) {
-      var element = ctx.element,
+      let element = ctx.element,
           businessObject = element.businessObject,
           newLabel = ctx.newLabel,
           newNumber=ctx.newNumber;
@@ -53,12 +53,12 @@ export default function DSUpdateLabelHandler(modeling, textRenderer, commandStac
       if (!isLabel(element)
         && isLabelExternal(element)
         && !hasExternalLabel(element)
-        && (newLabel !== '' || newNumber!=='')) {
+        && (newLabel !== '' || newNumber !== '')) {
 
         // create label
-        var paddingTop = 7;
+        let paddingTop = 7;
 
-        var labelCenter = getExternalLabelMid(element);
+        let labelCenter = getExternalLabelMid(element);
 
         labelCenter = {
           x: labelCenter.x,
@@ -83,7 +83,7 @@ export default function DSUpdateLabelHandler(modeling, textRenderer, commandStac
     };
 
     this.postExecute = function(ctx) {
-      var element = ctx.element,
+      let element = ctx.element,
           label = element.label || element,
           newLabel = ctx.newLabel,
           newBounds = ctx.newBounds;
@@ -99,9 +99,9 @@ export default function DSUpdateLabelHandler(modeling, textRenderer, commandStac
         return;
       }
 
-      var bo = getBusinessObject(label);
+      let bo = getBusinessObject(label);
 
-      var text = bo.name || bo.text;
+      let text = bo.name || bo.text;
 
       // don't resize without text
       if (!text) {
@@ -125,13 +125,13 @@ export default function DSUpdateLabelHandler(modeling, textRenderer, commandStac
 function setText(element, text, textNumber) {
 
   // external label if present
-  var label = element.label || element;
+  let label = element.label || element;
 
-  var number= element.number || element;
+  let number= element.number || element;
 
-  var labelTarget = element.labelTarget || element;
+  let labelTarget = element.labelTarget || element;
 
-  var numberTarget= element.numberTarget || element;
+  let numberTarget= element.numberTarget || element;
   setLabel(label, text);
   setNumber(number, textNumber);
 

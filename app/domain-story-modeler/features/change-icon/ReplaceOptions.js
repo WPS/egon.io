@@ -1,15 +1,15 @@
 import { getNameFromType } from '../../language/naming';
-import { getActorIconRegistry } from '../../language/actorIconRegistry';
-import { getWorkObjectIconRegistry } from '../../language/workObjectIconRegistry';
-import { getIconForType } from '../../language/iconRegistry';
+import { getIconForType } from '../../language/icon/iconDictionary';
+import { getTypeDictionary } from '../../language/icon/dictionaries';
+import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 
 'use strict';
 
 export function actorReplaceOptions(name) {
-  var actorTypes = getActorIconRegistry();
+  const actorTypes = getTypeDictionary(ACTOR);
 
-  var replaceOption = {};
-  var i=0;
+  let replaceOption = {};
+  let i=0;
 
   actorTypes.keysArray().forEach(actorType => {
     if (!name.includes(actorType)) {
@@ -29,10 +29,10 @@ export function actorReplaceOptions(name) {
 }
 
 export function workObjectReplaceOptions(name) {
-  var workObjectTypes = getWorkObjectIconRegistry();
+  const workObjectTypes = getTypeDictionary(WORKOBJECT);
 
-  var replaceOption = {};
-  var i=0;
+  let replaceOption = {};
+  let i=0;
 
   workObjectTypes.keysArray().forEach(workObjectType => {
     if (!name.includes(workObjectType)) {

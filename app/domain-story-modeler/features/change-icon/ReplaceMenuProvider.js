@@ -26,7 +26,7 @@ ReplaceMenuProvider.$inject = ['modeling'];
  */
 ReplaceMenuProvider.prototype.getEntries = function(element) {
 
-  var entries;
+  let entries;
   if (element.type.includes('actor')) {
     entries = replaceOptions.actorReplaceOptions(element.type);
   }
@@ -47,12 +47,12 @@ ReplaceMenuProvider.prototype.getEntries = function(element) {
  * @return {Array<Object>} a list of menu items
  */
 ReplaceMenuProvider.prototype._createEntries = function(element, replaceOptions) {
-  var menuEntries = [];
+  let menuEntries = [];
 
-  var self = this;
+  let self = this;
 
   forEach(replaceOptions, function(definition) {
-    var entry = self._createMenuEntry(definition, element);
+    let entry = self._createMenuEntry(definition, element);
 
     menuEntries.push(entry);
   });
@@ -71,15 +71,15 @@ ReplaceMenuProvider.prototype._createEntries = function(element, replaceOptions)
  * @return {Object} menu entry item
  */
 ReplaceMenuProvider.prototype._createMenuEntry = function(definition, element, action) {
-  var replaceElement = this._dsReplace.replaceElement;
-  var modeling = this._modeling;
-  var replaceAction = function() {
+  let replaceElement = this._dsReplace.replaceElement;
+  let modeling = this._modeling;
+  let replaceAction = function() {
     return replaceElement(element, definition.target, modeling);
   };
 
   action = action || replaceAction;
 
-  var menuEntry = {
+  let menuEntry = {
     label: definition.label,
     className: definition.className,
     id: definition.actionName,

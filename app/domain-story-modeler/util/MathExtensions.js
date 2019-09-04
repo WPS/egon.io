@@ -10,7 +10,7 @@ Math.degrees = function(radians) {
 
 // calculate the angle between two points in 2D
 Math.angleBetween = function(startPoint, endPoint) {
-  var quadrant = 0;
+  let quadrant = 0;
 
   // determine in which quadrant we are
   if (startPoint.x <= endPoint.x) {
@@ -24,21 +24,21 @@ Math.angleBetween = function(startPoint, endPoint) {
     else quadrant = 2; // lower left quadrant
   }
 
-  var adjacenten = Math.abs(startPoint.y - endPoint.y);
-  var opposite = Math.abs(startPoint.x - endPoint.x);
+  let adjacenten = Math.abs(startPoint.y - endPoint.y);
+  let opposite = Math.abs(startPoint.x - endPoint.x);
 
   // since the arcus-tangens only gives values between 0 and 90, we have to adjust for the quadrant we are in
 
-  if (quadrant == 0) {
+  if (quadrant === 0) {
     return 90 - Math.degrees(Math.atan2(opposite, adjacenten));
   }
-  if (quadrant == 1) {
+  if (quadrant === 1) {
     return 90 + Math.degrees(Math.atan2(opposite, adjacenten));
   }
-  if (quadrant == 2) {
+  if (quadrant === 2) {
     return 270 - Math.degrees(Math.atan2(opposite, adjacenten));
   }
-  if (quadrant == 3) {
+  if (quadrant === 3) {
     return 270 + Math.degrees(Math.atan2(opposite, adjacenten));
   }
 };

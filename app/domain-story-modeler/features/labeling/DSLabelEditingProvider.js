@@ -20,11 +20,11 @@ import { cleanDictionaries, getWorkObjectDictionary } from '../dictionary/dictio
 import { isDomainStoryElement } from '../../util/TypeCheck';
 import { ACTIVITY, GROUP, TEXTANNOTATION } from '../../language/elementTypes';
 
-var numberStash = 0;
-var stashUse = false;
+let numberStash = 0;
+let stashUse = false;
 
 export function getNumberStash() {
-  var number = { use: stashUse, number: numberStash };
+  let number = { use: stashUse, number: numberStash };
   stashUse = false;
   return number;
 }
@@ -78,7 +78,7 @@ export default function DSLabelEditingProvider(
 
   eventBus.on('directEditing.activate', function(event) {
     resizeHandles.removeResizers();
-    var element = event.active.element;
+    let element = event.active.element;
     createAutocomplete(element);
   });
 
@@ -88,7 +88,7 @@ export default function DSLabelEditingProvider(
 
   eventBus.on('create.end', 500, function(event) {
 
-    var element = event.shape,
+    let element = event.shape,
         canExecute = event.context.canExecute,
         isTouch = event.isTouch;
 
@@ -118,7 +118,7 @@ export default function DSLabelEditingProvider(
   }
 
   function createAutocomplete(element) {
-    var editingBox = document.getElementsByClassName('djs-direct-editing-content');
+    let editingBox = document.getElementsByClassName('djs-direct-editing-content');
     autocomplete(editingBox[0], getWorkObjectDictionary(), element);
   }
 }
@@ -147,22 +147,22 @@ DSLabelEditingProvider.prototype.activate = function(element) {
   if (element.id === '__implicitroot') {
     return ;
   }
-  var text = getLabel(element);
+  let text = getLabel(element);
 
   if (text === undefined) {
     return;
   }
 
-  var context = {
+  let context = {
     text: text
   };
 
   // bounds
-  var bounds = this.getEditingBBox(element);
+  let bounds = this.getEditingBBox(element);
 
   assign(context, bounds);
 
-  var options = {};
+  let options = {};
 
   // external labels
   if (isLabelExternal(element)) {
@@ -196,32 +196,32 @@ DSLabelEditingProvider.prototype.activate = function(element) {
  *                  and size (fixed or minimum and/or maximum)
  */
 DSLabelEditingProvider.prototype.getEditingBBox = function(element) {
-  var canvas = this._canvas;
+  let canvas = this._canvas;
 
-  var target = element.label || element;
+  let target = element.label || element;
 
-  var bbox = canvas.getAbsoluteBBox(target);
+  let bbox = canvas.getAbsoluteBBox(target);
 
-  var mid = {
+  let mid = {
     x: bbox.x + bbox.width / 2,
     y: bbox.y + bbox.height / 2
   };
 
   // default position
-  var bounds = { x: bbox.x, y: bbox.y };
+  let bounds = { x: bbox.x, y: bbox.y };
 
-  var zoom = canvas.zoom();
+  let zoom = canvas.zoom();
 
-  var defaultStyle = this._textRenderer.getDefaultStyle(),
+  let defaultStyle = this._textRenderer.getDefaultStyle(),
       externalStyle = this._textRenderer.getExternalStyle();
 
   // take zoom into account
-  var externalFontSize = externalStyle.fontSize * zoom,
+  let externalFontSize = externalStyle.fontSize * zoom,
       externalLineHeight = externalStyle.lineHeight,
       defaultFontSize = defaultStyle.fontSize * zoom,
       defaultLineHeight = defaultStyle.lineHeight;
 
-  var style = {
+  let style = {
     fontFamily: this._textRenderer.getDefaultStyle().fontFamily,
     fontWeight: this._textRenderer.getDefaultStyle().fontWeight
   };
@@ -269,7 +269,7 @@ DSLabelEditingProvider.prototype.getEditingBBox = function(element) {
     });
   }
 
-  var width = 90 * zoom,
+  let width = 90 * zoom,
       paddingTop = 7 * zoom,
       paddingBottom = 4 * zoom;
 
@@ -295,16 +295,16 @@ DSLabelEditingProvider.prototype.getEditingBBox = function(element) {
     && !hasExternalLabel(target)
     && !isLabel(target)) {
 
-    var externalLabelMid = getExternalLabelMid(element);
+    let externalLabelMid = getExternalLabelMid(element);
 
-    var absoluteBBox = canvas.getAbsoluteBBox({
+    let absoluteBBox = canvas.getAbsoluteBBox({
       x: externalLabelMid.x,
       y: externalLabelMid.y,
       width: 0,
       height: 0
     });
 
-    var height = externalFontSize + paddingTop + paddingBottom;
+    let height = externalFontSize + paddingTop + paddingBottom;
 
     assign(bounds, {
       width: width,
@@ -349,7 +349,7 @@ DSLabelEditingProvider.prototype.update = function(
     element, newLabel,
     activeContextText, bounds) {
 
-  var newBounds,
+  let newBounds,
       bbox;
 
   if (is(element, TEXTANNOTATION)) {

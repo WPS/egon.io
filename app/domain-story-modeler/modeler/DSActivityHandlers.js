@@ -7,7 +7,7 @@ import { getActivitesFromActors } from '../features/canvasElements/canvasElement
  * commandStack Handler for changes at activities
  */
 
-export default function DSActivityHandler(commandStack, eventBus, canvas) {
+export default function DSActivityHandler(commandStack, eventBus) {
 
   commandStack.registerHandler('activity.directionChange', activity_directionChange);
   commandStack.registerHandler('activity.changed', activity_changed);
@@ -20,7 +20,7 @@ export default function DSActivityHandler(commandStack, eventBus, canvas) {
     this.preExecute = function(context) {
       context.oldLabel = context.businessObject.name || ' ';
 
-      var oldNumbersWithIDs = getNumbersAndIDs(canvas);
+      let oldNumbersWithIDs = getNumbersAndIDs();
       modeling.updateLabel(context.businessObject, context.newLabel);
       modeling.updateNumber(context.businessObject, context.newNumber);
 
@@ -29,8 +29,8 @@ export default function DSActivityHandler(commandStack, eventBus, canvas) {
     };
 
     this.execute = function(context) {
-      var semantic = context.businessObject;
-      var element = context.element;
+      let semantic = context.businessObject;
+      let element = context.element;
 
       if (context.newLabel && context.newLabel.length < 1) {
         context.newLabel = ' ';
@@ -43,8 +43,8 @@ export default function DSActivityHandler(commandStack, eventBus, canvas) {
     };
 
     this.revert = function(context) {
-      var semantic = context.businessObject;
-      var element = context.element;
+      let semantic = context.businessObject;
+      let element = context.element;
       semantic.name = context.oldLabel;
       semantic.number = context.oldNumber;
 
@@ -69,13 +69,13 @@ export default function DSActivityHandler(commandStack, eventBus, canvas) {
     };
 
     this.execute = function(context) {
-      var semantic = context.businessObject;
-      var element = context.element;
-      var swapSource = element.source;
-      var newWaypoints = [];
-      var waypoints = element.waypoints;
+      let semantic = context.businessObject;
+      let element = context.element;
+      let swapSource = element.source;
+      let newWaypoints = [];
+      let waypoints = element.waypoints;
 
-      for (var i=waypoints.length-1; i>=0;i--) {
+      for (let i=waypoints.length-1; i>=0;i--) {
         newWaypoints.push(waypoints[i]);
       }
 
@@ -92,9 +92,9 @@ export default function DSActivityHandler(commandStack, eventBus, canvas) {
     };
 
     this.revert = function(context) {
-      var semantic = context.businessObject;
-      var element = context.element;
-      var swapSource = element.source;
+      let semantic = context.businessObject;
+      let element = context.element;
+      let swapSource = element.source;
 
       element.source = element.target;
       semantic.source = semantic.target;
@@ -113,11 +113,11 @@ export default function DSActivityHandler(commandStack, eventBus, canvas) {
 
 // reverts the automatic changed done by the automatic number-gerneration at editing
 function revertAutomaticNumbergenerationChange(iDWithNumber, eventBus) {
-  var activities = getActivitesFromActors();
-  for (var i = activities.length - 1; i >= 0; i--) {
-    for (var j = iDWithNumber.length - 1; j >= 0; j--) {
+  let activities = getActivitesFromActors();
+  for (let i = activities.length - 1; i >= 0; i--) {
+    for (let j = iDWithNumber.length - 1; j >= 0; j--) {
       if (iDWithNumber[j].id.includes(activities[i].businessObject.id)) {
-        var element = activities[i];
+        let element = activities[i];
         element.businessObject.number = iDWithNumber[j].number;
         j = -5;
         eventBus.fire('element.changed', { element });

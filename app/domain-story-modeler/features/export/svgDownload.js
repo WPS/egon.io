@@ -1,18 +1,20 @@
 'use strict';
 
 import { createTitleAndDescriptionSVGElement } from './createTitleAndInfo';
-import sanitizeForDesktop from '../../util/Sanitizer';
+import { sanitizeForDesktop } from '../../util/Sanitizer';
 
-var title = document.getElementById('title'),
+let title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
-var svgData, cacheData;
+let svgData, cacheData;
 
 export function downloadSVG(filename) {
-
   createSVGData();
 
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:application/bpmn20-xml;charset=UTF-8,' + svgData);
+  let element = document.createElement('a');
+  element.setAttribute(
+    'href',
+    'data:application/bpmn20-xml;charset=UTF-8,' + svgData
+  );
   element.setAttribute('download', sanitizeForDesktop(filename) + '.svg');
 
   element.style.display = 'none';
@@ -30,17 +32,16 @@ export function setEncoded(data) {
 function createSVGData() {
   // to ensure that the title and description are inside the SVG container and do not overlapp with any elements,
   // we change the confines of the SVG viewbox
-  var descriptionText = infoText.innerHTML;
-  var titleText = title.innerHTML;
-  var viewBoxIndex = cacheData.indexOf ('width="');
+  let descriptionText = infoText.innerHTML;
+  let titleText = title.innerHTML;
+  let viewBoxIndex = cacheData.indexOf('width="');
 
   let { width, height, viewBox } = viewBoxCoordinates(cacheData);
   height += 80;
 
-
-  var xLeft, xRight, yUp, yDown;
-  var bounds = '';
-  var splitViewBox = viewBox.split(/\s/);
+  let xLeft, xRight, yUp, yDown;
+  let bounds = '';
+  let splitViewBox = viewBox.split(/\s/);
 
   xLeft = +splitViewBox[0];
   yUp = +splitViewBox[1];
@@ -48,35 +49,56 @@ function createSVGData() {
   yDown = +splitViewBox[3];
 
   if (xRight < 300) {
-    xRight+= 300;
-    width+= 300;
+    xRight += 300;
+    width += 300;
   }
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
-  var { insertText, extraHeight } = createTitleAndDescriptionSVGElement(titleText, descriptionText, xLeft, yUp, width);
+  let { insertText, extraHeight } = createTitleAndDescriptionSVGElement(
+    titleText,
+    descriptionText,
+    xLeft,
+    yUp,
+    width
+  );
   height += extraHeight;
 
-  bounds = 'width="' + width+ '" height=" '+ height+'" viewBox="' + xLeft + ' ' +(yUp -80) + ' ' + xRight + ' ' + (yDown + 30);
-  var dataStart = cacheData.substring(0, viewBoxIndex);
+  bounds =
+    'width="' +
+    width +
+    '" height=" ' +
+    height +
+    '" viewBox="' +
+    xLeft +
+    ' ' +
+    (yUp - 80) +
+    ' ' +
+    xRight +
+    ' ' +
+    (yDown + 30);
+  let dataStart = cacheData.substring(0, viewBoxIndex);
   viewBoxIndex = cacheData.indexOf('" version');
-  var dataEnd = cacheData.substring(viewBoxIndex);
+  let dataEnd = cacheData.substring(viewBoxIndex);
   dataEnd.substring(viewBoxIndex);
 
   cacheData = dataStart + bounds + dataEnd;
 
-  var insertIndex = cacheData.indexOf('</defs>');
+  let insertIndex = cacheData.indexOf('</defs>');
   if (insertIndex < 0) {
     insertIndex = cacheData.indexOf('version="1.1">') + 14;
-  }
-  else {
-    insertIndex+=7;
+  } else {
+    insertIndex += 7;
   }
 
-  cacheData = [cacheData.slice(0,insertIndex), insertText, cacheData.slice(insertIndex)].join('');
+  cacheData = [
+    cacheData.slice(0, insertIndex),
+    insertText,
+    cacheData.slice(insertIndex)
+  ].join('');
   svgData = encodeURIComponent(cacheData);
 }
 
 function viewBoxCoordinates(svg) {
   const ViewBoxCoordinate = /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)"/;
   const match = svg.match(ViewBoxCoordinate);
-  return { width: +match[1], height : +match[2], viewBox: match[3] };
+  return { width: +match[1], height: +match[2], viewBox: match[3] };
 }

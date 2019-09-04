@@ -2,18 +2,28 @@
 
 import { assign } from 'min-dash';
 import { getNameFromType } from '../../language/naming';
-import { getIconForType } from '../../language/iconRegistry';
-import { getWorkObjectIconRegistry, initWorkObjectIconRegistry } from '../../language/workObjectIconRegistry';
-import { getActorIconRegistry, initActorIconRegistry } from '../../language/actorIconRegistry';
-import { getIconset } from '../../language/iconConfig';
-import { GROUP } from '../../language/elementTypes';
+import { getIconForType } from '../../language/icon/iconDictionary';
+import { getIconset } from '../../language/icon/iconConfig';
+import { GROUP, ACTOR, WORKOBJECT } from '../../language/elementTypes';
+import { appendedIconsTag } from '../iconSetCustomization/persitence';
+import { overrideAppendedIcons } from '../../language/icon/all_Icons';
+import {
+  initTypeDictionaries,
+  getTypeDictionary
+} from '../../language/icon/dictionaries';
+import { domExists } from '../../language/testmode';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
  */
 
-export default function PaletteProvider(palette, create, elementFactory, spaceTool, lassoTool) {
-
+export default function PaletteProvider(
+    palette,
+    create,
+    elementFactory,
+    spaceTool,
+    lassoTool
+) {
   this._create = create;
   this._elementFactory = elementFactory;
   this._spaceTool = spaceTool;
@@ -32,17 +42,15 @@ PaletteProvider.$inject = [
 ];
 
 PaletteProvider.prototype.getPaletteEntries = function() {
-
-  var actions = {},
+  let actions = {},
       create = this._create,
       elementFactory = this._elementFactory,
       spaceTool = this._spaceTool,
       lassoTool = this._lassoTool;
 
   function createAction(type, group, className, title, options) {
-
     function createListener(event) {
-      var shape = elementFactory.createShape(assign({ type: type }, options));
+      let shape = elementFactory.createShape(assign({ type: type }, options));
 
       assign(shape.businessObject, {
         id: shape.id
@@ -55,7 +63,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       create.start(event, shape);
     }
 
-    var shortType = type.replace(/^domainStory:/, '');
+    let shortType = type.replace(/^domainStory:/, '');
 
     return {
       group: group,
@@ -71,20 +79,56 @@ PaletteProvider.prototype.getPaletteEntries = function() {
   return initPalette(actions, spaceTool, lassoTool, createAction);
 };
 
+function appendCSSStyleCheat(customIcons) {
+  const sheetEl = document.createElement('style');
+  document.head.appendChild(sheetEl);
+
+  let dictionary = require('collections/dict');
+  let customIconDict = new dictionary();
+
+  customIconDict.addEach(customIcons);
+  let customIconDictKeys = customIconDict.keysArray();
+
+  customIconDictKeys.forEach(name => {
+    const src = customIconDict.get(name);
+    const iconStyle =
+      '.icon-domain-story-' +
+      name.toLowerCase() +
+      '::before{' +
+      'content: url("' +
+      src +
+      '"); margin: 3px; height: 22px !important; width: 22px !important;}'; // TODO change style such that important is not necessarcy
+    sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
+  });
+}
+
 function initPalette(actions, spaceTool, lassoTool, createAction) {
-  var config = getIconset();
+  let config = getIconset();
 
-  initActorIconRegistry(config.actors);
-  initWorkObjectIconRegistry(config.workObjects);
+  let customIcons = localStorage.getItem(appendedIconsTag);
+  if (customIcons) {
+    customIcons = JSON.parse(customIcons);
+    overrideAppendedIcons(customIcons);
+    if (domExists()) {
+      appendCSSStyleCheat(customIcons);
+    }
+  }
 
-  var actorTypes = getActorIconRegistry();
+  initTypeDictionaries(config.actors, config.workObjects);
+
+  let actorTypes = getTypeDictionary(ACTOR);
 
   actorTypes.keysArray().forEach(actorType => {
-    var name = getNameFromType(actorType);
-    var icon = getIconForType(actorType);
+    let name = getNameFromType(actorType);
+    let icon = getIconForType(actorType);
 
-    var action = [];
-    action['domainStory-actor'+name] = createAction(actorType, 'actor', icon, name);
+    let action = [];
+    action['domainStory-actor' + name] = createAction(
+      actorType,
+      'actor',
+      icon,
+      name
+    );
     assign(actions, action);
   });
 
@@ -95,15 +139,19 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     }
   });
 
-  var workObjectTypes = getWorkObjectIconRegistry();
+  let workObjectTypes = getTypeDictionary(WORKOBJECT);
 
   workObjectTypes.keysArray().forEach(workObjectType => {
+    let name = getNameFromType(workObjectType);
+    let icon = getIconForType(workObjectType);
 
-    var name = getNameFromType(workObjectType);
-    var icon = getIconForType(workObjectType);
-
-    var action = [];
-    action['domainStory-actor'+name] = createAction(workObjectType, 'actor', icon, name);
+    let action = [];
+    action['domainStory-actor' + name] = createAction(
+      workObjectType,
+      'actor',
+      icon,
+      name
+    );
     assign(actions, action);
   });
 
@@ -113,7 +161,10 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
       separator: true
     },
     'domainStory-group': createAction(
-      GROUP, 'group', 'icon-domain-story-tool-group', 'group'
+      GROUP,
+      'group',
+      'icon-domain-story-tool-group',
+      'group'
     ),
     'group-separator': {
       group: 'group',
