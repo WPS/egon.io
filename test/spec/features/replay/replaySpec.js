@@ -1,13 +1,12 @@
 import {
   isStoryConsecutivelyNumbered,
-  createStep,
-  traceActivities
 } from '../../../../app/domain-story-modeler/features/replay/replay';
 import {
   ACTOR,
   WORKOBJECT,
   ACTIVITY
 } from '../../../../app/domain-story-modeler/language/elementTypes';
+import { createStep, traceActivities } from '../../../../app/domain-story-modeler/features/replay/initializeReplay';
 
 describe('replay', function() {
   it('isStoryConsecutivelyNumbered true', function() {

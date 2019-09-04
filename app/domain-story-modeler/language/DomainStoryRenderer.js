@@ -33,7 +33,7 @@ import { numberBoxDefinitions, generateAutomaticNumber, addNumberToRegistry } fr
 
 import { calculateTextWidth } from '../features/labeling/DSLabelUtil';
 import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
-import { correctElementRegitryInit } from '../features/canvasElements/canvasElementRegistry';
+import { correctElementRegitryInit } from '../language/canvasElementRegistry';
 import { makeDirty } from '../features/export/dirtyFlag';
 import { labelPosition } from '../features/labeling/position';
 import { getTypeIconSRC } from './icon/dictionaries';

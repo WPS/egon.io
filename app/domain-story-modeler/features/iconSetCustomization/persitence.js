@@ -21,7 +21,7 @@ import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { domExists } from '../../language/testmode';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
 import { all_icons } from '../../language/icon/all_Icons';
-import { getAllCanvasObjects } from '../canvasElements/canvasElementRegistry';
+import { getAllCanvasObjects } from '../../language/canvasElementRegistry';
 
 export const useCustomConfigTag = 'useCustomConfig';
 export const useNecessaryConfigTag = 'useNecessaryConfig';

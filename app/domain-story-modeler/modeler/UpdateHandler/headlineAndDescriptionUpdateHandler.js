@@ -1,6 +1,6 @@
 'user strict';
 
-import { setTitleInputLast, setDescriptionInputLast } from '../import/import';
+import { setTitleInputLast, setDescriptionInputLast } from '../../features/import/import';
 import { changeWebsiteTitle } from '../../util/helpers';
 
 

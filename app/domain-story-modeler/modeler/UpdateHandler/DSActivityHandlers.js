@@ -1,7 +1,7 @@
 'use strict';
 
-import { getNumbersAndIDs } from '../features/numbering/numbering';
-import { getActivitesFromActors } from '../features/canvasElements/canvasElementRegistry';
+import { getNumbersAndIDs } from '../../features/numbering/numbering';
+import { getActivitesFromActors } from '../../language/canvasElementRegistry';
 
 /**
  * commandStack Handler for changes at activities

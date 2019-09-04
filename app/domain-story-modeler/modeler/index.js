@@ -15,7 +15,7 @@ import ContextPadModule from 'diagram-js/lib/features/context-pad';
 import CommandStack from '../../../node_modules/diagram-js/lib/command/CommandStack';
 import DSModeling from '../features/modeling/DSModeling';
 import DSUpdateLabelHandler from '../features/labeling/DSUpdateLabelHandler';
-import headlineAndDescriptionUpdateHandler from '../features/headlineAndDescription/headlineAndDescriptionUpdateHandler';
+import headlineAndDescriptionUpdateHandler from '../modeler/UpdateHandler/headlineAndDescriptionUpdateHandler';
 
 
 export default {

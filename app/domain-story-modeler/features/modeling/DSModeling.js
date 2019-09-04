@@ -52,6 +52,13 @@ Modeling.prototype.replaceShape = function(oldShape, newShape, hints) {
   return context.newShape;
 };
 
+Modeling.prototype.removeGroup = function(element) {
+  let children = element.children.slice();
+  element.children = [];
+  this._commandStack.execute('shape.removeGroupWithoutChildren', { element:element, children:children });
+  this.removeElements({ element });
+};
+
 inherits(DSModeling, Modeling);
 
 DSModeling.$inject = [

@@ -1,7 +1,7 @@
 'use strict';
 
 import { ACTIVITY, TEXTANNOTATION, ACTOR, WORKOBJECT } from '../../language/elementTypes';
-import { getAllCanvasObjects, getAllGroups } from '../canvasElements/canvasElementRegistry';
+import { getAllCanvasObjects, getAllGroups } from '../../language/canvasElementRegistry';
 import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary } from '../iconSetCustomization/dictionaries';
 import { createConfigFromDictionaries } from '../iconSetCustomization/persitence';
 import { removeDirtyFlag } from './dirtyFlag';

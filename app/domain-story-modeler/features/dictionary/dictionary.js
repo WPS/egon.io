@@ -1,6 +1,6 @@
 
 import { ACTIVITY, WORKOBJECT } from '../../language/elementTypes';
-import { getAllCanvasObjects } from '../canvasElements/canvasElementRegistry';
+import { getAllCanvasObjects } from '../../language/canvasElementRegistry';
 
 
 let activityDictionary = [];

@@ -1,4 +1,4 @@
-import { WORKOBJECT, GROUP, ACTOR, CONNECTION, ACTIVITY } from '../../language/elementTypes';
+import { WORKOBJECT, GROUP, ACTOR, CONNECTION, ACTIVITY } from './elementTypes';
 
 'use strict';
 

@@ -11,7 +11,7 @@ import { initTypeDictionaries } from '../../../app/domain-story-modeler/language
 import {
   setElementregistry,
   getElementRegistry
-} from '../../../app/domain-story-modeler/features/canvasElements/canvasElementRegistry';
+} from '../../../app/domain-story-modeler/language/canvasElementRegistry';
 
 const sinon = require('sinon');
 

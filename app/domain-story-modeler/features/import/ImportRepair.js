@@ -4,7 +4,7 @@ import { ACTIVITY, CONNECTION, WORKOBJECT } from '../../language/elementTypes';
 import {
   getAllCanvasObjects,
   getAllGroups
-} from '../canvasElements/canvasElementRegistry';
+} from '../../language/canvasElementRegistry';
 import { isInDomainStoryGroup } from '../../util/TypeCheck';
 import { assign } from 'min-dash';
 

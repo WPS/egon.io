@@ -11,7 +11,7 @@ import { cleanDictionaries } from '../dictionary/dictionary';
 import {
   correctElementRegitryInit,
   initElementRegistry
-} from '../canvasElements/canvasElementRegistry';
+} from '../../language/canvasElementRegistry';
 import {
   storyPersistTag,
   loadConfiguration,

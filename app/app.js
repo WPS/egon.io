@@ -5,10 +5,10 @@ import './domain-story-modeler/util/MathExtensions';
 import DomainStoryModeler from './domain-story-modeler';
 import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';
 import EventBus from 'diagram-js/lib/core/EventBus';
-import DSActivityHandlers from './domain-story-modeler/modeler/DSActivityHandlers';
+import DSActivityHandlers from './domain-story-modeler/modeler/UpdateHandler/DSActivityHandlers';
 import { toggleStashUse } from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
 import { version } from '../package.json';
-import DSMassRenameHandlers from './domain-story-modeler/features/dictionary/DSMassRenameHandlers';
+import DSMassRenameHandlers from './domain-story-modeler/modeler/UpdateHandler/DSMassRenameHandlers';
 import {
   getActivityDictionary,
   cleanDictionaries,
@@ -52,7 +52,7 @@ import {
 import {
   getActivitesFromActors,
   initElementRegistry
-} from './domain-story-modeler/features/canvasElements/canvasElementRegistry';
+} from './domain-story-modeler/language/canvasElementRegistry';
 import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/customizationDialog';
 import {
   setToDefault,
@@ -67,8 +67,8 @@ import {
   isDirty,
   makeDirty
 } from './domain-story-modeler/features/export/dirtyFlag';
-import DSElementHandler from './domain-story-modeler/modeler/DSElementHandler';
-import headlineAndDescriptionUpdateHandler from './domain-story-modeler/features/headlineAndDescription/headlineAndDescriptionUpdateHandler';
+import DSElementHandler from './domain-story-modeler/modeler/UpdateHandler/DSElementHandler';
+import headlineAndDescriptionUpdateHandler from './domain-story-modeler/modeler/UpdateHandler/headlineAndDescriptionUpdateHandler';
 
 const modeler = new DomainStoryModeler({
   container: '#canvas',

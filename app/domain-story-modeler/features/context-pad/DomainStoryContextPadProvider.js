@@ -16,7 +16,7 @@ import { ACTIVITY, ACTOR, GROUP, TEXTANNOTATION, WORKOBJECT } from '../../langua
 import { getTypeDictionary } from '../../language/icon/dictionaries';
 import { makeDirty } from '../export/dirtyFlag';
 import { getAllStandardIconKeys } from '../../language/icon/all_Icons';
-import { getAllCanvasObjects, getAllGroups, getAllActivities } from '../canvasElements/canvasElementRegistry';
+import { getAllGroups, getAllCanvasObjects, getAllActivities } from '../../language/canvasElementRegistry';
 
 export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
 
@@ -103,7 +103,34 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     }
 
     else if (element.type.includes(GROUP)) {
+      delete actions.delete;
       addTextAnnotation(actions);
+      assign(actions, {
+        'deleteGroup': {
+          group: 'edit',
+          className: 'bpmn-icon-trash',
+          title: 'Remove Group',
+          action: {
+            click: function(event, element) {
+              modeling.removeGroup(element);
+              makeDirty();
+            }
+          }
+        }
+      });
+      assign(actions, {
+        'delete': {
+          group: 'edit',
+          className: 'bpmn-icon-trash',
+          title: 'Remove Group WIth Children',
+          action: {
+            click: function(event, element) {
+              modeling.removeElements({ element });
+              makeDirty();
+            }
+          }
+        }
+      });
       addColorChange(actions);
     }
     else if (element.type.includes(ACTIVITY)) {

@@ -1,6 +1,6 @@
 'use strict';
 
-import { getActivitesFromActors } from '../canvasElements/canvasElementRegistry';
+import { getActivitesFromActors } from '../../language/canvasElementRegistry';
 import { labelPosition } from '../labeling/position';
 
 
