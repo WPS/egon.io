@@ -68,17 +68,6 @@ input {
   opacity: 100;
 }
 
-
-#DSGVO {
-  display: block;
-  height: 2em;
-  width: 20em;
-}
-
-#imgWPS{
-  margin-right: 10px;
-}
-
 #edit {
   opacity: 0;
 }
@@ -270,13 +259,6 @@ input {
 
 #imgWPS {
   margin-left: 17px;
-}
-
-#arrowDialog{
-  top:108px;
-  left:150px;
-  z-index: 2;
-  position: absolute;
 }
 
 #imgWPS:hover,
@@ -492,62 +474,7 @@ input {
   padding: 4px;
 }
 
-#closeDSTLogoInfo, #closeWPSLogoInfo, #closeIncompleteStoryInfo, #closeVersionDialog, #keyboardShortcutInfoDialogButtonCancel, #downloadDialogCancelButton, #brokenDSTDialogButtonCancel, #closeNoContentOnCanvasInfo{
-  position: absolute;
-  font-size: 9pt;
-  right: 1px;
-  top: 1px;
-}
-
-#DSGVO{
-  position: absolute;
-  z-index: 1;
-  bottom: 0px;
-  right: 10px;
-  display: flex;
-}
-
-#Datenschutz{
-  margin-right: 2em;
-}
-
-/* Elements by ID */
-
-.buttons{
-  position: relative;
-  margin-top: -2px;
-  left: -2em;
-}
-
-.prevoiusStepButton, .NextStepButton, .stopReplayButton {
-  opacity: 0.2;
-  pointer-events: none;
-}
-
-.arrow{
-  content: "";
-  width: 0;
-  height: 0;
-  position: absolute;
-  border: 0.9rem solid transparent;
-  border-top-color: #FAFAFA;
-  border-left-color: #FAFAFA;
-  -moz-transform: scale(0.9999);
-  transform: rotate(45deg);
-  left: 20px;
-  bottom: 305px;
-}
-
-.djs-context-pad.open{
-  margin-right: 18px;
-  border: solid 1px #80808054;
-}
-
-.djs-context-pad.open > .group{
-  border: solid 1px #80808054;
-  padding: 1px;
-  background-color: white;
-}
+/* autocomplete */
 
 .autocomplete {
   /*the container must be positioned relative:*/
@@ -819,4 +746,18 @@ input {
 
 .djs-search-overlay {
   background: #42aebb;
+}
+
+#DSGVO{
+  position: absolute;
+  z-index: 1;
+  bottom: 0px;
+  right: 10px;
+  height: 2em;
+  width: 20em;
+  display: flex;
+}
+
+#Datenschutz{
+  margin-right: 2em;
 }

@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="domain-story.css" />
   <link rel="stylesheet" href="domain-story-modeler/language/icon/icons.css" id="iconsCss" />
 
-  <title>Domain Story Modeler. WPS – Workplace Solutions GmbH</title>
+  <title>Domain Storytelling Modeler</title>
 </head>
 
 <body>
@@ -209,64 +209,7 @@
     </div>
   </div>
 
-  <div id="wpsLogoInfo" style="display:none;">
-    <button id="closeWPSLogoInfo">X</button>
-    <br>
-    <text id="wpsLogoInnerText"></text>
-    <a href="https://www.wps.de">wps.de</a>
-    <text id="wpsLogoInnerText2"></text>
-    <br>
-    <a href="https://github.com/WPS/domain-story-modeler">https://github.com/WPS/domain-story-modeler</a>
-  </div>
-
-  <div id="dstLogoInfo" style="display:none;">
-    <button id="closeDSTLogoInfo">X</button>
-    <br>
-    <text id="dstLogoInnerText"></text>
-    <br>
-    <a href="http://www.domainstorytelling.org">domainstorytelling.org</a>
-  </div>
-
-  <div id="DSGVO">
-    <div id="Datenschutz">
-      <a href="https://www.wps.de/datenschutz/" target="_blank">Datenschutz</a>
-    </div>
-    <div id="Impressum">
-      <a href="https://www.wps.de/impressum/" target="_blank">Impressum</a>
-    </div>
-  </div>
-  </div>
-
-  <div id="incompleteStoryInfo" style="display:none">
-    <button id="closeIncompleteStoryInfo">X</button>
-    <br>
-  </div>
-
-  <div id="noContentOnCanvasInfo" style="display: none">
-    <button id="closeNoContentOnCanvasInfo">X</button>
-    <br>
-    <text>There currently is no content on the canvas.</text>
-    <text>Without Content the Canvas cannot be exported.</text>
-  </div>
-
-  <div id="versionDialog" style="display:none">
-    <button id="closeVersionDialog">X</button>
-    <br>
-    <text>Your Domain Story was created with modeler version</text>
-    <text id="importedVersion"></text>
-    <text>. This modeler is version</text>
-    <text id="modelerVersion"></text>
-    <text>. Please check release notes for possible compatibility problems.</text>
-  </div>
-
-  <div id="brokenDSTDialog" style="display:none">
-    <button id="brokenDSTDialogButtonCancel">X</button>
-    <br>
-    <text>Your .dst File is incomplete, there most likely was an error during export.</text>
-    <text>Some of your Activities and DomainElements will be missing.</text>
-  </div>
-
-  <div id="keyboardShortcutInfoDialog" style="display:none">
+  <div id="keyboardShortcutInfo" style="display:none">
     <button id="keyboardShortcutInfoDialogButtonCancel" style="float:right; margin-left:5px">X</button>
     <br>
     <table id="keyboardTable">
@@ -364,21 +307,20 @@
     <text>Some of your activities and Domain Elements might be missing.</text>
   </div>
 
+  <div id="DSGVO">
+    <div id="Datenschutz">
+      <a href="https://www.wps.de/datenschutz/" target="_blank">Datenschutz</a>
+    </div>
+    <div id="Impressum">
+      <a href="https://www.wps.de/impressum/" target="_blank">Impressum</a>
+    </div>
+  </div>
+
   <script src="./app.js"></script>
   <script src="dependencies/jquery.min.js"></script>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113573407-4"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-113573407-4', { 'anonymize_ip': true });
-  </script>
-
-  <script>
-    /* Kopiert von http://jsfiddle.net/jAYEt/2188/
+    /* from http://jsfiddle.net/jAYEt/2188/ 
     */
     var inputQuantity = [];
     $(function() {
