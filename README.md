@@ -12,7 +12,7 @@ You can try the modeler online at https://www.wps.de/modeler.
 To run the modeler locally, download the latest release from [GitHub](https://github.com/WPS/domain-story-modeler/releases).
 Extract the zip file and open index.html in your browser.
 
-**Important:** Starting with v1.0.0, the modeler requires that your browser allows third party cookies (How to turn on third party cookies in [Firefox](https://support.mozilla.org/en-US/kb/disable-third-party-cookies) and [Chrome](https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=en)). We rely on storing your moddeler's configuration in your browser. That enabled us to develop a cool feature that allwos you to choose which icons you want to use for modeling (see below).
+**Important:** Starting with v1.0.0, the modeler requires that your browser allows third party cookies (How to turn on third party cookies in [Firefox](https://support.mozilla.org/en-US/kb/disable-third-party-cookies) and [Chrome](https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=en)). We rely on storing your moddeler's configuration in your browser. That enabled us to develop a cool feature that allows you to choose which icons you want to use for modeling (see below).
 
 ### Usage
 
