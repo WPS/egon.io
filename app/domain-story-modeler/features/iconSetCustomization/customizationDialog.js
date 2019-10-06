@@ -194,6 +194,7 @@ function updateSelectedWorkObjectsAndActors(
 export function createListOfAllIcons() {
   resetHTMLSelectionList();
   initializeAllIcons();
+  clearAllElementList();
 
   new Sortable(htmlList, mainListOptions);
   new Sortable(selectedActorsList, actorListOptions);
@@ -215,10 +216,21 @@ export function createListOfAllIcons() {
   const appendIconDictionary = getAppendedIconDictionary();
   const allAppendIconNames = appendIconDictionary.keysArray();
   allAppendIconNames.forEach(name => {
-    const listElement = createListElement(name, i % 2 === 0);
-    htmlList.appendChild(listElement);
-    i++;
+    if (!alreadyAddedNames.includes(name)) {
+      const listElement = createListElement(name, i % 2 === 0);
+      htmlList.appendChild(listElement);
+      i++;
+    }
   });
+}
+
+function clearAllElementList() {
+  if (domExists()) {
+    while (htmlList.firstChild) {
+      htmlList.removeChild(htmlList.firstChild);
+    }
+    alreadyAddedNames = [];
+  }
 }
 
 export function createListElement(name, greyBackground) {
