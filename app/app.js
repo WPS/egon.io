@@ -205,6 +205,8 @@ function initialize(
   initElementRegistry(elementRegistry);
   initImports(elementRegistry, version, modeler, eventBus, fnDebounce);
 
+  debounce(fnDebounce, 500);
+
   // disable BPMN SearchPad
   SearchPad.prototype.toggle = function() {};
 

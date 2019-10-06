@@ -5,10 +5,10 @@ import { sanitizeForDesktop } from '../../util/Sanitizer';
 
 let title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
-let svgData, cacheData;
+let cacheData;
 
 export function downloadSVG(filename) {
-  createSVGData();
+  const svgData = createSVGData();
 
   let element = document.createElement('a');
   element.setAttribute(
@@ -94,7 +94,7 @@ function createSVGData() {
     insertText,
     cacheData.slice(insertIndex)
   ].join('');
-  svgData = encodeURIComponent(cacheData);
+  return encodeURIComponent(cacheData);
 }
 
 function viewBoxCoordinates(svg) {
