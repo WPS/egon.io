@@ -1,6 +1,6 @@
 {
   "name": "domain-story-modeler",
-  "version": "1.1.0-dev",
+  "version": "1.0.1",
   "description": "A tool to visualize Domain Stories in the browser",
   "repository": {
     "type": "git",
