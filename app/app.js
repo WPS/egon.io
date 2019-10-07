@@ -1,6 +1,5 @@
 'use strict';
 
-import $ from 'jquery';
 import './domain-story-modeler/util/MathExtensions';
 import DomainStoryModeler from './domain-story-modeler';
 import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';
@@ -201,11 +200,12 @@ function initialize(
   DSElementHandler(commandStack, eventBus);
   headlineAndDescriptionUpdateHandler(commandStack);
 
+  const exportArtifacts = debounce(fnDebounce, 500);
+  modeler.on('commandStack.changed', exportArtifacts);
+
   initReplay(canvas);
   initElementRegistry(elementRegistry);
   initImports(elementRegistry, version, modeler, eventBus, fnDebounce);
-
-  debounce(fnDebounce, 500);
 
   // disable BPMN SearchPad
   SearchPad.prototype.toggle = function() {};
@@ -253,7 +253,11 @@ function initialize(
   // if there is a persited Story, load it
   if (localStorage.getItem(storyPersistTag)) {
     loadPersistedDST(modeler);
+
+    eventBus.fire('commandStack.changed', debounce(fnDebounce, 500));
   }
+
+  debounce(fnDebounce, 500);
 }
 
 /**
@@ -856,11 +860,6 @@ function keyReleased(keysPressed, keyCode) {
 function saveSVG(done) {
   modeler.saveSVG(done);
 }
-
-$(function() {
-  const exportArtifacts = debounce(fnDebounce, 500);
-  modeler.on('commandStack.changed', exportArtifacts);
-});
 
 function fnDebounce() {
   saveSVG(function(err, svg) {
