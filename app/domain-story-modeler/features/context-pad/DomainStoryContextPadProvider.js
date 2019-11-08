@@ -26,6 +26,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     popup: 'bottom'
   };
   let selectedID;
+  let startConnect;
 
   picker.setOptions(pickerOptions);
   picker.onDone = function(color) {
@@ -75,9 +76,9 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   this.getContextPadEntries = function(element) {
     let actions = cached(element);
 
-    function startConnect(event, element, autoActivate) {
+    startConnect= function(event, element, autoActivate) {
       connect.start(event, element, autoActivate);
-    }
+    };
 
     const allStandardIconKeys = getAllStandardIconKeys();
 
@@ -134,6 +135,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       addColorChange(actions);
     }
     else if (element.type.includes(ACTIVITY)) {
+
       // the change direction icon is appended at the end of the edit group by default,
       // to make sure, that the delete icon is the last one, we remove it from the actions-object
       // and add it after adding the change direction functionality
@@ -145,6 +147,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           className: 'icon-domain-story-changeDirection',
           title: translate('Change direction'),
           action: {
+
             // event needs to be adressed
             click: function(event, element) {
               changeDirection(element);
@@ -329,7 +332,12 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     function appendStart(event, element) {
 
       let shape = elementFactory.createShape(assign({ type: type }, options));
-      create.start(event, shape, element);
+      let context = {
+        elements: [shape],
+        hints: {},
+        source:element
+      };
+      create.start(event, shape, context);
     }
 
     autoPlace ? function(element) {
@@ -343,7 +351,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       className: className,
       title: 'Append ' + title,
       action: {
-        dragstart: appendStart,
+        dragstart: startConnect,
         click: appendStart
       }
     };

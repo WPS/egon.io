@@ -24,7 +24,8 @@ module.exports = function(grunt) {
             extensions: ['.bpmn']
           }],
           ['babelify', {
-            global: true
+            global: true,
+            presets:['@babel/preset-env']
           }]
         ]
       },

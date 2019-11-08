@@ -88,18 +88,22 @@ let keysPressed = [];
 // HTML-Elements
 let modal = document.getElementById('modal'),
     arrow = document.getElementById('arrow'),
+
     // logos
     wpsLogo = document.getElementById('imgWPS'),
     dstLogo = document.getElementById('imgDST'),
+
     // text-elements
     wpsInfotext = document.getElementById('wpsLogoInnerText'),
     wpsInfotextPart2 = document.getElementById('wpsLogoInnerText2'),
     dstInfotext = document.getElementById('dstLogoInnerText'),
+
     // labels
     headline = document.getElementById('headline'),
     title = document.getElementById('title'),
     info = document.getElementById('info'),
     infoText = document.getElementById('infoText'),
+
     // inputs
     titleInput = document.getElementById('titleInput'),
     activityInputNumber = document.getElementById('inputNumber'),
@@ -108,6 +112,7 @@ let modal = document.getElementById('modal'),
     multipleNumberAllowedCheckBox = document.getElementById(
       'multipleNumberAllowed'
     ),
+
     // dialogs
     headlineDialog = document.getElementById('dialog'),
     activityWithNumberDialog = document.getElementById('numberDialog'),
@@ -119,6 +124,7 @@ let modal = document.getElementById('modal'),
     keyboardShortcutInfo = document.getElementById('keyboardShortcutInfo'),
     downloadDialog = document.getElementById('downloadDialog'),
     noContentOnCanvasDialog = document.getElementById('noContentOnCanvasInfo'),
+
     // container
     iconCustomizationContainer = document.getElementById(
       'iconCustomizationContainer'
@@ -129,6 +135,7 @@ let modal = document.getElementById('modal'),
     workobjectDictionaryContainer = document.getElementById(
       'workobjectDictionaryContainer'
     ),
+
     // buttons
     headlineDialogButtonSave = document.getElementById('saveButton'),
     headlineDialogButtonCancel = document.getElementById('quitButton'),
@@ -194,6 +201,7 @@ function initialize(
     eventBus,
     fnDebounce
 ) {
+
   // we need to initiate the activity commandStack elements
   DSActivityHandlers(commandStack, eventBus);
   DSMassRenameHandlers(commandStack, eventBus);
@@ -221,6 +229,7 @@ function initialize(
     let returnValue;
 
     try {
+
       // returning false prevents the default action
       returnValue = invokeFunction(listener.callback, args);
 
@@ -247,6 +256,7 @@ function initialize(
   };
 
   modeler.createDiagram();
+
   // expose bpmnjs to window for debugging purposes
   window.bpmnjs = modeler;
 
@@ -714,6 +724,7 @@ function saveHeadlineDialog() {
     oldDescription:infoText.innerText
   };
   commandStack.execute('story.updateHeadlineAndDescription', headerValues);
+
   // to update the title of the svg, we need to tell the command stack, that a value has changed
   const exportArtifacts = debounce(fnDebounce, 500);
 

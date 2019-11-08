@@ -41,6 +41,7 @@ import { getTypeIconSRC } from './icon/dictionaries';
 let RENDERER_IDS = new Ids();
 let numbers = [];
 const DEFAULT_COLOR = 'black';
+
 /**
  * a renderer that knows how to render custom elements.
  */
@@ -388,22 +389,25 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     let startPoint = waypoints[0];
     let endPoint = waypoints[waypoints.length -1];
 
-    // check if Startpoint can overlapp with text
-    if (startPoint.y > source.y + 60) {
-      if ((startPoint.x > source.x + 3) && (startPoint.x < source.x + 72)) {
-        let lineOffset = getLineOffset(source);
-        if ((source.y + 75 + lineOffset) > startPoint.y) {
-          startPoint.y += lineOffset;
+    if (startPoint && endPoint && source && target) {
+
+      // check if Startpoint can overlapp with text
+      if (startPoint.y > source.y + 60) {
+        if ((startPoint.x > source.x + 3) && (startPoint.x < source.x + 72)) {
+          let lineOffset = getLineOffset(source);
+          if ((source.y + 75 + lineOffset) > startPoint.y) {
+            startPoint.y += lineOffset;
+          }
         }
       }
-    }
 
-    // check if Endpoint can overlapp with text
-    if (endPoint.y > target.y +60) {
-      if ((endPoint.x > target.x + 3) && (endPoint.x < target.x + 72)) {
-        let lineOffset = getLineOffset(target);
-        if ((target.y + 75 + lineOffset) > endPoint.y) {
-          endPoint.y += lineOffset;
+      // check if Endpoint can overlapp with text
+      if (endPoint.y > target.y +60) {
+        if ((endPoint.x > target.x + 3) && (endPoint.x < target.x + 72)) {
+          let lineOffset = getLineOffset(target);
+          if ((target.y + 75 + lineOffset) > endPoint.y) {
+            endPoint.y += lineOffset;
+          }
         }
       }
     }
@@ -464,6 +468,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       assign(element, {
         height: height
       });
+
       // for some reason the keyword height is not exported, so we use another, which we know will be exported,
       // to ensure persistent annotation heights betweens sessions
       assign(element.businessObject, {
@@ -657,6 +662,7 @@ DomainStoryRenderer.prototype.canRender = function(element) {
 };
 
 DomainStoryRenderer.prototype.drawShape = function(p, element) {
+
   // polyfill for tests
   if (!String.prototype.startsWith) {
     Object.defineProperty(String.prototype, 'startsWith', {
