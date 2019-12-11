@@ -112,12 +112,14 @@ export function saveIconConfiguration(elements) {
     let workObjectListNames = selectedWorkObjectList.getElementsByTagName('text');
 
     for (let i=0; i<actorsListNames.length; i++) {
-      name = actorsListNames[i].outerText;
+      name = actorsListNames[i].outerText?
+        actorsListNames[i].outerText : actorsListNames[i].innerText;
       actorOrder.push(name);
     }
 
     for (let i=0; i<workObjectListNames.length; i++) {
-      name = workObjectListNames[i].outerText;
+      name = workObjectListNames[i].outerText?
+        workObjectListNames[i].outerText : workObjectListNames[i].innerText;
       workobjectOrder.push(name);
     }
 
@@ -132,6 +134,7 @@ export function saveIconConfiguration(elements) {
     }
 
   }
+
   let configJSONString = JSON.stringify(
     createConfigFromDictionaries(actors, actorOrder, workObjects, workobjectOrder, name)
   );
@@ -232,7 +235,7 @@ export function createConfigFromDictionaries(
     actorsDict,
     actorOrder,
     workObjectsDict,
-    workobjactOrder,
+    workobjectOrder,
     name
 ) {
   let actors = actorsDict.keysArray();
@@ -241,12 +244,13 @@ export function createConfigFromDictionaries(
   let workObjectJSON = {};
 
   if (actorOrder) {
+    console.log(actorOrder);
     actorOrder.forEach(actor => {
       actorsJSON[actor.replace(ACTOR, '')] = actorsDict.get(actor);
     });
   }
-  if (workobjactOrder) {
-    workobjactOrder.forEach(workObject => {
+  if (workobjectOrder) {
+    workobjectOrder.forEach(workObject => {
       workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(
         workObject
       );
@@ -260,7 +264,7 @@ export function createConfigFromDictionaries(
   });
 
   workObjects.forEach(workObject => {
-    if (!workobjactOrder || !workobjactOrder.includes(workObject)) {
+    if (!workobjectOrder || !workobjectOrder.includes(workObject)) {
       workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(
         workObject
       );

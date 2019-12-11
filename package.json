@@ -80,7 +80,15 @@
     "vanilla-picker": "^2.10.0"
   },
   "browserify": {
-    "transform": [["babelify", { "presets": ["@babel/preset-env"] }]]
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "@babel/preset-env"
+          ]
+        }
+      ]
+    ]
   }
-
 }

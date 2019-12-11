@@ -23,7 +23,6 @@ export function downloadDST(filename, text) {
     workObjects = getTypeDictionary(WORKOBJECT);
   }
 
-
   configJSONString = JSON.stringify(createConfigFromDictionaries(actors, null, workObjects, null, document.getElementById('currentDomainName').innerText));
   let configAndDST = {
     domain: configJSONString,
@@ -56,6 +55,7 @@ export function createObjectListForDSTDownload(version) {
     if (canvasElement.type == ACTIVITY) {
       objectList.push(canvasElement.businessObject);
     }
+
     // ensure that Activities are always after Actors, Workobjects and Groups in .dst files
     else {
       if (canvasElement.type == TEXTANNOTATION) {
