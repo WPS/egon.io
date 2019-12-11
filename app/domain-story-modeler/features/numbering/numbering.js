@@ -26,7 +26,6 @@ export function numberBoxDefinitions(element) {
   return box;
 }
 
-
 // determine the next available number that is not yet used
 export function generateAutomaticNumber(elementActivity, commandStack) {
   let semantic = elementActivity.businessObject;
@@ -78,22 +77,31 @@ export function updateExistingNumbersAtGeneration(activiesFromActors, wantedNumb
 
 // update the numbers at the activities when editing an activity
 export function updateExistingNumbersAtEditing(activiesFromActors, wantedNumber, eventBus) {
+
   // get a sorted list of all activities that could need changing
-  let sortedActivities = [];
+  let sortedActivities = [[]];
   activiesFromActors.forEach(activity => {
-    sortedActivities[activity.businessObject.number] = activity;
+    if (!sortedActivities[activity.businessObject.number]) {
+      sortedActivities[activity.businessObject.number] = [];
+    }
+    sortedActivities[activity.businessObject.number].push(activity);
   });
 
   // set the number of each activity to the next highest number, starting from the number, we overrode
   for (let currentNumber = wantedNumber; currentNumber < sortedActivities.length; currentNumber++) {
-    let element = sortedActivities[currentNumber];
-    if (element) {
-      let businessObject = element.businessObject;
-      if (businessObject) {
-        wantedNumber++;
-        businessObject.number = wantedNumber;
-      }
-      eventBus.fire('element.changed', { element });
+    let elementArray = sortedActivities[currentNumber];
+    if (elementArray) {
+      wantedNumber++;
+      elementArray.forEach(element => {
+        if (element) {
+          console.log(element);
+          let businessObject = element.businessObject;
+          if (businessObject) {
+            businessObject.number = wantedNumber;
+          }
+          eventBus.fire('element.changed', { element });
+        }
+      });
     }
   }
 }
@@ -118,6 +126,7 @@ export function addNumberToRegistry(renderedNumber, number) {
 export function setNumberIsMultiple(number, multi) {
   multipleNumberRegistry[number] = multi;
 }
+
 /**
  * @returns copy of registry
  */
