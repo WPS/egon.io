@@ -274,7 +274,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
   // draw functions
   this.drawGroup = function(parentGfx, element) {
     if (!element.businessObject.pickedColor) {
-      element.businessObject.pickedColor ='black';
+      element.businessObject.pickedColor = DEFAULT_COLOR;
     }
     let rect = drawRect(parentGfx, element.width, element.height, 0, assign({
       fill: 'none',

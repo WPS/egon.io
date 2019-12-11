@@ -76,9 +76,9 @@ const modeler = new DomainStoryModeler({
   }
 });
 const canvas = modeler.get('canvas');
+const elementRegistry = modeler.get('elementRegistry');
 const eventBus = modeler.get('eventBus');
 const commandStack = modeler.get('commandStack');
-const elementRegistry = modeler.get('elementRegistry');
 
 initialize(canvas, elementRegistry, version, modeler, eventBus, fnDebounce);
 

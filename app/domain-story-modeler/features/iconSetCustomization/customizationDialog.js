@@ -14,6 +14,7 @@ import {
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { domExists } from '../../language/testmode';
 import { isInTypeDictionary } from '../../language/icon/dictionaries';
+import { customConfigTag } from './persitence';
 
 let htmlList = document.getElementById('allIconsList');
 let selectedActorsList = document.getElementById('selectedActorsList');
@@ -22,6 +23,9 @@ let selectedWorkObjectList = document.getElementById('selectedWorkObjectsList');
 const Sortable = require('sortablejs');
 const iconSize = 20;
 const highlightBackgroundColor = '#f6f6f6';
+
+const actorListArray = [];
+const workObjectListArray = [];
 
 let alreadyAddedNames = [];
 
@@ -222,6 +226,20 @@ export function createListOfAllIcons() {
       i++;
     }
   });
+  const customConfig = JSON.parse(localStorage.getItem(customConfigTag));
+  const orderedActorsList = Object.keys(customConfig.actors);
+  const orderedWorkobjectList = Object.keys(customConfig.workObjects);
+
+  orderedActorsList.forEach(actorKey => {
+    selectedActorsList.appendChild(
+      actorListArray.filter(element => element.getElementsByTagName('text')[0].innerText === actorKey)[0]
+    );
+  });
+  orderedWorkobjectList.forEach(workObjectKey => {
+    selectedWorkObjectList.appendChild(
+      workObjectListArray.filter(element => element.getElementsByTagName('text')[0].innerText === workObjectKey)[0]
+    );
+  });
 }
 
 function clearAllElementList() {
@@ -291,19 +309,19 @@ export function createListElement(name, greyBackground) {
 
   if (isInTypeDictionary(ACTOR, ACTOR + name)) {
     inputRadioActor.checked = true;
-    createListElementInSeletionList(
+    actorListArray.push(createListElementInSeletionList(
       name,
       getIconSource(name),
       selectedActorsList
-    );
+    ));
     addToSelectedActors(name, getIconSource(name));
   } else if (isInTypeDictionary(WORKOBJECT, WORKOBJECT + name)) {
     inputRadioWorkObject.checked = true;
-    createListElementInSeletionList(
+    workObjectListArray.push(createListElementInSeletionList(
       name,
       getIconSource(name),
       selectedWorkObjectList
-    );
+    ));
     addToSelectedWorkObjects(name, getIconSource(name));
   } else {
     inputRadioNone.checked = true;
@@ -385,6 +403,7 @@ export function createListElementInSeletionList(name, src, list) {
     listElement.appendChild(imageElement);
     listElement.appendChild(nameElement);
 
-    list.appendChild(listElement);
+    return listElement;
   }
+  return null;
 }

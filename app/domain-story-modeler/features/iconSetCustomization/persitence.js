@@ -244,7 +244,6 @@ export function createConfigFromDictionaries(
   let workObjectJSON = {};
 
   if (actorOrder) {
-    console.log(actorOrder);
     actorOrder.forEach(actor => {
       actorsJSON[actor.replace(ACTOR, '')] = actorsDict.get(actor);
     });
