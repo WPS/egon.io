@@ -94,7 +94,6 @@ export function updateExistingNumbersAtEditing(activiesFromActors, wantedNumber,
       wantedNumber++;
       elementArray.forEach(element => {
         if (element) {
-          console.log(element);
           let businessObject = element.businessObject;
           if (businessObject) {
             businessObject.number = wantedNumber;
