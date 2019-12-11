@@ -24,9 +24,8 @@ const Sortable = require('sortablejs');
 const iconSize = 20;
 const highlightBackgroundColor = '#f6f6f6';
 
-const actorListArray = [];
-const workObjectListArray = [];
-
+let actorListArray = [];
+let workObjectListArray = [];
 let alreadyAddedNames = [];
 
 // options for drag&drop lists
@@ -139,19 +138,24 @@ function updateSelectedWorkObjectsAndActors(
   if (addToActors) {
     addToSelectedActors(currentSelectionName, iconSRC);
     if (updateHTML) {
-      createListElementInSeletionList(
-        currentSelectionName,
-        iconSRC,
-        selectedActorsList
+      selectedActorsList.appendChild(
+        createListElementInSeletionList(
+          currentSelectionName,
+          iconSRC,
+          selectedActorsList
+        )
       );
     }
   } else if (addToWorkObjects) {
     addToSelectedWorkObjects(currentSelectionName, iconSRC);
     if (updateHTML) {
-      createListElementInSeletionList(
-        currentSelectionName,
-        iconSRC,
-        selectedWorkObjectList
+      selectedWorkObjectList.appendChild(
+
+        createListElementInSeletionList(
+          currentSelectionName,
+          iconSRC,
+          selectedWorkObjectList
+        )
       );
     }
   }
@@ -199,6 +203,8 @@ export function createListOfAllIcons() {
   resetHTMLSelectionList();
   initializeAllIcons();
   clearAllElementList();
+  actorListArray = [];
+  workObjectListArray = [];
 
   new Sortable(htmlList, mainListOptions);
   new Sortable(selectedActorsList, actorListOptions);
@@ -227,19 +233,37 @@ export function createListOfAllIcons() {
     }
   });
   const customConfig = JSON.parse(localStorage.getItem(customConfigTag));
-  const orderedActorsList = Object.keys(customConfig.actors);
-  const orderedWorkobjectList = Object.keys(customConfig.workObjects);
+  if (customConfig) {
 
-  orderedActorsList.forEach(actorKey => {
-    selectedActorsList.appendChild(
-      actorListArray.filter(element => element.getElementsByTagName('text')[0].innerText === actorKey)[0]
-    );
-  });
-  orderedWorkobjectList.forEach(workObjectKey => {
-    selectedWorkObjectList.appendChild(
-      workObjectListArray.filter(element => element.getElementsByTagName('text')[0].innerText === workObjectKey)[0]
-    );
-  });
+    const orderedActorsList = Object.keys(customConfig.actors);
+    const orderedWorkobjectList = Object.keys(customConfig.workObjects);
+
+    orderedActorsList.forEach(actorKey => {
+      selectedActorsList.appendChild(
+        actorListArray.filter(element => element.getElementsByTagName('text')[0].innerText === actorKey)[0]
+      );
+    });
+    orderedWorkobjectList.forEach(workObjectKey => {
+      selectedWorkObjectList.appendChild(
+        workObjectListArray.filter(element => element.getElementsByTagName('text')[0].innerText === workObjectKey)[0]
+      );
+    });
+
+    actorListArray.filter(element => !orderedActorsList.includes(element.getElementsByTagName('text')[0].innerText)).forEach(ele => {
+      selectedActorsList.appendChild(ele);
+    });
+
+    workObjectListArray.filter(element => !orderedWorkobjectList.includes(element.getElementsByTagName('text')[0].innerText)).forEach(ele => {
+      selectedWorkObjectList.appendChild(ele);
+    });
+  } else {
+    actorListArray.forEach(actor => {
+      selectedActorsList.appendChild(actor);
+    });
+    workObjectListArray.forEach(workobject => {
+      selectedWorkObjectList.appendChild(workobject);
+    });
+  }
 }
 
 function clearAllElementList() {
