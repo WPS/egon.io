@@ -28,7 +28,7 @@ import {
   registerIcons
 } from '../../language/icon/dictionaries';
 import { sanitizeIconName } from '../../util/Sanitizer';
-import { Dict } from '../../language/icon/collection';
+import { Dict } from '../../language/collection';
 
 let modal = document.getElementById('modal'),
     info = document.getElementById('info'),

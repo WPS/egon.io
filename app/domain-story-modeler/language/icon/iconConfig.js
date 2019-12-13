@@ -11,7 +11,7 @@ import { domExists } from '../testmode';
 import { WORKOBJECT, ACTOR } from '../elementTypes';
 import { registerIcon } from './iconDictionary';
 import { getTypeIconSRC } from './dictionaries';
-import { Dict } from './collection';
+import { Dict } from '../collection';
 
 /**
  * Select the Iconset which you want to use

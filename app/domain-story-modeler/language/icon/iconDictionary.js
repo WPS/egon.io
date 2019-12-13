@@ -1,6 +1,7 @@
 'use strict';
 
-import { Dict } from "./collection";
+import { Dict } from '../collection';
+
 
 let icons = new Dict();
 

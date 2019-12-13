@@ -22,7 +22,7 @@ import { domExists } from '../../language/testmode';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
 import { all_icons } from '../../language/icon/all_Icons';
 import { getAllCanvasObjects } from '../../language/canvasElementRegistry';
-import { Dict } from '../../language/icon/collection';
+import { Dict } from '../../language/collection';
 
 export const useCustomConfigTag = 'useCustomConfig';
 export const useNecessaryConfigTag = 'useNecessaryConfig';

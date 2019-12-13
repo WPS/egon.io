@@ -1,4 +1,4 @@
-import { Dict } from "./collection";
+import { Dict } from "../collection";
 
 export const all_icons = {
   Person:

@@ -12,7 +12,7 @@ import {
   getTypeDictionary
 } from '../../language/icon/dictionaries';
 import { domExists } from '../../language/testmode';
-import { Dict } from '../../language/icon/collection';
+import { Dict } from '../../language/collection';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
