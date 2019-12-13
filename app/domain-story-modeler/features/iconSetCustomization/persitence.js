@@ -22,6 +22,7 @@ import { domExists } from '../../language/testmode';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
 import { all_icons } from '../../language/icon/all_Icons';
 import { getAllCanvasObjects } from '../../language/canvasElementRegistry';
+import { Dict } from '../../language/icon/collection';
 
 export const useCustomConfigTag = 'useCustomConfig';
 export const useNecessaryConfigTag = 'useNecessaryConfig';
@@ -29,8 +30,6 @@ export const customConfigTag = 'customConfig';
 export const appendedIconsTag = 'appendedIcons';
 export const storyPersistTag = 'persistetStory';
 export const customConfigNameTag = 'persitedDomainName';
-
-const Collection = require('collections/dict');
 
 export function setToDefault() {
   persistStory();
@@ -154,9 +153,8 @@ export function saveIconConfiguration(elements) {
 }
 
 export function loadConfiguration(customConfig) {
-  const dictionary = require('collections/dict');
-  let actorDict = new dictionary();
-  let workObjectDict = new dictionary();
+  let actorDict = new Dict();
+  let workObjectDict = new Dict();
 
   let customConfigJSON = JSON.parse(customConfig);
 
@@ -306,12 +304,12 @@ function persistNecessaryConfig() {
     ''
   );
 
-  let currentActors = new Collection();
+  let currentActors = new Dict();
   currentActors.addEach(currentConfig.actors);
-  let currentWorkobjects = new Collection();
+  let currentWorkobjects = new Dict();
   currentWorkobjects.addEach(currentConfig.workObjects);
-  let allActors = new Collection();
-  let allWorkobjects = new Collection();
+  let allActors = new Dict();
+  let allWorkobjects = new Dict();
 
   currentActors.keysArray().forEach(name => {
     if (!all_icons[name]) {

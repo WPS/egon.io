@@ -11,6 +11,7 @@ import { domExists } from '../testmode';
 import { WORKOBJECT, ACTOR } from '../elementTypes';
 import { registerIcon } from './iconDictionary';
 import { getTypeIconSRC } from './dictionaries';
+import { Dict } from './collection';
 
 /**
  * Select the Iconset which you want to use
@@ -31,9 +32,8 @@ export function getIconset() {
     let actors = customConfigJSON.actors;
     let workObjects = customConfigJSON.workObjects;
 
-    let dictionary = require('collections/dict');
-    let actorDict = new dictionary();
-    let workObjectDict = new dictionary();
+    let actorDict = new Dict();
+    let workObjectDict = new Dict();
 
     actorDict.addEach(actors);
     workObjectDict.addEach(workObjects);
@@ -64,9 +64,8 @@ export function getIconset() {
     let actors = customConfigJSON.actors;
     let workObjects = customConfigJSON.workObjects;
 
-    let dictionary = require('collections/dict');
-    let actorDict = new dictionary();
-    let workObjectDict = new dictionary();
+    let actorDict = new Dict();
+    let workObjectDict = new Dict();
 
     actorDict.addEach(actors);
     workObjectDict.addEach(workObjects);

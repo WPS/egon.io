@@ -12,6 +12,7 @@ import {
   getTypeDictionary
 } from '../../language/icon/dictionaries';
 import { domExists } from '../../language/testmode';
+import { Dict } from '../../language/icon/collection';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
@@ -83,8 +84,7 @@ function appendCSSStyleCheat(customIcons) {
   const sheetEl = document.createElement('style');
   document.head.appendChild(sheetEl);
 
-  let dictionary = require('collections/dict');
-  let customIconDict = new dictionary();
+  let customIconDict = new Dict();
 
   customIconDict.addEach(customIcons);
   let customIconDictKeys = customIconDict.keysArray();

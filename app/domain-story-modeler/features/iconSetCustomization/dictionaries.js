@@ -1,15 +1,14 @@
 'use strict';
 
 import { all_icons, appendedIcons } from '../../language/icon/all_Icons';
+import { Dict } from '../../language/icon/collection';
 
-
-const CanvasObjectTypes = require('collections/dict');
-let allIconDictionary= new CanvasObjectTypes();
-let selectedAsActorDictionary = new CanvasObjectTypes();
-let selectedAsWorkObjectDictionary = new CanvasObjectTypes();
+let allIconDictionary= new Dict();
+let selectedAsActorDictionary = new Dict();
+let selectedAsWorkObjectDictionary = new Dict();
 
 export function getAppendedIconDictionary() {
-  let appendedDict = new CanvasObjectTypes();
+  let appendedDict = new Dict();
   appendedDict.addEach(appendedIcons);
   appendedDict.keysArray().forEach(name => {
     if (allIconDictionary.has(name)) {
@@ -26,7 +25,7 @@ export function initializeAllIcons() {
 }
 
 export function getIconSource(name) {
-  let appendedDict = new CanvasObjectTypes();
+  let appendedDict = new Dict();
   appendedDict.addEach(appendedIcons);
   if (allIconDictionary.has(name))
     return allIconDictionary.get(name);

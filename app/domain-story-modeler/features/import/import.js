@@ -28,6 +28,7 @@ import {
   registerIcons
 } from '../../language/icon/dictionaries';
 import { sanitizeIconName } from '../../util/Sanitizer';
+import { Dict } from '../../language/icon/collection';
 
 let modal = document.getElementById('modal'),
     info = document.getElementById('info'),
@@ -255,10 +256,9 @@ export function readerFunction(text, version, modeler) {
 }
 
 export function configHasChanged(config) {
-  const dictionary = require('collections/dict');
   const customConfigJSON = JSON.parse(config);
-  const newActorsDict = new dictionary();
-  const newWorkObjectsDict = new dictionary();
+  const newActorsDict = new Dict();
+  const newWorkObjectsDict = new Dict();
 
   newActorsDict.addEach(customConfigJSON.actors);
   newWorkObjectsDict.addEach(customConfigJSON.workObjects);

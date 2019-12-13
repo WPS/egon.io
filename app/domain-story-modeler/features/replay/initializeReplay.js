@@ -1,11 +1,10 @@
 'use strict';
 
-
-const map = require('collections/map');
+import { Dict } from "../../language/icon/collection";
 
 // create a trace through all activities, that recreates the path from the beginning to the end of the story
 export function traceActivities(activitiesFromActors) {
-  const tracedActivityMap = new map();
+  const tracedActivityMap = new Dict();
 
   // order the activities with numbers by their number
   activitiesFromActors.forEach(element => {
