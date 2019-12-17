@@ -5,6 +5,10 @@ export class Dict {
     this.entries = [];
   }
 
+  get length() {
+    return this.entries.length;
+  }
+
   size() {
     return this.entries.length;
   }
@@ -42,6 +46,10 @@ export class Dict {
 
   clear() {
     this.entries = [];
+  }
+
+  delete(name) {
+    this.entries = this.entries.filter(entry => entry.name !== name);
   }
 
   get(key) {

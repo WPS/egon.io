@@ -6,7 +6,7 @@ import { getIconForType } from '../../language/icon/iconDictionary';
 import { getIconset } from '../../language/icon/iconConfig';
 import { GROUP, ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { appendedIconsTag } from '../iconSetCustomization/persitence';
-import { overrideAppendedIcons } from '../../language/icon/all_Icons';
+import { overrideAppendedIcons, appendedIcons, getAllStandardIconKeys } from '../../language/icon/all_Icons';
 import {
   initTypeDictionaries,
   getTypeDictionary
@@ -122,6 +122,10 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     let name = getNameFromType(actorType);
     let icon = getIconForType(actorType);
 
+    if (getAllStandardIconKeys().includes(actorType)) {
+      icon = wrapIconInSVG(icon);
+    }
+
     let action = [];
     action['domainStory-actor' + name] = createAction(
       actorType,
@@ -145,6 +149,9 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     let name = getNameFromType(workObjectType);
     let icon = getIconForType(workObjectType);
 
+    if (getAllStandardIconKeys().includes(workObjectType)) {
+      icon = wrapIconInSVG(icon);
+    }
     let action = [];
     action['domainStory-actor' + name] = createAction(
       workObjectType,
@@ -193,4 +200,9 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   });
 
   return actions;
+}
+
+function wrapIconInSVG(icon) {
+  console.log(icon);
+  return icon;
 }

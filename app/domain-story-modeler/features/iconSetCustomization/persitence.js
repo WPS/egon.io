@@ -355,8 +355,12 @@ function persistNecessaryConfig() {
   };
 
   localStorage.setItem(customConfigTag, JSON.stringify(config));
-  localStorage.setItem(
-    appendedIconsTag,
-    JSON.stringify(getAppendedIconDictionary())
-  );
+  let appen = getAppendedIconDictionary();
+  if (appen) {
+    localStorage.setItem(
+      appendedIconsTag,
+      JSON.stringify(getAppendedIconDictionary().entries
+      )
+    );
+  }
 }
