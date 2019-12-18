@@ -5,7 +5,7 @@ import {
   storyPersistTag,
   useNecessaryConfigTag
 } from '../../features/iconSetCustomization/persitence';
-import { overrideAppendedIcons } from './all_Icons';
+import { overrideAppendedIcons, appendedIcons } from './all_Icons';
 import { getAllIconDictioary } from '../../features/iconSetCustomization/dictionaries';
 import { domExists } from '../testmode';
 import { WORKOBJECT, ACTOR } from '../elementTypes';
@@ -113,7 +113,12 @@ export function appendSRCFile(
       newAppendedIcons[name] = workObjectsDict.get(name);
     }
   });
-  overrideAppendedIcons(newAppendedIcons);
+  let appen = new Dict();
+  Object.keys(newAppendedIcons).forEach(key => {
+    appen.set(key, newAppendedIcons[key]);
+  });
+
+  overrideAppendedIcons(appen);
 }
 
 /* eslint no-unused-vars: 0*/

@@ -1,4 +1,4 @@
-import { Dict } from "../collection";
+import { Dict } from '../collection';
 
 export const all_icons = {
   Person:
@@ -193,7 +193,7 @@ export function getAllStandardIconKeys() {
   return allIcons.keysArray();
 }
 
-export let appendedIcons = {};
+export let appendedIcons = new Dict();
 
 export function overrideAppendedIcons(newIcons) {
   appendedIcons = newIcons;

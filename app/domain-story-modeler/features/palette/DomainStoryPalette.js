@@ -6,7 +6,7 @@ import { getIconForType } from '../../language/icon/iconDictionary';
 import { getIconset } from '../../language/icon/iconConfig';
 import { GROUP, ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { appendedIconsTag } from '../iconSetCustomization/persitence';
-import { overrideAppendedIcons, appendedIcons, getAllStandardIconKeys } from '../../language/icon/all_Icons';
+import { overrideAppendedIcons, getAllStandardIconKeys } from '../../language/icon/all_Icons';
 import {
   initTypeDictionaries,
   getTypeDictionary
@@ -108,9 +108,15 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   let customIcons = localStorage.getItem(appendedIconsTag);
   if (customIcons) {
     customIcons = JSON.parse(customIcons);
-    overrideAppendedIcons(customIcons);
-    if (domExists()) {
-      appendCSSStyleCheat(customIcons);
+    if (customIcons.entries && customIcons.entries.forEach) {
+      const customIconsDict = new Dict();
+      customIcons.entries.forEach(entry => {
+        customIconsDict.putEntry(entry);
+      });
+      overrideAppendedIcons(customIconsDict);
+      if (domExists()) {
+        appendCSSStyleCheat(customIcons);
+      }
     }
   }
 
@@ -121,8 +127,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   actorTypes.keysArray().forEach(actorType => {
     let name = getNameFromType(actorType);
     let icon = getIconForType(actorType);
-
-    if (getAllStandardIconKeys().includes(actorType)) {
+    if (!getAllStandardIconKeys().includes(name)) {
       icon = wrapIconInSVG(icon);
     }
 

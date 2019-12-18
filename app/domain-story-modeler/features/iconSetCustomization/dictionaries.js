@@ -9,10 +9,12 @@ let selectedAsWorkObjectDictionary = new Dict();
 
 export function getAppendedIconDictionary() {
   let appendedDict = new Dict();
-  appendedDict.addEach(appendedIcons);
-  appendedDict.keysArray().forEach(name => {
-    if (allIconDictionary.has(name)) {
-      appendedDict.delete(name);
+  appendedIcons.keysArray().forEach(key => {
+    appendedDict.set(key, appendedIcons.get(key));
+  });
+  appendedDict.keysArray().forEach(key => {
+    if (allIconDictionary.has(key)) {
+      appendedDict.delete(key);
     }
   });
   return appendedDict;
@@ -25,12 +27,10 @@ export function initializeAllIcons() {
 }
 
 export function getIconSource(name) {
-  let appendedDict = new Dict();
-  appendedDict.addEach(appendedIcons);
   if (allIconDictionary.has(name))
     return allIconDictionary.get(name);
-  else if (appendedDict.has(name)) {
-    return appendedDict.get(name);
+  else if (appendedIcons.has(name)) {
+    return appendedIcons.get(name);
   }
   return null;
 }

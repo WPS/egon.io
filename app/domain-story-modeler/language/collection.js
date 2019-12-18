@@ -44,6 +44,10 @@ export class Dict {
     });
   }
 
+  appendDict(dict) {
+    this.addEach(dict.entries);
+  }
+
   clear() {
     this.entries = [];
   }
