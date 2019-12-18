@@ -8,13 +8,13 @@ let selectedAsActorDictionary = new Dict();
 let selectedAsWorkObjectDictionary = new Dict();
 
 export function getAppendedIconDictionary() {
+  if (allIconDictionary.length < 1) {
+    initializeAllIcons();
+  }
   let appendedDict = new Dict();
   appendedIcons.keysArray().forEach(key => {
-    appendedDict.set(key, appendedIcons.get(key));
-  });
-  appendedDict.keysArray().forEach(key => {
-    if (allIconDictionary.has(key)) {
-      appendedDict.delete(key);
+    if (!allIconDictionary.has(key)) {
+      appendedDict.set(key, appendedIcons.get(key));
     }
   });
   return appendedDict;

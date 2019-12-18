@@ -6,13 +6,14 @@ import { getIconForType } from '../../language/icon/iconDictionary';
 import { getIconset } from '../../language/icon/iconConfig';
 import { GROUP, ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { appendedIconsTag } from '../iconSetCustomization/persitence';
-import { overrideAppendedIcons, getAllStandardIconKeys } from '../../language/icon/all_Icons';
+import { overrideAppendedIcons } from '../../language/icon/all_Icons';
 import {
   initTypeDictionaries,
   getTypeDictionary
 } from '../../language/icon/dictionaries';
 import { domExists } from '../../language/testmode';
 import { Dict } from '../../language/collection';
+import { getAppendedIconDictionary } from '../iconSetCustomization/dictionaries';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
@@ -86,19 +87,26 @@ function appendCSSStyleCheat(customIcons) {
 
   let customIconDict = new Dict();
 
-  customIconDict.addEach(customIcons);
+  customIconDict.appendDict(customIcons);
   let customIconDictKeys = customIconDict.keysArray();
 
   customIconDictKeys.forEach(name => {
-    const src = customIconDict.get(name);
-    const iconStyle =
+    if (getAppendedIconDictionary().has(name)) {
+      let src = customIconDict.get(name);
+
+      const iconStyle =
       '.icon-domain-story-' +
       name.toLowerCase() +
       '::before{' +
       'content: url("' +
-      src +
-      '"); margin: 3px; height: 22px !important; width: 22px !important;}'; // TODO change style such that important is not necessarcy
-    sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
+       src +
+      '");'+
+      ' display: ;'+
+      ' margin: 3px;'+
+      ' max-height: 22px !important;'+
+      ' max-width: 22px !important;}'; // TODO change style such that important is not necessarcy
+      sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
+    }
   });
 }
 
@@ -127,9 +135,6 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   actorTypes.keysArray().forEach(actorType => {
     let name = getNameFromType(actorType);
     let icon = getIconForType(actorType);
-    if (!getAllStandardIconKeys().includes(name)) {
-      icon = wrapIconInSVG(icon);
-    }
 
     let action = [];
     action['domainStory-actor' + name] = createAction(
@@ -154,9 +159,6 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     let name = getNameFromType(workObjectType);
     let icon = getIconForType(workObjectType);
 
-    if (getAllStandardIconKeys().includes(workObjectType)) {
-      icon = wrapIconInSVG(icon);
-    }
     let action = [];
     action['domainStory-actor' + name] = createAction(
       workObjectType,
@@ -205,9 +207,4 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   });
 
   return actions;
-}
-
-function wrapIconInSVG(icon) {
-  console.log(icon);
-  return icon;
 }

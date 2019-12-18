@@ -2,8 +2,7 @@
 
 import { Dict } from '../collection';
 
-
-let icons = new Dict();
+const icons = new Dict();
 
 export function getIconDictionary() {
   return icons;

@@ -4,6 +4,7 @@ import { getNameFromType } from '../naming';
 import { registerIcon } from './iconDictionary';
 import { default_conf } from './iconConfig';
 import { Dict } from '../collection';
+import { getAppendedIconDictionary } from '../../features/iconSetCustomization/dictionaries';
 
 const prefix = 'icon-domain-story-';
 let actorIconDictionary = new Dict();
@@ -85,7 +86,7 @@ export function initTypeDictionaries(actors, workObjetcs) {
 
   let allTypes=new Dict();
   allTypes.addEach(all_icons);
-  allTypes.addEach(appendedIcons);
+  allTypes.appendDict(getAppendedIconDictionary());
 
   for (let i=0; i < actors.length; i++) {
     const key = ACTOR + actors[i];

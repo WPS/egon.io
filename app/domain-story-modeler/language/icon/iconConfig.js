@@ -8,9 +8,6 @@ import {
 import { overrideAppendedIcons, appendedIcons } from './all_Icons';
 import { getAllIconDictioary } from '../../features/iconSetCustomization/dictionaries';
 import { domExists } from '../testmode';
-import { WORKOBJECT, ACTOR } from '../elementTypes';
-import { registerIcon } from './iconDictionary';
-import { getTypeIconSRC } from './dictionaries';
 import { Dict } from '../collection';
 
 /**

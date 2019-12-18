@@ -45,7 +45,7 @@ export class Dict {
   }
 
   appendDict(dict) {
-    this.addEach(dict.entries);
+    dict.entries.forEach(entry => this.putEntry(entry));
   }
 
   clear() {
