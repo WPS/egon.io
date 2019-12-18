@@ -209,21 +209,21 @@ function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
     actorDict.keysArray().forEach(name => {
       if (childText.startsWith(name)) {
         child.children[0].children[1].checked = true;
-        createListElementInSeletionList(
+        selectedActorsList.appendChild(createListElementInSeletionList(
           name,
           getIconSource(name),
           selectedActorsList
-        );
+        ));
       }
     });
     workObjectDict.keysArray().forEach(name => {
       if (childText.startsWith(name)) {
         child.children[0].children[2].checked = true;
-        createListElementInSeletionList(
+        selectedWorkObjectList.appendChild(createListElementInSeletionList(
           name,
           getIconSource(name),
           selectedWorkObjectList
-        );
+        ));
       }
     });
   }
