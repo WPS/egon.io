@@ -116,6 +116,9 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   let customIcons = localStorage.getItem(appendedIconsTag);
   if (customIcons) {
     customIcons = JSON.parse(customIcons);
+    if (customIconsLegacy(customIcons)) {
+      customIcons = convertLegacyAppendedIconsToDict(customIcons);
+    }
     if (customIcons.entries && customIcons.entries.forEach) {
       const customIconsDict = new Dict();
       customIcons.entries.forEach(entry => {
@@ -207,4 +210,19 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   });
 
   return actions;
+}
+
+function customIconsLegacy(customIcons) {
+  if (Object.keys(customIcons).length === 1 && Object.keys(customIcons)[0] === 'entries') {
+    return false;
+  }
+  return true;
+}
+
+function convertLegacyAppendedIconsToDict(customIcons) {
+  let dict = new Dict();
+  Object.keys(customIcons).forEach(key => {
+    dict.set(key, customIcons[key]);
+  });
+  return dict;
 }
