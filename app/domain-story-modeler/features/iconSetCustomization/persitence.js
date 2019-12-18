@@ -49,11 +49,13 @@ export function exportConfiguration() {
   let workObjects = getSelectedWorkObjectsDictionary();
   let configJSONString;
 
-  if (actors.size > 0 && workObjects.size > 0) {
+  if (actors.size() > 0 && workObjects.size() > 0) {
     configJSONString = JSON.stringify(
       createConfigFromDictionaries(
         actors,
+        undefined,
         workObjects,
+        undefined,
         document.getElementById('domainNameInput').value
       )
     );
