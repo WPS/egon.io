@@ -39,9 +39,9 @@ export function registerIcons(type, elements) {
     collection = workObjectDictionary;
   }
 
-  let allTypes=new Dict();
+  let allTypes = new Dict();
   allTypes.addEach(all_icons);
-  allTypes.addEach(appendedIcons);
+  allTypes.appendDict(appendedIcons);
 
   elements.forEach(element => {
     if (!collection.has(element.type)) {
