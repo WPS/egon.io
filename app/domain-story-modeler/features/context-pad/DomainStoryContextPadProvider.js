@@ -83,7 +83,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     const allStandardIconKeys = getAllStandardIconKeys();
 
     if (element.type.includes('workObject')) {
-      if (allStandardIconKeys.has(element.type.replace(WORKOBJECT, ''))) {
+      if (allStandardIconKeys.includes(element.type.replace(WORKOBJECT, ''))) {
         addColorChange(actions);
       }
       addConnectWithActivity(actions, startConnect);
@@ -94,7 +94,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     }
 
     else if (element.type.includes('actor')) {
-      if (allStandardIconKeys.has(element.type.replace(ACTOR, ''))) {
+      if (allStandardIconKeys.includes(element.type.replace(ACTOR, ''))) {
         addColorChange(actions);
       }
       addConnectWithActivity(actions, startConnect);
