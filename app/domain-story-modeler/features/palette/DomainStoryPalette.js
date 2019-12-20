@@ -98,13 +98,11 @@ function appendCSSStyleCheat(customIcons) {
       '.icon-domain-story-' +
       name.toLowerCase() +
       '::before{' +
-      'content: url("' +
-       src +
+      ' display: block;'+
+      ' content: url("data:image/svg+xml;utf8,' +
+       wrapSRCInSVG(src) +
       '");'+
-      ' display: ;'+
-      ' margin: 3px;'+
-      ' max-height: 22px !important;'+
-      ' max-width: 22px !important;}'; // TODO change style such that important is not necessarcy
+      ' margin: 3px;}';
       sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
     }
   });
@@ -225,4 +223,12 @@ function convertLegacyAppendedIconsToDict(customIcons) {
     dict.set(key, customIcons[key]);
   });
   return dict;
+}
+
+// For some reason its important to use ' in the content for the Palette and ContextPad
+// Do not change!
+function wrapSRCInSVG(src) {
+  let svg = "<svg viewBox='0 0 22 22' width='22' height='22' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>"+
+  "<image width='22' height='22' xlink:href='"+ src+ "'/></svg>";
+  return svg;
 }
