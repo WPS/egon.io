@@ -1,0 +1,22 @@
+Issues to start (! := schwer / komplex )
+
+Story -> Partial import -> Find unused space on canvas, import shifted Elements onto import
+Story -> JSON-readable -> Add Button to toggle readableJSON -> !Backwards-compatability  ( https://dev.to/david_j_eddy/til-jsonstringify-can-do-formatted-output-1f44 )
+Story -> Als Gif-exportierbar machen
+
+Bugfix -> Mehr Kontrast für Nummer mit Hintergrund
+Bugfix -> CustomIcon skalierung in Palette
+Bugfix -> In der IconConfig ist die untere Linie der ListIcons 
+!Bugfix/Story -> Gruppen löschen sollte Kinder nicht löschen (sehr tricky -> BPMN.io macht an jeder Ecke Probleme) -> Last resort: Child-Elemente chachen und neu zeichnen -> steht momentan auf won't fix
+
+Refactoring -> HTML-Datei in Components aufteilen
+Refcatoring -> Css-Variablen global definieren
+Refactoring -> Eigene Klassen (z.B. export Object) als Klasse führen evtl.: BPMN.io Klassen nachbauen und intern führen -> Shallow sollte reichen
+Refactoring -> Feature-"Komponenten" intern neu schneiden
+!Refactoring -> Seit DiagramJS 6.0 ist die Palette während der Laufzeit updatebar => refresh mechanik ausbauen und Palette / contextMenu updaten
+!Refactoring/Story -> Nachdem refresh mechanik ausgebaut wurde kann das Chaching in persitence für autosaves im Browser genutzt werden
+
+Task -> Testing Schema erstellen
+Task -> Deployment Script erstellen
+Task -> Entwicklungsscript erstellen
+!Task -> Modeler Safari-tauglich machen -> BPMN.io und DiagramJS haben so wie wir sie nutzen Probleme in Safari

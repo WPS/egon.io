@@ -30,7 +30,7 @@ export class Dict {
 
   putEntry(entry) {
     if (!this.has(entry.key)) {
-      this.entries.push(entry);
+      this.entries.push(new Entry(entry.value, entry.key));
     }
   }
 
