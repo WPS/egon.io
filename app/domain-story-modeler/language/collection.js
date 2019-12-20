@@ -52,8 +52,8 @@ export class Dict {
     this.entries = [];
   }
 
-  delete(name) {
-    this.entries = this.entries.filter(entry => entry.name !== name);
+  delete(key) {
+    this.entries = this.entries.filter(entry => entry.key !== key);
   }
 
   get(key) {
@@ -62,7 +62,7 @@ export class Dict {
   }
 }
 
-class Entry {
+export class Entry {
   constructor(value, key) {
     this.value = value;
     this.key = key;

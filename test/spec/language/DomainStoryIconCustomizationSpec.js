@@ -70,8 +70,8 @@ describe('domainStory customIconConfig', function() {
       expect(actors).to.include('Pet');
       expect(workObjects).to.include('Store');
 
-      expect(appendIconDictionary.has('Pet')).to.be.true;
-      expect(appendIconDictionary.has('Store')).to.be.true;
+      expect(appendIconDictionary.has('Pet'));
+      expect(appendIconDictionary.has('Store'));
 
       expect(iconPet).not.null;
       expect(iconStore).not.null;
