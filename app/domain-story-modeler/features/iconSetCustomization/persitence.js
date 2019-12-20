@@ -359,6 +359,6 @@ function persistNecessaryConfig() {
   localStorage.setItem(customConfigTag, JSON.stringify(config));
   localStorage.setItem(
     appendedIconsTag,
-    JSON.stringify(getAppendedIconDictionary().entries)
+    JSON.stringify(getAppendedIconDictionary())
   );
 }
