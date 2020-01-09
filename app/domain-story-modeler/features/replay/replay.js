@@ -9,6 +9,7 @@ import {
 import { traceActivities } from './initializeReplay';
 
 let canvas;
+let selection;
 
 let replayOn = false;
 let currentStep = 0;
@@ -29,15 +30,19 @@ export function getReplayOn() {
   return replayOn;
 }
 
-export function initReplay(inCanvas) {
+export function initReplay(inCanvas, inSelection) {
   canvas = inCanvas;
+  selection = inSelection;
+  console.log(selection);
 
   document.addEventListener('keydown', function(e) {
     if (replayOn) {
       if (e.keyCode == 37 || e.keyCode == 40) {
+
         // leftArrow or downArrow
         previousStep();
       } else if (e.keyCode == 39 || e.keyCode == 38) {
+
         // rightArrow or UpArrow
         nextStep();
       }
@@ -181,6 +186,7 @@ export function getAllShown(stepsUntilNow) {
 
   // for each step until the current one, add all referenced elements to the list of shown elements
   stepsUntilNow.forEach(step => {
+
     // add the source of the step and their annotations to the shown elements
     shownElements.push(step.source);
     if (step.source.outgoing) {
@@ -236,26 +242,29 @@ export function getAllNotShown(allObjects, shownElements) {
 
 // replay functions
 function presentationMode() {
-  let contextPadElements = document.getElementsByClassName('djs-context-pad');
-  let paletteElements = document.getElementsByClassName('djs-palette');
 
-  let infoContainer = document.getElementById('infoContainer');
+  removeSelectionAndEditing();
+
+  const contextPadElements = document.getElementsByClassName('djs-context-pad');
+  const paletteElements = document.getElementsByClassName('djs-palette');
+
+  const infoContainer = document.getElementById('infoContainer');
   infoContainer.style.display = 'none';
 
-  let editModeButtons = document.getElementById('editModeButtons');
+  const editModeButtons = document.getElementById('editModeButtons');
   editModeButtons.style.display = 'none';
   editModeButtons.style.pointerEvents = 'none';
 
-  let presentationModeButtons = document.getElementById(
+  const presentationModeButtons = document.getElementById(
     'presentationModeButtons'
   );
   presentationModeButtons.style.display = 'block';
   presentationModeButtons.style.pointerEvents = 'all';
 
-  let headerAndCanvas = document.getElementsByClassName('headerAndCanvas')[0];
+  const headerAndCanvas = document.getElementsByClassName('headerAndCanvas')[0];
   headerAndCanvas.style.gridTemplateRows = '0px 50px 1px auto';
 
-  let headlineAndButtons = document.getElementById('headlineAndButtons');
+  const headlineAndButtons = document.getElementById('headlineAndButtons');
   headlineAndButtons.style.gridTemplateColumns = 'auto 230px 3px';
 
   let i = 0;
@@ -268,6 +277,16 @@ function presentationMode() {
   }
 
   currentReplayStepLabel.style.opacity = 1;
+}
+
+function removeSelectionAndEditing() {
+  selection.select([]);
+  const directEditingBoxes = document.getElementsByClassName('djs-direct-editing-parent');
+
+  if (directEditingBoxes.length > 0) {
+    const directEditing = directEditingBoxes[0];
+    directEditing.parentElement.removeChild(directEditing);
+  }
 }
 
 function editMode() {
