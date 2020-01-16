@@ -4,6 +4,7 @@ import { labelPosition } from '../../../../app/domain-story-modeler/features/lab
 describe('numbering', function() {
 
   it('numberBoxDefinitions', function() {
+
     // Given
     const element = {
       waypoints: [{
@@ -26,6 +27,7 @@ describe('numbering', function() {
     };
 
     const position = labelPosition(element.waypoints);
+
     // When
 
     const box = numberBoxDefinitions(element);

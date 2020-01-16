@@ -3,6 +3,7 @@ import { registerIcon, getIconForType, getIconDictionaryKeys } from '../../../..
 describe('iconDictionary', function() {
 
   it('can register Icon', function() {
+
     // Given
     const iconName = 'testName';
     const src = 'testSource';

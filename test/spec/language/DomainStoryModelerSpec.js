@@ -346,11 +346,13 @@ describe('domainStory modeler', function() {
             throw new TypeError('"this" is null or not defined');
           }
           const o = Object(this);
+          // eslint-disable-next-line no-bitwise
           const len = o.length >>> 0;
 
           if (len === 0) {
             return false;
           }
+          // eslint-disable-next-line no-bitwise
           const n = fromIndex | 0;
           let k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
 

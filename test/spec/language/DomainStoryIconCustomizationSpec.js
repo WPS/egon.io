@@ -30,6 +30,7 @@ describe('domainStory customIconConfig', function() {
   describe('append custom Icon to Dictionary', function() {
 
     it('custom Icon is in appended dictionary', function() {
+
       // given
       const name = 'customIcon';
 
@@ -49,6 +50,7 @@ describe('domainStory customIconConfig', function() {
   describe('custom Icon Config', function() {
 
     it ('loads custom icons into Iconset and Dictionary', function() {
+
       // given
       const presetIconConfigJSON = JSON.stringify(presetIconConfig);
 

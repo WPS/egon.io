@@ -44,6 +44,7 @@ export function downloadPNG() {
   let image = document.createElement('img');
   image.onload = function() {
     let tempCanvas = document.createElement('canvas');
+
     // add a 10px buffer to the right and lower boundary
     tempCanvas.width = width + 10;
     tempCanvas.height = height + 10;
@@ -156,10 +157,12 @@ function URIHashtagFix(svg) {
   if (name.includes('Chrome')) {
     if (version >= 72) {
       fix = true;
+
       // https://www.chromestatus.com/features/5656049583390720
     }
   } else if (name.includes('Firefox')) {
     fix = true;
+
     // versionNumber of implementation unknown
   }
   if (fix) {

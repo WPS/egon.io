@@ -15,6 +15,7 @@ export function traceActivities(activitiesFromActors) {
   });
 
   let allSteps = [];
+
   // create a step for each activity with a number
   for (let i = 0; i < tracedActivityMap.keysArray().length; i++) {
     let traceStep = createStep(tracedActivityMap.get(i));
@@ -46,6 +47,7 @@ export function createStep(tracedActivity) {
             !checkTarget.businessObject.type.includes('actor') &&
             checkTarget.outgoing
         ) {
+
           // check the target for each outgoing activity
           checkTarget.outgoing.forEach(activity => {
             activities.push(activity);

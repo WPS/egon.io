@@ -30,6 +30,7 @@ export function setEncoded(data) {
 }
 
 function createSVGData() {
+
   // to ensure that the title and description are inside the SVG container and do not overlapp with any elements,
   // we change the confines of the SVG viewbox
   let descriptionText = infoText.innerHTML;
@@ -52,6 +53,7 @@ function createSVGData() {
     xRight += 300;
     width += 300;
   }
+
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
   let { insertText, extraHeight } = createTitleAndDescriptionSVGElement(
     titleText,

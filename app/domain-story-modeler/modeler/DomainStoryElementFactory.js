@@ -11,6 +11,7 @@ import BpmnElementFactory from 'bpmn-js/lib/features/modeling/ElementFactory';
 import { DEFAULT_LABEL_SIZE } from 'bpmn-js/lib/util/LabelUtil';
 
 import DomainStoryIdFactory from './DomainStoryIdFactory';
+
 /**
  * A custom factory that knows how to create BPMN _and_ custom elements.
  */
@@ -75,6 +76,7 @@ export default function DomainStoryElementFactory(bpmnFactory, moddle) {
       }
 
       if (!('$instanceOf' in attrs.businessObject)) {
+
         // ensure we can use ModelUtil#is for type checks
         Object.defineProperty(attrs.businessObject, '$instanceOf', {
           value: function(type) {

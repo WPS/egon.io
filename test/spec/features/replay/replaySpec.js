@@ -10,6 +10,7 @@ import { createStep, traceActivities } from '../../../../app/domain-story-modele
 
 describe('replay', function() {
   it('isStoryConsecutivelyNumbered true', function() {
+
     // Given
     const replaySteps = [
       { activities: [1] },
@@ -29,6 +30,7 @@ describe('replay', function() {
   });
 
   it('isStoryConsecutivelyNumbered false', function() {
+
     // Given
     const replaySteps = [
       { activities: [' '] },
@@ -48,6 +50,7 @@ describe('replay', function() {
   });
 
   it('createStep', function() {
+
     // fix test
     // Given
     const activityTrace = [
@@ -72,6 +75,7 @@ describe('replay', function() {
         }
       }
     ];
+
     // When
 
     const step = createStep(activityTrace);
@@ -87,6 +91,7 @@ describe('replay', function() {
   });
 
   it('traceActivities', function() {
+
     // Given
 
     const tracedActivity1 = {

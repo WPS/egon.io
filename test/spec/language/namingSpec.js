@@ -3,6 +3,7 @@ import { ACTOR, WORKOBJECT } from '../../../app/domain-story-modeler/language/el
 
 describe('naming.js', function() {
   it('StandardType ACTOR', function() {
+
     // When
     const name = getNameFromType(ACTOR + 'test');
 
@@ -11,6 +12,7 @@ describe('naming.js', function() {
   });
 
   it('StandardType WORKOBJECT', function() {
+
     // When
     const name = getNameFromType(WORKOBJECT + 'test');
 
@@ -19,6 +21,7 @@ describe('naming.js', function() {
   });
 
   it('NotStandardType', function() {
+
     // When
     const name = getNameFromType('');
 
