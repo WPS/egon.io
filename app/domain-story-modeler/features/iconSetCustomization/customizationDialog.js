@@ -125,14 +125,10 @@ function updateSelectedWorkObjectsAndActors(
   const iconSRC = getIconSource(currentSelectionName);
 
   deleteFromSelectedWorkObjectDictionary(currentSelectionName);
-  if (deleteFromSelectedActorDictionary(currentSelectionName)) {
-    if (updateHTML) {
-      removeListEntry(currentSelectionName, selectedActorsList);
-    }
-  } else {
-    if (updateHTML) {
-      removeListEntry(currentSelectionName, selectedWorkObjectList);
-    }
+  deleteFromSelectedActorDictionary(currentSelectionName);
+  if (updateHTML) {
+    removeListEntry(currentSelectionName, selectedActorsList);
+    removeListEntry(currentSelectionName, selectedWorkObjectList);
   }
 
   if (addToActors) {
