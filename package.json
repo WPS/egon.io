@@ -12,7 +12,9 @@
     "test": "karma start",
     "bundle": "grunt build",
     "dev": "grunt auto-build",
-    "all": "run-s lint test bundle"
+    "all": "run-s lint test bundle",
+    "electron": "electron dist/index.html",
+    "start": "run-s bundle electron"
   },
   "keywords": [
     "domain storytelling",
@@ -38,6 +40,7 @@
     "babelify": "^10.0.0",
     "browserify": "^16.5.0",
     "chai": "^4.2.0",
+    "electron": "^7.1.10",
     "eslint": "^6.6.0",
     "eslint-plugin-bpmn-io": "^0.10.0",
     "grunt": "^1.0.4",
@@ -80,7 +83,15 @@
     "vanilla-picker": "^2.10.0"
   },
   "browserify": {
-    "transform": [["babelify", { "presets": ["@babel/preset-env"] }]]
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "@babel/preset-env"
+          ]
+        }
+      ]
+    ]
   }
-
 }
