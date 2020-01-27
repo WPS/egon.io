@@ -87,7 +87,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
         {},
         textRenderer.getExternalStyle(),
         {
-          fill: 'black',
+          fill: 'white',
           backgroundColor: 'green',
           position: 'absolute'
         }
