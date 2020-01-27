@@ -33,7 +33,6 @@ export function getReplayOn() {
 export function initReplay(inCanvas, inSelection) {
   canvas = inCanvas;
   selection = inSelection;
-  console.log(selection);
 
   document.addEventListener('keydown', function(e) {
     if (replayOn) {

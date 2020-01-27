@@ -42,7 +42,7 @@ const actorListOptions = {
     name: 'actorIconList',
     put: ['actorIconList', 'workObjectIconList']
   },
-  sort: 'true',
+  sort: 'false',
   onEnd: function(event) {
     dropElement(event);
   }
@@ -53,7 +53,7 @@ const workObjectListOptions = {
     name: 'workObjectIconList',
     put: ['actorIconList', 'workObjectIconList']
   },
-  sort: 'true',
+  sort: 'false',
   onEnd: function(event) {
     dropElement(event);
   }
