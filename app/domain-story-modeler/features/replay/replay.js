@@ -355,9 +355,10 @@ function showCurrentStep() {
     );
     domObject.style.display = 'block';
   });
-  if (currentStepNotInView()) {
-    focusOnActiveActivity();
-  }
+
+  // if (currentStepNotInView()) {
+  //   focusOnActiveActivity();
+  // }
 }
 
 function currentStepNotInView() {

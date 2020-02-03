@@ -15,6 +15,7 @@ import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { domExists } from '../../language/testmode';
 import { isInTypeDictionary } from '../../language/icon/dictionaries';
 import { customConfigTag } from './persitence';
+import { default_conf } from '../../language/icon/iconConfig';
 
 let htmlList = document.getElementById('allIconsList');
 let selectedActorsList = document.getElementById('selectedActorsList');
@@ -123,7 +124,6 @@ function updateSelectedWorkObjectsAndActors(
     'customIconConfigSaveButton'
   );
   const iconSRC = getIconSource(currentSelectionName);
-
   deleteFromSelectedWorkObjectDictionary(currentSelectionName);
   deleteFromSelectedActorDictionary(currentSelectionName);
   if (updateHTML) {
@@ -253,9 +253,11 @@ export function createListOfAllIcons() {
       selectedWorkObjectList.appendChild(ele);
     });
   } else {
+    actorListArray = sortAfterDefaultConfig(default_conf.actors, actorListArray);
     actorListArray.forEach(actor => {
       selectedActorsList.appendChild(actor);
     });
+    workObjectListArray = sortAfterDefaultConfig(default_conf.workObjects, workObjectListArray);
     workObjectListArray.forEach(workobject => {
       selectedWorkObjectList.appendChild(workobject);
     });
@@ -426,4 +428,17 @@ export function createListElementInSeletionList(name, src, list) {
     return listElement;
   }
   return null;
+}
+
+// this function puts an array in the order given by another array
+export function sortAfterDefaultConfig(configArray, arrayToSort) {
+  const orderedArray = [];
+  configArray.forEach(element => {
+    arrayToSort.forEach(entry => {
+      if (entry.innerText === element) {
+        orderedArray.push(entry);
+      }
+    });
+  });
+  return orderedArray;
 }
