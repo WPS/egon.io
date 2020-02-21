@@ -101,39 +101,23 @@ export function saveIconConfiguration(elements) {
   let workObjects = getSelectedWorkObjectsDictionary();
   let actorOrder = [], workobjectOrder = [];
   let selectedActorsList = document.getElementById('selectedActorsList');
-  let selectedWorkObjectList = document.getElementById(
-    'selectedWorkObjectsList'
-  );
   let domainNameInput = document.getElementById('domainNameInput');
   let name = '';
 
   if (selectedActorsList) {
-
-    let actorsListNames = selectedActorsList.getElementsByTagName('text');
-    let workObjectListNames = selectedWorkObjectList.getElementsByTagName('text');
-
-    for (let i=0; i<actorsListNames.length; i++) {
-      name = actorsListNames[i].outerText?
-        actorsListNames[i].outerText : actorsListNames[i].innerText;
-      actorOrder.push(name);
-    }
-
-    for (let i=0; i<workObjectListNames.length; i++) {
-      name = workObjectListNames[i].outerText?
-        workObjectListNames[i].outerText : workObjectListNames[i].innerText;
-      workobjectOrder.push(name);
-    }
-
     if (!actors.size > 0) {
       actors = getTypeDictionary(ACTOR);
+    } else {
+      actors.entries.forEach(entry => actorOrder.push(entry.key));
     }
     if (!workObjects.size > 0) {
       workObjects = getTypeDictionary(WORKOBJECT);
+    } else {
+      workObjects.entries.forEach(entry => workobjectOrder.push(entry.key));
     }
     if (domainNameInput) {
       name = domainNameInput.value;
     }
-
   }
 
   let configJSONString = JSON.stringify(
@@ -157,7 +141,6 @@ export function saveIconConfiguration(elements) {
 export function loadConfiguration(customConfig) {
   let actorDict = new Dict();
   let workObjectDict = new Dict();
-
   let customConfigJSON = JSON.parse(customConfig);
 
   const configurationName = customConfigJSON.name;
@@ -204,12 +187,11 @@ function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
     htmlList.appendChild(listElement);
   });
 
-  for (let i = 0; i < htmlList.children.length; i++) {
-    let child = htmlList.children[i];
-    let childText = child.innerText;
+  actorDict.keysArray().forEach(name => {
+    for (let i = 0; i < htmlList.children.length; i++) {
+      let child = htmlList.children[i];
 
-    actorDict.keysArray().forEach(name => {
-      if (childText.startsWith(name)) {
+      if (child.innerText.startsWith(name)) {
         child.children[0].children[1].checked = true;
         selectedActorsList.appendChild(createListElementInSeletionList(
           name,
@@ -217,9 +199,14 @@ function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
           selectedActorsList
         ));
       }
-    });
-    workObjectDict.keysArray().forEach(name => {
-      if (childText.startsWith(name)) {
+    }
+  });
+
+  workObjectDict.keysArray().forEach(name => {
+    for (let i = 0; i < htmlList.children.length; i++) {
+      let child = htmlList.children[i];
+
+      if (child.innerText.startsWith(name)) {
         child.children[0].children[2].checked = true;
         selectedWorkObjectList.appendChild(createListElementInSeletionList(
           name,
@@ -227,8 +214,8 @@ function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
           selectedWorkObjectList
         ));
       }
-    });
-  }
+    }
+  });
 }
 
 export function createConfigFromDictionaries(

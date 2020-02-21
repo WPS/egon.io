@@ -9,7 +9,9 @@ import {
   addToSelectedActors,
   addToSelectedWorkObjects,
   selectedDitionariesAreNotEmpty,
-  getAppendedIconDictionary
+  getAppendedIconDictionary,
+  emptySelectedActorsDictionary,
+  emptySelectedWorkObjectsDictionary
 } from './dictionaries';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { domExists } from '../../language/testmode';
@@ -43,7 +45,7 @@ const actorListOptions = {
     name: 'actorIconList',
     put: ['actorIconList', 'workObjectIconList']
   },
-  sort: 'true',
+  sort: 'false',
   onEnd: function(event) {
     dropElement(event);
   }
@@ -54,7 +56,7 @@ const workObjectListOptions = {
     name: 'workObjectIconList',
     put: ['actorIconList', 'workObjectIconList']
   },
-  sort: 'true',
+  sort: 'false',
   onEnd: function(event) {
     dropElement(event);
   }
@@ -93,6 +95,36 @@ function dropElement(event) {
       addToWorkObjects,
       false
     );
+  } else {
+    let updateActors, updateWorkObjects;
+    if (target == selectedActorsList) {
+      updateActors = true;
+      updateWorkObjects = false;
+    } else {
+      updateActors = false;
+      updateWorkObjects = true;
+    }
+    updateDictionaryOrder(updateActors, updateWorkObjects);
+  }
+}
+
+function updateDictionaryOrder(updateActors, updateWorkObjects) {
+  if (updateActors) {
+    emptySelectedActorsDictionary();
+    const actorListElements = selectedActorsList.getElementsByTagName('li');
+
+    let element;
+    for (element of actorListElements) {
+      addToSelectedActors(element.innerText, getIconSource(element.innerText));
+    }
+  } else if (updateWorkObjects) {
+    emptySelectedWorkObjectsDictionary();
+    const workObjectListElements = selectedWorkObjectList.getElementsByTagName('li');
+
+    let element;
+    for (element of workObjectListElements) {
+      addToSelectedWorkObjects(element.innerText, getIconSource(element.innerText));
+    }
   }
 }
 
@@ -431,7 +463,7 @@ export function createListElementInSeletionList(name, src, list) {
 }
 
 // this function puts an array in the order given by another array
-export function sortAfterDefaultConfig(configArray, arrayToSort) {
+function sortAfterDefaultConfig(configArray, arrayToSort) {
   const orderedArray = [];
   configArray.forEach(element => {
     arrayToSort.forEach(entry => {

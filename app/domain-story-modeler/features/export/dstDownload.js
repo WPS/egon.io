@@ -2,19 +2,20 @@
 
 import { ACTIVITY, TEXTANNOTATION, ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { getAllCanvasObjects, getAllGroups } from '../../language/canvasElementRegistry';
-import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary } from '../iconSetCustomization/dictionaries';
 import { createConfigFromDictionaries } from '../iconSetCustomization/persitence';
 import { removeDirtyFlag } from './dirtyFlag';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
 import { sanitizeForDesktop } from '../../util/Sanitizer';
+import { getIconset } from '../../language/icon/iconConfig';
 
 let infoText = document.getElementById('infoText');
 
 export function downloadDST(filename, text) {
 
-  let actors = getSelectedActorsDictionary();
-  let workObjects = getSelectedWorkObjectsDictionary();
   let configJSONString = {};
+  const iconConfig = getIconset();
+  let actors = iconConfig.actors;
+  let workObjects = iconConfig.workObjects;
 
   if (!actors.size>0) {
     actors = getTypeDictionary(ACTOR);

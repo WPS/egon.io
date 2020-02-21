@@ -272,8 +272,8 @@ export function configHasChanged(config) {
 
   for (let i = 0; i < newActorKeys.length; i++) {
     if (
-      !currentActorKeys.includes(newActorKeys[i]) &&
-      !currentActorKeys.includes(ACTOR + newActorKeys[i])
+      currentActorKeys[i] != newActorKeys[i] &&
+      currentActorKeys[i] != (ACTOR + newActorKeys[i])
     ) {
       changed = true;
       i = newActorKeys.length;
@@ -282,8 +282,8 @@ export function configHasChanged(config) {
   if (!changed) {
     for (let i = 0; i < newWorkObjectKeys.length; i++) {
       if (
-        !currentWorkobjectKeys.includes(newWorkObjectKeys[i]) &&
-        !currentWorkobjectKeys.includes(WORKOBJECT + newWorkObjectKeys[i])
+        currentWorkobjectKeys[i] != newWorkObjectKeys[i] &&
+        currentWorkobjectKeys[i] != (WORKOBJECT + newWorkObjectKeys[i])
       ) {
         changed = true;
         i = newWorkObjectKeys.length;

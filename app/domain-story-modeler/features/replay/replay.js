@@ -361,6 +361,7 @@ function showCurrentStep() {
   // }
 }
 
+/*
 function currentStepNotInView() {
   const currentViewbox = canvas.viewbox();
 
@@ -429,3 +430,4 @@ function focusOnActiveActivity() {
 
   canvas.viewbox(stepViewbox);
 }
+*/

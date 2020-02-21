@@ -71,3 +71,11 @@ export function resetSelectionDictionaries() {
   selectedAsActorDictionary.clear();
   selectedAsWorkObjectDictionary.clear();
 }
+
+export function emptySelectedActorsDictionary() {
+  selectedAsActorDictionary.clear();
+}
+
+export function emptySelectedWorkObjectsDictionary() {
+  selectedAsWorkObjectDictionary.clear();
+}
