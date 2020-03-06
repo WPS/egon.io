@@ -223,12 +223,13 @@ export function getAllShown(stepsUntilNow) {
 function removeHighlights() {
   const allActivities = getAllActivities();
 
-  allActivities.forEach(canvasObject => {
-    const domObject = document.querySelector(
-      '[data-element-id=' + canvasObject.id + ']'
+  allActivities.forEach(activity => {
+    const activityDomObject = document.querySelector(
+      '[data-element-id=' + activity.id + ']'
     ).getElementsByTagName('polyline')[0];
 
-    domObject.style.strokeWidth = 1.5;
+    activityDomObject.style.stroke = activity.businessObject.pickedColor || 'black';
+    activityDomObject.style.strokeWidth = 1.5;
 
   });
 
@@ -249,11 +250,14 @@ function removeHighlights() {
 }
 
 function hightlightStep(step) {
+  const highlightColour = '#42aebb';
+
   step.activities.forEach(activity => {
     const activityDomObject = document.querySelector(
       '[data-element-id=' + activity.id + ']'
     ).getElementsByTagName('polyline')[0];
 
+    activityDomObject.style.stroke = highlightColour;
     activityDomObject.style.strokeWidth = 3;
   });
 
@@ -261,14 +265,14 @@ function hightlightStep(step) {
     '[data-element-id=' + step.source.id + ']'
   ).getElementsByTagName('svg')[0];
 
-  sourceDomObject.style.stroke = 'black';
+  sourceDomObject.style.stroke = highlightColour;
 
   step.targets.forEach(target => {
     const targetDomObject = document.querySelector(
       '[data-element-id=' + target.id + ']'
     ).getElementsByTagName('svg')[0];
 
-    targetDomObject.style.stroke = 'black';
+    targetDomObject.style.stroke = highlightColour;
   });
 }
 
