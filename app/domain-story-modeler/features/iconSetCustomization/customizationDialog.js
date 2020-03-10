@@ -11,7 +11,9 @@ import {
   selectedDitionariesAreNotEmpty,
   getAppendedIconDictionary,
   emptySelectedActorsDictionary,
-  emptySelectedWorkObjectsDictionary
+  emptySelectedWorkObjectsDictionary,
+  getSelectedActorsDictionary,
+  getSelectedWorkObjectsDictionary
 } from './dictionaries';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { domExists } from '../../language/testmode';
@@ -117,6 +119,7 @@ function updateDictionaryOrder(updateActors, updateWorkObjects) {
     for (element of actorListElements) {
       addToSelectedActors(element.innerText, getIconSource(element.innerText));
     }
+
   } else if (updateWorkObjects) {
     emptySelectedWorkObjectsDictionary();
     const workObjectListElements = selectedWorkObjectList.getElementsByTagName('li');
@@ -144,10 +147,10 @@ function removeListEntry(name, list) {
 }
 
 function updateSelectedWorkObjectsAndActors(
-    currentSelectionName,
-    addToActors,
-    addToWorkObjects,
-    updateHTML
+  currentSelectionName,
+  addToActors,
+  addToWorkObjects,
+  updateHTML
 ) {
   const exportConfigurationButton = document.getElementById(
     'exportConfigurationButton'
@@ -261,10 +264,23 @@ export function createListOfAllIcons() {
     }
   });
   const customConfig = JSON.parse(localStorage.getItem(customConfigTag));
-  if (customConfig) {
+
+  // Wenn eine config vorhanden ist, in der auch Elemente (also actors oder work objects) vorhanden sind, dann lade diese. Ansonsten nimm default-Werte.
+  if (customConfig &&
+    (
+      customConfig.actors && Object.keys(customConfig.actors).length !== 0 ||
+      customConfig.workObjects && Object.keys(customConfig.workObjects).length !== 0
+    )) {
 
     const orderedActorsList = Object.keys(customConfig.actors);
     const orderedWorkobjectList = Object.keys(customConfig.workObjects);
+
+    // Actors und WorkObjects raussuchen und UI Elemente (Icon-Liste) erstellen
+    orderedActorsList.forEach(a => addToSelectedActors(a, customConfig.actors[a]));
+    createSelectedActionsIconList();
+
+    orderedWorkobjectList.forEach(w => addToSelectedWorkObjects(w, customConfig.workObjects[w]));
+    createSelectedWorkObjectsIconList();
 
     orderedActorsList.forEach(actorKey => {
       selectedActorsList.appendChild(
@@ -284,16 +300,44 @@ export function createListOfAllIcons() {
     workObjectListArray.filter(element => !orderedWorkobjectList.includes(element.getElementsByTagName('text')[0].innerText)).forEach(ele => {
       selectedWorkObjectList.appendChild(ele);
     });
-  } else {
+  } else { // Standard-Actors und -WorkObjects nehmen und UI Elemente (Icon-Liste) erstellen
+    default_conf.actors.forEach(a => addToSelectedActors(a, getAllIconDictioary().get(a)));
+    createSelectedActionsIconList(); // befüllt actorListArray
+
+    default_conf.workObjects.forEach(w => addToSelectedWorkObjects(w, getAllIconDictioary().get(w)));
+    createSelectedWorkObjectsIconList(); // befüllt workObjectListArray
+
     actorListArray = sortAfterDefaultConfig(default_conf.actors, actorListArray);
+    workObjectListArray = sortAfterDefaultConfig(default_conf.workObjects, workObjectListArray);
+
     actorListArray.forEach(actor => {
       selectedActorsList.appendChild(actor);
     });
-    workObjectListArray = sortAfterDefaultConfig(default_conf.workObjects, workObjectListArray);
+
     workObjectListArray.forEach(workobject => {
       selectedWorkObjectList.appendChild(workobject);
     });
   }
+}
+
+function createSelectedActionsIconList() {
+  getSelectedActorsDictionary().entries.forEach(e => {
+    actorListArray.push(createListElementInSeletionList(
+      e.key,
+      getIconSource(e.key),
+      selectedActorsList
+    ));
+  });
+}
+
+function createSelectedWorkObjectsIconList() {
+  getSelectedWorkObjectsDictionary().entries.forEach(e => {
+    workObjectListArray.push(createListElementInSeletionList(
+      e.key,
+      getIconSource(e.key),
+      selectedWorkObjectList
+    ));
+  });
 }
 
 function clearAllElementList() {
@@ -363,20 +407,8 @@ export function createListElement(name, greyBackground) {
 
   if (isInTypeDictionary(ACTOR, ACTOR + name)) {
     inputRadioActor.checked = true;
-    actorListArray.push(createListElementInSeletionList(
-      name,
-      getIconSource(name),
-      selectedActorsList
-    ));
-    addToSelectedActors(name, getIconSource(name));
   } else if (isInTypeDictionary(WORKOBJECT, WORKOBJECT + name)) {
     inputRadioWorkObject.checked = true;
-    workObjectListArray.push(createListElementInSeletionList(
-      name,
-      getIconSource(name),
-      selectedWorkObjectList
-    ));
-    addToSelectedWorkObjects(name, getIconSource(name));
   } else {
     inputRadioNone.checked = true;
   }
