@@ -147,10 +147,10 @@ function removeListEntry(name, list) {
 }
 
 function updateSelectedWorkObjectsAndActors(
-  currentSelectionName,
-  addToActors,
-  addToWorkObjects,
-  updateHTML
+    currentSelectionName,
+    addToActors,
+    addToWorkObjects,
+    updateHTML
 ) {
   const exportConfigurationButton = document.getElementById(
     'exportConfigurationButton'
