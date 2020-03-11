@@ -450,6 +450,8 @@ input {
   min-height: 100%;
   margin-top: 0px;
   margin-bottom: 0px;
+  list-style-type: none;
+  padding-left: 20px;
 }
 
 #selectedWorkObjectsContainer {
@@ -464,6 +466,25 @@ input {
   min-height: 100%;
   margin-top: 0px;
   margin-bottom: 0px;
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+#selectedWorkObjectsList li,
+#selectedActorsList li {
+  padding: 3px 0px 3px 10px;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#selectedWorkObjectsList li:hover,
+#selectedActorsList li:hover {
+  padding-left: -10px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 
 #bottomButtonRow {
