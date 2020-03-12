@@ -18,7 +18,7 @@ export function traceActivities(activitiesFromActors) {
 
   // create a step for each activity with a number
   for (let i = 0; i < tracedActivityMap.keysArray().length; i++) {
-    let traceStep = createStep(tracedActivityMap.get(i));
+    let traceStep = createStep(tracedActivityMap.get(i) || []);
 
     allSteps.push(traceStep);
   }
