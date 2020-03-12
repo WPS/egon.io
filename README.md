@@ -33,7 +33,13 @@ Use ctrl+enter or alt+enter to add line breaks to the description.
 
 #### Context Menu
 
-If you drop an icon from the palette into the canvas you will see a context menu. To show the connection between two icons use the arrow. Also you can choose the next icon you want to connect to. If you choose one, it will automatically be connected. Delete the chosen icon by clicking on delete. You can click on the wrench to change the icon. By using the annotation icon, you can add comments for further information.
+If you drop an icon from the palette into the canvas you will see a context menu. To show the connection between two icons use the arrow. Also you can choose the next icon you want to connect to. If you choose one, it will automatically be connected.
+
+There are some options for any activity or work object:
+* bin icon: Delete the chosen icon by clicking on the bin icon
+* wrench icon: change to another the icon
+* annotation icon: to add comments for further information
+* color-palette icon: change the color of the activity/work object
 
 #### Naming Actors and Work Objects
 
@@ -42,6 +48,8 @@ Double click on an actor's or work object's icon to edit the name. To rename mul
 #### Naming and Numbering of Activities
 
 Activities are depicted as arrows. Double click on an arrow to edit the activity's name. If you model an activity between an actor (person, people and system) and a workobject (folder, call, email, conversation, information) it will be numbered automatically. By double clicking on the arrow or the number you can manually change the number. All other numbers are adjusted automatically.
+
+You can also make multiple steps simultaneously by checking the "multiple" checkbox and setting the number to an exsiting one. These steps are shown at once in the replay mode.
 
 #### Save and Export Domain Stories
 
@@ -60,7 +68,7 @@ Click on ![Keyboard Button](/images/keyboard.png) to display all available keybo
 
 If you use the modeler in an organization, we recommend that you and your colleagues agree on an icon set that fits to your domain. You can configure the palette accordingly and share that configuration:
 
-Click on ![Gear Button](/images/gear.png) to open the icon configuration. Configure your icon set by naming it and selecting which icons should be used as actors or as work objects. You can export yor configuration as .domain file. To switch between configurations, import a different .domain file.
+Click on ![Gear Button](/images/gear.png) to open the icon configuration. Configure your icon set by naming it, selecting which icons should be used as actors or as work objects and sorting these icons. You can export yor configuration as .domain file. To switch between configurations, import a different .domain file.
 
 If you import a Domain Story from a .dst file, your icon configuration will change automatically to the one with which the Domain Story was created - even if you do not have the corresponding .domain file.
 
