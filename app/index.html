@@ -326,6 +326,23 @@
     </div>
   </div>
 
+  <script>
+    // Set to the same value as the web property used on the site
+    var gaProperty = 'UA-113573407-4';
+
+    // Disable tracking if the opt-out cookie exists.
+    var disableStr = 'ga-disable-' + gaProperty;
+    if (document.cookie.indexOf(disableStr + '=true') > -1) {
+      window[disableStr] = true;
+    }
+
+    // Opt-out function
+    function gaOptout() {
+      document.cookie = disableStr + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
+      window[disableStr] = true;
+      alert('Das Tracking durch Google Analytics wurde in Ihrem Browser für diese Website deaktiviert.');
+    }
+  </script>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113573407-4"></script>
   <script>
