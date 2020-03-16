@@ -1,19 +1,20 @@
 'use strict';
 
 import { all_icons, appendedIcons } from '../../language/icon/all_Icons';
+import { Dict } from '../../language/collection';
 
-
-const CanvasObjectTypes = require('collections/dict');
-let allIconDictionary= new CanvasObjectTypes();
-let selectedAsActorDictionary = new CanvasObjectTypes();
-let selectedAsWorkObjectDictionary = new CanvasObjectTypes();
+let allIconDictionary= new Dict();
+let selectedAsActorDictionary = new Dict();
+let selectedAsWorkObjectDictionary = new Dict();
 
 export function getAppendedIconDictionary() {
-  let appendedDict = new CanvasObjectTypes();
-  appendedDict.addEach(appendedIcons);
-  appendedDict.keysArray().forEach(name => {
-    if (allIconDictionary.has(name)) {
-      appendedDict.delete(name);
+  if (allIconDictionary.length < 1) {
+    initializeAllIcons();
+  }
+  let appendedDict = new Dict();
+  appendedIcons.keysArray().forEach(key => {
+    if (!allIconDictionary.has(key)) {
+      appendedDict.set(key, appendedIcons.get(key));
     }
   });
   return appendedDict;
@@ -26,12 +27,10 @@ export function initializeAllIcons() {
 }
 
 export function getIconSource(name) {
-  let appendedDict = new CanvasObjectTypes();
-  appendedDict.addEach(appendedIcons);
   if (allIconDictionary.has(name))
     return allIconDictionary.get(name);
-  else if (appendedDict.has(name)) {
-    return appendedDict.get(name);
+  else if (appendedIcons.has(name)) {
+    return appendedIcons.get(name);
   }
   return null;
 }
@@ -70,5 +69,13 @@ export function selectedDitionariesAreNotEmpty() {
 
 export function resetSelectionDictionaries() {
   selectedAsActorDictionary.clear();
+  selectedAsWorkObjectDictionary.clear();
+}
+
+export function emptySelectedActorsDictionary() {
+  selectedAsActorDictionary.clear();
+}
+
+export function emptySelectedWorkObjectsDictionary() {
   selectedAsWorkObjectDictionary.clear();
 }

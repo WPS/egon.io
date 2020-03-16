@@ -1,9 +1,16 @@
-import { isStoryConsecutivelyNumbered, createStep, traceActivities } from '../../../../app/domain-story-modeler/features/replay/replay';
-import { ACTOR, WORKOBJECT, ACTIVITY } from '../../../../app/domain-story-modeler/language/elementTypes';
+import {
+  isStoryConsecutivelyNumbered,
+} from '../../../../app/domain-story-modeler/features/replay/replay';
+import {
+  ACTOR,
+  WORKOBJECT,
+  ACTIVITY
+} from '../../../../app/domain-story-modeler/language/elementTypes';
+import { createStep, traceActivities } from '../../../../app/domain-story-modeler/features/replay/initializeReplay';
 
 describe('replay', function() {
-
   it('isStoryConsecutivelyNumbered true', function() {
+
     // Given
     const replaySteps = [
       { activities: [1] },
@@ -12,7 +19,7 @@ describe('replay', function() {
       { activities: [1] },
       { activities: [1] },
       { activities: [1] },
-      { activities: [1] },
+      { activities: [1] }
     ];
 
     // When
@@ -23,6 +30,7 @@ describe('replay', function() {
   });
 
   it('isStoryConsecutivelyNumbered false', function() {
+
     // Given
     const replaySteps = [
       { activities: [' '] },
@@ -31,7 +39,7 @@ describe('replay', function() {
       { activities: [' '] },
       { activities: [' '] },
       { activities: [' '] },
-      { activities: [' '] },
+      { activities: [' '] }
     ];
 
     // When
@@ -42,36 +50,40 @@ describe('replay', function() {
   });
 
   it('createStep', function() {
+
+    // fix test
     // Given
-    const tracedActivity = {
-      type: ACTIVITY,
-      businessObject: {},
-      source: 'initial',
-      target: {
-        businessObject: {
-          type:WORKOBJECT
-        },
-        outgoing: [
-          {
-            type: ACTIVITY,
-            target: {
-              businessObject: {
-                type:ACTOR
+    const activityTrace = [
+      {
+        type: ACTIVITY,
+        businessObject: {},
+        source: 'initial',
+        target: {
+          businessObject: {
+            type: WORKOBJECT
+          },
+          outgoing: [
+            {
+              type: ACTIVITY,
+              target: {
+                businessObject: {
+                  type: ACTOR
+                }
               }
             }
-          }
-        ]
+          ]
+        }
       }
-    };
+    ];
 
     // When
 
-    const step = createStep(tracedActivity);
+    const step = createStep(activityTrace);
 
     // Then
 
     expect(step.source).to.exist;
-    assert.equal(step.source, tracedActivity.source);
+    assert.equal(step.source, activityTrace[0].source);
     expect(step.activities).to.exist;
     assert.equal(step.activities.length, 2);
     expect(step.targets).to.exist;
@@ -79,6 +91,7 @@ describe('replay', function() {
   });
 
   it('traceActivities', function() {
+
     // Given
 
     const tracedActivity1 = {
@@ -90,36 +103,37 @@ describe('replay', function() {
             number: 1,
             target: {
               businessObject: {
-                type:WORKOBJECT
+                type: WORKOBJECT
               },
               outgoing: [
                 {
                   type: ACTIVITY,
                   target: {
                     businessObject: {
-                      type:ACTOR
+                      type: ACTOR
                     }
                   }
                 }
               ]
             }
-          }, tracedActivity2 = {
+          },
+          tracedActivity2 = {
             type: ACTIVITY,
             businessObject: {
-              number:2
+              number: 2
             },
             source: 'initial',
             number: 2,
             target: {
               businessObject: {
-                type:WORKOBJECT
+                type: WORKOBJECT
               },
               outgoing: [
                 {
                   type: ACTIVITY,
                   target: {
                     businessObject: {
-                      type:ACTOR
+                      type: ACTOR
                     }
                   }
                 }

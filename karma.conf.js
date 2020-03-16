@@ -48,9 +48,9 @@ module.exports = function(karma) {
           }
         ],
         [
-          'babelify',
-          {
-            global: true
+          'babelify', {
+            global: true,
+            presets:['@babel/preset-env']
           }
         ]
       ]

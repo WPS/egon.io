@@ -9,11 +9,17 @@ import {
   addToSelectedActors,
   addToSelectedWorkObjects,
   selectedDitionariesAreNotEmpty,
-  getAppendedIconDictionary
+  getAppendedIconDictionary,
+  emptySelectedActorsDictionary,
+  emptySelectedWorkObjectsDictionary,
+  getSelectedActorsDictionary,
+  getSelectedWorkObjectsDictionary
 } from './dictionaries';
 import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { domExists } from '../../language/testmode';
 import { isInTypeDictionary } from '../../language/icon/dictionaries';
+import { customConfigTag } from './persitence';
+import { default_conf } from '../../language/icon/iconConfig';
 
 let htmlList = document.getElementById('allIconsList');
 let selectedActorsList = document.getElementById('selectedActorsList');
@@ -23,6 +29,8 @@ const Sortable = require('sortablejs');
 const iconSize = 20;
 const highlightBackgroundColor = '#f6f6f6';
 
+let actorListArray = [];
+let workObjectListArray = [];
 let alreadyAddedNames = [];
 
 // options for drag&drop lists
@@ -39,7 +47,7 @@ const actorListOptions = {
     name: 'actorIconList',
     put: ['actorIconList', 'workObjectIconList']
   },
-  sort: 'true',
+  sort: 'false',
   onEnd: function(event) {
     dropElement(event);
   }
@@ -50,7 +58,7 @@ const workObjectListOptions = {
     name: 'workObjectIconList',
     put: ['actorIconList', 'workObjectIconList']
   },
-  sort: 'true',
+  sort: 'false',
   onEnd: function(event) {
     dropElement(event);
   }
@@ -89,6 +97,37 @@ function dropElement(event) {
       addToWorkObjects,
       false
     );
+  } else {
+    let updateActors, updateWorkObjects;
+    if (target == selectedActorsList) {
+      updateActors = true;
+      updateWorkObjects = false;
+    } else {
+      updateActors = false;
+      updateWorkObjects = true;
+    }
+    updateDictionaryOrder(updateActors, updateWorkObjects);
+  }
+}
+
+function updateDictionaryOrder(updateActors, updateWorkObjects) {
+  if (updateActors) {
+    emptySelectedActorsDictionary();
+    const actorListElements = selectedActorsList.getElementsByTagName('li');
+
+    let element;
+    for (element of actorListElements) {
+      addToSelectedActors(element.innerText, getIconSource(element.innerText));
+    }
+
+  } else if (updateWorkObjects) {
+    emptySelectedWorkObjectsDictionary();
+    const workObjectListElements = selectedWorkObjectList.getElementsByTagName('li');
+
+    let element;
+    for (element of workObjectListElements) {
+      addToSelectedWorkObjects(element.innerText, getIconSource(element.innerText));
+    }
   }
 }
 
@@ -120,34 +159,34 @@ function updateSelectedWorkObjectsAndActors(
     'customIconConfigSaveButton'
   );
   const iconSRC = getIconSource(currentSelectionName);
-
   deleteFromSelectedWorkObjectDictionary(currentSelectionName);
-  if (deleteFromSelectedActorDictionary(currentSelectionName)) {
-    if (updateHTML) {
-      removeListEntry(currentSelectionName, selectedActorsList);
-    }
-  } else {
-    if (updateHTML) {
-      removeListEntry(currentSelectionName, selectedWorkObjectList);
-    }
+  deleteFromSelectedActorDictionary(currentSelectionName);
+  if (updateHTML) {
+    removeListEntry(currentSelectionName, selectedActorsList);
+    removeListEntry(currentSelectionName, selectedWorkObjectList);
   }
 
   if (addToActors) {
     addToSelectedActors(currentSelectionName, iconSRC);
     if (updateHTML) {
-      createListElementInSeletionList(
-        currentSelectionName,
-        iconSRC,
-        selectedActorsList
+      selectedActorsList.appendChild(
+        createListElementInSeletionList(
+          currentSelectionName,
+          iconSRC,
+          selectedActorsList
+        )
       );
     }
   } else if (addToWorkObjects) {
     addToSelectedWorkObjects(currentSelectionName, iconSRC);
     if (updateHTML) {
-      createListElementInSeletionList(
-        currentSelectionName,
-        iconSRC,
-        selectedWorkObjectList
+      selectedWorkObjectList.appendChild(
+
+        createListElementInSeletionList(
+          currentSelectionName,
+          iconSRC,
+          selectedWorkObjectList
+        )
       );
     }
   }
@@ -194,6 +233,9 @@ function updateSelectedWorkObjectsAndActors(
 export function createListOfAllIcons() {
   resetHTMLSelectionList();
   initializeAllIcons();
+  clearAllElementList();
+  actorListArray = [];
+  workObjectListArray = [];
 
   new Sortable(htmlList, mainListOptions);
   new Sortable(selectedActorsList, actorListOptions);
@@ -215,10 +257,96 @@ export function createListOfAllIcons() {
   const appendIconDictionary = getAppendedIconDictionary();
   const allAppendIconNames = appendIconDictionary.keysArray();
   allAppendIconNames.forEach(name => {
-    const listElement = createListElement(name, i % 2 === 0);
-    htmlList.appendChild(listElement);
-    i++;
+    if (!alreadyAddedNames.includes(name)) {
+      const listElement = createListElement(name, i % 2 === 0);
+      htmlList.appendChild(listElement);
+      i++;
+    }
   });
+  const customConfig = JSON.parse(localStorage.getItem(customConfigTag));
+
+  // Wenn eine config vorhanden ist, in der auch Elemente (also actors oder work objects) vorhanden sind, dann lade diese. Ansonsten nimm default-Werte.
+  if (customConfig &&
+    (
+      customConfig.actors && Object.keys(customConfig.actors).length !== 0 ||
+      customConfig.workObjects && Object.keys(customConfig.workObjects).length !== 0
+    )) {
+
+    const orderedActorsList = Object.keys(customConfig.actors);
+    const orderedWorkobjectList = Object.keys(customConfig.workObjects);
+
+    // Actors und WorkObjects raussuchen und UI Elemente (Icon-Liste) erstellen
+    orderedActorsList.forEach(a => addToSelectedActors(a, customConfig.actors[a]));
+    createSelectedActionsIconList();
+
+    orderedWorkobjectList.forEach(w => addToSelectedWorkObjects(w, customConfig.workObjects[w]));
+    createSelectedWorkObjectsIconList();
+
+    orderedActorsList.forEach(actorKey => {
+      selectedActorsList.appendChild(
+        actorListArray.filter(element => element.getElementsByTagName('text')[0].innerText === actorKey)[0]
+      );
+    });
+    orderedWorkobjectList.forEach(workObjectKey => {
+      selectedWorkObjectList.appendChild(
+        workObjectListArray.filter(element => element.getElementsByTagName('text')[0].innerText === workObjectKey)[0]
+      );
+    });
+
+    actorListArray.filter(element => !orderedActorsList.includes(element.getElementsByTagName('text')[0].innerText)).forEach(ele => {
+      selectedActorsList.appendChild(ele);
+    });
+
+    workObjectListArray.filter(element => !orderedWorkobjectList.includes(element.getElementsByTagName('text')[0].innerText)).forEach(ele => {
+      selectedWorkObjectList.appendChild(ele);
+    });
+  } else { // Standard-Actors und -WorkObjects nehmen und UI Elemente (Icon-Liste) erstellen
+    default_conf.actors.forEach(a => addToSelectedActors(a, getAllIconDictioary().get(a)));
+    createSelectedActionsIconList(); // befüllt actorListArray
+
+    default_conf.workObjects.forEach(w => addToSelectedWorkObjects(w, getAllIconDictioary().get(w)));
+    createSelectedWorkObjectsIconList(); // befüllt workObjectListArray
+
+    actorListArray = sortAfterDefaultConfig(default_conf.actors, actorListArray);
+    workObjectListArray = sortAfterDefaultConfig(default_conf.workObjects, workObjectListArray);
+
+    actorListArray.forEach(actor => {
+      selectedActorsList.appendChild(actor);
+    });
+
+    workObjectListArray.forEach(workobject => {
+      selectedWorkObjectList.appendChild(workobject);
+    });
+  }
+}
+
+function createSelectedActionsIconList() {
+  getSelectedActorsDictionary().entries.forEach(e => {
+    actorListArray.push(createListElementInSeletionList(
+      e.key,
+      getIconSource(e.key),
+      selectedActorsList
+    ));
+  });
+}
+
+function createSelectedWorkObjectsIconList() {
+  getSelectedWorkObjectsDictionary().entries.forEach(e => {
+    workObjectListArray.push(createListElementInSeletionList(
+      e.key,
+      getIconSource(e.key),
+      selectedWorkObjectList
+    ));
+  });
+}
+
+function clearAllElementList() {
+  if (domExists()) {
+    while (htmlList.firstChild) {
+      htmlList.removeChild(htmlList.firstChild);
+    }
+    alreadyAddedNames = [];
+  }
 }
 
 export function createListElement(name, greyBackground) {
@@ -279,20 +407,8 @@ export function createListElement(name, greyBackground) {
 
   if (isInTypeDictionary(ACTOR, ACTOR + name)) {
     inputRadioActor.checked = true;
-    createListElementInSeletionList(
-      name,
-      getIconSource(name),
-      selectedActorsList
-    );
-    addToSelectedActors(name, getIconSource(name));
   } else if (isInTypeDictionary(WORKOBJECT, WORKOBJECT + name)) {
     inputRadioWorkObject.checked = true;
-    createListElementInSeletionList(
-      name,
-      getIconSource(name),
-      selectedWorkObjectList
-    );
-    addToSelectedWorkObjects(name, getIconSource(name));
   } else {
     inputRadioNone.checked = true;
   }
@@ -373,6 +489,20 @@ export function createListElementInSeletionList(name, src, list) {
     listElement.appendChild(imageElement);
     listElement.appendChild(nameElement);
 
-    list.appendChild(listElement);
+    return listElement;
   }
+  return null;
+}
+
+// this function puts an array in the order given by another array
+function sortAfterDefaultConfig(configArray, arrayToSort) {
+  const orderedArray = [];
+  configArray.forEach(element => {
+    arrayToSort.forEach(entry => {
+      if (entry.innerText === element) {
+        orderedArray.push(entry);
+      }
+    });
+  });
+  return orderedArray;
 }

@@ -5,13 +5,16 @@ import {
   getActivitesFromActors,
   getAllCanvasObjects,
   wasInitialized
-} from '../canvasElements/canvasElementRegistry';
+} from '../../language/canvasElementRegistry';
+import { traceActivities } from './initializeReplay';
 
 let canvas;
+let selection;
 
 let replayOn = false;
 let currentStep = 0;
 let replaySteps = [];
+let initialViewbox;
 
 let errorStep = 0;
 
@@ -27,15 +30,18 @@ export function getReplayOn() {
   return replayOn;
 }
 
-export function initReplay(inCanvas) {
+export function initReplay(inCanvas, inSelection) {
   canvas = inCanvas;
+  selection = inSelection;
 
   document.addEventListener('keydown', function(e) {
     if (replayOn) {
       if (e.keyCode == 37 || e.keyCode == 40) {
+
         // leftArrow or downArrow
         previousStep();
       } else if (e.keyCode == 39 || e.keyCode == 38) {
+
         // rightArrow or UpArrow
         nextStep();
       }
@@ -44,6 +50,7 @@ export function initReplay(inCanvas) {
 
   startReplayButton.addEventListener('click', function() {
     if (wasInitialized()) {
+      initialViewbox = canvas.viewbox();
       let activities = getActivitesFromActors();
 
       if (!replayOn && activities.length > 0) {
@@ -131,6 +138,7 @@ export function initReplay(inCanvas) {
 
       replayOn = false;
       currentStep = 0;
+      canvas.viewbox(initialViewbox);
     }
   });
 }
@@ -157,67 +165,6 @@ export function isPlaying() {
   return replayOn;
 }
 
-// create a trace through all activities, that recreates the path from the beginning to the end of the story
-export function traceActivities(activitiesFromActors) {
-  let tracedActivities = [];
-
-  // order the activities with numbers by their number
-  activitiesFromActors.forEach(element => {
-    let number = element.businessObject.number;
-    tracedActivities[number - 1] = element;
-  });
-
-  let allSteps = [];
-
-  // create a step for each activity with a number
-  for (let i = 0; i < tracedActivities.length; i++) {
-    let traceStep = createStep(tracedActivities[i]);
-
-    allSteps.push(traceStep);
-  }
-  return allSteps;
-}
-
-// create a step for the replay function
-export function createStep(tracedActivity) {
-  let initialSource;
-  let activities = [tracedActivity];
-  let targetObjects = [];
-  if (tracedActivity) {
-    initialSource = tracedActivity.source;
-
-    // add the first Object to the traced targets, this can only be a workObject, since actors cannot connect to other actors
-    let firstTarget = tracedActivity.target;
-    targetObjects.push(firstTarget);
-
-    // check the outgoing activities for each target
-    for (let i = 0; i < targetObjects.length; i++) {
-      let checkTarget = targetObjects[i];
-      if (
-        checkTarget.businessObject &&
-        !checkTarget.businessObject.type.includes('actor') &&
-        checkTarget.outgoing
-      ) {
-        // check the target for each outgoing activity
-        checkTarget.outgoing.forEach(activity => {
-          activities.push(activity);
-          let activityTarget = activity.target;
-          if (!targetObjects.includes(activityTarget)) {
-            targetObjects.push(activityTarget);
-          }
-        });
-      }
-    }
-  }
-
-  let tracedStep = {
-    source: initialSource,
-    activities: activities,
-    targets: targetObjects
-  };
-  return tracedStep;
-}
-
 export function isStoryConsecutivelyNumbered(replaySteps) {
   errorStep = [];
   let complete = true;
@@ -238,6 +185,7 @@ export function getAllShown(stepsUntilNow) {
 
   // for each step until the current one, add all referenced elements to the list of shown elements
   stepsUntilNow.forEach(step => {
+
     // add the source of the step and their annotations to the shown elements
     shownElements.push(step.source);
     if (step.source.outgoing) {
@@ -292,28 +240,30 @@ export function getAllNotShown(allObjects, shownElements) {
 }
 
 // replay functions
-
 function presentationMode() {
-  let contextPadElements = document.getElementsByClassName('djs-context-pad');
-  let paletteElements = document.getElementsByClassName('djs-palette');
 
-  let infoContainer = document.getElementById('infoContainer');
+  removeSelectionAndEditing();
+
+  const contextPadElements = document.getElementsByClassName('djs-context-pad');
+  const paletteElements = document.getElementsByClassName('djs-palette');
+
+  const infoContainer = document.getElementById('infoContainer');
   infoContainer.style.display = 'none';
 
-  let editModeButtons = document.getElementById('editModeButtons');
+  const editModeButtons = document.getElementById('editModeButtons');
   editModeButtons.style.display = 'none';
   editModeButtons.style.pointerEvents = 'none';
 
-  let presentationModeButtons = document.getElementById(
+  const presentationModeButtons = document.getElementById(
     'presentationModeButtons'
   );
   presentationModeButtons.style.display = 'block';
   presentationModeButtons.style.pointerEvents = 'all';
 
-  let headerAndCanvas = document.getElementsByClassName('headerAndCanvas')[0];
-  headerAndCanvas.style.gridTemplateRows = '50px 1px auto';
+  const headerAndCanvas = document.getElementsByClassName('headerAndCanvas')[0];
+  headerAndCanvas.style.gridTemplateRows = '0px 50px 1px auto';
 
-  let headlineAndButtons = document.getElementById('headlineAndButtons');
+  const headlineAndButtons = document.getElementById('headlineAndButtons');
   headlineAndButtons.style.gridTemplateColumns = 'auto 230px 3px';
 
   let i = 0;
@@ -326,6 +276,16 @@ function presentationMode() {
   }
 
   currentReplayStepLabel.style.opacity = 1;
+}
+
+function removeSelectionAndEditing() {
+  selection.select([]);
+  const directEditingBoxes = document.getElementsByClassName('djs-direct-editing-parent');
+
+  if (directEditingBoxes.length > 0) {
+    const directEditing = directEditingBoxes[0];
+    directEditing.parentElement.removeChild(directEditing);
+  }
 }
 
 function editMode() {
@@ -347,7 +307,7 @@ function editMode() {
   presentationModeButtons.style.pointerEvents = 'none';
 
   let headerAndCanvas = document.getElementsByClassName('headerAndCanvas')[0];
-  headerAndCanvas.style.gridTemplateRows = '125px 1px auto';
+  headerAndCanvas.style.gridTemplateRows = '0px 125px 1px auto';
 
   let headlineAndButtons = document.getElementById('headlineAndButtons');
   headlineAndButtons.style.gridTemplateColumns = 'auto 390px 3px';
@@ -395,4 +355,79 @@ function showCurrentStep() {
     );
     domObject.style.display = 'block';
   });
+
+  // if (currentStepNotInView()) {
+  //   focusOnActiveActivity();
+  // }
 }
+
+/*
+function currentStepNotInView() {
+  const currentViewbox = canvas.viewbox();
+
+  const step = replaySteps[currentStep];
+
+  let elements = [];
+  step.targets.forEach(target => {
+    elements.push(target);
+  });
+
+  let initialElement = step.source;
+  let stepBounds = {
+    x: initialElement.x,
+    y: initialElement.y,
+    width: initialElement.width,
+    height: initialElement.height
+  };
+  elements.forEach(element => {
+    if (element.x < stepBounds.x) {
+      stepBounds.x = element.x;
+    } else {
+      if (stepBounds.width < element.x + element.width) {
+        stepBounds.width = element.x + element.width;
+      }
+    }
+    if (element.y < stepBounds.y) {
+      stepBounds.y = element.y;
+    } else {
+      if (stepBounds.height < element.y + element.height) {
+        stepBounds.height = element.y + element.height;
+      }
+    }
+  });
+
+  if (currentViewbox.x < stepBounds.x && currentViewbox.y < stepBounds.y) {
+    if (
+      currentViewbox.x + currentViewbox.width >
+      stepBounds.x + stepBounds.width
+    ) {
+      if (
+        currentViewbox.y + currentViewbox.height >
+        stepBounds.y + stepBounds.height
+      ) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function focusOnActiveActivity() {
+  const step = replaySteps[currentStep];
+  const activitiesInStep = step.activities;
+  const activityToFocusOn = activitiesInStep[0];
+  const elX = activityToFocusOn.waypoints[0].x - initialViewbox.width / 2;
+  const elY = activityToFocusOn.waypoints[0].y - initialViewbox.height / 2;
+  let stepViewbox = {
+    x: elX,
+    y: elY,
+    height: initialViewbox.height,
+    width: initialViewbox.width,
+    scale: initialViewbox.scale,
+    outer: initialViewbox.outer,
+    inner: initialViewbox.inner
+  };
+
+  canvas.viewbox(stepViewbox);
+}
+*/

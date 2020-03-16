@@ -44,10 +44,12 @@ export default function DSLabelEditingProvider(
   this._dsUpdateLabelHandler = dSUpdateLabelHandler;
 
   directEditing.registerProvider(this);
+
   // listen to dblclick on non-root elements
   eventBus.on('element.dblclick', function(event) {
     activateDirectEdit(event.element, true);
     if (is(event.element, ACTIVITY)) {
+
       // if we edit an activity, we do not want the standard editing box
       numberStash = event.element.businessObject.number;
       stashUse = true;

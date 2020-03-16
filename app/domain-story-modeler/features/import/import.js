@@ -11,7 +11,7 @@ import { cleanDictionaries } from '../dictionary/dictionary';
 import {
   correctElementRegitryInit,
   initElementRegistry
-} from '../canvasElements/canvasElementRegistry';
+} from '../../language/canvasElementRegistry';
 import {
   storyPersistTag,
   loadConfiguration,
@@ -28,6 +28,7 @@ import {
   registerIcons
 } from '../../language/icon/dictionaries';
 import { sanitizeIconName } from '../../util/Sanitizer';
+import { Dict } from '../../language/collection';
 
 let modal = document.getElementById('modal'),
     info = document.getElementById('info'),
@@ -255,10 +256,9 @@ export function readerFunction(text, version, modeler) {
 }
 
 export function configHasChanged(config) {
-  const dictionary = require('collections/dict');
   const customConfigJSON = JSON.parse(config);
-  const newActorsDict = new dictionary();
-  const newWorkObjectsDict = new dictionary();
+  const newActorsDict = new Dict();
+  const newWorkObjectsDict = new Dict();
 
   newActorsDict.addEach(customConfigJSON.actors);
   newWorkObjectsDict.addEach(customConfigJSON.workObjects);
@@ -272,8 +272,8 @@ export function configHasChanged(config) {
 
   for (let i = 0; i < newActorKeys.length; i++) {
     if (
-      !currentActorKeys.includes(newActorKeys[i]) &&
-      !currentActorKeys.includes(ACTOR + newActorKeys[i])
+      currentActorKeys[i] != newActorKeys[i] &&
+      currentActorKeys[i] != (ACTOR + newActorKeys[i])
     ) {
       changed = true;
       i = newActorKeys.length;
@@ -282,8 +282,8 @@ export function configHasChanged(config) {
   if (!changed) {
     for (let i = 0; i < newWorkObjectKeys.length; i++) {
       if (
-        !currentWorkobjectKeys.includes(newWorkObjectKeys[i]) &&
-        !currentWorkobjectKeys.includes(WORKOBJECT + newWorkObjectKeys[i])
+        currentWorkobjectKeys[i] != newWorkObjectKeys[i] &&
+        currentWorkobjectKeys[i] != (WORKOBJECT + newWorkObjectKeys[i])
       ) {
         changed = true;
         i = newWorkObjectKeys.length;

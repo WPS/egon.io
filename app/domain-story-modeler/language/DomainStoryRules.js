@@ -91,6 +91,7 @@ function canResize(shape, newBounds) {
       let upperRight = { x: shape.x + shape.width, y: shape.y };
 
       if (newBounds.x != shape.x && newBounds.y != shape.y) {
+
         // upper left
         if (newBounds.x > lowerRight.x - MIN_SIZE) {
           assign(newBounds, { x: lowerRight.x - MIN_SIZE });
@@ -101,6 +102,7 @@ function canResize(shape, newBounds) {
       }
 
       if (newBounds.x != shape.x && newBounds.y === shape.y) {
+
         // lower left
         if (newBounds.x > upperRight.x - MIN_SIZE) {
           assign(newBounds, { x: upperRight.x - MIN_SIZE });
@@ -108,6 +110,7 @@ function canResize(shape, newBounds) {
       }
 
       if (newBounds.x === shape.x && newBounds.y != shape.y) {
+
         // upper right
         if (newBounds.y > lowerLeft.y - MIN_SIZE) {
           assign(newBounds, { y: lowerLeft.y - MIN_SIZE });
@@ -259,6 +262,7 @@ DomainStoryRules.prototype.init = function() {
     if (!result) {
       return;
     }
+
     // --------------------------------------------------------------
 
     return canConnect(source, target, connection);
@@ -275,6 +279,7 @@ DomainStoryRules.prototype.init = function() {
     if (!result) {
       return;
     }
+
     // --------------------------------------------------------------
 
     return canConnect(source, target, connection);

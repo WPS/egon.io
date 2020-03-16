@@ -12,5 +12,5 @@ export function debounce(fn, timeout) {
 }
 
 export function changeWebsiteTitle(title) {
-  document.title = title + ' - Domain Storytelling Modeler';
+  document.title = title + ' - Domain Story Modeler';
 }

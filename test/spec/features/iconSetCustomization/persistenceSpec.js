@@ -8,6 +8,7 @@ describe('persitence ', function() {
   const actorName = 'Pet', workObjectName = 'Flag';
 
   it('createConfigFromDictionaries', function() {
+
     // Given
     initTypeDictionaries(default_conf.actors, default_conf.workObjects);
     addToSelectedActors(actorName, getTypeIconSRC(ACTOR, ACTOR + actorName));
@@ -17,7 +18,7 @@ describe('persitence ', function() {
     const workObjects = getSelectedWorkObjectsDictionary();
 
     // When
-    const json = createConfigFromDictionaries(actors, workObjects);
+    const json = createConfigFromDictionaries(actors, null, workObjects, null);
 
     // Then
     const actorsJSON = json.actors;

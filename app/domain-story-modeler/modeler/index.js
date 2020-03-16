@@ -15,6 +15,7 @@ import ContextPadModule from 'diagram-js/lib/features/context-pad';
 import CommandStack from '../../../node_modules/diagram-js/lib/command/CommandStack';
 import DSModeling from '../features/modeling/DSModeling';
 import DSUpdateLabelHandler from '../features/labeling/DSUpdateLabelHandler';
+import headlineAndDescriptionUpdateHandler from '../modeler/UpdateHandler/headlineAndDescriptionUpdateHandler';
 
 
 export default {
@@ -42,5 +43,6 @@ export default {
   replaceMenuProvider: ['type', ReplaceMenuProvider],
   commandStack: ['type', CommandStack],
   dSUpdateLabelHandler: ['type', DSUpdateLabelHandler],
+  headlineAndDescriptionUpdateHandler: ['type', headlineAndDescriptionUpdateHandler],
   modeling : ['type', DSModeling]
 };

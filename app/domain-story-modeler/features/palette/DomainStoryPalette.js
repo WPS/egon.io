@@ -12,6 +12,8 @@ import {
   getTypeDictionary
 } from '../../language/icon/dictionaries';
 import { domExists } from '../../language/testmode';
+import { Dict } from '../../language/collection';
+import { getAppendedIconDictionary } from '../iconSetCustomization/dictionaries';
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
@@ -83,22 +85,26 @@ function appendCSSStyleCheat(customIcons) {
   const sheetEl = document.createElement('style');
   document.head.appendChild(sheetEl);
 
-  let dictionary = require('collections/dict');
-  let customIconDict = new dictionary();
+  let customIconDict = new Dict();
 
-  customIconDict.addEach(customIcons);
+  customIconDict.appendDict(customIcons);
   let customIconDictKeys = customIconDict.keysArray();
 
   customIconDictKeys.forEach(name => {
-    const src = customIconDict.get(name);
-    const iconStyle =
+    if (getAppendedIconDictionary().has(name)) {
+      let src = customIconDict.get(name);
+
+      const iconStyle =
       '.icon-domain-story-' +
       name.toLowerCase() +
       '::before{' +
-      'content: url("' +
-      src +
-      '"); margin: 3px; height: 22px !important; width: 22px !important;}'; // TODO change style such that important is not necessarcy
-    sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
+      ' display: block;'+
+      ' content: url("data:image/svg+xml;utf8,' +
+       wrapSRCInSVG(src) +
+      '");'+
+      ' margin: 3px;}';
+      sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
+    }
   });
 }
 
@@ -108,9 +114,18 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   let customIcons = localStorage.getItem(appendedIconsTag);
   if (customIcons) {
     customIcons = JSON.parse(customIcons);
-    overrideAppendedIcons(customIcons);
-    if (domExists()) {
-      appendCSSStyleCheat(customIcons);
+    if (customIconsLegacy(customIcons)) {
+      customIcons = convertLegacyAppendedIconsToDict(customIcons);
+    }
+    if (customIcons.entries && customIcons.entries.forEach) {
+      const customIconsDict = new Dict();
+      customIcons.entries.forEach(entry => {
+        customIconsDict.putEntry(entry);
+      });
+      overrideAppendedIcons(customIconsDict);
+      if (domExists()) {
+        appendCSSStyleCheat(customIcons);
+      }
     }
   }
 
@@ -193,4 +208,27 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   });
 
   return actions;
+}
+
+function customIconsLegacy(customIcons) {
+  if (Object.keys(customIcons).length === 1 && Object.keys(customIcons)[0] === 'entries') {
+    return false;
+  }
+  return true;
+}
+
+function convertLegacyAppendedIconsToDict(customIcons) {
+  let dict = new Dict();
+  Object.keys(customIcons).forEach(key => {
+    dict.set(key, customIcons[key]);
+  });
+  return dict;
+}
+
+// For some reason its important to use ' in the content for the Palette and ContextPad
+// Do not change!
+function wrapSRCInSVG(src) {
+  let svg = "<svg viewBox='0 0 22 22' width='22' height='22' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>"+
+  "<image width='22' height='22' xlink:href='"+ src+ "'/></svg>";
+  return svg;
 }

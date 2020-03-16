@@ -33,13 +33,15 @@ import { numberBoxDefinitions, generateAutomaticNumber, addNumberToRegistry } fr
 
 import { calculateTextWidth } from '../features/labeling/DSLabelUtil';
 import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
-import { correctElementRegitryInit } from '../features/canvasElements/canvasElementRegistry';
+import { correctElementRegitryInit } from '../language/canvasElementRegistry';
 import { makeDirty } from '../features/export/dirtyFlag';
 import { labelPosition } from '../features/labeling/position';
 import { getTypeIconSRC } from './icon/dictionaries';
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
+const DEFAULT_COLOR = 'black';
+
 /**
  * a renderer that knows how to render custom elements.
  */
@@ -85,7 +87,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
         {},
         textRenderer.getExternalStyle(),
         {
-          fill: 'black',
+          fill: 'white',
           backgroundColor: 'green',
           position: 'absolute'
         }
@@ -271,9 +273,12 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
 
   // draw functions
   this.drawGroup = function(parentGfx, element) {
+    if (!element.businessObject.pickedColor) {
+      element.businessObject.pickedColor = DEFAULT_COLOR;
+    }
     let rect = drawRect(parentGfx, element.width, element.height, 0, assign({
       fill: 'none',
-      stroke: 'black',
+      stroke: element.businessObject.pickedColor,
     }, element.attrs));
 
     renderEmbeddedLabel(parentGfx, element, 'left-top', 8);
@@ -288,9 +293,22 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
         },
         actor;
     let iconSRC = getTypeIconSRC(ACTOR, element.type);
+
     if (iconSRC.startsWith('data')) {
       iconSRC = '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'+
       '<image width="24" height="24" xlink:href="'+ iconSRC+ '"/></svg>';
+    }
+    else {
+      if (!element.businessObject.pickedColor) {
+        element.businessObject.pickedColor = DEFAULT_COLOR;
+      }
+      const match = iconSRC.match(/fill=".*?"/);
+      if (match && match.length > 1) {
+        iconSRC=iconSRC.replace(/fill=".*?"/, 'fill="'+ element.businessObject.pickedColor +'"');
+      } else {
+        const index = iconSRC.indexOf('<svg ') + 5;
+        iconSRC = iconSRC.substring(0, index) + ' fill=" '+ element.businessObject.pickedColor +'" ' + iconSRC.substring(index);
+      }
     }
     actor = svgCreate(iconSRC);
 
@@ -314,6 +332,17 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       iconSRC = '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'+
       '<image width="24" height="24" xlink:href="'+ iconSRC+ '"/></svg>';
     }
+    else {
+      if (!element.businessObject.pickedColor) {
+        element.businessObject.pickedColor = DEFAULT_COLOR;
+      }
+      if (iconSRC.match(/fill=".*?"/).length > 1) {
+        iconSRC=iconSRC.replace(/fill=".*?"/, 'fill="'+ element.businessObject.pickedColor +'"');
+      } else {
+        const index = iconSRC.indexOf('<svg ') + 5;
+        iconSRC = iconSRC.substring(0, index) + ' fill=" '+ element.businessObject.pickedColor +'" ' + iconSRC.substring(index);
+      }
+    }
     workObject = svgCreate(iconSRC);
 
     svgAttr(workObject, svgDynamicSizeAttributes);
@@ -327,12 +356,15 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     adjustForTextOverlapp(element);
 
     if (element) {
+      if (!element.businessObject.pickedColor) {
+        element.businessObject.pickedColor='black';
+      }
       let attrs = computeStyle(attrs, {
-        stroke: '#000000',
+        stroke: element.businessObject.pickedColor,
         fill: 'none',
         strokeWidth: 1.5,
         strokeLinejoin: 'round',
-        markerEnd: marker('activity', 'black', '#000000')
+        markerEnd: marker('activity', 'black', element.businessObject.pickedColor)
       });
 
       let x = svgAppend(p, createLine(element.waypoints, attrs));
@@ -357,22 +389,25 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     let startPoint = waypoints[0];
     let endPoint = waypoints[waypoints.length -1];
 
-    // check if Startpoint can overlapp with text
-    if (startPoint.y > source.y + 60) {
-      if ((startPoint.x > source.x + 3) && (startPoint.x < source.x + 72)) {
-        let lineOffset = getLineOffset(source);
-        if ((source.y + 75 + lineOffset) > startPoint.y) {
-          startPoint.y += lineOffset;
+    if (startPoint && endPoint && source && target) {
+
+      // check if Startpoint can overlapp with text
+      if (startPoint.y > source.y + 60) {
+        if ((startPoint.x > source.x + 3) && (startPoint.x < source.x + 72)) {
+          let lineOffset = getLineOffset(source);
+          if ((source.y + 75 + lineOffset) > startPoint.y) {
+            startPoint.y += lineOffset;
+          }
         }
       }
-    }
 
-    // check if Endpoint can overlapp with text
-    if (endPoint.y > target.y +60) {
-      if ((endPoint.x > target.x + 3) && (endPoint.x < target.x + 72)) {
-        let lineOffset = getLineOffset(target);
-        if ((target.y + 75 + lineOffset) > endPoint.y) {
-          endPoint.y += lineOffset;
+      // check if Endpoint can overlapp with text
+      if (endPoint.y > target.y +60) {
+        if ((endPoint.x > target.x + 3) && (endPoint.x < target.x + 72)) {
+          let lineOffset = getLineOffset(target);
+          if ((target.y + 75 + lineOffset) > endPoint.y) {
+            endPoint.y += lineOffset;
+          }
         }
       }
     }
@@ -433,6 +468,7 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       assign(element, {
         height: height
       });
+
       // for some reason the keyword height is not exported, so we use another, which we know will be exported,
       // to ensure persistent annotation heights betweens sessions
       assign(element.businessObject, {
@@ -626,6 +662,7 @@ DomainStoryRenderer.prototype.canRender = function(element) {
 };
 
 DomainStoryRenderer.prototype.drawShape = function(p, element) {
+
   // polyfill for tests
   if (!String.prototype.startsWith) {
     Object.defineProperty(String.prototype, 'startsWith', {

@@ -3,7 +3,7 @@
 import inherits from 'inherits';
 
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
-
+import Picker from 'vanilla-picker';
 
 import {
   assign,
@@ -15,8 +15,55 @@ import { getIconForType } from '../../language/icon/iconDictionary';
 import { ACTIVITY, ACTOR, GROUP, TEXTANNOTATION, WORKOBJECT } from '../../language/elementTypes';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
 import { makeDirty } from '../export/dirtyFlag';
+import { getAllStandardIconKeys } from '../../language/icon/all_Icons';
+import { getAllGroups, getAllCanvasObjects, getAllActivities } from '../../language/canvasElementRegistry';
 
 export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
+
+  const picker = new Picker(document.getElementById('pickerAnchor'));
+  const pickerOptions = {
+    color: 'black',
+    popup: 'bottom'
+  };
+  let selectedID;
+  let startConnect;
+
+  picker.setOptions(pickerOptions);
+  picker.onDone = function(color) {
+    if (selectedID.includes('shape')) {
+      const allGroups = getAllGroups();
+      const allCanvasObjects = getAllCanvasObjects();
+
+      const isDone=pickerFunction(allCanvasObjects, color);
+
+      if (!isDone) {
+        pickerFunction(allGroups, color);
+      }
+    }
+    else if (selectedID.includes('connection')) {
+      const allActivities = getAllActivities();
+      pickerFunction(allActivities, color);
+    }
+  };
+
+  function pickerFunction(objects, color) {
+    let isDone = false;
+    objects.forEach(elem => {
+      if (elem.id == selectedID) {
+
+        const context = {
+          businessObject: elem.businessObject,
+          newColor: color.hex,
+          element: elem
+        };
+
+        commandStack.execute('element.colorChange', context);
+        makeDirty();
+        isDone=true;
+      }
+    });
+    return isDone;
+  }
 
   injector.invoke(ContextPadProvider, this);
   let autoPlace = injector.get('autoPlace', false);
@@ -29,29 +76,66 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   this.getContextPadEntries = function(element) {
     let actions = cached(element);
 
-    function startConnect(event, element, autoActivate) {
+    startConnect= function(event, element, autoActivate) {
       connect.start(event, element, autoActivate);
-    }
+    };
+
+    const allStandardIconKeys = getAllStandardIconKeys();
 
     if (element.type.includes('workObject')) {
+      if (allStandardIconKeys.includes(element.type.replace(WORKOBJECT, ''))) {
+        addColorChange(actions);
+      }
+      addConnectWithActivity(actions, startConnect);
+      addTextAnnotation(actions);
       addActors(appendAction, actions);
       addWorkObjects(appendAction, actions);
       addChangeWorkObjectTypeMenu(actions);
-      addConnectWithActivity(actions, startConnect);
-      addTextAnnotation(actions);
     }
 
     else if (element.type.includes('actor')) {
-      addWorkObjects(appendAction, actions);
-      addChangeActorTypeMenu(actions);
+      if (allStandardIconKeys.includes(element.type.replace(ACTOR, ''))) {
+        addColorChange(actions);
+      }
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
+      addWorkObjects(appendAction, actions);
+      addChangeActorTypeMenu(actions);
     }
 
     else if (element.type.includes(GROUP)) {
+      delete actions.delete;
       addTextAnnotation(actions);
+      assign(actions, {
+        'deleteGroup': {
+          group: 'edit',
+          className: 'bpmn-icon-trash',
+          title: 'Remove Group',
+          action: {
+            click: function(event, element) {
+              modeling.removeGroup(element);
+              makeDirty();
+            }
+          }
+        }
+      });
+      assign(actions, {
+        'delete': {
+          group: 'edit',
+          className: 'bpmn-icon-trash',
+          title: 'Remove Group WIth Children',
+          action: {
+            click: function(event, element) {
+              modeling.removeElements({ element });
+              makeDirty();
+            }
+          }
+        }
+      });
+      addColorChange(actions);
     }
     else if (element.type.includes(ACTIVITY)) {
+
       // the change direction icon is appended at the end of the edit group by default,
       // to make sure, that the delete icon is the last one, we remove it from the actions-object
       // and add it after adding the change direction functionality
@@ -63,6 +147,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           className: 'icon-domain-story-changeDirection',
           title: translate('Change direction'),
           action: {
+
             // event needs to be adressed
             click: function(event, element) {
               changeDirection(element);
@@ -70,6 +155,8 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           }
         }
       });
+
+      addColorChange(actions);
 
       assign(actions, {
         'delete': {
@@ -107,9 +194,26 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     });
   }
 
+  function addColorChange(actions) {
+    assign(actions, {
+      'colorChange': {
+        group:'edit',
+        className:'icon-domain-story-color-picker',
+        title: translate('Change color'),
+        action: {
+          click: function(event, element) {
+            selectedID = element.id;
+            picker.show();
+
+          }
+        }
+      }
+    });
+  }
+
   function addTextAnnotation(actions) {
     assign(actions, {
-      'append.text-annotation': appendAction(TEXTANNOTATION, 'bpmn-icon-text-annotation')
+      'append.text-annotation': appendAction(TEXTANNOTATION, 'bpmn-icon-text-annotation', 'textannotation', 'connect')
     });
   }
 
@@ -228,7 +332,12 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     function appendStart(event, element) {
 
       let shape = elementFactory.createShape(assign({ type: type }, options));
-      create.start(event, shape, element);
+      let context = {
+        elements: [shape],
+        hints: {},
+        source:element
+      };
+      create.start(event, shape, context);
     }
 
     autoPlace ? function(element) {
@@ -242,7 +351,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       className: className,
       title: 'Append ' + title,
       action: {
-        dragstart: appendStart,
+        dragstart: startConnect,
         click: appendStart
       }
     };

@@ -104,6 +104,7 @@ export function calculateTextWidth(text) {
 
   let fontsize = text.length * 5.1;
   fontsize = fontsize / 2;
+
   // add an initial offset to the absolute middle of the activity
   fontsize += 20;
   return fontsize;
@@ -118,8 +119,10 @@ export function autocomplete(inp, arr, element) {
   /* the autocomplete function takes three arguments,
   the text field element and an array of possible autocompleted values and an optional element to which it is appended:*/
   let currentFocus;
+
   /* execute a function when someone writes in the text field:*/
   inp.addEventListener('input', function(e) {
+
     /* the direct editing field of actors and workobjects is a recycled html-element and has old values that need to be overridden*/
     if (element.type.includes(WORKOBJECT)) {
       this.value = this.innerHTML;
@@ -127,36 +130,47 @@ export function autocomplete(inp, arr, element) {
     let autocompleteList,
         autocompleteItem,
         val = this.value;
+
     /* close any already open lists of autocompleted values*/
     closeAllLists();
     currentFocus = -1;
+
     /* create a DIV element that will contain the items (values):*/
     autocompleteList = document.createElement('DIV');
     autocompleteList.setAttribute('id', 'autocomplete-list');
     autocompleteList.setAttribute('class', 'autocomplete-items');
+
     /* append the DIV element as a child of the autocomplete container:*/
     this.parentNode.appendChild(autocompleteList);
+
     /* for each item in the array...*/
     for (const name of arr) {
+
       /* check if the item starts with the same letters as the text field value:*/
       if (val) {
         if (name.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+
           /* create a DIV element for each matching element:*/
           autocompleteItem = document.createElement('DIV');
+
           /* make the matching letters bold:*/
           autocompleteItem.innerHTML =
             '<strong>' +
             name.substr(0, val.length) +
             '</strong>' +
             name.substr(val.length);
+
           /* insert an input field that will hold the current name:*/
           autocompleteItem.innerHTML +=
             "<input type='hidden' value='" + name + "'>";
+
           /* execute a function when someone clicks on the item (DIV element):*/
           autocompleteItem.onclick = function(e) {
+
             /* insert the value for the autocomplete text field:*/
             inp.value = this.getElementsByTagName('input')[0].value;
             inp.innerHTML = this.getElementsByTagName('input')[0].value;
+
             /* close the list of autocompleted values,
               (or any other open lists of autocompleted values:*/
             closeAllLists();
@@ -165,6 +179,7 @@ export function autocomplete(inp, arr, element) {
         }
       }
     }
+
     // if we edit an actor, we do not want auto-complete, since actors generally are unique
     if (element.type.includes(ACTOR)) {
       autocompleteList.style.visibility = 'hidden';
@@ -178,22 +193,28 @@ export function autocomplete(inp, arr, element) {
       autocompleteList = autocompleteList.getElementsByTagName('div');
     }
     if (e.keyCode === 40) {
+
       /* If the arrow DOWN key is pressed,
         increase the currentFocus letiable:*/
       currentFocus++;
+
       /* and and make the current item more visible:*/
       addActive(autocompleteList);
     } else if (e.keyCode === 38) {
+
       // up
       /* If the arrow UP key is pressed,
         decrease the currentFocus letiable:*/
       currentFocus--;
+
       /* and and make the current item more visible:*/
       addActive(autocompleteList);
     } else if (e.keyCode === 13) {
+
       /* If the ENTER key is pressed, prevent the form from being submitted,*/
       e.preventDefault();
       if (currentFocus > -1) {
+
         /* and simulate a click on the "active" item:*/
         if (autocompleteList && autocompleteList[currentFocus]) {
           autocompleteList[currentFocus].click();
@@ -203,17 +224,21 @@ export function autocomplete(inp, arr, element) {
   };
 
   function addActive(autocompleteList) {
+
     /* a function to classify an item as "active":*/
     if (!autocompleteList || autocompleteList.length < 1) return false;
+
     /* start by removing the "active" class on all items:*/
     removeActive(autocompleteList);
     if (currentFocus >= autocompleteList.length) currentFocus = 0;
     if (currentFocus < 0) currentFocus = autocompleteList.length - 1;
+
     /* add class "autocomplete-active":*/
     autocompleteList[currentFocus].classList.add('autocomplete-active');
   }
 
   function removeActive(autocompleteList) {
+
     /* a function to remove the "active" class from all autocomplete items:*/
     if (autocompleteList.length > 1) {
       for (const item of autocompleteList) {
@@ -223,6 +248,7 @@ export function autocomplete(inp, arr, element) {
   }
 
   function closeAllLists(survivor) {
+
     /* close all autocomplete lists in the document,
     except the one passed as an argument:*/
     let autocompleteList = document.getElementsByClassName(

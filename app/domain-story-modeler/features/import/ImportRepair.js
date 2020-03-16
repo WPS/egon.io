@@ -4,7 +4,7 @@ import { ACTIVITY, CONNECTION, WORKOBJECT } from '../../language/elementTypes';
 import {
   getAllCanvasObjects,
   getAllGroups
-} from '../canvasElements/canvasElementRegistry';
+} from '../../language/canvasElementRegistry';
 import { isInDomainStoryGroup } from '../../util/TypeCheck';
 import { assign } from 'min-dash';
 
@@ -110,6 +110,7 @@ export function adjustPositions(elements) {
   });
 
   if (xLeft < 75 || xLeft > 150 || yUp < 0 || yUp > 50) {
+
     // add Padding for the Palette and the top
     xLeft -= 75;
     yUp -= 50;

@@ -1,14 +1,13 @@
 'use strict';
 
-import $ from 'jquery';
 import './domain-story-modeler/util/MathExtensions';
 import DomainStoryModeler from './domain-story-modeler';
 import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';
 import EventBus from 'diagram-js/lib/core/EventBus';
-import DSActivityHandlers from './domain-story-modeler/modeler/DSActivityHandlers';
+import DSActivityHandlers from './domain-story-modeler/modeler/UpdateHandler/DSActivityHandlers';
 import { toggleStashUse } from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
 import { version } from '../package.json';
-import DSMassRenameHandlers from './domain-story-modeler/features/dictionary/DSMassRenameHandlers';
+import DSMassRenameHandlers from './domain-story-modeler/modeler/UpdateHandler/DSMassRenameHandlers';
 import {
   getActivityDictionary,
   cleanDictionaries,
@@ -23,7 +22,9 @@ import {
 import { autocomplete } from './domain-story-modeler/features/labeling/DSLabelUtil';
 import {
   updateExistingNumbersAtEditing,
-  getNumberRegistry
+  getNumberRegistry,
+  getMultipleNumberRegistry,
+  setNumberIsMultiple
 } from './domain-story-modeler/features/numbering/numbering';
 import {
   ACTIVITY,
@@ -50,7 +51,7 @@ import {
 import {
   getActivitesFromActors,
   initElementRegistry
-} from './domain-story-modeler/features/canvasElements/canvasElementRegistry';
+} from './domain-story-modeler/language/canvasElementRegistry';
 import { createListOfAllIcons } from './domain-story-modeler/features/iconSetCustomization/customizationDialog';
 import {
   setToDefault,
@@ -59,13 +60,14 @@ import {
   exportConfiguration
 } from './domain-story-modeler/features/iconSetCustomization/persitence';
 import {
-  debounce,
-  changeWebsiteTitle
+  debounce
 } from './domain-story-modeler/util/helpers';
 import {
   isDirty,
   makeDirty
 } from './domain-story-modeler/features/export/dirtyFlag';
+import DSElementHandler from './domain-story-modeler/modeler/UpdateHandler/DSElementHandler';
+import headlineAndDescriptionUpdateHandler from './domain-story-modeler/modeler/UpdateHandler/headlineAndDescriptionUpdateHandler';
 
 const modeler = new DomainStoryModeler({
   container: '#canvas',
@@ -74,9 +76,10 @@ const modeler = new DomainStoryModeler({
   }
 });
 const canvas = modeler.get('canvas');
+const elementRegistry = modeler.get('elementRegistry');
 const eventBus = modeler.get('eventBus');
 const commandStack = modeler.get('commandStack');
-const elementRegistry = modeler.get('elementRegistry');
+const selection = modeler.get('selection');
 
 initialize(canvas, elementRegistry, version, modeler, eventBus, fnDebounce);
 
@@ -86,23 +89,31 @@ let keysPressed = [];
 // HTML-Elements
 let modal = document.getElementById('modal'),
     arrow = document.getElementById('arrow'),
+
     // logos
     wpsLogo = document.getElementById('imgWPS'),
     dstLogo = document.getElementById('imgDST'),
+
     // text-elements
     wpsInfotext = document.getElementById('wpsLogoInnerText'),
     wpsInfotextPart2 = document.getElementById('wpsLogoInnerText2'),
     dstInfotext = document.getElementById('dstLogoInnerText'),
+
     // labels
     headline = document.getElementById('headline'),
     title = document.getElementById('title'),
     info = document.getElementById('info'),
     infoText = document.getElementById('infoText'),
+
     // inputs
     titleInput = document.getElementById('titleInput'),
     activityInputNumber = document.getElementById('inputNumber'),
     activityInputLabelWithNumber = document.getElementById('inputLabel'),
     activityInputLabelWithoutNumber = document.getElementById('labelInputLabel'),
+    multipleNumberAllowedCheckBox = document.getElementById(
+      'multipleNumberAllowed'
+    ),
+
     // dialogs
     headlineDialog = document.getElementById('dialog'),
     activityWithNumberDialog = document.getElementById('numberDialog'),
@@ -114,6 +125,7 @@ let modal = document.getElementById('modal'),
     keyboardShortcutInfo = document.getElementById('keyboardShortcutInfo'),
     downloadDialog = document.getElementById('downloadDialog'),
     noContentOnCanvasDialog = document.getElementById('noContentOnCanvasInfo'),
+
     // container
     iconCustomizationContainer = document.getElementById(
       'iconCustomizationContainer'
@@ -124,6 +136,7 @@ let modal = document.getElementById('modal'),
     workobjectDictionaryContainer = document.getElementById(
       'workobjectDictionaryContainer'
     ),
+
     // buttons
     headlineDialogButtonSave = document.getElementById('saveButton'),
     headlineDialogButtonCancel = document.getElementById('quitButton'),
@@ -189,11 +202,17 @@ function initialize(
     eventBus,
     fnDebounce
 ) {
-  // we need to initiate the activity commandStack elements
-  DSActivityHandlers(commandStack, eventBus, canvas);
-  DSMassRenameHandlers(commandStack, eventBus, canvas);
 
-  initReplay(canvas);
+  // we need to initiate the activity commandStack elements
+  DSActivityHandlers(commandStack, eventBus);
+  DSMassRenameHandlers(commandStack, eventBus);
+  DSElementHandler(commandStack, eventBus);
+  headlineAndDescriptionUpdateHandler(commandStack);
+
+  const exportArtifacts = debounce(fnDebounce, 500);
+  modeler.on('commandStack.changed', exportArtifacts);
+
+  initReplay(canvas, selection);
   initElementRegistry(elementRegistry);
   initImports(elementRegistry, version, modeler, eventBus, fnDebounce);
 
@@ -211,6 +230,7 @@ function initialize(
     let returnValue;
 
     try {
+
       // returning false prevents the default action
       returnValue = invokeFunction(listener.callback, args);
 
@@ -237,13 +257,18 @@ function initialize(
   };
 
   modeler.createDiagram();
+
   // expose bpmnjs to window for debugging purposes
   window.bpmnjs = modeler;
 
   // if there is a persited Story, load it
   if (localStorage.getItem(storyPersistTag)) {
     loadPersistedDST(modeler);
+
+    eventBus.fire('commandStack.changed', debounce(fnDebounce, 500));
   }
+
+  debounce(fnDebounce, 500);
 }
 
 /**
@@ -686,24 +711,26 @@ function showHeadlineDialog() {
 }
 
 function saveHeadlineDialog() {
-  const inputTitle = titleInput.value;
-  const inputText = info.value;
-  if (inputTitle !== '') {
-    title.innerText = inputTitle;
-  } else {
-    title.innerText = '<name of this Domain Story>';
-  }
-  info.innerText = inputText;
-  infoText.innerText = inputText;
 
-  setTitleInputLast(inputTitle);
-  setDescriptionInputLast(inputText);
-  changeWebsiteTitle(inputTitle);
+  let inputTitle = titleInput.value;
+  const inputText = info.value;
+  if (!inputTitle) {
+    inputTitle = '<name of this Domain Story>';
+  }
+
+  const headerValues = {
+    newTitle: inputTitle,
+    newDescription: inputText,
+    oldTitle: title.innerText,
+    oldDescription:infoText.innerText
+  };
+  commandStack.execute('story.updateHeadlineAndDescription', headerValues);
 
   // to update the title of the svg, we need to tell the command stack, that a value has changed
   const exportArtifacts = debounce(fnDebounce, 500);
 
   eventBus.fire('commandStack.changed', exportArtifacts);
+
 
   keysPressed = [];
   makeDirty();
@@ -715,6 +742,12 @@ function showActivityWithNumberDialog(event) {
   activityWithNumberDialog.style.display = 'block';
   activityInputLabelWithNumber.value = '';
   activityInputNumber.value = '';
+
+  const numberAsNumber = +event.businessObject.number;
+  const numberIsAlloedMultipleTimes =
+    getMultipleNumberRegistry()[numberAsNumber] === true;
+
+  multipleNumberAllowedCheckBox.checked = numberIsAlloedMultipleTimes;
 
   if (event.businessObject.name != null) {
     activityInputLabelWithNumber.value = event.businessObject.name;
@@ -750,6 +783,8 @@ function closeActivityInputLabelWithNumberDialog() {
 function saveActivityInputLabelWithNumber(element) {
   let labelInput = '';
   let numberInput = '';
+  const multipleNumberAllowed = multipleNumberAllowedCheckBox.checked;
+
   const activityDictionary = getActivityDictionary();
   if (activityInputLabelWithNumber != '') {
     labelInput = activityInputLabelWithNumber.value;
@@ -760,6 +795,7 @@ function saveActivityInputLabelWithNumber(element) {
   if (activityInputNumber != '') {
     numberInput = activityInputNumber.value;
   }
+  const numberInputAsNumber = +numberInput;
 
   activityWithNumberDialog.style.display = 'none';
   modal.style.display = 'none';
@@ -769,9 +805,12 @@ function saveActivityInputLabelWithNumber(element) {
   keysPressed = [];
 
   const activitiesFromActors = getActivitesFromActors();
-
   const index = activitiesFromActors.indexOf(element);
+
   activitiesFromActors.splice(index, 1);
+
+  setNumberIsMultiple(numberInputAsNumber, multipleNumberAllowed);
+  element.businessObject.multipleNumberAllowed = multipleNumberAllowed;
 
   commandStack.execute('activity.changed', {
     businessObject: element.businessObject,
@@ -779,8 +818,17 @@ function saveActivityInputLabelWithNumber(element) {
     newNumber: numberInput,
     element: element
   });
-
-  updateExistingNumbersAtEditing(activitiesFromActors, numberInput, eventBus);
+  if (element.businessObject.multipleNumberAllowed !== false) {
+    if (getMultipleNumberRegistry()[numberInputAsNumber] === false) {
+      updateExistingNumbersAtEditing(
+        activitiesFromActors,
+        numberInput,
+        eventBus
+      );
+    }
+  } else if (element.businessObject.multipleNumberAllowed === false) {
+    updateExistingNumbersAtEditing(activitiesFromActors, numberInput, eventBus);
+  }
   cleanDictionaries();
 }
 
@@ -824,11 +872,6 @@ function keyReleased(keysPressed, keyCode) {
 function saveSVG(done) {
   modeler.saveSVG(done);
 }
-
-$(function() {
-  const exportArtifacts = debounce(fnDebounce, 500);
-  modeler.on('commandStack.changed', exportArtifacts);
-});
 
 function fnDebounce() {
   saveSVG(function(err, svg) {

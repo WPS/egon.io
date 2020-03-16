@@ -21,7 +21,8 @@ import { ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { domExists } from '../../language/testmode';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
 import { all_icons } from '../../language/icon/all_Icons';
-import { getAllCanvasObjects } from '../canvasElements/canvasElementRegistry';
+import { getAllCanvasObjects } from '../../language/canvasElementRegistry';
+import { Dict } from '../../language/collection';
 
 export const useCustomConfigTag = 'useCustomConfig';
 export const useNecessaryConfigTag = 'useNecessaryConfig';
@@ -29,8 +30,6 @@ export const customConfigTag = 'customConfig';
 export const appendedIconsTag = 'appendedIcons';
 export const storyPersistTag = 'persistetStory';
 export const customConfigNameTag = 'persitedDomainName';
-
-const Collection = require('collections/dict');
 
 export function setToDefault() {
   persistStory();
@@ -50,11 +49,13 @@ export function exportConfiguration() {
   let workObjects = getSelectedWorkObjectsDictionary();
   let configJSONString;
 
-  if (actors.size > 0 && workObjects.size > 0) {
+  if (actors.size() > 0 && workObjects.size() > 0) {
     configJSONString = JSON.stringify(
       createConfigFromDictionaries(
         actors,
+        undefined,
         workObjects,
+        undefined,
         document.getElementById('domainNameInput').value
       )
     );
@@ -98,22 +99,31 @@ export function saveIconConfiguration(elements) {
 
   let actors = getSelectedActorsDictionary();
   let workObjects = getSelectedWorkObjectsDictionary();
+  let actorOrder = [], workobjectOrder = [];
+  let selectedActorsList = document.getElementById('selectedActorsList');
   let domainNameInput = document.getElementById('domainNameInput');
   let name = '';
 
-  if (!actors.size > 0) {
-    actors = getTypeDictionary(ACTOR);
-  }
-  if (!workObjects.size > 0) {
-    workObjects = getTypeDictionary(WORKOBJECT);
-  }
-  if (domainNameInput) {
-    name = domainNameInput.value;
+  if (selectedActorsList) {
+    if (!actors.size > 0) {
+      actors = getTypeDictionary(ACTOR);
+    } else {
+      actors.entries.forEach(entry => actorOrder.push(entry.key));
+    }
+    if (!workObjects.size > 0) {
+      workObjects = getTypeDictionary(WORKOBJECT);
+    } else {
+      workObjects.entries.forEach(entry => workobjectOrder.push(entry.key));
+    }
+    if (domainNameInput) {
+      name = domainNameInput.value;
+    }
   }
 
   let configJSONString = JSON.stringify(
-    createConfigFromDictionaries(actors, workObjects, name)
+    createConfigFromDictionaries(actors, actorOrder, workObjects, workobjectOrder, name)
   );
+
 
   localStorage.setItem(useCustomConfigTag, true);
   localStorage.setItem(customConfigTag, configJSONString);
@@ -129,10 +139,8 @@ export function saveIconConfiguration(elements) {
 }
 
 export function loadConfiguration(customConfig) {
-  const dictionary = require('collections/dict');
-  let actorDict = new dictionary();
-  let workObjectDict = new dictionary();
-
+  let actorDict = new Dict();
+  let workObjectDict = new Dict();
   let customConfigJSON = JSON.parse(customConfig);
 
   const configurationName = customConfigJSON.name;
@@ -179,36 +187,42 @@ function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
     htmlList.appendChild(listElement);
   });
 
-  for (let i = 0; i < htmlList.children.length; i++) {
-    let child = htmlList.children[i];
-    let childText = child.innerText;
+  actorDict.keysArray().forEach(name => {
+    for (let i = 0; i < htmlList.children.length; i++) {
+      let child = htmlList.children[i];
 
-    actorDict.keysArray().forEach(name => {
-      if (childText.startsWith(name)) {
+      if (child.innerText.startsWith(name)) {
         child.children[0].children[1].checked = true;
-        createListElementInSeletionList(
+        selectedActorsList.appendChild(createListElementInSeletionList(
           name,
           getIconSource(name),
           selectedActorsList
-        );
+        ));
       }
-    });
-    workObjectDict.keysArray().forEach(name => {
-      if (childText.startsWith(name)) {
+    }
+  });
+
+  workObjectDict.keysArray().forEach(name => {
+    for (let i = 0; i < htmlList.children.length; i++) {
+      let child = htmlList.children[i];
+
+      if (child.innerText.startsWith(name)) {
         child.children[0].children[2].checked = true;
-        createListElementInSeletionList(
+        selectedWorkObjectList.appendChild(createListElementInSeletionList(
           name,
           getIconSource(name),
           selectedWorkObjectList
-        );
+        ));
       }
-    });
-  }
+    }
+  });
 }
 
 export function createConfigFromDictionaries(
     actorsDict,
+    actorOrder,
     workObjectsDict,
+    workobjectOrder,
     name
 ) {
   let actors = actorsDict.keysArray();
@@ -216,14 +230,31 @@ export function createConfigFromDictionaries(
   let actorsJSON = {};
   let workObjectJSON = {};
 
+  if (actorOrder) {
+    actorOrder.forEach(actor => {
+      actorsJSON[actor.replace(ACTOR, '')] = actorsDict.get(actor);
+    });
+  }
+  if (workobjectOrder) {
+    workobjectOrder.forEach(workObject => {
+      workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(
+        workObject
+      );
+    });
+  }
+
   actors.forEach(actor => {
-    actorsJSON[actor.replace(ACTOR, '')] = actorsDict.get(actor);
+    if (!actorOrder || !actorOrder.includes(actor)) {
+      actorsJSON[actor.replace(ACTOR, '')] = actorsDict.get(actor);
+    }
   });
 
   workObjects.forEach(workObject => {
-    workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(
-      workObject
-    );
+    if (!workobjectOrder || !workobjectOrder.includes(workObject)) {
+      workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(
+        workObject
+      );
+    }
   });
 
   let config = {
@@ -256,16 +287,18 @@ function persistStory() {
 function persistNecessaryConfig() {
   let currentConfig = createConfigFromDictionaries(
     getSelectedActorsDictionary(),
+    null,
     getSelectedWorkObjectsDictionary(),
+    null,
     ''
   );
 
-  let currentActors = new Collection();
+  let currentActors = new Dict();
   currentActors.addEach(currentConfig.actors);
-  let currentWorkobjects = new Collection();
+  let currentWorkobjects = new Dict();
   currentWorkobjects.addEach(currentConfig.workObjects);
-  let allActors = new Collection();
-  let allWorkobjects = new Collection();
+  let allActors = new Dict();
+  let allWorkobjects = new Dict();
 
   currentActors.keysArray().forEach(name => {
     if (!all_icons[name]) {

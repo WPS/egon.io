@@ -1,6 +1,6 @@
 
 import { ACTIVITY, WORKOBJECT } from '../../language/elementTypes';
-import { getAllCanvasObjects } from '../canvasElements/canvasElementRegistry';
+import { getAllCanvasObjects } from '../../language/canvasElementRegistry';
 
 
 let activityDictionary = [];
@@ -155,6 +155,7 @@ function dictionaryDifferences(activityNames, oldActivityDictionary, workObjectN
       massChangeNames(oldWorkobjectDictionary[i], workObjectNames[i], WORKOBJECT, commandStack);
     }
   }
+
   // delete old entires from stashes
 }
 

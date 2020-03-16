@@ -5,10 +5,10 @@ import { sanitizeForDesktop } from '../../util/Sanitizer';
 
 let title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
-let svgData, cacheData;
+let cacheData;
 
 export function downloadSVG(filename) {
-  createSVGData();
+  const svgData = createSVGData();
 
   let element = document.createElement('a');
   element.setAttribute(
@@ -30,6 +30,7 @@ export function setEncoded(data) {
 }
 
 function createSVGData() {
+
   // to ensure that the title and description are inside the SVG container and do not overlapp with any elements,
   // we change the confines of the SVG viewbox
   let descriptionText = infoText.innerHTML;
@@ -52,6 +53,7 @@ function createSVGData() {
     xRight += 300;
     width += 300;
   }
+
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
   let { insertText, extraHeight } = createTitleAndDescriptionSVGElement(
     titleText,
@@ -94,7 +96,7 @@ function createSVGData() {
     insertText,
     cacheData.slice(insertIndex)
   ].join('');
-  svgData = encodeURIComponent(cacheData);
+  return encodeURIComponent(cacheData);
 }
 
 function viewBoxCoordinates(svg) {

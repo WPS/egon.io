@@ -154,14 +154,16 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
     'shape.create',
     'shape.move',
     'shape.delete',
-    'shape.resize'
+    'shape.resize',
+    'shape.removeGroupWithoutChildren'
   ], ifDomainStoryElement(updateCustomElement));
 
   this.reverted([
     'shape.create',
     'shape.move',
     'shape.delete',
-    'shape.resize'
+    'shape.resize',
+    'shape.removeGroupWithoutChildren'
   ], ifDomainStoryElement(updateCustomElement));
 
   this.executed([
