@@ -41,6 +41,7 @@ describe('domainStory modeling', function() {
 
     it('should export custom element', inject(
       function(bpmnjs, elementRegistry, modeling) {
+
         // type has to be registered for test
         initTypeDictionaries(test_conf.actors);
 

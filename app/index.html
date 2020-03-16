@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="domain-story.css" />
   <link rel="stylesheet" href="domain-story-modeler/language/icon/icons.css" id="iconsCss"/>
 
-  <title>Domain Storytelling Modeler</title>
+  <title>Domain Story Modeler</title>
 </head>
 
 <body>
@@ -128,39 +128,47 @@
   <div id="iconCustomizationContainer"  style ="display:none">
     <div class="iconConfigCustomization">
       <div class="topButtonRow">
-        <button id="resetIconConfigButton">reset to default</button>
-        <button id="uploadCutomIcon" onclick="document.getElementById('importIcon').click();"> upload custom icon</button>
-        <div></div>
-        <div>Domain name:</div>
-        <input type ="text" id="domainNameInput" value="default">
-        <div></div>
-        <img src="./logo/unarchive.png" id="importConfigurationButton" title="import icon configuration" onclick="document.getElementById('importConfig').click()">
-        <div></div>
-        <img id="exportConfigurationButton" src="./logo/archive.png" title="export icon configuration">
-        <input type="file" accept=".domain" style="display:none;" id="importConfig" onclick="this.value=null;" name="file" />
-        <div></div>
-        <button id="customIconConfigSaveButton">Save</button>
-        <div></div>
-        <button id="cancelIconCustomizationButton">Cancel</button>
+        <div>
+          <button id="resetIconConfigButton">reset to default</button>
+          <button id="uploadCutomIcon" onclick="document.getElementById('importIcon').click();"> upload custom icon</button>
+        </div>
+        <div>
+          <span>Domain name:</span>
+          <input type="text" id="domainNameInput" value="default">
+        </div>
+        <div>
+          <img src="./logo/unarchive.png" id="importConfigurationButton" title="import icon configuration" onclick="document.getElementById('importConfig').click()">
+          <img id="exportConfigurationButton" src="./logo/archive.png" title="export icon configuration">
+          <input type="file" accept=".domain" style="display:none;" id="importConfig" onclick="this.value=null;" name="file" />
+        </div>
+        <div>
+          <button id="customIconConfigSaveButton">Save</button>
+          <button id="cancelIconCustomizationButton">Cancel</button>
+        </div>
       </div>
       <div class="iconListsContainer">
         <div id="allIconListContainer">
           <div id="allIconsListHeader">
-            <text> Unassigned</text>
-            <text> Actor</text>
+            <text> Unassigned |</text>
+            <text> Actor |</text>
             <text> WorkObject</text>
           </div>
-          <ul id="allIconsList"></ul>
+          <div class="listWrapper">
+            <ul id="allIconsList"></ul>
+          </div>
         </div>
         <div class="selectedIconsContainer">
           <div id="selectedActorsContainer">
-            Actors
-            <ul id="selectedActorsList"></ul>
+            <p class="selectedIconListHeader">Actors</p>
+            <div class="listWrapper">
+              <ul id="selectedActorsList"></ul>
+            </div>
           </div>
-          <div id="line"></div>
           <div id="selectedWorkObjectsContainer">
-            WorkObjects
-            <ul id="selectedWorkObjectsList"></ul>
+            <p class="selectedIconListHeader">WorkObjects</p>
+            <div class="listWrapper">
+              <ul id="selectedWorkObjectsList"></ul>
+            </div>
           </div>
         </div>
       </div>

@@ -33,6 +33,7 @@ const testElementDomainStoryIsNotInGroup = {
 
 describe('Util TypeCheck', function() {
   it('test isDomainStory true', function() {
+
     // Given
     let testObject = testElementDomainStoryActor;
 
@@ -44,6 +45,7 @@ describe('Util TypeCheck', function() {
   });
 
   it('test isDomainStory false', function() {
+
     // Given
     let testObject = testElementNotDomainStory;
 
@@ -55,6 +57,7 @@ describe('Util TypeCheck', function() {
   });
 
   it('test isDomainStoryGroup true', function() {
+
     // Given
     let testObject = testElementDomainStoryGroup;
 
@@ -66,6 +69,7 @@ describe('Util TypeCheck', function() {
   });
 
   it('test isDomainStoryGroup false', function() {
+
     // Given
     let testObject = testElementDomainStoryActor;
 
@@ -77,6 +81,7 @@ describe('Util TypeCheck', function() {
   });
 
   it('test isInDomainStoryGroup true', function() {
+
     // Given
     let testObject = testElementDomainStoryIsInGroup;
 
@@ -88,6 +93,7 @@ describe('Util TypeCheck', function() {
   });
 
   it('test isInDomainStoryGroup false', function() {
+
     // Given
     let testObject = testElementDomainStoryIsNotInGroup;
 
@@ -99,6 +105,7 @@ describe('Util TypeCheck', function() {
   });
 
   it('test isInDomainStoryGroup false No parent', function() {
+
     // Given
     let testObject = testElementDomainStoryActor;
 
@@ -110,6 +117,7 @@ describe('Util TypeCheck', function() {
   });
 
   it('test isDomainStoryElement true', function() {
+
     // Given
     let testObject = testElementDomainStoryActor;
 
@@ -121,6 +129,7 @@ describe('Util TypeCheck', function() {
   });
 
   it('test isDomainStoryElement false', function() {
+
     // Given
     let testObject = testElementNotDomainStory;
 

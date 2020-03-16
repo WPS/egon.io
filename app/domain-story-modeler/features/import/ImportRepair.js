@@ -110,6 +110,7 @@ export function adjustPositions(elements) {
   });
 
   if (xLeft < 75 || xLeft > 150 || yUp < 0 || yUp > 50) {
+
     // add Padding for the Palette and the top
     xLeft -= 75;
     yUp -= 50;

@@ -1,11 +1,10 @@
 'use strict';
 
-
-const map = require('collections/map');
+import { Dict } from '../../language/collection';
 
 // create a trace through all activities, that recreates the path from the beginning to the end of the story
 export function traceActivities(activitiesFromActors) {
-  const tracedActivityMap = new map();
+  const tracedActivityMap = new Dict();
 
   // order the activities with numbers by their number
   activitiesFromActors.forEach(element => {
@@ -16,9 +15,10 @@ export function traceActivities(activitiesFromActors) {
   });
 
   let allSteps = [];
+
   // create a step for each activity with a number
   for (let i = 0; i < tracedActivityMap.keysArray().length; i++) {
-    let traceStep = createStep(tracedActivityMap.get(i));
+    let traceStep = createStep(tracedActivityMap.get(i) || []);
 
     allSteps.push(traceStep);
   }
@@ -47,6 +47,7 @@ export function createStep(tracedActivity) {
             !checkTarget.businessObject.type.includes('actor') &&
             checkTarget.outgoing
         ) {
+
           // check the target for each outgoing activity
           checkTarget.outgoing.forEach(activity => {
             activities.push(activity);

@@ -5,7 +5,7 @@ import { createListElement } from './customizationDialog';
 import { domExists } from '../../language/testmode';
 
 export function addIMGToIconDictionary(input, name) {
-  appendedIcons[name] = input;
+  appendedIcons.set(name, input);
 
   if (domExists()) {
     const htmlList = document.getElementById('allIconsList');

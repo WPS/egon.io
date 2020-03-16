@@ -76,9 +76,10 @@ const modeler = new DomainStoryModeler({
   }
 });
 const canvas = modeler.get('canvas');
+const elementRegistry = modeler.get('elementRegistry');
 const eventBus = modeler.get('eventBus');
 const commandStack = modeler.get('commandStack');
-const elementRegistry = modeler.get('elementRegistry');
+const selection = modeler.get('selection');
 
 initialize(canvas, elementRegistry, version, modeler, eventBus, fnDebounce);
 
@@ -211,7 +212,7 @@ function initialize(
   const exportArtifacts = debounce(fnDebounce, 500);
   modeler.on('commandStack.changed', exportArtifacts);
 
-  initReplay(canvas);
+  initReplay(canvas, selection);
   initElementRegistry(elementRegistry);
   initImports(elementRegistry, version, modeler, eventBus, fnDebounce);
 

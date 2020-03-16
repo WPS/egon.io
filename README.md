@@ -12,7 +12,7 @@ You can try the modeler online at https://www.wps.de/modeler.
 To run the modeler locally, download the latest release from [GitHub](https://github.com/WPS/domain-story-modeler/releases).
 Extract the zip file and open index.html in your browser.
 
-**Important:** Starting with v1.0.0, the modeler requires that your browser allows third party cookies (How to turn on third party cookies in [Firefox](https://support.mozilla.org/en-US/kb/disable-third-party-cookies) and [Chrome](https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=en)). We rely on storing your moddeler's configuration in your browser. That enabled us to develop a cool feature that allows you to choose which icons you want to use for modeling (see below).
+**Important:** Starting with v1.0.0, the modeler requires that your browser allows third party cookies (How to turn on third party cookies in [Firefox](https://support.mozilla.org/en-US/kb/disable-third-party-cookies) and [Chrome](https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=en)). We rely on storing your modeler's configuration in your browser. That enabled us to develop a cool feature that allows you to choose which icons you want to use for modeling (see below).
 
 ### Usage
 
@@ -33,7 +33,17 @@ Use ctrl+enter or alt+enter to add line breaks to the description.
 
 #### Context Menu
 
-If you drop an icon from the palette into the canvas you will see a context menu. To show the connection between two icons use the arrow. Also you can choose the next icon you want to connect to. If you choose one, it will automatically be connected. Delete the chosen icon by clicking on delete. You can click on the wrench to change the icon. By using the annotation icon, you can add comments for further information.
+If you drop an icon from the palette into the canvas you will see a context menu with three sections:
+
+* Top section:
+  * wrench icon: change to another the icon
+  * bin icon: delete the icon
+  * color-palette icon: change the color of the activity/work object
+* Middle section:
+  * arrow icon: connect two icons with an activity.
+  * annotation icon: add comments to an actor or work object
+* Bottom section: Instead of dragging icons from the palette, you can can choose the next icon from the context menu and an arrow will connect them automatically.
+
 
 #### Naming Actors and Work Objects
 
@@ -41,34 +51,36 @@ Double click on an actor's or work object's icon to edit the name. To rename mul
 
 #### Naming and Numbering of Activities
 
-Activities are depicted as arrows. Double click on an arrow to edit the activity's name. If you model an activity between an actor (person, people and system) and a workobject (folder, call, email, conversation, information) it will be numbered automatically. By double clicking on the arrow or the number you can manually change the number. All other numbers are adjusted automatically.
+Activities are depicted as arrows. Double click on an arrow to edit the activity's name. If you model an activity between an actor (person, people and system) and a work object (folder, call, email, conversation, information) it will be numbered automatically. By double clicking on the arrow or the number you can manually change the number. All other numbers are adjusted automatically.
+
+If you want to model activities that happen simultaneously, check  the "multiple" checkbox of an activity. This allows you to use the same number multiple times, indicating that these activities happen in parallel. These steps are shown at once in the replay mode.
 
 #### Save and Export Domain Stories
 
-If you want to save your Domain Story, download it as a .dst file by clicking the export button ![Export Button](/images/archive.png) or pressing ctrl+s on your keyboard. To continue working on a Domain Story, import a .dst file using the upload button ![Upload Button](/images/unarchive.png).
-You can also export your diagram as a .svg or .png file by clicking on the image button ![SVG Button](/images/image.png) and selecting your preferred format.
+If you want to save your Domain Story, download it as a `.dst` file by clicking the export button ![Export Button](/images/archive.png) or pressing ctrl+s on your keyboard. To continue working on a Domain Story, import a `.dst` file using the upload button ![Upload Button](/images/unarchive.png).
+You can also export your diagram as a `.svg` or `.png` file by clicking on the image button ![SVG Button](/images/image.png) and selecting your preferred format.
 
 #### Replay
 
 The replay feature helps you to re-tell a Domain Story sentence by sentence. When you start a replay with the play button ![Play Button](/images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](/images/forward.png) shows the next activity and clicking the previous button ![Previous Button](/images/previous.png) shows the previous one. Editing is disabled in replay mode, but you can zoom (mouse wheel up and down) and scroll (ctrl + mouse wheel up and down). The stop the replay, click the stop button ![Stop Button](/images/stop.png).
 
-#### Shortcuts
+#### Keyboard Shortcuts
 
 Click on ![Keyboard Button](/images/keyboard.png) to display all available keyboard shortcuts.
 
 #### Configuring the icon set
 
-If you use the modeler in an organization, we recommend that you and your colleagues agree on an icon set that fits to your domain. You can configure the palette accordingly and share that configuration:
+We recommend that the icon set is adapted to the domain that you model. You can configure the palette accordingly and share that configuration:
 
-Click on ![Gear Button](/images/gear.png) to open the icon configuration. Configure your icon set by naming it and selecting which icons should be used as actors or as work objects. You can export yor configuration as .domain file. To switch between configurations, import a different .domain file.
+Click on ![Gear Button](/images/gear.png) to open the icon configuration. Configure your icon set by naming it, selecting which icons should be used as actors or as work objects and order these icons (using drag&drop). You can export your configuration as `.domain` file. To switch between configurations, import a different `.domain` file.
 
-If you import a Domain Story from a .dst file, your icon configuration will change automatically to the one with which the Domain Story was created - even if you do not have the corresponding .domain file.
+If you import a Domain Story from a `.dst` file, your icon configuration will change automatically to the one with which the Domain Story was created - even if you do not have the corresponding `.domain` file.
 
-**Beta feature:** If you want to use icons that are not in the predefined set that comes with the modeler, you can upload your own icons. Different image formats are allowed, but you will achieve best results with SVG because it is scalable (like the icons that come with the modeler). Also, we recommend to use square images because they look better in the pallete and the context pad. If you want a consistent look, consider using the same icon set that we use for the predefined icons: https://material.io/resources/icons/?style=outline
+**Beta feature:** If you want to use icons that are not in the predefined set that comes with the modeler, you can upload your own icons. Different image formats are allowed, but you will achieve best results with SVG because it is scalable (like the icons that come with the modeler). Also, we recommend to use square images because they look better in the pallet and the context pad. If you want a consistent look, consider using the same icon set that we use for the predefined icons: https://material.io/resources/icons/?style=outline
 
 ### Examples
 
-The examples' directory contains .dst files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
+The examples' directory contains `.dst` files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
 The examples' directory also contains a SVG file for every Domain Story. The images were created using the modeler.
 
 ### For Developers
@@ -101,7 +113,7 @@ The Modeler uses [bpmn-js](https://github.com/bpmn-io/bpmn-js) which is licensed
 
 ### GPLv3.0
 
-Copyright (c) 2018 WPS - Workplace Solutions GmbH
+Copyright (c) 2018-2020 WPS - Workplace Solutions GmbH
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

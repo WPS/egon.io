@@ -80,6 +80,7 @@ export function getAllCanvasObjects() {
   for (i = 0; i < elementRegistry.length; i++) {
     let type = elementRegistry[i].type;
     if (type.includes(GROUP)) {
+
       // if it is a group, memorize this for later
       groupObjects.push(elementRegistry[i]);
     }
@@ -118,6 +119,7 @@ export function getAllGroups() {
   for (i = 0; i < elementRegistry.length; i++) {
     let type = elementRegistry[i].type;
     if (type.includes(GROUP)) {
+
       // if it is a group, memorize this for later
       groupObjects.push(elementRegistry[i]);
     }

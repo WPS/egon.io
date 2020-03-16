@@ -2,19 +2,20 @@
 
 import { ACTIVITY, TEXTANNOTATION, ACTOR, WORKOBJECT } from '../../language/elementTypes';
 import { getAllCanvasObjects, getAllGroups } from '../../language/canvasElementRegistry';
-import { getSelectedActorsDictionary, getSelectedWorkObjectsDictionary } from '../iconSetCustomization/dictionaries';
 import { createConfigFromDictionaries } from '../iconSetCustomization/persitence';
 import { removeDirtyFlag } from './dirtyFlag';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
 import { sanitizeForDesktop } from '../../util/Sanitizer';
+import { getIconset } from '../../language/icon/iconConfig';
 
 let infoText = document.getElementById('infoText');
 
 export function downloadDST(filename, text) {
 
-  let actors = getSelectedActorsDictionary();
-  let workObjects = getSelectedWorkObjectsDictionary();
   let configJSONString = {};
+  const iconConfig = getIconset();
+  let actors = iconConfig.actors;
+  let workObjects = iconConfig.workObjects;
 
   if (!actors.size>0) {
     actors = getTypeDictionary(ACTOR);
@@ -22,7 +23,6 @@ export function downloadDST(filename, text) {
   if (!workObjects.size>0) {
     workObjects = getTypeDictionary(WORKOBJECT);
   }
-
 
   configJSONString = JSON.stringify(createConfigFromDictionaries(actors, null, workObjects, null, document.getElementById('currentDomainName').innerText));
   let configAndDST = {
@@ -56,6 +56,7 @@ export function createObjectListForDSTDownload(version) {
     if (canvasElement.type == ACTIVITY) {
       objectList.push(canvasElement.businessObject);
     }
+
     // ensure that Activities are always after Actors, Workobjects and Groups in .dst files
     else {
       if (canvasElement.type == TEXTANNOTATION) {

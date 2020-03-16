@@ -1,7 +1,8 @@
 'use strict';
 
-const Icons = require('collections/dict');
-let icons = new Icons();
+import { Dict } from '../collection';
+
+const icons = new Dict();
 
 export function getIconDictionary() {
   return icons;

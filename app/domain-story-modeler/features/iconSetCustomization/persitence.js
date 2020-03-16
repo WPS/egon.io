@@ -22,6 +22,7 @@ import { domExists } from '../../language/testmode';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
 import { all_icons } from '../../language/icon/all_Icons';
 import { getAllCanvasObjects } from '../../language/canvasElementRegistry';
+import { Dict } from '../../language/collection';
 
 export const useCustomConfigTag = 'useCustomConfig';
 export const useNecessaryConfigTag = 'useNecessaryConfig';
@@ -29,8 +30,6 @@ export const customConfigTag = 'customConfig';
 export const appendedIconsTag = 'appendedIcons';
 export const storyPersistTag = 'persistetStory';
 export const customConfigNameTag = 'persitedDomainName';
-
-const Collection = require('collections/dict');
 
 export function setToDefault() {
   persistStory();
@@ -50,11 +49,13 @@ export function exportConfiguration() {
   let workObjects = getSelectedWorkObjectsDictionary();
   let configJSONString;
 
-  if (actors.size > 0 && workObjects.size > 0) {
+  if (actors.size() > 0 && workObjects.size() > 0) {
     configJSONString = JSON.stringify(
       createConfigFromDictionaries(
         actors,
+        undefined,
         workObjects,
+        undefined,
         document.getElementById('domainNameInput').value
       )
     );
@@ -100,38 +101,25 @@ export function saveIconConfiguration(elements) {
   let workObjects = getSelectedWorkObjectsDictionary();
   let actorOrder = [], workobjectOrder = [];
   let selectedActorsList = document.getElementById('selectedActorsList');
-  let selectedWorkObjectList = document.getElementById(
-    'selectedWorkObjectsList'
-  );
   let domainNameInput = document.getElementById('domainNameInput');
   let name = '';
 
   if (selectedActorsList) {
-
-    let actorsListNames = selectedActorsList.getElementsByTagName('text');
-    let workObjectListNames = selectedWorkObjectList.getElementsByTagName('text');
-
-    for (let i=0; i<actorsListNames.length; i++) {
-      name = actorsListNames[i].outerText;
-      actorOrder.push(name);
-    }
-
-    for (let i=0; i<workObjectListNames.length; i++) {
-      name = workObjectListNames[i].outerText;
-      workobjectOrder.push(name);
-    }
-
     if (!actors.size > 0) {
       actors = getTypeDictionary(ACTOR);
+    } else {
+      actors.entries.forEach(entry => actorOrder.push(entry.key));
     }
     if (!workObjects.size > 0) {
       workObjects = getTypeDictionary(WORKOBJECT);
+    } else {
+      workObjects.entries.forEach(entry => workobjectOrder.push(entry.key));
     }
     if (domainNameInput) {
       name = domainNameInput.value;
     }
-
   }
+
   let configJSONString = JSON.stringify(
     createConfigFromDictionaries(actors, actorOrder, workObjects, workobjectOrder, name)
   );
@@ -151,10 +139,8 @@ export function saveIconConfiguration(elements) {
 }
 
 export function loadConfiguration(customConfig) {
-  const dictionary = require('collections/dict');
-  let actorDict = new dictionary();
-  let workObjectDict = new dictionary();
-
+  let actorDict = new Dict();
+  let workObjectDict = new Dict();
   let customConfigJSON = JSON.parse(customConfig);
 
   const configurationName = customConfigJSON.name;
@@ -201,38 +187,42 @@ function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
     htmlList.appendChild(listElement);
   });
 
-  for (let i = 0; i < htmlList.children.length; i++) {
-    let child = htmlList.children[i];
-    let childText = child.innerText;
+  actorDict.keysArray().forEach(name => {
+    for (let i = 0; i < htmlList.children.length; i++) {
+      let child = htmlList.children[i];
 
-    actorDict.keysArray().forEach(name => {
-      if (childText.startsWith(name)) {
+      if (child.innerText.startsWith(name)) {
         child.children[0].children[1].checked = true;
-        createListElementInSeletionList(
+        selectedActorsList.appendChild(createListElementInSeletionList(
           name,
           getIconSource(name),
           selectedActorsList
-        );
+        ));
       }
-    });
-    workObjectDict.keysArray().forEach(name => {
-      if (childText.startsWith(name)) {
+    }
+  });
+
+  workObjectDict.keysArray().forEach(name => {
+    for (let i = 0; i < htmlList.children.length; i++) {
+      let child = htmlList.children[i];
+
+      if (child.innerText.startsWith(name)) {
         child.children[0].children[2].checked = true;
-        createListElementInSeletionList(
+        selectedWorkObjectList.appendChild(createListElementInSeletionList(
           name,
           getIconSource(name),
           selectedWorkObjectList
-        );
+        ));
       }
-    });
-  }
+    }
+  });
 }
 
 export function createConfigFromDictionaries(
     actorsDict,
     actorOrder,
     workObjectsDict,
-    workobjactOrder,
+    workobjectOrder,
     name
 ) {
   let actors = actorsDict.keysArray();
@@ -245,8 +235,8 @@ export function createConfigFromDictionaries(
       actorsJSON[actor.replace(ACTOR, '')] = actorsDict.get(actor);
     });
   }
-  if (workobjactOrder) {
-    workobjactOrder.forEach(workObject => {
+  if (workobjectOrder) {
+    workobjectOrder.forEach(workObject => {
       workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(
         workObject
       );
@@ -260,7 +250,7 @@ export function createConfigFromDictionaries(
   });
 
   workObjects.forEach(workObject => {
-    if (!workobjactOrder || !workobjactOrder.includes(workObject)) {
+    if (!workobjectOrder || !workobjectOrder.includes(workObject)) {
       workObjectJSON[workObject.replace(WORKOBJECT, '')] = workObjectsDict.get(
         workObject
       );
@@ -303,12 +293,12 @@ function persistNecessaryConfig() {
     ''
   );
 
-  let currentActors = new Collection();
+  let currentActors = new Dict();
   currentActors.addEach(currentConfig.actors);
-  let currentWorkobjects = new Collection();
+  let currentWorkobjects = new Dict();
   currentWorkobjects.addEach(currentConfig.workObjects);
-  let allActors = new Collection();
-  let allWorkobjects = new Collection();
+  let allActors = new Dict();
+  let allWorkobjects = new Dict();
 
   currentActors.keysArray().forEach(name => {
     if (!all_icons[name]) {

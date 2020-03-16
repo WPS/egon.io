@@ -1,6 +1,7 @@
 'use strict';
 
 import { assign } from 'min-dash';
+
 /**
  * service that allow replacing of elements.
  */
@@ -25,6 +26,7 @@ function replaceElement(oldElement, newElementData, modeling) {
   let newElement = null;
 
   if (!oldElement.waypoints) {
+
     // set center of element for modeling API
     // if no new width / height is given use old elements size
     newElementData.x = Math.ceil(oldElement.x + (newElementData.width || oldElement.width) / 2);

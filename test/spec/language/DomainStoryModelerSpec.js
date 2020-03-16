@@ -194,6 +194,7 @@ describe('domainStory modeler', function() {
   let oldIntricateV_0_2_0_Data = JSON.parse(oldIntricateV_0_2_0_JsonString);
   let oldIntricateV_0_3_0_Data = JSON.parse(oldIntricateV_0_3_0_JsonString);
   let oldIntricateV0_5_0_Data = JSON.parse(intricateV0_5_0_JsonString);
+
   // remove the info tag at the end before we load the data
   data.pop();
   brokenData.pop();
@@ -246,9 +247,11 @@ describe('domainStory modeler', function() {
     });
 
     it('should import domainStory element', function() {
+
       // given
       let elementRegistry = modeler.get('elementRegistry');
       let domainStoryElements = modeler.getCustomElements();
+
       // when
 
       modeler.importCustomElements(domainStoryElements);
@@ -262,6 +265,7 @@ describe('domainStory modeler', function() {
     });
 
     it('should export domainStory element', function() {
+
       // given
       let domainStoryElements = modeler.getCustomElements();
 
@@ -278,6 +282,7 @@ describe('domainStory modeler', function() {
 
     // we have to rebuild the basic functionality of the import function from app.js, because we cannot get access to the HTML
     it('should not import wrong file type', function() {
+
       // given
       const testData =
         '[{"type":"domainStory:actorPerson","name":"","id":"shape_0001","x":178,"y":133,"width":30,"height":30}]';
@@ -341,11 +346,13 @@ describe('domainStory modeler', function() {
             throw new TypeError('"this" is null or not defined');
           }
           const o = Object(this);
+          // eslint-disable-next-line no-bitwise
           const len = o.length >>> 0;
 
           if (len === 0) {
             return false;
           }
+          // eslint-disable-next-line no-bitwise
           const n = fromIndex | 0;
           let k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
 
@@ -381,9 +388,11 @@ describe('domainStory modeler', function() {
     });
 
     it('should import domainStory element', function() {
+
       // given
       let elementRegistry = modeler.get('elementRegistry');
       let domainStoryElements = modeler.getCustomElements();
+
       // when
 
       modeler.importCustomElements(domainStoryElements);
@@ -397,6 +406,7 @@ describe('domainStory modeler', function() {
     });
 
     it('should export domainStory element', function() {
+
       // given
       let domainStoryElements = modeler.getCustomElements();
 
@@ -413,6 +423,7 @@ describe('domainStory modeler', function() {
   });
 
   describe('domainStory import Test old intricate data V_0_2_0', function() {
+
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {
       String.prototype.includes = function() {
@@ -451,9 +462,11 @@ describe('domainStory modeler', function() {
     });
 
     it('should import domainStory element', function() {
+
       // given
       let elementRegistry = modeler.get('elementRegistry');
       let domainStoryElements = modeler.getCustomElements();
+
       // when
 
       modeler.importCustomElements(domainStoryElements);
@@ -467,6 +480,7 @@ describe('domainStory modeler', function() {
   });
 
   describe('domainStory import Test old intricate data V_0_3_0', function() {
+
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {
       String.prototype.includes = function() {
@@ -505,9 +519,11 @@ describe('domainStory modeler', function() {
     });
 
     it('should import domainStory element', function() {
+
       // given
       let elementRegistry = modeler.get('elementRegistry');
       let domainStoryElements = modeler.getCustomElements();
+
       // when
 
       modeler.importCustomElements(domainStoryElements);
@@ -521,6 +537,7 @@ describe('domainStory modeler', function() {
   });
 
   describe('domainStory import export Test intricate data V_0_5_0', function() {
+
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {
       String.prototype.includes = function() {
@@ -556,9 +573,11 @@ describe('domainStory modeler', function() {
     });
 
     it('should import domainStory element', function() {
+
       // given
       let elementRegistry = modeler.get('elementRegistry');
       let domainStoryElements = modeler.getCustomElements();
+
       // when
 
       modeler.importCustomElements(domainStoryElements);
@@ -571,6 +590,7 @@ describe('domainStory modeler', function() {
     });
 
     it('should export domainStory element', function() {
+
       // given
       let domainStoryElements = modeler.getCustomElements();
 
@@ -607,6 +627,7 @@ describe('domainStory modeler', function() {
   });
 
   describe('domainStory import export Test intricate data V_0_6_0', function() {
+
     // since PhantomJS does not implement ES6 features we have to define our own string.includes and string.endsWith methods
     if (!String.prototype.includes) {
       String.prototype.includes = function() {
@@ -644,9 +665,11 @@ describe('domainStory modeler', function() {
     readerFunction(intricateV0_6_0_JSONStringWithCustomConfig, null, modeler);
 
     it('should import domainStory element', function() {
+
       // given
       let elementRegistry = modeler.get('elementRegistry');
       let domainStoryElements = modeler.getCustomElements();
+
       // when
 
       modeler.importCustomElements(domainStoryElements);
@@ -659,6 +682,7 @@ describe('domainStory modeler', function() {
     });
 
     it('should export domainStory element', function() {
+
       // given
       let domainStoryElements = modeler.getCustomElements();
 

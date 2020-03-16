@@ -155,6 +155,7 @@ function dictionaryDifferences(activityNames, oldActivityDictionary, workObjectN
       massChangeNames(oldWorkobjectDictionary[i], workObjectNames[i], WORKOBJECT, commandStack);
     }
   }
+
   // delete old entires from stashes
 }
 
