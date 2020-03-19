@@ -257,11 +257,11 @@ DomainStoryRules.prototype.init = function() {
         target = connection.target;
 
     // --------------------------------------------------------------
-    // let result = canConnectToAnnotation(source, target, connection);
+    let result = canConnectToAnnotation(source, target, connection);
 
-    // if (!result) {
-    //   return;
-    // }
+    if (!result) {
+      return;
+    }
 
     // --------------------------------------------------------------
 
