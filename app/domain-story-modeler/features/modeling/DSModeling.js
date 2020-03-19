@@ -53,9 +53,7 @@ Modeling.prototype.replaceShape = function(oldShape, newShape, hints) {
 };
 
 Modeling.prototype.removeGroup = function(element) {
-  let children = element.children.slice();
-  element.children = [];
-  this._commandStack.execute('shape.removeGroupWithoutChildren', { element:element, children:children });
+  this._commandStack.execute('shape.removeGroupWithChildren', { element:element });
   this.removeElements({ element });
 };
 

@@ -155,7 +155,7 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
     'shape.move',
     'shape.delete',
     'shape.resize',
-    'shape.removeGroupWithoutChildren'
+    'shape.removeGroupWithChildren'
   ], ifDomainStoryElement(updateCustomElement));
 
   this.reverted([
@@ -163,13 +163,12 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
     'shape.move',
     'shape.delete',
     'shape.resize',
-    'shape.removeGroupWithoutChildren'
+    'shape.removeGroupWithChildren'
   ], ifDomainStoryElement(updateCustomElement));
 
   this.executed([
     'connection.create',
-    'connection.reconnectStart',
-    'connection.reconnectEnd',
+    'connection.reconnect',
     'connection.updateWaypoints',
     'connection.delete',
     'connection.layout',
@@ -178,8 +177,7 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
 
   this.reverted([
     'connection.create',
-    'connection.reconnectStart',
-    'connection.reconnectEnd',
+    'connection.reconnect',
     'connection.updateWaypoints',
     'connection.delete',
     'connection.layout',

@@ -119,19 +119,6 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           }
         }
       });
-      assign(actions, {
-        'delete': {
-          group: 'edit',
-          className: 'bpmn-icon-trash',
-          title: 'Remove Group WIth Children',
-          action: {
-            click: function(event, element) {
-              modeling.removeElements({ element });
-              makeDirty();
-            }
-          }
-        }
-      });
       addColorChange(actions);
     }
     else if (element.type.includes(ACTIVITY)) {
