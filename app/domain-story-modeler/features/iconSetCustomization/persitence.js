@@ -315,7 +315,6 @@ function persistNecessaryConfig() {
   const allCanvasObjects = getAllCanvasObjects();
   let canvasObjectTypes = [];
   allCanvasObjects.forEach(object => {
-    console.log(object);
     const objectType = object.type.replace(ACTOR, '').replace(WORKOBJECT, '');
     if (!canvasObjectTypes.includes(objectType)) {
       canvasObjectTypes.push(objectType);
@@ -324,7 +323,6 @@ function persistNecessaryConfig() {
 
   let newActors = {};
   let newWorkobjects = {};
-  console.log(canvasObjectTypes, allActors);
   allActors.keysArray().forEach(key => {
     if (canvasObjectTypes.includes(key)) {
       newActors[key] = allActors.get(key);
@@ -335,7 +333,6 @@ function persistNecessaryConfig() {
       newWorkobjects[key] = allWorkobjects.get(key);
     }
   });
-  console.log(newActors);
 
   let config = {
     name: '',

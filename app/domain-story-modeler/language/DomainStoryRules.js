@@ -251,17 +251,17 @@ DomainStoryRules.prototype.init = function() {
     return canConnect(source, target);
   });
 
-  this.addRule('connection.reconnect ', HIGH_PRIORITY, function(context) {
+  this.addRule('connection.reconnect', HIGH_PRIORITY, function(context) {
     let connection = context.connection,
-        source = context.source,
+        source = context.hover || context.source,
         target = connection.target;
 
     // --------------------------------------------------------------
-    let result = canConnectToAnnotation(source, target, connection);
+    // let result = canConnectToAnnotation(source, target, connection);
 
-    if (!result) {
-      return;
-    }
+    // if (!result) {
+    //   return;
+    // }
 
     // --------------------------------------------------------------
 

@@ -215,8 +215,6 @@ function initialize(
   DSElementHandler(commandStack, eventBus);
   headlineAndDescriptionUpdateHandler(commandStack);
 
-  console.log(eventBus);
-
   const exportArtifacts = debounce(fnDebounce, 500);
   modeler.on('commandStack.changed', exportArtifacts);
 
