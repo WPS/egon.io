@@ -254,7 +254,7 @@ DomainStoryRules.prototype.init = function() {
   this.addRule('connection.reconnect', HIGH_PRIORITY, function(context) {
     let connection = context.connection,
         source = context.hover || context.source,
-        target = connection.target;
+        target = context.target;
 
     // --------------------------------------------------------------
     let result = canConnectToAnnotation(source, target, connection);
