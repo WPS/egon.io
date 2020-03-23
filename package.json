@@ -1,6 +1,6 @@
 {
   "name": "domain-story-modeler",
-  "version": "1.1.0",
+  "version": "1.1.1-dev",
   "description": "A tool to visualize Domain Stories in the browser",
   "repository": {
     "type": "git",
@@ -38,9 +38,9 @@
     "babelify": "^10.0.0",
     "browserify": "^16.5.0",
     "chai": "^4.2.0",
-    "eslint": "^6.7.2",
+    "eslint": "^6.8.0",
     "eslint-plugin-bpmn-io": "^0.10.0",
-    "grunt": "^1.0.4",
+    "grunt": "^1.1.0",
     "grunt-browserify": "^5.3.0",
     "grunt-cli": "^1.3.2",
     "grunt-contrib-clean": "^2.0.0",
@@ -52,14 +52,14 @@
     "karma-browserify": "^6.1.0",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^3.1.0",
-    "karma-firefox-launcher": "^1.2.0",
+    "karma-firefox-launcher": "^1.3.0",
     "karma-mocha": "^1.3.0",
     "karma-spec-reporter": "^0.0.32",
     "load-grunt-tasks": "^5.1.0",
     "mocha": "^6.2.2",
     "mocha-test-container-support": "^0.2.0",
     "npm-run-all": "^4.1.5",
-    "puppeteer": "^2.0.0",
+    "puppeteer": "^2.1.1",
     "stringify": "^5.2.0",
     "time-grunt": "^2.0.0",
     "watchify": "^3.11.1"
@@ -72,9 +72,9 @@
     "jquery": "^3.4.1",
     "min-dash": "^3.5.2",
     "sinon": "^7.5.0",
-    "sortablejs": "^1.10.1",
+    "sortablejs": "^1.10.2",
     "tiny-svg": "^2.2.2",
-    "vanilla-picker": "^2.10.0"
+    "vanilla-picker": "^2.10.1"
   },
   "browserify": {
     "transform": [
