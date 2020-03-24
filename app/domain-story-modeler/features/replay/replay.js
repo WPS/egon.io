@@ -187,14 +187,16 @@ export function getAllShown(stepsUntilNow) {
   stepsUntilNow.forEach(step => {
 
     // add the source of the step and their annotations to the shown elements
-    shownElements.push(step.source);
-    if (step.source.outgoing) {
-      step.source.outgoing.forEach(out => {
-        if (out.type.includes(CONNECTION)) {
-          shownElements.push(out, out.target);
-        }
-      });
-    }
+    step.sources.forEach(source => {
+      shownElements.push(source);
+      if (source.outgoing) {
+        source.outgoing.forEach(out => {
+          if (out.type.includes(CONNECTION)) {
+            shownElements.push(out, out.target);
+          }
+        });
+      }
+    });
 
     // add the target of the step and their annotations to the shown elements
     step.targets.forEach(target => {

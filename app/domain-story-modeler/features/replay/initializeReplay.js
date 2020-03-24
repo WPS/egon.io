@@ -27,13 +27,13 @@ export function traceActivities(activitiesFromActors) {
 
 // create a step for the replay function
 export function createStep(tracedActivity) {
-  let initialSource;
+  let initialSources = [];
   let activities = tracedActivity;
   let targetObjects = [];
 
   tracedActivity.forEach(parrallelStep => {
     if (parrallelStep) {
-      initialSource = parrallelStep.source;
+      initialSources.push(parrallelStep.source);
 
       // add the first Object to the traced targets, this can only be a workObject, since actors cannot connect to other actors
       let firstTarget = parrallelStep.target;
@@ -62,7 +62,7 @@ export function createStep(tracedActivity) {
   });
 
   let tracedStep = {
-    source: initialSource,
+    sources: initialSources,
     activities: activities,
     targets: targetObjects
   };
