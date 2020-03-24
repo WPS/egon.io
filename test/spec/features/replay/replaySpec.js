@@ -82,8 +82,8 @@ describe('replay', function() {
 
     // Then
 
-    expect(step.source).to.exist;
-    assert.equal(step.source, activityTrace[0].source);
+    expect(step.sources).to.exist;
+    assert.equal(step.sources[0], activityTrace[0].source);
     expect(step.activities).to.exist;
     assert.equal(step.activities.length, 2);
     expect(step.targets).to.exist;
