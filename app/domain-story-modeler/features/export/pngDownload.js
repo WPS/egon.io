@@ -17,6 +17,9 @@ export function downloadPNG() {
 
   let layerResizers = viewport.getElementsByClassName('layer-resizers');
   let layerOverlays = viewport.getElementsByClassName('layer-overlays');
+  let transform = viewport.getAttribute('transform');
+  let svg = new XMLSerializer().serializeToString(outerSVGElement);
+  let image = document.createElement('img');
 
   // removes unwanted black dots in image
   if (layerResizers[0]) {
@@ -27,12 +30,9 @@ export function downloadPNG() {
   }
 
   // remove canvas scrolling and scaling before serializeToString of SVG
-  let transform = viewport.getAttribute('transform');
   if (transform) {
     viewport.removeAttribute('transform');
   }
-
-  let svg = new XMLSerializer().serializeToString(outerSVGElement);
 
   // re-add canvas scrolling and scaling
   if (transform) {
@@ -41,7 +41,6 @@ export function downloadPNG() {
 
   svg = prepareSVG(svg, layerBase);
 
-  let image = document.createElement('img');
   image.onload = function() {
     let tempCanvas = document.createElement('canvas');
 
@@ -72,14 +71,48 @@ export function downloadPNG() {
   image.src = 'data:image/svg+xml,' + svg;
 }
 
+export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
+  if (xLeft < 0) {
+    if (xRight < 0) {
+      width = Math.abs(xLeft - xRight);
+    } else {
+      width = Math.abs(xLeft) + xRight;
+    }
+  } else {
+    width = xRight - xLeft;
+  }
+
+  if (yUp < 0) {
+    if (yDown < 0) {
+      height = Math.abs(yUp - yDown);
+    } else {
+      height = Math.abs(yUp) + yDown;
+    }
+  } else {
+    height = yDown - yUp;
+  }
+
+  // if the domain-Story is smaller than 300px in width or height, increase its dimensions
+  if (height < 300) {
+    height += 300;
+    yUp -= 150;
+    yDown += 150;
+  }
+  if (width < 300) {
+    width += 300;
+    xLeft -= 150;
+    xRight += 150;
+  }
+  return [height, width];
+}
+
 function prepareSVG(svg, layertBase) {
   let { xLeft, xRight, yUp, yDown } = findMostOuterElements(layertBase);
-
-  calculateWidthAndHeight(xLeft, xRight, yUp, yDown);
-
-  // to display the title and description in the PNG-file, we need to add a container for our text-elements
   let descriptionText = infoText.innerHTML;
   let titleText = title.innerHTML;
+  let viewBoxIndex = svg.indexOf('width="');
+
+  calculateWidthAndHeight(xLeft, xRight, yUp, yDown);
 
   let { insertText, extraHeight } = createTitleAndDescriptionSVGElement(
     titleText,
@@ -90,7 +123,6 @@ function prepareSVG(svg, layertBase) {
   );
   height += extraHeight;
 
-  let viewBoxIndex = svg.indexOf('width="');
   let bounds =
     'width="' +
     width +
@@ -171,41 +203,6 @@ function URIHashtagFix(svg) {
     }
   }
   return svg;
-}
-
-export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
-  if (xLeft < 0) {
-    if (xRight < 0) {
-      width = Math.abs(xLeft - xRight);
-    } else {
-      width = Math.abs(xLeft) + xRight;
-    }
-  } else {
-    width = xRight - xLeft;
-  }
-
-  if (yUp < 0) {
-    if (yDown < 0) {
-      height = Math.abs(yUp - yDown);
-    } else {
-      height = Math.abs(yUp) + yDown;
-    }
-  } else {
-    height = yDown - yUp;
-  }
-
-  // if the domain-Story is smaller than 300px in width or height, increase its dimensions
-  if (height < 300) {
-    height += 300;
-    yUp -= 150;
-    yDown += 150;
-  }
-  if (width < 300) {
-    width += 300;
-    xLeft -= 150;
-    xRight += 150;
-  }
-  return [height, width];
 }
 
 function findMostOuterElements(svg) {

@@ -38,12 +38,12 @@ function createSVGData() {
   let viewBoxIndex = cacheData.indexOf('width="');
 
   let { width, height, viewBox } = viewBoxCoordinates(cacheData);
-  height += 80;
 
   let xLeft, xRight, yUp, yDown;
   let bounds = '';
   let splitViewBox = viewBox.split(/\s/);
 
+  height += 80;
   xLeft = +splitViewBox[0];
   yUp = +splitViewBox[1];
   xRight = +splitViewBox[2];

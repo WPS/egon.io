@@ -74,11 +74,6 @@ export function setTitleInputLast(title) {
   titleInputLast = title;
 }
 
-function closeBrokenDSTDialog() {
-  brokenDSTInfo.style.display = 'none';
-  modal.style.display = 'none';
-}
-
 export function initImports(
     elementRegistry,
     version,
@@ -141,17 +136,13 @@ export function loadPersistedDST(modeler) {
 
   updateIconRegistries(elements);
 
-  const inputInfoText = lastElement.info ? lastElement.info : '';
-  info.innerText = inputInfoText;
-  info.value = inputInfoText;
-  infoText.innerText = inputInfoText;
+  setInfoText(lastElement);
 
   modeler.importCustomElements(elements);
   correctElementRegitryInit();
   cleanDictionaries();
   removeDirtyFlag();
 }
-
 export function importDST(input, version, modeler) {
   titleInputLast = '';
   descriptionInputLast = '';
@@ -212,6 +203,7 @@ export function readerFunction(text, version, modeler) {
 
   let lastElement = elements.pop();
   let importVersionNumber = lastElement;
+
   if (lastElement.version) {
     lastElement = elements.pop();
   }
@@ -233,10 +225,7 @@ export function readerFunction(text, version, modeler) {
       showBrokenDSTDialog();
     }
 
-    let inputInfoText = lastElement.info ? lastElement.info : '';
-    info.innerText = inputInfoText;
-    info.value = inputInfoText;
-    infoText.innerText = inputInfoText;
+    setInfoText(lastElement);
 
     adjustPositions(elements);
   }
@@ -293,6 +282,13 @@ export function configHasChanged(config) {
   return changed;
 }
 
+function setInfoText(element) {
+  const inputInfoText = element.info ? element.info : '';
+  info.innerText = inputInfoText;
+  info.value = inputInfoText;
+  infoText.innerText = inputInfoText;
+}
+
 function updateIconRegistries(elements) {
   const actorIcons = getElementsOfType(elements, 'actor');
   const workObjectIcons = getElementsOfType(elements, 'workObject');
@@ -323,4 +319,9 @@ function showVersionDialog() {
 function showBrokenDSTDialog() {
   brokenDSTInfo.style.display = 'block';
   modal.style.display = 'block';
+}
+
+function closeBrokenDSTDialog() {
+  brokenDSTInfo.style.display = 'none';
+  modal.style.display = 'none';
 }

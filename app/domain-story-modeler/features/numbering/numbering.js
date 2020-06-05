@@ -89,19 +89,7 @@ export function updateExistingNumbersAtEditing(activiesFromActors, wantedNumber,
 
   // set the number of each activity to the next highest number, starting from the number, we overrode
   for (let currentNumber = wantedNumber; currentNumber < sortedActivities.length; currentNumber++) {
-    let elementArray = sortedActivities[currentNumber];
-    if (elementArray) {
-      wantedNumber++;
-      elementArray.forEach(element => {
-        if (element) {
-          let businessObject = element.businessObject;
-          if (businessObject) {
-            businessObject.number = wantedNumber;
-          }
-          eventBus.fire('element.changed', { element });
-        }
-      });
-    }
+    setNumberOfActivity(sortedActivities[currentNumber], wantedNumber, eventBus);
   }
 }
 
@@ -135,4 +123,19 @@ export function getNumberRegistry() {
 
 export function getMultipleNumberRegistry() {
   return multipleNumberRegistry.slice(0);
+}
+
+function setNumberOfActivity(elementArray, wantedNumber, eventBus) {
+  if (elementArray) {
+    wantedNumber++;
+    elementArray.forEach(element => {
+      if (element) {
+        let businessObject = element.businessObject;
+        if (businessObject) {
+          businessObject.number = wantedNumber;
+        }
+        eventBus.fire('element.changed', { element });
+      }
+    });
+  }
 }

@@ -3,7 +3,7 @@ import { all_icons, appendedIcons } from './all_Icons';
 import { getNameFromType } from '../naming';
 import { registerIcon } from './iconDictionary';
 import { default_conf } from './iconConfig';
-import { Dict } from '../collection';
+import { Dict } from '../classes/collection';
 import { getAppendedIconDictionary } from '../../features/iconSetCustomization/dictionaries';
 
 const prefix = 'icon-domain-story-';

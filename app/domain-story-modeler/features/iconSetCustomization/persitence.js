@@ -22,7 +22,7 @@ import { domExists } from '../../language/testmode';
 import { getTypeDictionary } from '../../language/icon/dictionaries';
 import { all_icons } from '../../language/icon/all_Icons';
 import { getAllCanvasObjects } from '../../language/canvasElementRegistry';
-import { Dict } from '../../language/collection';
+import { Dict } from '../../language/classes/collection';
 
 export const useCustomConfigTag = 'useCustomConfig';
 export const useNecessaryConfigTag = 'useNecessaryConfig';
@@ -173,51 +173,6 @@ export function loadConfiguration(customConfig) {
   return configurationName;
 }
 
-function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
-  let htmlList = document.getElementById('allIconsList');
-  let selectedActorsList = document.getElementById('selectedActorsList');
-  let selectedWorkObjectList = document.getElementById(
-    'selectedWorkObjectsList'
-  );
-
-  resetHTMLSelectionList();
-
-  appendedDict.keysArray().forEach(name => {
-    let listElement = createListElement(name);
-    htmlList.appendChild(listElement);
-  });
-
-  actorDict.keysArray().forEach(name => {
-    for (let i = 0; i < htmlList.children.length; i++) {
-      let child = htmlList.children[i];
-
-      if (child.innerText.startsWith(name)) {
-        child.children[0].children[1].checked = true;
-        selectedActorsList.appendChild(createListElementInSeletionList(
-          name,
-          getIconSource(name),
-          selectedActorsList
-        ));
-      }
-    }
-  });
-
-  workObjectDict.keysArray().forEach(name => {
-    for (let i = 0; i < htmlList.children.length; i++) {
-      let child = htmlList.children[i];
-
-      if (child.innerText.startsWith(name)) {
-        child.children[0].children[2].checked = true;
-        selectedWorkObjectList.appendChild(createListElementInSeletionList(
-          name,
-          getIconSource(name),
-          selectedWorkObjectList
-        ));
-      }
-    }
-  });
-}
-
 export function createConfigFromDictionaries(
     actorsDict,
     actorOrder,
@@ -266,6 +221,44 @@ export function createConfigFromDictionaries(
   return config;
 }
 
+function updateHTMLLists(appendedDict, actorDict, workObjectDict) {
+  let htmlList = document.getElementById('allIconsList');
+  let selectedActorsList = document.getElementById('selectedActorsList');
+  let selectedWorkObjectList = document.getElementById(
+    'selectedWorkObjectsList'
+  );
+
+  resetHTMLSelectionList();
+
+  appendedDict.keysArray().forEach(name => {
+    let listElement = createListElement(name);
+    htmlList.appendChild(listElement);
+  });
+
+  actorDict.keysArray().forEach(name => {
+    appendToList(htmlList, selectedActorsList, name, 1);
+  });
+
+  workObjectDict.keysArray().forEach(name => {
+    appendToList(htmlList, selectedWorkObjectList, name, 2);
+  });
+}
+
+function appendToList(htmlList, selectedList, name, j) {
+  for (let i = 0; i < htmlList.children.length; i++) {
+    let child = htmlList.children[i];
+
+    if (child.innerText.startsWith(name)) {
+      child.children[0].children[j].checked = true;
+      selectedList.appendChild(createListElementInSeletionList(
+        name,
+        getIconSource(name),
+        selectedList
+      ));
+    }
+  }
+}
+
 function persistStory() {
   let objects = createObjectListForDSTDownload(version);
   let title = document.getElementById('title');
@@ -285,6 +278,8 @@ function persistStory() {
 }
 
 function persistNecessaryConfig() {
+  const allCanvasObjects = getAllCanvasObjects();
+
   let currentConfig = createConfigFromDictionaries(
     getSelectedActorsDictionary(),
     null,
@@ -292,13 +287,16 @@ function persistNecessaryConfig() {
     null,
     ''
   );
-
+  let canvasObjectTypes = [];
   let currentActors = new Dict();
-  currentActors.addEach(currentConfig.actors);
   let currentWorkobjects = new Dict();
-  currentWorkobjects.addEach(currentConfig.workObjects);
   let allActors = new Dict();
   let allWorkobjects = new Dict();
+  let newActors = {};
+  let newWorkobjects = {};
+
+  currentActors.addEach(currentConfig.actors);
+  currentWorkobjects.addEach(currentConfig.workObjects);
 
   currentActors.keysArray().forEach(name => {
     if (!all_icons[name]) {
@@ -312,8 +310,6 @@ function persistNecessaryConfig() {
     }
   });
 
-  const allCanvasObjects = getAllCanvasObjects();
-  let canvasObjectTypes = [];
   allCanvasObjects.forEach(object => {
     const objectType = object.type.replace(ACTOR, '').replace(WORKOBJECT, '');
     if (!canvasObjectTypes.includes(objectType)) {
@@ -321,13 +317,12 @@ function persistNecessaryConfig() {
     }
   });
 
-  let newActors = {};
-  let newWorkobjects = {};
   allActors.keysArray().forEach(key => {
     if (canvasObjectTypes.includes(key)) {
       newActors[key] = allActors.get(key);
     }
   });
+
   allWorkobjects.keysArray().forEach(key => {
     if (canvasObjectTypes.includes(key)) {
       newWorkobjects[key] = allWorkobjects.get(key);

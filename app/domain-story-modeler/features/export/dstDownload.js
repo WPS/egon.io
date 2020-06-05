@@ -12,8 +12,8 @@ let infoText = document.getElementById('infoText');
 
 export function downloadDST(filename, text) {
 
-  let configJSONString = {};
   const iconConfig = getIconset();
+  let configJSONString = {};
   let actors = iconConfig.actors;
   let workObjects = iconConfig.workObjects;
 
@@ -25,14 +25,15 @@ export function downloadDST(filename, text) {
   }
 
   configJSONString = JSON.stringify(createConfigFromDictionaries(actors, null, workObjects, null, document.getElementById('currentDomainName').innerText));
+
   let configAndDST = {
     domain: configJSONString,
     dst: text
   };
   let json =JSON.stringify(configAndDST);
+  let element = document.createElement('a');
 
   filename = sanitizeForDesktop(filename);
-  let element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(json));
   element.setAttribute('download', filename + '.dst');
 
@@ -49,6 +50,7 @@ export function downloadDST(filename, text) {
 export function createObjectListForDSTDownload(version) {
   let allObjectsFromCanvas = getAllCanvasObjects();
   let groups = getAllGroups();
+  let text = '';
 
   let objectList = [];
 
@@ -71,7 +73,6 @@ export function createObjectListForDSTDownload(version) {
     objectList.push(group.businessObject);
   });
 
-  let text = '';
   if (infoText) {
     text = infoText.innerText ;
   }
