@@ -12,24 +12,7 @@ let infoText = document.getElementById('infoText');
 
 export function downloadDST(filename, text) {
 
-  const iconConfig = getIconset();
-  let configJSONString = {};
-  let actors = iconConfig.actors;
-  let workObjects = iconConfig.workObjects;
-
-  if (!actors.size>0) {
-    actors = getTypeDictionary(ACTOR);
-  }
-  if (!workObjects.size>0) {
-    workObjects = getTypeDictionary(WORKOBJECT);
-  }
-
-  configJSONString = JSON.stringify(createConfigFromDictionaries(actors, null, workObjects, null, document.getElementById('currentDomainName').innerText));
-
-  let configAndDST = {
-    domain: configJSONString,
-    dst: text
-  };
+  let configAndDST = createConfigAndDst(text);
   let json =JSON.stringify(configAndDST);
   let element = document.createElement('a');
 
@@ -80,4 +63,26 @@ export function createObjectListForDSTDownload(version) {
   objectList.push({ info: text });
   objectList.push({ version: version });
   return objectList;
+}
+
+export function createConfigAndDst(text) {
+
+  const iconConfig = getIconset();
+  let configJSONString = {};
+  let actors = iconConfig.actors;
+  let workObjects = iconConfig.workObjects;
+
+  if (!actors.size>0) {
+    actors = getTypeDictionary(ACTOR);
+  }
+  if (!workObjects.size>0) {
+    workObjects = getTypeDictionary(WORKOBJECT);
+  }
+
+  configJSONString = JSON.stringify(createConfigFromDictionaries(actors, null, workObjects, null, document.getElementById('currentDomainName').innerText));
+
+  return {
+    domain: configJSONString,
+    dst: text
+  };
 }

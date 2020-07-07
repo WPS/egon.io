@@ -28,7 +28,10 @@ import {
   registerIcons
 } from '../../language/icon/dictionaries';
 import { sanitizeIconName } from '../../util/Sanitizer';
-import { Dict } from '../../language/collection';
+import { Dict } from '../../language/classes/collection';
+
+const DST_TYPE = 1;
+const SVG_TYPE = 2;
 
 let modal = document.getElementById('modal'),
     info = document.getElementById('info'),
@@ -83,7 +86,12 @@ export function initImports(
 ) {
   document.getElementById('import').onchange = function() {
     initElementRegistry(elementRegistry);
-    importDST(document.getElementById('import').files[0], version, modeler);
+    const filename = document.getElementById('import').files[0].name;
+    if (filename.endsWith('.dst')) {
+      importDST(document.getElementById('import').files[0], filename, version, modeler);
+    } else if (filename.endsWith('.svg')) {
+      importSVG(document.getElementById('import').files[0], filename, version, modeler);
+    }
 
     // to update the title of the svg, we need to tell the command stack, that a value has changed
     eventBus.fire('commandStack.changed', debounce(fnDebounce, 500));
@@ -143,35 +151,65 @@ export function loadPersistedDST(modeler) {
   cleanDictionaries();
   removeDirtyFlag();
 }
-export function importDST(input, version, modeler) {
+
+export function importDST(input, filename, version, modeler, DST_TYPE) {
   titleInputLast = '';
   descriptionInputLast = '';
 
   const reader = new FileReader();
-  if (input.name.endsWith('.dst')) {
-    let titleText = input.name.replace(
-      /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/,
-      ''
-    );
-    if (titleText.includes('.dst')) {
-      titleText = titleText.replace('.dst', '');
-    }
-    titleInput.value = titleText;
-    title.innerText = titleText;
-    changeWebsiteTitle(titleText);
-
-    reader.onloadend = function(e) {
-      readerFunction(e.target.result, version, modeler);
-    };
-
-    reader.readAsText(input);
+  let titleText = filename.replace(
+    /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/,
+    ''
+  );
+  if (titleText.includes('.dst')) {
+    titleText = titleText.replace('.dst', '');
   }
+  titleInput.value = titleText;
+  title.innerText = titleText;
+  changeWebsiteTitle(titleText);
+
+  reader.onloadend = function(e) {
+    readerFunction(e.target.result, version, modeler, DST_TYPE);
+  };
+
+  reader.readAsText(input);
 }
 
-export function readerFunction(text, version, modeler) {
+export function importSVG(input, filename, version, modeler) {
+  titleInputLast = '';
+  descriptionInputLast = '';
+
+  const reader = new FileReader();
+  let titleText = filename.replace(
+    /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.svg/,
+    ''
+  );
+  if (titleText.includes('.svg')) {
+    titleText = titleText.replace('.svg', '');
+  }
+  titleInput.value = titleText;
+  title.innerText = titleText;
+  changeWebsiteTitle(titleText);
+
+  reader.onloadend = function(e) {
+    readerFunction(e.target.result, version, modeler, SVG_TYPE);
+  };
+
+  reader.readAsText(input);
+}
+
+export function readerFunction(text, version, modeler, type) {
+  let dstText;
+
+  if (type === SVG_TYPE) {
+    dstText = removeXMLComments(text);
+  } else if (type === DST_TYPE) {
+    dstText = text;
+  }
+
   let elements, config;
   let configChanged = false;
-  let dstAndConfig = JSON.parse(text);
+  let dstAndConfig = JSON.parse(dstText);
 
   if (dstAndConfig.domain) {
     config = dstAndConfig.domain;
@@ -197,7 +235,7 @@ export function readerFunction(text, version, modeler) {
       }
       elements = JSON.parse(dstAndConfig.dst);
     } else {
-      elements = JSON.parse(text);
+      elements = JSON.parse(dstText);
     }
   }
 
@@ -242,6 +280,16 @@ export function readerFunction(text, version, modeler) {
     correctGroupChildren();
     removeDirtyFlag();
   }
+}
+
+function removeXMLComments(xmlText) {
+  xmlText = xmlText.substring(xmlText.indexOf('<DST>'));
+  while (xmlText.includes('<!--') || xmlText.includes('-->')) {
+    xmlText = xmlText.replace('<!--', '').replace('-->', '');
+  }
+  xmlText = xmlText.replace('<DST>', '');
+  xmlText = xmlText.replace('</DST>', '');
+  return xmlText;
 }
 
 export function configHasChanged(config) {

@@ -2,6 +2,8 @@
 
 import { createTitleAndDescriptionSVGElement } from './createTitleAndInfo';
 import { sanitizeForDesktop } from '../../util/Sanitizer';
+import { createConfigAndDst, createObjectListForDSTDownload } from './dstDownload';
+import { version } from '../../../../package.json';
 
 let title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
@@ -96,6 +98,10 @@ function createSVGData() {
     insertText,
     cacheData.slice(insertIndex)
   ].join('');
+
+  cacheData = appendDST(cacheData);
+  console.log(cacheData);
+
   return encodeURIComponent(cacheData);
 }
 
@@ -103,4 +109,13 @@ function viewBoxCoordinates(svg) {
   const ViewBoxCoordinate = /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)"/;
   const match = svg.match(ViewBoxCoordinate);
   return { width: +match[1], height: +match[2], viewBox: match[3] };
+}
+
+function appendDST(cacheData) {
+  const objects = createObjectListForDSTDownload(version);
+
+  const dstText = JSON.stringify(objects);
+  const dst = createConfigAndDst(dstText);
+  cacheData+= '\n<!-- <DST>\n' + JSON.stringify(dst) + '\n </DST> -->';
+  return cacheData;
 }

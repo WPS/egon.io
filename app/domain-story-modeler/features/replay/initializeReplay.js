@@ -1,6 +1,6 @@
 'use strict';
 
-import { Dict } from '../../language/collection';
+import { Dict } from '../../language/classes/collection';
 
 // create a trace through all activities, that recreates the path from the beginning to the end of the story
 export function traceActivities(activitiesFromActors) {
