@@ -1,10 +1,9 @@
 'use strict';
 
 export function dummy() {
-
-  // convert rad to deg
 }
 
+// convert rad to deg
 Math.degrees = function(radians) {
   return radians * 180 / Math.PI;
 };

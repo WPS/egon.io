@@ -1,6 +1,7 @@
 'use strict';
 
 import './domain-story-modeler/util/MathExtensions';
+import './domain-story-modeler/util/ArrayExtensions';
 import DomainStoryModeler from './domain-story-modeler';
 import DSActivityHandlers from './domain-story-modeler/modeler/UpdateHandler/DSActivityHandlers';
 import { toggleStashUse } from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
