@@ -152,7 +152,7 @@ export function loadPersistedDST(modeler) {
   removeDirtyFlag();
 }
 
-export function importDST(input, filename, version, modeler, DST_TYPE) {
+export function importDST(input, filename, version, modeler) {
   titleInputLast = '';
   descriptionInputLast = '';
 
@@ -200,13 +200,11 @@ export function importSVG(input, filename, version, modeler) {
 
 export function readerFunction(text, version, modeler, type) {
   let dstText;
-
   if (type === SVG_TYPE) {
     dstText = removeXMLComments(text);
   } else if (type === DST_TYPE) {
     dstText = text;
   }
-
   let elements, config;
   let configChanged = false;
   let dstAndConfig = JSON.parse(dstText);
