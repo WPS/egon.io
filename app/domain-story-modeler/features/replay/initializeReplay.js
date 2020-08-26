@@ -75,14 +75,19 @@ export function createStep(tracedActivity) {
 }
 
 function addGroupSteps(groups, allSteps) {
-  const groupOrder = getGroupOrder(groups, allSteps);
+  const [orderedGroups, unorderedGroups] = getGroupOrder(groups, allSteps);
 
-  groupOrder.forEach(group => {
+  orderedGroups.forEach(group => {
     allSteps.push (
       {
-        group: group,
+        groups: [group],
         activities: [true]
       });
+  });
+
+  allSteps.push({
+    groups: unorderedGroups,
+    activities:[true]
   });
 }
 
@@ -112,5 +117,12 @@ function getGroupOrder(groups, allSteps) {
     orderedGroups.push(groups.filter(group => group.id === id)[0]);
   });
 
-  return orderedGroups;
+  const unorderedGroups = [];
+  groups.forEach(group => {
+    if (!orderedGroups.includes(group)) {
+      unorderedGroups.push(group);
+    }
+  });
+
+  return [orderedGroups, unorderedGroups];
 }

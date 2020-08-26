@@ -186,8 +186,10 @@ export function getAllShown(stepsUntilNow) {
 
   // for each step until the current one, add all referenced elements to the list of shown elements
   stepsUntilNow.forEach(step => {
-    if (step.group) {
-      shownElements.push(step.group);
+    if (step.groups && step.groups.length > 0) {
+      step.groups.forEach(group => {
+        shownElements.push(group);
+      });
     } else {
 
       // add the source of the step and their annotations to the shown elements
@@ -230,7 +232,7 @@ export function getAllNotShown(allObjects, shownElements) {
   let notShownElements = [];
 
   // every element that is not referenced in shownElements
-  // and is neither a group (since they are not refeenced n allObjects),
+  // and is neither a group (since they are not refeenced in allObjects),
   // nor an annotation conntected to a group should be hidden
   allObjects.forEach(element => {
     if (!shownElements.includes(element)) {
