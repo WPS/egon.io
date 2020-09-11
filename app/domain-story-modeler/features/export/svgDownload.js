@@ -96,11 +96,11 @@ function createSVGData() {
 
   data = [
     data.slice(0, insertIndex),
-      insertText,
-      data.slice(insertIndex)
-    ].join('');
+    insertText,
+    data.slice(insertIndex)
+  ].join('');
 
-    data = appendDST(data);
+  data = appendDST(data);
 
   return encodeURIComponent(data);
 }
