@@ -85,10 +85,12 @@ function addGroupSteps(groups, allSteps) {
       });
   });
 
-  allSteps.push({
-    groups: unorderedGroups,
-    activities:[true]
-  });
+  if (unorderedGroups.length >0) {
+    allSteps.push({
+      groups: unorderedGroups,
+      activities:[true]
+    });
+  }
 }
 
 function getGroupOrder(groups, allSteps) {

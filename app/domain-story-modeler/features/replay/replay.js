@@ -6,7 +6,8 @@ import {
   getAllCanvasObjects,
   wasInitialized,
   getAllGroups,
-  getAllActivities
+  getAllActivities,
+  getAllConnections
 } from '../../language/canvasElementRegistry';
 import { traceActivities } from './initializeReplay';
 
@@ -230,6 +231,7 @@ export function getAllShown(stepsUntilNow) {
 
 function removeHighlights() {
   const allActivities = getAllActivities();
+  const allConnections = getAllConnections();
 
   allActivities.forEach(activity => {
     const activityDomObject = document.querySelector(
@@ -241,47 +243,30 @@ function removeHighlights() {
 
   });
 
-  const allCanvasObjects = getAllCanvasObjects();
+  allConnections.forEach(connnection => {
+    const connectionDomObject = document.querySelector(
+      '[data-element-id=' + connnection.id + ']'
+    ).getElementsByTagName('polyline')[0];
 
-  allCanvasObjects.forEach(canvasObject =>{
-
-    const sourceDomObject = document.querySelector(
-      '[data-element-id=' + canvasObject.id + ']'
-    ).getElementsByTagName('g')[0].getElementsByTagName('svg')[0];
-
-    if (sourceDomObject && sourceDomObject.tagName == 'svg') {
-      console.log(sourceDomObject, sourceDomObject.tagName);
-      sourceDomObject.style.stroke = 'unset';
-    }
+    connectionDomObject.style.stroke = connnection.businessObject.pickedColor || 'black';
+    connectionDomObject.style.strokeWidth = 1.5;
 
   });
 }
 
 function hightlightStep(step) {
   const highlightColour = '#42aebb';
+  if (!step.groups) {
 
-  step.activities.forEach(activity => {
-    const activityDomObject = document.querySelector(
-      '[data-element-id=' + activity.id + ']'
-    ).getElementsByTagName('polyline')[0];
+    step.activities.forEach(activity => {
+      const activityDomObject = document.querySelector(
+        '[data-element-id=' + activity.id + ']'
+      ).getElementsByTagName('polyline')[0];
 
-    activityDomObject.style.stroke = highlightColour;
-    activityDomObject.style.strokeWidth = 3;
-  });
-
-  const sourceDomObject = document.querySelector(
-    '[data-element-id=' + step.source.id + ']'
-  ).getElementsByTagName('svg')[0];
-
-  sourceDomObject.style.stroke = highlightColour;
-
-  step.targets.forEach(target => {
-    const targetDomObject = document.querySelector(
-      '[data-element-id=' + target.id + ']'
-    ).getElementsByTagName('svg')[0];
-
-    targetDomObject.style.stroke = highlightColour;
-  });
+      activityDomObject.style.stroke = highlightColour;
+      activityDomObject.style.strokeWidth = 3;
+    });
+  }
 }
 
 // get all elements, that are supposed to be hidden in the current step
@@ -410,7 +395,7 @@ function showCurrentStep() {
     allObjects.push(group);
   });
 
-  const shownElements = getAllShown(stepsUntilNow);
+  let shownElements = getAllShown(stepsUntilNow);
 
   const notShownElements = getAllNotShown(allObjects, shownElements);
 
@@ -432,78 +417,4 @@ function showCurrentStep() {
     domObject.style.display = 'block';
   });
 
-  // if (currentStepNotInView()) {
-  //   focusOnActiveActivity();
-  // }
 }
-
-/*
-function currentStepNotInView() {
-  const currentViewbox = canvas.viewbox();
-
-  const step = replaySteps[currentStep];
-
-  let elements = [];
-  step.targets.forEach(target => {
-    elements.push(target);
-  });
-
-  let initialElement = step.source;
-  let stepBounds = {
-    x: initialElement.x,
-    y: initialElement.y,
-    width: initialElement.width,
-    height: initialElement.height
-  };
-  elements.forEach(element => {
-    if (element.x < stepBounds.x) {
-      stepBounds.x = element.x;
-    } else {
-      if (stepBounds.width < element.x + element.width) {
-        stepBounds.width = element.x + element.width;
-      }
-    }
-    if (element.y < stepBounds.y) {
-      stepBounds.y = element.y;
-    } else {
-      if (stepBounds.height < element.y + element.height) {
-        stepBounds.height = element.y + element.height;
-      }
-    }
-  });
-
-  if (currentViewbox.x < stepBounds.x && currentViewbox.y < stepBounds.y) {
-    if (
-      currentViewbox.x + currentViewbox.width >
-      stepBounds.x + stepBounds.width
-    ) {
-      if (
-        currentViewbox.y + currentViewbox.height >
-        stepBounds.y + stepBounds.height
-      ) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-function focusOnActiveActivity() {
-  const step = replaySteps[currentStep];
-  const activitiesInStep = step.activities;
-  const activityToFocusOn = activitiesInStep[0];
-  const elX = activityToFocusOn.waypoints[0].x - initialViewbox.width / 2;
-  const elY = activityToFocusOn.waypoints[0].y - initialViewbox.height / 2;
-  let stepViewbox = {
-    x: elX,
-    y: elY,
-    height: initialViewbox.height,
-    width: initialViewbox.width,
-    scale: initialViewbox.scale,
-    outer: initialViewbox.outer,
-    inner: initialViewbox.inner
-  };
-
-  canvas.viewbox(stepViewbox);
-}
-*/
