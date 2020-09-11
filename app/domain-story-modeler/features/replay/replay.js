@@ -5,7 +5,8 @@ import {
   getActivitesFromActors,
   getAllCanvasObjects,
   wasInitialized,
-  getAllGroups
+  getAllGroups,
+  getAllActivities
 } from '../../language/canvasElementRegistry';
 import { traceActivities } from './initializeReplay';
 
@@ -227,6 +228,62 @@ export function getAllShown(stepsUntilNow) {
   return shownElements;
 }
 
+function removeHighlights() {
+  const allActivities = getAllActivities();
+
+  allActivities.forEach(activity => {
+    const activityDomObject = document.querySelector(
+      '[data-element-id=' + activity.id + ']'
+    ).getElementsByTagName('polyline')[0];
+
+    activityDomObject.style.stroke = activity.businessObject.pickedColor || 'black';
+    activityDomObject.style.strokeWidth = 1.5;
+
+  });
+
+  const allCanvasObjects = getAllCanvasObjects();
+
+  allCanvasObjects.forEach(canvasObject =>{
+
+    const sourceDomObject = document.querySelector(
+      '[data-element-id=' + canvasObject.id + ']'
+    ).getElementsByTagName('g')[0].getElementsByTagName('svg')[0];
+
+    if (sourceDomObject && sourceDomObject.tagName == 'svg') {
+      console.log(sourceDomObject, sourceDomObject.tagName);
+      sourceDomObject.style.stroke = 'unset';
+    }
+
+  });
+}
+
+function hightlightStep(step) {
+  const highlightColour = '#42aebb';
+
+  step.activities.forEach(activity => {
+    const activityDomObject = document.querySelector(
+      '[data-element-id=' + activity.id + ']'
+    ).getElementsByTagName('polyline')[0];
+
+    activityDomObject.style.stroke = highlightColour;
+    activityDomObject.style.strokeWidth = 3;
+  });
+
+  const sourceDomObject = document.querySelector(
+    '[data-element-id=' + step.source.id + ']'
+  ).getElementsByTagName('svg')[0];
+
+  sourceDomObject.style.stroke = highlightColour;
+
+  step.targets.forEach(target => {
+    const targetDomObject = document.querySelector(
+      '[data-element-id=' + target.id + ']'
+    ).getElementsByTagName('svg')[0];
+
+    targetDomObject.style.stroke = highlightColour;
+  });
+}
+
 // get all elements, that are supposed to be hidden in the current step
 export function getAllNotShown(allObjects, shownElements) {
   let notShownElements = [];
@@ -300,10 +357,12 @@ function removeSelectionAndEditing() {
 }
 
 function editMode() {
-  let contextPadElements = document.getElementsByClassName('djs-context-pad');
-  let paletteElements = document.getElementsByClassName('djs-palette');
+  removeHighlights();
 
-  let infoContainer = document.getElementById('infoContainer');
+  const contextPadElements = document.getElementsByClassName('djs-context-pad');
+  const paletteElements = document.getElementsByClassName('djs-palette');
+
+  const infoContainer = document.getElementById('infoContainer');
   infoContainer.style.display = 'block';
   infoContainer.style.height = '75px';
 
@@ -350,20 +409,24 @@ function showCurrentStep() {
   getAllGroups().forEach(group => {
     allObjects.push(group);
   });
-  let shownElements = getAllShown(stepsUntilNow);
 
-  let notShownElements = getAllNotShown(allObjects, shownElements);
+  const shownElements = getAllShown(stepsUntilNow);
+
+  const notShownElements = getAllNotShown(allObjects, shownElements);
+
+  removeHighlights();
+  hightlightStep(replaySteps[currentStep]);
 
   // hide all elements, that are not to be shown
   notShownElements.forEach(element => {
-    let domObject = document.querySelector(
+    const domObject = document.querySelector(
       '[data-element-id=' + element.id + ']'
     );
     domObject.style.display = 'none';
   });
 
   shownElements.forEach(element => {
-    let domObject = document.querySelector(
+    const domObject = document.querySelector(
       '[data-element-id=' + element.id + ']'
     );
     domObject.style.display = 'block';
