@@ -31,6 +31,7 @@ if (!Array.prototype.some) {
     }
 
     var t = Object(this);
+    // eslint-disable-next-line no-bitwise
     var len = t.length >>> 0;
 
     for (var i = 0; i < len; i++) {
