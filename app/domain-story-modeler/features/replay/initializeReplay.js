@@ -75,56 +75,62 @@ export function createStep(tracedActivity) {
 }
 
 function addGroupSteps(groups, allSteps) {
-  const [orderedGroups, unorderedGroups] = getGroupOrder(groups, allSteps);
 
-  orderedGroups.forEach(group => {
-    allSteps.push (
-      {
-        groups: [group],
-        activities: [true]
-      });
+  allSteps.push({
+    groups: groups,
+    activities: [true]
   });
 
-  if (unorderedGroups.length >0) {
-    allSteps.push({
-      groups: unorderedGroups,
-      activities:[true]
-    });
-  }
+  // const [orderedGroups, unorderedGroups] = getGroupOrder(groups, allSteps);
+
+  // orderedGroups.forEach(group => {
+  //   allSteps.push (
+  //     {
+  //       groups: [group],
+  //       activities: [true]
+  //     });
+  // });
+
+  // if (unorderedGroups.length >0) {
+  //   allSteps.push({
+  //     groups: unorderedGroups,
+  //     activities:[true]
+  //   });
+  // }
 }
 
-function getGroupOrder(groups, allSteps) {
-  const groupOrder = [];
+// function getGroupOrder(groups, allSteps) {
+//   const groupOrder = [];
 
-  [];
+//   [];
 
-  for (let i =0; i< allSteps.length; i++) {
-    const step = allSteps[i];
-    const targetIds = step.targets.map(target =>target.id);
+//   for (let i =0; i< allSteps.length; i++) {
+//     const step = allSteps[i];
+//     const targetIds = step.targets.map(target =>target.id);
 
-    groups.forEach(group => {
-      const groupId = group.id;
-      const childIds = group.children.map(child => child.id);
+//     groups.forEach(group => {
+//       const groupId = group.id;
+//       const childIds = group.children.map(child => child.id);
 
-      if (childIds.diff(targetIds).length > 0) {
-        if (!groupOrder.some(id => id === groupId)) {
-          groupOrder.push(groupId);
-        }
-      }
-    });
-  }
+//       if (childIds.diff(targetIds).length > 0) {
+//         if (!groupOrder.some(id => id === groupId)) {
+//           groupOrder.push(groupId);
+//         }
+//       }
+//     });
+//   }
 
-  const orderedGroups = [];
-  groupOrder.forEach(id => {
-    orderedGroups.push(groups.filter(group => group.id === id)[0]);
-  });
+//   const orderedGroups = [];
+//   groupOrder.forEach(id => {
+//     orderedGroups.push(groups.filter(group => group.id === id)[0]);
+//   });
 
-  const unorderedGroups = [];
-  groups.forEach(group => {
-    if (!orderedGroups.includes(group)) {
-      unorderedGroups.push(group);
-    }
-  });
+//   const unorderedGroups = [];
+//   groups.forEach(group => {
+//     if (!orderedGroups.includes(group)) {
+//       unorderedGroups.push(group);
+//     }
+//   });
 
-  return [orderedGroups, unorderedGroups];
-}
+//   return [orderedGroups, unorderedGroups];
+// }
