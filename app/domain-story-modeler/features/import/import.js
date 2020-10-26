@@ -30,8 +30,8 @@ import {
 import { sanitizeIconName } from '../../util/Sanitizer';
 import { Dict } from '../../language/classes/collection';
 
-const DST_TYPE = 1;
-const SVG_TYPE = 2;
+export const DST_TYPE = 1;
+export const SVG_TYPE = 2;
 
 let modal = document.getElementById('modal'),
     info = document.getElementById('info'),
