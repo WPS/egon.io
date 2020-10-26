@@ -1,6 +1,6 @@
 import { appendSRCFile } from '../../../../app/domain-story-modeler/language/icon/iconConfig';
 import { appendedIcons } from '../../../../app/domain-story-modeler/language/icon/all_Icons';
-import { Dict } from '../../../../app/domain-story-modeler/language/collection';
+import { Dict } from '../../../../app/domain-story-modeler/language/classes/collection';
 
 describe('iconConfig', function() {
   it('appendSRCFile', function() {

@@ -1,6 +1,6 @@
 'use strict';
 
-import { Dict, Entry } from '../../../app/domain-story-modeler/language/collection';
+import { Dict, Entry } from '../../../app/domain-story-modeler/language/classes/collection';
 
 const key1 = 'key';
 const key2 = 'another key';
