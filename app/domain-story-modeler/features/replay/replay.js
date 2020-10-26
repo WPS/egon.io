@@ -230,6 +230,9 @@ export function getAllShown(stepsUntilNow) {
 }
 
 function removeHighlights() {
+  const numberBackgroundColour = '#42aebb';
+  const numberColour = 'white';
+
   const allActivities = getAllActivities();
   const allConnections = getAllConnections();
 
@@ -240,6 +243,10 @@ function removeHighlights() {
 
     activityDomObject.style.stroke = activity.businessObject.pickedColor || 'black';
     activityDomObject.style.strokeWidth = 1.5;
+
+    const { numberBackgroundDom, numberTextDom } = getNumberDomForActivity(activityDomObject);
+    numberBackgroundDom.style.fill = numberBackgroundColour;
+    numberTextDom.style.fill = numberColour;
 
   });
 
@@ -255,7 +262,10 @@ function removeHighlights() {
 }
 
 function hightlightStep(step) {
-  const highlightColour = '#42aebb';
+  const highlightColour = 'black';
+  const numberBackgroundHighlightColour = 'orange';
+  const numberHighlightColour = 'black';
+
   if (!step.groups) {
 
     step.activities.forEach(activity => {
@@ -264,9 +274,21 @@ function hightlightStep(step) {
       ).getElementsByTagName('polyline')[0];
 
       activityDomObject.style.stroke = highlightColour;
-      activityDomObject.style.strokeWidth = 3;
+      activityDomObject.style.strokeWidth = 4;
+
+      const { numberBackgroundDom, numberTextDom } = getNumberDomForActivity(activityDomObject);
+      numberBackgroundDom.style.fill = numberBackgroundHighlightColour;
+      numberTextDom.style.fill = numberHighlightColour;
+
     });
   }
+}
+
+function getNumberDomForActivity(activity) {
+  return {
+    numberBackgroundDom: activity.parentElement.children[1],
+    numberTextDom: activity.parentElement.children[2]
+  };
 }
 
 // get all elements, that are supposed to be hidden in the current step
