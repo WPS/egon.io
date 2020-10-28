@@ -89,7 +89,7 @@ function createSVGData() {
 
   let insertIndex = data.indexOf('</defs>');
   if (insertIndex < 0) {
-    insertIndex = data.indexOf('version="1.1">') + 14;
+    insertIndex = data.indexOf('version="1.2">') + 14;
   } else {
     insertIndex += 7;
   }
