@@ -35,7 +35,7 @@
                 </button><button id="buttonStartReplay" class="startReplayButton" title="Start replay">
                     <img src="./logo/play.png">
                 </button>
-                <button id="buttonImport" class="importButton" title="Import story from .dst file" onclick="document.getElementById('import').click();">
+                <button id="buttonImport" class="importButton" title="Import story from file" onclick="document.getElementById('import').click();">
                     <img src="./logo/unarchive.png">
                   </button>
                   <input type="file" accept=".dst, .svg" style="display:none;" id="import" onclick="this.value=null;" name="file" />
@@ -320,7 +320,7 @@
   <div id="brokenSVGInfo" style="display:none">
     <button id="brokenSVGDialogButtonCancel">X</button>
     <br>
-    <text>Your .svg File does not contain a Domain Story, there most likely was an error during export.</text>
+    <text>The .svg file you uploaded does not contain a Domain Story.</text>
   </div>
 
   <script src="./app.js"></script>
