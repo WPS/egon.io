@@ -224,6 +224,7 @@ input {
 #keyboardShortcutInfoDialogButtonCancel,
 #downloadDialogCancelButton,
 #brokenDSTDialogButtonCancel,
+#brokenSVGDialogButtonCancel,
 #closeNoContentOnCanvasInfo {
   position: absolute;
   font-size: 9pt;
@@ -276,6 +277,7 @@ input {
 #dictionaryDialog,
 #numberDialog,
 #brokenDSTInfo,
+#brokenSVGInfo,
 #labelDialog,
 #wpsLogoInfo,
 #dstLogoInfo,
@@ -295,6 +297,7 @@ input {
 #versionInfo,
 #keyboardShortcutInfo,
 #brokenDSTInfo,
+#brokenSVGInfo,
 #noContentOnCanvasInfo {
   font-size: 11pt;
   border: solid 1px #aaaaab;

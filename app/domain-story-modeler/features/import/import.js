@@ -40,10 +40,14 @@ let modal = document.getElementById('modal'),
     title = document.getElementById('title'),
     versionInfo = document.getElementById('versionInfo'),
     brokenDSTInfo = document.getElementById('brokenDSTInfo'),
+    brokenSVGInfo = document.getElementById('brokenSVGInfo'),
     importedVersionLabel = document.getElementById('importedVersion'),
     modelerVersionLabel = document.getElementById('modelerVersion'),
     brokenDSTDialogButtonCancel = document.getElementById(
       'brokenDSTDialogButtonCancel'
+    ),
+    brokenSVGDialogButtonCancel = document.getElementById(
+      'brokenSVGDialogButtonCancel'
     ),
     versionDialogButtonCancel = document.getElementById('closeVersionDialog');
 
@@ -58,6 +62,10 @@ if (versionDialogButtonCancel) {
 
   brokenDSTDialogButtonCancel.addEventListener('click', function() {
     closeBrokenDSTDialog();
+  });
+
+  brokenSVGDialogButtonCancel.addEventListener('click', function() {
+    closeBrokenSVGDialog();
   });
 }
 
@@ -205,9 +213,25 @@ export function readerFunction(text, version, modeler, type) {
   } else if (type === DST_TYPE) {
     dstText = text;
   }
+
   let elements, config;
   let configChanged = false;
-  let dstAndConfig = JSON.parse(dstText);
+
+  let dstAndConfig;
+  try {
+    dstAndConfig = JSON.parse(dstText);
+  } catch (e) {
+    if (type === DST_TYPE) {
+      showBrokenDSTDialog();
+    }
+    else if (type === SVG_TYPE) {
+      showBrokenSVGDialog();
+    }
+  }
+
+  if (dstAndConfig == null) {
+    return;
+  }
 
   if (dstAndConfig.domain) {
     config = dstAndConfig.domain;
@@ -365,6 +389,16 @@ function showVersionDialog() {
 function showBrokenDSTDialog() {
   brokenDSTInfo.style.display = 'block';
   modal.style.display = 'block';
+}
+
+function showBrokenSVGDialog() {
+  brokenSVGInfo.style.display = 'block';
+  modal.style.display = 'block';
+}
+
+function closeBrokenSVGDialog() {
+  brokenSVGInfo.style.display = 'none';
+  modal.style.display = 'none';
 }
 
 function closeBrokenDSTDialog() {
