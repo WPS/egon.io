@@ -17,7 +17,7 @@ export function downloadSVG(filename) {
     'href',
     'data:application/bpmn20-xml;charset=UTF-8,' + svgData
   );
-  element.setAttribute('download', sanitizeForDesktop(filename) + '.svg');
+  element.setAttribute('download', sanitizeForDesktop(filename) + '.dst.svg');
 
   element.style.display = 'none';
   document.body.appendChild(element);
