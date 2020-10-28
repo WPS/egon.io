@@ -245,8 +245,10 @@ function removeHighlights() {
     activityDomObject.style.strokeWidth = 1.5;
 
     const { numberBackgroundDom, numberTextDom } = getNumberDomForActivity(activityDomObject);
-    numberBackgroundDom.style.fill = numberBackgroundColour;
-    numberTextDom.style.fill = numberColour;
+    if (numberBackgroundDom && numberTextDom) {
+      numberBackgroundDom.style.fill = numberBackgroundColour;
+      numberTextDom.style.fill = numberColour;
+    }
 
   });
 
@@ -277,17 +279,20 @@ function hightlightStep(step) {
       activityDomObject.style.strokeWidth = 4;
 
       const { numberBackgroundDom, numberTextDom } = getNumberDomForActivity(activityDomObject);
-      numberBackgroundDom.style.fill = numberBackgroundHighlightColour;
-      numberTextDom.style.fill = numberHighlightColour;
+      if (numberTextDom && numberBackgroundDom) {
+        numberBackgroundDom.style.fill = numberBackgroundHighlightColour;
+        numberTextDom.style.fill = numberHighlightColour;
+      }
 
     });
   }
 }
 
 function getNumberDomForActivity(activity) {
+  const numberDOMS = activity.parentElement.getElementsByClassName('djs-labelNumber');
   return {
-    numberBackgroundDom: activity.parentElement.children[1],
-    numberTextDom: activity.parentElement.children[2]
+    numberBackgroundDom: numberDOMS[0],
+    numberTextDom: numberDOMS[1]
   };
 }
 
