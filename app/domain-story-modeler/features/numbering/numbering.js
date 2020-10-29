@@ -34,6 +34,7 @@ export function generateAutomaticNumber(elementActivity, commandStack) {
   let wantedNumber = -1;
 
   activiesFromActors = getActivitesFromActors();
+
   activiesFromActors.forEach(element => {
     if (element.businessObject.number != null) {
       usedNumbers.push(element.businessObject.number);
@@ -50,6 +51,7 @@ export function generateAutomaticNumber(elementActivity, commandStack) {
   if (wantedNumber === -1) {
     wantedNumber = usedNumbers.length;
   }
+
   updateExistingNumbersAtGeneration(activiesFromActors, wantedNumber, commandStack);
   semantic.number = wantedNumber;
 }

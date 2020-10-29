@@ -27,20 +27,19 @@ export function correctElementRegitryInit() {
 
 export function getAllActivities() {
   let activities = [];
-  if (elementRegistry) {
-    elementRegistry.forEach(element => {
-      let type = element.type;
-      if (type == ACTIVITY) {
-        activities.push(element);
-      }
-    });
-  }
+
+  getAllCanvasObjects().forEach(element => {
+    if (element.type.includes(ACTIVITY)) {
+      activities.push(element);
+    }
+  });
+
   return activities;
 }
 
 export function getAllConnections() {
   let connections = [];
-  elementRegistry.forEach(element => {
+  getAllCanvasObjects().forEach(element => {
     let type = element.type;
     if (type == CONNECTION) {
       connections.push(element);
@@ -51,7 +50,7 @@ export function getAllConnections() {
 
 export function getAllActors() {
   let actors = [];
-  elementRegistry.forEach(element => {
+  getAllCanvasObjects().forEach(element => {
     let type = element.type;
     if (type == ACTOR) {
       actors.push(element);
@@ -62,7 +61,7 @@ export function getAllActors() {
 
 export function getAllWorkObjects() {
   let workObjects = [];
-  elementRegistry.forEach(element => {
+  getAllCanvasObjects().forEach(element => {
     let type = element.type;
     if (type.includes(WORKOBJECT)) {
       workObjects.push(element);
