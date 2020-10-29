@@ -64,6 +64,9 @@ export function downloadPNG() {
     document.body.appendChild(ele);
     ele.click();
     document.body.removeChild(ele);
+
+    // image source has to be removed to circumvent browser caching
+    image.src ='';
   };
 
   image.width = width;
