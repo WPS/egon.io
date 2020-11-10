@@ -68,6 +68,7 @@ export function downloadPNG() {
     // image source has to be removed to circumvent browser caching
     image.src ='';
   };
+  image.onchange = image.onload;
 
   image.width = width;
   image.height = height;
