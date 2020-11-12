@@ -21,6 +21,8 @@ export function downloadPNG() {
   let svg = new XMLSerializer().serializeToString(outerSVGElement);
   let image = document.createElement('img');
 
+  let onLoadTriggered = false;
+
   // removes unwanted black dots in image
   if (layerResizers[0]) {
     layerResizers[0].parentNode.removeChild(layerResizers[0]);
@@ -42,6 +44,7 @@ export function downloadPNG() {
   svg = prepareSVG(svg, layerBase);
 
   image.onload = function() {
+    onLoadTriggered = true;
     let tempCanvas = document.createElement('canvas');
 
     // add a 10px buffer to the right and lower boundary
@@ -73,6 +76,34 @@ export function downloadPNG() {
   image.width = width;
   image.height = height;
   image.src = 'data:image/svg+xml,' + svg;
+
+  if (image.complete && !onLoadTriggered) {
+    let tempCanvas = document.createElement('canvas');
+
+    // add a 10px buffer to the right and lower boundary
+    tempCanvas.width = width + 10;
+    tempCanvas.height = height + 10;
+
+    let ctx = tempCanvas.getContext('2d');
+    ctx.drawImage(image, 0, 0);
+
+    let png64 = tempCanvas.toDataURL('image/png');
+    let ele = document.createElement('a');
+    ele.setAttribute(
+      'download',
+      sanitizeForDesktop(title.innerText) +
+        '_' +
+        new Date().toISOString().slice(0, 10) +
+        '.png'
+    );
+    ele.setAttribute('href', png64);
+    document.body.appendChild(ele);
+    ele.click();
+    document.body.removeChild(ele);
+
+    // image source has to be removed to circumvent browser caching
+    image.src ='';
+  }
 }
 
 export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
