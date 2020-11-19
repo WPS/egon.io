@@ -37,14 +37,12 @@ export default function DSElementHandler(commandStack, eventBus, modeling) {
 
     this.execute = function(ctx) {
       let element = ctx.element;
-
-      eventBus.fire('element.changed', { element });
+      eventBus.fire('shape.remove', { element });
     };
 
     this.revert = function(ctx) {
       let element = ctx.element;
-
-      eventBus.fire('element.changed', { element });
+      eventBus.fire('shape.added', { element });
     };
 
   }
