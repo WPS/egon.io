@@ -73,7 +73,7 @@
     "sinon": "^7.5.0",
     "sortablejs": "^1.10.2",
     "tiny-svg": "^2.2.2",
-    "vanilla-picker": "^2.10.1"
+    "vanilla-picker": "^2.11.0"
   },
   "browserify": {
     "transform": [
