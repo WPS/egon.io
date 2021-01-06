@@ -26,8 +26,9 @@ module.exports = function(karma) {
 
     browsers: browsers,
 
-    browserNoActivityTimeout: 0,
-
+    browserNoActivityTimeout: 100000,
+    browserDisconnectTolerance: 1,
+    browserDisconnectTimeout: 100000,
     singleRun: true,
     autoWatch: false,
 
