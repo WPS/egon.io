@@ -23,11 +23,7 @@ function replaceElement(oldElement, newElementData, modeling) {
 
   // let modeling = this._modeling;
 
-  let newElement = null;
-
-  if (!oldElement.waypoints) {
-    setCenterOfElement(newElementData, oldElement, newElement, modeling);
-  }
+  let newElement = setCenterOfElement(newElementData, oldElement, newElement, modeling);
   let outgoingActivities = newElement.outgoing;
   let incomingActivties = newElement.incoming;
 
@@ -48,7 +44,7 @@ function setCenterOfElement(newElementData, oldElement, newElement, modeling) {
 
   assign(newElementData, { name: oldElement.businessObject.name });
 
-  newElement = modeling.replaceShape(oldElement, newElementData, {});
+  return modeling.replaceShape(oldElement, newElementData, {});
 }
 
 
