@@ -1,5 +1,6 @@
 'use strict';
 
+import 'regenerator-runtime/runtime';
 import './domain-story-modeler/util/MathExtensions';
 import './domain-story-modeler/util/ArrayExtensions';
 import DomainStoryModeler from './domain-story-modeler';
@@ -823,8 +824,12 @@ function keyReleased(keysPressed, keyCode) {
 }
 
 // SVG functions
-function saveSVG(done) {
-  modeler.saveSVG(done);
+async function saveSVG(done) {
+  try {
+    await modeler.saveSVG(done);
+  } catch (err) {
+    alert('There was an error saving the SVG.\n' + err);
+  }
 }
 
 function fnDebounce() {
