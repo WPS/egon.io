@@ -8,7 +8,7 @@ describe('restore title', function() {
     let filename = 'Exported Domain Story (name with blanks)_2021-01-13.dst';
 
     // When
-    let title = restoreTitleFromFileName(filename);
+    let title = restoreTitleFromFileName(filename, false);
 
 
     // Then
@@ -22,7 +22,7 @@ describe('restore title', function() {
     let filename = 'Exported Domain Story (name with blanks)_2021-01-13.dst.svg';
 
     // When
-    let title = restoreTitleFromFileName(filename);
+    let title = restoreTitleFromFileName(filename, true);
 
 
     // Then

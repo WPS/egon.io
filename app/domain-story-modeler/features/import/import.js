@@ -160,13 +160,21 @@ export function loadPersistedDST(modeler) {
   removeDirtyFlag();
 }
 
-// TODO: use this function in importDST and importSVG
-export function restoreTitleFromFileName(filename) {
+export function restoreTitleFromFileName(filename, isSVG) {
   let title = '';
-  let filenameWithoutDateSuffix = filename.replace(
-    /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/,
+
+  const dstRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/;
+  const svgRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst.svg/;
+
+  const dstSuffix = '.dst';
+  const svgSuffix = '.svg';
+
+  let filenameWithoutDateSuffix = filename.replace(isSVG ? svgRegex : dstRegex,
     ''
   );
+  if (filenameWithoutDateSuffix.includes(isSVG? svgSuffix : dstSuffix, '')) {
+    filenameWithoutDateSuffix = filenameWithoutDateSuffix.replace(isSVG? svgSuffix : dstSuffix, '');
+  }
   title = filenameWithoutDateSuffix;
   return title;
 }
@@ -176,13 +184,7 @@ export function importDST(input, filename, version, modeler) {
   descriptionInputLast = '';
 
   const reader = new FileReader();
-  let titleText = filename.replace(
-    /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/,
-    ''
-  );
-  if (titleText.includes('.dst')) {
-    titleText = titleText.replace('.dst', '');
-  }
+  let titleText = restoreTitleFromFileName(filename, false);
   titleInput.value = titleText;
   title.innerText = titleText;
   changeWebsiteTitle(titleText);
@@ -199,13 +201,7 @@ export function importSVG(input, filename, version, modeler) {
   descriptionInputLast = '';
 
   const reader = new FileReader();
-  let titleText = filename.replace(
-    /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.svg/,
-    ''
-  );
-  if (titleText.includes('.svg')) {
-    titleText = titleText.replace('.svg', '');
-  }
+  let titleText = restoreTitleFromFileName(filename, true);
   titleInput.value = titleText;
   title.innerText = titleText;
   changeWebsiteTitle(titleText);
