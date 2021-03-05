@@ -160,6 +160,17 @@ export function loadPersistedDST(modeler) {
   removeDirtyFlag();
 }
 
+// TODO: use this function in importDST and importSVG
+export function restoreTitleFromFileName(filename) {
+  let title = '';
+  let filenameWithoutDateSuffix = filename.replace(
+    /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/,
+    ''
+  );
+  title = filenameWithoutDateSuffix;
+  return title;
+}
+
 export function importDST(input, filename, version, modeler) {
   titleInputLast = '';
   descriptionInputLast = '';
