@@ -72,12 +72,14 @@ export function downloadPNG() {
     image.src ='';
   };
   image.onchange = image.onload;
+  image.click = image.onload;
 
   image.width = width;
   image.height = height;
   image.src = 'data:image/svg+xml,' + svg;
 
   if (image.complete && !onLoadTriggered) {
+    onLoadTriggered = true;
     let tempCanvas = document.createElement('canvas');
 
     // add a 10px buffer to the right and lower boundary
@@ -103,6 +105,11 @@ export function downloadPNG() {
 
     // image source has to be removed to circumvent browser caching
     image.src ='';
+  }
+
+  // for some reason the onload-Function is never called after the Canvas has been zoomed in or out
+  if (!onLoadTriggered) {
+    image.click();
   }
 }
 
