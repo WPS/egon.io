@@ -15,39 +15,12 @@ export function downloadPNG() {
   let viewport = outerSVGElement.getElementsByClassName('viewport')[0];
   let layerBase = viewport.getElementsByClassName('layer-base')[0];
 
-  let layerResizers = viewport.getElementsByClassName('layer-resizers');
-  let layerOverlays = viewport.getElementsByClassName('layer-overlays');
-  let transform = viewport.getAttribute('transform');
-  let translate = viewport.getAttribute('translate');
   let image = document.createElement('img');
 
   let onLoadTriggered = false;
 
   // removes unwanted black dots in image
-  if (layerResizers[0]) {
-    layerResizers[0].parentNode.removeChild(layerResizers[0]);
-  }
-  if (layerOverlays[0]) {
-    layerOverlays[0].parentNode.removeChild(layerOverlays[0]);
-  }
-
-  // remove canvas scrolling and scaling before serializeToString of SVG
-  if (transform) {
-    viewport.removeAttribute('transform');
-  }
-  if (translate) {
-    viewport.removeAttribute('translate');
-  }
-
-  let svg = new XMLSerializer().serializeToString(outerSVGElement);
-
-  // re-add canvas scrolling and scaling
-  if (transform) {
-    viewport.setAttribute('transform', transform);
-  }
-  if (translate) {
-    viewport.setAttribute('translate', translate);
-  }
+  let svg = extractSVG(viewport);
 
   svg = prepareSVG(svg, layerBase);
 
@@ -115,6 +88,39 @@ export function downloadPNG() {
     image.src ='';
   }
 
+
+  function extractSVG(viewport) {
+    let layerResizers = viewport.getElementsByClassName('layer-resizers');
+    let layerOverlays = viewport.getElementsByClassName('layer-overlays');
+    let transform = viewport.getAttribute('transform');
+    let translate = viewport.getAttribute('translate');
+
+    if (layerResizers[0]) {
+      layerResizers[0].parentNode.removeChild(layerResizers[0]);
+    }
+    if (layerOverlays[0]) {
+      layerOverlays[0].parentNode.removeChild(layerOverlays[0]);
+    }
+
+    // remove canvas scrolling and scaling before serializeToString of SVG
+    if (transform) {
+      viewport.removeAttribute('transform');
+    }
+    if (translate) {
+      viewport.removeAttribute('translate');
+    }
+
+    let svg = new XMLSerializer().serializeToString(outerSVGElement);
+
+    // re-add canvas scrolling and scaling
+    if (transform) {
+      viewport.setAttribute('transform', transform);
+    }
+    if (translate) {
+      viewport.setAttribute('translate', translate);
+    }
+    return svg;
+  }
 }
 
 export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
@@ -164,7 +170,7 @@ function prepareSVG(svg, layertBase) {
     titleText,
     descriptionText,
     xLeft,
-    yUp + 15,
+    yUp + 20,
     width
   );
   height += extraHeight;
