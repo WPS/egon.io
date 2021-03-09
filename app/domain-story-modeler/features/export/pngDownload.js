@@ -18,7 +18,7 @@ export function downloadPNG() {
   let layerResizers = viewport.getElementsByClassName('layer-resizers');
   let layerOverlays = viewport.getElementsByClassName('layer-overlays');
   let transform = viewport.getAttribute('transform');
-  let svg = new XMLSerializer().serializeToString(outerSVGElement);
+  let translate = viewport.getAttribute('translate');
   let image = document.createElement('img');
 
   let onLoadTriggered = false;
@@ -35,10 +35,18 @@ export function downloadPNG() {
   if (transform) {
     viewport.removeAttribute('transform');
   }
+  if (translate) {
+    viewport.removeAttribute('translate');
+  }
+
+  let svg = new XMLSerializer().serializeToString(outerSVGElement);
 
   // re-add canvas scrolling and scaling
   if (transform) {
     viewport.setAttribute('transform', transform);
+  }
+  if (translate) {
+    viewport.setAttribute('translate', translate);
   }
 
   svg = prepareSVG(svg, layerBase);
@@ -72,10 +80,10 @@ export function downloadPNG() {
     image.src ='';
   };
   image.onchange = image.onload;
-  image.click = image.onload;
 
   image.width = width;
   image.height = height;
+
   image.src = 'data:image/svg+xml,' + svg;
 
   if (image.complete && !onLoadTriggered) {
@@ -107,10 +115,6 @@ export function downloadPNG() {
     image.src ='';
   }
 
-  // for some reason the onload-Function is never called after the Canvas has been zoomed in or out
-  if (!onLoadTriggered) {
-    image.click();
-  }
 }
 
 export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
