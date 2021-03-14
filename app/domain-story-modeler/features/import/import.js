@@ -90,7 +90,7 @@ export function initImports(
     version,
     modeler,
     eventBus,
-    fnDebounce
+    saveSVG
 ) {
   document.getElementById('import').onchange = function() {
     initElementRegistry(elementRegistry);
@@ -102,7 +102,7 @@ export function initImports(
     }
 
     // to update the title of the svg, we need to tell the command stack, that a value has changed
-    eventBus.fire('commandStack.changed', debounce(fnDebounce, 500));
+    eventBus.fire('commandStack.changed', debounce(saveSVG, 500));
 
     titleInputLast = titleInput.value;
   };

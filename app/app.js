@@ -89,7 +89,7 @@ const eventBus = modeler.get('eventBus');
 const commandStack = modeler.get('commandStack');
 const selection = modeler.get('selection');
 
-initialize(canvas, elementRegistry, version, modeler, eventBus, fnDebounce);
+initialize(canvas, elementRegistry, version, modeler, eventBus, saveSVG);
 
 // interal variables
 let keysPressed = [];
@@ -208,7 +208,7 @@ function initialize(
     version,
     modeler,
     eventBus,
-    fnDebounce
+    saveSVG
 ) {
 
   // we need to initiate the activity commandStack elements
@@ -217,12 +217,12 @@ function initialize(
   DSElementHandler(commandStack, eventBus);
   headlineAndDescriptionUpdateHandler(commandStack);
 
-  const exportArtifacts = debounce(fnDebounce, 500);
+  const exportArtifacts = debounce(saveSVG, 500);
   modeler.on('commandStack.changed', exportArtifacts);
 
   initReplay(canvas, selection);
   initElementRegistry(elementRegistry);
-  initImports(elementRegistry, version, modeler, eventBus, fnDebounce);
+  initImports(elementRegistry, version, modeler, eventBus, saveSVG);
 
   modeler.createDiagram();
 
@@ -233,10 +233,10 @@ function initialize(
   if (localStorage.getItem(storyPersistTag)) {
     loadPersistedDST(modeler);
 
-    eventBus.fire('commandStack.changed', debounce(fnDebounce, 500));
+    eventBus.fire('commandStack.changed', debounce(saveSVG, 500));
   }
 
-  debounce(fnDebounce, 500);
+  debounce(saveSVG, 500);
 }
 
 document.onkeydown = function(e) {
@@ -682,7 +682,7 @@ function saveHeadlineDialog() {
   commandStack.execute('story.updateHeadlineAndDescription', headerValues);
 
   // to update the title of the svg, we need to tell the command stack, that a value has changed
-  const exportArtifacts = debounce(fnDebounce, 500);
+  const exportArtifacts = debounce(saveSVG, 500);
 
   eventBus.fire('commandStack.changed', exportArtifacts);
 
@@ -826,19 +826,11 @@ function keyReleased(keysPressed, keyCode) {
 // SVG functions
 async function saveSVG(done) {
   try {
-    await modeler.saveSVG(done);
+    const result = await modeler.saveSVG(done);
+    if (!getReplayOn()) {
+      setEncoded(result.svg);
+    }
   } catch (err) {
     alert('There was an error saving the SVG.\n' + err);
   }
-}
-
-function fnDebounce() {
-  saveSVG(function(err, svg) {
-    if (err) {
-      alert('There was an error saving the SVG.\n' + err);
-    }
-    if (!getReplayOn()) {
-      setEncoded(err ? null : svg);
-    }
-  });
 }
