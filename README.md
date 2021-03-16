@@ -55,14 +55,16 @@ Activities are depicted as arrows. Double click on an arrow to edit the activity
 
 If you want to model activities that happen simultaneously, check  the "multiple" checkbox of an activity. This allows you to use the same number multiple times, indicating that these activities happen in parallel. These steps are shown at once in the replay mode.
 
-#### Save and Export Domain Stories
+#### Save, Open, and Export Domain Stories
 
 If you want to save your Domain Story, download it as a `.dst` file by clicking the export button ![Export Button](/images/archive.png) or pressing ctrl+s on your keyboard. To continue working on a Domain Story, import a `.dst` file using the upload button ![Upload Button](/images/unarchive.png).
-You can also export your diagram as a `.svg` or `.png` file by clicking on the image button ![SVG Button](/images/image.png) and selecting your preferred format.
+You can also export your diagram as a `.svg` or `.png` file by clicking on the image button ![SVG Button](/images/image.png) and selecting your preferred format. 
+Beginning with version 1.2.0, the `.svg` file contains an embedded `.dst` file. That means that you only need to download one file that you can use as picture and also edit it later by importing it again.
 
 #### Replay
 
-The replay feature helps you to re-tell a Domain Story sentence by sentence. When you start a replay with the play button ![Play Button](/images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](/images/forward.png) shows the next activity and clicking the previous button ![Previous Button](/images/previous.png) shows the previous one. Editing is disabled in replay mode, but you can zoom (mouse wheel up and down) and scroll (ctrl + mouse wheel up and down). The stop the replay, click the stop button ![Stop Button](/images/stop.png).
+The replay feature helps you to re-tell a Domain Story sentence by sentence. When you start a replay with the play button ![Play Button](/images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](/images/forward.png) shows the next activity and clicking the previous button ![Previous Button](/images/previous.png) shows the previous one. The current sentence is highlighted. If a Domain Story contains groups, the are hidden an first and then appear as last step at the end of the story.
+Editing is disabled in replay mode, but you can zoom (mouse wheel up and down) and scroll (ctrl + mouse wheel up and down). The stop the replay, click the stop button ![Stop Button](/images/stop.png).
 
 #### Keyboard Shortcuts
 
