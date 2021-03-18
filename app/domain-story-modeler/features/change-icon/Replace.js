@@ -23,19 +23,7 @@ function replaceElement(oldElement, newElementData, modeling) {
 
   // let modeling = this._modeling;
 
-  let newElement = null;
-
-  if (!oldElement.waypoints) {
-
-    // set center of element for modeling API
-    // if no new width / height is given use old elements size
-    newElementData.x = Math.ceil(oldElement.x + (newElementData.width || oldElement.width) / 2);
-    newElementData.y = Math.ceil(oldElement.y + (newElementData.height || oldElement.height) / 2);
-
-    assign(newElementData, { name: oldElement.businessObject.name });
-
-    newElement = modeling.replaceShape(oldElement, newElementData, {});
-  }
+  let newElement = setCenterOfElement(newElementData, oldElement, newElement, modeling);
   let outgoingActivities = newElement.outgoing;
   let incomingActivties = newElement.incoming;
 
@@ -48,6 +36,15 @@ function replaceElement(oldElement, newElementData, modeling) {
   });
 
   return newElement;
+}
+
+function setCenterOfElement(newElementData, oldElement, newElement, modeling) {
+  newElementData.x = Math.ceil(oldElement.x + (newElementData.width || oldElement.width) / 2);
+  newElementData.y = Math.ceil(oldElement.y + (newElementData.height || oldElement.height) / 2);
+
+  assign(newElementData, { name: oldElement.businessObject.name });
+
+  return modeling.replaceShape(oldElement, newElementData, {});
 }
 
 

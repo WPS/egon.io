@@ -15,34 +15,17 @@ export function downloadPNG() {
   let viewport = outerSVGElement.getElementsByClassName('viewport')[0];
   let layerBase = viewport.getElementsByClassName('layer-base')[0];
 
-  let layerResizers = viewport.getElementsByClassName('layer-resizers');
-  let layerOverlays = viewport.getElementsByClassName('layer-overlays');
+  let image = document.createElement('img');
+
+  let onLoadTriggered = false;
 
   // removes unwanted black dots in image
-  if (layerResizers[0]) {
-    layerResizers[0].parentNode.removeChild(layerResizers[0]);
-  }
-  if (layerOverlays[0]) {
-    layerOverlays[0].parentNode.removeChild(layerOverlays[0]);
-  }
-
-  // remove canvas scrolling and scaling before serializeToString of SVG
-  let transform = viewport.getAttribute('transform');
-  if (transform) {
-    viewport.removeAttribute('transform');
-  }
-
-  let svg = new XMLSerializer().serializeToString(outerSVGElement);
-
-  // re-add canvas scrolling and scaling
-  if (transform) {
-    viewport.setAttribute('transform', transform);
-  }
+  let svg = extractSVG(viewport);
 
   svg = prepareSVG(svg, layerBase);
 
-  let image = document.createElement('img');
   image.onload = function() {
+    onLoadTriggered = true;
     let tempCanvas = document.createElement('canvas');
 
     // add a 10px buffer to the right and lower boundary
@@ -65,32 +48,133 @@ export function downloadPNG() {
     document.body.appendChild(ele);
     ele.click();
     document.body.removeChild(ele);
+
+    // image source has to be removed to circumvent browser caching
+    image.src ='';
   };
+  image.onchange = image.onload;
 
   image.width = width;
   image.height = height;
+
   image.src = 'data:image/svg+xml,' + svg;
+
+  if (image.complete && !onLoadTriggered) {
+    onLoadTriggered = true;
+    let tempCanvas = document.createElement('canvas');
+
+    // add a 10px buffer to the right and lower boundary
+    tempCanvas.width = width + 10;
+    tempCanvas.height = height + 10;
+
+    let ctx = tempCanvas.getContext('2d');
+    ctx.drawImage(image, 0, 0);
+
+    let png64 = tempCanvas.toDataURL('image/png');
+    let ele = document.createElement('a');
+    ele.setAttribute(
+      'download',
+      sanitizeForDesktop(title.innerText) +
+        '_' +
+        new Date().toISOString().slice(0, 10) +
+        '.png'
+    );
+    ele.setAttribute('href', png64);
+    document.body.appendChild(ele);
+    ele.click();
+    document.body.removeChild(ele);
+
+    // image source has to be removed to circumvent browser caching
+    image.src ='';
+  }
+
+
+  function extractSVG(viewport) {
+    let layerResizers = viewport.getElementsByClassName('layer-resizers');
+    let layerOverlays = viewport.getElementsByClassName('layer-overlays');
+    let transform = viewport.getAttribute('transform');
+    let translate = viewport.getAttribute('translate');
+
+    if (layerResizers[0]) {
+      layerResizers[0].parentNode.removeChild(layerResizers[0]);
+    }
+    if (layerOverlays[0]) {
+      layerOverlays[0].parentNode.removeChild(layerOverlays[0]);
+    }
+
+    // remove canvas scrolling and scaling before serializeToString of SVG
+    if (transform) {
+      viewport.removeAttribute('transform');
+    }
+    if (translate) {
+      viewport.removeAttribute('translate');
+    }
+
+    let svg = new XMLSerializer().serializeToString(outerSVGElement);
+
+    // re-add canvas scrolling and scaling
+    if (transform) {
+      viewport.setAttribute('transform', transform);
+    }
+    if (translate) {
+      viewport.setAttribute('translate', translate);
+    }
+    return svg;
+  }
+}
+
+export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
+  if (xLeft < 0) {
+    if (xRight < 0) {
+      width = Math.abs(xLeft - xRight);
+    } else {
+      width = Math.abs(xLeft) + xRight;
+    }
+  } else {
+    width = xRight - xLeft;
+  }
+
+  if (yUp < 0) {
+    if (yDown < 0) {
+      height = Math.abs(yUp - yDown);
+    } else {
+      height = Math.abs(yUp) + yDown;
+    }
+  } else {
+    height = yDown - yUp;
+  }
+
+  // if the domain-Story is smaller than 300px in width or height, increase its dimensions
+  if (height < 300) {
+    height += 300;
+    yUp -= 150;
+    yDown += 150;
+  }
+  if (width < 300) {
+    width += 300;
+    xLeft -= 150;
+    xRight += 150;
+  }
+  return [height, width];
 }
 
 function prepareSVG(svg, layertBase) {
   let { xLeft, xRight, yUp, yDown } = findMostOuterElements(layertBase);
-
-  calculateWidthAndHeight(xLeft, xRight, yUp, yDown);
-
-  // to display the title and description in the PNG-file, we need to add a container for our text-elements
   let descriptionText = infoText.innerHTML;
   let titleText = title.innerHTML;
+  let viewBoxIndex = svg.indexOf('width="');
+
+  calculateWidthAndHeight(xLeft, xRight, yUp, yDown);
 
   let { insertText, extraHeight } = createTitleAndDescriptionSVGElement(
     titleText,
     descriptionText,
     xLeft,
-    yUp + 15,
+    yUp + 20,
     width
   );
   height += extraHeight;
 
-  let viewBoxIndex = svg.indexOf('width="');
   let bounds =
     'width="' +
     width +
@@ -171,41 +255,6 @@ function URIHashtagFix(svg) {
     }
   }
   return svg;
-}
-
-export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
-  if (xLeft < 0) {
-    if (xRight < 0) {
-      width = Math.abs(xLeft - xRight);
-    } else {
-      width = Math.abs(xLeft) + xRight;
-    }
-  } else {
-    width = xRight - xLeft;
-  }
-
-  if (yUp < 0) {
-    if (yDown < 0) {
-      height = Math.abs(yUp - yDown);
-    } else {
-      height = Math.abs(yUp) + yDown;
-    }
-  } else {
-    height = yDown - yUp;
-  }
-
-  // if the domain-Story is smaller than 300px in width or height, increase its dimensions
-  if (height < 300) {
-    height += 300;
-    yUp -= 150;
-    yDown += 150;
-  }
-  if (width < 300) {
-    width += 300;
-    xLeft -= 150;
-    xRight += 150;
-  }
-  return [height, width];
 }
 
 function findMostOuterElements(svg) {

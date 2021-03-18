@@ -2,6 +2,8 @@
 
 import { createTitleAndDescriptionSVGElement } from './createTitleAndInfo';
 import { sanitizeForDesktop } from '../../util/Sanitizer';
+import { createConfigAndDst, createObjectListForDSTDownload } from './dstDownload';
+import { version } from '../../../../package.json';
 
 let title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
@@ -15,7 +17,7 @@ export function downloadSVG(filename) {
     'href',
     'data:application/bpmn20-xml;charset=UTF-8,' + svgData
   );
-  element.setAttribute('download', sanitizeForDesktop(filename) + '.svg');
+  element.setAttribute('download', sanitizeForDesktop(filename) + '.dst.svg');
 
   element.style.display = 'none';
   document.body.appendChild(element);
@@ -24,26 +26,27 @@ export function downloadSVG(filename) {
 
   document.body.removeChild(element);
 }
-
 export function setEncoded(data) {
   cacheData = data;
 }
 
 function createSVGData() {
 
+  let data = JSON.parse(JSON.stringify(cacheData));
+
   // to ensure that the title and description are inside the SVG container and do not overlapp with any elements,
   // we change the confines of the SVG viewbox
   let descriptionText = infoText.innerHTML;
   let titleText = title.innerHTML;
-  let viewBoxIndex = cacheData.indexOf('width="');
+  let viewBoxIndex = data.indexOf('width="');
 
-  let { width, height, viewBox } = viewBoxCoordinates(cacheData);
-  height += 80;
+  let { width, height, viewBox } = viewBoxCoordinates(data);
 
   let xLeft, xRight, yUp, yDown;
   let bounds = '';
   let splitViewBox = viewBox.split(/\s/);
 
+  height += 80;
   xLeft = +splitViewBox[0];
   yUp = +splitViewBox[1];
   xRight = +splitViewBox[2];
@@ -77,30 +80,42 @@ function createSVGData() {
     xRight +
     ' ' +
     (yDown + 30);
-  let dataStart = cacheData.substring(0, viewBoxIndex);
-  viewBoxIndex = cacheData.indexOf('" version');
-  let dataEnd = cacheData.substring(viewBoxIndex);
+  let dataStart = data.substring(0, viewBoxIndex);
+  viewBoxIndex = data.indexOf('" version');
+  let dataEnd = data.substring(viewBoxIndex);
   dataEnd.substring(viewBoxIndex);
 
-  cacheData = dataStart + bounds + dataEnd;
+  data = dataStart + bounds + dataEnd;
 
-  let insertIndex = cacheData.indexOf('</defs>');
+  let insertIndex = data.indexOf('</defs>');
   if (insertIndex < 0) {
-    insertIndex = cacheData.indexOf('version="1.1">') + 14;
+    insertIndex = data.indexOf('version="1.2">') + 14;
   } else {
     insertIndex += 7;
   }
 
-  cacheData = [
-    cacheData.slice(0, insertIndex),
+  data = [
+    data.slice(0, insertIndex),
     insertText,
-    cacheData.slice(insertIndex)
+    data.slice(insertIndex)
   ].join('');
-  return encodeURIComponent(cacheData);
+
+  data = appendDST(data);
+
+  return encodeURIComponent(data);
 }
 
 function viewBoxCoordinates(svg) {
   const ViewBoxCoordinate = /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)"/;
   const match = svg.match(ViewBoxCoordinate);
   return { width: +match[1], height: +match[2], viewBox: match[3] };
+}
+
+function appendDST(data) {
+  const objects = createObjectListForDSTDownload(version);
+
+  const dstText = JSON.stringify(objects);
+  const dst = createConfigAndDst(dstText);
+  data+= '\n<!-- <DST>\n' + JSON.stringify(dst) + '\n </DST> -->';
+  return data;
 }

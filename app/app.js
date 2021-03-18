@@ -1,9 +1,9 @@
 'use strict';
 
+import 'regenerator-runtime/runtime';
 import './domain-story-modeler/util/MathExtensions';
+import './domain-story-modeler/util/ArrayExtensions';
 import DomainStoryModeler from './domain-story-modeler';
-import SearchPad from '../node_modules/diagram-js/lib/features/search-pad/SearchPad';
-import EventBus from 'diagram-js/lib/core/EventBus';
 import DSActivityHandlers from './domain-story-modeler/modeler/UpdateHandler/DSActivityHandlers';
 import { toggleStashUse } from './domain-story-modeler/features/labeling/DSLabelEditingProvider';
 import { version } from '../package.json';
@@ -73,15 +73,23 @@ const modeler = new DomainStoryModeler({
   container: '#canvas',
   keyboard: {
     bindTo: document
-  }
+  },
+
+  // Disable BPMN-SearchModule, also re-enables browser Search
+  additionalModules:[
+    {
+      bpmnSearch:['value' , 'foo']
+    }
+  ]
 });
+
 const canvas = modeler.get('canvas');
 const elementRegistry = modeler.get('elementRegistry');
 const eventBus = modeler.get('eventBus');
 const commandStack = modeler.get('commandStack');
 const selection = modeler.get('selection');
 
-initialize(canvas, elementRegistry, version, modeler, eventBus, fnDebounce);
+initialize(canvas, elementRegistry, version, modeler, eventBus, saveSVG);
 
 // interal variables
 let keysPressed = [];
@@ -200,7 +208,7 @@ function initialize(
     version,
     modeler,
     eventBus,
-    fnDebounce
+    saveSVG
 ) {
 
   // we need to initiate the activity commandStack elements
@@ -209,52 +217,12 @@ function initialize(
   DSElementHandler(commandStack, eventBus);
   headlineAndDescriptionUpdateHandler(commandStack);
 
-  const exportArtifacts = debounce(fnDebounce, 500);
+  const exportArtifacts = debounce(saveSVG, 500);
   modeler.on('commandStack.changed', exportArtifacts);
 
   initReplay(canvas, selection);
   initElementRegistry(elementRegistry);
-  initImports(elementRegistry, version, modeler, eventBus, fnDebounce);
-
-  // disable BPMN SearchPad
-  SearchPad.prototype.toggle = function() {};
-
-  // override the invoke Listener function of the EventBus
-  // per default the command ctrl + F is rerouted and the Browser-Search function disabled
-  // to circumvent this rerouting, we return when the event is a key Event with ctrl + f pressed
-  EventBus.prototype._invokeListener = function(event, args, listener) {
-    if (event.keyEvent && event.keyEvent.key == 'f' && event.keyEvent.ctrlKey) {
-      return;
-    }
-
-    let returnValue;
-
-    try {
-
-      // returning false prevents the default action
-      returnValue = invokeFunction(listener.callback, args);
-
-      // stop propagation on return value
-      if (returnValue !== undefined) {
-        event.returnValue = returnValue;
-        event.stopPropagation();
-      }
-
-      // prevent default on return false
-      if (returnValue === false) {
-        event.preventDefault();
-      }
-    } catch (e) {
-      if (!this.handleError(e)) {
-        console.error('unhandled error in event listener');
-        console.error(e.stack);
-
-        throw e;
-      }
-    }
-
-    return returnValue;
-  };
+  initImports(elementRegistry, version, modeler, eventBus, saveSVG);
 
   modeler.createDiagram();
 
@@ -265,23 +233,10 @@ function initialize(
   if (localStorage.getItem(storyPersistTag)) {
     loadPersistedDST(modeler);
 
-    eventBus.fire('commandStack.changed', debounce(fnDebounce, 500));
+    eventBus.fire('commandStack.changed', debounce(saveSVG, 500));
   }
 
-  debounce(fnDebounce, 500);
-}
-
-/**
- * From BPMN.io
- * Invoke function. Be fast...
- *
- * @param {Function} fn
- * @param {Array<Object>} args
- *
- * @return {Any}
- */
-function invokeFunction(fn, args) {
-  return fn.apply(null, args);
+  debounce(saveSVG, 500);
 }
 
 document.onkeydown = function(e) {
@@ -727,7 +682,7 @@ function saveHeadlineDialog() {
   commandStack.execute('story.updateHeadlineAndDescription', headerValues);
 
   // to update the title of the svg, we need to tell the command stack, that a value has changed
-  const exportArtifacts = debounce(fnDebounce, 500);
+  const exportArtifacts = debounce(saveSVG, 500);
 
   eventBus.fire('commandStack.changed', exportArtifacts);
 
@@ -869,17 +824,13 @@ function keyReleased(keysPressed, keyCode) {
 }
 
 // SVG functions
-function saveSVG(done) {
-  modeler.saveSVG(done);
-}
-
-function fnDebounce() {
-  saveSVG(function(err, svg) {
-    if (err) {
-      alert('There was an error saving the SVG.\n' + err);
-    }
+async function saveSVG(done) {
+  try {
+    const result = await modeler.saveSVG(done);
     if (!getReplayOn()) {
-      setEncoded(err ? null : svg);
+      setEncoded(result.svg);
     }
-  });
+  } catch (err) {
+    alert('There was an error saving the SVG.\n' + err);
+  }
 }

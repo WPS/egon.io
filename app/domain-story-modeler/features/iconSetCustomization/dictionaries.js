@@ -1,7 +1,7 @@
 'use strict';
 
 import { all_icons, appendedIcons } from '../../language/icon/all_Icons';
-import { Dict } from '../../language/collection';
+import { Dict } from '../../language/classes/collection';
 
 let allIconDictionary= new Dict();
 let selectedAsActorDictionary = new Dict();

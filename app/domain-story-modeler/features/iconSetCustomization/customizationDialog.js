@@ -20,13 +20,13 @@ import { domExists } from '../../language/testmode';
 import { isInTypeDictionary } from '../../language/icon/dictionaries';
 import { customConfigTag } from './persitence';
 import { default_conf } from '../../language/icon/iconConfig';
+import { setListElementStyle, setRadioElementStyle, setVerticalLineElementStyle, setImageElementStyle, iconSize } from './styling';
 
 let htmlList = document.getElementById('allIconsList');
 let selectedActorsList = document.getElementById('selectedActorsList');
 let selectedWorkObjectList = document.getElementById('selectedWorkObjectsList');
 
 const Sortable = require('sortablejs');
-const iconSize = 20;
 const highlightBackgroundColor = '#f6f6f6';
 
 let actorListArray = [];
@@ -63,6 +63,243 @@ const workObjectListOptions = {
     dropElement(event);
   }
 };
+
+export function createListElement(name, greyBackground) {
+  let iconSRC = getIconSource(name);
+
+  let listElement = document.createElement('li');
+  let radioElement = document.createElement('div');
+  let verticalLineElement = document.createElement('div');
+  let imageElement = document.createElement('img');
+  let nameElement = document.createElement('text');
+
+  let inputRadioNone = document.createElement('input');
+  let inputRadioActor = document.createElement('input');
+  let inputRadioWorkObject = document.createElement('input');
+
+  nameElement.innerHTML = name;
+
+  setStyles(listElement, radioElement, verticalLineElement, imageElement, greyBackground);
+
+  setRadioButtonAttributes(inputRadioNone, name, 'none');
+  setRadioButtonAttributes(inputRadioActor, name, 'actor');
+  setRadioButtonAttributes(inputRadioWorkObject, name, 'workObject');
+
+
+  if (iconSRC.startsWith('data')) {
+    imageElement.src = iconSRC;
+  } else {
+    imageElement.src = 'data:image/svg+xml,' + iconSRC;
+  }
+
+  if (isInTypeDictionary(ACTOR, ACTOR + name)) {
+    inputRadioActor.checked = true;
+  } else if (isInTypeDictionary(WORKOBJECT, WORKOBJECT + name)) {
+    inputRadioWorkObject.checked = true;
+  } else {
+    inputRadioNone.checked = true;
+  }
+
+  fillRadioElement(radioElement, inputRadioNone, inputRadioActor, inputRadioWorkObject);
+
+  listElement.appendChild(radioElement);
+  listElement.appendChild(verticalLineElement);
+  listElement.appendChild(imageElement);
+  listElement.appendChild(nameElement);
+
+  return listElement;
+}
+
+export function resetHTMLSelectionList() {
+  if (domExists()) {
+    let i = 0;
+    for (i = selectedWorkObjectList.children.length - 1; i >= 0; i--) {
+      const child = selectedWorkObjectList.children[i];
+      selectedWorkObjectList.removeChild(child);
+    }
+
+    for (i = selectedActorsList.children.length - 1; i >= 0; i--) {
+      const child = selectedActorsList.children[i];
+      selectedActorsList.removeChild(child);
+    }
+  }
+}
+
+export function createListElementInSeletionList(name, src, list) {
+  const children = list.children;
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
+    const listElementName = child.children[1].innerText;
+    if (name == listElementName) {
+      return;
+    }
+  }
+
+  if (domExists()) {
+    const listElement = document.createElement('li');
+    const nameElement = document.createElement('text');
+    const imageElement = document.createElement('img');
+
+    imageElement.width = iconSize;
+    imageElement.heigth = iconSize;
+    if (src.startsWith('data')) {
+      imageElement.src = src;
+    } else {
+      imageElement.src = 'data:image/svg+xml,' + src;
+    }
+
+    nameElement.innerHTML = name;
+    nameElement.style.marginLeft = '5px';
+
+    listElement.appendChild(imageElement);
+    listElement.appendChild(nameElement);
+
+    return listElement;
+  }
+  return null;
+}
+
+export function createListOfAllIcons() {
+  resetHTMLSelectionList();
+  initializeAllIcons();
+  clearAllElementList();
+  actorListArray = [];
+  workObjectListArray = [];
+
+  new Sortable(htmlList, mainListOptions);
+  new Sortable(selectedActorsList, actorListOptions);
+  new Sortable(selectedWorkObjectList, workObjectListOptions);
+
+  let allIconDictionary = getAllIconDictioary();
+  const allIconNamesSorted = allIconDictionary.keysArray().sort();
+  const appendIconDictionary = getAppendedIconDictionary();
+  const allAppendIconNames = appendIconDictionary.keysArray();
+  const customConfig = JSON.parse(localStorage.getItem(customConfigTag));
+
+  let i = 0;
+  allIconNamesSorted.forEach(name => {
+    if (!alreadyAddedNames.includes(name)) {
+      const listElement = createListElement(name, i % 2 === 0);
+      htmlList.appendChild(listElement);
+      i++;
+      alreadyAddedNames.push(name);
+    }
+  });
+
+  allAppendIconNames.forEach(name => {
+    if (!alreadyAddedNames.includes(name)) {
+      const listElement = createListElement(name, i % 2 === 0);
+      htmlList.appendChild(listElement);
+      i++;
+    }
+  });
+
+  if (customConfig &&
+    (
+      customConfig.actors && Object.keys(customConfig.actors).length !== 0 ||
+      customConfig.workObjects && Object.keys(customConfig.workObjects).length !== 0
+    )) {
+    createCustomActorAndWorkobjectIconList(customConfig);
+  } else {
+    createStandardActorAndWorkobjectIconList();
+  }
+}
+
+function setStyles(listElement, radioElement, verticalLineElement, imageElement, greyBackground) {
+  setListElementStyle(listElement);
+  setRadioElementStyle(radioElement);
+  setVerticalLineElementStyle(verticalLineElement);
+  setImageElementStyle(imageElement);
+
+  if (greyBackground) {
+    listElement.style.backgroundColor = highlightBackgroundColor;
+  }
+}
+
+function fillRadioElement(radioElement, inputRadioNone, inputRadioActor, inputRadioWorkObject) {
+
+  radioElement.appendChild(inputRadioNone);
+  radioElement.appendChild(inputRadioActor);
+  radioElement.appendChild(inputRadioWorkObject);
+
+  radioElement.addEventListener('click', function() {
+    const children = radioElement.children;
+    const actorButton = children[1];
+    const workObjectButton = children[2];
+
+    const currentSelectionName = actorButton.name;
+    let addToActors = false;
+    let addToWorkObjects = false;
+    if (actorButton.checked) {
+      addToActors = true;
+    } else if (workObjectButton.checked) {
+      addToWorkObjects = true;
+    }
+    updateSelectedWorkObjectsAndActors(
+      currentSelectionName,
+      addToActors,
+      addToWorkObjects,
+      true
+    );
+  });
+
+}
+
+function setRadioButtonAttributes(button, name, value) {
+  button.setAttribute('type', 'radio');
+  button.setAttribute('name', name);
+  button.setAttribute('value', value);
+}
+
+function createCustomActorAndWorkobjectIconList(customConfig) {
+
+  const orderedActorsList = Object.keys(customConfig.actors);
+  const orderedWorkobjectList = Object.keys(customConfig.workObjects);
+
+  orderedActorsList.forEach(a => addToSelectedActors(a, customConfig.actors[a]));
+  createSelectedActionsIconList();
+
+  orderedWorkobjectList.forEach(w => addToSelectedWorkObjects(w, customConfig.workObjects[w]));
+  createSelectedWorkObjectsIconList();
+
+  orderedActorsList.forEach(actorKey => {
+    selectedActorsList.appendChild(
+      actorListArray.filter(element => element.getElementsByTagName('text')[0].innerText === actorKey)[0]
+    );
+  });
+  orderedWorkobjectList.forEach(workObjectKey => {
+    selectedWorkObjectList.appendChild(
+      workObjectListArray.filter(element => element.getElementsByTagName('text')[0].innerText === workObjectKey)[0]
+    );
+  });
+
+  actorListArray.filter(element => !orderedActorsList.includes(element.getElementsByTagName('text')[0].innerText)).forEach(ele => {
+    selectedActorsList.appendChild(ele);
+  });
+
+  workObjectListArray.filter(element => !orderedWorkobjectList.includes(element.getElementsByTagName('text')[0].innerText)).forEach(ele => {
+    selectedWorkObjectList.appendChild(ele);
+  });
+}
+
+function createStandardActorAndWorkobjectIconList() {
+  default_conf.actors.forEach(a => addToSelectedActors(a, getAllIconDictioary().get(a)));
+  createSelectedActionsIconList(); // fill actorListArray
+
+  default_conf.workObjects.forEach(w => addToSelectedWorkObjects(w, getAllIconDictioary().get(w)));
+  createSelectedWorkObjectsIconList(); // fill workObjectListArray
+
+  actorListArray = sortAfterDefaultConfig(default_conf.actors, actorListArray);
+  workObjectListArray = sortAfterDefaultConfig(default_conf.workObjects, workObjectListArray);
+
+  actorListArray.forEach(actor => {
+    selectedActorsList.appendChild(actor);
+  });
+
+  workObjectListArray.forEach(workobject => {
+    selectedWorkObjectList.appendChild(workobject);
+  });
+}
 
 function updateBackgroundColors() {
   const children = htmlList.children;
@@ -159,51 +396,22 @@ function updateSelectedWorkObjectsAndActors(
     'customIconConfigSaveButton'
   );
   const iconSRC = getIconSource(currentSelectionName);
+
   deleteFromSelectedWorkObjectDictionary(currentSelectionName);
   deleteFromSelectedActorDictionary(currentSelectionName);
+
   if (updateHTML) {
     removeListEntry(currentSelectionName, selectedActorsList);
     removeListEntry(currentSelectionName, selectedWorkObjectList);
   }
 
   if (addToActors) {
-    addToSelectedActors(currentSelectionName, iconSRC);
-    if (updateHTML) {
-      selectedActorsList.appendChild(
-        createListElementInSeletionList(
-          currentSelectionName,
-          iconSRC,
-          selectedActorsList
-        )
-      );
-    }
+    addToActorsAndUpdateHTML(currentSelectionName, iconSRC, updateHTML);
   } else if (addToWorkObjects) {
-    addToSelectedWorkObjects(currentSelectionName, iconSRC);
-    if (updateHTML) {
-      selectedWorkObjectList.appendChild(
-
-        createListElementInSeletionList(
-          currentSelectionName,
-          iconSRC,
-          selectedWorkObjectList
-        )
-      );
-    }
+    addToWorkobjectsAndUpdateHTML(currentSelectionName, iconSRC, updateHTML);
   }
 
-  if (selectedDitionariesAreNotEmpty()) {
-    exportConfigurationButton.disabled = false;
-    exportConfigurationButton.style.opacity = 1;
-
-    customIconConfigSaveButton.disabled = false;
-    customIconConfigSaveButton.style.opacity = 1;
-  } else {
-    exportConfigurationButton.disabled = true;
-    exportConfigurationButton.style.opacity = 0.5;
-
-    customIconConfigSaveButton.disabled = true;
-    customIconConfigSaveButton.style.opacity = 0.5;
-  }
+  togglButtons(exportConfigurationButton, customIconConfigSaveButton);
 
   if (!updateHTML) {
     const correspondingAllIconElement = document
@@ -230,93 +438,46 @@ function updateSelectedWorkObjectsAndActors(
   }
 }
 
-export function createListOfAllIcons() {
-  resetHTMLSelectionList();
-  initializeAllIcons();
-  clearAllElementList();
-  actorListArray = [];
-  workObjectListArray = [];
+function addToActorsAndUpdateHTML(currentSelectionName, iconSRC, updateHTML) {
+  addToSelectedActors(currentSelectionName, iconSRC);
+  if (updateHTML) {
+    selectedActorsList.appendChild(
+      createListElementInSeletionList(
+        currentSelectionName,
+        iconSRC,
+        selectedActorsList
+      )
+    );
+  }
+}
 
-  new Sortable(htmlList, mainListOptions);
-  new Sortable(selectedActorsList, actorListOptions);
-  new Sortable(selectedWorkObjectList, workObjectListOptions);
+function addToWorkobjectsAndUpdateHTML(currentSelectionName, iconSRC, updateHTML) {
+  addToSelectedWorkObjects(currentSelectionName, iconSRC);
+  if (updateHTML) {
+    selectedWorkObjectList.appendChild(
 
-  let allIconDictionary = getAllIconDictioary();
-  const allIconNamesSorted = allIconDictionary.keysArray().sort();
+      createListElementInSeletionList(
+        currentSelectionName,
+        iconSRC,
+        selectedWorkObjectList
+      )
+    );
+  }
+}
 
-  let i = 0;
-  allIconNamesSorted.forEach(name => {
-    if (!alreadyAddedNames.includes(name)) {
-      const listElement = createListElement(name, i % 2 === 0);
-      htmlList.appendChild(listElement);
-      i++;
-      alreadyAddedNames.push(name);
-    }
-  });
+function togglButtons(exportConfigurationButton, customIconConfigSaveButton) {
+  if (selectedDitionariesAreNotEmpty()) {
+    exportConfigurationButton.disabled = false;
+    exportConfigurationButton.style.opacity = 1;
 
-  const appendIconDictionary = getAppendedIconDictionary();
-  const allAppendIconNames = appendIconDictionary.keysArray();
-  allAppendIconNames.forEach(name => {
-    if (!alreadyAddedNames.includes(name)) {
-      const listElement = createListElement(name, i % 2 === 0);
-      htmlList.appendChild(listElement);
-      i++;
-    }
-  });
-  const customConfig = JSON.parse(localStorage.getItem(customConfigTag));
+    customIconConfigSaveButton.disabled = false;
+    customIconConfigSaveButton.style.opacity = 1;
+  } else {
+    exportConfigurationButton.disabled = true;
+    exportConfigurationButton.style.opacity = 0.5;
 
-  // Wenn eine config vorhanden ist, in der auch Elemente (also actors oder work objects) vorhanden sind, dann lade diese. Ansonsten nimm default-Werte.
-  if (customConfig &&
-    (
-      customConfig.actors && Object.keys(customConfig.actors).length !== 0 ||
-      customConfig.workObjects && Object.keys(customConfig.workObjects).length !== 0
-    )) {
-
-    const orderedActorsList = Object.keys(customConfig.actors);
-    const orderedWorkobjectList = Object.keys(customConfig.workObjects);
-
-    // Actors und WorkObjects raussuchen und UI Elemente (Icon-Liste) erstellen
-    orderedActorsList.forEach(a => addToSelectedActors(a, customConfig.actors[a]));
-    createSelectedActionsIconList();
-
-    orderedWorkobjectList.forEach(w => addToSelectedWorkObjects(w, customConfig.workObjects[w]));
-    createSelectedWorkObjectsIconList();
-
-    orderedActorsList.forEach(actorKey => {
-      selectedActorsList.appendChild(
-        actorListArray.filter(element => element.getElementsByTagName('text')[0].innerText === actorKey)[0]
-      );
-    });
-    orderedWorkobjectList.forEach(workObjectKey => {
-      selectedWorkObjectList.appendChild(
-        workObjectListArray.filter(element => element.getElementsByTagName('text')[0].innerText === workObjectKey)[0]
-      );
-    });
-
-    actorListArray.filter(element => !orderedActorsList.includes(element.getElementsByTagName('text')[0].innerText)).forEach(ele => {
-      selectedActorsList.appendChild(ele);
-    });
-
-    workObjectListArray.filter(element => !orderedWorkobjectList.includes(element.getElementsByTagName('text')[0].innerText)).forEach(ele => {
-      selectedWorkObjectList.appendChild(ele);
-    });
-  } else { // Standard-Actors und -WorkObjects nehmen und UI Elemente (Icon-Liste) erstellen
-    default_conf.actors.forEach(a => addToSelectedActors(a, getAllIconDictioary().get(a)));
-    createSelectedActionsIconList(); // befüllt actorListArray
-
-    default_conf.workObjects.forEach(w => addToSelectedWorkObjects(w, getAllIconDictioary().get(w)));
-    createSelectedWorkObjectsIconList(); // befüllt workObjectListArray
-
-    actorListArray = sortAfterDefaultConfig(default_conf.actors, actorListArray);
-    workObjectListArray = sortAfterDefaultConfig(default_conf.workObjects, workObjectListArray);
-
-    actorListArray.forEach(actor => {
-      selectedActorsList.appendChild(actor);
-    });
-
-    workObjectListArray.forEach(workobject => {
-      selectedWorkObjectList.appendChild(workobject);
-    });
+    customIconConfigSaveButton.disabled = true;
+    customIconConfigSaveButton.style.opacity = 0.5;
   }
 }
 
@@ -347,151 +508,6 @@ function clearAllElementList() {
     }
     alreadyAddedNames = [];
   }
-}
-
-export function createListElement(name, greyBackground) {
-  let iconSRC = getIconSource(name);
-
-  let listElement = document.createElement('li');
-  let radioElement = document.createElement('div');
-  let verticalLineElement = document.createElement('div');
-  let imageElement = document.createElement('img');
-  let nameElement = document.createElement('text');
-
-  let inputRadioNone = document.createElement('input');
-  let inputRadioActor = document.createElement('input');
-  let inputRadioWorkObject = document.createElement('input');
-
-  nameElement.innerHTML = name;
-
-  listElement.style.marginLeft = '5px';
-  listElement.style.height = '20px';
-  listElement.style.display = 'grid';
-  listElement.style.gridTemplateColumns = '125px 10px 30px auto';
-  listElement.style.borderTop = 'solid 1px black';
-  if (greyBackground) {
-    listElement.style.backgroundColor = highlightBackgroundColor;
-  }
-
-  radioElement.id = 'radioButtons';
-  radioElement.style.display = 'grid';
-  radioElement.style.gridTemplateColumns = '45px 45px 30px';
-
-  inputRadioNone.setAttribute('type', 'radio');
-  inputRadioNone.setAttribute('name', name);
-  inputRadioNone.setAttribute('value', 'none');
-
-  inputRadioActor.setAttribute('type', 'radio');
-  inputRadioActor.setAttribute('name', name);
-  inputRadioActor.setAttribute('value', 'actor');
-
-  inputRadioWorkObject.setAttribute('type', 'radio');
-  inputRadioWorkObject.setAttribute('name', name);
-  inputRadioWorkObject.setAttribute('value', 'workObject');
-
-  verticalLineElement.style.display = 'inline';
-  verticalLineElement.style.borderLeft = 'solid 1px black';
-  verticalLineElement.width = '1px';
-  verticalLineElement.heigth = '15px';
-  verticalLineElement.style.overflowY = 'visible';
-  verticalLineElement.style.marginLeft = '5px';
-
-  imageElement.width = iconSize;
-  imageElement.height = iconSize;
-  imageElement.style.marginLeft = '5px';
-  if (iconSRC.startsWith('data')) {
-    imageElement.src = iconSRC;
-  } else {
-    imageElement.src = 'data:image/svg+xml,' + iconSRC;
-  }
-
-  if (isInTypeDictionary(ACTOR, ACTOR + name)) {
-    inputRadioActor.checked = true;
-  } else if (isInTypeDictionary(WORKOBJECT, WORKOBJECT + name)) {
-    inputRadioWorkObject.checked = true;
-  } else {
-    inputRadioNone.checked = true;
-  }
-
-  radioElement.appendChild(inputRadioNone);
-  radioElement.appendChild(inputRadioActor);
-  radioElement.appendChild(inputRadioWorkObject);
-  radioElement.addEventListener('click', function() {
-    const children = radioElement.children;
-    const actorButton = children[1];
-    const workObjectButton = children[2];
-
-    const currentSelectionName = actorButton.name;
-    let addToActors = false;
-    let addToWorkObjects = false;
-    if (actorButton.checked) {
-      addToActors = true;
-    } else if (workObjectButton.checked) {
-      addToWorkObjects = true;
-    }
-    updateSelectedWorkObjectsAndActors(
-      currentSelectionName,
-      addToActors,
-      addToWorkObjects,
-      true
-    );
-  });
-
-  listElement.appendChild(radioElement);
-  listElement.appendChild(verticalLineElement);
-  listElement.appendChild(imageElement);
-  listElement.appendChild(nameElement);
-
-  return listElement;
-}
-
-export function resetHTMLSelectionList() {
-  if (domExists()) {
-    let i = 0;
-    for (i = selectedWorkObjectList.children.length - 1; i >= 0; i--) {
-      const child = selectedWorkObjectList.children[i];
-      selectedWorkObjectList.removeChild(child);
-    }
-
-    for (i = selectedActorsList.children.length - 1; i >= 0; i--) {
-      const child = selectedActorsList.children[i];
-      selectedActorsList.removeChild(child);
-    }
-  }
-}
-
-export function createListElementInSeletionList(name, src, list) {
-  const children = list.children;
-  for (let i = 0; i < children.length; i++) {
-    const child = children[i];
-    const listElementName = child.children[1].innerText;
-    if (name == listElementName) {
-      return;
-    }
-  }
-
-  if (domExists()) {
-    const listElement = document.createElement('li');
-    const nameElement = document.createElement('text');
-    const imageElement = document.createElement('img');
-
-    imageElement.width = iconSize;
-    imageElement.heigth = iconSize;
-    if (src.startsWith('data')) {
-      imageElement.src = src;
-    } else {
-      imageElement.src = 'data:image/svg+xml,' + src;
-    }
-
-    nameElement.innerHTML = name;
-    nameElement.style.marginLeft = '5px';
-
-    listElement.appendChild(imageElement);
-    listElement.appendChild(nameElement);
-
-    return listElement;
-  }
-  return null;
 }
 
 // this function puts an array in the order given by another array

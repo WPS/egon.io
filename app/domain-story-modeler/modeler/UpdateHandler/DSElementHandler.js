@@ -3,7 +3,7 @@
 export default function DSElementHandler(commandStack, eventBus, modeling) {
 
   commandStack.registerHandler('element.colorChange', element_colorChange);
-  commandStack.registerHandler('shape.removeGroupWithoutChildren', removeGroupWithoutChildren);
+  commandStack.registerHandler('shape.removeGroupWithChildren', removeGroupWithChildren);
 
   function element_colorChange() {
     this.preExecute = function(context) {
@@ -30,29 +30,19 @@ export default function DSElementHandler(commandStack, eventBus, modeling) {
     };
   }
 
-  function removeGroupWithoutChildren() {
+  function removeGroupWithChildren() {
     this.preExecute = function(ctx) {
       ctx.parent = ctx.element.parent;
     };
 
     this.execute = function(ctx) {
       let element = ctx.element;
-
-      ctx.children.forEach(child => {
-        child.parent = ctx.parent;
-      });
-
-      eventBus.fire('element.changed', { element });
+      eventBus.fire('shape.remove', { element });
     };
 
     this.revert = function(ctx) {
       let element = ctx.element;
-
-      ctx.children.forEach(child => {
-        child.parent = element;
-      });
-
-      eventBus.fire('element.changed', { element });
+      eventBus.fire('shape.added', { element });
     };
 
   }

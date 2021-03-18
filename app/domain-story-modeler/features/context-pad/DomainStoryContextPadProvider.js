@@ -20,13 +20,20 @@ import { getAllGroups, getAllCanvasObjects, getAllActivities } from '../../langu
 
 export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
 
+
+  let selectedID;
+  let startConnect;
+
+  injector.invoke(ContextPadProvider, this);
+  let autoPlace = injector.get('autoPlace', false);
+
+  let cached = bind(this.getContextPadEntries, this);
+
   const picker = new Picker(document.getElementById('pickerAnchor'));
   const pickerOptions = {
     color: 'black',
     popup: 'bottom'
   };
-  let selectedID;
-  let startConnect;
 
   picker.setOptions(pickerOptions);
   picker.onDone = function(color) {
@@ -65,24 +72,18 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     return isDone;
   }
 
-  injector.invoke(ContextPadProvider, this);
-  let autoPlace = injector.get('autoPlace', false);
-
-  let cached = bind(this.getContextPadEntries, this);
-
   popupMenu.registerProvider('ds-replace', replaceMenuProvider);
   popupMenu.registerProvider('bpmn-replace', replaceMenuProvider);
 
   this.getContextPadEntries = function(element) {
+    const allStandardIconKeys = getAllStandardIconKeys();
     let actions = cached(element);
 
     startConnect= function(event, element, autoActivate) {
       connect.start(event, element, autoActivate);
     };
 
-    const allStandardIconKeys = getAllStandardIconKeys();
-
-    if (element.type.includes('workObject')) {
+    if (element.type.includes(WORKOBJECT)) {
       if (allStandardIconKeys.includes(element.type.replace(WORKOBJECT, ''))) {
         addColorChange(actions);
       }
@@ -93,7 +94,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       addChangeWorkObjectTypeMenu(actions);
     }
 
-    else if (element.type.includes('actor')) {
+    else if (element.type.includes(ACTOR)) {
       if (allStandardIconKeys.includes(element.type.replace(ACTOR, ''))) {
         addColorChange(actions);
       }
@@ -119,42 +120,11 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           }
         }
       });
-      assign(actions, {
-        'delete': {
-          group: 'edit',
-          className: 'bpmn-icon-trash',
-          title: 'Remove Group WIth Children',
-          action: {
-            click: function(event, element) {
-              modeling.removeElements({ element });
-              makeDirty();
-            }
-          }
-        }
-      });
       addColorChange(actions);
     }
+
     else if (element.type.includes(ACTIVITY)) {
-
-      // the change direction icon is appended at the end of the edit group by default,
-      // to make sure, that the delete icon is the last one, we remove it from the actions-object
-      // and add it after adding the change direction functionality
-      delete actions.delete;
-
-      assign(actions, {
-        'changeDirection': {
-          group: 'edit',
-          className: 'icon-domain-story-changeDirection',
-          title: translate('Change direction'),
-          action: {
-
-            // event needs to be adressed
-            click: function(event, element) {
-              changeDirection(element);
-            }
-          }
-        }
-      });
+      moveDeleteActionToEndOfArray(actions);
 
       addColorChange(actions);
 
@@ -175,6 +145,25 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
     return actions;
   };
+
+  function moveDeleteActionToEndOfArray(actions) {
+    delete actions.delete;
+
+    assign(actions, {
+      'changeDirection': {
+        group: 'edit',
+        className: 'icon-domain-story-changeDirection',
+        title: translate('Change direction'),
+        action: {
+
+          // event needs to be adressed
+          click: function(event, element) {
+            changeDirection(element);
+          }
+        }
+      }
+    });
+  }
 
   function addChangeActorTypeMenu(actions) {
     assign(actions, {
@@ -271,7 +260,6 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     });
   }
 
-  // change the direction of an activity
   function changeDirection(element) {
     let context;
     let businessObject = element.businessObject;

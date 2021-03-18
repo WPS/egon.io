@@ -34,6 +34,7 @@ export function generateAutomaticNumber(elementActivity, commandStack) {
   let wantedNumber = -1;
 
   activiesFromActors = getActivitesFromActors();
+
   activiesFromActors.forEach(element => {
     if (element.businessObject.number != null) {
       usedNumbers.push(element.businessObject.number);
@@ -50,6 +51,7 @@ export function generateAutomaticNumber(elementActivity, commandStack) {
   if (wantedNumber === -1) {
     wantedNumber = usedNumbers.length;
   }
+
   updateExistingNumbersAtGeneration(activiesFromActors, wantedNumber, commandStack);
   semantic.number = wantedNumber;
 }
@@ -88,19 +90,11 @@ export function updateExistingNumbersAtEditing(activiesFromActors, wantedNumber,
   });
 
   // set the number of each activity to the next highest number, starting from the number, we overrode
-  for (let currentNumber = wantedNumber; currentNumber < sortedActivities.length; currentNumber++) {
-    let elementArray = sortedActivities[currentNumber];
-    if (elementArray) {
+  let currentNumber = wantedNumber;
+  for (currentNumber; currentNumber < sortedActivities.length; currentNumber++) {
+    if (sortedActivities[currentNumber]) {
       wantedNumber++;
-      elementArray.forEach(element => {
-        if (element) {
-          let businessObject = element.businessObject;
-          if (businessObject) {
-            businessObject.number = wantedNumber;
-          }
-          eventBus.fire('element.changed', { element });
-        }
-      });
+      setNumberOfActivity(sortedActivities[currentNumber], wantedNumber, eventBus);
     }
   }
 }
@@ -135,4 +129,18 @@ export function getNumberRegistry() {
 
 export function getMultipleNumberRegistry() {
   return multipleNumberRegistry.slice(0);
+}
+
+function setNumberOfActivity(elementArray, wantedNumber, eventBus) {
+  if (elementArray) {
+    elementArray.forEach(element => {
+      if (element) {
+        let businessObject = element.businessObject;
+        if (businessObject) {
+          businessObject.number = wantedNumber;
+        }
+        eventBus.fire('element.changed', { element });
+      }
+    });
+  }
 }

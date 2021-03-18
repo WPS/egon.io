@@ -4,7 +4,10 @@ import { CONNECTION, GROUP } from '../../language/elementTypes';
 import {
   getActivitesFromActors,
   getAllCanvasObjects,
-  wasInitialized
+  wasInitialized,
+  getAllGroups,
+  getAllActivities,
+  getAllConnections
 } from '../../language/canvasElementRegistry';
 import { traceActivities } from './initializeReplay';
 
@@ -126,6 +129,7 @@ export function initReplay(inCanvas, inSelection) {
           } else {
             allObjects.push(child);
           }
+          allObjects.push(currentgroup);
         });
         i = groupObjects.length - 1;
       }
@@ -179,41 +183,117 @@ export function isStoryConsecutivelyNumbered(replaySteps) {
   return complete;
 }
 
-// get all elements, that are supposed to be shown in the current step
 export function getAllShown(stepsUntilNow) {
   let shownElements = [];
 
   // for each step until the current one, add all referenced elements to the list of shown elements
   stepsUntilNow.forEach(step => {
+    if (step.groups && step.groups.length > 0) {
+      step.groups.forEach(group => {
+        shownElements.push(group);
+      });
+    } else {
 
-    // add the source of the step and their annotations to the shown elements
-    shownElements.push(step.source);
-    if (step.source.outgoing) {
-      step.source.outgoing.forEach(out => {
-        if (out.type.includes(CONNECTION)) {
-          shownElements.push(out, out.target);
+      // add the source of the step and their annotations to the shown elements
+      step.sources.forEach(source => {
+
+        shownElements.push(source);
+        if (source.outgoing) {
+          source.outgoing.forEach(out => {
+            if (out.type.includes(CONNECTION)) {
+              shownElements.push(out, out.target);
+            }
+          });
         }
       });
+
+      // add the target of the step and their annotations to the shown elements
+      step.targets.forEach(target => {
+        shownElements.push(target);
+        if (target.outgoing) {
+          target.outgoing.forEach(out => {
+            if (out.type.includes(CONNECTION)) {
+              shownElements.push(out, out.target);
+            }
+          });
+        }
+
+        // add each activity to the step
+        step.activities.forEach(activity => {
+          shownElements.push(activity);
+        });
+      });
+    }
+  });
+
+  return shownElements;
+}
+
+function removeHighlights() {
+  const numberBackgroundColour = '#42aebb';
+  const numberColour = 'white';
+
+  const allActivities = getAllActivities();
+  const allConnections = getAllConnections();
+
+  allActivities.forEach(activity => {
+    const activityDomObject = document.querySelector(
+      '[data-element-id=' + activity.id + ']'
+    ).getElementsByTagName('polyline')[0];
+
+    activityDomObject.style.stroke = activity.businessObject.pickedColor || 'black';
+    activityDomObject.style.strokeWidth = 1.5;
+
+    const { numberBackgroundDom, numberTextDom } = getNumberDomForActivity(activityDomObject);
+    if (numberBackgroundDom && numberTextDom) {
+      numberBackgroundDom.style.fill = numberBackgroundColour;
+      numberTextDom.style.fill = numberColour;
     }
 
-    // add the target of the step and their annotations to the shown elements
-    step.targets.forEach(target => {
-      shownElements.push(target);
-      if (target.outgoing) {
-        target.outgoing.forEach(out => {
-          if (out.type.includes(CONNECTION)) {
-            shownElements.push(out, out.target);
-          }
-        });
+  });
+
+  allConnections.forEach(connnection => {
+    const connectionDomObject = document.querySelector(
+      '[data-element-id=' + connnection.id + ']'
+    ).getElementsByTagName('polyline')[0];
+
+    connectionDomObject.style.stroke = connnection.businessObject.pickedColor || 'black';
+    connectionDomObject.style.strokeWidth = 1.5;
+
+  });
+}
+
+function hightlightStep(step) {
+  const highlightColour = 'black';
+  const numberBackgroundHighlightColour = 'orange';
+  const numberHighlightColour = 'black';
+
+  if (!step.groups) {
+
+    step.activities.forEach(activity => {
+      const activityDomObject = document.querySelector(
+        '[data-element-id=' + activity.id + ']'
+      ).getElementsByTagName('polyline')[0];
+
+      activityDomObject.style.stroke = highlightColour;
+      activityDomObject.style.strokeWidth = 4;
+
+      const { numberBackgroundDom, numberTextDom } = getNumberDomForActivity(activityDomObject);
+      if (numberTextDom && numberBackgroundDom) {
+        numberBackgroundDom.style.fill = numberBackgroundHighlightColour;
+        numberTextDom.style.fill = numberHighlightColour;
       }
 
-      // add each activity to the step
-      step.activities.forEach(activity => {
-        shownElements.push(activity);
-      });
     });
-  });
-  return shownElements;
+  }
+}
+
+function getNumberDomForActivity(activity) {
+  const numberDOMS = activity.parentElement.getElementsByClassName('djs-labelNumber');
+  return {
+    numberBackgroundDom: numberDOMS[0],
+    numberTextDom: numberDOMS[1]
+  };
 }
 
 // get all elements, that are supposed to be hidden in the current step
@@ -221,7 +301,7 @@ export function getAllNotShown(allObjects, shownElements) {
   let notShownElements = [];
 
   // every element that is not referenced in shownElements
-  // and is neither a group (since they are not refeenced n allObjects),
+  // and is neither a group (since they are not refeenced in allObjects),
   // nor an annotation conntected to a group should be hidden
   allObjects.forEach(element => {
     if (!shownElements.includes(element)) {
@@ -289,10 +369,12 @@ function removeSelectionAndEditing() {
 }
 
 function editMode() {
-  let contextPadElements = document.getElementsByClassName('djs-context-pad');
-  let paletteElements = document.getElementsByClassName('djs-palette');
+  removeHighlights();
 
-  let infoContainer = document.getElementById('infoContainer');
+  const contextPadElements = document.getElementsByClassName('djs-context-pad');
+  const paletteElements = document.getElementsByClassName('djs-palette');
+
+  const infoContainer = document.getElementById('infoContainer');
   infoContainer.style.display = 'block';
   infoContainer.style.height = '75px';
 
@@ -336,98 +418,30 @@ function showCurrentStep() {
   }
 
   allObjects = getAllCanvasObjects(canvas);
+  getAllGroups().forEach(group => {
+    allObjects.push(group);
+  });
 
   let shownElements = getAllShown(stepsUntilNow);
 
-  let notShownElements = getAllNotShown(allObjects, shownElements);
+  const notShownElements = getAllNotShown(allObjects, shownElements);
+
+  removeHighlights();
+  hightlightStep(replaySteps[currentStep]);
 
   // hide all elements, that are not to be shown
   notShownElements.forEach(element => {
-    let domObject = document.querySelector(
+    const domObject = document.querySelector(
       '[data-element-id=' + element.id + ']'
     );
     domObject.style.display = 'none';
   });
 
   shownElements.forEach(element => {
-    let domObject = document.querySelector(
+    const domObject = document.querySelector(
       '[data-element-id=' + element.id + ']'
     );
     domObject.style.display = 'block';
   });
 
-  // if (currentStepNotInView()) {
-  //   focusOnActiveActivity();
-  // }
 }
-
-/*
-function currentStepNotInView() {
-  const currentViewbox = canvas.viewbox();
-
-  const step = replaySteps[currentStep];
-
-  let elements = [];
-  step.targets.forEach(target => {
-    elements.push(target);
-  });
-
-  let initialElement = step.source;
-  let stepBounds = {
-    x: initialElement.x,
-    y: initialElement.y,
-    width: initialElement.width,
-    height: initialElement.height
-  };
-  elements.forEach(element => {
-    if (element.x < stepBounds.x) {
-      stepBounds.x = element.x;
-    } else {
-      if (stepBounds.width < element.x + element.width) {
-        stepBounds.width = element.x + element.width;
-      }
-    }
-    if (element.y < stepBounds.y) {
-      stepBounds.y = element.y;
-    } else {
-      if (stepBounds.height < element.y + element.height) {
-        stepBounds.height = element.y + element.height;
-      }
-    }
-  });
-
-  if (currentViewbox.x < stepBounds.x && currentViewbox.y < stepBounds.y) {
-    if (
-      currentViewbox.x + currentViewbox.width >
-      stepBounds.x + stepBounds.width
-    ) {
-      if (
-        currentViewbox.y + currentViewbox.height >
-        stepBounds.y + stepBounds.height
-      ) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-function focusOnActiveActivity() {
-  const step = replaySteps[currentStep];
-  const activitiesInStep = step.activities;
-  const activityToFocusOn = activitiesInStep[0];
-  const elX = activityToFocusOn.waypoints[0].x - initialViewbox.width / 2;
-  const elY = activityToFocusOn.waypoints[0].y - initialViewbox.height / 2;
-  let stepViewbox = {
-    x: elX,
-    y: elY,
-    height: initialViewbox.height,
-    width: initialViewbox.width,
-    scale: initialViewbox.scale,
-    outer: initialViewbox.outer,
-    inner: initialViewbox.inner
-  };
-
-  canvas.viewbox(stepViewbox);
-}
-*/

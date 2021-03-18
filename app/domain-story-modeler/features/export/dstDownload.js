@@ -12,27 +12,11 @@ let infoText = document.getElementById('infoText');
 
 export function downloadDST(filename, text) {
 
-  let configJSONString = {};
-  const iconConfig = getIconset();
-  let actors = iconConfig.actors;
-  let workObjects = iconConfig.workObjects;
-
-  if (!actors.size>0) {
-    actors = getTypeDictionary(ACTOR);
-  }
-  if (!workObjects.size>0) {
-    workObjects = getTypeDictionary(WORKOBJECT);
-  }
-
-  configJSONString = JSON.stringify(createConfigFromDictionaries(actors, null, workObjects, null, document.getElementById('currentDomainName').innerText));
-  let configAndDST = {
-    domain: configJSONString,
-    dst: text
-  };
+  let configAndDST = createConfigAndDst(text);
   let json =JSON.stringify(configAndDST);
+  let element = document.createElement('a');
 
   filename = sanitizeForDesktop(filename);
-  let element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(json));
   element.setAttribute('download', filename + '.dst');
 
@@ -49,6 +33,7 @@ export function downloadDST(filename, text) {
 export function createObjectListForDSTDownload(version) {
   let allObjectsFromCanvas = getAllCanvasObjects();
   let groups = getAllGroups();
+  let text = '';
 
   let objectList = [];
 
@@ -71,7 +56,6 @@ export function createObjectListForDSTDownload(version) {
     objectList.push(group.businessObject);
   });
 
-  let text = '';
   if (infoText) {
     text = infoText.innerText ;
   }
@@ -79,4 +63,26 @@ export function createObjectListForDSTDownload(version) {
   objectList.push({ info: text });
   objectList.push({ version: version });
   return objectList;
+}
+
+export function createConfigAndDst(text) {
+
+  const iconConfig = getIconset();
+  let configJSONString = {};
+  let actors = iconConfig.actors;
+  let workObjects = iconConfig.workObjects;
+
+  if (!actors.size>0) {
+    actors = getTypeDictionary(ACTOR);
+  }
+  if (!workObjects.size>0) {
+    workObjects = getTypeDictionary(WORKOBJECT);
+  }
+
+  configJSONString = JSON.stringify(createConfigFromDictionaries(actors, null, workObjects, null, document.getElementById('currentDomainName').innerText));
+
+  return {
+    domain: configJSONString,
+    dst: text
+  };
 }

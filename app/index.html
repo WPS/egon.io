@@ -13,6 +13,9 @@
   <link rel="stylesheet" href="domain-story-modeler/language/icon/icons.css" id="iconsCss" />
 
   <title>Domain Story Modeler</title>
+  <link rel="icon"
+        type="image/png"
+        href="./logo/domainStorytellingIcon.png">
 </head>
 
 <body>
@@ -30,29 +33,36 @@
           <img src="./logo/edit_blue.png" id="edit">
         </h3>
         <div class="ButtonContainer">
-          <div id=editModeButtons>
-            </button><button id="buttonStartReplay" class="startReplayButton" title="Start replay">
-              <img src="./logo/play.png">
-            </button>
-            <button id="buttonImport" class="importButton" title="Import story from .dst file"
-              onclick="document.getElementById('import').click();">
-              <img src="./logo/unarchive.png">
-            </button>
-            <input type="file" accept=".dst" style="display:none;" id="import" onclick="this.value=null;" name="file" />
-            <button class="exportButton" id="export" title="Export story as .dst file">
-              <img id="exportButtonIMG" src="./logo/archive.png">
-              <img id="exportButtonIMGDirty" src="./logo/archive_dirty.png" style="display: none">
-            </button>
-            <button class="downloadButton" id="buttonImageDownloads" title="Export story as SVG or PNG image">
-              <img src="./logo/image.png">
-            </button>
-            <button id="dictionaryButton" title="Edit dictionary">
-              <img src="./logo/spellcheck.png">
-            </button>
-            <button id="iconCustomizationButton">
-              <img src="./logo//settings.png" title="Customize icons">
-              <button id="keyboardShortcutInfoButton" title="Show keyboard shortcuts">
-                <img src="./logo/shortCutInfo.png">
+            <div id=editModeButtons>
+                </button><button id="buttonStartReplay" class="startReplayButton" title="Start replay">
+                    <img src="./logo/play.png">
+                </button>
+                <button id="buttonImport" class="importButton" title="Import story from file" onclick="document.getElementById('import').click();">
+                    <img src="./logo/unarchive.png">
+                  </button>
+                  <input type="file" accept=".dst, .svg" style="display:none;" id="import" onclick="this.value=null;" name="file" />
+                  <button class="exportButton" id="export" title="Export story as .dst file">
+                    <img id="exportButtonIMG" src="./logo/archive.png">
+                    <img id="exportButtonIMGDirty" src = "./logo/archive_dirty.png" style="display: none">
+                  </button>
+                  <button class="downloadButton" id="buttonImageDownloads" title="Export story as SVG or PNG image">
+                    <img src="./logo/image.png">
+                  </button>
+                  <button id="dictionaryButton" title="Edit dictionary">
+                    <img src="./logo/spellcheck.png">
+                  </button>
+                  <button id="iconCustomizationButton">
+                    <img src="./logo//settings.png" title="Customize icons">
+                  <button id="keyboardShortcutInfoButton" title="Show keyboard shortcuts">
+                      <img src="./logo/shortCutInfo.png">
+                    </button>
+            </div>
+            <div id="presentationModeButtons" style="display: none">
+              <button id="buttonPreviousStep" class="prevoiusStepButton" title="Previous Step">
+                <img src="./logo/previous.png">
+              </button>
+              <button id="buttonNextStep" class="NextStepButton" title="NextStep">
+                <img src="./logo/forward.png">
               </button>
           </div>
           <div id="presentationModeButtons" style="display: none">
@@ -313,8 +323,14 @@
   <div id="brokenDSTInfo" style="display:none">
     <button id="brokenDSTDialogButtonCancel">X</button>
     <br>
-    <text>Your .dst File is incomplete, there most likely was an error during export.</text>
-    <text>Some of your activities and Domain Elements might be missing.</text>
+    <text>Your .dst File is corrupted, there most likely was an error during export.</text>
+    <text>If the domain story was imported, some of your activities and Domain Elements might be missing.</text>
+  </div>
+
+  <div id="brokenSVGInfo" style="display:none">
+    <button id="brokenSVGDialogButtonCancel">X</button>
+    <br>
+    <text>The .svg file you uploaded does not contain a Domain Story.</text>
   </div>
 
   <div id="DSGVO">

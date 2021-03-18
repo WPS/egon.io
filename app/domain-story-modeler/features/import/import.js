@@ -28,7 +28,10 @@ import {
   registerIcons
 } from '../../language/icon/dictionaries';
 import { sanitizeIconName } from '../../util/Sanitizer';
-import { Dict } from '../../language/collection';
+import { Dict } from '../../language/classes/collection';
+
+export const DST_TYPE = 1;
+export const SVG_TYPE = 2;
 
 let modal = document.getElementById('modal'),
     info = document.getElementById('info'),
@@ -37,10 +40,14 @@ let modal = document.getElementById('modal'),
     title = document.getElementById('title'),
     versionInfo = document.getElementById('versionInfo'),
     brokenDSTInfo = document.getElementById('brokenDSTInfo'),
+    brokenSVGInfo = document.getElementById('brokenSVGInfo'),
     importedVersionLabel = document.getElementById('importedVersion'),
     modelerVersionLabel = document.getElementById('modelerVersion'),
     brokenDSTDialogButtonCancel = document.getElementById(
       'brokenDSTDialogButtonCancel'
+    ),
+    brokenSVGDialogButtonCancel = document.getElementById(
+      'brokenSVGDialogButtonCancel'
     ),
     versionDialogButtonCancel = document.getElementById('closeVersionDialog');
 
@@ -55,6 +62,10 @@ if (versionDialogButtonCancel) {
 
   brokenDSTDialogButtonCancel.addEventListener('click', function() {
     closeBrokenDSTDialog();
+  });
+
+  brokenSVGDialogButtonCancel.addEventListener('click', function() {
+    closeBrokenSVGDialog();
   });
 }
 
@@ -74,24 +85,24 @@ export function setTitleInputLast(title) {
   titleInputLast = title;
 }
 
-function closeBrokenDSTDialog() {
-  brokenDSTInfo.style.display = 'none';
-  modal.style.display = 'none';
-}
-
 export function initImports(
     elementRegistry,
     version,
     modeler,
     eventBus,
-    fnDebounce
+    saveSVG
 ) {
   document.getElementById('import').onchange = function() {
     initElementRegistry(elementRegistry);
-    importDST(document.getElementById('import').files[0], version, modeler);
+    const filename = document.getElementById('import').files[0].name;
+    if (filename.endsWith('.dst')) {
+      importDST(document.getElementById('import').files[0], filename, version, modeler);
+    } else if (filename.endsWith('.svg')) {
+      importSVG(document.getElementById('import').files[0], filename, version, modeler);
+    }
 
     // to update the title of the svg, we need to tell the command stack, that a value has changed
-    eventBus.fire('commandStack.changed', debounce(fnDebounce, 500));
+    eventBus.fire('commandStack.changed', debounce(saveSVG, 500));
 
     titleInputLast = titleInput.value;
   };
@@ -141,10 +152,7 @@ export function loadPersistedDST(modeler) {
 
   updateIconRegistries(elements);
 
-  const inputInfoText = lastElement.info ? lastElement.info : '';
-  info.innerText = inputInfoText;
-  info.value = inputInfoText;
-  infoText.innerText = inputInfoText;
+  setInfoText(lastElement);
 
   modeler.importCustomElements(elements);
   correctElementRegitryInit();
@@ -152,35 +160,85 @@ export function loadPersistedDST(modeler) {
   removeDirtyFlag();
 }
 
-export function importDST(input, version, modeler) {
+export function restoreTitleFromFileName(filename, isSVG) {
+  let title = '';
+
+  const dstRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/;
+  const svgRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst.svg/;
+
+  const dstSuffix = '.dst';
+  const svgSuffix = '.svg';
+
+  let filenameWithoutDateSuffix = filename.replace(isSVG ? svgRegex : dstRegex,
+    ''
+  );
+  if (filenameWithoutDateSuffix.includes(isSVG? svgSuffix : dstSuffix, '')) {
+    filenameWithoutDateSuffix = filenameWithoutDateSuffix.replace(isSVG? svgSuffix : dstSuffix, '');
+  }
+  title = filenameWithoutDateSuffix;
+  return title;
+}
+
+export function importDST(input, filename, version, modeler) {
   titleInputLast = '';
   descriptionInputLast = '';
 
   const reader = new FileReader();
-  if (input.name.endsWith('.dst')) {
-    let titleText = input.name.replace(
-      /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/,
-      ''
-    );
-    if (titleText.includes('.dst')) {
-      titleText = titleText.replace('.dst', '');
-    }
-    titleInput.value = titleText;
-    title.innerText = titleText;
-    changeWebsiteTitle(titleText);
+  let titleText = restoreTitleFromFileName(filename, false);
+  titleInput.value = titleText;
+  title.innerText = titleText;
+  changeWebsiteTitle(titleText);
 
-    reader.onloadend = function(e) {
-      readerFunction(e.target.result, version, modeler);
-    };
+  reader.onloadend = function(e) {
+    readerFunction(e.target.result, version, modeler, DST_TYPE);
+  };
 
-    reader.readAsText(input);
-  }
+  reader.readAsText(input);
 }
 
-export function readerFunction(text, version, modeler) {
+export function importSVG(input, filename, version, modeler) {
+  titleInputLast = '';
+  descriptionInputLast = '';
+
+  const reader = new FileReader();
+  let titleText = restoreTitleFromFileName(filename, true);
+  titleInput.value = titleText;
+  title.innerText = titleText;
+  changeWebsiteTitle(titleText);
+
+  reader.onloadend = function(e) {
+    readerFunction(e.target.result, version, modeler, SVG_TYPE);
+  };
+
+  reader.readAsText(input);
+}
+
+export function readerFunction(text, version, modeler, type) {
+  let dstText;
+  if (type === SVG_TYPE) {
+    dstText = removeXMLComments(text);
+  } else if (type === DST_TYPE) {
+    dstText = text;
+  }
+
   let elements, config;
   let configChanged = false;
-  let dstAndConfig = JSON.parse(text);
+
+  let dstAndConfig;
+  try {
+    dstAndConfig = JSON.parse(dstText);
+  } catch (e) {
+    if (type === DST_TYPE) {
+      showBrokenDSTDialog();
+    }
+    else if (type === SVG_TYPE) {
+      showBrokenSVGDialog();
+    }
+  }
+
+  if (dstAndConfig == null) {
+    return;
+  }
 
   if (dstAndConfig.domain) {
     config = dstAndConfig.domain;
@@ -206,12 +264,13 @@ export function readerFunction(text, version, modeler) {
       }
       elements = JSON.parse(dstAndConfig.dst);
     } else {
-      elements = JSON.parse(text);
+      elements = JSON.parse(dstText);
     }
   }
 
   let lastElement = elements.pop();
   let importVersionNumber = lastElement;
+
   if (lastElement.version) {
     lastElement = elements.pop();
   }
@@ -233,10 +292,7 @@ export function readerFunction(text, version, modeler) {
       showBrokenDSTDialog();
     }
 
-    let inputInfoText = lastElement.info ? lastElement.info : '';
-    info.innerText = inputInfoText;
-    info.value = inputInfoText;
-    infoText.innerText = inputInfoText;
+    setInfoText(lastElement);
 
     adjustPositions(elements);
   }
@@ -253,6 +309,16 @@ export function readerFunction(text, version, modeler) {
     correctGroupChildren();
     removeDirtyFlag();
   }
+}
+
+function removeXMLComments(xmlText) {
+  xmlText = xmlText.substring(xmlText.indexOf('<DST>'));
+  while (xmlText.includes('<!--') || xmlText.includes('-->')) {
+    xmlText = xmlText.replace('<!--', '').replace('-->', '');
+  }
+  xmlText = xmlText.replace('<DST>', '');
+  xmlText = xmlText.replace('</DST>', '');
+  return xmlText;
 }
 
 export function configHasChanged(config) {
@@ -293,6 +359,13 @@ export function configHasChanged(config) {
   return changed;
 }
 
+function setInfoText(element) {
+  const inputInfoText = element.info ? element.info : '';
+  info.innerText = inputInfoText;
+  info.value = inputInfoText;
+  infoText.innerText = inputInfoText;
+}
+
 function updateIconRegistries(elements) {
   const actorIcons = getElementsOfType(elements, 'actor');
   const workObjectIcons = getElementsOfType(elements, 'workObject');
@@ -323,4 +396,19 @@ function showVersionDialog() {
 function showBrokenDSTDialog() {
   brokenDSTInfo.style.display = 'block';
   modal.style.display = 'block';
+}
+
+function showBrokenSVGDialog() {
+  brokenSVGInfo.style.display = 'block';
+  modal.style.display = 'block';
+}
+
+function closeBrokenSVGDialog() {
+  brokenSVGInfo.style.display = 'none';
+  modal.style.display = 'none';
+}
+
+function closeBrokenDSTDialog() {
+  brokenDSTInfo.style.display = 'none';
+  modal.style.display = 'none';
 }

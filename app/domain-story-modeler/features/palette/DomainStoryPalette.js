@@ -12,7 +12,7 @@ import {
   getTypeDictionary
 } from '../../language/icon/dictionaries';
 import { domExists } from '../../language/testmode';
-import { Dict } from '../../language/collection';
+import { Dict } from '../../language/classes/collection';
 import { getAppendedIconDictionary } from '../iconSetCustomization/dictionaries';
 
 /**
@@ -112,6 +112,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   let config = getIconset();
 
   let customIcons = localStorage.getItem(appendedIconsTag);
+
   if (customIcons) {
     customIcons = JSON.parse(customIcons);
     if (customIconsLegacy(customIcons)) {
@@ -134,17 +135,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   let actorTypes = getTypeDictionary(ACTOR);
 
   actorTypes.keysArray().forEach(actorType => {
-    let name = getNameFromType(actorType);
-    let icon = getIconForType(actorType);
-
-    let action = [];
-    action['domainStory-actor' + name] = createAction(
-      actorType,
-      'actor',
-      icon,
-      name
-    );
-    assign(actions, action);
+    addCanvasObjectTypes(actorType, createAction, actions, 'actor');
   });
 
   assign(actions, {
@@ -157,17 +148,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   let workObjectTypes = getTypeDictionary(WORKOBJECT);
 
   workObjectTypes.keysArray().forEach(workObjectType => {
-    let name = getNameFromType(workObjectType);
-    let icon = getIconForType(workObjectType);
-
-    let action = [];
-    action['domainStory-actor' + name] = createAction(
-      workObjectType,
-      'actor',
-      icon,
-      name
-    );
-    assign(actions, action);
+    addCanvasObjectTypes(workObjectType, createAction, actions, 'actor'); // TODO is ClassName 'actor' correct?
   });
 
   assign(actions, {
@@ -208,6 +189,20 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   });
 
   return actions;
+}
+
+function addCanvasObjectTypes(actorType, createAction, actions, className) {
+  let name = getNameFromType(actorType);
+  let icon = getIconForType(actorType);
+
+  let action = [];
+  action['domainStory-' +className + name] = createAction(
+    actorType,
+    className,
+    icon,
+    name
+  );
+  assign(actions, action);
 }
 
 function customIconsLegacy(customIcons) {

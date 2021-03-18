@@ -1,6 +1,7 @@
 'use strict';
 
-import { Dict } from '../../language/collection';
+import { Dict } from '../../language/classes/collection';
+import { getAllGroups } from '../../language/canvasElementRegistry';
 
 // create a trace through all activities, that recreates the path from the beginning to the end of the story
 export function traceActivities(activitiesFromActors) {
@@ -22,18 +23,22 @@ export function traceActivities(activitiesFromActors) {
 
     allSteps.push(traceStep);
   }
+
+  const groups = getAllGroups();
+  addGroupSteps(groups, allSteps);
+
   return allSteps;
 }
 
 // create a step for the replay function
 export function createStep(tracedActivity) {
-  let initialSource;
+  let initialSources = [];
   let activities = tracedActivity;
   let targetObjects = [];
 
   tracedActivity.forEach(parrallelStep => {
     if (parrallelStep) {
-      initialSource = parrallelStep.source;
+      initialSources.push(parrallelStep.source);
 
       // add the first Object to the traced targets, this can only be a workObject, since actors cannot connect to other actors
       let firstTarget = parrallelStep.target;
@@ -41,7 +46,7 @@ export function createStep(tracedActivity) {
 
       // check the outgoing activities for each target
       for (let i = 0; i < targetObjects.length; i++) {
-        let checkTarget = targetObjects[i];
+        const checkTarget = targetObjects[i];
         if (
           checkTarget.businessObject &&
             !checkTarget.businessObject.type.includes('actor') &&
@@ -51,7 +56,7 @@ export function createStep(tracedActivity) {
           // check the target for each outgoing activity
           checkTarget.outgoing.forEach(activity => {
             activities.push(activity);
-            let activityTarget = activity.target;
+            const activityTarget = activity.target;
             if (!targetObjects.includes(activityTarget)) {
               targetObjects.push(activityTarget);
             }
@@ -61,10 +66,73 @@ export function createStep(tracedActivity) {
     }
   });
 
-  let tracedStep = {
-    source: initialSource,
+  const tracedStep = {
+    sources: initialSources,
     activities: activities,
     targets: targetObjects
   };
   return tracedStep;
 }
+
+function addGroupSteps(groups, allSteps) {
+
+  if (groups.length >0) {
+    allSteps.push({
+      groups: groups,
+      activities: [true]
+    });
+  }
+
+  // const [orderedGroups, unorderedGroups] = getGroupOrder(groups, allSteps);
+
+  // orderedGroups.forEach(group => {
+  //   allSteps.push (
+  //     {
+  //       groups: [group],
+  //       activities: [true]
+  //     });
+  // });
+
+  // if (unorderedGroups.length >0) {
+  //   allSteps.push({
+  //     groups: unorderedGroups,
+  //     activities:[true]
+  //   });
+  // }
+}
+
+// function getGroupOrder(groups, allSteps) {
+//   const groupOrder = [];
+
+//   [];
+
+//   for (let i =0; i< allSteps.length; i++) {
+//     const step = allSteps[i];
+//     const targetIds = step.targets.map(target =>target.id);
+
+//     groups.forEach(group => {
+//       const groupId = group.id;
+//       const childIds = group.children.map(child => child.id);
+
+//       if (childIds.diff(targetIds).length > 0) {
+//         if (!groupOrder.some(id => id === groupId)) {
+//           groupOrder.push(groupId);
+//         }
+//       }
+//     });
+//   }
+
+//   const orderedGroups = [];
+//   groupOrder.forEach(id => {
+//     orderedGroups.push(groups.filter(group => group.id === id)[0]);
+//   });
+
+//   const unorderedGroups = [];
+//   groups.forEach(group => {
+//     if (!orderedGroups.includes(group)) {
+//       unorderedGroups.push(group);
+//     }
+//   });
+
+//   return [orderedGroups, unorderedGroups];
+// }

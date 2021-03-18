@@ -1,6 +1,6 @@
 'use strict';
 
-import { Dict } from '../collection';
+import { Dict } from '../classes/collection';
 
 const icons = new Dict();
 
