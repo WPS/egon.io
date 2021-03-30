@@ -2,7 +2,8 @@
 
 import {
   reduce,
-  assign
+  assign,
+  every
 } from 'min-dash';
 
 import inherits from 'inherits';
@@ -210,6 +211,24 @@ DomainStoryRules.prototype.init = function() {
     // allow creation just on groups
     return !isDomainStory(target) || (isDomainStoryGroup(target));
   }
+
+  this.addRule('elements.create',function(context) {
+    var elements = context.elements,
+        position = context.position,
+        target = context.target;
+
+    return every(elements, function(element) {
+      if (isConnection(element)) {
+        return canConnect(element.source, element.target, element);
+      }
+
+      if (element.host) {
+        return canAttach(element, element.host, null, position);
+      }
+
+      return (canCreate(element, target, null, position));
+    });
+  });
 
   this.addRule('elements.move', HIGH_PRIORITY, function(context) {
 

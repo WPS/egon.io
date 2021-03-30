@@ -44,20 +44,13 @@ export default function DomainStoryElementFactory(bpmnFactory, moddle) {
           type: type,
           name: attrs.name ? attrs.name : ''
         };
-
-        if (attrs.id) {
-          assign(attrs.businessObject, {
-            id: attrs.id
-          });
-          domainStoryIdFactory.registerId(attrs.id);
-        } else {
-          attrs.id = domainStoryIdFactory.getId(elementType);
-          assign(attrs.businessObject, {
-            id: attrs.id
-          });
-
-        }
       }
+
+      attrs.id = domainStoryIdFactory.getId(elementType);
+      assign(attrs.businessObject, {
+        id: attrs.id
+      });
+
       let id = attrs.id;
       attrs.businessObject.get = function(key) {
         if (key == 'id') {
@@ -69,6 +62,14 @@ export default function DomainStoryElementFactory(bpmnFactory, moddle) {
           assign(attrs.businessObject, { id: value });
         }
       };
+
+      if (!attrs.businessObject.$type) {
+        assign(attrs.businessObject, { $type: 'Element' });
+      }
+      assign(attrs.businessObject, { di: {} });
+      if (!attrs.businessObject.$descriptor) {
+        assign(attrs.businessObject, { $descriptor: {} });
+      }
 
       // add width and height if shape
       if ((!/:activity$/.test(type) || !/:connection$/.test(type)) && !(/:group$/.test(type) && attrs.height || attrs.width)) {

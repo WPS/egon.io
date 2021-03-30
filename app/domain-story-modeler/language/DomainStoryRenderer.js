@@ -674,6 +674,7 @@ DomainStoryRenderer.prototype.drawShape = function(p, element) {
   }
 
   let type = element.type;
+  element.businessObject.type = type;
 
   correctElementRegitryInit();
   makeDirty();
