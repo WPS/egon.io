@@ -46,7 +46,11 @@ export default function DomainStoryElementFactory(bpmnFactory, moddle) {
         };
       }
 
-      attrs.id = domainStoryIdFactory.getId(elementType);
+      if (attrs.id) {
+        domainStoryIdFactory.registerId(attrs.id);
+      } else {
+        attrs.id = domainStoryIdFactory.getId(elementType);
+      }
       assign(attrs.businessObject, {
         id: attrs.id
       });

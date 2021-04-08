@@ -211,8 +211,6 @@ function initialize(
     saveSVG
 ) {
 
-  console.log(eventBus);
-
   // we need to initiate the activity commandStack elements
   DSActivityHandlers(commandStack, eventBus);
   DSMassRenameHandlers(commandStack, eventBus);
