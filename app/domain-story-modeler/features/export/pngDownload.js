@@ -33,6 +33,12 @@ export function downloadPNG() {
     tempCanvas.height = height + 10;
 
     let ctx = tempCanvas.getContext('2d');
+
+    // fill with white background
+    ctx.rect(0, 0, tempCanvas.width, tempCanvas.height);
+    ctx.fillStyle = "white";
+    ctx.fill();
+
     ctx.drawImage(image, 0, 0);
 
     let png64 = tempCanvas.toDataURL('image/png');
