@@ -36,7 +36,7 @@ export function downloadPNG() {
 
     // fill with white background
     ctx.rect(0, 0, tempCanvas.width, tempCanvas.height);
-    ctx.fillStyle = "white";
+    ctx.fillStyle = 'white';
     ctx.fill();
 
     ctx.drawImage(image, 0, 0);
