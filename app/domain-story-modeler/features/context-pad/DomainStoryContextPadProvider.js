@@ -111,7 +111,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
         'deleteGroup': {
           group: 'edit',
           className: 'bpmn-icon-trash',
-          title: 'Remove Group',
+          title: 'Remove Group without Child-Elements',
           action: {
             click: function(event, element) {
               modeling.removeGroup(element);

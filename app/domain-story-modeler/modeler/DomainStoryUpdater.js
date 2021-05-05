@@ -20,6 +20,7 @@ import {
   isDomainStory,
   isDomainStoryGroup
 } from '../util/TypeCheck';
+import { reworkGroupElements } from '../util/helpers';
 
 /**
  * a handler responsible for updating the custom element's businessObject
@@ -67,21 +68,6 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
         parent: shape.parent.id
       });
     }
-  }
-
-  function reworkGroupElements(parent, shape) {
-    parent.children.slice().forEach(innerShape => {
-      if ((innerShape.id) != shape.id) {
-        if (innerShape.x >= shape.x && innerShape.x <= shape.x + shape.width) {
-          if (innerShape.y >= shape.y && innerShape.y <= shape.y + shape.height) {
-            innerShape.parent = shape;
-            if (!shape.children.includes(innerShape)) {
-              shape.children.push(innerShape);
-            }
-          }
-        }
-      }
-    });
   }
 
   function updateCustomConnection(e) {

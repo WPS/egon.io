@@ -1,9 +1,11 @@
 'use strict';
 
+import { reworkGroupElements, undoGroupRework } from '../../util/helpers';
+
 export default function DSElementHandler(commandStack, eventBus, modeling) {
 
   commandStack.registerHandler('element.colorChange', element_colorChange);
-  commandStack.registerHandler('shape.removeGroupWithChildren', removeGroupWithChildren);
+  commandStack.registerHandler('shape.removeGroupWithoutChildren', removeGroupWithoutChildren);
 
   function element_colorChange() {
     this.preExecute = function(context) {
@@ -30,20 +32,22 @@ export default function DSElementHandler(commandStack, eventBus, modeling) {
     };
   }
 
-  function removeGroupWithChildren() {
+  function removeGroupWithoutChildren() {
     this.preExecute = function(ctx) {
       ctx.parent = ctx.element.parent;
+      ctx.children = ctx.element.children;
     };
 
     this.execute = function(ctx) {
       let element = ctx.element;
+      ctx.children.forEach(child => {
+        undoGroupRework(element, child);
+      });
+      eventBus.fire('elements.changed', { elements: ctx.children });
       eventBus.fire('shape.remove', { element });
     };
 
-    this.revert = function(ctx) {
-      let element = ctx.element;
-      eventBus.fire('shape.added', { element });
+    this.revert = function() {
     };
-
   }
 }
