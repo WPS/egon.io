@@ -101,6 +101,12 @@ export function downloadPNG() {
     let transform = viewport.getAttribute('transform');
     let translate = viewport.getAttribute('translate');
 
+    const layerRes = layerResizers[0];
+    const layerOver= layerOverlays[0];
+
+    const layerResizersParent = layerResizers[0].parentNode;
+    const layerOverlaysParent = layerOverlays[0].parentNode;
+
     if (layerResizers[0]) {
       layerResizers[0].parentNode.removeChild(layerResizers[0]);
     }
@@ -125,6 +131,10 @@ export function downloadPNG() {
     if (translate) {
       viewport.setAttribute('translate', translate);
     }
+
+    layerResizersParent.appendChild(layerRes);
+    layerOverlaysParent.appendChild(layerOver);
+
     return svg;
   }
 }
