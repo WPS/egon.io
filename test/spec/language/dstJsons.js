@@ -2,10 +2,15 @@
 
 
 export const jsonString =
-    '[{"type":"domainStory:actorPerson","name":"","id":"shape_3050","x":178,"y":133,"width":30,"height":30,"pickedColor":"black"},' +
-    '{"type":"domainStory:workObjectDocument","name":"","id":"shape_8681","x":508,"y":133,"width":30,"height":30,"pickedColor":"black"},' +
-    '{"type":"domainStory:activity","name":"","id":"connection_3004","number":1,"waypoints":[{"original":{"x":216,"y":171},"x":259,"y":171},{"original":{"x":546,"y":171},"x":508,"y":171}],"source":"shape_3050","target":"shape_8681","pickedColor":"black"},' +
+    '[{"type":"domainStory:actorPerson","name":"","id":"shape_3050","x":178,"y":133,"width":30,"height":30,"pickedColor":"black","$type":"Element","di":{},"$descriptor":{}},' +
+    '{"type":"domainStory:workObjectDocument","name":"","id":"shape_8681","x":508,"y":133,"width":30,"height":30,"pickedColor":"black","$type":"Element","di":{},"$descriptor":{}},' +
+    '{"type":"domainStory:activity","name":"","id":"connection_3004","number":1,"waypoints":[{"original":{"x":216,"y":171},"x":259,"y":171},{"original":{"x":546,"y":171},"x":508,"y":171}],"source":"shape_3050","target":"shape_8681","pickedColor":"black","$type":"Element","di":{},"$descriptor":{}},' +
     '{"info":"test"}]';
+export const jsonString2 =
+        '[{"type":"domainStory:actorPerson","name":"","id":"shape_3050","x":178,"y":133,"width":30,"height":30,"$type":"Element","di":{},"$descriptor":{},"pickedColor":"black"},' +
+        '{"type":"domainStory:workObjectDocument","name":"","id":"shape_8681","x":508,"y":133,"width":30,"height":30,"$type":"Element","di":{},"$descriptor":{},"pickedColor":"black"},' +
+        '{"type":"domainStory:activity","name":"","id":"connection_3004","number":1,"waypoints":[{"original":{"x":216,"y":171},"x":259,"y":171},{"original":{"x":546,"y":171},"x":508,"y":171}],"source":"shape_3050","target":"shape_8681","$type":"Element","di":{},"$descriptor":{},"pickedColor":"black"},' +
+        '{"info":"test"}]';
 
 export const brokenJsonString =
     '[{"type":"domainStory:actorPerson","name":"","id":"shape_3050","x":178,"y":133,"width":30,"height":30},' +
