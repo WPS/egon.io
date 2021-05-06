@@ -42,7 +42,6 @@ export default function DSElementHandler(commandStack, eventBus, modeling) {
       let element = ctx.element;
       ctx.children.forEach(child => {
         undoGroupRework(element, child);
-        console.log(child);
       });
       eventBus.fire('elements.changed', { elements: ctx.children });
       eventBus.fire('shape.remove', { element });
