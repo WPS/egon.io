@@ -712,8 +712,8 @@ DomainStoryRenderer.prototype.drawConnection = function(p, element) {
 
   makeDirty();
 
-  if(!element.businessObject.type) {
-    element.businessObject.type = type
+  if (!element.businessObject.type) {
+    element.businessObject.type = type;
   }
 
   if (type === ACTIVITY) {
