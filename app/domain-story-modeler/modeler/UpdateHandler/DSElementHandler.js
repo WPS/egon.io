@@ -1,6 +1,6 @@
 'use strict';
 
-import { reworkGroupElements, undoGroupRework } from '../../util/helpers';
+import { undoGroupRework } from '../../util/helpers';
 
 export default function DSElementHandler(commandStack, eventBus, modeling) {
 
