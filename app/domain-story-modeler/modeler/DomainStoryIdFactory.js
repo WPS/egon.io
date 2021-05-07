@@ -54,7 +54,7 @@ function fourDigitsId() {
   return idNumber;
 }
 
-function containsId(id) {
+export function containsId(id) {
   let same = false;
   idList.forEach(element => {
     if (id === element) {

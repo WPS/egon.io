@@ -15,7 +15,7 @@ import {
 
 import { DST_TYPE } from '../../../app/domain-story-modeler/features/import/import';
 
-import { jsonString, brokenJsonString, oldIntricateV_0_2_0_JsonString, oldIntricateV_0_3_0_JsonString, intricateV0_5_0_JsonString, intricateV0_6_0_JSONString, intricateConfig } from './dstJsons';
+import { jsonString, jsonString2, brokenJsonString, oldIntricateV_0_2_0_JsonString, oldIntricateV_0_3_0_JsonString, intricateV0_5_0_JsonString, intricateV0_6_0_JSONString, intricateConfig } from './dstJsons';
 
 const sinon = require('sinon');
 
@@ -252,7 +252,7 @@ describe('domainStory modeler', function() {
       const jsonExport = JSON.stringify(newObject);
 
       // then
-      expect(jsonExport).to.eql(jsonString);
+      expect(jsonExport).to.eql(jsonString2);
     });
   });
 
@@ -451,11 +451,13 @@ describe('domainStory modeler', function() {
       }
 
       jsonElements.forEach(element => {
-        let id = element.substring(
-          element.indexOf('id'),
-          element.indexOf('id') + 15
-        );
-        expect(intricateV0_5_0_JsonString.includes(id)).to.be.true;
+        if (element.includes('id')) {
+          let id = element.substring(
+            element.indexOf('id'),
+            element.indexOf('id') + 15
+          );
+          expect(intricateV0_5_0_JsonString.includes(id)).to.be.true;
+        }
       });
     });
   });
@@ -543,11 +545,13 @@ describe('domainStory modeler', function() {
       }
 
       jsonElements.forEach(element => {
-        let id = element.substring(
-          element.indexOf('id'),
-          element.indexOf('id') + 15
-        );
-        expect(intricateV0_6_0_JSONString.includes(id)).to.be.true;
+        if (element.includes('id')) {
+          let id = element.substring(
+            element.indexOf('id'),
+            element.indexOf('id') + 15
+          );
+          expect(intricateV0_6_0_JSONString.includes(id)).to.be.true;
+        }
       });
     });
   });

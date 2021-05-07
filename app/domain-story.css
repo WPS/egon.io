@@ -576,8 +576,13 @@ input {
 
 /* BPMN elements */
 
+.djs-overlay-context-pad {
+  width: 120px;
+  height: 238px;
+  overflow-y: auto;
+}
+
 .djs-context-pad.open {
-  margin-right: 18px;
   border: solid 1px #80808054;
 }
 

@@ -674,6 +674,7 @@ DomainStoryRenderer.prototype.drawShape = function(p, element) {
   }
 
   let type = element.type;
+  element.businessObject.type = type;
 
   correctElementRegitryInit();
   makeDirty();
@@ -710,6 +711,10 @@ DomainStoryRenderer.prototype.drawConnection = function(p, element) {
   let type = element.type;
 
   makeDirty();
+
+  if (!element.businessObject.type) {
+    element.businessObject.type = type;
+  }
 
   if (type === ACTIVITY) {
     return this.drawActivity(p, element);
