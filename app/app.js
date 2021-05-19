@@ -39,6 +39,10 @@ import {
   downloadSVG,
   setEncoded
 } from './domain-story-modeler/features/export/svgDownload';
+import {
+  initStoryDownload,
+  downloadStory
+} from './domain-story-modeler/features/export/storyDownload';
 import { downloadPNG } from './domain-story-modeler/features/export/pngDownload';
 import {
   loadPersistedDST,
@@ -166,6 +170,7 @@ let modal = document.getElementById('modal'),
     ),
     pngSaveButton = document.getElementById('buttonPNG'),
     svgSaveButton = document.getElementById('buttonSVG'),
+    storySaveButton = document.getElementById('buttonDownloadStory'),
     wpsLogoButton = document.getElementById('closeWPSLogoInfo'),
     dstLogoButton = document.getElementById('closeDSTLogoInfo'),
     exportConfigurationButton = document.getElementById(
@@ -221,6 +226,7 @@ function initialize(
   modeler.on('commandStack.changed', exportArtifacts);
 
   initReplay(canvas, selection);
+  initStoryDownload(canvas, selection, modeler);
   initElementRegistry(elementRegistry);
   initImports(elementRegistry, version, modeler, eventBus, saveSVG);
 
@@ -535,6 +541,13 @@ svgSaveButton.addEventListener('click', function() {
 
 pngSaveButton.addEventListener('click', function() {
   downloadPNG();
+  closeImageDownloadDialog();
+});
+
+storySaveButton.addEventListener('click', function() {
+  const filename =
+    title.innerText + '_' + new Date().toISOString().slice(0, 10);
+  downloadStory(filename);
   closeImageDownloadDialog();
 });
 
