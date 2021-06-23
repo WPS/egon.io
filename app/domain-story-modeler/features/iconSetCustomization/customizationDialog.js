@@ -132,10 +132,11 @@ export function createListElementInSeletionList(name, src, list) {
     const listElementName = child.children[1].innerText;
     if (name == listElementName) {
       return;
-    }
+    } else console.log(name, listElementName);
   }
 
   if (domExists()) {
+    console.log('dom');
     const listElement = document.createElement('li');
     const nameElement = document.createElement('text');
     const imageElement = document.createElement('img');
