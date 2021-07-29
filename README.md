@@ -82,8 +82,7 @@ If you import a Domain Story from a `.dst` file, your icon configuration will ch
 
 ### Examples
 
-The examples' directory contains `.dst` files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
-The examples' directory also contains a SVG file for every Domain Story. The images were created using the modeler.
+You can download [these examples](https://wps.github.io/egon.io-website/) and import them into the modeler.
 
 ### For Developers
 
