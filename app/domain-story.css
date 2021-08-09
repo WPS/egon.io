@@ -165,7 +165,8 @@ input {
 }
 
 #buttonSVG,
-#buttonPNG {
+#buttonPNG,
+#buttonDownloadStory {
   margin-right: -2px;
   font-size: 12pt;
   background-color: white;
@@ -188,6 +189,7 @@ input {
 #buttonImageDownloads:hover,
 #buttonSVG:hover,
 #buttonPNG:hover,
+#buttonDownloadStory:hover,
 #buttonStartReplay:hover,
 #buttonStopReplay:hover,
 #buttonNextStep:hover,
