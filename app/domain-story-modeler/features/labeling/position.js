@@ -22,7 +22,7 @@ export function labelPosition(waypoints, lines = 1) {
     let selectedActivity = selectPartOfActivity(waypoints, angleActivity);
 
     xPos = labelPositionX(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
-    yPos = labelPositionY(waypoints[selectedActivity], waypoints[selectedActivity + 1]);
+    yPos = labelPositionY(waypoints[selectedActivity], waypoints[selectedActivity + 1], lines);
 
     determinedPosition = {
       x: xPos,
@@ -51,6 +51,7 @@ export function labelPositionX(startPoint, endPoint) {
   let angle = Math.angleBetween(startPoint, endPoint);
   let offsetX = 0;
   let scaledangle = 0;
+
   if (angle === 0 || angle === 180 || angle === 90 || angle === 270) {
     offsetX = 0;
   }
@@ -73,7 +74,7 @@ export function labelPositionX(startPoint, endPoint) {
 }
 
 // calculate the Y position of the label
-export function labelPositionY(startPoint, endPoint, lines) {
+export function labelPositionY(startPoint, endPoint, lines=1) {
   let angle = Math.angleBetween(startPoint, endPoint);
   let offsetY = 0;
   let scaledangle = 0;
