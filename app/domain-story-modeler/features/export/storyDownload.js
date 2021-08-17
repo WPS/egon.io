@@ -212,17 +212,17 @@ function createSVGData(svg) {
 
   let viewBox = viewBoxCoordinates(data);
 
-  let xLeft, xRight, yUp, yDown;
+  let xLeft, width, yUp, height;
   let bounds = '';
   let splitViewBox = viewBox.split(/\s/);
 
   xLeft = +splitViewBox[0];
   yUp = +splitViewBox[1];
-  xRight = +splitViewBox[2];
-  yDown = +splitViewBox[3];
+  width = +splitViewBox[2];
+  height = +splitViewBox[3];
 
-  if (xRight < 300) {
-    xRight += 300;
+  if (width < 300) {
+    width += 300;
   }
 
   bounds =
@@ -234,9 +234,9 @@ function createSVGData(svg) {
     ' ' +
     yUp +
     ' ' +
-    xRight +
+    (xLeft + width) +
     ' ' +
-    (yDown + 30);
+    (yUp + height);
   let dataStart = data.substring(0, viewBoxIndex);
   viewBoxIndex = data.indexOf('" version');
   let dataEnd = data.substring(viewBoxIndex);

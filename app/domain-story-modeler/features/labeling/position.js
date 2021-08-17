@@ -101,6 +101,5 @@ export function labelPositionY(startPoint, endPoint, lines=1) {
     scaledangle = angle - 270;
     offsetY = -scaledangle / 9 * lines;
   }
-  console.log(offsetY , angle);
   return offsetY + (startPoint.y + endPoint.y)/2;
 }

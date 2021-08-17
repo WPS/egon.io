@@ -248,8 +248,6 @@ function appendToList(htmlList, selectedList, name, j) {
   for (let i = 0; i < htmlList.children.length; i++) {
     let child = htmlList.children[i];
 
-    console.log(child.innerText, name);
-    console.log(child.innerText == name);
     if (child.innerText == name) {
       child.children[0].children[j].checked = true;
       const listItem = createListElementInSeletionList(
@@ -257,7 +255,6 @@ function appendToList(htmlList, selectedList, name, j) {
         getIconSource(name),
         selectedList
       );
-      console.log(listItem);
       selectedList.appendChild(listItem);
     }
   }
