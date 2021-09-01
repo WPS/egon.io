@@ -132,7 +132,7 @@ export function createListElementInSeletionList(name, src, list) {
     const listElementName = child.children[1].innerText;
     if (name == listElementName) {
       return;
-    };
+    }
   }
 
   if (domExists()) {
