@@ -48,6 +48,8 @@ export async function downloadStory(filename) {
   startReplay();
   try {
     const result = await dsModeler.saveSVG({ });
+    fixSvgDefinitions(result, currentStep);
+
     svgData.push({ content: createSVGData(result.svg), transition: 'slide' });
   } catch (err) {
     alert('There was an error exporting the SVG.\n' + err);
@@ -56,6 +58,7 @@ export async function downloadStory(filename) {
     nextStep();
     try {
       const result = await dsModeler.saveSVG({ });
+      fixSvgDefinitions(result, currentStep);
       svgData.push({ content: createSVGData(result.svg), transition: 'slide' });
     } catch (err) {
       alert('There was an error exporting the SVG.\n' + err);
@@ -258,4 +261,24 @@ function viewBoxCoordinates(svg) {
   const ViewBoxCoordinate = /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)"/;
   const match = svg.match(ViewBoxCoordinate);
   return match[3];
+}
+
+
+function fixSvgDefinitions(result, sectionIndex) {
+  let defs = result.svg.substring(result.svg.indexOf('<defs>'), result.svg.indexOf('</defs>') + 7);
+  const split = defs.split('<marker ');
+
+  let newDefs = split[0];
+
+  for (let i = 1; i < split.length; i++) {
+    const ids = split[i].match(/(id="[^"]*")/g);
+    ids.forEach(id => {
+      let idToReplace = id.substring(4, id.length-1); 
+      let newId = idToReplace.slice(0, id.length-5) + 'customId' + sectionIndex + idToReplace.slice(idToReplace.length-2)
+      result.svg = result.svg.replaceAll(idToReplace, newId);
+    });
+    newDefs += ('<marker display= "block !important"; ' + split[i]);
+  }
+
+  result.svg = result.svg.replace(defs, newDefs);
 }
