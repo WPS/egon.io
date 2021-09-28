@@ -273,8 +273,8 @@ function fixSvgDefinitions(result, sectionIndex) {
   for (let i = 1; i < split.length; i++) {
     const ids = split[i].match(/(id="[^"]*")/g);
     ids.forEach(id => {
-      let idToReplace = id.substring(4, id.length-1); 
-      let newId = idToReplace.slice(0, id.length-5) + 'customId' + sectionIndex + idToReplace.slice(idToReplace.length-2)
+      let idToReplace = id.substring(4, id.length-1);
+      let newId = idToReplace.slice(0, id.length-5) + 'customId' + sectionIndex + idToReplace.slice(idToReplace.length-2);
       result.svg = result.svg.replaceAll(idToReplace, newId);
     });
     newDefs += ('<marker display= "block !important"; ' + split[i]);
