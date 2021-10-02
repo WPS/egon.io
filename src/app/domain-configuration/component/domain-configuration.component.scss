@@ -1,0 +1,56 @@
+.header {
+  display: grid;
+  grid-template-columns: 90px auto 60px 55px auto 60px 60px;
+}
+
+.domainConfiguration {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: calc(100vh - 100px);
+  padding-left: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 100px;
+}
+
+.allIconsHeader {
+  display: grid;
+  grid-template-columns: 50% 1px 25% 1px auto;
+}
+
+.listEntry {
+  position: relative;
+  display: grid;
+  grid-template-columns: 50% 1px 25% 1px auto;
+}
+
+.allIcons {
+  overflow-y: auto;
+}
+
+.selectedIcons {
+  display: grid;
+  grid-template-rows: 50% 1px auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 10px;
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+}
+
+#line {
+  padding: 2px;
+  position: relative;
+  right: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: solid 2px #ccc;
+  margin-top: -5px;
+}
+
+.divider {
+  border-left: solid 1px #ccc;
+  margin-right: 5px;
+}

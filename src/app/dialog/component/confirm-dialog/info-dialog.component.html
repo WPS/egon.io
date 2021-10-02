@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<mat-dialog-content class="content">
+  <textarea class="readOnlyText" *ngIf="infoText != ''"
+    >{{ infoText }}
+  </textarea>
+  <br />
+  <a *ngIf="hasLink" href="{{ linkText }}">{{ linkText }}</a>
+</mat-dialog-content>
+
+<mat-dialog-actions *ngIf="showConfirmButton">
+  <button class="mat-raised-button" (click)="close()">Close</button>
+</mat-dialog-actions>

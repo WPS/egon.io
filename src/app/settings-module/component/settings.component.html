@@ -1,0 +1,32 @@
+<div class="settings">
+  <div class="header">
+    <button mat-button (click)="close()">
+      <span class="material-icons materialIconButton"> arrow_back_ios</span>
+      <span> BACK TO MODELER</span>
+    </button>
+    <div></div>
+    <button mat-button (click)="importIconConfig()">
+      <span class="materialIconButton material-icons"> unarchive </span>
+      <span>IMPORT ICON CONFGURATION</span>
+    </button>
+    <button mat-button (click)="exportIconConfig()">
+      <span class="materialIconButton material-icons"> archive </span>
+      <span>EXPORT ICON CONFIGURATION</span>
+    </button>
+  </div>
+
+  <mat-tab-group class="tabs">
+    <mat-tab label="General">
+      <app-general-settings></app-general-settings>
+    </mat-tab>
+    <mat-tab label="Domain Customization">
+      <app-domain-configuration
+        (domainConfigurationEvent)="setDomainConfiguration($event)"
+        class="tab"
+      ></app-domain-configuration>
+    </mat-tab>
+    <mat-tab label="Label Dictionary" [hidden]="true">
+      <app-label-dictionary></app-label-dictionary>
+    </mat-tab>
+  </mat-tab-group>
+</div>

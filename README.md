@@ -1,4 +1,4 @@
-## Domain Story Modeler
+# Egon
 
 A tool to visualize Domain Stories in your browser.
 
@@ -17,7 +17,7 @@ Extract the zip file and open index.html in your browser.
 ### Usage
 
 This is a short guide on how to use the Domain Story Modeler.
-We recommend to switch your browser to full screen mode (in most browsers: press F11 key) to increase the available modeling space.
+We recommend switching your browser to full screen mode (in most browsers: press F11 key) to increase the available modeling space.
 
 #### Palette
 
@@ -35,54 +35,54 @@ Use ctrl+enter or alt+enter to add line breaks to the description.
 
 If you drop an icon from the palette into the canvas you will see a context menu with three sections:
 
-* Top section:
-  * wrench icon: change to another the icon
-  * bin icon: delete the icon
-  * color-palette icon: change the color of the activity/work object
-* Middle section:
-  * arrow icon: connect two icons with an activity.
-  * annotation icon: add comments to an actor or work object
-* Bottom section: Instead of dragging icons from the palette, you can can choose the next icon from the context menu and an arrow will connect them automatically.
-
+- Top section:
+  - wrench icon: change to another the icon
+  - bin icon: delete the icon
+  - color-palette icon: change the color of the activity/work object
+- Middle section:
+  - arrow icon: connect two icons with an activity.
+  - annotation icon: add comments to an actor or work object
+- Bottom section: Instead of dragging icons from the palette, you can choose the next icon from the context menu, and an arrow will connect them automatically.
 
 #### Naming Actors and Work Objects
 
-Double click on an actor's or work object's icon to edit the name. To rename multiple work objects, click the dictionary button ![Dictionary Button](/images/spellcheck.png).
+Double-click on an actor's or work object's icon to edit the name. To rename multiple work objects, click the dictionary button ![Dictionary Button](readme_images/spellcheck.png).
 
 #### Naming and Numbering of Activities
 
-Activities are depicted as arrows. Double click on an arrow to edit the activity's name. If you model an activity between an actor (person, people and system) and a work object (folder, call, email, conversation, information) it will be numbered automatically. By double clicking on the arrow or the number you can manually change the number. All other numbers are adjusted automatically.
+Activities are depicted as arrows. Double-click on an arrow to edit the activity's name. If you model an activity between an actor (person, people and system) and a work object (folder, call, email, conversation, information) it will be numbered automatically. By double-clicking on the arrow or the number you can manually change the number. All other numbers are adjusted automatically.
 
-If you want to model activities that happen simultaneously, check  the "multiple" checkbox of an activity. This allows you to use the same number multiple times, indicating that these activities happen in parallel. These steps are shown at once in the replay mode.
+If you want to model activities that happen simultaneously, check the "multiple" checkbox of an activity. This allows you to use the same number multiple times, indicating that these activities happen in parallel. These steps are shown at once in the replay mode.
 
 #### Save, Open, and Export Domain Stories
 
-If you want to save your Domain Story, download it as a `.dst` file by clicking the export button ![Export Button](/images/archive.png) or pressing ctrl+s on your keyboard. To continue working on a Domain Story, import a `.dst` file using the upload button ![Upload Button](/images/unarchive.png).
-You can also export your diagram as a `.svg` or `.png` file by clicking on the image button ![SVG Button](/images/image.png) and selecting your preferred format. 
+If you want to save your Domain Story, download it as a `.dst` file by clicking the export button ![Export Button](readme_images/archive.png) or pressing ctrl+s on your keyboard. To continue working on a Domain Story, import a `.dst` file using the upload button ![Upload Button](readme_images/unarchive.png).
+You can also export your diagram as a `.svg` or `.png` file by clicking on the image button ![SVG Button](readme_images/image.png) and selecting your preferred format.
 Beginning with version 1.2.0, the `.svg` file contains an embedded `.dst` file. That means that you only need to download one file that you can use as picture and also edit it later by importing it again.
 
 #### Replay
 
-The replay feature helps you to re-tell a Domain Story sentence by sentence. When you start a replay with the play button ![Play Button](/images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](/images/forward.png) shows the next activity and clicking the previous button ![Previous Button](/images/previous.png) shows the previous one. The current sentence is highlighted. If a Domain Story contains groups, the are hidden an first and then appear as last step at the end of the story.
-Editing is disabled in replay mode, but you can zoom (ctrl + mouse wheel up and down), scroll up/down (mouse wheel up and down), and scroll left/right (shift + mouse wheel up and down). You can also move the modeling canvas by keeping the space bar pressed and move the mouse around. The stop the replay, click the stop button ![Stop Button](/images/stop.png).
+The replay feature helps you to re-tell a Domain Story sentence by sentence. When you start a replay with the play button ![Play Button](readme_images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](readme_images/forward.png) shows the next activity and clicking the previous button ![Previous Button](readme_images/previous.png) shows the previous one. The current sentence is highlighted. If a Domain Story contains groups, they are hidden at first and then appear as last step at the end of the story.
+Editing is disabled in replay mode, but you can zoom (mouse wheel up and down) and scroll (ctrl + mouse wheel up and down). The stop the replay, click the stop button ![Stop Button](readme_images/stop.png).
 
 #### Keyboard Shortcuts
 
-Click on ![Keyboard Button](/images/keyboard.png) to display all available keyboard shortcuts.
+Click on ![Keyboard Button](readme_images/keyboard.png) to display all available keyboard shortcuts.
 
 #### Configuring the icon set
 
 We recommend that the icon set is adapted to the domain that you model. You can configure the palette accordingly and share that configuration:
 
-Click on ![Gear Button](/images/gear.png) to open the icon configuration. Configure your icon set by naming it, selecting which icons should be used as actors or as work objects and order these icons (using drag&drop). You can export your configuration as `.domain` file. To switch between configurations, import a different `.domain` file.
+Click on ![Gear Button](readme_images/gear.png) to open the icon configuration. Configure your icon set by naming it, selecting which icons should be used as actors or as work objects and order these icons (using drag&drop). You can export your configuration as `.domain` file. To switch between configurations, import a different `.domain` file.
 
 If you import a Domain Story from a `.dst` file, your icon configuration will change automatically to the one with which the Domain Story was created - even if you do not have the corresponding `.domain` file.
 
-**Beta feature:** If you want to use icons that are not in the predefined set that comes with the modeler, you can upload your own icons. Different image formats are allowed, but you will achieve best results with SVG because it is scalable (like the icons that come with the modeler). Also, we recommend to use square images because they look better in the pallet and the context pad. If you want a consistent look, consider using the same icon set that we use for the predefined icons: https://material.io/resources/icons/?style=outline
+**Beta feature:** If you want to use icons that are not in the predefined set that comes with the modeler, you can upload your own icons. Different image formats are allowed, but you will achieve best results with SVG because it is scalable (like the icons that come with the modeler). Also, we recommend to use square images because they look better in the pallet, and the context pad. If you want a consistent look, consider using the same icon set that we use for the predefined icons: https://material.io/resources/icons/?style=outline
 
 ### Examples
 
-You can download [these examples](https://wps.github.io/egon.io-website/) and import them into the modeler.
+The examples' directory contains `.dst` files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
+The examples' directory also contains a SVG file for every Domain Story. The images were created using the modeler.
 
 ### For Developers
 
@@ -114,7 +114,7 @@ The Modeler uses [bpmn-js](https://github.com/bpmn-io/bpmn-js) which is licensed
 
 ### GPLv3.0
 
-Copyright (c) 2018-2021 WPS - Workplace Solutions GmbH
+Copyright (c) 2018-2020 WPS - Workplace Solutions GmbH
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -131,12 +131,36 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 ### bpmn.io License
 
-Copyright (c) 2014-present Camunda Services GmbH
+Copyright (c) 2014-2016 camunda Services GmbH
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-The source code responsible for displaying the bpmn.io project watermark that links back to https://bpmn.io as part of rendered diagrams MUST NOT be removed or changed. When this software is being used in a website or application, the watermark must stay fully visible and not visually overlapped by other elements.
+The source code responsible for displaying the bpmn.io logo (two green cogwheels in a box) that links back to http://bpmn.io as part of rendered diagrams MUST NOT be removed or changed. When this software is being used in a website or application, the logo must stay fully visible and not visually overlapped by other elements.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+## Development server
+
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## Code scaffolding
+
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

@@ -1,0 +1,9 @@
+<div id="headlineAndButtons">
+  <app-title></app-title>
+  <app-header-buttons></app-header-buttons>
+</div>
+<app-description *ngIf="showDescription | async"></app-description>
+<div id="subHeader">
+  <span>Domain: </span>
+  <span id="currentDomainName">default</span>
+</div>

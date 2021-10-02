@@ -1,0 +1,18 @@
+#descriptionContainer {
+  height: 75px;
+}
+
+#descriptionText {
+  height: 100%;
+  margin-bottom: 3px;
+  position: relative;
+  font-size: 10pt;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  -webkit-hyphenate-character: auto; /* not supported by Chrome*/
+}
+
+.descriptionText:hover {
+  cursor: default;
+}

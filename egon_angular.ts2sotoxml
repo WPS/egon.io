@@ -1,0 +1,8 @@
+<TypeScript2SotoXML>
+    <BaseDirectoryOrFile>tsconfig.json</BaseDirectoryOrFile>
+    <OutputFile>dist/egon_angular-sotoData.xml</OutputFile>
+	<Exclude>.*[.]spec[.]ts</Exclude>
+  <Exclude>.*/test/spec/.*</Exclude>
+  <Exclude>.*testHelpers[.]ts</Exclude>
+  <Exclude>.*test[.]ts</Exclude>
+</TypeScript2SotoXML>

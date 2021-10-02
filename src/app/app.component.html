@@ -1,0 +1,53 @@
+<div class="content" role="main">
+  <app-settings *ngIf="showSettingsSubscription | async"></app-settings>
+
+  <div
+    [class.headerAndCanvas]="
+      !(showSettingsSubscription | async) && (showDescription | async)
+    "
+    [class.headerAndCanvasCollapsed]="
+      !(showSettingsSubscription | async) && !(showDescription | async)
+    "
+    [class.hidden]="showSettingsSubscription | async"
+  >
+    <input type="color" id="colorPicker" style="display: none" />
+
+    <app-header
+      [class.header]="showDescription | async"
+      [class.headerCollapsed]="!(showDescription | async)"
+    ></app-header>
+
+    <div id="line"></div>
+    <app-modeler></app-modeler>
+  </div>
+
+  <div
+    [class.logoContainer]="!(showSettingsSubscription | async)"
+    [class.hidden]="showSettingsSubscription | async"
+  >
+    <div id="imgWPS">
+      <img
+        src="./assets/logo/Quadrat_wps_de_Farbig.png"
+        height="54"
+        width="40"
+        alt=""
+        (click)="openLinkDialog('https://wps.de', 'WPS', 'Provided by:')"
+      />
+    </div>
+    <div id="imgDST">
+      <img
+        src="./assets/logo/dst_logo.png"
+        height="74"
+        width="74"
+        alt=""
+        (click)="
+          openLinkDialog(
+            'https://domainstorytelling.org/',
+            'Domain-Storytelling',
+            'Check us out at: '
+          )
+        "
+      />
+    </div>
+  </div>
+</div>

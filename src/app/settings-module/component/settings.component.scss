@@ -1,0 +1,21 @@
+.settings {
+  display: grid;
+  grid-template-rows: 40px auto;
+  width: 100%;
+}
+
+.materialIconButton {
+  font-size: 12pt;
+}
+
+.header {
+  display: grid;
+  color: #666666;
+  border-bottom: darkgrey 1px solid;
+  grid-template-columns: 150px auto 250px 250px;
+}
+
+::ng-deep.mat-tab-label,
+::ng-deep.mat-tab-label-active {
+  height: 30px !important;
+}

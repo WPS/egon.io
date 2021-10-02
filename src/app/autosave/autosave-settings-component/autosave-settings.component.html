@@ -1,0 +1,21 @@
+<div>
+  <p>Autosave Enabled</p>
+  <input
+    type="checkbox"
+    [checked]="autosaveEnabledObservable | async"
+    (change)="setAutosaveState()"
+  />
+</div>
+<div>
+  <p>Autosave Interval</p>
+  <input
+    type="number"
+    [value]="autosaveIntervalObservable | async"
+    (change)="setInterval($event)"
+  />
+</div>
+
+<div *ngFor="let autosave of autosaves">
+  <span>{{ autosave.date }}</span>
+  <button (click)="applyAutosave(autosave)">apply</button>
+</div>

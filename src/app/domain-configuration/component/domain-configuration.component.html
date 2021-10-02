@@ -1,0 +1,107 @@
+<div class="header">
+  <button class="uploadIcon" title="upload Icon" (click)="startIconUpload()">
+    upload Icon
+    <input
+      type="file"
+      accept=".svg, image/png, image/jpeg, image/gif, image/bpmn"
+      style="display: none"
+      id="importIcon"
+      name="file"
+      onclick="this.value=null"
+      (change)="importIcon()"
+    />
+  </button>
+  <div></div>
+  <button
+    class="default"
+    title="reset Domain to default configuration. Preserves already used non-default Icons"
+    (click)="resetDomain()"
+  >
+    default
+  </button>
+  <button class="cancel" title="cancel Domain configuration" (click)="cancel()">
+    reset
+  </button>
+  <div></div>
+  <button class="export" title="export Domain" (click)="exportDomain()">
+    export
+  </button>
+  <button class="save" title="save Domain" (click)="saveDomain()">save</button>
+  <button class="import" title="import Domain" (click)="startDomainImport()">
+    import
+    <input
+      type="file"
+      accept=".domain"
+      style="display: none"
+      id="importDomain"
+      name="file"
+      onclick="this.value=null"
+      (change)="importDomain()"
+    />
+  </button>
+</div>
+
+<div class="domainConfiguration">
+  <div class="allIcons">
+    <div class="allIconsHeader">
+      <span> Icon</span>
+      <div class="divider"></div>
+      <span> Actor</span>
+      <div class="divider"></div>
+      <span> WorkObject</span>
+    </div>
+    <br />
+    <tr
+      *ngFor="let iconName of allIconNames | async; let i = index"
+      class="listEntry"
+    >
+      <div>
+        <img class="icon" [src]="getSrcForIcon(iconName)" />
+        <span>{{ iconName }}</span>
+      </div>
+      <div class="divider"></div>
+      <input
+        type="checkbox"
+        [checked]="checkForActor(iconName)"
+        name="actor"
+        (change)="checkActor($event, iconName)"
+      />
+      <div class="divider"></div>
+      <input
+        type="checkbox"
+        [checked]="checkForWorkObject(iconName)"
+        name="workObject"
+        (change)="checkWorkobject($event, iconName)"
+      />
+    </tr>
+  </div>
+  <div class="selectedIcons">
+    <div class="actorList">
+      <span class="listHeader">Actors</span>
+      <br />
+      <tr *ngFor="let actor of selectedActors | async" class="listEntry">
+        <img class="icon" [src]="getSrcForIcon(actor)" [alt]="actor" />
+        <span>{{ getNameFromType(actor) }}</span>
+        <br />
+      </tr>
+    </div>
+    <div id="line"></div>
+    <div class="workObjectList">
+      <span class="listHeader">WorkObjects</span>
+      <br />
+      <tr
+        *ngFor="let workobject of selectedWorkobjects | async"
+        class="listEntry"
+      >
+        <img
+          class="icon"
+          [src]="getSrcForIcon(workobject)"
+          [alt]="workobject"
+        />
+        <span>{{ getNameFromType(workobject) }}</span>
+        <br />
+      </tr>
+    </div>
+  </div>
+</div>
+in

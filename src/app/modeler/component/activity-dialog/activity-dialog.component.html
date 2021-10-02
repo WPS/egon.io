@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Edit Activity</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <div [hidden]="!showNumberFields">
+      <mat-form-field class="shortWidth">
+        <mat-label>number</mat-label>
+        <input matInput type="number" formControlName="activityNumber" />
+      </mat-form-field>
+      <input
+        type="checkbox"
+        formControlName="multipleNumbers"
+        (change)="onSubmit()"
+      />
+      multiple
+    </div>
+    <mat-form-field>
+      <textarea
+        matInput
+        type="text"
+        placeholder="label"
+        formControlName="activityLabel"
+      ></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="mat-raised-button" (click)="save()">Save</button>
+</mat-dialog-actions>

@@ -1,0 +1,28 @@
+<div>
+  <button (click)="save()">Save</button>
+  <button (click)="cancel()">Cancel</button>
+</div>
+<div class="labelDictionary">
+  <div class="Workobject List">
+    <span>Actor List</span>
+    <tr
+      class="listEntry"
+      *ngFor="let actorEntry of workobjectEntriesSubject | async"
+    >
+      <img class="icon" [src]="actorEntry.icon" />
+      <input class="inputText" type="text" [value]="actorEntry.name" />
+      <br />
+    </tr>
+  </div>
+  <div class="line"></div>
+  <div class="ActivityList">
+    <span>Activity List</span>
+    <tr
+      class="listEntry"
+      *ngFor="let activityEntry of activityEntriesSubject | async"
+    >
+      <input class="inputText" type="text" [value]="activityEntry.name" />
+      <br />
+    </tr>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+.content {
+  height: 100%;
+}
+
+#line {
+  padding: 2px;
+  position: relative;
+  right: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: solid 2px #ccc;
+  margin-top: -5px;
+}
+
+/* header and Canvas*/
+
+.headerAndCanvas {
+  margin-top: 5px;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 125px 1px auto;
+}
+
+.headerAndCanvasCollapsed {
+  margin-top: 5px;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 50px 1px auto;
+}
+
+.settings {
+  height: 100%;
+}
+
+.header {
+  display: grid;
+  margin-left: 5px;
+  grid-template-rows: 50px 75px;
+}
+
+.headerCollapsed {
+  display: grid;
+  margin-left: 5px;
+  grid-template-rows: 50px;
+}
+
+/* Logo Container */
+
+.logoContainer {
+  position: absolute;
+  bottom: 45px;
+  right: 5px;
+}
+
+#imgWPS {
+  margin-left: 17px;
+}
+
+#imgWPS:hover,
+#imgDST:hover {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+#wrapper {
+  padding: 16px;
+  min-height: 100%;
+  height: 100%;
+  box-sizing: border-box; /*new*/
+}
+#tab-group {
+  height: 100%;
+}
+#tab-group mat-tab-body {
+  flex-grow: 1;
+}

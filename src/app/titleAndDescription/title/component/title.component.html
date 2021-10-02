@@ -1,0 +1,16 @@
+<h3
+  [class.headline]="!mouseOver"
+  [class.headline_hover]="mouseOver"
+  (mouseover)="mouseOver = true"
+  (mouseout)="mouseOver = false"
+  (click)="openHeaderDialog()"
+>
+  <span id="title">{{ title | async }}</span>
+  <img
+    src="../../../../assets/logo/edit_blue.png"
+    [class.edit]="!mouseOver"
+    [class.edit_hover]="mouseOver"
+    (click)="openHeaderDialog()"
+    alt=""
+  />
+</h3>

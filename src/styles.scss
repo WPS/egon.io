@@ -1,0 +1,294 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "~@angular/material" as mat;
+@import "~@angular/material/theming";
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$egon-primary: mat.define-palette(mat.$indigo-palette);
+$egon-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$egon-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$egon-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $egon-primary,
+      accent: $egon-accent,
+      warn: $egon-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($egon-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+app-root {
+  display: block;
+  height: 100%;
+}
+
+/* BPMN elements */
+
+.djs-overlay-context-pad {
+  width: 120px;
+  height: 238px;
+  overflow-y: auto;
+}
+
+.djs-context-pad.open {
+  border: solid 1px #80808054;
+}
+
+.djs-context-pad.open > .group {
+  border: solid 1px #80808054;
+  padding: 1px;
+  background-color: white;
+}
+
+/**
+ * from bpmn.io
+ */
+
+/**
+ * palette
+ */
+
+.djs-palette {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+
+  box-sizing: border-box;
+  width: 32px;
+}
+
+.djs-palette .separator {
+  margin: 0 2px;
+  padding-top: 0;
+
+  border: none;
+  border-bottom: solid 1px #ddd;
+
+  clear: both;
+}
+
+.djs-palette .entry:before {
+  vertical-align: middle;
+}
+
+.djs-palette .djs-palette-toggle {
+  cursor: pointer;
+}
+
+.djs-palette .entry,
+.djs-palette .djs-palette-toggle {
+  color: #333;
+  font-size: 26px;
+
+  text-align: center;
+}
+
+.djs-palette .entry {
+  float: left;
+}
+
+.djs-palette .entry img {
+  max-width: 100%;
+}
+
+.djs-palette .djs-palette-entries:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.djs-palette .djs-palette-toggle:hover {
+  background: #666;
+}
+
+.djs-palette .entry:hover {
+  fill: #42aebb;
+}
+
+.djs-palette .highlighted-entry {
+  color: #42aebb !important;
+}
+
+.djs-palette .entry,
+.djs-palette .djs-palette-toggle {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  cursor: default;
+}
+
+/**
+ * Palette open / two-column layout is controlled via
+ * classes on the palette. Events to hook into palette
+ * changed life-cycle are available in addition.
+ */
+.djs-palette.two-column.open {
+  width: 64px;
+}
+
+.djs-palette:not(.open) .djs-palette-entries {
+  display: none;
+}
+
+.djs-palette:not(.open) {
+  overflow: hidden;
+}
+
+.djs-palette.open .djs-palette-toggle {
+  display: none;
+}
+
+/**
+ * outline styles
+ */
+
+.djs-outline {
+  fill: none;
+  visibility: hidden;
+}
+
+.djs-element.hover .djs-outline,
+.djs-element.selected .djs-outline {
+  visibility: visible;
+  shape-rendering: crispEdges;
+  stroke-dasharray: 3, 3;
+}
+
+.djs-element.selected .djs-outline {
+  stroke: #8888ff;
+  stroke-width: 1px;
+}
+
+.djs-element.hover .djs-outline {
+  stroke: #42aebb;
+}
+
+.djs-element.attach-ok .djs-visual > :nth-child(1) {
+  stroke: #42aebb !important;
+}
+
+/**
+* Selection box style
+*
+*/
+.djs-lasso-overlay {
+  stroke: #42aebb;
+}
+
+/**
+ * Resize styles
+ */
+.djs-resize-overlay {
+  stroke: #42aebb;
+}
+
+/**
+ * drag styles
+ */
+.djs-dragger .djs-visual circle,
+.djs-dragger .djs-visual path,
+.djs-dragger .djs-visual polygon,
+.djs-dragger .djs-visual polyline,
+.djs-dragger .djs-visual rect,
+.djs-dragger .djs-visual text {
+  fill: none !important;
+  stroke: #42aebb !important;
+}
+
+/**
+ * snapping
+ */
+.djs-snap-line {
+  stroke: #42aebb;
+  stroke: rgba(255, 195, 66, 0.5);
+}
+
+.djs-palette .entry:hover {
+  color: #42aebb;
+}
+
+.djs-palette .highlighted-entry {
+  color: #42aebb !important;
+}
+
+.djs-context-pad .entry:hover {
+  background: #42aebb;
+}
+
+.djs-popup .djs-popup-header .entry.active {
+  color: #42aebb;
+  border: solid 1px #42aebb;
+  background-color: #f6f6f6;
+}
+
+.djs-popup-body .entry {
+  width: auto !important;
+}
+
+.djs-segment-dragger:hover .djs-visual,
+.djs-segment-dragger.djs-dragging .djs-visual,
+.djs-bendpoint:hover .djs-visual,
+.djs-bendpoint.floating .djs-visual {
+  fill: #42aebb;
+  stroke-opacity: 0.5;
+  stroke: black;
+}
+
+.djs-segment-dragger.djs-dragging .djs-visual,
+.djs-bendpoint.djs-dragging .djs-visual {
+  fill: #42aebb;
+}
+.djs-tooltip-error > * {
+  color: #42aebb;
+  border-left: solid 5px #42aebb;
+}
+
+.djs-search-input input:focus {
+  outline: none;
+  border-color: #52b415;
+}
+
+.djs-search-result:hover {
+  background: #fdffd6;
+}
+
+.djs-search-result-selected {
+  background: #42aebb;
+}
+
+.djs-search-result-selected:hover {
+  background: #42aebb;
+}
+
+.djs-search-overlay {
+  background: #42aebb;
+}
