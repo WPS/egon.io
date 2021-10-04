@@ -58,8 +58,8 @@ If you want to model activities that happen simultaneously, check  the "multiple
 #### Save, Open, and Export Domain Stories
 
 If you want to save your Domain Story, download it as a `.dst` file by clicking the export button ![Export Button](/images/archive.png) or pressing ctrl+s on your keyboard. To continue working on a Domain Story, import a `.dst` file using the upload button ![Upload Button](/images/unarchive.png).
-You can also export your diagram as a `.svg` or `.png` file by clicking on the image button ![SVG Button](/images/image.png) and selecting your preferred format. 
-Beginning with version 1.2.0, the `.svg` file contains an embedded `.dst` file. That means that you only need to download one file that you can use as picture and also edit it later by importing it again.
+
+You can also export your diagram as a `.svg`, `.png`, or animated `.html` file by clicking on the image button ![SVG Button](/images/image.png) and selecting your preferred format. Beginning with version 1.2.0, the `.svg` file contains an embedded `.dst` file. That means that you only need to download one file that you can use as picture and also edit it later by importing it again. Exporting the domain story as animated HTML presentation is a beta feature introduced with v1.3.0.
 
 #### Replay
 
