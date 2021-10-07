@@ -3,4 +3,7 @@
   <component name="ProjectRootManager">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
+  <component name="WebPackConfiguration">
+    <option name="mode" value="DISABLED" />
+  </component>
 </project>
