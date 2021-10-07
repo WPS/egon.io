@@ -16,6 +16,7 @@ speed-measure-plugin*.json
 
 # IDEs and editors
 /.project
+/.idea
 .classpath
 .c9/
 *.launch
@@ -43,5 +44,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-.idea/runConfigurations.xml
-.idea/prettier.xml
