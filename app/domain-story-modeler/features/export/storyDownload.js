@@ -13,9 +13,6 @@ import { editMode, presentationMode, showCurrentStep } from '../replay/replayFun
 let canvas;
 let selection;
 
-let multiplexSecret;
-let multiplexId;
-
 let replayOn = false;
 let currentStep = 0;
 let replaySteps = [];
@@ -32,12 +29,6 @@ export function initStoryDownload(inCanvas, inSelection, modeler) {
   canvas = inCanvas;
   selection = inSelection;
   dsModeler = modeler;
-
-  // cors.bridged.cc is a CORS ANYWHERE server. For details: https://blog.bridged.xyz/cors-anywhere-for-everyone-free-reliable-cors-proxy-service-73507192714e
-  fetch('https://cors.bridged.cc/https://reveal-multiplex.glitch.me/token', { headers: { 'x-requested-with':'XMLHttpRequest' } }).then(res => res.json()).then((out) => {
-    multiplexSecret=out.secret;
-    multiplexId=out.socketId;
-  }).catch(err => console.error(err));
 }
 
 export async function downloadStory(filename) {
@@ -74,8 +65,6 @@ export async function downloadStory(filename) {
   revealjsData.title = document.getElementById('title').innerHTML;
   revealjsData.description = document.getElementById('infoText').innerHTML;
   revealjsData.sentences = svgData;
-  revealjsData.multiplexSecret = multiplexSecret;
-  revealjsData.multiplexId = multiplexId;
   let element;
   element = document.createElement('a');
   element.setAttribute(
