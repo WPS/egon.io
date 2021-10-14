@@ -98,13 +98,13 @@ npm install
 Build and open the modeler in your browser:
 
 ```
-npm run dev
+npm run start
 ```
 
 Create distributable bundle:
 
 ```
-npm run all
+npm run build
 ```
 
 ## License
