@@ -1,6 +1,7 @@
 <div class="header">
-  <button class="uploadIcon" title="upload Icon" (click)="startIconUpload()">
-    upload Icon
+  <button mat-button title="upload Icon" (click)="startIconUpload()">
+    <span class="material-icons materialIconButton">upload</span>
+    <span> upload Icon</span>
     <input
       type="file"
       accept=".svg, image/png, image/jpeg, image/gif, image/bpmn"
@@ -12,23 +13,32 @@
     />
   </button>
   <div></div>
-  <button
-    class="default"
+  <button mat-button
     title="reset Domain to default configuration. Preserves already used non-default Icons"
     (click)="resetDomain()"
   >
+    <span class="material-icons materialIconButton">
+      home
+    </span>
+    <span>
     default
+    </span>
   </button>
-  <button class="cancel" title="cancel Domain configuration" (click)="cancel()">
-    reset
+  <button  mat-button title="cancel Domain configuration" (click)="cancel()">
+    <span class="material-icons materialIconButton">restart_alt</span>
+    <span>reset</span>
   </button>
   <div></div>
-  <button class="export" title="export Domain" (click)="exportDomain()">
-    export
+  <button  mat-button title="save Domain" (click)="saveDomain()">
+    <span class="material-icons materialIconButton">save</span>
+    <span>save domain</span></button>
+  <button  mat-button title="export Domain" (click)="exportDomain()">
+    <span class="material-icons materialIconButton">archive</span>
+    <span>export domain</span>
   </button>
-  <button class="save" title="save Domain" (click)="saveDomain()">save</button>
-  <button class="import" title="import Domain" (click)="startDomainImport()">
-    import
+  <button mat-button  title="import Domain" (click)="startDomainImport()">
+    <span class="material-icons materialIconButton">unarchive</span>
+    <span>import domain</span>
     <input
       type="file"
       accept=".domain"
@@ -41,6 +51,48 @@
   </button>
 </div>
 
+<div class="domainConfiguration">
+  <div class="icons">
+    <div class="searchbar">
+      <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--no-label">
+        <span class="mdc-notched-outline">
+          <span class="mdc-notched-outline__leading"></span>
+          <span class="mdc-notched-outline__trailing"></span>
+        </span>
+        <input class="mdc-text-field__input textInput" type="text" placeholder="Filter by name" (input)="filterByNameAndType($event)">
+      </label>
+      <div></div>
+      <button mat-button class="iconFilter" title ="Only Actors" (click)="filterForActors()">
+        <span>Only Actors</span>
+      </button>
+      <button mat-button class="iconFilter" title ="Only Actors" (click)="filterForWorkobjects()">
+        <span>Only Workobjects</span>
+      </button>
+      <button mat-button class="iconFilter" title ="Only Actors" (click)="filterForUnassigned()">
+        <span>Only Unassigned</span>
+      </button>
+      <div></div>
+    </div>
+    <div class="iconList">
+      <mat-grid-list cols="5" rowHeight="100px">
+        <mat-grid-tile
+          *ngFor="let iconName of allFilteredIconNames | async"
+          [colspan]="1"
+          [rowspan]="1"
+        >
+          <app-icon-list-item [icon]= getIconForName(iconName)></app-icon-list-item>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+  <div class="details">
+    <div class="domainDetails"></div>
+    <div class="actorList"></div>
+    <div class="workobjectList"></div>
+  </div>
+</div>
+
+<!--
 <div class="domainConfiguration">
   <div class="allIcons">
     <div class="allIconsHeader">
@@ -104,4 +156,4 @@
     </div>
   </div>
 </div>
-in
+-->

@@ -4,6 +4,9 @@ import { DomainConfigurationComponent } from 'src/app/domain-configuration/compo
 import { GeneralSettingsComponent } from 'src/app/general-settings/component/general-settings.component';
 import { LabelDictionaryComponent } from 'src/app/label-dictionary/component/label-dictionary.component';
 import { AutosaveSettingsComponent } from '../autosave/autosave-settings-component/autosave-settings.component';
+import {MatButtonModule} from "@angular/material/button";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {IconListItemComponent} from "../domain-configuration/component/icon-list-item/icon-list-item.component";
 
 @NgModule({
   declarations: [
@@ -11,6 +14,7 @@ import { AutosaveSettingsComponent } from '../autosave/autosave-settings-compone
     GeneralSettingsComponent,
     LabelDictionaryComponent,
     AutosaveSettingsComponent,
+    IconListItemComponent
   ],
   exports: [
     AutosaveSettingsComponent,
@@ -18,6 +22,6 @@ import { AutosaveSettingsComponent } from '../autosave/autosave-settings-compone
     DomainConfigurationComponent,
     LabelDictionaryComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule, MatGridListModule],
 })
 export class SettingsModule {}

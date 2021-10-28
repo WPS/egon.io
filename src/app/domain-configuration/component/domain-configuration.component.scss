@@ -1,43 +1,12 @@
 .header {
   display: grid;
-  grid-template-columns: 90px auto 60px 55px auto 60px 60px;
+  grid-template-columns: 120px auto 120px 120px auto 130px 130px 140px;
+  border-bottom: #ccc 2px solid;
+  margin-bottom: 2px;
 }
 
-.domainConfiguration {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  height: calc(100vh - 100px);
-  padding-left: 5px;
-  padding-bottom: 5px;
-  margin-bottom: 100px;
-}
-
-.allIconsHeader {
-  display: grid;
-  grid-template-columns: 50% 1px 25% 1px auto;
-}
-
-.listEntry {
-  position: relative;
-  display: grid;
-  grid-template-columns: 50% 1px 25% 1px auto;
-}
-
-.allIcons {
-  overflow-y: auto;
-}
-
-.selectedIcons {
-  display: grid;
-  grid-template-rows: 50% 1px auto;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-left: 10px;
-}
-
-.icon {
-  width: 36px;
-  height: 36px;
+.mat-button {
+  color: #666666;
 }
 
 #line {
@@ -50,7 +19,45 @@
   margin-top: -5px;
 }
 
-.divider {
-  border-left: solid 1px #ccc;
-  margin-right: 5px;
+.domainConfiguration {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  height: calc(100vh - 100px);
+  padding-left: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 100px;
+  grid-column-gap: 2px;
+}
+
+.icons {
+  display: grid;
+  grid-template-rows: 2rem auto;
+  height: 100%;
+  grid-row-gap: 1px;
+}
+
+.searchbar {
+ display: grid;
+  grid-template-columns: 300px 10px 150px 170px 170px auto;
+}
+
+.textInput {
+  width: 300px;
+  margin-top: 5px;
+}
+
+.iconFilter {
+  color: darkgray;
+}
+
+.iconList {
+  display: grid;
+}
+
+
+.details {
+  display: grid;
+  grid-template-rows: 10% 45% 45%;
+  height: 100%;
+  grid-row-gap: 1px;
 }

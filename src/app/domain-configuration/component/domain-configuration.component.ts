@@ -9,12 +9,14 @@ import { DomainConfiguration } from 'src/app/common/domain/domainConfiguration';
 import { DomainConfigurationService } from 'src/app/domain-configuration/service/domain-configuration.service';
 import { IconDictionaryService } from 'src/app/domain-configuration/service/icon-dictionary.service';
 import { BehaviorSubject } from 'rxjs';
-import { Dictionary } from 'src/app/common/domain/dictionary/dictionary';
+import {Dictionary} from 'src/app/common/domain/dictionary/dictionary';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { elementTypes } from 'src/app/common/domain/elementTypes';
 import { getNameFromType } from 'src/app/common/util/naming';
 import { sanitizeIconName } from 'src/app/common/util/sanitizer';
 import { ModelerService } from 'src/app/modeler/service/modeler.service';
+import {IconListItem} from "../domain/iconListItem";
+import {IconFilterEnum} from "../domain/iconFilterEnum";
 
 @Component({
   selector: 'app-domain-configuration',
@@ -27,12 +29,15 @@ export class DomainConfigurationComponent implements OnInit {
 
   private configurationHasChanged = false;
 
+  public filter = new BehaviorSubject<IconFilterEnum>(IconFilterEnum.ICON_FILTER_NONE);
+
   selectedActors = new BehaviorSubject<string[]>([]);
   selectedWorkobjects = new BehaviorSubject<string[]>([]);
   name = new BehaviorSubject<string>('');
 
   allIcons: Dictionary;
   allIconNames = new BehaviorSubject<string[]>([]);
+  allFilteredIconNames = new BehaviorSubject<string[]>([]);
 
   @Output() domainConfigurationEvent = new EventEmitter<DomainConfiguration>();
 
@@ -58,7 +63,32 @@ export class DomainConfigurationComponent implements OnInit {
     this.selectedActors.next(this.domainConfigurationTypes?.actors);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.filter.subscribe(type => {
+      let allFiltered = this.getFilteredNamesForType(type);
+      this.allFilteredIconNames.next(allFiltered);
+    });
+  }
+
+  private getFilteredNamesForType(type: IconFilterEnum): string[] {
+    let allFiltered: string[] = [];
+    switch (type) {
+      case IconFilterEnum.ICON_FILTER_NONE:
+        allFiltered = this.allIconNames.value;
+        break;
+      case IconFilterEnum.ICON_FILTER_ACTOR:
+        allFiltered = this.allIconNames.value.filter(name => this.checkForActor(name));
+        break;
+      case IconFilterEnum.ICON_FILTER_WORKOBJECT:
+        allFiltered = this.allIconNames.value.filter(name => this.checkForWorkObject(name));
+        break;
+      case IconFilterEnum.ICON_FILTER_UNASSIGNED:
+        allFiltered = this.allIconNames.value.filter(name =>
+          !this.checkForActor(name) && !this.checkForWorkObject(name));
+        break;
+    }
+    return allFiltered;
+  }
 
   checkForActor(iconName: string): boolean {
     return (
@@ -284,5 +314,44 @@ export class DomainConfigurationComponent implements OnInit {
   private resetToInitialConfiguration(): void {
     this.updateActorSubject();
     this.updateWorkObjectSubject();
+  }
+
+  getIconForName(iconName: string): IconListItem {
+    console.log(iconName)
+
+    return {name: iconName,
+            svg: this.getSrcForIcon(iconName),
+            isActor: this.checkForActor(iconName),
+            isWorkObject: this.checkForWorkObject(iconName)};
+  }
+
+  filterForActors(): void {
+    if(this.filter.value !== IconFilterEnum.ICON_FILTER_ACTOR) {
+      this.filter.next(IconFilterEnum.ICON_FILTER_ACTOR)
+    } else {
+      this.filter.next(IconFilterEnum.ICON_FILTER_NONE);
+    }
+  }
+
+  filterForWorkobjects(): void {
+    if(this.filter.value !== IconFilterEnum.ICON_FILTER_WORKOBJECT) {
+      this.filter.next(IconFilterEnum.ICON_FILTER_WORKOBJECT)
+    } else {
+      this.filter.next(IconFilterEnum.ICON_FILTER_NONE);
+    }
+  }
+
+  filterForUnassigned(): void {
+    if(this.filter.value !== IconFilterEnum.ICON_FILTER_UNASSIGNED) {
+      this.filter.next(IconFilterEnum.ICON_FILTER_UNASSIGNED)
+    } else {
+      this.filter.next(IconFilterEnum.ICON_FILTER_NONE);
+    }
+  }
+
+  filterByNameAndType($event: any) {
+    const filteredByNameAndType = this.getFilteredNamesForType(this.filter.value)
+      .filter(name => name.toLowerCase().includes($event.target.value.toLowerCase()));
+    this.allFilteredIconNames.next(filteredByNameAndType);
   }
 }

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/egon_angular.iml" filepath="$PROJECT_DIR$/.idea/egon_angular.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/DST.iml" filepath="$PROJECT_DIR$/.idea/DST.iml" />
     </modules>
   </component>
 </project>
