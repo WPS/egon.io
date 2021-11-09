@@ -66,6 +66,16 @@ module.exports = function(grunt) {
           }
         ]
       },
+      dot: {
+        files: [
+          {
+            expand: true,
+            cwd: 'node_modules/dot',
+            src: ['**/*.min.js'],
+            dest: 'dist/dependencies'
+          }
+        ]
+      },
       app: {
         files: [
           {

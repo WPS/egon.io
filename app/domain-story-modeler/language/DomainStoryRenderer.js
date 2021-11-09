@@ -35,7 +35,7 @@ import { calculateTextWidth } from '../features/labeling/DSLabelUtil';
 import { ACTIVITY, ACTOR, WORKOBJECT, CONNECTION, GROUP, TEXTANNOTATION } from './elementTypes';
 import { correctElementRegitryInit } from '../language/canvasElementRegistry';
 import { makeDirty } from '../features/export/dirtyFlag';
-import { labelPosition } from '../features/labeling/position';
+import { countLines, labelPosition } from '../features/labeling/position';
 import { getTypeIconSRC } from './icon/dictionaries';
 
 let RENDERER_IDS = new Ids();
@@ -132,8 +132,10 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     let semantic = element.businessObject;
     let waypoints = element.waypoints;
 
+    let lines = countLines(semantic.name);
+
     if (element.waypoints != null) {
-      let position = labelPosition(waypoints);
+      let position = labelPosition(waypoints, lines);
       let startPoint = element.waypoints[position.selected];
       let endPoint = element.waypoints[position.selected + 1];
       let angle = Math.angleBetween(startPoint, endPoint);
