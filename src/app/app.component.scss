@@ -15,11 +15,11 @@
 /* header and Canvas*/
 
 .headerAndCanvas {
-  margin-top: 5px;
   height: 100%;
   width: 100%;
   display: grid;
   grid-template-rows: 125px 1px auto;
+  overflow: hidden;
 }
 
 .headerAndCanvasCollapsed {
@@ -28,6 +28,7 @@
   width: 100%;
   display: grid;
   grid-template-rows: 50px 1px auto;
+  overflow: hidden;
 }
 
 .settings {

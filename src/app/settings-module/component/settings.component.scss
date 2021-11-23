@@ -2,10 +2,22 @@
   display: grid;
   grid-template-rows: 40px auto;
   width: 100%;
+  height: 100%;
 }
 
 .materialIconButton {
   font-size: 12pt;
+}
+
+.tab{
+  display: inline-block;
+  height: calc(100% - 10px);
+  width: 100%;
+  overflow: hidden;
+}
+
+.tabs {
+  overflow-y: hidden;
 }
 
 .header {

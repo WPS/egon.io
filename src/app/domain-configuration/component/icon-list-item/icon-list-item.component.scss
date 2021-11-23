@@ -6,6 +6,7 @@
 .content {
   display: grid;
   grid-template-rows: auto auto;
+  justify-items: center;
 }
 
 .icon {
@@ -18,11 +19,9 @@
 }
 
 .footer {
-   .mat-button-toggle-appearance-standard {
-     .mat-button-toggle-label-content {
-      font-size: 10pt !important;
-      padding: 0 5px !important;
-      line-height: inherit !important;
-    }
-  }
+ ::ng-deep.mat-button-toggle-label-content {
+    font-size: 10pt !important;
+    padding: 0 5px !important;
+    line-height: inherit !important;
+ }
 }
