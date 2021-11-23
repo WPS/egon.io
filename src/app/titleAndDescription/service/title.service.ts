@@ -67,7 +67,6 @@ export class TitleService {
   }
 
   public setDomainName(name: string): void {
-    console.log(name);
     this.domainNameSubject.next(name);
   }
 

@@ -81,42 +81,12 @@
           [rowspan]="1"
         >
           <app-icon-list-item
-            [icon]= getIconForName(iconName)
+            [iconName]="iconName"
             class = "iconListItem"
-            (checkActorEmitter)="checkActor($event, iconName)"
-            (checkWorkObjectEmitter)="checkWorkobject($event, iconName)"
           ></app-icon-list-item>
         </mat-grid-tile>
       </mat-grid-list>
     </div>
   </div>
-  <div class="details">
-    <div class="domainDetails">
-      <span>Domain name</span>
-      <br>
-      <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--no-label">
-        <span class="mdc-notched-outline">
-          <span class="mdc-notched-outline__leading"></span>
-          <span class="mdc-notched-outline__trailing"></span>
-        </span>
-        <input class="mdc-text-field__input textInput" type="text" (input)="changeName($event)" [value]="name | async">
-      </label>
-      <!-- <span>Drag and drop rows to define order in the modeler</span> -->
-    </div>
-    <div class="actorList">
-      <mat-list >
-        <mat-list-item *ngFor="let iconName of selectedActors |async">
-          <app-details-list-item [icon]="getIconForName(iconName)"></app-details-list-item>
-        </mat-list-item>
-      </mat-list>
-    </div>
-    <div id ="line"></div>
-    <div class="workobjectList">
-      <mat-list >
-        <mat-list-item *ngFor="let iconName of selectedWorkobjects |async">
-          <app-details-list-item [icon]="getIconForName(iconName)"></app-details-list-item>
-        </mat-list-item>
-      </mat-list>
-    </div>
-  </div>
+    <app-domain-details></app-domain-details>
 </div>

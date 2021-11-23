@@ -9,16 +9,6 @@
   color: #666666;
 }
 
-#line {
-  padding: 2px;
-  position: relative;
-  right: 0;
-  left: 0;
-  width: 100%;
-  border-bottom: solid 2px #ccc;
-  margin-top: -5px;
-}
-
 .domainConfiguration {
   display: grid;
   grid-template-columns: 70% 30%;
@@ -57,15 +47,7 @@
 
 ::ng-deep.mat-grid-tile {
   .mat-grid-tile-content {
-
     justify-content: inherit;
   }
-}
-
-.details {
-  display: grid;
-  grid-template-rows: 10% 45% auto 45%;
-  height: calc(100vh - 120px);
-  grid-row-gap: 1px;
 }
 

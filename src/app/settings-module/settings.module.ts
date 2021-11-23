@@ -10,6 +10,7 @@ import { IconListItemComponent } from '../domain-configuration/component/icon-li
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatListModule } from '@angular/material/list';
 import { DetailsListItemComponent } from '../domain-configuration/component/details-list-item/details-list-item.component';
+import { DomainDetailsComponent } from '../domain-configuration/component/domain-details/domain-details.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { DetailsListItemComponent } from '../domain-configuration/component/deta
     AutosaveSettingsComponent,
     IconListItemComponent,
     DetailsListItemComponent,
+    DomainDetailsComponent,
   ],
   exports: [
     AutosaveSettingsComponent,

@@ -1,16 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { DomainConfiguration } from 'src/app/common/domain/domainConfiguration';
+import { Component, OnInit } from '@angular/core';
+import { CustomDomainCofiguration } from 'src/app/common/domain/domainConfiguration';
 import { DomainConfigurationService } from 'src/app/domain-configuration/service/domain-configuration.service';
 import { IconDictionaryService } from 'src/app/domain-configuration/service/icon-dictionary.service';
 import { BehaviorSubject } from 'rxjs';
 import { Dictionary } from 'src/app/common/domain/dictionary/dictionary';
-import { elementTypes } from 'src/app/common/domain/elementTypes';
-import { getNameFromType } from 'src/app/common/util/naming';
 import { sanitizeIconName } from 'src/app/common/util/sanitizer';
-import { ModelerService } from 'src/app/modeler/service/modeler.service';
-import { IconListItem } from '../domain/iconListItem';
 import { IconFilterEnum } from '../domain/iconFilterEnum';
-import { TitleService } from '../../titleAndDescription/service/title.service';
+import { DomainCustomizationService } from '../service/domain-customization.service';
 
 @Component({
   selector: 'app-domain-configuration',
@@ -18,10 +14,7 @@ import { TitleService } from '../../titleAndDescription/service/title.service';
   styleUrls: ['./domain-configuration.component.scss'],
 })
 export class DomainConfigurationComponent implements OnInit {
-  private domainConfigurationTypes: DomainConfiguration | undefined;
-  private readonly initialConfigurationNames: DomainConfiguration | undefined;
-
-  private configurationHasChanged = false;
+  private domainConfigurationTypes: CustomDomainCofiguration;
 
   public filter = new BehaviorSubject<IconFilterEnum>(
     IconFilterEnum.ICON_FILTER_NONE
@@ -29,30 +22,27 @@ export class DomainConfigurationComponent implements OnInit {
 
   selectedActors = new BehaviorSubject<string[]>([]);
   selectedWorkobjects = new BehaviorSubject<string[]>([]);
-  name = new BehaviorSubject<string>('');
 
   allIcons: Dictionary;
   allIconNames = new BehaviorSubject<string[]>([]);
   allFilteredIconNames = new BehaviorSubject<string[]>([]);
 
   constructor(
-    private modelerService: ModelerService,
     private configurationService: DomainConfigurationService,
-    private iconDictionaryService: IconDictionaryService
+    private iconDictionaryService: IconDictionaryService,
+    private domainCustomizationService: DomainCustomizationService
   ) {
     this.domainConfigurationTypes =
-      configurationService.getCurrentConfigurationNamesWithoutPrefix();
-    this.initialConfigurationNames =
-      configurationService.getCurrentConfigurationNamesWithoutPrefix();
+      this.domainCustomizationService.getDomainConfiguration().value;
 
     this.allIcons = this.iconDictionaryService.getFullDictionary();
     this.allIconNames.next(this.allIcons.keysArray());
-    this.name.next(this.domainConfigurationTypes?.name || '');
 
     // @ts-ignore
-    this.selectedWorkobjects.next(this.domainConfigurationTypes?.workObjects);
+    this.selectedWorkobjects =
+      this.domainCustomizationService.getSelectedWorkobjects();
     // @ts-ignore
-    this.selectedActors.next(this.domainConfigurationTypes?.actors);
+    this.selectedActors = this.domainCustomizationService.getSelectedActors();
   }
 
   ngOnInit(): void {
@@ -70,159 +60,39 @@ export class DomainConfigurationComponent implements OnInit {
         break;
       case IconFilterEnum.ICON_FILTER_ACTOR:
         allFiltered = this.allIconNames.value.filter((name) =>
-          this.checkForActor(name)
+          this.domainCustomizationService.checkForActor(name)
         );
         break;
       case IconFilterEnum.ICON_FILTER_WORKOBJECT:
         allFiltered = this.allIconNames.value.filter((name) =>
-          this.checkForWorkObject(name)
+          this.domainCustomizationService.checkForWorkObject(name)
         );
         break;
       case IconFilterEnum.ICON_FILTER_UNASSIGNED:
         allFiltered = this.allIconNames.value.filter(
-          (name) => !this.checkForActor(name) && !this.checkForWorkObject(name)
+          (name) =>
+            !this.domainCustomizationService.checkForActor(name) &&
+            !this.domainCustomizationService.checkForWorkObject(name)
         );
         break;
     }
     return allFiltered;
   }
 
-  checkForActor(iconName: string): boolean {
-    return (
-      this.domainConfigurationTypes?.actors.filter((actor: string) =>
-        actor.includes(iconName)
-      ).length > 0
-    );
-  }
-
-  checkForWorkObject(iconName: string): boolean {
-    return (
-      this.domainConfigurationTypes?.workObjects.filter((workObject: string) =>
-        workObject.includes(iconName)
-      ).length > 0
-    );
-  }
-
-  // @ts-ignore
-  checkActor(event, actor: string): void {
-    if (event) {
-      this.selectActor(actor);
-      this.deselectWorkobject(actor);
-    } else {
-      this.deselectActor(actor);
-    }
-  }
-
-  // @ts-ignore
-  checkWorkobject(event, workobject: string): void {
-    if (event) {
-      this.selectWorkObject(workobject);
-      this.deselectActor(workobject);
-    } else {
-      this.deselectWorkobject(workobject);
-    }
-  }
-
-  changeName(name: Event): void {
-    // @ts-ignore
-    this.domainConfigurationTypes.name = name.target.value;
-  }
-
-  private updateActorSubject(): void {
-    // @ts-ignore
-    this.selectedActors.next(this.domainConfigurationTypes?.actors);
-    this.configurationHasChanged = true;
-  }
-
-  private updateWorkObjectSubject(): void {
-    // @ts-ignore
-    this.selectedWorkobjects.next(this.domainConfigurationTypes?.workObjects);
-    this.configurationHasChanged = true;
-  }
-
-  selectActor(actor: string): void {
-    if (!this.domainConfigurationTypes?.actors.includes(actor)) {
-      this.domainConfigurationTypes?.actors.push(actor);
-      this.updateActorSubject();
-    }
-  }
-
-  selectWorkObject(workObject: string): void {
-    if (!this.domainConfigurationTypes?.workObjects.includes(workObject)) {
-      this.domainConfigurationTypes?.workObjects.push(workObject);
-      this.updateWorkObjectSubject();
-    }
-  }
-
-  deselectActor(actor: string): void {
-    if (this.domainConfigurationTypes) {
-      this.domainConfigurationTypes = {
-        name: this.domainConfigurationTypes.name,
-        actors: this.domainConfigurationTypes.actors.filter(
-          (a: string) => !a.includes(actor)
-        ),
-        workObjects: this.domainConfigurationTypes.workObjects,
-      };
-    }
-    this.updateActorSubject();
-  }
-
-  deselectWorkobject(workobject: string): void {
-    if (this.domainConfigurationTypes) {
-      this.domainConfigurationTypes = {
-        name: this.domainConfigurationTypes.name,
-        actors: this.domainConfigurationTypes.actors,
-        workObjects: this.domainConfigurationTypes.workObjects.filter(
-          (w: string) => !w.includes(workobject)
-        ),
-      };
-    }
-    this.updateWorkObjectSubject();
-  }
-
   resetDomain(): void {
-    this.modelerService.restart(
-      this.configurationService.createDefaultConfig()
-    );
+    this.domainCustomizationService.resetDomain();
   }
 
   saveDomain(): void {
-    if (this.configurationHasChanged) {
-      const domainConfiguration = this.createDomainConfiguration();
-      this.modelerService.restart(domainConfiguration);
-    }
-  }
-
-  private createDomainConfiguration(): DomainConfiguration {
-    const actors: { [key: string]: any } = {};
-    const workObjects: { [key: string]: any } = {};
-
-    this.domainConfigurationTypes?.actors.forEach((type: string) => {
-      actors[type] = this.iconDictionaryService.getIconSource(
-        getNameFromType(type)
-      );
-    });
-    this.domainConfigurationTypes?.workObjects.forEach((type: string) => {
-      workObjects[type] = this.iconDictionaryService.getIconSource(
-        getNameFromType(type)
-      );
-    });
-
-    return {
-      name: this.domainConfigurationTypes?.name || '',
-      actors,
-      workObjects,
-    };
+    this.domainCustomizationService.saveDomain();
   }
 
   exportDomain(): void {
-    this.saveDomain();
-    this.configurationService.exportConfiguration();
+    this.domainCustomizationService.exportDomain();
   }
 
   cancel(): void {
-    this.domainConfigurationTypes = this.initialConfigurationNames;
-    this.resetToInitialConfiguration();
+    this.domainCustomizationService.cancel();
   }
 
   startIconUpload(): void {
@@ -266,43 +136,9 @@ export class DomainConfigurationComponent implements OnInit {
 
       this.allIcons = this.iconDictionaryService.getFullDictionary();
       this.allIconNames.next(this.allIcons.keysArray());
+      // TODO add Icon to List
     };
-
     reader.readAsDataURL(iconInputFile);
-  }
-
-  getSrcForIcon(name: string): string {
-    let iconName = '';
-    if (name.includes(elementTypes.DOMAINSTORY)) {
-      iconName = getNameFromType(name);
-    } else {
-      iconName = name;
-    }
-    const rawSrc = this.iconDictionaryService.getIconSource(iconName);
-
-    if (!rawSrc) {
-      return '';
-    }
-
-    if (rawSrc.startsWith('data')) {
-      return rawSrc;
-    } else {
-      return 'data:image/svg+xml,' + rawSrc;
-    }
-  }
-
-  private resetToInitialConfiguration(): void {
-    this.updateActorSubject();
-    this.updateWorkObjectSubject();
-  }
-
-  getIconForName(iconName: string): IconListItem {
-    return {
-      name: iconName,
-      svg: this.getSrcForIcon(iconName),
-      isActor: this.checkForActor(iconName),
-      isWorkObject: this.checkForWorkObject(iconName),
-    };
   }
 
   filterForActors(): void {

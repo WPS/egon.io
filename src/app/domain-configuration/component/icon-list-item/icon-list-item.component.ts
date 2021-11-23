@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { IconListItem } from '../../domain/iconListItem';
 import { BehaviorSubject } from 'rxjs';
+import { DomainCustomizationService } from '../../service/domain-customization.service';
 
 @Component({
   selector: 'app-icon-list-item',
@@ -16,28 +17,23 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class IconListItemComponent implements OnInit, AfterViewInit {
   @Input()
-  public icon: IconListItem | undefined;
+  public iconName: string = '';
 
-  @Output()
-  checkActorEmitter = new EventEmitter<boolean>();
-  @Output()
-  checkWorkObjectEmitter = new EventEmitter<boolean>();
+  // @ts-ignore
+  public icon: IconListItem = {};
 
   public isActor: BehaviorSubject<boolean>;
   public isWorkobject: BehaviorSubject<boolean>;
   public isNone: BehaviorSubject<boolean>;
 
-  constructor() {
-    this.isActor = new BehaviorSubject(this.icon ? this.icon.isActor : false);
-    this.isWorkobject = new BehaviorSubject(
-      this.icon ? this.icon.isWorkObject : false
-    );
-    this.isNone = new BehaviorSubject(
-      !(this.icon?.isActor || this.icon?.isWorkObject)
-    );
+  constructor(private domainCustomizationService: DomainCustomizationService) {
+    this.isActor = new BehaviorSubject<boolean>(false);
+    this.isWorkobject = new BehaviorSubject<boolean>(false);
+    this.isNone = new BehaviorSubject<boolean>(true);
   }
 
   ngOnInit(): void {
+    this.icon = this.domainCustomizationService.getIconForName(this.iconName);
     this.isActor.next(this.icon ? this.icon.isActor : false);
     this.isWorkobject.next(this.icon ? this.icon.isWorkObject : false);
     this.isNone.next(!(this.icon?.isActor || this.icon?.isWorkObject));
@@ -46,13 +42,13 @@ export class IconListItemComponent implements OnInit, AfterViewInit {
       if (this.icon) {
         this.icon.isActor = value;
       }
-      this.checkActorEmitter.emit(value);
+      this.domainCustomizationService.checkActor(value, this.icon.name);
     });
     this.isWorkobject.subscribe((value) => {
       if (this.icon) {
         this.icon.isWorkObject = value;
       }
-      this.checkWorkObjectEmitter.emit(value);
+      this.domainCustomizationService.checkWorkobject(value, this.icon.name);
     });
   }
 
