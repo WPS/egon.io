@@ -1,17 +1,17 @@
 <div class="IconContainer">
   <div class="content">
-    <img id="{{id}}" class = "icon" src =''>
+    <img id="{{id}}" class = "icon" src ="" alt="{{name}}">
     <div class="name">{{name}}</div>
   </div>
   <div class="footer">
-    <mat-button-toggle-group multiple="false">
+    <mat-button-toggle-group>
       <mat-button-toggle (change)="toggleNone()" [value]="isNone |async" [checked]="isNone | async">
-        <span class="toggleButtonTitle">None</span>
-      </mat-button-toggle>
-      <mat-button-toggle (change)="toggleActor()" [value]="isActor | async" [checked]="isActor | async">
+      <span class="toggleButtonTitle">None</span>
+    </mat-button-toggle>
+      <mat-button-toggle [class.activeMatButtonActor]="isActor |async" (change)="toggleActor()" [value]="isActor | async" [checked]="isActor | async">
         <span class="toggleButtonTitle">Actor</span>
       </mat-button-toggle>
-      <mat-button-toggle (change)="toggleWorkobject()" [value]="isWorkobject | async" [checked]="isWorkobject | async">
+      <mat-button-toggle [class.activeMatButtonWorkObject]="isWorkobject |async" (change)="toggleWorkobject()" [value]="isWorkobject | async" [checked]="isWorkobject | async">
         <span class="toggleButtonTitle">Workobject</span>
       </mat-button-toggle>
     </mat-button-toggle-group>

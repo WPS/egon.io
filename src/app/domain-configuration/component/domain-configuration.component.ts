@@ -34,8 +34,6 @@ export class DomainConfigurationComponent implements OnInit {
   allIconNames = new BehaviorSubject<string[]>([]);
   allFilteredIconNames = new BehaviorSubject<string[]>([]);
 
-  @Output() domainConfigurationEvent = new EventEmitter<DomainConfiguration>();
-
   constructor(
     private modelerService: ModelerService,
     private configurationService: DomainConfigurationService,
@@ -180,10 +178,6 @@ export class DomainConfigurationComponent implements OnInit {
     this.updateWorkObjectSubject();
   }
 
-  emitDomainConfiguration(): void {
-    this.domainConfigurationEvent.emit(this.domainConfigurationTypes);
-  }
-
   resetDomain(): void {
     this.modelerService.restart(
       this.configurationService.createDefaultConfig()
@@ -195,7 +189,6 @@ export class DomainConfigurationComponent implements OnInit {
       const domainConfiguration = this.createDomainConfiguration();
       console.log(domainConfiguration);
       this.modelerService.restart(domainConfiguration);
-      //this.emitDomainConfiguration();
     }
   }
 

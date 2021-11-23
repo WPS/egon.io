@@ -30,11 +30,6 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  setDomainConfiguration(domainConfiguration: DomainConfiguration): void {
-    this.domainConfiguration = domainConfiguration;
-    console.log(this.domainConfiguration);
-  }
-
   close(): void {
     if (this.configurationChanged) {
       this.modelerService.restart(this.domainConfiguration);

@@ -40,13 +40,13 @@
   grid-template-columns: 300px 10px 150px 170px 170px auto;
 }
 
+.active {
+  color: #42aebb;
+}
+
 .textInput {
   width: 300px;
   margin-top: 5px;
-}
-
-.iconFilter {
-  color: darkgray;
 }
 
 .iconList {
