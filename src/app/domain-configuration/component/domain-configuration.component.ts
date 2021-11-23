@@ -1,16 +1,9 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DomainConfiguration } from 'src/app/common/domain/domainConfiguration';
 import { DomainConfigurationService } from 'src/app/domain-configuration/service/domain-configuration.service';
 import { IconDictionaryService } from 'src/app/domain-configuration/service/icon-dictionary.service';
 import { BehaviorSubject } from 'rxjs';
 import { Dictionary } from 'src/app/common/domain/dictionary/dictionary';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { elementTypes } from 'src/app/common/domain/elementTypes';
 import { getNameFromType } from 'src/app/common/util/naming';
 import { sanitizeIconName } from 'src/app/common/util/sanitizer';
@@ -46,14 +39,12 @@ export class DomainConfigurationComponent implements OnInit {
   constructor(
     private modelerService: ModelerService,
     private configurationService: DomainConfigurationService,
-    private iconDictionaryService: IconDictionaryService,
-    private domSanitizer: DomSanitizer,
-    private changeDetectorRef: ChangeDetectorRef
+    private iconDictionaryService: IconDictionaryService
   ) {
     this.domainConfigurationTypes =
-      configurationService.getCurrentConfigurationNames();
+      configurationService.getCurrentConfigurationNamesWithoutPrefix();
     this.initialConfigurationNames =
-      configurationService.getCurrentConfigurationNames();
+      configurationService.getCurrentConfigurationNamesWithoutPrefix();
 
     this.allIcons = this.iconDictionaryService.getFullDictionary();
     this.allIconNames.next(this.allIcons.keysArray());
@@ -113,30 +104,24 @@ export class DomainConfigurationComponent implements OnInit {
     );
   }
 
-  private redraw(): void {
-    this.changeDetectorRef.detectChanges();
-  }
-
   // @ts-ignore
   checkActor(event, actor: string): void {
-    if (event.target.checked) {
+    if (event) {
       this.selectActor(actor);
       this.deselectWorkobject(actor);
     } else {
       this.deselectActor(actor);
     }
-    this.redraw();
   }
 
   // @ts-ignore
   checkWorkobject(event, workobject: string): void {
-    if (event.target.checked) {
+    if (event) {
       this.selectWorkObject(workobject);
       this.deselectActor(workobject);
     } else {
       this.deselectWorkobject(workobject);
     }
-    this.redraw();
   }
 
   changeName(name: string): void {
@@ -159,15 +144,13 @@ export class DomainConfigurationComponent implements OnInit {
 
   selectActor(actor: string): void {
     // @ts-ignore
-    this.domainConfigurationTypes?.actors.push(elementTypes.ACTOR + actor);
+    this.domainConfigurationTypes?.actors.push(actor);
     this.updateActorSubject();
   }
 
   selectWorkObject(workObject: string): void {
     // @ts-ignore
-    this.domainConfigurationTypes?.workObjects.push(
-      elementTypes.WORKOBJECT + workObject
-    );
+    this.domainConfigurationTypes?.workObjects.push(workObject);
     this.updateWorkObjectSubject();
   }
 
@@ -209,8 +192,10 @@ export class DomainConfigurationComponent implements OnInit {
 
   saveDomain(): void {
     if (this.configurationHasChanged) {
-      this.modelerService.restart(this.createDomainConfiguration());
-      this.emitDomainConfiguration();
+      const domainConfiguration = this.createDomainConfiguration();
+      console.log(domainConfiguration);
+      this.modelerService.restart(domainConfiguration);
+      //this.emitDomainConfiguration();
     }
   }
 

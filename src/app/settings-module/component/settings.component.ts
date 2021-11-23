@@ -32,6 +32,7 @@ export class SettingsComponent implements OnInit {
 
   setDomainConfiguration(domainConfiguration: DomainConfiguration): void {
     this.domainConfiguration = domainConfiguration;
+    console.log(this.domainConfiguration);
   }
 
   close(): void {

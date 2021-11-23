@@ -39,7 +39,7 @@ export class ModelerService {
 
     if (domainConfiguration) {
       // TODO über event?
-      this.iconDictionaryService.setCusomtConfiguration(domainConfiguration);
+      //this.iconDictionaryService.setCusomtConfiguration(domainConfiguration);
       // TODO über event?
       this.domainConfigurationService.loadConfiguration(domainConfiguration);
     }

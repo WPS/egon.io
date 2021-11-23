@@ -111,13 +111,27 @@ export class DomainConfigurationService {
     return domainConfiguration;
   }
 
-  public getCurrentConfigurationNames(): DomainConfiguration {
+  public getCurrentConfigurationNamesWithPrefix(): DomainConfiguration {
     return {
       name: this.domainName || '',
       actors: this.iconDictionaryService.getActorsDictionary().keysArray(),
       workObjects: this.iconDictionaryService
         .getWorkObjectsDictionary()
         .keysArray(),
+    };
+  }
+
+  public getCurrentConfigurationNamesWithoutPrefix(): DomainConfiguration {
+    return {
+      name: this.domainName || '',
+      actors: this.iconDictionaryService
+        .getActorsDictionary()
+        .keysArray()
+        .map((a) => a.replace(elementTypes.ACTOR, '')),
+      workObjects: this.iconDictionaryService
+        .getWorkObjectsDictionary()
+        .keysArray()
+        .map((w) => w.replace(elementTypes.WORKOBJECT, '')),
     };
   }
 

@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { IconListItem } from '../../domain/iconListItem';
 import { BehaviorSubject } from 'rxjs';
 
@@ -10,6 +17,11 @@ import { BehaviorSubject } from 'rxjs';
 export class IconListItemComponent implements OnInit, AfterViewInit {
   @Input()
   public icon: IconListItem | undefined;
+
+  @Output()
+  checkActorEmitter = new EventEmitter<boolean>();
+  @Output()
+  checkWorkObjectEmitter = new EventEmitter<boolean>();
 
   public isActor: BehaviorSubject<boolean>;
   public isWorkobject: BehaviorSubject<boolean>;
@@ -34,11 +46,13 @@ export class IconListItemComponent implements OnInit, AfterViewInit {
       if (this.icon) {
         this.icon.isActor = value;
       }
+      this.checkActorEmitter.emit(value);
     });
     this.isWorkobject.subscribe((value) => {
       if (this.icon) {
         this.icon.isWorkObject = value;
       }
+      this.checkWorkObjectEmitter.emit(value);
     });
   }
 

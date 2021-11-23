@@ -80,7 +80,12 @@
           [colspan]="1"
           [rowspan]="1"
         >
-          <app-icon-list-item [icon]= getIconForName(iconName) class = "iconListItem"></app-icon-list-item>
+          <app-icon-list-item
+            [icon]= getIconForName(iconName)
+            class = "iconListItem"
+            (checkActorEmitter)="checkActor($event, iconName)"
+            (checkWorkObjectEmitter)="checkWorkobject($event, iconName)"
+          ></app-icon-list-item>
         </mat-grid-tile>
       </mat-grid-list>
     </div>
