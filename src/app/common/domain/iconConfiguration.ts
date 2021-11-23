@@ -1,7 +1,7 @@
 import { Dictionary } from 'src/app/common/domain/dictionary/dictionary';
 import { overrideAppendedIcons } from 'src/app/domain-configuration/domain/allIcons';
 import { Configuration } from 'src/app/common/domain/configuration';
-import { DomainConfiguration } from 'src/app/common/domain/domainConfiguration';
+import { CustomDomainCofiguration } from 'src/app/common/domain/domainConfiguration';
 
 export class IconConfiguration {
   public domainName = 'default';
@@ -52,7 +52,7 @@ export class IconConfiguration {
 
   public createCustomConf(
     includeNecessary: boolean,
-    domainConfiguration: DomainConfiguration
+    domainConfiguration: CustomDomainCofiguration
   ): Configuration {
     this.domainName = domainConfiguration.name;
 

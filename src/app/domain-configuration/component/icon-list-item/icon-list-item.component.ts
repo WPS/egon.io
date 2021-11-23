@@ -20,7 +20,7 @@ export class IconListItemComponent implements OnInit, AfterViewInit {
   public iconName: string = '';
 
   // @ts-ignore
-  public icon: IconListItem = {};
+  public icon = new BehaviorSubject<IconListItem>({});
 
   public isActor: BehaviorSubject<boolean>;
   public isWorkobject: BehaviorSubject<boolean>;
@@ -34,22 +34,16 @@ export class IconListItemComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.icon = this.domainCustomizationService.getIconForName(this.iconName);
-    this.isActor.next(this.icon ? this.icon.isActor : false);
-    this.isWorkobject.next(this.icon ? this.icon.isWorkObject : false);
-    this.isNone.next(!(this.icon?.isActor || this.icon?.isWorkObject));
-
-    this.isActor.subscribe((value) => {
-      if (this.icon) {
-        this.icon.isActor = value;
-      }
-      this.domainCustomizationService.checkActor(value, this.icon.name);
+    this.icon.subscribe((value) => {
+      this.isActor.next(value.isActor);
+      this.isWorkobject.next(value.isWorkObject);
+      this.isNone.next(!(value.isActor || value.isWorkObject));
     });
-    this.isWorkobject.subscribe((value) => {
-      if (this.icon) {
-        this.icon.isWorkObject = value;
-      }
-      this.domainCustomizationService.checkWorkobject(value, this.icon.name);
-    });
+    this.isActor.next(this.icon.value.isActor);
+    this.isWorkobject.next(this.icon.value.isWorkObject);
+    this.isNone.next(
+      !(this.icon.value.isActor || this.icon.value.isWorkObject)
+    );
   }
 
   ngAfterViewInit() {
@@ -57,30 +51,27 @@ export class IconListItemComponent implements OnInit, AfterViewInit {
   }
 
   get name(): string {
-    return this.icon ? this.icon.name : '';
+    return this.iconName;
   }
 
   get id() {
-    return 'domain-configuration-icon-' + this.icon?.name;
+    return 'domain-configuration-icon-' + this.iconName;
   }
 
   toggleNone() {
-    this.isWorkobject.next(false);
-    this.isActor.next(false);
+    this.domainCustomizationService.checkNone(this.iconName);
   }
 
   toggleActor(): void {
-    this.isActor.next(true);
-    this.isWorkobject.next(false);
+    this.domainCustomizationService.checkActor(true, this.iconName);
   }
 
   toggleWorkobject(): void {
-    this.isWorkobject.next(true);
-    this.isActor.next(false);
+    this.domainCustomizationService.checkWorkobject(true, this.iconName);
   }
 
   private createIcon(): void {
     const img = document.getElementById(this.id) as HTMLImageElement;
-    img.src = '' + this.icon?.svg;
+    img.src = '' + this.icon.value?.svg;
   }
 }

@@ -29,6 +29,6 @@ export class DomainDetailsComponent implements OnInit {
   }
 
   getIconForName(iconName: string): IconListItem {
-    return this.customizationService.getIconForName(iconName);
+    return this.customizationService.getIconForName(iconName).value;
   }
 }

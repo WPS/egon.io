@@ -4,20 +4,21 @@ import {
   DomainConfiguration,
 } from '../../common/domain/domainConfiguration';
 import { BehaviorSubject } from 'rxjs';
-import { deepCopy } from '../../common/util/deepCopy';
 import { DomainConfigurationService } from './domain-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { getNameFromType } from '../../common/util/naming';
 import { ModelerService } from '../../modeler/service/modeler.service';
 import { elementTypes } from '../../common/domain/elementTypes';
 import { IconListItem } from '../domain/iconListItem';
+import { Dictionary, Entry } from '../../common/domain/dictionary/dictionary';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DomainCustomizationService {
   private readonly domainConfigurationTypes: BehaviorSubject<CustomDomainCofiguration>;
-  private readonly initialConfigurationNames: CustomDomainCofiguration;
+
+  private allIconListItems = new Dictionary();
 
   domainName = new BehaviorSubject<string>('');
 
@@ -35,35 +36,54 @@ export class DomainCustomizationService {
       this.configurationService.getCurrentConfigurationNamesWithoutPrefix()
     );
 
-    this.initialConfigurationNames = deepCopy(
-      this.domainConfigurationTypes.value
-    );
-
     this.selectedWorkobjects.next(
       this.domainConfigurationTypes.value.workObjects
     );
     this.selectedActors.next(this.domainConfigurationTypes.value.actors);
+
+    iconDictionaryService
+      .getAllIconDictionary()
+      .keysArray()
+      .forEach((iconName) => {
+        this.allIconListItems.add(
+          new BehaviorSubject({
+            name: iconName,
+            svg: this.getSrcForIcon(iconName),
+            isActor: this.checkForActor(iconName),
+            isWorkObject: this.checkForWorkObject(iconName),
+          }),
+          iconName
+        );
+      });
   }
 
   getDomainConfiguration() {
     return this.domainConfigurationTypes;
   }
 
+  checkNone(iconName: string) {
+    this.updateIcon(false, false, iconName);
+  }
+
   checkActor(isActor: boolean, actor: string): void {
     if (isActor) {
+      this.updateIcon(true, false, actor);
       this.selectActor(actor);
       this.deselectWorkobject(actor);
     } else {
       this.deselectActor(actor);
+      this.updateIcon(false, false, actor);
     }
   }
 
   checkWorkobject(isWorkobject: boolean, workobject: string): void {
     if (isWorkobject) {
+      this.updateIcon(false, true, workobject);
       this.selectWorkObject(workobject);
       this.deselectActor(workobject);
     } else {
       this.deselectWorkobject(workobject);
+      this.updateIcon(false, false, workobject);
     }
   }
 
@@ -124,9 +144,17 @@ export class DomainCustomizationService {
   }
 
   resetDomain(): void {
-    this.modelerService.restart(
-      this.configurationService.createDefaultConfig()
-    );
+    const defaultConfig = this.configurationService.createDefaultConfig();
+
+    this.domainConfigurationTypes.next({
+      name: defaultConfig.name,
+      actors: defaultConfig.actors.entries.map((entry: Entry) => entry.key),
+      workObjects: defaultConfig.workObjects.entries.map(
+        (entry: Entry) => entry.key
+      ),
+    } as CustomDomainCofiguration);
+    this.updateAllIconBehaviourSubjects();
+    this.modelerService.restart(defaultConfig);
   }
 
   saveDomain(): void {
@@ -164,8 +192,24 @@ export class DomainCustomizationService {
   }
 
   cancel(): void {
-    this.domainConfigurationTypes.next(this.initialConfigurationNames);
+    this.domainConfigurationTypes.next(
+      this.configurationService.getCurrentConfigurationNamesWithoutPrefix()
+    );
+    this.updateAllIconBehaviourSubjects();
     this.resetToInitialConfiguration();
+  }
+
+  private updateAllIconBehaviourSubjects() {
+    const customDomainCofiguration = this.domainConfigurationTypes.value;
+    this.allIconListItems.keysArray().forEach((iconName) => {
+      if (customDomainCofiguration.actors.includes(iconName)) {
+        this.updateIcon(true, false, iconName);
+      } else if (customDomainCofiguration.workObjects.includes(iconName)) {
+        this.updateIcon(false, true, iconName);
+      } else {
+        this.updateIcon(false, false, iconName);
+      }
+    });
   }
 
   private resetToInitialConfiguration(): void {
@@ -193,13 +237,8 @@ export class DomainCustomizationService {
     }
   }
 
-  getIconForName(iconName: string): IconListItem {
-    return {
-      name: iconName,
-      svg: this.getSrcForIcon(iconName),
-      isActor: this.checkForActor(iconName),
-      isWorkObject: this.checkForWorkObject(iconName),
-    };
+  getIconForName(iconName: string): BehaviorSubject<IconListItem> {
+    return this.allIconListItems.get(iconName);
   }
 
   checkForActor(iconName: string): boolean {
@@ -234,7 +273,16 @@ export class DomainCustomizationService {
     return this.selectedWorkobjects;
   }
 
-  getInitialConfig() {
-    return this.initialConfigurationNames;
+  private updateIcon(
+    isActor: boolean,
+    isWorkobject: boolean,
+    iconName: string
+  ) {
+    const iconBehaviourSubject = this.getIconForName(iconName);
+    const icon = iconBehaviourSubject.value;
+    icon.isActor = isActor;
+    icon.isWorkObject = isWorkobject;
+
+    iconBehaviourSubject.next(icon);
   }
 }

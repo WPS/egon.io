@@ -7,8 +7,6 @@ import { ElementRegistryService } from '../../elementRegistry-service/element-re
 import { IconDictionaryService } from '../../domain-configuration/service/icon-dictionary.service';
 import { DomainConfigurationService } from '../../domain-configuration/service/domain-configuration.service';
 import { BusinessObject } from '../../common/domain/businessObject';
-import { config } from 'rxjs';
-import { TitleService } from '../../titleAndDescription/service/title.service';
 
 @Injectable({
   providedIn: 'root',

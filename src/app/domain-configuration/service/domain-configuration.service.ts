@@ -12,6 +12,7 @@ import {
   initialDomainName,
   TitleService,
 } from '../../titleAndDescription/service/title.service';
+import { defaultConf } from '../../common/domain/iconConfiguration';
 
 @Injectable({
   providedIn: 'root',
@@ -201,16 +202,19 @@ export class DomainConfigurationService {
       this.iconDictionaryService.getWorkObjectsDictionary(),
       []
     );
+
+    const defaultActors = new Dictionary();
+    const defaultWorkobjects = new Dictionary();
+
     const canvasObjectTypes: string[] = [];
     const currentActors = new Dictionary();
     const currentWorkobjects = new Dictionary();
     const allActors = new Dictionary();
     const allWorkobjects = new Dictionary();
-    const newActors: { [key: string]: any } = {};
-    const newWorkobjects: { [key: string]: any } = {};
+    const newActors = new Dictionary();
+    const newWorkobjects = new Dictionary();
 
-    this.titleService.setDomainName(initialDomainName);
-
+    // Setup
     currentActors.addEach(currentConfig.actors);
     currentWorkobjects.addEach(currentConfig.workObjects);
 
@@ -235,17 +239,30 @@ export class DomainConfigurationService {
       }
     });
 
+    defaultConf.actors.forEach((a) => {
+      defaultActors.add(allActors.get(a), a);
+    });
+    defaultConf.workObjects.forEach((a) => {
+      defaultWorkobjects.add(allActors.get(a), a);
+    });
+
+    // Excecution
+    this.titleService.setDomainName(initialDomainName);
+
     allActors.keysArray().forEach((key) => {
       if (canvasObjectTypes.includes(key)) {
-        newActors[key] = allActors.get(key);
+        newActors.add(allActors.get(key), key);
       }
     });
 
     allWorkobjects.keysArray().forEach((key) => {
       if (canvasObjectTypes.includes(key)) {
-        newWorkobjects[key] = allWorkobjects.get(key);
+        newWorkobjects.add(allWorkobjects.get(key), key);
       }
     });
+
+    newActors.appendDict(defaultActors);
+    newWorkobjects.appendDict(defaultWorkobjects);
 
     return {
       name: initialDomainName,

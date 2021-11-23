@@ -12,7 +12,10 @@ import {
 } from 'src/app/common/domain/iconConfiguration';
 import { Configuration } from 'src/app/common/domain/configuration';
 import { BusinessObject } from 'src/app/common/domain/businessObject';
-import { DomainConfiguration } from 'src/app/common/domain/domainConfiguration';
+import {
+  CustomDomainCofiguration,
+  DomainConfiguration,
+} from 'src/app/common/domain/domainConfiguration';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +29,10 @@ export class IconDictionaryService {
   private allIconDictionary = new Dictionary();
   private iconDictionary = new Dictionary();
 
-  private customConfiguration: DomainConfiguration | undefined;
+  private customConfiguration:
+    | CustomDomainCofiguration
+    | DomainConfiguration
+    | undefined;
 
   private readonly iconConfig: IconConfiguration;
 
@@ -36,13 +42,13 @@ export class IconDictionaryService {
   }
 
   public setCusomtConfiguration(
-    customConfiguration: DomainConfiguration
+    customConfiguration: CustomDomainCofiguration | DomainConfiguration
   ): void {
     this.customConfiguration = customConfiguration;
   }
 
   public getIconConfig(
-    domainConfiguration?: DomainConfiguration
+    domainConfiguration?: CustomDomainCofiguration
   ): Configuration {
     if (domainConfiguration) {
       return this.iconConfig.createCustomConf(true, domainConfiguration);
@@ -50,7 +56,7 @@ export class IconDictionaryService {
     if (this.customConfiguration) {
       return this.iconConfig.createCustomConf(
         false,
-        this.customConfiguration as DomainConfiguration
+        this.customConfiguration as CustomDomainCofiguration
       );
     }
     return this.iconConfig.getDefaultConf();
