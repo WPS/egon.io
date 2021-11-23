@@ -7,6 +7,7 @@ import { AutosaveSettingsComponent } from '../autosave/autosave-settings-compone
 import {MatButtonModule} from "@angular/material/button";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {IconListItemComponent} from "../domain-configuration/component/icon-list-item/icon-list-item.component";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import {IconListItemComponent} from "../domain-configuration/component/icon-list
     GeneralSettingsComponent,
     LabelDictionaryComponent,
     AutosaveSettingsComponent,
-    IconListItemComponent
+    IconListItemComponent,
   ],
   exports: [
     AutosaveSettingsComponent,
@@ -22,6 +23,11 @@ import {IconListItemComponent} from "../domain-configuration/component/icon-list
     DomainConfigurationComponent,
     LabelDictionaryComponent,
   ],
-  imports: [CommonModule, MatButtonModule, MatGridListModule],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatGridListModule,
+    MatButtonToggleModule,
+  ],
 })
 export class SettingsModule {}

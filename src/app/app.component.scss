@@ -79,3 +79,10 @@
 #tab-group mat-tab-body {
   flex-grow: 1;
 }
+
+// Material Design Overrides
+.mat-button-toggle-label-content {
+  font-size: 10pt !important;
+  padding: 0 5px !important;
+  line-height: inherit !important;
+}

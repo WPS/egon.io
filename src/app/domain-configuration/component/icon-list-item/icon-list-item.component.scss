@@ -1,0 +1,28 @@
+.IconContainer {
+  width: 150px;
+  height: 150px;
+}
+
+.content {
+  display: grid;
+  grid-template-rows: auto auto;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+}
+
+.toggleButton {
+ margin: 2px;
+}
+
+.footer {
+   .mat-button-toggle-appearance-standard {
+     .mat-button-toggle-label-content {
+      font-size: 10pt !important;
+      padding: 0 5px !important;
+      line-height: inherit !important;
+    }
+  }
+}

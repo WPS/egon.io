@@ -74,13 +74,13 @@
       <div></div>
     </div>
     <div class="iconList">
-      <mat-grid-list cols="5" rowHeight="100px">
+      <mat-grid-list cols="6" rowHeight="150px">
         <mat-grid-tile
           *ngFor="let iconName of allFilteredIconNames | async"
           [colspan]="1"
           [rowspan]="1"
         >
-          <app-icon-list-item [icon]= getIconForName(iconName)></app-icon-list-item>
+          <app-icon-list-item [icon]= getIconForName(iconName) class = "iconListItem"></app-icon-list-item>
         </mat-grid-tile>
       </mat-grid-list>
     </div>
@@ -91,69 +91,3 @@
     <div class="workobjectList"></div>
   </div>
 </div>
-
-<!--
-<div class="domainConfiguration">
-  <div class="allIcons">
-    <div class="allIconsHeader">
-      <span> Icon</span>
-      <div class="divider"></div>
-      <span> Actor</span>
-      <div class="divider"></div>
-      <span> WorkObject</span>
-    </div>
-    <br />
-    <tr
-      *ngFor="let iconName of allIconNames | async; let i = index"
-      class="listEntry"
-    >
-      <div>
-        <img class="icon" [src]="getSrcForIcon(iconName)" />
-        <span>{{ iconName }}</span>
-      </div>
-      <div class="divider"></div>
-      <input
-        type="checkbox"
-        [checked]="checkForActor(iconName)"
-        name="actor"
-        (change)="checkActor($event, iconName)"
-      />
-      <div class="divider"></div>
-      <input
-        type="checkbox"
-        [checked]="checkForWorkObject(iconName)"
-        name="workObject"
-        (change)="checkWorkobject($event, iconName)"
-      />
-    </tr>
-  </div>
-  <div class="selectedIcons">
-    <div class="actorList">
-      <span class="listHeader">Actors</span>
-      <br />
-      <tr *ngFor="let actor of selectedActors | async" class="listEntry">
-        <img class="icon" [src]="getSrcForIcon(actor)" [alt]="actor" />
-        <span>{{ getNameFromType(actor) }}</span>
-        <br />
-      </tr>
-    </div>
-    <div id="line"></div>
-    <div class="workObjectList">
-      <span class="listHeader">WorkObjects</span>
-      <br />
-      <tr
-        *ngFor="let workobject of selectedWorkobjects | async"
-        class="listEntry"
-      >
-        <img
-          class="icon"
-          [src]="getSrcForIcon(workobject)"
-          [alt]="workobject"
-        />
-        <span>{{ getNameFromType(workobject) }}</span>
-        <br />
-      </tr>
-    </div>
-  </div>
-</div>
--->
