@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 
 export const initialTitle = '< title >';
 export const initialDescription = '< description >';
+export const initialDomainName = 'default';
 const version = '2.0.0-alpha';
 
 @Injectable({
@@ -12,9 +13,11 @@ const version = '2.0.0-alpha';
 export class TitleService {
   private title = initialTitle;
   private description = initialDescription;
+  private domainName = initialDomainName;
 
   private titleSubject = new BehaviorSubject<string>(this.title);
   private descriptionSubject = new BehaviorSubject<string>(this.description);
+  private domainNameSubject = new BehaviorSubject<string>(initialDomainName);
   private showDescription = new BehaviorSubject<boolean>(true);
   private commandStack: any;
 
@@ -63,6 +66,11 @@ export class TitleService {
     this.showDescription.next(show);
   }
 
+  public setDomainName(name: string): void {
+    console.log(name);
+    this.domainNameSubject.next(name);
+  }
+
   public getShowDescriptionObservable(): Observable<boolean> {
     return this.showDescription.asObservable();
   }
@@ -92,5 +100,13 @@ export class TitleService {
       newDescription,
     };
     this.commandStack.execute('story.updateHeadlineAndDescription', context);
+  }
+
+  getDomainNameAsObservable(): Observable<string> {
+    return this.domainNameSubject.asObservable();
+  }
+
+  getDomainName(): string {
+    return this.domainNameSubject.value;
   }
 }

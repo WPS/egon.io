@@ -10,6 +10,7 @@ import { sanitizeIconName } from 'src/app/common/util/sanitizer';
 import { ModelerService } from 'src/app/modeler/service/modeler.service';
 import { IconListItem } from '../domain/iconListItem';
 import { IconFilterEnum } from '../domain/iconFilterEnum';
+import { TitleService } from '../../titleAndDescription/service/title.service';
 
 @Component({
   selector: 'app-domain-configuration',
@@ -122,10 +123,9 @@ export class DomainConfigurationComponent implements OnInit {
     }
   }
 
-  changeName(name: string): void {
-    if (this.domainConfigurationTypes) {
-      this.domainConfigurationTypes.name = name;
-    }
+  changeName(name: Event): void {
+    // @ts-ignore
+    this.domainConfigurationTypes.name = name.target.value;
   }
 
   private updateActorSubject(): void {
@@ -141,15 +141,17 @@ export class DomainConfigurationComponent implements OnInit {
   }
 
   selectActor(actor: string): void {
-    // @ts-ignore
-    this.domainConfigurationTypes?.actors.push(actor);
-    this.updateActorSubject();
+    if (!this.domainConfigurationTypes?.actors.includes(actor)) {
+      this.domainConfigurationTypes?.actors.push(actor);
+      this.updateActorSubject();
+    }
   }
 
   selectWorkObject(workObject: string): void {
-    // @ts-ignore
-    this.domainConfigurationTypes?.workObjects.push(workObject);
-    this.updateWorkObjectSubject();
+    if (!this.domainConfigurationTypes?.workObjects.includes(workObject)) {
+      this.domainConfigurationTypes?.workObjects.push(workObject);
+      this.updateWorkObjectSubject();
+    }
   }
 
   deselectActor(actor: string): void {
@@ -187,7 +189,6 @@ export class DomainConfigurationComponent implements OnInit {
   saveDomain(): void {
     if (this.configurationHasChanged) {
       const domainConfiguration = this.createDomainConfiguration();
-      console.log(domainConfiguration);
       this.modelerService.restart(domainConfiguration);
     }
   }

@@ -5,6 +5,10 @@ import { IconDictionaryService } from 'src/app/domain-configuration/service/icon
 import { Dictionary, Entry } from 'src/app/common/domain/dictionary/dictionary';
 import { elementTypes } from 'src/app/common/domain/elementTypes';
 import { DomainConfiguration } from 'src/app/common/domain/domainConfiguration';
+import {
+  initialDomainName,
+  TitleService,
+} from '../../titleAndDescription/service/title.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,17 +16,14 @@ import { DomainConfiguration } from 'src/app/common/domain/domainConfiguration';
 export class DomainConfigurationService {
   constructor(
     private iconDictionaryService: IconDictionaryService,
-    private elementRegistryService: ElementRegistryService
+    private elementRegistryService: ElementRegistryService,
+    private titleService: TitleService
   ) {}
 
-  private domainName: string | undefined = '';
-
-  public getDomainName(): string {
-    return this.domainName ? this.domainName : '';
-  }
-
   public setDomainName(domainName: string): void {
-    this.domainName = domainName;
+    this.titleService.setDomainName(
+      domainName ? domainName : initialDomainName
+    );
   }
 
   public importConfiguration(config: DomainConfiguration): void {
@@ -33,9 +34,6 @@ export class DomainConfigurationService {
         const domainConfiguration = e.target.result?.toString();
         if (domainConfiguration) {
           this.loadConfiguration(JSON.parse(domainConfiguration));
-          if (!this.domainName && config.name.endsWith('.domain')) {
-            this.domainName = config.name.replace('.domain', '');
-          }
         }
       }
     };
@@ -50,7 +48,7 @@ export class DomainConfigurationService {
     }
 
     const configJSONString = JSON.stringify(domainConfiguration);
-    const filename = this.getDomainName() || 'domain';
+    const filename = this.titleService.getDomainName();
     const element = document.createElement('a');
 
     element.setAttribute(
@@ -104,8 +102,7 @@ export class DomainConfigurationService {
         actors,
         [],
         workObjects,
-        [],
-        this.getDomainName()
+        []
       );
     }
     return domainConfiguration;
@@ -113,7 +110,7 @@ export class DomainConfigurationService {
 
   public getCurrentConfigurationNamesWithPrefix(): DomainConfiguration {
     return {
-      name: this.domainName || '',
+      name: this.titleService.getDomainName() || initialDomainName,
       actors: this.iconDictionaryService.getActorsDictionary().keysArray(),
       workObjects: this.iconDictionaryService
         .getWorkObjectsDictionary()
@@ -123,7 +120,7 @@ export class DomainConfigurationService {
 
   public getCurrentConfigurationNamesWithoutPrefix(): DomainConfiguration {
     return {
-      name: this.domainName || '',
+      name: this.titleService.getDomainName() || initialDomainName,
       actors: this.iconDictionaryService
         .getActorsDictionary()
         .keysArray()
@@ -140,7 +137,6 @@ export class DomainConfigurationService {
     actorOrder: string[] | undefined,
     workObjectsDict: Dictionary,
     workobjectOrder: string[] | undefined,
-    domainName?: string,
     config?: DomainConfiguration
   ): DomainConfiguration {
     const actors = actorsDict.keysArray();
@@ -187,7 +183,7 @@ export class DomainConfigurationService {
     }
 
     return {
-      name: domainName ? domainName : this.domainName ? this.domainName : '',
+      name: this.titleService.getDomainName(),
       actors: actorsJSON,
       workObjects: workObjectJSON,
     };
@@ -200,8 +196,7 @@ export class DomainConfigurationService {
       this.iconDictionaryService.getActorsDictionary(),
       [],
       this.iconDictionaryService.getWorkObjectsDictionary(),
-      [],
-      ''
+      []
     );
     const canvasObjectTypes: string[] = [];
     const currentActors = new Dictionary();
@@ -210,6 +205,8 @@ export class DomainConfigurationService {
     const allWorkobjects = new Dictionary();
     const newActors: { [key: string]: any } = {};
     const newWorkobjects: { [key: string]: any } = {};
+
+    this.titleService.setDomainName(initialDomainName);
 
     currentActors.addEach(currentConfig.actors);
     currentWorkobjects.addEach(currentConfig.workObjects);
@@ -248,7 +245,7 @@ export class DomainConfigurationService {
     });
 
     return {
-      name: '',
+      name: initialDomainName,
       actors: newActors,
       workObjects: newWorkobjects,
     };

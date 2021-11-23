@@ -8,6 +8,7 @@ import { IconDictionaryService } from '../../domain-configuration/service/icon-d
 import { DomainConfigurationService } from '../../domain-configuration/service/domain-configuration.service';
 import { BusinessObject } from '../../common/domain/businessObject';
 import { config } from 'rxjs';
+import { TitleService } from '../../titleAndDescription/service/title.service';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +40,7 @@ export class ModelerService {
 
     if (domainConfiguration) {
       // TODO über event?
-      //this.iconDictionaryService.setCusomtConfiguration(domainConfiguration);
+      this.iconDictionaryService.setCusomtConfiguration(domainConfiguration);
       // TODO über event?
       this.domainConfigurationService.loadConfiguration(domainConfiguration);
     }

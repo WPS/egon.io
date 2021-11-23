@@ -64,7 +64,7 @@
 
 .details {
   display: grid;
-  grid-template-rows: 10% 45% 45%;
+  grid-template-rows: 10% 45% auto 45%;
   height: calc(100vh - 120px);
   grid-row-gap: 1px;
 }

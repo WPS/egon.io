@@ -4,10 +4,12 @@ import { DomainConfigurationComponent } from 'src/app/domain-configuration/compo
 import { GeneralSettingsComponent } from 'src/app/general-settings/component/general-settings.component';
 import { LabelDictionaryComponent } from 'src/app/label-dictionary/component/label-dictionary.component';
 import { AutosaveSettingsComponent } from '../autosave/autosave-settings-component/autosave-settings.component';
-import {MatButtonModule} from "@angular/material/button";
-import {MatGridListModule} from "@angular/material/grid-list";
-import {IconListItemComponent} from "../domain-configuration/component/icon-list-item/icon-list-item.component";
-import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { IconListItemComponent } from '../domain-configuration/component/icon-list-item/icon-list-item.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatListModule } from '@angular/material/list';
+import { DetailsListItemComponent } from '../domain-configuration/component/details-list-item/details-list-item.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     LabelDictionaryComponent,
     AutosaveSettingsComponent,
     IconListItemComponent,
+    DetailsListItemComponent,
   ],
   exports: [
     AutosaveSettingsComponent,
@@ -28,6 +31,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     MatButtonModule,
     MatGridListModule,
     MatButtonToggleModule,
+    MatListModule,
   ],
 })
 export class SettingsModule {}
