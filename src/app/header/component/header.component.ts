@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { ModelerService } from '../../modeler/service/modeler.service';
 import { TitleService } from '../../titleAndDescription/service/title.service';
@@ -8,19 +8,12 @@ import { TitleService } from '../../titleAndDescription/service/title.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   showDescription: Observable<boolean>;
   currentDomainName: Observable<string>;
 
-  constructor(
-    private titleService: TitleService,
-    private modelerService: ModelerService
-  ) {
+  constructor(private titleService: TitleService) {
     this.showDescription = this.titleService.getShowDescriptionObservable();
     this.currentDomainName = this.titleService.getDomainNameAsObservable();
-  }
-
-  ngOnInit(): void {
-    this.modelerService.postInit();
   }
 }

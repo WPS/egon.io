@@ -29,17 +29,17 @@ export class ModelerService {
   private encoded: string | undefined;
 
   public restart(
-    domainConfiguration?: DomainConfiguration | undefined,
+    domainConfiguration?: DomainConfiguration,
     domainStory?: BusinessObject[]
   ): void {
     const currentStory =
-      domainStory ||
-      this.elementRegistryService.createObjectListForDSTDownload();
-
+      domainStory != undefined
+        ? domainStory
+        : this.elementRegistryService
+            .createObjectListForDSTDownload()
+            .map((e) => e.businessObject);
     if (domainConfiguration) {
-      // TODO über event?
       this.iconDictionaryService.setCusomtConfiguration(domainConfiguration);
-      // TODO über event?
       this.domainConfigurationService.loadConfiguration(domainConfiguration);
     }
 

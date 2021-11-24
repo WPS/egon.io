@@ -43,6 +43,8 @@ export class RendererService {
   }
 
   public getStory(): BusinessObject[] {
-    return this.elementRegistryService.createObjectListForDSTDownload();
+    return this.elementRegistryService
+      .createObjectListForDSTDownload()
+      .map((c) => c.businessObject);
   }
 }

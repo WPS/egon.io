@@ -9,8 +9,6 @@ import { elementTypes } from './elementTypes';
 export interface CanvasObject {
   attachers: any;
   host: any;
-  label: any;
-  labels: any[];
 
   parent: CanvasObject | RootObject;
   businessObject: BusinessObject;
@@ -32,8 +30,6 @@ export interface CanvasObject {
 export const testCanvasObject: CanvasObject = {
   attachers: undefined,
   host: undefined,
-  label: undefined,
-  labels: [],
 
   parent: testRoot,
   businessObject: testBusinessObject,

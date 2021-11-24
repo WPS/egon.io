@@ -6,6 +6,7 @@ import { StoryCreatorService } from '../../storyCreator-service/story-creator.se
 // @ts-ignore
 import doT from 'dot';
 import { ReplayService } from '../../replay-service/replay.service';
+import { deepCopy } from '../../common/util/deepCopy';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +46,7 @@ export class HtmlPresentationService {
 
   // tslint:disable-next-line:align
   private static createSVGData(svg: any): string {
-    let data = JSON.parse(JSON.stringify(svg));
+    let data = deepCopy(svg);
 
     // to ensure that the title and description are inside the SVG container and do not overlapp with any elements,
     // we change the confines of the SVG viewbox

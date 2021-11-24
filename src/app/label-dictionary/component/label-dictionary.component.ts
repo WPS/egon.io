@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { LabelDictionaryService } from '../service/label-dictionary.service';
 import { WorkObjectLabelEntry } from '../domain/workObjectLabelEntry';
 import { LabelEntry } from '../domain/labelEntry';
@@ -9,7 +9,7 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './label-dictionary.component.html',
   styleUrls: ['./label-dictionary.component.scss'],
 })
-export class LabelDictionaryComponent implements OnInit {
+export class LabelDictionaryComponent implements AfterViewInit {
   workobjectEntriesSubject: BehaviorSubject<WorkObjectLabelEntry[]>;
   activityEntriesSubject: BehaviorSubject<LabelEntry[]>;
 
@@ -25,7 +25,15 @@ export class LabelDictionaryComponent implements OnInit {
     this.activityEntriesSubject = new BehaviorSubject(this.activityEntries);
   }
 
-  ngOnInit(): void {}
+  ngAfterViewInit(): void {
+    this.labelDictionaryService.createLabelDictionaries();
+    this.workobjectEntriesSubject.next(
+      this.labelDictionaryService.getWorkObjectLabels()
+    );
+    this.activityEntriesSubject.next(
+      this.labelDictionaryService.getActivityLabels()
+    );
+  }
 
   save(): void {
     this.workObjectEntries = this.workobjectEntriesSubject.value;

@@ -7,8 +7,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class SettingsService {
   private showSettings = new BehaviorSubject(false);
 
-  constructor() {}
-
   public getShowSettings(): Observable<boolean> {
     return this.showSettings.asObservable();
   }

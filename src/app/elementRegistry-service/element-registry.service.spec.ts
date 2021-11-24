@@ -69,10 +69,10 @@ describe('ElementRegistryService', () => {
       service.init(registry);
 
       const objectListForDSTDownload = service.createObjectListForDSTDownload();
-      expect(objectListForDSTDownload).toContain(testActivity.businessObject);
-      expect(objectListForDSTDownload).toContain(testActor.businessObject);
-      expect(objectListForDSTDownload).toContain(testWorkobject.businessObject);
-      expect(objectListForDSTDownload).toContain(testGroup.businessObject);
+      expect(objectListForDSTDownload).toContain(testActivity);
+      expect(objectListForDSTDownload).toContain(testActor);
+      expect(objectListForDSTDownload).toContain(testWorkobject);
+      expect(objectListForDSTDownload).toContain(testGroup);
 
       service.clear();
     });

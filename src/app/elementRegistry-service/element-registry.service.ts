@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { elementTypes } from 'src/app/common/domain/elementTypes';
-import { BusinessObject } from 'src/app/common/domain/businessObject';
 import { CanvasObject } from 'src/app/common/domain/canvasObject';
 import { GroupCanvasObject } from '../common/domain/groupCanvasObject';
 import { ActivityCanvasObject } from '../common/domain/activityCanvasObject';
@@ -24,12 +23,12 @@ export class ElementRegistryService {
     this.fullyInitialized = false;
   }
 
-  public createObjectListForDSTDownload(): BusinessObject[] {
-    if (this.registry[0]) {
+  public createObjectListForDSTDownload(): CanvasObject[] {
+    if (this.registry) {
       const allObjectsFromCanvas = this.getAllCanvasObjects();
       const groups = this.getAllGroups();
 
-      const objectList: BusinessObject[] = [];
+      const objectList: CanvasObject[] = [];
 
       this.fillListOfCanvasObjects(allObjectsFromCanvas, objectList, groups);
 
@@ -40,12 +39,12 @@ export class ElementRegistryService {
 
   private fillListOfCanvasObjects(
     allObjectsFromCanvas: CanvasObject[],
-    objectList: BusinessObject[],
+    objectList: CanvasObject[],
     groups: GroupCanvasObject[]
   ): void {
     allObjectsFromCanvas.forEach((canvasElement) => {
       if (canvasElement.type === elementTypes.ACTIVITY) {
-        objectList.push(canvasElement.businessObject);
+        objectList.push(canvasElement);
       }
 
       // ensure that Activities are always after Actors, Workobjects and Groups in .dst files
@@ -54,12 +53,12 @@ export class ElementRegistryService {
           canvasElement.businessObject.width = canvasElement.width;
           canvasElement.businessObject.height = canvasElement.height;
         }
-        objectList.unshift(canvasElement.businessObject);
+        objectList.unshift(canvasElement);
       }
     });
 
     groups.forEach((group) => {
-      objectList.push(group.businessObject);
+      objectList.push(group);
     });
   }
 
@@ -142,15 +141,18 @@ export class ElementRegistryService {
     groupObjects: GroupCanvasObject[],
     allObjects: CanvasObject[]
   ): void {
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < this.registry.length; i++) {
-      const entry = this.registry[i];
-      const type = entry.type;
-      if (type.includes(elementTypes.GROUP)) {
-        // if it is a group, memorize this for later
-        groupObjects.push(entry);
-      } else {
-        allObjects.push(entry);
+    const registryElementNames = Object.keys(this.registry);
+
+    for (let name of registryElementNames) {
+      const entry = this.registry[name].element;
+      if (entry.businessObject) {
+        const type = entry.type;
+        if (type && type.includes(elementTypes.GROUP)) {
+          // if it is a group, memorize this for later
+          groupObjects.push(entry);
+        } else if (type) {
+          allObjects.push(entry);
+        }
       }
     }
   }

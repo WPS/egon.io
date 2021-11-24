@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModelerService } from '../service/modeler.service';
 
 @Component({
   selector: 'app-modeler',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./modeler.component.scss'],
 })
 export class ModelerComponent implements OnInit {
-  constructor() {}
+  constructor(private modelerService: ModelerService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.modelerService.postInit();
+  }
 }

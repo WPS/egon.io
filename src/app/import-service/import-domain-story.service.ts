@@ -18,6 +18,7 @@ import { InfoDialogComponent } from '../dialog/component/confirm-dialog/info-dia
 import { MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../dialog/component/confirm-dialog/infoDialogData';
 import { sanitizeIconName } from '../common/util/sanitizer';
+import { deepCopy } from '../common/util/deepCopy';
 
 @Injectable({
   providedIn: 'root',
@@ -67,7 +68,7 @@ export class ImportDomainStoryService implements OnDestroy {
   }
 
   public getImportedConfiguration(): DomainConfiguration {
-    const config = JSON.parse(JSON.stringify(this.importedConfiguration));
+    const config = deepCopy(this.importedConfiguration);
     this.importedConfiguration = null;
     return config;
   }

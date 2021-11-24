@@ -4,6 +4,7 @@ import { ModelerService } from 'src/app/modeler/service/modeler.service';
 import { DomainConfiguration } from 'src/app/common/domain/domainConfiguration';
 import { Observable } from 'rxjs';
 import { AutosaveStateService } from '../../autosave/service/autosave-state.service';
+import { DomainCustomizationService } from '../../domain-configuration/service/domain-customization.service';
 
 @Component({
   selector: 'app-settings',
@@ -23,7 +24,8 @@ export class SettingsComponent implements OnInit {
   constructor(
     private settingsService: SettingsService,
     private modelerService: ModelerService,
-    private autosaveStateService: AutosaveStateService
+    private autosaveStateService: AutosaveStateService,
+    private domainCustomizationService: DomainCustomizationService
   ) {
     this.autosaveEnable = autosaveStateService.getAutosaveStateAsObservable();
   }
@@ -31,8 +33,10 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {}
 
   close(): void {
-    if (this.configurationChanged) {
-      this.modelerService.restart(this.domainConfiguration);
+    const savedConfiguration =
+      this.domainCustomizationService.getSavedConfiguration();
+    if (savedConfiguration) {
+      this.modelerService.restart(savedConfiguration);
     }
     this.settingsService.close();
   }

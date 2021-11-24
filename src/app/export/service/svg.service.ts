@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ConfigAndDST } from 'src/app/export/domain/configAndDst';
 import { createTitleAndDescriptionSVGElement } from 'src/app/export/exportUtil';
 import { ModelerService } from '../../modeler/service/modeler.service';
+import { deepCopy } from '../../common/util/deepCopy';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class SvgService {
   ): string {
     this.cacheData = this.modelerService.getEncoded();
 
-    let data = JSON.parse(JSON.stringify(this.cacheData));
+    let data = deepCopy(this.cacheData);
 
     // to ensure that the title and description are inside the SVG container and do not overlap with any elements,
     // we change the confines of the SVG viewbox

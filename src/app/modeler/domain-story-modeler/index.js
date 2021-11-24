@@ -1,5 +1,3 @@
-"use strict";
-
 import Modeler from "bpmn-js/lib/Modeler";
 import ResizeModule from "diagram-js/lib/features/resize";
 import { assign, isArray } from "min-dash";
@@ -55,6 +53,7 @@ DomainStoryModeler.prototype._addCustomShape = function (customElement) {
   }
   return canvas.addShape(customShape);
 };
+
 DomainStoryModeler.prototype._addCustomConnection = function (customElement) {
   this._customElements.push(customElement);
 
@@ -76,6 +75,7 @@ DomainStoryModeler.prototype._addCustomConnection = function (customElement) {
   return canvas.addConnection(connection);
 };
 
+//** We import BusinessObjects, not the whole Canvas Object!!!!!!!!
 DomainStoryModeler.prototype.importCustomElements = function (elements) {
   this.get("eventBus").fire("diagram.clear", {});
   this._customElements = [];

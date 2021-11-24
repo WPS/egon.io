@@ -29,7 +29,7 @@ export class LabelDictionaryService {
     const allObjects = this.elementRegistryService.getAllCanvasObjects();
 
     allObjects.forEach((element) => {
-      const name = element.businessObject.name;
+      const name = element.name;
       if (
         name &&
         name.length > 0 &&

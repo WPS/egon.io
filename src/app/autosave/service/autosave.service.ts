@@ -15,7 +15,7 @@ const maxAutosaves = 5;
   providedIn: 'root',
 })
 export class AutosaveService {
-  private readonly autosaveEnabled: Observable<boolean>;
+  private autosaveEnabled: Observable<boolean>;
   private autosaveTimer: any;
   private autosaveInterval = new BehaviorSubject(5); // in min
 

@@ -65,7 +65,8 @@
 }
 
 .hidden {
-  display: none;
+  height: 1px;
+  width: 1px;
 }
 
 #wrapper {

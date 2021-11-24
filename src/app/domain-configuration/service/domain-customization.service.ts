@@ -7,18 +7,18 @@ import { BehaviorSubject } from 'rxjs';
 import { DomainConfigurationService } from './domain-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { getNameFromType } from '../../common/util/naming';
-import { ModelerService } from '../../modeler/service/modeler.service';
 import { elementTypes } from '../../common/domain/elementTypes';
 import { IconListItem } from '../domain/iconListItem';
 import { Dictionary, Entry } from '../../common/domain/dictionary/dictionary';
 import { initialDomainName } from '../../titleAndDescription/service/title.service';
 import { ImportDomainStoryService } from '../../import-service/import-domain-story.service';
+import { deepCopy } from '../../common/util/deepCopy';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DomainCustomizationService {
-  private readonly domainConfigurationTypes: BehaviorSubject<CustomDomainCofiguration>;
+  private domainConfigurationTypes: BehaviorSubject<CustomDomainCofiguration>;
 
   private allIconListItems = new Dictionary();
 
@@ -28,9 +28,9 @@ export class DomainCustomizationService {
 
   selectedActors = new BehaviorSubject<string[]>([]);
   selectedWorkobjects = new BehaviorSubject<string[]>([]);
+  private savedDomainConfiguration: DomainConfiguration | undefined;
 
   constructor(
-    private modelerService: ModelerService,
     private configurationService: DomainConfigurationService,
     private iconDictionaryService: IconDictionaryService,
     private importService: ImportDomainStoryService
@@ -56,7 +56,7 @@ export class DomainCustomizationService {
     });
     const importedConfiguration = this.importService.getImportedConfiguration();
     if (importedConfiguration) {
-      this.importConfiguration(importedConfiguration);
+      this.importConfiguration(importedConfiguration, false);
     }
   }
 
@@ -169,14 +169,18 @@ export class DomainCustomizationService {
       ),
     } as CustomDomainCofiguration);
     this.updateAllIconBehaviourSubjects();
-    this.modelerService.restart(defaultConfig);
   }
 
   saveDomain(): void {
     if (this.configurationHasChanged) {
-      const domainConfiguration = this.createDomainConfiguration();
-      this.modelerService.restart(domainConfiguration);
+      this.savedDomainConfiguration = this.createDomainConfiguration();
     }
+  }
+
+  getSavedConfiguration(): DomainConfiguration | undefined {
+    const config = deepCopy(this.savedDomainConfiguration);
+    this.savedDomainConfiguration = undefined;
+    return config;
   }
 
   private createDomainConfiguration(): DomainConfiguration {
