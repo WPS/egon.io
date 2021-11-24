@@ -174,14 +174,10 @@ export class DomainCustomizationService {
     const workObjects: { [key: string]: any } = {};
 
     this.domainConfigurationTypes.value.actors.forEach((type: string) => {
-      actors[type] = this.iconDictionaryService.getIconSource(
-        getNameFromType(type)
-      );
+      actors[type] = this.iconDictionaryService.getIconSource(type);
     });
     this.domainConfigurationTypes.value.workObjects.forEach((type: string) => {
-      workObjects[type] = this.iconDictionaryService.getIconSource(
-        getNameFromType(type)
-      );
+      workObjects[type] = this.iconDictionaryService.getIconSource(type);
     });
 
     return {
@@ -324,5 +320,12 @@ export class DomainCustomizationService {
       this.checkWorkobject(true, iconName);
     });
     this.saveDomain();
+  }
+
+  addNewIcon(iconName: string) {
+    this.iconDictionaryService.addIconsToCss([
+      { name: iconName, src: this.getSrcForIcon(iconName) },
+    ]);
+    this.addIconToAllIconList(iconName);
   }
 }

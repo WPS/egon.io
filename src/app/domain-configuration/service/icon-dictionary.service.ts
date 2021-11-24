@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Dictionary, Entry } from 'src/app/common/domain/dictionary/dictionary';
+import { Dictionary } from 'src/app/common/domain/dictionary/dictionary';
 import { elementTypes } from 'src/app/common/domain/elementTypes';
 import { getNameFromType } from 'src/app/common/util/naming';
 import {
@@ -17,12 +17,12 @@ import {
   DomainConfiguration,
 } from 'src/app/common/domain/domainConfiguration';
 
+export const ICON_PREFIX = 'icon-domain-story-';
+
 @Injectable({
   providedIn: 'root',
 })
 export class IconDictionaryService {
-  private prefix = 'icon-domain-story-';
-
   private actorIconDictionary = new Dictionary();
   private workObjectDictionary = new Dictionary();
 
@@ -112,7 +112,7 @@ export class IconDictionaryService {
         const src = allTypes.get(name);
         if (src) {
           this.registerTypeIcon(dictionaryType, type, src);
-          this.registerIcon(type, this.prefix + name.toLowerCase());
+          this.registerIcon(type, ICON_PREFIX + name.toLowerCase());
         }
       }
     });
@@ -187,7 +187,7 @@ export class IconDictionaryService {
 
     this.actorIconDictionary.keysArray().forEach((actor) => {
       const name = getNameFromType(actor);
-      this.registerIcon(actor, 'icon-domain-story-' + name.toLowerCase());
+      this.registerIcon(actor, ICON_PREFIX + name.toLowerCase());
     });
 
     for (const workObject of workObjects) {
@@ -197,7 +197,7 @@ export class IconDictionaryService {
 
     this.workObjectDictionary.keysArray().forEach((workObject) => {
       const name = getNameFromType(workObject);
-      this.registerIcon(workObject, 'icon-domain-story-' + name.toLowerCase());
+      this.registerIcon(workObject, ICON_PREFIX + name.toLowerCase());
     });
   }
 
@@ -269,5 +269,47 @@ export class IconDictionaryService {
 
   public getIconForType(type: string): string | null {
     return this.iconDictionary.get(type);
+  }
+
+  addIconsToCss(customIcons: { name: string; src: string }[]) {
+    console.log(customIcons);
+    const sheetEl = document.getElementById('iconsCss');
+    customIcons.forEach((custom) => {
+      const iconStyle =
+        '.' +
+        ICON_PREFIX +
+        custom.name.toLowerCase() +
+        '::before{' +
+        ' content: url("data:image/svg+xml;utf8,' +
+        this.wrapSRCInSVG(custom.src) +
+        '");' +
+        ' margin: 3px;}';
+      // @ts-ignore
+      sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
+    });
+    // @ts-ignore
+
+    console.log(sheetEl.sheet);
+  }
+
+  private wrapSRCInSVG(src: string): string {
+    // @ts-ignore
+    return (
+      "<svg viewBox='0 0 22 22' width='22' height='22' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><image width='22' height='22' xlink:href='" +
+      src +
+      "'/></svg>"
+    );
+  }
+
+  addIconsToTypeDictionary(
+    actorIcons: BusinessObject[],
+    workObjectIcons: BusinessObject[]
+  ) {
+    if (!this.allInTypeDictionary(elementTypes.ACTOR, actorIcons)) {
+      this.registerElementIcons(elementTypes.ACTOR, actorIcons);
+    }
+    if (!this.allInTypeDictionary(elementTypes.WORKOBJECT, workObjectIcons)) {
+      this.registerElementIcons(elementTypes.WORKOBJECT, workObjectIcons);
+    }
   }
 }

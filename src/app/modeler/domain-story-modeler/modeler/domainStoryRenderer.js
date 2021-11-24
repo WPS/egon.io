@@ -1,28 +1,19 @@
 "use strict";
 
 import inherits from "inherits";
-
 import BaseRenderer from "diagram-js/lib/draw/BaseRenderer";
-
 import Ids from "ids";
-
 import { getAnnotationBoxHeight } from "./labeling/dsLabelEditingPreview";
-
 import { componentsToPath, createLine } from "diagram-js/lib/util/RenderUtil";
-
 import {
   append as svgAppend,
   attr as svgAttr,
   classes as svgClasses,
   create as svgCreate,
 } from "tiny-svg";
-
 import { query as domQuery } from "min-dom";
-
 import { assign, isObject } from "min-dash";
-
 import { getNumberStash } from "./labeling/dsLabelEditingProvider";
-
 import {
   addNumberToRegistry,
   generateAutomaticNumber,

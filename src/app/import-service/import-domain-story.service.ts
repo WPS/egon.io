@@ -1,7 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { DirtyFlagService } from 'src/app/dirtyFlag-service/dirty-flag.service';
 import { ElementRegistryService } from 'src/app/elementRegistry-service/element-registry.service';
-import { IconDictionaryService } from 'src/app/domain-configuration/service/icon-dictionary.service';
+import {
+  ICON_PREFIX,
+  IconDictionaryService,
+} from 'src/app/domain-configuration/service/icon-dictionary.service';
 import { Dictionary } from 'src/app/common/domain/dictionary/dictionary';
 import { elementTypes } from 'src/app/common/domain/elementTypes';
 import { TitleService } from 'src/app/titleAndDescription/service/title.service';
@@ -259,60 +262,19 @@ export class ImportDomainStoryService implements OnDestroy {
           src = workobjects.get(name);
         }
         this.iconDictionaryService.registerIcon(
-          'icon-domain-story-' + name.toLowerCase(),
+          ICON_PREFIX + name.toLowerCase(),
           element.type
         );
         customIcons.push({ name, src });
       }
     });
 
-    const sheetEl = document.getElementById('iconsCss');
+    this.iconDictionaryService.addIconsToCss(customIcons);
 
-    customIcons.forEach((custom) => {
-      const iconStyle =
-        '.icon-domain-story-' +
-        custom.name +
-        '::before{' +
-        ' display: block;' +
-        ' content: url("data:image/svg+xml;utf8,' +
-        this.wrapSRCInSVG(custom.src) +
-        '");' +
-        ' margin: 3px;}';
-      // @ts-ignore
-      sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
-    });
-
-    if (
-      !this.iconDictionaryService.allInTypeDictionary(
-        elementTypes.ACTOR,
-        actorIcons
-      )
-    ) {
-      this.iconDictionaryService.registerElementIcons(
-        elementTypes.ACTOR,
-        actorIcons
-      );
-    }
-    if (
-      !this.iconDictionaryService.allInTypeDictionary(
-        elementTypes.WORKOBJECT,
-        workObjectIcons
-      )
-    ) {
-      this.iconDictionaryService.registerElementIcons(
-        elementTypes.WORKOBJECT,
-        workObjectIcons
-      );
-    }
-  }
-
-  private wrapSRCInSVG(src: string): string {
-    // @ts-ignore
-    const svg =
-      "<svg viewBox='0 0 22 22' width='22' height='22' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><image width='22' height='22' xlink:href='" +
-      src +
-      "'/></svg>";
-    return svg;
+    this.iconDictionaryService.addIconsToTypeDictionary(
+      actorIcons,
+      workObjectIcons
+    );
   }
 
   private getElementsOfType(

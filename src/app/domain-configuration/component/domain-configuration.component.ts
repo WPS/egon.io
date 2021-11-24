@@ -131,20 +131,19 @@ export class DomainConfigurationComponent implements OnInit {
     const iconInputFile = document.getElementById('importIcon').files[0];
     const reader = new FileReader();
     const endIndex = iconInputFile.name.lastIndexOf('.');
-    const iconName = sanitizeIconName(
-      iconInputFile.name.substring(0, endIndex)
-    );
+    const name = sanitizeIconName(iconInputFile.name.substring(0, endIndex));
+    const iconName = name + '_custom';
 
     reader.onloadend = (e) => {
-      this.iconDictionaryService.addIMGToIconDictionary(
-        // @ts-ignore
-        e.target.result,
-        iconName + '_custom'
-      );
+      // @ts-ignore
+      const src: string = e.target.result;
+      this.iconDictionaryService.addIMGToIconDictionary(src, iconName);
+      this.iconDictionaryService.registerIcon(iconName, src);
 
       this.allIcons = this.iconDictionaryService.getFullDictionary();
       this.allIconNames.next(this.allIcons.keysArray());
-      // TODO add Icon to List
+
+      this.domainCustomizationService.addNewIcon(iconName);
     };
     reader.readAsDataURL(iconInputFile);
   }
