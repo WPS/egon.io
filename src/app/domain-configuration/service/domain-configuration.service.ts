@@ -30,21 +30,6 @@ export class DomainConfigurationService {
     );
   }
 
-  public importConfiguration(config: DomainConfiguration): void {
-    const reader = new FileReader();
-
-    reader.onloadend = (e) => {
-      if (e && e.target) {
-        const domainConfiguration = e.target.result?.toString();
-        if (domainConfiguration) {
-          this.loadConfiguration(JSON.parse(domainConfiguration));
-        }
-      }
-    };
-    // @ts-ignore
-    reader.readAsText(config);
-  }
-
   public exportConfiguration(): void {
     const domainConfiguration = this.getCurrentConfiguration();
     if (!domainConfiguration) {
@@ -68,11 +53,13 @@ export class DomainConfigurationService {
     document.body.removeChild(element);
   }
 
-  public loadConfiguration(customConfig: DomainConfiguration): void {
+  public loadConfiguration(
+    customConfig: DomainConfiguration,
+    updateDomainName = true
+  ): void {
     const actorDict = new Dictionary();
     const workObjectDict = new Dictionary();
 
-    const configurationName = customConfig.name;
     actorDict.addEach(customConfig.actors);
     workObjectDict.addEach(customConfig.workObjects);
 
@@ -92,7 +79,10 @@ export class DomainConfigurationService {
       workObjectKeys.map((w) => elementTypes.WORKOBJECT + w)
     );
 
-    this.setDomainName(configurationName);
+    if (updateDomainName) {
+      const configurationName = customConfig.name;
+      this.setDomainName(configurationName);
+    }
   }
 
   public getCurrentConfiguration(): DomainConfiguration | undefined {

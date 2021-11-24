@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomDomainCofiguration } from 'src/app/common/domain/domainConfiguration';
+import {
+  CustomDomainCofiguration,
+  DomainConfiguration,
+} from 'src/app/common/domain/domainConfiguration';
 import { DomainConfigurationService } from 'src/app/domain-configuration/service/domain-configuration.service';
 import { IconDictionaryService } from 'src/app/domain-configuration/service/icon-dictionary.service';
 import { BehaviorSubject } from 'rxjs';
@@ -111,11 +114,16 @@ export class DomainConfigurationComponent implements OnInit {
     const reader = new FileReader();
 
     reader.onloadend = (e) => {
-      // @ts-ignore
-      this.configurationService.importConfiguration(e.target.result);
+      const config = JSON.parse(
+        // @ts-ignore
+        e.target.result.toString()
+      ) as DomainConfiguration;
+      this.configurationService.loadConfiguration(config, false);
+
+      this.domainCustomizationService.importConfiguration(config);
     };
 
-    reader.readAsDataURL(domainInputFile);
+    reader.readAsText(domainInputFile);
   }
 
   importIcon(): void {

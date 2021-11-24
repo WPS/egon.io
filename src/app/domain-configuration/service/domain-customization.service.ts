@@ -11,6 +11,7 @@ import { ModelerService } from '../../modeler/service/modeler.service';
 import { elementTypes } from '../../common/domain/elementTypes';
 import { IconListItem } from '../domain/iconListItem';
 import { Dictionary, Entry } from '../../common/domain/dictionary/dictionary';
+import { initialDomainName } from '../../titleAndDescription/service/title.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class DomainCustomizationService {
 
   private allIconListItems = new Dictionary();
 
-  domainName = new BehaviorSubject<string>('');
+  domainName = new BehaviorSubject<string>(initialDomainName);
 
   private configurationHasChanged = false;
 
@@ -45,16 +46,20 @@ export class DomainCustomizationService {
       .getAllIconDictionary()
       .keysArray()
       .forEach((iconName) => {
-        this.allIconListItems.add(
-          new BehaviorSubject({
-            name: iconName,
-            svg: this.getSrcForIcon(iconName),
-            isActor: this.checkForActor(iconName),
-            isWorkObject: this.checkForWorkObject(iconName),
-          }),
-          iconName
-        );
+        this.addIconToAllIconList(iconName);
       });
+  }
+
+  private addIconToAllIconList(iconName: string) {
+    this.allIconListItems.add(
+      new BehaviorSubject({
+        name: iconName,
+        svg: this.getSrcForIcon(iconName),
+        isActor: this.checkForActor(iconName),
+        isWorkObject: this.checkForWorkObject(iconName),
+      }),
+      iconName
+    );
   }
 
   getDomainConfiguration() {
@@ -284,5 +289,40 @@ export class DomainCustomizationService {
     icon.isWorkObject = isWorkobject;
 
     iconBehaviourSubject.next(icon);
+  }
+
+  importConfiguration(customConfig: DomainConfiguration) {
+    const actorDict = new Dictionary();
+    const workObjectDict = new Dictionary();
+
+    actorDict.addEach(customConfig.actors);
+    workObjectDict.addEach(customConfig.workObjects);
+
+    const actorKeys = actorDict.keysArray();
+    const workObjectKeys = workObjectDict.keysArray();
+
+    actorKeys.forEach((iconName) => {
+      if (!this.allIconListItems.has(iconName)) {
+        this.addIconToAllIconList(iconName);
+      }
+      const selectedActorNames = this.selectedActors.value;
+      if (!selectedActorNames.includes(iconName)) {
+        selectedActorNames.push(iconName);
+        this.selectedActors.next(selectedActorNames);
+      }
+      this.checkActor(true, iconName);
+    });
+    workObjectKeys.forEach((iconName) => {
+      if (!this.allIconListItems.has(iconName)) {
+        this.addIconToAllIconList(iconName);
+      }
+      const selectedWorkobjectNames = this.selectedWorkobjects.value;
+      if (!selectedWorkobjectNames.includes(iconName)) {
+        selectedWorkobjectNames.push(iconName);
+        this.selectedWorkobjects.next(selectedWorkobjectNames);
+      }
+      this.checkWorkobject(true, iconName);
+    });
+    this.saveDomain();
   }
 }
