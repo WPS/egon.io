@@ -12,6 +12,7 @@ import { elementTypes } from '../../common/domain/elementTypes';
 import { IconListItem } from '../domain/iconListItem';
 import { Dictionary, Entry } from '../../common/domain/dictionary/dictionary';
 import { initialDomainName } from '../../titleAndDescription/service/title.service';
+import { ImportDomainStoryService } from '../../import-service/import-domain-story.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,8 @@ export class DomainCustomizationService {
   constructor(
     private modelerService: ModelerService,
     private configurationService: DomainConfigurationService,
-    private iconDictionaryService: IconDictionaryService
+    private iconDictionaryService: IconDictionaryService,
+    private importService: ImportDomainStoryService
   ) {
     this.domainConfigurationTypes = new BehaviorSubject(
       this.configurationService.getCurrentConfigurationNamesWithoutPrefix()
@@ -48,6 +50,14 @@ export class DomainCustomizationService {
       .forEach((iconName) => {
         this.addIconToAllIconList(iconName);
       });
+
+    importService.importedConfigurationEvent.subscribe((config) => {
+      this.importConfiguration(config);
+    });
+    const importedConfiguration = this.importService.getImportedConfiguration();
+    if (importedConfiguration) {
+      this.importConfiguration(importedConfiguration);
+    }
   }
 
   private addIconToAllIconList(iconName: string) {
@@ -287,7 +297,7 @@ export class DomainCustomizationService {
     iconBehaviourSubject.next(icon);
   }
 
-  importConfiguration(customConfig: DomainConfiguration) {
+  importConfiguration(customConfig: DomainConfiguration, saveDomain = true) {
     const actorDict = new Dictionary();
     const workObjectDict = new Dictionary();
 
@@ -319,7 +329,9 @@ export class DomainCustomizationService {
       }
       this.checkWorkobject(true, iconName);
     });
-    this.saveDomain();
+    if (saveDomain) {
+      this.saveDomain();
+    }
   }
 
   addNewIcon(iconName: string) {

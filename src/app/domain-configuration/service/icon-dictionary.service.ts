@@ -16,6 +16,7 @@ import {
   CustomDomainCofiguration,
   DomainConfiguration,
 } from 'src/app/common/domain/domainConfiguration';
+import { sanitizeIconName } from '../../common/util/sanitizer';
 
 export const ICON_PREFIX = 'icon-domain-story-';
 
@@ -112,7 +113,10 @@ export class IconDictionaryService {
         const src = allTypes.get(name);
         if (src) {
           this.registerTypeIcon(dictionaryType, type, src);
-          this.registerIcon(type, ICON_PREFIX + name.toLowerCase());
+          this.registerIcon(
+            type,
+            sanitizeIconName(ICON_PREFIX + name.toLowerCase())
+          );
         }
       }
     });
@@ -187,7 +191,10 @@ export class IconDictionaryService {
 
     this.actorIconDictionary.keysArray().forEach((actor) => {
       const name = getNameFromType(actor);
-      this.registerIcon(actor, ICON_PREFIX + name.toLowerCase());
+      this.registerIcon(
+        actor,
+        ICON_PREFIX + sanitizeIconName(name.toLowerCase())
+      );
     });
 
     for (const workObject of workObjects) {
@@ -197,7 +204,10 @@ export class IconDictionaryService {
 
     this.workObjectDictionary.keysArray().forEach((workObject) => {
       const name = getNameFromType(workObject);
-      this.registerIcon(workObject, ICON_PREFIX + name.toLowerCase());
+      this.registerIcon(
+        workObject,
+        ICON_PREFIX + sanitizeIconName(name.toLowerCase())
+      );
     });
   }
 
@@ -272,13 +282,12 @@ export class IconDictionaryService {
   }
 
   addIconsToCss(customIcons: { name: string; src: string }[]) {
-    console.log(customIcons);
     const sheetEl = document.getElementById('iconsCss');
     customIcons.forEach((custom) => {
       const iconStyle =
         '.' +
         ICON_PREFIX +
-        custom.name.toLowerCase() +
+        sanitizeIconName(custom.name.toLowerCase()) +
         '::before{' +
         ' content: url("data:image/svg+xml;utf8,' +
         this.wrapSRCInSVG(custom.src) +
@@ -287,9 +296,6 @@ export class IconDictionaryService {
       // @ts-ignore
       sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
     });
-    // @ts-ignore
-
-    console.log(sheetEl.sheet);
   }
 
   private wrapSRCInSVG(src: string): string {
@@ -311,5 +317,12 @@ export class IconDictionaryService {
     if (!this.allInTypeDictionary(elementTypes.WORKOBJECT, workObjectIcons)) {
       this.registerElementIcons(elementTypes.WORKOBJECT, workObjectIcons);
     }
+  }
+
+  addNewIconsToDictionary(customIcons: { name: string; src: string }[]) {
+    customIcons.forEach((custom) =>
+      this.addIMGToIconDictionary(custom.src, custom.name)
+    );
+    this.addIconsToCss(customIcons);
   }
 }

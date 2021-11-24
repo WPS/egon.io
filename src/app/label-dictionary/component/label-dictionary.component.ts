@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LabelDictionaryService } from '../service/label-dictionary.service';
 import { WorkObjectLabelEntry } from '../domain/workObjectLabelEntry';
 import { LabelEntry } from '../domain/labelEntry';

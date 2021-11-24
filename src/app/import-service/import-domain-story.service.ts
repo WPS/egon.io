@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, EventEmitter } from '@angular/core';
 import { DirtyFlagService } from 'src/app/dirtyFlag-service/dirty-flag.service';
 import { ElementRegistryService } from 'src/app/elementRegistry-service/element-registry.service';
 import {
@@ -9,7 +9,7 @@ import { Dictionary } from 'src/app/common/domain/dictionary/dictionary';
 import { elementTypes } from 'src/app/common/domain/elementTypes';
 import { TitleService } from 'src/app/titleAndDescription/service/title.service';
 import { ImportRepairService } from 'src/app/import-service/import-repair.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { RendererService } from 'src/app/renderer-service/renderer.service';
 import { BusinessObject } from 'src/app/common/domain/businessObject';
 import { DomainConfiguration } from 'src/app/common/domain/domainConfiguration';
@@ -17,6 +17,7 @@ import { DialogService } from '../dialog/service/dialog.service';
 import { InfoDialogComponent } from '../dialog/component/confirm-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../dialog/component/confirm-dialog/infoDialogData';
+import { sanitizeIconName } from '../common/util/sanitizer';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,10 @@ export class ImportDomainStoryService implements OnDestroy {
 
   public title = '';
   public description = '';
+  private importedConfiguration: DomainConfiguration | null = null;
+
+  private importedConfigurationEmitter =
+    new EventEmitter<DomainConfiguration>();
 
   constructor(
     private elementRegistryService: ElementRegistryService,
@@ -55,6 +60,16 @@ export class ImportDomainStoryService implements OnDestroy {
   ngOnDestroy(): void {
     this.titleSubscription.unsubscribe();
     this.descriptionSubscription.unsubscribe();
+  }
+
+  get importedConfigurationEvent(): Observable<DomainConfiguration> {
+    return this.importedConfigurationEmitter.asObservable();
+  }
+
+  public getImportedConfiguration(): DomainConfiguration {
+    const config = JSON.parse(JSON.stringify(this.importedConfiguration));
+    this.importedConfiguration = null;
+    return config;
   }
 
   public restoreTitleFromFileName(filename: string, isSVG: boolean): string {
@@ -241,40 +256,57 @@ export class ImportDomainStoryService implements OnDestroy {
 
     const customIcons: { name: string; src: string }[] = [];
 
+    const actors = new Dictionary();
+    const workobjects = new Dictionary();
+    actors.addEach(config.actors);
+    workobjects.addEach(config.workObjects);
+
+    actors.keysArray().forEach((name) => {
+      const sanitizedName = sanitizeIconName(name);
+      if (!this.iconDictionaryService.getFullDictionary().has(sanitizedName)) {
+        customIcons.push({
+          name: sanitizedName,
+          src: actors.get(name),
+        });
+      }
+    });
+
+    workobjects.keysArray().forEach((name) => {
+      const sanitizedName = sanitizeIconName(name);
+      if (!this.iconDictionaryService.getFullDictionary().has(sanitizedName)) {
+        customIcons.push({
+          name: sanitizedName,
+          src: workobjects.get(name),
+        });
+      }
+    });
+
     elements.forEach((element) => {
-      const name = element.type
-        .replace(elementTypes.ACTOR, '')
-        .replace(elementTypes.WORKOBJECT, '');
+      const name = sanitizeIconName(
+        element.type
+          .replace(elementTypes.ACTOR, '')
+          .replace(elementTypes.WORKOBJECT, '')
+      );
       if (
         (element.type.includes(elementTypes.ACTOR) ||
           element.type.includes(elementTypes.WORKOBJECT)) &&
         !this.iconDictionaryService.getFullDictionary().has(name)
       ) {
-        let src = '';
-        if (element.type.includes(elementTypes.ACTOR)) {
-          const actors = new Dictionary();
-          actors.addEach(config.actors);
-          src = actors.get(name);
-        }
-        if (element.type.includes(elementTypes.WORKOBJECT)) {
-          const workobjects = new Dictionary();
-          workobjects.addEach(config.workObjects);
-          src = workobjects.get(name);
-        }
         this.iconDictionaryService.registerIcon(
           ICON_PREFIX + name.toLowerCase(),
           element.type
         );
-        customIcons.push({ name, src });
       }
     });
 
-    this.iconDictionaryService.addIconsToCss(customIcons);
+    this.iconDictionaryService.addNewIconsToDictionary(customIcons);
 
     this.iconDictionaryService.addIconsToTypeDictionary(
       actorIcons,
       workObjectIcons
     );
+
+    this.setImportedConfigurationAndEmit(config);
   }
 
   private getElementsOfType(
@@ -304,5 +336,10 @@ export class ImportDomainStoryService implements OnDestroy {
     config.data = new InfoDialogData(title, text, true);
 
     this.dialogService.openDialog(InfoDialogComponent, config);
+  }
+
+  private setImportedConfigurationAndEmit(config: DomainConfiguration) {
+    this.importedConfiguration = config;
+    this.importedConfigurationEmitter.emit(config);
   }
 }

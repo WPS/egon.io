@@ -18,6 +18,13 @@
  margin: 2px;
 }
 
+.name{
+  word-wrap: anywhere;
+  max-height: 75px;
+  overflow: hidden;
+  padding-bottom: 2px;
+}
+
 .footer {
   display: flex;
   justify-content: center;
