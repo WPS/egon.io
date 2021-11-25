@@ -1,11 +1,10 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {DomainConfigurationComponent} from 'src/app/Presentation/DomainConfiguration/domain-configuration.component';
-import {MockService} from 'ng-mocks';
-import {ModelerService} from '../../Service/Modeler/modeler.service';
+import {MockProviders} from 'ng-mocks';
 import {DomainConfigurationService} from '../../Service/Domain-Configuration/domain-configuration.service';
 import {IconDictionaryService} from '../../Service/Domain-Configuration/icon-dictionary.service';
-import {DomSanitizer} from '@angular/platform-browser';
+import {DomainCustomizationService} from "../../Service/Domain-Configuration/domain-customization.service";
 
 describe('DomainConfigurationComponent', () => {
   let component: DomainConfigurationComponent;
@@ -15,21 +14,7 @@ describe('DomainConfigurationComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [DomainConfigurationComponent],
       providers: [
-        {
-          provide: ModelerService,
-          useValue: MockService(ModelerService),
-        },
-        {
-          provide: DomainConfigurationService,
-          useValue: MockService(DomainConfigurationService),
-        },
-        {
-          provide: IconDictionaryService,
-        },
-        {
-          provide: DomSanitizer,
-          useValue: MockService(DomSanitizer),
-        },
+        -MockProviders(DomainConfigurationService, IconDictionaryService, DomainCustomizationService)
       ],
     }).compileComponents();
   });

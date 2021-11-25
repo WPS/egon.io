@@ -2,20 +2,11 @@ import {Injectable} from '@angular/core';
 import {Dictionary} from 'src/app/Domain/Common/dictionary/dictionary';
 import {elementTypes} from 'src/app/Domain/Common/elementTypes';
 import {getNameFromType} from 'src/app/Utils/naming';
-import {
-  allIcons,
-  appendedIcons,
-} from 'src/app/Domain/Domain-Configuration/allIcons';
-import {
-  defaultConf,
-  IconConfiguration,
-} from 'src/app/Domain/Common/iconConfiguration';
+import {allIcons, appendedIcons,} from 'src/app/Domain/Domain-Configuration/allIcons';
+import {defaultConf, IconConfiguration,} from 'src/app/Domain/Common/iconConfiguration';
 import {Configuration} from 'src/app/Domain/Common/configuration';
 import {BusinessObject} from 'src/app/Domain/Common/businessObject';
-import {
-  CustomDomainCofiguration,
-  DomainConfiguration,
-} from 'src/app/Domain/Common/domainConfiguration';
+import {CustomDomainCofiguration, DomainConfiguration,} from 'src/app/Domain/Common/domainConfiguration';
 import {sanitizeIconName} from '../../Utils/sanitizer';
 
 export const ICON_PREFIX = 'icon-domain-story-';
@@ -30,10 +21,9 @@ export class IconDictionaryService {
   private allIconDictionary = new Dictionary();
   private iconDictionary = new Dictionary();
 
-  private customConfiguration:
+  private customConfiguration?:
     | CustomDomainCofiguration
-    | DomainConfiguration
-    | undefined;
+    | DomainConfiguration;
 
   private iconConfig: IconConfiguration;
 

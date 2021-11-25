@@ -1,6 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { IconListItemComponent } from './icon-list-item.component';
+import {IconListItemComponent} from './icon-list-item.component';
+import {MockProvider} from "ng-mocks";
+import {DomainCustomizationService} from "../../../Service/Domain-Configuration/domain-customization.service";
 
 describe('IconListItemComponent', () => {
   let component: IconListItemComponent;
@@ -9,6 +11,9 @@ describe('IconListItemComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [IconListItemComponent],
+      providers: [
+        MockProvider(DomainCustomizationService)
+      ],
     }).compileComponents();
   });
 

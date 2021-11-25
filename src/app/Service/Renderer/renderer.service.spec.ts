@@ -122,7 +122,7 @@ describe('RendererService', () => {
 
       expect(modelerServiceSpy.getModeler).toHaveBeenCalled();
       expect(
-        domainConfigurationServiceSpy.getNewIconConfiguration
+        domainConfigurationServiceSpy.getCurrentConfiguration
       ).toHaveBeenCalled();
       expect(modelerServiceSpy.restart).toHaveBeenCalled();
       expect(elementRegistryServiceSpy.correctInitialize).toHaveBeenCalledTimes(
@@ -138,7 +138,7 @@ describe('RendererService', () => {
 
       expect(modelerServiceSpy.getModeler).toHaveBeenCalled();
       expect(
-        domainConfigurationServiceSpy.getNewIconConfiguration
+        domainConfigurationServiceSpy.getCurrentConfiguration
       ).toHaveBeenCalledTimes(0);
       expect(modelerServiceSpy.restart).toHaveBeenCalledTimes(0);
       expect(elementRegistryServiceSpy.correctInitialize).toHaveBeenCalled();

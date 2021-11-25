@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import {IconListItem} from '../../../Domain/Domain-Configuration/iconListItem';
 
 @Component({

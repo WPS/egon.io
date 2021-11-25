@@ -2,8 +2,10 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SettingsComponent} from 'src/app/Presentation/Settings/settings.component';
 import {SettingsService} from '../../Service/Settings/settings.service';
-import {MockService} from 'ng-mocks';
+import {MockProviders} from 'ng-mocks';
 import {ModelerService} from '../../Service/Modeler/modeler.service';
+import {AutosaveStateService} from "../../Service/Autosave/autosave-state.service";
+import {DomainCustomizationService} from "../../Service/Domain-Configuration/domain-customization.service";
 
 describe('SettingsComponent', () => {
   let component: SettingsComponent;
@@ -13,14 +15,10 @@ describe('SettingsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [SettingsComponent],
       providers: [
-        {
-          provide: SettingsService,
-          useValue: MockService(SettingsService),
-        },
-        {
-          provide: ModelerService,
-          useValue: MockService(ModelerService),
-        },
+        MockProviders(SettingsService,
+          ModelerService,
+          AutosaveStateService,
+          DomainCustomizationService)
       ],
     }).compileComponents();
   });

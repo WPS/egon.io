@@ -1,8 +1,9 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {LabelDictionaryComponent} from 'src/app/Presentation/labelDictionary/label-dictionary.component';
+
 import {MockService} from 'ng-mocks';
-import {LabelDictionaryService} from '../../Service/labelDictionary/label-dictionary.service';
+import {LabelDictionaryService} from "../../../Service/LabelDictionary/label-dictionary.service";
+import {LabelDictionaryComponent} from "./label-dictionary.component";
 
 describe('LabelDictionaryComponent', () => {
   let component: LabelDictionaryComponent;
