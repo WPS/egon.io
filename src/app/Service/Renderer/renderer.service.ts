@@ -4,6 +4,7 @@ import {BusinessObject} from 'src/app/Domain/Common/businessObject';
 import {ElementRegistryService} from 'src/app/Service/ElementRegistry/element-registry.service';
 import {DirtyFlagService} from 'src/app/Service/DirtyFlag/dirty-flag.service';
 import {DomainConfiguration} from 'src/app/Domain/Common/domainConfiguration';
+import {TitleService} from "../Title/title.service";
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,8 @@ export class RendererService {
   constructor(
     private modelerService: ModelerService,
     private elementRegistryService: ElementRegistryService,
-    private dirtyFlagService: DirtyFlagService
+    private dirtyFlagService: DirtyFlagService,
+    private titleService: TitleService
   ) {
   }
 

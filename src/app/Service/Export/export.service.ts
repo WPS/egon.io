@@ -9,6 +9,7 @@ import {SvgService} from 'src/app/Service/Export/svg.service';
 import {Subscription} from 'rxjs';
 import {RendererService} from '../Renderer/renderer.service';
 import {HtmlPresentationService} from './html-presentation.service';
+import {VERSION} from "../../Domain/Common/constants";
 
 @Injectable({
   providedIn: 'root',
@@ -54,7 +55,7 @@ export class ExportService implements OnDestroy {
   }
 
   public downloadDST(): void {
-    const dst = JSON.stringify(this.rendererService.getStory());
+    const dst = JSON.stringify(this.getStoryForDownload());
     const configAndDST = this.createConfigAndDST(dst);
     const json = JSON.stringify(configAndDST);
     const element = document.createElement('a');
@@ -78,9 +79,16 @@ export class ExportService implements OnDestroy {
     document.body.removeChild(element);
   }
 
+  private getStoryForDownload(): unknown[] {
+    const story = this.rendererService.getStory() as unknown[];
+    story.push({'info': this.titleService.getDescription()})
+    story.push({'version': VERSION});
+    return story
+  }
+
   public downloadSVG(): void {
-    const objects = this.rendererService.getStory();
-    const dst = this.createConfigAndDST(JSON.stringify(objects));
+    const story = this.getStoryForDownload();
+    const dst = this.createConfigAndDST(JSON.stringify(story));
 
     const svgData = this.svgService.createSVGData(
       this.title,
