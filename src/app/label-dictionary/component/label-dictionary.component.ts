@@ -78,4 +78,22 @@ export class LabelDictionaryComponent implements AfterViewInit {
     this.workobjectEntriesSubject.next(this.workObjectEntries);
     this.activityEntriesSubject.next(this.activityEntries);
   }
+
+  updateActivityEntry($event: Event, activityEntry: LabelEntry) {
+    let entries = this.activityEntriesSubject.value;
+    entries.filter(
+      (e) => e.originalName === activityEntry.originalName
+    // @ts-ignore
+    )[0].name = $event.target.value;
+    this.activityEntriesSubject.next(entries);
+  }
+
+  updateWorkobjectEntry($event: Event, workobjectEntry: LabelEntry) {
+    let entries = this.workobjectEntriesSubject.value;
+    entries.filter(
+      (e) => e.originalName === workobjectEntry.originalName
+    // @ts-ignore
+    )[0].name = $event.target.value;
+    this.workobjectEntriesSubject.next(entries);
+  }
 }

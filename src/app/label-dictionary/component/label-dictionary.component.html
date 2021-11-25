@@ -6,8 +6,15 @@
   <div class="Workobject List">
     <span>Workobject List</span>
     <mat-list>
-      <mat-list-item *ngFor="let workobjectEntry of (workobjectEntriesSubject | async)">
-        <input class="inputText" type="text" [value]="workobjectEntry.name" />
+      <mat-list-item
+        *ngFor="let workobjectEntry of workobjectEntriesSubject | async"
+      >
+        <input
+          class="inputText"
+          type="text"
+          [value]="workobjectEntry.name"
+          (change)="updateWorkobjectEntry($event, workobjectEntry)"
+        />
       </mat-list-item>
     </mat-list>
   </div>
@@ -15,8 +22,15 @@
   <div class="ActivityList">
     <span>Activity List</span>
     <mat-list>
-      <mat-list-item *ngFor="let activityEntry of (activityEntriesSubject | async)">
-        <input class="inputText" type="text" [value]="activityEntry.name" />
+      <mat-list-item
+        *ngFor="let activityEntry of activityEntriesSubject | async"
+      >
+        <input
+          class="inputText"
+          type="text"
+          [value]="activityEntry.name"
+          (change)="updateActivityEntry($event, activityEntry)"
+        />
       </mat-list-item>
     </mat-list>
   </div>

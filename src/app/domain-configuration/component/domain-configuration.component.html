@@ -13,30 +13,28 @@
     />
   </button>
   <div></div>
-  <button mat-button
+  <button
+    mat-button
     title="reset Domain to default configuration. Preserves already used non-default Icons"
     (click)="resetDomain()"
   >
-    <span class="material-icons materialIconButton">
-      home
-    </span>
-    <span>
-    default
-    </span>
+    <span class="material-icons materialIconButton"> home </span>
+    <span> default </span>
   </button>
-  <button  mat-button title="cancel Domain configuration" (click)="cancel()">
+  <button mat-button title="cancel Domain configuration" (click)="cancel()">
     <span class="material-icons materialIconButton">restart_alt</span>
     <span>reset</span>
   </button>
   <div></div>
-  <button  mat-button title="save Domain" (click)="saveDomain()">
+  <button mat-button title="save Domain" (click)="saveDomain()">
     <span class="material-icons materialIconButton">save</span>
-    <span>save domain</span></button>
-  <button  mat-button title="export Domain" (click)="exportDomain()">
+    <span>save domain</span>
+  </button>
+  <button mat-button title="export Domain" (click)="exportDomain()">
     <span class="material-icons materialIconButton">archive</span>
     <span>export domain</span>
   </button>
-  <button mat-button  title="import Domain" (click)="startDomainImport()">
+  <button mat-button title="import Domain" (click)="startDomainImport()">
     <span class="material-icons materialIconButton">unarchive</span>
     <span>import domain</span>
     <input
@@ -54,21 +52,43 @@
 <div class="domainConfiguration">
   <div class="icons">
     <div class="searchbar">
-      <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--no-label">
+      <label
+        class="mdc-text-field mdc-text-field--outlined mdc-text-field--no-label"
+      >
         <span class="mdc-notched-outline">
           <span class="mdc-notched-outline__leading"></span>
           <span class="mdc-notched-outline__trailing"></span>
         </span>
-        <input class="mdc-text-field__input textInput" type="text" placeholder="Filter by name" (input)="filterByNameAndType($event)">
+        <input
+          class="mdc-text-field__input textInput"
+          type="text"
+          placeholder="Filter by name"
+          (input)="filterByNameAndType($event)"
+        />
       </label>
       <div></div>
-      <button mat-button [class.active]="(filter | async) === 'ICON_FILTER_ACTOR'" title ="Only Actors" (click)="filterForActors()">
+      <button
+        mat-button
+        [class.active]="(filter | async) === 'ICON_FILTER_ACTOR'"
+        title="Only Actors"
+        (click)="filterForActors()"
+      >
         <span>Only Actors</span>
       </button>
-      <button mat-button [class.active]="(filter | async) === 'ICON_FILTER_WORKOBJECT'" title ="Only Actors" (click)="filterForWorkobjects()">
+      <button
+        mat-button
+        [class.active]="(filter | async) === 'ICON_FILTER_WORKOBJECT'"
+        title="Only Actors"
+        (click)="filterForWorkobjects()"
+      >
         <span>Only Workobjects</span>
       </button>
-      <button mat-button [class.active]="(filter | async) === 'ICON_FILTER_UNASSIGNED'" title ="Only Actors" (click)="filterForUnassigned()">
+      <button
+        mat-button
+        [class.active]="(filter | async) === 'ICON_FILTER_UNASSIGNED'"
+        title="Only Actors"
+        (click)="filterForUnassigned()"
+      >
         <span>Only Unassigned</span>
       </button>
       <div></div>
@@ -82,11 +102,11 @@
         >
           <app-icon-list-item
             [iconName]="iconName"
-            class = "iconListItem"
+            class="iconListItem"
           ></app-icon-list-item>
         </mat-grid-tile>
       </mat-grid-list>
     </div>
   </div>
-    <app-domain-details></app-domain-details>
+  <app-domain-details></app-domain-details>
 </div>

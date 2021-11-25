@@ -98,12 +98,7 @@ export class LabelDictionaryService {
       if (!activityNames[i]) {
         activityNames[i] = '';
       }
-      if (
-        !(
-          activityNames[i].includes(originalActivityNames[i]) &&
-          originalActivityNames[i].includes(activityNames[i])
-        )
-      ) {
+      if (!(activityNames[i] == originalActivityNames[i])) {
         this.massNamingService.massChangeNames(
           originalActivityNames[i],
           activityNames[i],
@@ -115,12 +110,7 @@ export class LabelDictionaryService {
       if (!workObjectNames[i]) {
         workObjectNames[i] = '';
       }
-      if (
-        !(
-          workObjectNames[i].includes(originalWorkObjectNames[i]) &&
-          originalWorkObjectNames[i].includes(workObjectNames[i])
-        )
-      ) {
+      if (!(workObjectNames[i] == originalWorkObjectNames[i])) {
         this.massNamingService.massChangeNames(
           originalWorkObjectNames[i],
           workObjectNames[i],
