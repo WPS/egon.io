@@ -120,10 +120,6 @@ describe('RendererService', () => {
     it('should call correct functions - configHasChanged and not makeClean', () => {
       service.importStory([], true, domainConfig, false);
 
-      expect(modelerServiceSpy.getModeler).toHaveBeenCalled();
-      expect(
-        domainConfigurationServiceSpy.getCurrentConfiguration
-      ).toHaveBeenCalled();
       expect(modelerServiceSpy.restart).toHaveBeenCalled();
       expect(elementRegistryServiceSpy.correctInitialize).toHaveBeenCalledTimes(
         0

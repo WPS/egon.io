@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DetailsListItemComponent } from './details-list-item.component';
+import {DetailsListItemComponent} from './details-list-item.component';
 
 describe('DetailsListItemComponent', () => {
   let component: DetailsListItemComponent;
@@ -16,6 +16,7 @@ describe('DetailsListItemComponent', () => {
     fixture = TestBed.createComponent(DetailsListItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    spyOn(document, "getElementById").and.returnValue({src: ''} as unknown as HTMLElement)
   });
 
   it('should create', () => {

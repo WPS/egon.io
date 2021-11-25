@@ -15,7 +15,8 @@ describe('SettingsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [SettingsComponent],
       providers: [
-        MockProviders(SettingsService,
+        MockProviders(
+          SettingsService,
           ModelerService,
           AutosaveStateService,
           DomainCustomizationService)

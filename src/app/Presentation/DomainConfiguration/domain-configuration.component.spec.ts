@@ -14,7 +14,7 @@ describe('DomainConfigurationComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [DomainConfigurationComponent],
       providers: [
-        -MockProviders(DomainConfigurationService, IconDictionaryService, DomainCustomizationService)
+        MockProviders(DomainConfigurationService, IconDictionaryService, DomainCustomizationService)
       ],
     }).compileComponents();
   });

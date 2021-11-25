@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 
 import {TitleService,} from 'src/app/Service/Title/title.service';
-import {INITIAL_TITLE, VERSION} from "../../Domain/Common/constants";
+import {INITIAL_DESCRIPTION, INITIAL_TITLE, VERSION} from "../../Domain/Common/constants";
 
 describe('TitleService', () => {
   let service: TitleService;
@@ -20,7 +20,7 @@ describe('TitleService', () => {
   });
 
   it('should initialize title and Description', () => {
-    expect(service.getDescription()).toEqual('');
+    expect(service.getDescription()).toEqual(INITIAL_DESCRIPTION);
     expect(service.getTitle()).toEqual(INITIAL_TITLE);
   });
 
