@@ -53,7 +53,9 @@ export class ElementRegistryService {
           canvasElement.businessObject.width = canvasElement.width;
           canvasElement.businessObject.height = canvasElement.height;
         }
-        objectList.unshift(canvasElement);
+        if (!objectList.includes(canvasElement)) {
+          objectList.unshift(canvasElement);
+        }
       }
     });
 
@@ -101,7 +103,7 @@ export class ElementRegistryService {
 
     // for each memorized group, remove it from the group-array and check its children, wether they are groups or not
     // if a child is a group, memorize it in the group-array
-    // else add the child to the return-array
+    // other children should already be in the allObjects list
     let i = groupObjects.length - 1;
     while (groupObjects.length >= 1) {
       const currentGroup = groupObjects.pop();
@@ -110,8 +112,6 @@ export class ElementRegistryService {
         const type = child.type;
         if (type.includes(elementTypes.GROUP)) {
           groupObjects.push(child as GroupCanvasObject);
-        } else {
-          allObjects.push(child);
         }
       });
       i = groupObjects.length - 1;

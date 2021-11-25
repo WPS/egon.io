@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
-import { ModelerService } from 'src/app/modeler/service/modeler.service';
-import { BusinessObject } from 'src/app/common/domain/businessObject';
-import { ElementRegistryService } from 'src/app/elementRegistry-service/element-registry.service';
-import { DirtyFlagService } from 'src/app/dirtyFlag-service/dirty-flag.service';
-import { DomainConfigurationService } from 'src/app/domain-configuration/service/domain-configuration.service';
-import { DomainConfiguration } from 'src/app/common/domain/domainConfiguration';
+import {Injectable} from '@angular/core';
+import {ModelerService} from 'src/app/modeler/service/modeler.service';
+import {BusinessObject} from 'src/app/common/domain/businessObject';
+import {ElementRegistryService} from 'src/app/elementRegistry-service/element-registry.service';
+import {DirtyFlagService} from 'src/app/dirtyFlag-service/dirty-flag.service';
+import {DomainConfiguration} from 'src/app/common/domain/domainConfiguration';
 
 @Injectable({
   providedIn: 'root',

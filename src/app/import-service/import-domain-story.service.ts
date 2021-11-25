@@ -19,6 +19,7 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../dialog/component/confirm-dialog/infoDialogData';
 import { sanitizeIconName } from '../common/util/sanitizer';
 import { deepCopy } from '../common/util/deepCopy';
+import {TmplAstElement} from "@angular/compiler";
 
 @Injectable({
   providedIn: 'root',
@@ -160,23 +161,26 @@ export class ImportDomainStoryService implements OnDestroy {
         }
       }
 
-      let lastElement = elements.pop();
-      let importVersionNumber = lastElement;
-
-      if (lastElement.version) {
+      let lastElement = elements[elements.length-1];
+      if(!lastElement.id) {
         lastElement = elements.pop();
-      }
-      /* TODO
-      if (importVersionNumber.version) {
-          importVersionNumber = importVersionNumber.version as string;
-        } else {
-          importVersionNumber = '?';
+        let importVersionNumber = lastElement;
+
+        if (lastElement.version) {
+          lastElement = elements.pop();
         }
-      const versionPrefix = +importVersionNumber.substring(0, importVersionNumber.lastIndexOf('.'));
-      if (versionPrefix <= 0.5) {
-        this.openPreviousV050Dialog(versionPrefix);
-        elements = this.importRepairService.updateCustomElementsPreviousV050(elements);
-      }*/
+        /* TODO
+        if (importVersionNumber.version) {
+            importVersionNumber = importVersionNumber.version as string;
+          } else {
+            importVersionNumber = '?';
+          }
+        const versionPrefix = +importVersionNumber.substring(0, importVersionNumber.lastIndexOf('.'));
+        if (versionPrefix <= 0.5) {
+          this.openPreviousV050Dialog(versionPrefix);
+          elements = this.importRepairService.updateCustomElementsPreviousV050(elements);
+        }*/
+      }
 
       const allReferences =
         this.importRepairService.checkElementReferencesAndRepair(elements);
