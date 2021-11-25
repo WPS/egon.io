@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { SettingsService } from 'src/app/settings-module/service/settings.service';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { DialogService } from './dialog/service/dialog.service';
-import { MatDialogConfig } from '@angular/material/dialog';
-import { InfoDialogData } from './dialog/component/confirm-dialog/infoDialogData';
-import { InfoDialogComponent } from './dialog/component/confirm-dialog/info-dialog.component';
-import { TitleService } from './titleAndDescription/service/title.service';
+import {Component, OnInit} from '@angular/core';
+import {SettingsService} from 'src/app/Service/Settings/settings.service';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {DialogService} from './Service/Dialog/dialog.service';
+import {MatDialogConfig} from '@angular/material/dialog';
+import {InfoDialogData} from './Presentation/Dialog/confirm-dialog/infoDialogData';
+import {InfoDialogComponent} from './Presentation/Dialog/confirm-dialog/info-dialog.component';
+import {TitleService} from './Service/Title/title.service';
 
 @Component({
   selector: 'app-root',
