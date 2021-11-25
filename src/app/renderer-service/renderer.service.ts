@@ -13,8 +13,7 @@ export class RendererService {
   constructor(
     private modelerService: ModelerService,
     private elementRegistryService: ElementRegistryService,
-    private dirtyFlagService: DirtyFlagService,
-    private configurationService: DomainConfigurationService
+    private dirtyFlagService: DirtyFlagService
   ) {}
 
   public renderStory(domainStory: BusinessObject[]): void {

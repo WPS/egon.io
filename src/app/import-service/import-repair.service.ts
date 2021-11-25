@@ -31,7 +31,7 @@ export class ImportRepairService {
       const source = activity.source;
       const target = activity.target;
       // @ts-ignore
-      if (!objectIDs.includes(source.id) || !objectIDs.includes(target.id)) {
+      if (!objectIDs.includes(source) || !objectIDs.includes(target)) {
         complete = false;
         const activityIndex = elements.indexOf(activity);
         elements = elements.splice(activityIndex, 1);
