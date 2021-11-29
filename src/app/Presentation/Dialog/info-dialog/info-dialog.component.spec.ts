@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {InfoDialogComponent} from 'src/app/Presentation/Dialog/confirm-dialog/info-dialog.component';
+import { InfoDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/info-dialog.component';
 
 xdescribe('InfoDialogComponent', () => {
   let component: InfoDialogComponent;

@@ -1,25 +1,25 @@
-import {Injectable, OnDestroy, EventEmitter} from '@angular/core';
-import {DirtyFlagService} from 'src/app/Service/DirtyFlag/dirty-flag.service';
-import {ElementRegistryService} from 'src/app/Service/ElementRegistry/element-registry.service';
+import { Injectable, OnDestroy, EventEmitter } from '@angular/core';
+import { DirtyFlagService } from 'src/app/Service/DirtyFlag/dirty-flag.service';
+import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import {
   ICON_PREFIX,
   IconDictionaryService,
 } from 'src/app/Service/Domain-Configuration/icon-dictionary.service';
-import {Dictionary} from 'src/app/Domain/Common/dictionary/dictionary';
-import {elementTypes} from 'src/app/Domain/Common/elementTypes';
-import {TitleService} from 'src/app/Service/Title/title.service';
-import {ImportRepairService} from 'src/app/Service/Import/import-repair.service';
-import {Observable, Subscription} from 'rxjs';
-import {RendererService} from 'src/app/Service/Renderer/renderer.service';
-import {BusinessObject} from 'src/app/Domain/Common/businessObject';
-import {DomainConfiguration} from 'src/app/Domain/Common/domainConfiguration';
-import {DialogService} from '../Dialog/dialog.service';
-import {InfoDialogComponent} from '../../Presentation/Dialog/confirm-dialog/info-dialog.component';
-import {MatDialogConfig} from '@angular/material/dialog';
-import {InfoDialogData} from '../../Presentation/Dialog/confirm-dialog/infoDialogData';
-import {sanitizeIconName} from '../../Utils/sanitizer';
-import {deepCopy} from '../../Utils/deepCopy';
-import {TmplAstElement} from "@angular/compiler";
+import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
+import { elementTypes } from 'src/app/Domain/Common/elementTypes';
+import { TitleService } from 'src/app/Service/Title/title.service';
+import { ImportRepairService } from 'src/app/Service/Import/import-repair.service';
+import { Observable, Subscription } from 'rxjs';
+import { RendererService } from 'src/app/Service/Renderer/renderer.service';
+import { BusinessObject } from 'src/app/Domain/Common/businessObject';
+import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
+import { DialogService } from '../Dialog/dialog.service';
+import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { InfoDialogData } from '../../Presentation/Dialog/info-dialog/infoDialogData';
+import { sanitizeIconName } from '../../Utils/sanitizer';
+import { deepCopy } from '../../Utils/deepCopy';
+import { TmplAstElement } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root',
@@ -136,11 +136,7 @@ export class ImportDomainStoryService implements OnDestroy {
       try {
         dstAndConfig = JSON.parse(dstText);
       } catch (e) {
-        if (!isSVG) {
-          // this.showBrokenDSTDialog();
-        } else {
-          // this.showBrokenSVGDialog();
-        }
+        this.showBrokenImportDialog(isSVG ? 'SVG' : 'DST');
       }
 
       if (dstAndConfig == null) {
@@ -169,23 +165,27 @@ export class ImportDomainStoryService implements OnDestroy {
         if (lastElement.version) {
           lastElement = elements.pop();
         }
-        /* TODO
+
         if (importVersionNumber.version) {
-            importVersionNumber = importVersionNumber.version as string;
-          } else {
-            importVersionNumber = '?';
-          }
-        const versionPrefix = +importVersionNumber.substring(0, importVersionNumber.lastIndexOf('.'));
+          importVersionNumber = importVersionNumber.version as string;
+        } else {
+          importVersionNumber = '?';
+        }
+        const versionPrefix = +importVersionNumber.substring(
+          0,
+          importVersionNumber.lastIndexOf('.')
+        );
         if (versionPrefix <= 0.5) {
-          this.openPreviousV050Dialog(versionPrefix);
-          elements = this.importRepairService.updateCustomElementsPreviousV050(elements);
-        }*/
+          elements =
+            this.importRepairService.updateCustomElementsPreviousV050(elements);
+          this.showPreviousV050Dialog(versionPrefix);
+        }
       }
 
       const allReferences =
         this.importRepairService.checkElementReferencesAndRepair(elements);
       if (!allReferences) {
-        // this.alertService.showBrokenDSTDialog();
+        this.showBrokenImportDialog(isSVG ? 'SVG' : 'DST');
       }
 
       this.titleService.updateTitleAndDescription(
@@ -242,7 +242,7 @@ export class ImportDomainStoryService implements OnDestroy {
         if (
           currentWorkobjectKeys[i] !== newWorkObjectKeys[i] &&
           currentWorkobjectKeys[i] !==
-          elementTypes.WORKOBJECT + newWorkObjectKeys[i]
+            elementTypes.WORKOBJECT + newWorkObjectKeys[i]
         ) {
           changed = true;
           i = newWorkObjectKeys.length;
@@ -327,7 +327,7 @@ export class ImportDomainStoryService implements OnDestroy {
     return elementOfType;
   }
 
-  private openPreviousV050Dialog(version: number): void {
+  private showPreviousV050Dialog(version: number): void {
     const title = 'Compatability-Warning';
     const text =
       'The uploaded Domain-Story is from version ' +
@@ -346,5 +346,21 @@ export class ImportDomainStoryService implements OnDestroy {
   private setImportedConfigurationAndEmit(config: DomainConfiguration) {
     this.importedConfiguration = config;
     this.importedConfigurationEmitter.emit(config);
+  }
+
+  private showBrokenImportDialog(type: string) {
+    const config = new MatDialogConfig();
+    config.disableClose = false;
+    config.autoFocus = true;
+    config.data = new InfoDialogData(
+      'Error during import',
+      'The uploaded ' +
+        type +
+        ' is not complete, there could be elements missing from the canvas.',
+      true,
+      false
+    );
+
+    this.dialogService.openDialog(InfoDialogComponent, config);
   }
 }

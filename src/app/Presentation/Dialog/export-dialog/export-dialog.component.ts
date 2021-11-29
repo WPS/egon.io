@@ -1,6 +1,6 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {ExportDialogData} from 'src/app/Service/Dialog/export-dialog/exportDialogData';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ExportDialogData } from 'src/app/Presentation/Dialog/export-dialog/exportDialogData';
 
 @Component({
   selector: 'app-export-dialog',
@@ -22,8 +22,7 @@ export class ExportDialogComponent implements OnInit {
     this.options = data.options;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   doOption(i: number): void {
     this.options[i].fn();

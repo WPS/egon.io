@@ -1,23 +1,23 @@
-import {Component, Input} from '@angular/core';
-import {SettingsService} from '../../Service/Settings/settings.service';
-import {TitleService} from '../../Service/Title/title.service';
-import {ModelerService} from '../../Service/Modeler/modeler.service';
-import {Observable} from 'rxjs';
-import {ReplayStateService} from '../../Service/Replay/replay-state.service';
-import {DirtyFlagService} from '../../Service/DirtyFlag/dirty-flag.service';
+import { Component, Input } from '@angular/core';
+import { SettingsService } from '../../Service/Settings/settings.service';
+import { TitleService } from '../../Service/Title/title.service';
+import { ModelerService } from '../../Service/Modeler/modeler.service';
+import { Observable } from 'rxjs';
+import { ReplayStateService } from '../../Service/Replay/replay-state.service';
+import { DirtyFlagService } from '../../Service/DirtyFlag/dirty-flag.service';
 import {
   ExportDialogData,
   ExportOption,
-} from '../../Service/Dialog/export-dialog/exportDialogData';
-import {MatDialogConfig} from '@angular/material/dialog';
-import {ExportDialogComponent} from '../../Service/Dialog/export-dialog/export-dialog.component';
-import {InfoDialogData} from '../Dialog/confirm-dialog/infoDialogData';
-import {InfoDialogComponent} from '../Dialog/confirm-dialog/info-dialog.component';
-import {ElementRegistryService} from '../../Service/ElementRegistry/element-registry.service';
-import {DialogService} from '../../Service/Dialog/dialog.service';
-import {ReplayService} from '../../Service/Replay/replay.service';
-import {ExportService} from '../../Service/Export/export.service';
-import {ImportDomainStoryService} from '../../Service/Import/import-domain-story.service';
+} from '../Dialog/export-dialog/exportDialogData';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { ExportDialogComponent } from '../Dialog/export-dialog/export-dialog.component';
+import { InfoDialogData } from '../Dialog/info-dialog/infoDialogData';
+import { InfoDialogComponent } from '../Dialog/info-dialog/info-dialog.component';
+import { ElementRegistryService } from '../../Service/ElementRegistry/element-registry.service';
+import { DialogService } from '../../Service/Dialog/dialog.service';
+import { ReplayService } from '../../Service/Replay/replay.service';
+import { ExportService } from '../../Service/Export/export.service';
+import { ImportDomainStoryService } from '../../Service/Import/import-domain-story.service';
 
 @Component({
   selector: 'app-header-buttons',

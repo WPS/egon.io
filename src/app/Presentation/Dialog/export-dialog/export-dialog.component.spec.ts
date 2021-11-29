@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {ExportDialogComponent} from 'src/app/Service/Dialog/export-dialog/export-dialog.component';
+import { ExportDialogComponent } from 'src/app/Presentation/Dialog/export-dialog/export-dialog.component';
 
 xdescribe('ExportDialogComponent', () => {
   let component: ExportDialogComponent;

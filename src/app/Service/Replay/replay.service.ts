@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
-import {ReplayStateService} from 'src/app/Service/Replay/replay-state.service';
-import {DomManipulationService} from 'src/app/Service/DomManipulation/dom-manipulation.service';
-import {DialogService} from 'src/app/Service/Dialog/dialog.service';
-import {InfoDialogComponent} from 'src/app/Presentation/Dialog/confirm-dialog/info-dialog.component';
-import {MatDialogConfig} from '@angular/material/dialog';
-import {InfoDialogData} from 'src/app/Presentation/Dialog/confirm-dialog/infoDialogData';
-import {StoryStep} from 'src/app/Domain/Replay/storyStep';
-import {StoryCreatorService} from './storyCreator/story-creator.service';
-import {BehaviorSubject, Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { ReplayStateService } from 'src/app/Service/Replay/replay-state.service';
+import { DomManipulationService } from 'src/app/Service/DomManipulation/dom-manipulation.service';
+import { DialogService } from 'src/app/Service/Dialog/dialog.service';
+import { InfoDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/info-dialog.component';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { InfoDialogData } from 'src/app/Presentation/Dialog/info-dialog/infoDialogData';
+import { StoryStep } from 'src/app/Domain/Replay/storyStep';
+import { StoryCreatorService } from './storyCreator/story-creator.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -22,8 +22,7 @@ export class ReplayService {
     private domManipulationService: DomManipulationService,
     private dialogService: DialogService,
     private storyCreatorService: StoryCreatorService
-  ) {
-  }
+  ) {}
 
   public getCurrentStepNumberObservable(): Observable<number> {
     return this.currentStep.asObservable();

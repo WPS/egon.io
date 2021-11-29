@@ -1,6 +1,6 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {InfoDialogData} from 'src/app/Presentation/Dialog/confirm-dialog/infoDialogData';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { InfoDialogData } from 'src/app/Presentation/Dialog/info-dialog/infoDialogData';
 
 @Component({
   selector: 'app-info-dialog',
@@ -25,8 +25,7 @@ export class InfoDialogComponent implements OnInit {
     this.linkText = data.linkText || '';
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   close(): void {
     this.dialogRef.close();
