@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {assign} from 'min-dash';
+import { Injectable } from '@angular/core';
+import { assign } from 'min-dash';
 import DomainStoryModeler from 'src/app/Modeler';
-import {DomainConfiguration} from 'src/app/Domain/Common/domainConfiguration';
-import {InitializerService} from './initializer.service';
-import {ElementRegistryService} from '../ElementRegistry/element-registry.service';
-import {IconDictionaryService} from '../Domain-Configuration/icon-dictionary.service';
-import {DomainConfigurationService} from '../Domain-Configuration/domain-configuration.service';
-import {BusinessObject} from '../../Domain/Common/businessObject';
+import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
+import { InitializerService } from './initializer.service';
+import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
+import { IconDictionaryService } from '../Domain-Configuration/icon-dictionary.service';
+import { DomainConfigurationService } from '../Domain-Configuration/domain-configuration.service';
+import { BusinessObject } from '../../Domain/Common/businessObject';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +17,7 @@ export class ModelerService {
     private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService,
     private domainConfigurationService: DomainConfigurationService
-  ) {
-  }
+  ) {}
 
   private modeler: any;
   private canvas: any;
@@ -29,31 +28,8 @@ export class ModelerService {
 
   private encoded: string | undefined;
 
-  public restart(
-    domainConfiguration?: DomainConfiguration,
-    domainStory?: BusinessObject[]
-  ): void {
-    const currentStory =
-      domainStory != undefined
-        ? domainStory
-        : this.elementRegistryService
-          .createObjectListForDSTDownload()
-          .map((e) => e.businessObject);
-    if (domainConfiguration) {
-      this.iconDictionaryService.setCusomtConfiguration(domainConfiguration);
-      this.domainConfigurationService.loadConfiguration(domainConfiguration);
-    }
-
-    this.elementRegistryService.clear();
-    this.modeler.destroy();
-    this.postInit();
-    if (currentStory) {
-      this.getModeler().importCustomElements(currentStory);
-    }
-  }
-
   public postInit(): void {
-    this.initialiserService.initializeModelerClasses();
+    this.initialiserService.initializeDomainStoryModelerClasses();
     this.modeler = new DomainStoryModeler({
       container: '#canvas',
       keyboard: {
@@ -74,11 +50,11 @@ export class ModelerService {
     this.commandStack = this.modeler.get('commandStack');
     this.selection = this.modeler.get('selection');
 
-    this.initialiserService.initializeHandlers(
+    this.initialiserService.InitializeDomainStoryModelerEventHandlers(
       this.commandStack,
       this.eventBus
     );
-    this.initialiserService.initializeServices(
+    this.initialiserService.propagateDomainStoryModelerClassesToServices(
       this.commandStack,
       this.elementRegistry,
       this.canvas,
@@ -96,13 +72,37 @@ export class ModelerService {
 
     this.modeler.createDiagram();
     // expose bpmnjs to window for debugging purposes
-    assign(window, {bpmnjs: this.modeler});
+    assign(window, { bpmnjs: this.modeler });
 
     this.startDebounce();
   }
 
-  public startDebounce(): void {
-    this.debounce(this.saveSVG, 500);
+  public restart(
+    domainConfiguration?: DomainConfiguration,
+    domainStory?: BusinessObject[]
+  ): void {
+    const currentStory =
+      domainStory != undefined
+        ? domainStory
+        : this.elementRegistryService
+            .createObjectListForDSTDownload()
+            .map((e) => e.businessObject);
+    if (domainConfiguration) {
+      this.iconDictionaryService.setCusomtConfiguration(domainConfiguration);
+      this.domainConfigurationService.loadConfiguration(domainConfiguration);
+    }
+
+    this.elementRegistryService.clear();
+    this.modeler.destroy();
+    this.postInit();
+    if (currentStory) {
+      this.getModeler().importCustomElements(currentStory);
+    }
+  }
+
+  /** Interactions with the Modeler **/
+  public getModeler(): any {
+    return this.modeler;
   }
 
   public commandStackChanged(): void {
@@ -111,6 +111,10 @@ export class ModelerService {
       'commandStack.changed',
       this.debounce(this.saveSVG, 500)
     );
+  }
+
+  public startDebounce(): void {
+    this.debounce(this.saveSVG, 500);
   }
 
   public debounce(fn: any, timeout: number): any {
@@ -132,7 +136,6 @@ export class ModelerService {
     return this.encoded ? this.encoded : '';
   }
 
-  // SVG functions
   async saveSVG(modeler: any): Promise<any> {
     try {
       const result = await modeler.saveSVG();
@@ -140,9 +143,5 @@ export class ModelerService {
     } catch (err) {
       alert('There was an error saving the SVG.\n' + err);
     }
-  }
-
-  public getModeler(): any {
-    return this.modeler;
   }
 }

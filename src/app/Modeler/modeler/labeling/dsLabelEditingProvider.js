@@ -91,10 +91,6 @@ export default function DSLabelEditingProvider(
     createAutocomplete(element);
   });
 
-  eventBus.on("directEditing.complete", function () {
-    dictionaryService.cleanDictionaries(canvas);
-  });
-
   eventBus.on("create.end", 500, function (event) {
     let element = event.shape,
       canExecute = event.context.canExecute,

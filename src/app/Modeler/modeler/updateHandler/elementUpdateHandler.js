@@ -1,8 +1,8 @@
 "use strict";
 
-import { reworkGroupElements, undoGroupRework } from "../util";
+import { undoGroupRework } from "../util";
 
-export default function DSElementHandler(commandStack, eventBus) {
+export default function elementUpdateHandler(commandStack, eventBus) {
   commandStack.registerHandler("element.colorChange", element_colorChange);
   commandStack.registerHandler(
     "shape.removeGroupWithoutChildren",

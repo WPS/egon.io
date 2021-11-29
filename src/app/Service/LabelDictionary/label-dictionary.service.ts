@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {ElementRegistryService} from 'src/app/Service/ElementRegistry/element-registry.service';
-import {elementTypes} from 'src/app/Domain/Common/elementTypes';
-import {MassNamingService} from 'src/app/Service/LabelDictionary/mass-naming.service';
-import {IconDictionaryService} from '../Domain-Configuration/icon-dictionary.service';
-import {WorkObjectLabelEntry} from '../../Domain/LabelDictionary/workObjectLabelEntry';
-import {LabelEntry} from '../../Domain/LabelDictionary/labelEntry';
-import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import { Injectable } from '@angular/core';
+import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
+import { elementTypes } from 'src/app/Domain/Common/elementTypes';
+import { MassNamingService } from 'src/app/Service/LabelDictionary/mass-naming.service';
+import { IconDictionaryService } from '../Domain-Configuration/icon-dictionary.service';
+import { WorkObjectLabelEntry } from '../../Domain/LabelDictionary/workObjectLabelEntry';
+import { LabelEntry } from '../../Domain/LabelDictionary/labelEntry';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +19,7 @@ export class LabelDictionaryService {
     private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService,
     private domSanitizer: DomSanitizer
-  ) {
-  }
+  ) {}
 
   public createLabelDictionaries(): void {
     this.activityLabels = [];
@@ -73,12 +72,6 @@ export class LabelDictionaryService {
     this.workObjektLabels.sort((a, b) => {
       return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
     });
-  }
-
-  public cleanDictionaries(): void {
-    this.activityLabels = [];
-    this.workObjektLabels = [];
-    this.createLabelDictionaries();
   }
 
   public getActivityLabels(): LabelEntry[] {

@@ -53,9 +53,9 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
         reworkGroupElements(parent, shape);
       }
     }
-
     if (
       shape &&
+      shape.parent &&
       "type" in shape.parent &&
       shape.parent.type === elementTypes.GROUP
     ) {

@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {initializeContextPadProvider} from '../../Modeler/modeler/context-pad/domainStoryContextPadProvider';
+import { initializeContextPadProvider } from '../../Modeler/modeler/context-pad/domainStoryContextPadProvider';
 import {
   getMultipleNumberRegistry,
   getNumberRegistry,
@@ -8,37 +8,36 @@ import {
   setNumberIsMultiple,
   updateExistingNumbersAtEditing,
 } from '../../Modeler/modeler/numbering/numbering';
-import dsActivityHandlers, {
-  initializeDSActivityHandler,
-} from '../../Modeler/modeler/updateHandler/dsActivityHandlers';
-import {initializePalette} from '../../Modeler/modeler/palette/domainStoryPalette';
-import {initializeRenderer} from '../../Modeler/modeler/domainStoryRenderer';
+import { initializePalette } from '../../Modeler/modeler/palette/domainStoryPalette';
+import { initializeRenderer } from '../../Modeler/modeler/domainStoryRenderer';
 import {
   initializeLabelEditingProvider,
   toggleStashUse,
 } from '../../Modeler/modeler/labeling/dsLabelEditingProvider';
-import {initializeReplaceOptions} from '../../Modeler/modeler/change-icon/replaceOptions';
+import { initializeReplaceOptions } from '../../Modeler/modeler/change-icon/replaceOptions';
 
-import {DirtyFlagService} from '../DirtyFlag/dirty-flag.service';
-import {IconDictionaryService} from '../Domain-Configuration/icon-dictionary.service';
-import {ElementRegistryService} from '../ElementRegistry/element-registry.service';
-import {DomainConfigurationService} from '../Domain-Configuration/domain-configuration.service';
-import {LabelDictionaryService} from '../LabelDictionary/label-dictionary.service';
-import {elementTypes} from '../../Domain/Common/elementTypes';
-import {ReplayStateService} from '../Replay/replay-state.service';
-import {MatDialogConfig} from '@angular/material/dialog';
-import {ActivityDialogData} from '../../Presentation/Dialog/activity-dialog/activityDialogData';
-import {ActivityDialogComponent} from '../../Presentation/Dialog/activity-dialog/activity-dialog.component';
-import {DialogService} from '../Dialog/dialog.service';
-import dsMassRenameHandlers from '../../Modeler/modeler/updateHandler/dsMassRenameHandlers';
-import dsElementHandler from '../../Modeler/modeler/updateHandler/dsElementHandler';
-import headlineAndDescriptionUpdateHandler
-  from '../../Modeler/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
-import {TitleService} from '../Title/title.service';
-import {MassNamingService} from '../LabelDictionary/mass-naming.service';
-import {ActivityCanvasObject} from '../../Domain/Common/activityCanvasObject';
-import {HtmlPresentationService} from '../Export/html-presentation.service';
-import {positionsMatch} from '../../Utils/mathExtensions';
+import { DirtyFlagService } from '../DirtyFlag/dirty-flag.service';
+import { IconDictionaryService } from '../Domain-Configuration/icon-dictionary.service';
+import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
+import { DomainConfigurationService } from '../Domain-Configuration/domain-configuration.service';
+import { LabelDictionaryService } from '../LabelDictionary/label-dictionary.service';
+import { elementTypes } from '../../Domain/Common/elementTypes';
+import { ReplayStateService } from '../Replay/replay-state.service';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { ActivityDialogData } from '../../Presentation/Dialog/activity-dialog/activityDialogData';
+import { ActivityDialogComponent } from '../../Presentation/Dialog/activity-dialog/activity-dialog.component';
+import { DialogService } from '../Dialog/dialog.service';
+import massRenameHandler from '../../Modeler/modeler/updateHandler/massRenameHandler';
+import headlineAndDescriptionUpdateHandler from '../../Modeler/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
+import { TitleService } from '../Title/title.service';
+import { MassNamingService } from '../LabelDictionary/mass-naming.service';
+import { ActivityCanvasObject } from '../../Domain/Common/activityCanvasObject';
+import { HtmlPresentationService } from '../Export/html-presentation.service';
+import { positionsMatch } from '../../Utils/mathExtensions';
+import activityUpdateHandler, {
+  initializeActivityUpdateHandler,
+} from '../../Modeler/modeler/updateHandler/activityUpdateHandlers';
+import elementUpdateHandler from '../../Modeler/modeler/updateHandler/elementUpdateHandler';
 
 @Injectable({
   providedIn: 'root',
@@ -55,16 +54,15 @@ export class InitializerService {
     private titleService: TitleService,
     private massNamingService: MassNamingService,
     private htmlPresentationService: HtmlPresentationService
-  ) {
-  }
+  ) {}
 
-  public initializeModelerClasses(): void {
+  public initializeDomainStoryModelerClasses(): void {
     initializeContextPadProvider(
       this.dirtyFlagService,
       this.iconDictionaryService
     );
     initializeNumbering(this.elementRegistryService);
-    initializeDSActivityHandler(this.elementRegistryService);
+    initializeActivityUpdateHandler(this.elementRegistryService);
     initializePalette(this.iconDictionaryService, this.configurationService);
     initializeRenderer(
       this.iconDictionaryService,
@@ -75,7 +73,7 @@ export class InitializerService {
     initializeReplaceOptions(this.iconDictionaryService);
   }
 
-  public initializeServices(
+  public propagateDomainStoryModelerClassesToServices(
     commandStack: any,
     elementRegistry: any,
     canvas: any,
@@ -88,10 +86,13 @@ export class InitializerService {
     this.htmlPresentationService.initialize(canvas, selection, modeler);
   }
 
-  public initializeHandlers(commandStack: any, eventBus: any): void {
-    dsActivityHandlers(commandStack, eventBus);
-    dsMassRenameHandlers(commandStack, eventBus);
-    dsElementHandler(commandStack, eventBus);
+  public InitializeDomainStoryModelerEventHandlers(
+    commandStack: any,
+    eventBus: any
+  ): void {
+    activityUpdateHandler(commandStack, eventBus);
+    massRenameHandler(commandStack, eventBus);
+    elementUpdateHandler(commandStack, eventBus);
     headlineAndDescriptionUpdateHandler(commandStack, this.titleService);
   }
 
@@ -100,10 +101,12 @@ export class InitializerService {
       if (!this.replayStateService.getReplayOn()) {
         const element = e.element;
         if (element.type === elementTypes.ACTIVITY) {
+          // override the doubleClickListener on activities
           this.activityDoubleClick(element, eventBus, commandStack);
         } else {
           const renderedNumberRegistry = getNumberRegistry();
 
+          // add a DoubleClickListener to the number on activities
           if (renderedNumberRegistry.length > 1) {
             const allActivities =
               this.elementRegistryService.getActivitiesFromActors();
@@ -118,6 +121,7 @@ export class InitializerService {
               const viewport =
                 outerSVGElement.getElementsByClassName('viewport')[0];
               let transform = viewport.getAttribute('transform');
+
               let transformX = 0;
               let transformY = 0;
               let zoomX = 1;
@@ -127,6 +131,7 @@ export class InitializerService {
               const clickX = e.originalEvent.offsetX;
               const clickY = e.originalEvent.offsetY;
 
+              // adjust for zoom and panning
               if (transform) {
                 transform = transform.replace('matrix(', '');
                 transform.replace(')', '');
@@ -139,6 +144,7 @@ export class InitializerService {
 
               const width = 25 * zoomX;
               const height = 22 * zoomY;
+
               for (let i = 1; i < renderedNumberRegistry.length; i++) {
                 const currentNum = renderedNumberRegistry[i];
                 if (currentNum) {
@@ -248,8 +254,6 @@ export class InitializerService {
     const multipleNumberAllowed = activityData.multipleNumbers;
     const element = activityData.activity;
 
-    // this.labelDictionaryService.addLabelToDictionary(label);
-
     const activitiesFromActors =
       this.elementRegistryService.getActivitiesFromActors();
     const index = activitiesFromActors.indexOf(element);
@@ -292,6 +296,5 @@ export class InitializerService {
         eventBus
       );
     }
-    this.labelDictionaryService.cleanDictionaries();
   }
 }

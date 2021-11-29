@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, EventEmitter } from '@angular/core';
+import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { DirtyFlagService } from 'src/app/Service/DirtyFlag/dirty-flag.service';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import {
@@ -17,9 +17,15 @@ import { DialogService } from '../Dialog/dialog.service';
 import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../../Presentation/Dialog/info-dialog/infoDialogData';
-import { sanitizeIconName } from '../../Utils/sanitizer';
+import {
+  restoreTitleFromFileName,
+  sanitizeIconName,
+} from '../../Utils/sanitizer';
 import { deepCopy } from '../../Utils/deepCopy';
-import { TmplAstElement } from '@angular/compiler';
+import {
+  INITIAL_DESCRIPTION,
+  INITIAL_TITLE,
+} from '../../Domain/Common/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -31,8 +37,8 @@ export class ImportDomainStoryService implements OnDestroy {
   private titleInputLast = '';
   private descriptionInputLast = '';
 
-  public title = '';
-  public description = '';
+  public title = INITIAL_TITLE;
+  public description = INITIAL_DESCRIPTION;
   private importedConfiguration: DomainConfiguration | null = null;
 
   private importedConfigurationEmitter =
@@ -74,49 +80,26 @@ export class ImportDomainStoryService implements OnDestroy {
     return config;
   }
 
-  public restoreTitleFromFileName(filename: string, isSVG: boolean): string {
-    let title;
-
-    const dstRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/;
-    const svgRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst.svg/;
-
-    const dstSuffix = '.dst';
-    const svgSuffix = '.svg';
-
-    let filenameWithoutDateSuffix = filename.replace(
-      isSVG ? svgRegex : dstRegex,
-      ''
-    );
-    if (filenameWithoutDateSuffix.includes(isSVG ? svgSuffix : dstSuffix)) {
-      filenameWithoutDateSuffix = filenameWithoutDateSuffix.replace(
-        isSVG ? svgSuffix : dstSuffix,
-        ''
-      );
-    }
-    title = filenameWithoutDateSuffix;
-    return title;
-  }
-
   public importDST(input: Blob, filename: string, isSVG: boolean): void {
     this.titleInputLast = '';
     this.descriptionInputLast = '';
 
-    const reader = new FileReader();
-    const titleText = this.restoreTitleFromFileName(filename, isSVG);
+    const fileReader = new FileReader();
+    const titleText = restoreTitleFromFileName(filename, isSVG);
 
     // no need to put this on the commandStack
     this.titleService.updateTitleAndDescription(titleText, null, false);
 
-    reader.onloadend = (e) => {
+    fileReader.onloadend = (e) => {
       if (e && e.target) {
-        this.readerFunction(e.target.result, isSVG);
+        this.fileReaderFunction(e.target.result, isSVG);
       }
     };
 
-    reader.readAsText(input);
+    fileReader.readAsText(input);
   }
 
-  private readerFunction(
+  private fileReaderFunction(
     text: string | ArrayBuffer | null,
     isSVG: boolean
   ): void {
@@ -132,27 +115,24 @@ export class ImportDomainStoryService implements OnDestroy {
       let config;
       let configChanged = false;
 
-      let dstAndConfig;
-      try {
-        dstAndConfig = JSON.parse(dstText);
-      } catch (e) {
-        this.showBrokenImportDialog(isSVG ? 'SVG' : 'DST');
-      }
-
+      let dstAndConfig = this.extractDstAndConfig(dstText, isSVG);
       if (dstAndConfig == null) {
         return;
       }
 
+      // current implementation
       if (dstAndConfig.domain) {
         config = JSON.parse(dstAndConfig.domain);
-        configChanged = this.configHasChanged(config);
+        configChanged = this.checkConfigForChanges(config);
         elements = JSON.parse(dstAndConfig.dst);
       } else {
+        // legacy implementation
         if (dstAndConfig.config) {
           config = JSON.parse(dstAndConfig.config);
-          configChanged = this.configHasChanged(config);
+          configChanged = this.checkConfigForChanges(config);
           elements = JSON.parse(dstAndConfig.dst);
         } else {
+          // implementation prior to configuration
           elements = JSON.parse(dstText);
         }
       }
@@ -162,7 +142,9 @@ export class ImportDomainStoryService implements OnDestroy {
         lastElement = elements.pop();
         let importVersionNumber = lastElement;
 
-        if (lastElement.version) {
+        // if the last element has the importedVersionNumber has the tag version,
+        // then there exists another meta tag 'info' for the description
+        if (importVersionNumber.version) {
           lastElement = elements.pop();
         }
 
@@ -170,21 +152,16 @@ export class ImportDomainStoryService implements OnDestroy {
           importVersionNumber = importVersionNumber.version as string;
         } else {
           importVersionNumber = '?';
+          // TODO show error for unreadable version number
         }
-        const versionPrefix = +importVersionNumber.substring(
-          0,
-          importVersionNumber.lastIndexOf('.')
-        );
-        if (versionPrefix <= 0.5) {
-          elements =
-            this.importRepairService.updateCustomElementsPreviousV050(elements);
-          this.showPreviousV050Dialog(versionPrefix);
-        }
+        elements = this.handleVersionNumber(importVersionNumber, elements);
       }
 
-      const allReferences =
-        this.importRepairService.checkElementReferencesAndRepair(elements);
-      if (!allReferences) {
+      if (
+        !this.importRepairService.checkForUnreferencedElementsInActivitiesAndRepair(
+          elements
+        )
+      ) {
         this.showBrokenImportDialog(isSVG ? 'SVG' : 'DST');
       }
 
@@ -201,6 +178,32 @@ export class ImportDomainStoryService implements OnDestroy {
     }
   }
 
+  private handleVersionNumber(
+    importVersionNumber: string,
+    elements: BusinessObject[]
+  ) {
+    const versionPrefix = +importVersionNumber.substring(
+      0,
+      importVersionNumber.lastIndexOf('.')
+    );
+    if (versionPrefix <= 0.5) {
+      elements =
+        this.importRepairService.updateCustomElementsPreviousV050(elements);
+      this.showPreviousV050Dialog(versionPrefix);
+    }
+    return elements;
+  }
+
+  private extractDstAndConfig(dstText: string, isSVG: boolean) {
+    let dstAndConfig = null;
+    try {
+      dstAndConfig = JSON.parse(dstText);
+    } catch (e) {
+      this.showBrokenImportDialog(isSVG ? 'SVG' : 'DST');
+    }
+    return dstAndConfig;
+  }
+
   private removeXMLComments(xmlText: string): string {
     xmlText = xmlText.substring(xmlText.indexOf('<DST>'));
     while (xmlText.includes('<!--') || xmlText.includes('-->')) {
@@ -211,7 +214,9 @@ export class ImportDomainStoryService implements OnDestroy {
     return xmlText;
   }
 
-  public configHasChanged(domainConfiguration: DomainConfiguration): boolean {
+  public checkConfigForChanges(
+    domainConfiguration: DomainConfiguration
+  ): boolean {
     const newActorsDict = new Dictionary();
     const newWorkObjectsDict = new Dictionary();
 
@@ -229,27 +234,33 @@ export class ImportDomainStoryService implements OnDestroy {
     let changed = false;
 
     for (let i = 0; i < newActorKeys.length; i++) {
-      if (
-        currentActorKeys[i] !== newActorKeys[i] &&
-        currentActorKeys[i] !== elementTypes.ACTOR + newActorKeys[i]
-      ) {
-        changed = true;
+      changed = this.checkKeysForChange(currentActorKeys[i], newActorKeys[i]);
+      if (changed) {
         i = newActorKeys.length;
       }
     }
     if (!changed) {
       for (let i = 0; i < newWorkObjectKeys.length; i++) {
-        if (
-          currentWorkobjectKeys[i] !== newWorkObjectKeys[i] &&
-          currentWorkobjectKeys[i] !==
-            elementTypes.WORKOBJECT + newWorkObjectKeys[i]
-        ) {
-          changed = true;
-          i = newWorkObjectKeys.length;
+        changed = this.checkKeysForChange(
+          currentWorkobjectKeys[i],
+          newWorkObjectKeys[i]
+        );
+        if (changed) {
+          i = newActorKeys.length;
         }
       }
     }
     return changed;
+  }
+
+  private checkKeysForChange(
+    currentActorKey: string,
+    newActorKey: string
+  ): boolean {
+    return !(
+      currentActorKey !== newActorKey &&
+      currentActorKey !== elementTypes.ACTOR + newActorKey
+    );
   }
 
   private updateIconRegistries(
@@ -266,25 +277,8 @@ export class ImportDomainStoryService implements OnDestroy {
     actors.addEach(config.actors);
     workobjects.addEach(config.workObjects);
 
-    actors.keysArray().forEach((name) => {
-      const sanitizedName = sanitizeIconName(name);
-      if (!this.iconDictionaryService.getFullDictionary().has(sanitizedName)) {
-        customIcons.push({
-          name: sanitizedName,
-          src: actors.get(name),
-        });
-      }
-    });
-
-    workobjects.keysArray().forEach((name) => {
-      const sanitizedName = sanitizeIconName(name);
-      if (!this.iconDictionaryService.getFullDictionary().has(sanitizedName)) {
-        customIcons.push({
-          name: sanitizedName,
-          src: workobjects.get(name),
-        });
-      }
-    });
+    this.addIconsToToCustomIcons(actors, customIcons);
+    this.addIconsToToCustomIcons(workobjects, customIcons);
 
     elements.forEach((element) => {
       const name = sanitizeIconName(
@@ -312,6 +306,21 @@ export class ImportDomainStoryService implements OnDestroy {
     );
 
     this.setImportedConfigurationAndEmit(config);
+  }
+
+  private addIconsToToCustomIcons(
+    elementDictionary: Dictionary,
+    customIcons: { name: string; src: string }[]
+  ) {
+    elementDictionary.keysArray().forEach((name) => {
+      const sanitizedName = sanitizeIconName(name);
+      if (!this.iconDictionaryService.getFullDictionary().has(sanitizedName)) {
+        customIcons.push({
+          name: sanitizedName,
+          src: elementDictionary.get(name),
+        });
+      }
+    });
   }
 
   private getElementsOfType(

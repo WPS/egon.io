@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {elementTypes} from 'src/app/Domain/Common/elementTypes';
-import {CanvasObject} from 'src/app/Domain/Common/canvasObject';
-import {GroupCanvasObject} from '../../Domain/Common/groupCanvasObject';
-import {ActivityCanvasObject} from '../../Domain/Common/activityCanvasObject';
+import { elementTypes } from 'src/app/Domain/Common/elementTypes';
+import { CanvasObject } from 'src/app/Domain/Common/canvasObject';
+import { GroupCanvasObject } from '../../Domain/Common/groupCanvasObject';
+import { ActivityCanvasObject } from '../../Domain/Common/activityCanvasObject';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +12,7 @@ export class ElementRegistryService {
   private registry: any;
   private fullyInitialized = false;
 
-  constructor() {
-  }
+  constructor() {}
 
   public init(registry: any): void {
     this.registry = registry._elements;
@@ -65,6 +64,10 @@ export class ElementRegistryService {
     });
   }
 
+  /**
+   * Initially the registry has only the root-Element.
+   * Once the canvas has bees initialized, we adjust the reference to point to the elements on the canvas for convenience
+   */
   public correctInitialize(): void {
     if (!this.fullyInitialized) {
       if (this.registry.__implicitroot) {
@@ -102,7 +105,7 @@ export class ElementRegistryService {
 
     this.checkChildForGroup(groupObjects, allObjects);
 
-    // for each memorized group, remove it from the group-array and check its children, wether they are groups or not
+    // for each memorized group, remove it from the group-array and check its children, whether they are groups or not
     // if a child is a group, memorize it in the group-array
     // other children should already be in the allObjects list
     let i = groupObjects.length - 1;
@@ -164,8 +167,7 @@ export class ElementRegistryService {
     const activities = this.getAllActivities();
 
     activities.forEach((activity: ActivityCanvasObject) => {
-      // @ts-ignore
-      if (activity.source.type.includes(elementTypes.ACTOR)) {
+      if (activity.source?.type.includes(elementTypes.ACTOR)) {
         activitiesFromActors.push(activity);
       }
     });

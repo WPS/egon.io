@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {sanitizeForDesktop} from '../../Utils/sanitizer';
-import {ElementRegistryService} from '../ElementRegistry/element-registry.service';
-import {DialogService} from '../Dialog/dialog.service';
-import {StoryCreatorService} from '../Replay/storyCreator/story-creator.service';
+import { Injectable } from '@angular/core';
+import { sanitizeForDesktop } from '../../Utils/sanitizer';
+import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
+import { DialogService } from '../Dialog/dialog.service';
+import { StoryCreatorService } from '../Replay/storyCreator/story-creator.service';
 // @ts-ignore
 import doT from 'dot';
-import {ReplayService} from '../Replay/replay.service';
-import {deepCopy} from '../../Utils/deepCopy';
+import { ReplayService } from '../Replay/replay.service';
+import { deepCopy } from '../../Utils/deepCopy';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +20,7 @@ export class HtmlPresentationService {
     private dialogService: DialogService,
     private storyCreatorService: StoryCreatorService,
     private replayService: ReplayService
-  ) {
-  }
+  ) {}
 
   private multiplexSecret: any;
   private multiplexId: any;
@@ -31,6 +30,13 @@ export class HtmlPresentationService {
   private modeler: any;
 
   private initialized = false;
+
+  public initialize(canvas: any, selection: any, modeler: any): void {
+    this.canvas = canvas;
+    this.selection = selection;
+    this.modeler = modeler;
+    this.initialized = true;
+  }
 
   private static viewBoxCoordinates(svg: any): any {
     const ViewBoxCoordinate =
@@ -49,7 +55,7 @@ export class HtmlPresentationService {
   private static createSVGData(svg: any): string {
     let data = deepCopy(svg);
 
-    // to ensure that the title and description are inside the SVG container and do not overlapp with any elements,
+    // to ensure that the title and description are inside the SVG container and do not overlap with any elements,
     // we change the confines of the SVG viewbox
     let viewBoxIndex = data.indexOf('width="');
 
@@ -59,7 +65,6 @@ export class HtmlPresentationService {
     let width: number;
     let yUp: number;
     let height: number;
-    let bounds: string;
     const splitViewBox = viewBox.split(/\s/);
 
     xLeft = +splitViewBox[0];
@@ -71,7 +76,23 @@ export class HtmlPresentationService {
       width += 300;
     }
 
-    bounds =
+    const dataStart = data.substring(0, viewBoxIndex);
+    viewBoxIndex = data.indexOf('" version');
+    const dataEnd = data.substring(viewBoxIndex);
+    dataEnd.substring(viewBoxIndex);
+
+    data = dataStart + this.createBounds(xLeft, yUp, width, height) + dataEnd;
+
+    return encodeURIComponent(data);
+  }
+
+  private static createBounds(
+    xLeft: number,
+    yUp: number,
+    width: number,
+    height: number
+  ) {
+    return (
       'width="100%"' +
       ' height="auto" ' +
       ' preserveAspectRatio="xMidYMid meet"' +
@@ -82,23 +103,8 @@ export class HtmlPresentationService {
       ' ' +
       (xLeft + width) +
       ' ' +
-      (yUp + height);
-
-    const dataStart = data.substring(0, viewBoxIndex);
-    viewBoxIndex = data.indexOf('" version');
-    const dataEnd = data.substring(viewBoxIndex);
-    dataEnd.substring(viewBoxIndex);
-
-    data = dataStart + bounds + dataEnd;
-
-    return encodeURIComponent(data);
-  }
-
-  public initialize(canvas: any, selection: any, modeler: any): void {
-    this.canvas = canvas;
-    this.selection = selection;
-    this.modeler = modeler;
-    this.initialized = true;
+      (yUp + height)
+    );
   }
 
   public async downloadHTMLPresentation(filename: string): Promise<void> {
@@ -107,7 +113,10 @@ export class HtmlPresentationService {
     this.replayService.startReplay();
     try {
       const result = await this.modeler.saveSVG({});
-      this.fixSvgDefinitions(result, this.replayService.getCurrentStepNumber());
+      this.fixActivityMarkersForEachStep(
+        result,
+        this.replayService.getCurrentStepNumber()
+      );
       svgData.push({
         content: HtmlPresentationService.createSVGData(result.svg),
         transition: 'slide',
@@ -118,11 +127,11 @@ export class HtmlPresentationService {
     while (
       this.replayService.getCurrentStepNumber() <
       this.replayService.getMaxStepNumber()
-      ) {
+    ) {
       this.replayService.nextStep();
       try {
         const result = await this.modeler.saveSVG({});
-        this.fixSvgDefinitions(
+        this.fixActivityMarkersForEachStep(
           result,
           this.replayService.getCurrentStepNumber()
         );
@@ -162,7 +171,14 @@ export class HtmlPresentationService {
     document.body.removeChild(element);
   }
 
-  private fixSvgDefinitions(
+  /**
+   * There is a Problem in the HTML-Presentation, where the Arrow-Heads of the Activities are not shown after the 4th Step
+   * This is due to the fact, that the marker for the Arrow-Head is defined in each Step with the same ID
+   * When the 5th step is reached, the first marker is set to display none, which propagates to all other markers
+   *
+   * To fix this, for each Step the marker and its references are renamed
+   */
+  private fixActivityMarkersForEachStep(
     result: { svg: string },
     sectionIndex: number
   ): void {

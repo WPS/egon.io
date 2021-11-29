@@ -1,12 +1,11 @@
-import {Injectable} from '@angular/core';
-import {createTitleAndDescriptionSVGElement} from 'src/app/Service/Export/exportUtil';
-import {BrowserSpecs} from 'src/app/Domain/Export/browserSpecs';
-import {Box} from 'src/app/Domain/Export/box';
+import { Injectable } from '@angular/core';
+import { createTitleAndDescriptionSVGElement } from 'src/app/Service/Export/exportUtil';
+import { BrowserSpecs } from 'src/app/Domain/Export/browserSpecs';
+import { Box } from 'src/app/Domain/Export/box';
 
 @Injectable({
   providedIn: 'root',
 })
-// tslint:disable:radix
 export class PngService {
   private width: number;
   private height: number;
@@ -25,12 +24,12 @@ export class PngService {
       ) || [];
     if (/trident/i.test(M[1])) {
       tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
-      return {name: 'IE', version: tem[1] || ''};
+      return { name: 'IE', version: tem[1] || '' };
     }
     if (M[1] === 'Chrome') {
       tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
       if (tem != null) {
-        return {name: tem[1].replace('OPR', 'Opera'), version: tem[2]};
+        return { name: tem[1].replace('OPR', 'Opera'), version: tem[2] };
       }
     }
     M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
@@ -38,9 +37,10 @@ export class PngService {
     if ((tem = ua.match(/version\/(\d+)/i)) != null) {
       M.splice(1, 1, tem[1]);
     }
-    return {name: M[0], version: M[1]};
+    return { name: M[0], version: M[1] };
   }
 
+  /** Needed for an SVG-Fix in CHrome where the # needs to be replaced by %23 **/
   public URIHashtagFix(svg: string): string {
     let fix = false;
 
@@ -53,7 +53,6 @@ export class PngService {
     if (name.includes('Chrome')) {
       if (version >= 72) {
         fix = true;
-
         // https://www.chromestatus.com/features/5656049583390720
       }
     } else if (name.includes('Firefox')) {
@@ -82,10 +81,10 @@ export class PngService {
       const element = elements[i];
       const sub = element.children;
 
-      let elXLeft;
-      let elXRight;
-      let elYUp;
-      let elYDown;
+      let elXLeft: number;
+      let elXRight: number;
+      let elYUp: number;
+      let elYDown: number;
 
       const transform = sub[0].getAttribute('transform');
       if (transform) {
@@ -163,7 +162,7 @@ export class PngService {
 
     this.calculateWidthAndHeight(box);
 
-    const {insertText, extraHeight} = createTitleAndDescriptionSVGElement(
+    const { insertText, extraHeight } = createTitleAndDescriptionSVGElement(
       title,
       description,
       box.xLeft,
@@ -172,23 +171,11 @@ export class PngService {
     );
     this.height += extraHeight;
 
-    const bounds =
-      'width="' +
-      this.width +
-      '" height="' +
-      this.height +
-      '" viewBox=" ' +
-      box.xLeft +
-      ' ' +
-      (box.yUp - extraHeight) +
-      ' ' +
-      this.width +
-      ' ' +
-      this.height +
-      '" ';
+    const bounds = this.createBounds(box, extraHeight);
 
     const dataStart = svg.substring(0, viewBoxIndex);
     viewBoxIndex = svg.indexOf('style="');
+
     const dataEnd = svg.substring(viewBoxIndex);
     dataEnd.substring(viewBoxIndex);
 
@@ -204,6 +191,28 @@ export class PngService {
     return svg;
   }
 
+  private createBounds(box: Box, extraHeight: number) {
+    return (
+      'width="' +
+      this.width +
+      '" height="' +
+      this.height +
+      '" viewBox=" ' +
+      box.xLeft +
+      ' ' +
+      (box.yUp - extraHeight) +
+      ' ' +
+      this.width +
+      ' ' +
+      this.height +
+      '" '
+    );
+  }
+
+  /**
+   * Calculate the Width and Height of the Bounding Box for the PNG so no Parts are cut off
+   * TODO Longer Iconnames can still be cut of, when the Element is the lowest Object on the canvas
+   */
   private calculateWidthAndHeight(box: Box): [number, number] {
     if (box.xLeft < 0) {
       if (box.xRight < 0) {

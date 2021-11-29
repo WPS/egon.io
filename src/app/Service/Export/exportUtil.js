@@ -1,11 +1,13 @@
+import {
+  SVG_LINK,
+  TEXTSPAN_DESCRIPTION_HEIGHT,
+  TEXTSPAN_TITLE_HEIGHT,
+  X_OFFSET_UTIL,
+} from "../../Domain/Export/exportConstants";
+
 let extraHeight = 0;
-const titleHeight = 30,
-  descriptionHeight = 15;
-const xOffset = "8";
-const NS = "http://www.w3.org/2000/svg";
 
-// Has to be js File so we can access te correct non-standard HTML-Properties
-
+// Has to be js File so we can access te correct non-standard HTML-Properties without excessive usage of ts-ignore
 export function createTitleAndDescriptionSVGElement(
   title,
   description,
@@ -36,7 +38,7 @@ function createTitle(text, width) {
   let ctx = tempCanvas.getContext("2d");
   ctx.font = "30px Arial";
 
-  return createTextSpans(text, width, ctx, 10, titleHeight, 30);
+  return createTextSpans(text, width, ctx, 10, TEXTSPAN_TITLE_HEIGHT, 30);
 }
 
 function createDescription(text, width) {
@@ -53,7 +55,7 @@ function createDescription(text, width) {
       width,
       ctx,
       0,
-      descriptionHeight,
+      TEXTSPAN_DESCRIPTION_HEIGHT,
       12
     );
   }
@@ -69,10 +71,10 @@ function createTextSpans(text, width, ctx, yOffset, heightOffset, fontSize) {
     fontSize +
     '; font-weight: normal; fill: rgb(0, 0, 0);">';
 
-  let textSpan = document.createElementNS(NS, "tspan");
+  let textSpan = document.createElementNS(SVG_LINK, "tspan");
   let textNode = document.createTextNode(words[0]);
 
-  textSpan.setAttribute("x", xOffset);
+  textSpan.setAttribute("x", X_OFFSET_UTIL);
   textSpan.setAttribute("y", yOffset + extraHeight);
   textSpan.setAttribute("font-size", fontSize);
   textSpan.appendChild(textNode);
@@ -89,9 +91,9 @@ function createTextSpans(text, width, ctx, yOffset, heightOffset, fontSize) {
         textSpans += textTag + textSpan.outerHTML + "</text>"; // append line
 
         // create new textspan for line break
-        textSpan = document.createElementNS(NS, "tspan");
+        textSpan = document.createElementNS(SVG_LINK, "tspan");
         textNode = document.createTextNode(words[j]);
-        textSpan.setAttribute("x", xOffset);
+        textSpan.setAttribute("x", X_OFFSET_UTIL);
         textSpan.setAttribute("y", yOffset + extraHeight);
         textSpan.appendChild(textNode);
       }

@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {BusinessObject} from 'src/app/Domain/Common/businessObject';
-import {ElementRegistryService} from 'src/app/Service/ElementRegistry/element-registry.service';
-import {elementTypes} from 'src/app/Domain/Common/elementTypes';
-import {StoryStep} from 'src/app/Domain/Replay/storyStep';
+import { Injectable } from '@angular/core';
+import { BusinessObject } from 'src/app/Domain/Common/businessObject';
+import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
+import { elementTypes } from 'src/app/Domain/Common/elementTypes';
+import { StoryStep } from 'src/app/Domain/Replay/storyStep';
 import {
   HIGHLIGHT_COLOR,
   HIGHLIGHT_NUMBER_BACKGROUNG_COLOR,
@@ -16,9 +16,11 @@ import {
 @Injectable({
   providedIn: 'root',
 })
+/**
+ * Manipulates the DOM during replay to only show the elements of the current Step
+ */
 export class DomManipulationService {
-  constructor(private elementRegistryService: ElementRegistryService) {
-  }
+  constructor(private elementRegistryService: ElementRegistryService) {}
 
   public showAll(): void {
     this.removeHighlights();
@@ -67,9 +69,6 @@ export class DomManipulationService {
     });
   }
 
-  /**
-   * untestable DOM-Manipulations
-   */
   public getNumberDomForActivity(activity: SVGPolylineElement): any {
     const numberDOMS =
       // @ts-ignore
@@ -96,7 +95,7 @@ export class DomManipulationService {
           activity.businessObject.pickedColor || 'black';
         activityDomObject.style.strokeWidth = STROKE_WIDTH;
 
-        const {numberBackgroundDom, numberTextDom} =
+        const { numberBackgroundDom, numberTextDom } =
           this.getNumberDomForActivity(activityDomObject);
         if (numberBackgroundDom && numberTextDom) {
           numberBackgroundDom.style.fill = NUMBER_BACKGROUND_COLOR;
@@ -131,7 +130,7 @@ export class DomManipulationService {
           activityDomObject.style.stroke = HIGHLIGHT_COLOR;
           activityDomObject.style.strokeWidth = HIGHLIGHT_STROKE_WIDTH;
 
-          const {numberBackgroundDom, numberTextDom} =
+          const { numberBackgroundDom, numberTextDom } =
             this.getNumberDomForActivity(activityDomObject);
           if (numberTextDom && numberBackgroundDom) {
             numberBackgroundDom.style.fill = HIGHLIGHT_NUMBER_BACKGROUNG_COLOR;

@@ -1,13 +1,16 @@
-import {Injectable} from '@angular/core';
-import {ElementRegistryService} from 'src/app/Service/ElementRegistry/element-registry.service';
-import {allIcons} from 'src/app/Domain/Domain-Configuration/allIcons';
-import {IconDictionaryService} from 'src/app/Service/Domain-Configuration/icon-dictionary.service';
-import {Dictionary} from 'src/app/Domain/Common/dictionary/dictionary';
-import {elementTypes} from 'src/app/Domain/Common/elementTypes';
-import {CustomDomainCofiguration, DomainConfiguration,} from 'src/app/Domain/Common/domainConfiguration';
-import {defaultConf} from '../../Domain/Common/iconConfiguration';
-import {TitleService} from "../Title/title.service";
-import {INITIAL_DOMAIN_NAME} from "../../Domain/Common/constants";
+import { Injectable } from '@angular/core';
+import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
+import { allIcons } from 'src/app/Domain/Domain-Configuration/allIcons';
+import { IconDictionaryService } from 'src/app/Service/Domain-Configuration/icon-dictionary.service';
+import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
+import { elementTypes } from 'src/app/Domain/Common/elementTypes';
+import {
+  CustomDomainCofiguration,
+  DomainConfiguration,
+} from 'src/app/Domain/Common/domainConfiguration';
+import { defaultConf } from '../../Domain/Common/iconConfiguration';
+import { TitleService } from '../Title/title.service';
+import { INITIAL_DOMAIN_NAME } from '../../Domain/Common/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +20,7 @@ export class DomainConfigurationService {
     private iconDictionaryService: IconDictionaryService,
     private elementRegistryService: ElementRegistryService,
     private titleService: TitleService
-  ) {
-  }
+  ) {}
 
   public setDomainName(domainName: string): void {
     this.titleService.setDomainName(
@@ -204,17 +206,8 @@ export class DomainConfigurationService {
     currentActors.addEach(currentConfig.actors);
     currentWorkobjects.addEach(currentConfig.workObjects);
 
-    currentActors.keysArray().forEach((name: string) => {
-      if (!(name in allIcons)) {
-        allActors.add(currentActors.get(name), name);
-      }
-    });
-
-    currentWorkobjects.keysArray().forEach((name) => {
-      if (!(name in allIcons)) {
-        allWorkobjects.add(currentWorkobjects.get(name), name);
-      }
-    });
+    this.fillDictionary(currentActors, allActors);
+    this.fillDictionary(currentWorkobjects, allWorkobjects);
 
     allCanvasObjects.forEach((object) => {
       const objectType = object.type
@@ -255,5 +248,13 @@ export class DomainConfigurationService {
       actors: newActors,
       workObjects: newWorkobjects,
     };
+  }
+
+  private fillDictionary(current: Dictionary, all: Dictionary) {
+    current.keysArray().forEach((name: string) => {
+      if (!(name in allIcons)) {
+        all.add(current.get(name), name);
+      }
+    });
   }
 }

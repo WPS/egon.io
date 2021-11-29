@@ -7,11 +7,11 @@ import { getNumbersAndIDs } from "../numbering/numbering";
  */
 
 let canvasElementRegistry;
-export function initializeDSActivityHandler(canvasElementRegistryService) {
+export function initializeActivityUpdateHandler(canvasElementRegistryService) {
   canvasElementRegistry = canvasElementRegistryService;
 }
 
-export default function dsActivityHandler(commandStack, eventBus) {
+export default function activityUpdateHandler(commandStack, eventBus) {
   commandStack.registerHandler(
     "activity.directionChange",
     activity_directionChange

@@ -1,13 +1,22 @@
-import {Injectable} from '@angular/core';
-import {Dictionary} from 'src/app/Domain/Common/dictionary/dictionary';
-import {elementTypes} from 'src/app/Domain/Common/elementTypes';
-import {getNameFromType} from 'src/app/Utils/naming';
-import {allIcons, appendedIcons,} from 'src/app/Domain/Domain-Configuration/allIcons';
-import {defaultConf, IconConfiguration,} from 'src/app/Domain/Common/iconConfiguration';
-import {Configuration} from 'src/app/Domain/Common/configuration';
-import {BusinessObject} from 'src/app/Domain/Common/businessObject';
-import {CustomDomainCofiguration, DomainConfiguration,} from 'src/app/Domain/Common/domainConfiguration';
-import {sanitizeIconName} from '../../Utils/sanitizer';
+import { Injectable } from '@angular/core';
+import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
+import { elementTypes } from 'src/app/Domain/Common/elementTypes';
+import { getNameFromType } from 'src/app/Utils/naming';
+import {
+  allIcons,
+  appendedIcons,
+} from 'src/app/Domain/Domain-Configuration/allIcons';
+import {
+  defaultConf,
+  IconConfiguration,
+} from 'src/app/Domain/Common/iconConfiguration';
+import { Configuration } from 'src/app/Domain/Common/configuration';
+import { BusinessObject } from 'src/app/Domain/Common/businessObject';
+import {
+  CustomDomainCofiguration,
+  DomainConfiguration,
+} from 'src/app/Domain/Common/domainConfiguration';
+import { sanitizeIconName } from '../../Utils/sanitizer';
 
 export const ICON_PREFIX = 'icon-domain-story-';
 
@@ -21,9 +30,7 @@ export class IconDictionaryService {
   private allIconDictionary = new Dictionary();
   private iconDictionary = new Dictionary();
 
-  private customConfiguration?:
-    | CustomDomainCofiguration
-    | DomainConfiguration;
+  private customConfiguration?: CustomDomainCofiguration | DomainConfiguration;
 
   private iconConfig: IconConfiguration;
 
@@ -174,28 +181,35 @@ export class IconDictionaryService {
     allTypes.addEach(allIcons);
     allTypes.appendDict(this.getAppendedIconDictionary());
 
-    for (const actor of actors) {
-      const key = elementTypes.ACTOR + actor;
-      this.actorIconDictionary.add(allTypes.get(actor), key);
+    this.initDictionary(
+      actors,
+      allTypes,
+      this.actorIconDictionary,
+      elementTypes.ACTOR
+    );
+    this.initDictionary(
+      workObjects,
+      allTypes,
+      this.workObjectDictionary,
+      elementTypes.WORKOBJECT
+    );
+  }
+
+  private initDictionary(
+    keys: string[],
+    allTypes: Dictionary,
+    dictionary: Dictionary,
+    namePrefix: string
+  ) {
+    for (const key of keys) {
+      const name = namePrefix + key;
+      dictionary.add(allTypes.get(key), name);
     }
 
-    this.actorIconDictionary.keysArray().forEach((actor) => {
-      const name = getNameFromType(actor);
+    dictionary.keysArray().forEach((entry) => {
+      const name = getNameFromType(entry);
       this.registerIcon(
-        actor,
-        ICON_PREFIX + sanitizeIconName(name.toLowerCase())
-      );
-    });
-
-    for (const workObject of workObjects) {
-      const key = elementTypes.WORKOBJECT + workObject;
-      this.workObjectDictionary.add(allTypes.get(workObject), key);
-    }
-
-    this.workObjectDictionary.keysArray().forEach((workObject) => {
-      const name = getNameFromType(workObject);
-      this.registerIcon(
-        workObject,
+        entry,
         ICON_PREFIX + sanitizeIconName(name.toLowerCase())
       );
     });
@@ -211,13 +225,7 @@ export class IconDictionaryService {
   }
 
   public getTypeDictionaryKeys(type: string): string[] {
-    if (type === elementTypes.ACTOR) {
-      return this.actorIconDictionary.keysArray();
-    } else if (type === elementTypes.WORKOBJECT) {
-      return this.workObjectDictionary.keysArray();
-    }
-
-    return [];
+    return this.getTypeDictionary(type).keysArray();
   }
 
   public getTypeIconSRC(type: string, name: string): string | null {
@@ -271,7 +279,7 @@ export class IconDictionaryService {
     return this.iconDictionary.get(type);
   }
 
-  addIconsToCss(customIcons: { name: string; src: string }[]) {
+  public addIconsToCss(customIcons: { name: string; src: string }[]) {
     const sheetEl = document.getElementById('iconsCss');
     customIcons.forEach((custom) => {
       const iconStyle =
@@ -297,7 +305,7 @@ export class IconDictionaryService {
     );
   }
 
-  addIconsToTypeDictionary(
+  public addIconsToTypeDictionary(
     actorIcons: BusinessObject[],
     workObjectIcons: BusinessObject[]
   ) {
@@ -309,7 +317,7 @@ export class IconDictionaryService {
     }
   }
 
-  addNewIconsToDictionary(customIcons: { name: string; src: string }[]) {
+  public addNewIconsToDictionary(customIcons: { name: string; src: string }[]) {
     customIcons.forEach((custom) =>
       this.addIMGToIconDictionary(custom.src, custom.name)
     );
