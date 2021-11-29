@@ -270,7 +270,6 @@ export default function DomainStoryRenderer(
           'y="' + (Number(y) + offset + 14 * i) + '"'
         );
       }
-
       return result;
     }
   }
@@ -285,7 +284,6 @@ export default function DomainStoryRenderer(
           'x="' + (Number(x) + offset + 14) + '"'
         );
       }
-
       return result;
     }
   }
@@ -308,11 +306,45 @@ export default function DomainStoryRenderer(
         element.attrs
       )
     );
-
     renderEmbeddedLabel(parentGfx, element, "left-top", 8);
 
     return rect;
   };
+
+  function useColorForElement(element, iconSRC) {
+    if (!element.businessObject.pickedColor) {
+      element.businessObject.pickedColor = DEFAULT_COLOR;
+    }
+    const match = iconSRC.match(/fill=".*?"/);
+    if (match && match.length > 1) {
+      return iconSRC.replace(
+        /fill=".*?"/,
+        'fill="' + element.businessObject.pickedColor + '"'
+      );
+    } else {
+      const index = iconSRC.indexOf("<svg ") + 5;
+      return (
+        iconSRC.substring(0, index) +
+        ' fill=" ' +
+        element.businessObject.pickedColor +
+        '" ' +
+        iconSRC.substring(index)
+      );
+    }
+  }
+
+  function getIconSrc(iconSRC, element) {
+    if (iconSRC.startsWith("data")) {
+      return (
+        '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
+        '<image width="24" height="24" xlink:href="' +
+        iconSRC +
+        '"/></svg>'
+      );
+    } else {
+      return useColorForElement(element, iconSRC);
+    }
+  }
 
   this.drawActor = function (p, element) {
     let svgDynamicSizeAttributes = {
@@ -324,33 +356,7 @@ export default function DomainStoryRenderer(
       elementTypes.ACTOR,
       element.type
     );
-
-    if (iconSRC.startsWith("data")) {
-      iconSRC =
-        '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
-        '<image width="24" height="24" xlink:href="' +
-        iconSRC +
-        '"/></svg>';
-    } else {
-      if (!element.businessObject.pickedColor) {
-        element.businessObject.pickedColor = DEFAULT_COLOR;
-      }
-      const match = iconSRC.match(/fill=".*?"/);
-      if (match && match.length > 1) {
-        iconSRC = iconSRC.replace(
-          /fill=".*?"/,
-          'fill="' + element.businessObject.pickedColor + '"'
-        );
-      } else {
-        const index = iconSRC.indexOf("<svg ") + 5;
-        iconSRC =
-          iconSRC.substring(0, index) +
-          ' fill=" ' +
-          element.businessObject.pickedColor +
-          '" ' +
-          iconSRC.substring(index);
-      }
-    }
+    iconSRC = getIconSrc(iconSRC, element);
     actor = svgCreate(iconSRC);
 
     svgAttr(actor, svgDynamicSizeAttributes);
@@ -372,31 +378,7 @@ export default function DomainStoryRenderer(
       elementTypes.WORKOBJECT,
       element.type
     );
-    if (iconSRC.startsWith("data")) {
-      iconSRC =
-        '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
-        '<image width="24" height="24" xlink:href="' +
-        iconSRC +
-        '"/></svg>';
-    } else {
-      if (!element.businessObject.pickedColor) {
-        element.businessObject.pickedColor = DEFAULT_COLOR;
-      }
-      if (iconSRC.match(/fill=".*?"/).length > 1) {
-        iconSRC = iconSRC.replace(
-          /fill=".*?"/,
-          'fill="' + element.businessObject.pickedColor + '"'
-        );
-      } else {
-        const index = iconSRC.indexOf("<svg ") + 5;
-        iconSRC =
-          iconSRC.substring(0, index) +
-          ' fill=" ' +
-          element.businessObject.pickedColor +
-          '" ' +
-          iconSRC.substring(index);
-      }
-    }
+    iconSRC = getIconSrc(iconSRC, element);
     workObject = svgCreate(iconSRC);
 
     svgAttr(workObject, svgDynamicSizeAttributes);
@@ -406,25 +388,29 @@ export default function DomainStoryRenderer(
     return workObject;
   };
 
+  function useColorForActivity(element) {
+    if (!element.businessObject.pickedColor) {
+      element.businessObject.pickedColor = "black";
+    }
+    let attrs = "";
+    return computeStyle(attrs, {
+      stroke: element.businessObject.pickedColor,
+      fill: "none",
+      strokeWidth: 1.5,
+      strokeLinejoin: "round",
+      markerEnd: marker(
+        "activity",
+        "black",
+        element.businessObject.pickedColor
+      ),
+    });
+  }
+
   this.drawActivity = function (p, element) {
     adjustForTextOverlap(element);
 
     if (element) {
-      if (!element.businessObject.pickedColor) {
-        element.businessObject.pickedColor = "black";
-      }
-      let attrs = "";
-      attrs = computeStyle(attrs, {
-        stroke: element.businessObject.pickedColor,
-        fill: "none",
-        strokeWidth: 1.5,
-        strokeLinejoin: "round",
-        markerEnd: marker(
-          "activity",
-          "black",
-          element.businessObject.pickedColor
-        ),
-      });
+      let attrs = useColorForActivity(element);
 
       let x = svgAppend(p, createLine(element.waypoints, attrs));
       renderExternalLabel(p, element);
@@ -785,6 +771,7 @@ DomainStoryRenderer.prototype.drawConnection = function (p, element) {
   }
 };
 
+// TODO check if used
 DomainStoryRenderer.prototype.getConnectionPath = function (connection) {
   let type = connection.type;
 

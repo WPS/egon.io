@@ -26,6 +26,7 @@ import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
 } from '../../Domain/Common/constants';
+import { DomainConfigurationService } from '../Domain-Configuration/domain-configuration.service';
 
 @Injectable({
   providedIn: 'root',
@@ -51,7 +52,8 @@ export class ImportDomainStoryService implements OnDestroy {
     private importRepairService: ImportRepairService,
     private titleService: TitleService,
     private rendererService: RendererService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private domainConfigurationService: DomainConfigurationService
   ) {
     this.titleSubscription = this.titleService
       .getTitleObservable()
@@ -111,8 +113,7 @@ export class ImportDomainStoryService implements OnDestroy {
         dstText = text;
       }
 
-      let elements;
-      let config;
+      let elements, config: DomainConfiguration;
       let configChanged = false;
 
       let dstAndConfig = this.extractDstAndConfig(dstText, isSVG);
@@ -134,6 +135,7 @@ export class ImportDomainStoryService implements OnDestroy {
         } else {
           // implementation prior to configuration
           elements = JSON.parse(dstText);
+          config = this.domainConfigurationService.createDefaultConfig();
         }
       }
 
@@ -181,7 +183,7 @@ export class ImportDomainStoryService implements OnDestroy {
   private handleVersionNumber(
     importVersionNumber: string,
     elements: BusinessObject[]
-  ) {
+  ): BusinessObject[] {
     const versionPrefix = +importVersionNumber.substring(
       0,
       importVersionNumber.lastIndexOf('.')

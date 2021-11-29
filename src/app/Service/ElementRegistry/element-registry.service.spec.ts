@@ -1,17 +1,20 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {ElementRegistryService} from 'src/app/Service/ElementRegistry/element-registry.service';
-import {deepCopy} from '../../Utils/deepCopy';
+import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
+import { deepCopy } from '../../Utils/deepCopy';
 import {
   ActivityCanvasObject,
   testActivityCanvasObject,
 } from '../../Domain/Common/activityCanvasObject';
-import {CanvasObject, testCanvasObject} from '../../Domain/Common/canvasObject';
+import {
+  CanvasObject,
+  testCanvasObject,
+} from '../../Domain/Common/canvasObject';
 import {
   GroupCanvasObject,
   testGroupCanvasObject,
 } from '../../Domain/Common/groupCanvasObject';
-import {elementTypes} from '../../Domain/Common/elementTypes';
+import { elementTypes } from '../../Domain/Common/elementTypes';
 
 describe('ElementRegistryService', () => {
   let service: ElementRegistryService;
@@ -60,13 +63,13 @@ describe('ElementRegistryService', () => {
     });
 
     it('should return empty if registry not correctly initialized', () => {
-      service.init({_elements: []});
+      service.setElementRegistry({ _elements: [] });
       const objectListForDSTDownload = service.createObjectListForDSTDownload();
       expect(objectListForDSTDownload).toEqual([]);
     });
 
     it('should return objectList', () => {
-      service.init(registry);
+      service.setElementRegistry(registry);
 
       const objectListForDSTDownload = service.createObjectListForDSTDownload();
       expect(objectListForDSTDownload).toContain(testActivity);
@@ -87,7 +90,7 @@ describe('ElementRegistryService', () => {
         testGroup,
         testConnection,
       ];
-      service.init(registry);
+      service.setElementRegistry(registry);
     });
 
     it('getAllActivites', () => {

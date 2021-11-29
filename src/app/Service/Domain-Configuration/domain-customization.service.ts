@@ -1,21 +1,24 @@
-import {Injectable} from '@angular/core';
-import {CustomDomainCofiguration, DomainConfiguration,} from '../../Domain/Common/domainConfiguration';
-import {BehaviorSubject} from 'rxjs';
-import {DomainConfigurationService} from './domain-configuration.service';
-import {IconDictionaryService} from './icon-dictionary.service';
-import {getNameFromType} from '../../Utils/naming';
-import {elementTypes} from '../../Domain/Common/elementTypes';
-import {IconListItem} from '../../Domain/Domain-Configuration/iconListItem';
-import {Dictionary, Entry} from '../../Domain/Common/dictionary/dictionary';
-import {ImportDomainStoryService} from '../Import/import-domain-story.service';
-import {deepCopy} from '../../Utils/deepCopy';
-import {INITIAL_DOMAIN_NAME} from "../../Domain/Common/constants";
+import { Injectable } from '@angular/core';
+import {
+  CustomDomainCofiguration,
+  DomainConfiguration,
+} from '../../Domain/Common/domainConfiguration';
+import { BehaviorSubject } from 'rxjs';
+import { DomainConfigurationService } from './domain-configuration.service';
+import { IconDictionaryService } from './icon-dictionary.service';
+import { getNameFromType } from '../../Utils/naming';
+import { elementTypes } from '../../Domain/Common/elementTypes';
+import { IconListItem } from '../../Domain/Domain-Configuration/iconListItem';
+import { Dictionary, Entry } from '../../Domain/Common/dictionary/dictionary';
+import { ImportDomainStoryService } from '../Import/import-domain-story.service';
+import { deepCopy } from '../../Utils/deepCopy';
+import { INITIAL_DOMAIN_NAME } from '../../Domain/Common/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DomainCustomizationService {
-  private domainConfigurationTypes: BehaviorSubject<CustomDomainCofiguration>;
+  private readonly domainConfigurationTypes: BehaviorSubject<CustomDomainCofiguration>;
 
   private allIconListItems = new Dictionary();
 
@@ -337,7 +340,7 @@ export class DomainCustomizationService {
 
   addNewIcon(iconName: string) {
     this.iconDictionaryService.addIconsToCss([
-      {name: iconName, src: this.getSrcForIcon(iconName)},
+      { name: iconName, src: this.getSrcForIcon(iconName) },
     ]);
     this.addIconToAllIconList(iconName);
   }

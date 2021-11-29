@@ -61,8 +61,8 @@ export class InitializerService {
       this.dirtyFlagService,
       this.iconDictionaryService
     );
-    initializeNumbering(this.elementRegistryService);
-    initializeActivityUpdateHandler(this.elementRegistryService);
+    /** The Palette and the Context Menu need the Icons present in the Domain,
+     * so the IconDictionaryService and the DomainConfigurationService needs to be given to the Palette **/
     initializePalette(this.iconDictionaryService, this.configurationService);
     initializeRenderer(
       this.iconDictionaryService,
@@ -71,6 +71,8 @@ export class InitializerService {
     );
     initializeLabelEditingProvider(this.labelDictionaryService);
     initializeReplaceOptions(this.iconDictionaryService);
+    initializeNumbering(this.elementRegistryService);
+    initializeActivityUpdateHandler(this.elementRegistryService);
   }
 
   public propagateDomainStoryModelerClassesToServices(
@@ -82,8 +84,8 @@ export class InitializerService {
   ): void {
     this.titleService.setCommandStack(commandStack);
     this.massNamingService.setCommandStack(commandStack);
-    this.elementRegistryService.init(elementRegistry);
-    this.htmlPresentationService.initialize(canvas, selection, modeler);
+    this.elementRegistryService.setElementRegistry(elementRegistry);
+    this.htmlPresentationService.setModelerClasses(canvas, selection, modeler);
   }
 
   public InitializeDomainStoryModelerEventHandlers(

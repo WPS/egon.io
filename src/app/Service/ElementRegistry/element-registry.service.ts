@@ -14,7 +14,7 @@ export class ElementRegistryService {
 
   constructor() {}
 
-  public init(registry: any): void {
+  public setElementRegistry(registry: any): void {
     this.registry = registry._elements;
   }
 

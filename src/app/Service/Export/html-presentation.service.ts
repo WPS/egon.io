@@ -31,7 +31,7 @@ export class HtmlPresentationService {
 
   private initialized = false;
 
-  public initialize(canvas: any, selection: any, modeler: any): void {
+  public setModelerClasses(canvas: any, selection: any, modeler: any): void {
     this.canvas = canvas;
     this.selection = selection;
     this.modeler = modeler;
