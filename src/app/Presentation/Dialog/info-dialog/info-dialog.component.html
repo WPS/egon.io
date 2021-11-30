@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>{{ title }}</h2>
 
 <mat-dialog-content class="content">
-  <textarea class="readOnlyText" *ngIf="infoText != ''"
+  <textarea readonly class="readOnlyText"  *ngIf="infoText != ''"
     >{{ infoText }}
   </textarea>
   <br />

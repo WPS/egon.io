@@ -16,7 +16,7 @@ import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
 import { DialogService } from '../Dialog/dialog.service';
 import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { InfoDialogData } from '../../Presentation/Dialog/info-dialog/infoDialogData';
+import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
 import {
   restoreTitleFromFileName,
   sanitizeIconName,

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { DialogService } from 'src/app/Service/Dialog/dialog.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { InfoDialogData } from '../../Presentation/Dialog/info-dialog/infoDialogData';
+import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
 import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
 import { MockModule } from 'ng-mocks';
 

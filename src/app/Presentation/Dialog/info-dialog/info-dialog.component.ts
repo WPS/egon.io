@@ -1,13 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { InfoDialogData } from 'src/app/Presentation/Dialog/info-dialog/infoDialogData';
+import { InfoDialogData } from 'src/app/Domain/Dialog/infoDialogData';
 
 @Component({
   selector: 'app-info-dialog',
   templateUrl: './info-dialog.component.html',
   styleUrls: ['./info-dialog.component.scss'],
 })
-export class InfoDialogComponent implements OnInit {
+export class InfoDialogComponent implements AfterViewInit {
   title: string;
   infoText: string;
   showConfirmButton: boolean;
@@ -25,7 +25,13 @@ export class InfoDialogComponent implements OnInit {
     this.linkText = data.linkText || '';
   }
 
-  ngOnInit(): void {}
+  ngAfterViewInit() {
+    const textArea = document.getElementsByClassName(
+      'readOnlyText'
+    )[0] as HTMLTextAreaElement;
+    textArea.style.height = textArea.scrollHeight + 'px';
+    document.getSelection()?.empty();
+  }
 
   close(): void {
     this.dialogRef.close();

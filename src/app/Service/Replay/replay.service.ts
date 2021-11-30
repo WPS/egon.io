@@ -4,7 +4,7 @@ import { DomManipulationService } from 'src/app/Service/DomManipulation/dom-mani
 import { DialogService } from 'src/app/Service/Dialog/dialog.service';
 import { InfoDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { InfoDialogData } from 'src/app/Presentation/Dialog/info-dialog/infoDialogData';
+import { InfoDialogData } from 'src/app/Domain/Dialog/infoDialogData';
 import { StoryStep } from 'src/app/Domain/Replay/storyStep';
 import { StoryCreatorService } from './storyCreator/story-creator.service';
 import { BehaviorSubject, Observable } from 'rxjs';

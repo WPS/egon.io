@@ -1,10 +1,14 @@
 .readOnlyText {
+  display: block;
   border: none;
-  overflow: hidden;
   resize: none;
+  width: 100%;
+  overflow: hidden;
+  min-height: fit-content;
 }
 
 .content {
   height: fit-content;
+  width: 30vw;
   overflow: hidden;
 }

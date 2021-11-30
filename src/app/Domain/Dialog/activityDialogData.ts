@@ -1,4 +1,4 @@
-import {ActivityCanvasObject} from '../../../Domain/Common/activityCanvasObject';
+import { ActivityCanvasObject } from '../Common/activityCanvasObject';
 
 export class ActivityDialogData {
   public activity: ActivityCanvasObject;

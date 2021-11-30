@@ -24,7 +24,7 @@ import { LabelDictionaryService } from '../LabelDictionary/label-dictionary.serv
 import { elementTypes } from '../../Domain/Common/elementTypes';
 import { ReplayStateService } from '../Replay/replay-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { ActivityDialogData } from '../../Presentation/Dialog/activity-dialog/activityDialogData';
+import { ActivityDialogData } from '../../Domain/Dialog/activityDialogData';
 import { ActivityDialogComponent } from '../../Presentation/Dialog/activity-dialog/activity-dialog.component';
 import { DialogService } from '../Dialog/dialog.service';
 import massRenameHandler from '../../Modeler/modeler/updateHandler/massRenameHandler';

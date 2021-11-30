@@ -1,9 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {ActivityDialogData} from 'src/app/Presentation/Dialog/activity-dialog/activityDialogData';
-import {CanvasObject} from 'src/app/Domain/Common/canvasObject';
-import {ActivityCanvasObject} from '../../../Domain/Common/activityCanvasObject';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivityDialogData } from 'src/app/Domain/Dialog/activityDialogData';
+import { CanvasObject } from 'src/app/Domain/Common/canvasObject';
+import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
 
 @Component({
   selector: 'app-activity-dialog',
@@ -40,8 +40,7 @@ export class ActivityDialogComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSubmit(): void {
     this.numberIsAllowedMultipleTimes = !this.numberIsAllowedMultipleTimes;

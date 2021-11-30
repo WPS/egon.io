@@ -8,10 +8,10 @@ import { DirtyFlagService } from '../../Service/DirtyFlag/dirty-flag.service';
 import {
   ExportDialogData,
   ExportOption,
-} from '../Dialog/export-dialog/exportDialogData';
+} from '../../Domain/Dialog/exportDialogData';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ExportDialogComponent } from '../Dialog/export-dialog/export-dialog.component';
-import { InfoDialogData } from '../Dialog/info-dialog/infoDialogData';
+import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
 import { InfoDialogComponent } from '../Dialog/info-dialog/info-dialog.component';
 import { ElementRegistryService } from '../../Service/ElementRegistry/element-registry.service';
 import { DialogService } from '../../Service/Dialog/dialog.service';
