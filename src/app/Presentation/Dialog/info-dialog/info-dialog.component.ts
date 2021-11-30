@@ -26,11 +26,10 @@ export class InfoDialogComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const textArea = document.getElementsByClassName(
+    const span = document.getElementsByClassName(
       'readOnlyText'
     )[0] as HTMLTextAreaElement;
-    textArea.style.height = textArea.scrollHeight + 'px';
-    document.getSelection()?.empty();
+    span.style.height = span.scrollHeight + 'px';
   }
 
   close(): void {

@@ -1,10 +1,9 @@
-<h2 mat-dialog-title>{{ title }}</h2>
+<h2 mat-dialog-title id = "info-dialog-title">{{ title }}</h2>
 
 <mat-dialog-content class="content">
-  <textarea readonly class="readOnlyText"  *ngIf="infoText != ''"
+  <span class="readOnlyText"  *ngIf="infoText != ''"
     >{{ infoText }}
-  </textarea>
-  <br />
+  </span>
   <a *ngIf="hasLink" href="{{ linkText }}">{{ linkText }}</a>
 </mat-dialog-content>
 
