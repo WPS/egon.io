@@ -1,3 +1,11 @@
 .dialogWidth {
-  width: 400px;
+  width: 50vw;
+  mat-label{
+     font-size: 12pt;
+  }
 }
+
+.descriptionInput {
+  min-height: 75px;
+}
+

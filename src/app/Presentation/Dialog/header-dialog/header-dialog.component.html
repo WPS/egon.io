@@ -1,17 +1,17 @@
 <mat-dialog-content>
   <form [formGroup]="form">
     <mat-form-field class="dialogWidth">
-      <mat-label>Title:</mat-label>
+      <mat-label>Title</mat-label>
       <input matInput type="text" formControlName="title" />
     </mat-form-field>
     <br />
     <mat-form-field class="dialogWidth">
-      <mat-label>Description:</mat-label>
-      <textarea matInput formControlName="description"></textarea>
+      <mat-label>Description</mat-label>
+      <textarea matInput class="descriptionInput" formControlName="description"></textarea>
     </mat-form-field>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button class="mat-primary mat-raised-button" (click)="save()">Save</button>
+  <button mat-flat-button color="primary" (click)="save()">Save</button>
 </mat-dialog-actions>
