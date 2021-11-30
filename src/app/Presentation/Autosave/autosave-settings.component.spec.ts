@@ -1,9 +1,9 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {AutosaveSettingsComponent} from './autosave-settings.component';
-import {MockService} from 'ng-mocks';
-import {AutosaveService} from '../../../Service/Autosave/autosave.service';
-import {AutosaveStateService} from '../../../Service/Autosave/autosave-state.service';
+import { AutosaveSettingsComponent } from './autosave-settings.component';
+import { MockService } from 'ng-mocks';
+import { AutosaveService } from '../../Service/Autosave/autosave.service';
+import { AutosaveStateService } from '../../Service/Autosave/autosave-state.service';
 
 describe('AutosaveSettingsComponent', () => {
   let component: AutosaveSettingsComponent;

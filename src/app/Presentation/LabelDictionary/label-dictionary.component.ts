@@ -1,8 +1,8 @@
-import {AfterViewInit, Component} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {WorkObjectLabelEntry} from "../../../Domain/LabelDictionary/workObjectLabelEntry";
-import {LabelEntry} from "../../../Domain/LabelDictionary/labelEntry";
-import {LabelDictionaryService} from "../../../Service/LabelDictionary/label-dictionary.service";
+import { AfterViewInit, Component } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { WorkObjectLabelEntry } from '../../Domain/LabelDictionary/workObjectLabelEntry';
+import { LabelEntry } from '../../Domain/LabelDictionary/labelEntry';
+import { LabelDictionaryService } from '../../Service/LabelDictionary/label-dictionary.service';
 
 @Component({
   selector: 'app-label-dictionary',

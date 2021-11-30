@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {AutosaveService} from '../../../Service/Autosave/autosave.service';
-import {Autosave} from '../../../Domain/Autosave/autosave';
-import {Observable} from 'rxjs';
-import {AutosaveStateService} from '../../../Service/Autosave/autosave-state.service';
+import { Component, OnInit } from '@angular/core';
+import { AutosaveService } from '../../Service/Autosave/autosave.service';
+import { Autosave } from '../../Domain/Autosave/autosave';
+import { Observable } from 'rxjs';
+import { AutosaveStateService } from '../../Service/Autosave/autosave-state.service';
 
 @Component({
   selector: 'app-autosave-settings',

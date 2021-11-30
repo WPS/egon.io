@@ -1,15 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   CustomDomainCofiguration,
   DomainConfiguration,
 } from 'src/app/Domain/Common/domainConfiguration';
-import {DomainConfigurationService} from 'src/app/Service/Domain-Configuration/domain-configuration.service';
-import {IconDictionaryService} from 'src/app/Service/Domain-Configuration/icon-dictionary.service';
-import {BehaviorSubject} from 'rxjs';
-import {Dictionary} from 'src/app/Domain/Common/dictionary/dictionary';
-import {sanitizeIconName} from 'src/app/Utils/sanitizer';
-import {IconFilterEnum} from '../../Domain/Domain-Configuration/iconFilterEnum';
-import {DomainCustomizationService} from '../../Service/Domain-Configuration/domain-customization.service';
+import { DomainConfigurationService } from 'src/app/Service/Domain-Configuration/domain-configuration.service';
+import { IconDictionaryService } from 'src/app/Service/Domain-Configuration/icon-dictionary.service';
+import { BehaviorSubject } from 'rxjs';
+import { Dictionary, Entry } from 'src/app/Domain/Common/dictionary/dictionary';
+import { sanitizeIconName } from 'src/app/Utils/sanitizer';
+import { IconFilterEnum } from '../../Domain/Domain-Configuration/iconFilterEnum';
+import { DomainCustomizationService } from '../../Service/Domain-Configuration/domain-customization.service';
 
 @Component({
   selector: 'app-domain-configuration',
@@ -39,7 +39,7 @@ export class DomainConfigurationComponent implements OnInit {
       this.domainCustomizationService.getDomainConfiguration().value;
 
     this.allIcons = this.iconDictionaryService.getFullDictionary();
-    this.allIconNames.next(this.allIcons.keysArray());
+    this.allIconNames.next(this.allIcons.keysArray().sort(this.sortByName()));
 
     // @ts-ignore
     this.selectedWorkobjects =
@@ -51,7 +51,7 @@ export class DomainConfigurationComponent implements OnInit {
   ngOnInit(): void {
     this.filter.subscribe((type) => {
       let allFiltered = this.getFilteredNamesForType(type);
-      this.allFilteredIconNames.next(allFiltered);
+      this.allFilteredIconNames.next(allFiltered.sort(this.sortByName()));
     });
   }
 
@@ -142,6 +142,7 @@ export class DomainConfigurationComponent implements OnInit {
 
       this.allIcons = this.iconDictionaryService.getFullDictionary();
       this.allIconNames.next(this.allIcons.keysArray());
+      this.filter.next(this.filter.value);
 
       this.domainCustomizationService.addNewIcon(iconName);
     };
@@ -178,6 +179,25 @@ export class DomainConfigurationComponent implements OnInit {
     ).filter((name) =>
       name.toLowerCase().includes($event.target.value.toLowerCase())
     );
-    this.allFilteredIconNames.next(filteredByNameAndType);
+    this.allFilteredIconNames.next(
+      filteredByNameAndType.sort(this.sortByName())
+    );
+  }
+
+  private sortByName() {
+    return (a: string, b: string) => {
+      if (a.includes('_custom') == b.includes('_custom')) {
+        if (a < b) return -1;
+        else {
+          return 1;
+        }
+      } else {
+        if (a.includes('_custom')) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }
+    };
   }
 }

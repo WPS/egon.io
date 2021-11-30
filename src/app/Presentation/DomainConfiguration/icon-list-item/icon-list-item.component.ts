@@ -1,14 +1,7 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
-import {IconListItem} from '../../../Domain/Domain-Configuration/iconListItem';
-import {BehaviorSubject} from 'rxjs';
-import {DomainCustomizationService} from '../../../Service/Domain-Configuration/domain-customization.service';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { IconListItem } from '../../../Domain/Domain-Configuration/iconListItem';
+import { BehaviorSubject } from 'rxjs';
+import { DomainCustomizationService } from '../../../Service/Domain-Configuration/domain-customization.service';
 
 @Component({
   selector: 'app-icon-list-item',
@@ -72,6 +65,6 @@ export class IconListItemComponent implements OnInit, AfterViewInit {
 
   private createIcon(): void {
     const img = document.getElementById(this.id) as HTMLImageElement;
-    img.src = '' + this.icon.value?.svg;
+    img.src = this.icon.value?.svg;
   }
 }

@@ -1,8 +1,6 @@
-import { SafeUrl } from '@angular/platform-browser';
-
 export interface IconListItem {
   name: string;
-  svg: SafeUrl;
+  svg: string;
   isActor: boolean;
   isWorkObject: boolean;
 }

@@ -5,7 +5,6 @@ import { MassNamingService } from 'src/app/Service/LabelDictionary/mass-naming.s
 import { IconDictionaryService } from '../Domain-Configuration/icon-dictionary.service';
 import { WorkObjectLabelEntry } from '../../Domain/LabelDictionary/workObjectLabelEntry';
 import { LabelEntry } from '../../Domain/LabelDictionary/labelEntry';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +16,7 @@ export class LabelDictionaryService {
   constructor(
     private massNamingService: MassNamingService,
     private elementRegistryService: ElementRegistryService,
-    private iconDictionaryService: IconDictionaryService,
-    private domSanitizer: DomSanitizer
+    private iconDictionaryService: IconDictionaryService
   ) {}
 
   public createLabelDictionaries(): void {
@@ -47,17 +45,12 @@ export class LabelDictionaryService {
         !this.workObjektLabels.map((e) => e.name).includes(name)
       ) {
         const iconName = element.type.replace(elementTypes.WORKOBJECT, '');
-        const rawSrc = this.iconDictionaryService.getIconSource(iconName);
-        if (!rawSrc) {
+        let icon = this.iconDictionaryService.getIconSource(iconName);
+        if (!icon) {
           return;
         }
-        let icon: SafeUrl;
-        if (rawSrc.startsWith('data')) {
-          icon = this.domSanitizer.bypassSecurityTrustUrl(rawSrc);
-        } else {
-          icon = this.domSanitizer.bypassSecurityTrustUrl(
-            'data:image/svg+xml,' + rawSrc
-          );
+        if (!icon.startsWith('data')) {
+          icon = 'data:image/svg+xml,' + icon;
         }
         this.workObjektLabels.push({
           name,
