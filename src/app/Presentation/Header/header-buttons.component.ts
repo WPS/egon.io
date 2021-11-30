@@ -145,16 +145,16 @@ export class HeaderButtonsComponent {
   public openKeyboardShortcutsDialog(): void {
     const title = 'Keyboard shortcuts';
     const shortCutText =
-      'Undo:\t\t\tctrl + Z \n' +
-      'Redo:\t\t\tctrl + Y    OR   ctrl + shift + Z\n' +
-      'Select All:\t\tctrl + A\n' +
-      'Export as DST:\t\tctrl + S\n' +
+      'Undo:\t\t\t\t\tctrl + Z \n' +
+      'Redo:\t\t\t\t\tctrl + Y    OR   ctrl + shift + Z\n' +
+      'Select All:\t\t\t\tctrl + A\n' +
+      'Export as DST:\t\t\tctrl + S\n' +
       'Import Domain Story: \tctrl + L\n' +
-      'Search for text:\tctrl + F\n' +
-      'Direct editing:\t\tE\n' +
-      'Hand tool:\t\tH\n' +
-      'Lasso tool:\t\tL\n' +
-      'Space tool:\t\tS';
+      'Search for text:\t\t\tctrl + F\n' +
+      'Direct editing:\t\t\tE\n' +
+      'Hand tool:\t\t\t\tH\n' +
+      'Lasso tool:\t\t\t\tL\n' +
+      'Space tool:\t\t\t\tS';
 
     const config = new MatDialogConfig();
     config.disableClose = false;
