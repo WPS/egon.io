@@ -201,6 +201,7 @@ export class IconDictionaryService {
     dictionary: Dictionary,
     namePrefix: string
   ) {
+    dictionary.clear();
     for (const key of keys) {
       const name = namePrefix + key;
       dictionary.add(allTypes.get(key), name);

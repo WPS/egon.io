@@ -88,7 +88,7 @@ export class InitializerService {
     this.htmlPresentationService.setModelerClasses(canvas, selection, modeler);
   }
 
-  public InitializeDomainStoryModelerEventHandlers(
+  public initializeDomainStoryModelerEventHandlers(
     commandStack: any,
     eventBus: any
   ): void {

@@ -344,4 +344,17 @@ export class DomainCustomizationService {
     ]);
     this.addIconToAllIconList(iconName);
   }
+
+  updateSelectedWorkObject(sortedList: string[]) {
+    const value = this.domainConfigurationTypes.value;
+    value.workObjects = sortedList;
+    this.domainConfigurationTypes.next(value);
+    this.updateWorkObjectSubject();
+  }
+  updateSelectedActors(sortedList: string[]) {
+    const value = this.domainConfigurationTypes.value;
+    value.actors = sortedList;
+    this.domainConfigurationTypes.next(value);
+    this.updateActorSubject();
+  }
 }

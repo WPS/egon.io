@@ -50,7 +50,7 @@ export class ModelerService {
     this.commandStack = this.modeler.get('commandStack');
     this.selection = this.modeler.get('selection');
 
-    this.initialiserService.InitializeDomainStoryModelerEventHandlers(
+    this.initialiserService.initializeDomainStoryModelerEventHandlers(
       this.commandStack,
       this.eventBus
     );

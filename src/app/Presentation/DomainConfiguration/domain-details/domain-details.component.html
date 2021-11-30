@@ -11,12 +11,17 @@
         />
       </mat-form-field>
     </form>
-    <!-- <span>Drag and drop rows to define order in the modeler</span> -->
   </div>
   <div class="actorList">
     <h3>Actors</h3>
     <mat-list>
-      <mat-list-item *ngFor="let iconName of selectedActors | async">
+      <mat-list-item
+        *ngFor="let iconName of selectedActors | async let i = index"
+        draggable="true"
+        (dragover)="allowDrop($event)"
+        (dragstart)="onDragStart(i)"
+        (drop)="onDrop($event, iconName, true, i)"
+      >
         <app-details-list-item
           [icon]="getIconForName(iconName)"
         ></app-details-list-item>
@@ -26,7 +31,13 @@
   <div class="workobjectList">
     <h3>Workobjects</h3>
     <mat-list>
-      <mat-list-item *ngFor="let iconName of selectedWorkobjects | async">
+      <mat-list-item
+        *ngFor="let iconName of selectedWorkobjects | async let i = index"
+        draggable="true"
+        (dragover)="allowDrop($event)"
+        (dragstart)="onDragStart(i)"
+        (drop)="onDrop($event, iconName, false, i)"
+      >
         <app-details-list-item
           [icon]="getIconForName(iconName)"
         ></app-details-list-item>
