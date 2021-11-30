@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Edit Activity</h2>
 
-<mat-dialog-content>
+<mat-dialog-content >
   <form [formGroup]="form">
     <div [hidden]="!showNumberFields">
       <mat-form-field class="shortWidth">
@@ -14,7 +14,8 @@
       />
       multiple
     </div>
-    <mat-form-field>
+    <mat-form-field
+      class="fullWidth">
       <textarea
         matInput
         type="text"
@@ -26,5 +27,5 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button class="mat-raised-button" (click)="save()">Save</button>
+  <button mat-flat-button color="primary" (click)="save()">Save</button>
 </mat-dialog-actions>

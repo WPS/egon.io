@@ -1,6 +1,6 @@
 .details {
   display: grid;
-  grid-template-rows: 70px auto 3px auto;
+  grid-template-rows: 70px auto auto;
   height: calc(100vh - 120px);
   grid-row-gap: 1px;
   overflow-y: scroll;
@@ -8,20 +8,26 @@
   border-left: solid 2px #ccc;
 }
 
-#line {
-  padding: 2px;
-  position: relative;
-  right: 0;
-  left: 0;
+.fullWidth {
   width: 100%;
-  border-bottom: solid 2px #ccc;
-  margin-top: -5px;
+  padding-left: 15px;
 }
 
 h3 {
-  padding-left: 5px;
+  padding-left: 15px;
+  margin-bottom: 0;
+  font-weight: bold;
 }
 
 mat-list {
   overflow: auto;
+  padding-top: 0;
+}
+
+::ng-deep.mat-form-field-infix {
+  border: none;
+}
+
+.actorList {
+  border-bottom: 1px solid #ccc;
 }

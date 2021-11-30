@@ -1,3 +1,10 @@
 .shortWidth {
-  width: 106px;
+  width: 200px;
+}
+
+.fullWidth {
+  width: 100%;
+}
+::ng-deep.mat-form-field-label{
+  font-size: 12pt !important;
 }

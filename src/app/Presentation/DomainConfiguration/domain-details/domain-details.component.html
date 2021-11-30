@@ -1,20 +1,16 @@
 <div class="details smallScrollbar">
   <div class="domainDetails">
     <h3>Domain name</h3>
-    <label
-      class="mdc-text-field mdc-text-field--outlined mdc-text-field--no-label"
-    >
-      <span class="mdc-notched-outline">
-        <span class="mdc-notched-outline__leading"></span>
-        <span class="mdc-notched-outline__trailing"></span>
-      </span>
-      <input
-        class="mdc-text-field__input textInput"
-        type="text"
-        (input)="changeName($event)"
-        [value]="domainName | async"
-      />
-    </label>
+    <form>
+      <mat-form-field class="fullWidth">
+        <input
+          matInput
+          type="text"
+          (input)="changeName($event)"
+          [value]="domainName | async"
+        />
+      </mat-form-field>
+    </form>
     <!-- <span>Drag and drop rows to define order in the modeler</span> -->
   </div>
   <div class="actorList">
@@ -27,7 +23,6 @@
       </mat-list-item>
     </mat-list>
   </div>
-  <div id="line"></div>
   <div class="workobjectList">
     <h3>Workobjects</h3>
     <mat-list>
