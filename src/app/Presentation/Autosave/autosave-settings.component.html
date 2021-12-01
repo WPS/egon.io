@@ -1,13 +1,14 @@
-<div>
-  <p>Autosave Enabled</p>
+<div class="autosaveEnabled">
+  <span>Autosave Enabled</span>
   <input
     type="checkbox"
     [checked]="autosaveEnabledObservable | async"
     (change)="setAutosaveState()"
   />
 </div>
-<div>
-  <p>Autosave Interval</p>
+<br>
+<div class="autosaveInterval">
+  <span class="autosaveIntervalSpan">Autosave Interval</span>
   <input
     type="number"
     [value]="autosaveIntervalObservable | async"
