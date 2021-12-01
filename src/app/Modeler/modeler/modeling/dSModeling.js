@@ -14,7 +14,11 @@ export default function DSModeling(
 }
 
 Modeling.prototype.updateLabel = function (element, newLabel, newBounds) {
-  if (newLabel !== element.businessObject.name) {
+  if (
+    element.businessObject
+      ? newLabel !== element.businessObject.name
+      : newLabel !== element.name
+  ) {
     if (/^domainStory:/.test(element.type)) {
       this._commandStack.execute("element.updateCustomLabel", {
         element: element,

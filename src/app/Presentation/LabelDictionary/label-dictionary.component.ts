@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { WorkObjectLabelEntry } from '../../Domain/LabelDictionary/workObjectLabelEntry';
 import { LabelEntry } from '../../Domain/LabelDictionary/labelEntry';
@@ -15,6 +15,9 @@ export class LabelDictionaryComponent implements AfterViewInit {
 
   workObjectEntries: WorkObjectLabelEntry[];
   activityEntries: LabelEntry[];
+
+  @Output()
+  closeEmitter: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private labelDictionaryService: LabelDictionaryService) {
     this.labelDictionaryService.createLabelDictionaries();
@@ -65,6 +68,7 @@ export class LabelDictionaryComponent implements AfterViewInit {
       workObjectNames,
       originalWorkObjectNames
     );
+    this.closeDialog();
   }
 
   cancel(): void {
@@ -95,5 +99,9 @@ export class LabelDictionaryComponent implements AfterViewInit {
       // @ts-ignore
     )[0].name = $event.target.value;
     this.workobjectEntriesSubject.next(entries);
+  }
+
+  private closeDialog() {
+    this.closeEmitter.emit();
   }
 }

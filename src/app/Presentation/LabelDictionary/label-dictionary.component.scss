@@ -1,13 +1,23 @@
 .labelDictionary {
   display: grid;
-  grid-template-columns: auto 1px auto;
+  grid-template-columns: auto auto;
   top: 0;
   bottom: 0;
   max-height: 100%;
+  grid-column-gap: 5px;
+  width: 75vw;
+
+  ::ng-deep.mat-list-item {
+    height: 22px !important;
+    padding-bottom: 2px !important;
+  }
+
+  ::ng-deep.mat-list-item-content {
+    padding: 0 !important;
+  }
 }
 
 h3 {
-  padding-left: 15px;
   margin-bottom: 0;
   font-weight: bold;
 }
@@ -25,8 +35,7 @@ h3 {
 }
 
 .inputText {
-  margin-top: 20px;
-  width: 75%;
+  width: 100%;
 }
 
 .listEntry {
@@ -47,4 +56,15 @@ h3 {
 
 .saveButton {
   justify-self: end;
+  padding-right: 0 !important;
+}
+
+.saveButtonSpan {
+  margin-left: 2px;
+}
+
+.footer {
+  display: inline-grid;
+  width: 100%;
+  margin-top: 15px;
 }

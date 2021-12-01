@@ -1,11 +1,17 @@
 <div class="ButtonContainer">
   <div id="editModeButtons" *ngIf="!(isReplay | async)">
-    <button id="settingsButton" class="borderRight" (click)="openSettings()">
+    <button id="settingsButton" (click)="openSettings()">
       <span class="material-icons materialIconButton" title="Settings">
         settings
       </span>
       <span>Settings</span>
     </button>
+    <button id="labelDictionaryButton" class="borderRight" (click)="openLabelDictionary()">
+      <span class="material-icons materialIconButton" title="Label Dictionary">
+        spellcheck
+      </span>
+    <span>Label Dictionary</span>
+  </button>
     <button
       id="buttonImport"
       class="importButton"

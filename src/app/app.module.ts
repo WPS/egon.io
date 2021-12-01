@@ -36,6 +36,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AutosaveService } from './Service/Autosave/autosave.service';
 import { DomainStoryModelerModuleModule } from './Modules/domain-story-modeler-module.module';
 import { MatButtonModule } from '@angular/material/button';
+import { LabelDictionaryDialogComponent } from './Presentation/Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { MatButtonModule } from '@angular/material/button';
     ActivityDialogComponent,
     HeaderDialogComponent,
     ModelerComponent,
+    LabelDictionaryDialogComponent,
   ],
   imports: [
     BrowserModule,

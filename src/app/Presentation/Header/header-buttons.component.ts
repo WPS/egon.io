@@ -18,6 +18,7 @@ import { DialogService } from '../../Service/Dialog/dialog.service';
 import { ReplayService } from '../../Service/Replay/replay.service';
 import { ExportService } from '../../Service/Export/export.service';
 import { ImportDomainStoryService } from '../../Service/Import/import-domain-story.service';
+import { LabelDictionaryDialogComponent } from '../Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
 
 @Component({
   selector: 'app-header-buttons',
@@ -57,7 +58,9 @@ export class HeaderButtonsComponent {
   private setShortcuts(): void {
     document.onkeydown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.key === 's') {
-        this.exportService.downloadDST();
+        if (this.exportService.isDomainStoryExportable()) {
+          this.exportService.downloadDST();
+        }
         e.preventDefault();
         e.stopPropagation();
       }
@@ -126,17 +129,18 @@ export class HeaderButtonsComponent {
 
       this.dialogService.openDialog(ExportDialogComponent, config);
     } else {
-      this.openExportErrorDialog();
+      this.openNoDomainStoryDialog(
+        'Export Error',
+        'There currently is no DomainStory to export.'
+      );
     }
   }
 
-  private openExportErrorDialog(): void {
+  private openNoDomainStoryDialog(title: string, text: string): void {
     const config = new MatDialogConfig();
     config.disableClose = false;
     config.autoFocus = true;
 
-    const title = 'Export Error';
-    const text = 'There currently is no DomainStory to export.';
     config.data = new InfoDialogData(title, text, true);
 
     this.dialogService.openDialog(InfoDialogComponent, config);
@@ -179,5 +183,20 @@ export class HeaderButtonsComponent {
 
   public nextStep(): void {
     this.replayService.nextStep();
+  }
+
+  openLabelDictionary() {
+    if (this.exportService.isDomainStoryExportable()) {
+      const config = new MatDialogConfig();
+      config.disableClose = false;
+      config.autoFocus = true;
+
+      this.dialogService.openDialog(LabelDictionaryDialogComponent, config);
+    } else {
+      this.openNoDomainStoryDialog(
+        'Label Dictionary Error',
+        'There are currently no Elements on the canvas'
+      );
+    }
   }
 }
