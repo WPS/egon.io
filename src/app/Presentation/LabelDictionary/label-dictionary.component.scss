@@ -1,14 +1,10 @@
 .labelDictionary {
   display: grid;
-  grid-template-columns: 50% 1px auto;
+  grid-template-columns: auto 1px auto;
   top: 0;
   bottom: 0;
   max-height: 100%;
 }
-.header {
-   display: grid;
-   grid-template-columns: 120px auto ;
- }
 
 h3 {
   padding-left: 15px;
@@ -37,4 +33,18 @@ h3 {
   width: 100%;
   display: block;
   height: 40px;
+}
+
+.activityListHeader {
+  display: inline-grid;
+  grid-template-columns: auto auto auto;
+  width: 100%;
+}
+
+.activityListTitle {
+  justify-self: left;
+}
+
+.saveButton {
+  justify-self: end;
 }

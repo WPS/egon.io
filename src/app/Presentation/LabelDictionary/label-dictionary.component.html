@@ -1,7 +1,3 @@
-<div class="header">
-  <button (click)="save()">Save</button>
-</div>
-
 <div class="labelDictionary">
   <div class="workobjectList">
     <h3>Workobject List</h3>
@@ -20,7 +16,14 @@
   </div>
   <div class="verticalFullLine"></div>
   <div class="activityList">
-    <h3>Activity List</h3>
+    <div class="activityListHeader">
+      <h3 class="activityListTitle">Activity List</h3>
+      <div></div>
+      <button class="saveButton" mat-button title="update dictionaries" (click)="save()">
+        <span class="material-icons materialIconButton">library_books</span>
+        <span>update Dictionaries</span>
+      </button>
+    </div>
     <mat-list>
       <mat-list-item
         *ngFor="let activityEntry of activityEntriesSubject | async"
