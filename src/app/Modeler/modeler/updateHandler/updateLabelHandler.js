@@ -1,6 +1,11 @@
 "use strict";
 
-import { setLabel, getLabel, setNumber, getNumber } from "./dsLabelUtil";
+import {
+  setLabel,
+  getLabel,
+  setNumber,
+  getNumber,
+} from "../labeling/dsLabelUtil";
 
 import {
   getExternalLabelMid,
@@ -20,7 +25,7 @@ const NULL_DIMENSIONS = {
 /**
  * a handler that updates the text of a BPMN element.
  */
-export default function DSUpdateLabelHandler(
+export default function UpdateLabelHandler(
   modeling,
   textRenderer,
   commandStack
@@ -134,4 +139,4 @@ function setText(element, text, textNumber) {
   return [label, labelTarget, number, numberTarget];
 }
 
-DSUpdateLabelHandler.$inject = ["modeling", "textRenderer", "commandStack"];
+UpdateLabelHandler.$inject = ["modeling", "textRenderer", "commandStack"];

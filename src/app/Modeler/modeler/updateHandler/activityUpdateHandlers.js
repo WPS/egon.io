@@ -18,6 +18,8 @@ export default function activityUpdateHandler(commandStack, eventBus) {
   );
   commandStack.registerHandler("activity.changed", activity_changed);
 
+  console.log(commandStack);
+
   // update the activity from the activity-dialog, either with or without number
   // and change other activities too, to keep the numbers consistent
   function activity_changed(modeling) {

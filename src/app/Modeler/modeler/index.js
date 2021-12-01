@@ -11,7 +11,7 @@ import PathMap from "bpmn-js/lib/draw/PathMap";
 import PopupMenuModule from "bpmn-js/lib/features/popup-menu";
 import ContextPadModule from "diagram-js/lib/features/context-pad";
 import CommandStack from "diagram-js/lib/command/CommandStack";
-import DSUpdateLabelHandler from "./labeling/dsUpdateLabelHandler";
+import UpdateLabelHandler from "./updateHandler/updateLabelHandler";
 import headlineAndDescriptionUpdateHandler from "./updateHandler/headlineAndDescriptionUpdateHandler";
 import DomainStoryContextPadProvider from "./context-pad/domainStoryContextPadProvider";
 import ReplaceMenuProvider from "./change-icon/replaceMenuProvider";
@@ -37,7 +37,7 @@ export default {
   pathMap: ["type", PathMap],
   replaceMenuProvider: ["type", ReplaceMenuProvider],
   commandStack: ["type", CommandStack],
-  dSUpdateLabelHandler: ["type", DSUpdateLabelHandler],
+  dSUpdateLabelHandler: ["type", UpdateLabelHandler],
   headlineAndDescriptionUpdateHandler: [
     "type",
     headlineAndDescriptionUpdateHandler,

@@ -5,7 +5,7 @@ import ResizeModule from "diagram-js/lib/features/resize";
 import DirectEditingModule from "diagram-js-direct-editing";
 
 import CommandStack from "diagram-js/lib/command/CommandStack";
-import DSUpdateLabelHandler from "./dsUpdateLabelHandler";
+import UpdateLabelHandler from "../updateHandler/updateLabelHandler";
 import DSLabelEditingPreview from "./dsLabelEditingPreview";
 import DSLabelEditingProvider from "./dsLabelEditingProvider";
 import DSModeling from "../modeling/dSModeling";
@@ -15,7 +15,7 @@ export default {
   __init__: ["dSlabelEditingProvider", "dSlabelEditingPreview"],
   dSlabelEditingProvider: ["type", DSLabelEditingProvider],
   dSlabelEditingPreview: ["type", DSLabelEditingPreview],
-  dSUpdateLabelHandler: ["type", DSUpdateLabelHandler],
+  dSUpdateLabelHandler: ["type", UpdateLabelHandler],
   commandStack: ["type", CommandStack],
   modeling: ["type ", DSModeling],
 };
