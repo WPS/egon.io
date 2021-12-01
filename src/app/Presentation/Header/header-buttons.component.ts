@@ -33,6 +33,8 @@ export class HeaderButtonsComponent {
 
   showDescription: Observable<boolean>;
 
+  showDescriptionCache = true;
+
   constructor(
     private settingsService: SettingsService,
     private titleService: TitleService,
@@ -171,10 +173,13 @@ export class HeaderButtonsComponent {
 
   public startReplay(): void {
     this.replayService.startReplay();
+    this.showDescriptionCache = this.titleService.getShowDescription();
+    this.setShowDescription(false);
   }
 
   public stopReplay(): void {
     this.replayService.stopReplay();
+    this.setShowDescription(this.showDescriptionCache);
   }
 
   public previousStep(): void {

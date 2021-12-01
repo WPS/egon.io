@@ -18,7 +18,7 @@
       title="Import story from file"
       onclick="document.getElementById('import').click();"
     >
-      <span class="material-icons materialIconButton"> unarchive </span>
+      <span class="material-icons-outlined materialIconButton"> unarchive </span>
       <span>Import</span>
     </button>
     <input
@@ -92,19 +92,21 @@
   <div id="presentationModeButtons" *ngIf="isReplay | async">
     <button
       id="buttonPreviousStep"
-      class="previousStepButton"
+      class="previousStepButton borderLeft"
       title="Previous Step"
       (click)="previousStep()"
     >
-      <span class="material-icons"> skip_previous </span>
+      <span class="material-icons materialIconButton"> skip_previous </span>
+      <span>Previous Step</span>
     </button>
     <button
       id="buttonNextStep"
-      class="NextStepButton"
+      class="NextStepButton borderRight"
       title="NextStep"
       (click)="nextStep()"
     >
-      <span class="material-icons"> skip_next </span>
+      <span class="material-icons materialIconButton"> skip_next </span>
+      <span>Next Step</span>
     </button>
     <button
       id="buttonStopReplay"
@@ -112,10 +114,11 @@
       title="Stop replay"
       (click)="stopReplay()"
     >
-      <span class="material-icons"> stop </span>
+      <span class="material-icons materialIconButton"> stop </span>
+      <span> Stop replay</span>
     </button>
     <div id="replayStep">
-      {{ currentStepNumber | async }}/{{ maxStepNumber | async }}
+      Step: {{ currentStepNumber | async }}/{{ maxStepNumber | async }}
     </div>
   </div>
 </div>

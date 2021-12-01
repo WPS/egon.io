@@ -13,12 +13,18 @@ span {
 
 #replayStep {
   padding: 1px;
-  margin-top: -2.38em;
-  margin-left: 5.6em;
+  margin-top: -1.5em;
+  margin-left: 2.4em;
+  font-size: 12pt;
+  color: #666666;
 }
+
 .ButtonContainer {
   margin-top: 0.2em;
   position: relative;
+  display: inline-grid;
+  justify-items: right;
+  width: 100%;
 }
 
 #dictionaryButton {
@@ -32,6 +38,10 @@ span {
 
 .borderRight {
   border-right: #666666 solid 2px !important;
+}
+
+.borderLeft {
+  border-left: #666666 solid 2px !important;
 }
 
 #buttonImport,

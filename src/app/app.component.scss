@@ -24,11 +24,10 @@
 }
 
 .headerAndCanvasCollapsed {
-  margin-top: 5px;
   height: 100%;
   width: 100%;
   display: grid;
-  grid-template-rows: 50px 1px auto;
+  grid-template-rows: 30px 1px auto;
   overflow: hidden;
 }
 
@@ -45,7 +44,7 @@
 .headerCollapsed {
   display: grid;
   margin-left: 5px;
-  grid-template-rows: 50px;
+  grid-template-rows: 30px;
 }
 
 /* Logo Container */
