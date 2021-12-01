@@ -1,7 +1,7 @@
 <div class="ButtonContainer">
   <div id="editModeButtons" *ngIf="!(isReplay | async)">
     <button id="settingsButton" (click)="openSettings()">
-      <span class="material-icons materialIconButton" title="Settings">
+      <span class="material-icons-outlined materialIconButton" title="Settings">
         settings
       </span>
       <span>Settings</span>
@@ -37,7 +37,7 @@
       (click)="openDownloadDialog()"
     >
       <span
-        class="material-icons materialIconButton"
+        class="material-icons-outlined materialIconButton"
         *ngIf="!(isDirty | async)"
       >
         archive
@@ -56,7 +56,7 @@
       title="Start replay"
       (click)="startReplay()"
     >
-      <span class="material-icons materialIconButton"> play_arrow </span>
+      <span class="material-icons-outlined materialIconButton"> play_arrow </span>
       <span>Replay</span>
     </button>
     <button
@@ -65,7 +65,7 @@
       title="Show keyboard shortcuts"
       (click)="openKeyboardShortcutsDialog()"
     >
-      <span class="material-icons materialIconButton"> info </span>
+      <span class="material-icons-outlined materialIconButton"> info </span>
       <span>Shortcuts</span>
     </button>
     <button
@@ -114,7 +114,7 @@
       title="Stop replay"
       (click)="stopReplay()"
     >
-      <span class="material-icons materialIconButton"> stop </span>
+      <span class="material-icons-outlined materialIconButton"> stop </span>
       <span> Stop replay</span>
     </button>
     <div id="replayStep">
