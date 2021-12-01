@@ -36,7 +36,11 @@ Modeling.prototype.updateLabel = function (element, newLabel, newBounds) {
 };
 
 Modeling.prototype.updateNumber = function (element, newNumber, newBounds) {
-  if (newNumber !== element.businessObject.number) {
+  if (
+    element.businessObject
+      ? newNumber !== element.businessObject.number
+      : newNumber !== element.number
+  ) {
     if (/^domainStory:/.test(element.type)) {
       this._commandStack.execute("element.updateCustomLabel", {
         element: element,

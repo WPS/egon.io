@@ -5,12 +5,12 @@
       <mat-list-item
         *ngFor="let workobjectEntry of workobjectEntriesSubject | async"
       >
-        <input
+        <textarea
           class="inputText"
-          type="text"
+          rows="1"
           [value]="workobjectEntry.name"
           (change)="updateWorkobjectEntry($event, workobjectEntry)"
-        />
+        ></textarea>
       </mat-list-item>
     </mat-list>
   </div>
@@ -20,12 +20,12 @@
       <mat-list-item
         *ngFor="let activityEntry of activityEntriesSubject | async"
       >
-        <input
+        <textarea
           class="inputText"
-          type="text"
+          rows="2"
           [value]="activityEntry.name"
           (change)="updateActivityEntry($event, activityEntry)"
-        />
+        ></textarea>
       </mat-list-item>
     </mat-list>
   </div>

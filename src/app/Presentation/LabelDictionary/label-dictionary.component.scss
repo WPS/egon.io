@@ -3,12 +3,12 @@
   grid-template-columns: auto auto;
   top: 0;
   bottom: 0;
-  max-height: 100%;
+  max-height: 75vh;
   grid-column-gap: 5px;
   width: 75vw;
 
   ::ng-deep.mat-list-item {
-    height: 22px !important;
+    height: 40px !important;
     padding-bottom: 2px !important;
   }
 
@@ -18,7 +18,6 @@
 }
 
 h3 {
-  margin-bottom: 0;
   font-weight: bold;
 }
 
@@ -36,6 +35,8 @@ h3 {
 
 .inputText {
   width: 100%;
+  white-space: pre-wrap;
+  resize: none;
 }
 
 .listEntry {
