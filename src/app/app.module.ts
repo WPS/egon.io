@@ -34,8 +34,6 @@ import { ModelerComponent } from 'src/app/Presentation/Canvas/modeler.component'
 import { SettingsModule } from 'src/app/Modules/settings.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AutosaveService } from './Service/Autosave/autosave.service';
-import { TitleComponent } from './Presentation/Header/title/title.component';
-import { DescriptionComponent } from './Presentation/Header/Description/description.component';
 import { DomainStoryModelerModuleModule } from './Modules/domain-story-modeler-module.module';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -49,8 +47,6 @@ import { MatButtonModule } from '@angular/material/button';
     ActivityDialogComponent,
     HeaderDialogComponent,
     ModelerComponent,
-    TitleComponent,
-    DescriptionComponent,
   ],
   imports: [
     BrowserModule,

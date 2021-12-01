@@ -1,8 +1,25 @@
 <div id="headlineAndButtons">
-  <app-title></app-title>
+  <h3
+    [class.headline]="!mouseOver"
+    [class.headline_hover]="mouseOver"
+    (mouseover)="mouseOver = true"
+    (mouseout)="mouseOver = false"
+    (click)="openHeaderDialog()"
+  >
+    <span id="title">{{ title | async }}</span>
+    <img
+      src="../../../../assets/logo/edit_blue.png"
+      [class.edit]="!mouseOver"
+      [class.edit_hover]="mouseOver"
+      alt=""
+    />
+  </h3>
   <app-header-buttons></app-header-buttons>
 </div>
-<app-description *ngIf="showDescription | async"></app-description>
+<div id="descriptionContainer" *ngIf="showDescription | async">
+  <div id="descriptionText">{{ description | async }}</div>
+</div>
+
 <div id="subHeader">
   <span>Domain: </span>
   <span id="currentDomainName">{{ currentDomainName | async }}</span>
