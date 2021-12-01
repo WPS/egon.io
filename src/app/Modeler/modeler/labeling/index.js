@@ -15,7 +15,7 @@ export default {
   __init__: ["dSlabelEditingProvider", "dSlabelEditingPreview"],
   dSlabelEditingProvider: ["type", DSLabelEditingProvider],
   dSlabelEditingPreview: ["type", DSLabelEditingPreview],
-  dSUpdateLabelHandler: ["type", UpdateLabelHandler],
+  updateLabelHandler: ["type", UpdateLabelHandler],
   commandStack: ["type", CommandStack],
   modeling: ["type ", DSModeling],
 };

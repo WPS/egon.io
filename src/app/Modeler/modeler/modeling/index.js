@@ -37,7 +37,7 @@ export default {
   pathMap: ["type", PathMap],
   replaceMenuProvider: ["type", ReplaceMenuProvider],
   commandStack: ["type", CommandStack],
-  dSUpdateLabelHandler: ["type", UpdateLabelHandler],
+  updateLabelHandler: ["type", UpdateLabelHandler],
   headlineAndDescriptionUpdateHandler: [
     "type",
     headlineAndDescriptionUpdateHandler,

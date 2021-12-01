@@ -1,17 +1,19 @@
-import {AfterViewInit, Component, Input} from '@angular/core';
-import {IconListItem} from '../../../Domain/Domain-Configuration/iconListItem';
+import { AfterViewChecked, Component, Input } from '@angular/core';
+import { IconListItem } from '../../../Domain/Domain-Configuration/iconListItem';
 
 @Component({
   selector: 'app-details-list-item',
   templateUrl: './details-list-item.component.html',
   styleUrls: ['./details-list-item.component.scss'],
 })
-export class DetailsListItemComponent implements AfterViewInit {
+export class DetailsListItemComponent implements AfterViewChecked {
   @Input()
-    // @ts-ignore
+  // @ts-ignore
   icon: IconListItem;
 
-  ngAfterViewInit() {
+  private iconInitiated = false;
+
+  ngAfterViewChecked() {
     this.createIcon();
   }
 
@@ -30,6 +32,9 @@ export class DetailsListItemComponent implements AfterViewInit {
 
   private createIcon(): void {
     const img = document.getElementById(this.id) as HTMLImageElement;
-    img.src = '' + this.icon.svg;
+    if (img && !this.iconInitiated) {
+      img.src = '' + this.icon.svg;
+      this.iconInitiated = true;
+    }
   }
 }

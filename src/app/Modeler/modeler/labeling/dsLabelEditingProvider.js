@@ -15,6 +15,7 @@ import {
 
 import { elementTypes } from "../../../Domain/Common/elementTypes";
 import { is } from "../util";
+import UpdateLabelHandler from "../updateHandler/updateLabelHandler";
 
 let dictionaryService;
 
@@ -42,12 +43,12 @@ export default function DSLabelEditingProvider(
   modeling,
   resizeHandles,
   textRenderer,
-  dSUpdateLabelHandler
+  updateLabelHandler
 ) {
   this._canvas = canvas;
   this._modeling = modeling;
   this._textRenderer = textRenderer;
-  this._dsUpdateLabelHandler = dSUpdateLabelHandler;
+  this._updateLabelHandler = updateLabelHandler;
 
   directEditing.registerProvider(this);
 
@@ -141,7 +142,7 @@ DSLabelEditingProvider.$inject = [
   "modeling",
   "resizeHandles",
   "textRenderer",
-  "dSUpdateLabelHandler",
+  "updateLabelHandler",
 ];
 
 /**
