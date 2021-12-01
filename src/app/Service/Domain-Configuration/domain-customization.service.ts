@@ -159,7 +159,8 @@ export class DomainCustomizationService {
   }
 
   resetDomain(): void {
-    const defaultConfig = this.configurationService.createDefaultConfig();
+    const defaultConfig =
+      this.configurationService.createMinimalConfigurationWithDefaultIcons();
 
     this.domainConfigurationTypes.next({
       name: defaultConfig.name,
@@ -351,6 +352,7 @@ export class DomainCustomizationService {
     this.domainConfigurationTypes.next(value);
     this.updateWorkObjectSubject();
   }
+
   updateSelectedActors(sortedList: string[]) {
     const value = this.domainConfigurationTypes.value;
     value.actors = sortedList;

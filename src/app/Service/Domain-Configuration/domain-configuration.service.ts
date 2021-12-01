@@ -181,7 +181,7 @@ export class DomainConfigurationService {
     };
   }
 
-  public createDefaultConfig(): DomainConfiguration {
+  public createMinimalConfigurationWithDefaultIcons(): DomainConfiguration {
     const allCanvasObjects = this.elementRegistryService.getAllCanvasObjects();
 
     const currentConfig = this.createConfigFromDictionaries(

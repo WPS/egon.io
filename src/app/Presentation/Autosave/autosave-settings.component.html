@@ -1,6 +1,7 @@
 <div class="autosaveEnabled">
   <span>Autosave Enabled</span>
   <input
+    class="enableButton"
     type="checkbox"
     [checked]="autosaveEnabledObservable | async"
     (change)="setAutosaveState()"
@@ -16,7 +17,9 @@
   />
 </div>
 
-<div *ngFor="let autosave of autosaves">
-  <span>{{ autosave.date }}</span>
-  <button (click)="applyAutosave(autosave)">apply</button>
-</div>
+<mat-list *ngFor="let autosave of autosaves">
+  <mat-list-item>
+    <span>{{ autosave.date }}</span>
+    <button mat-raised-button-button (click)="applyAutosave(autosave)" class="applyButton">apply</button>
+  </mat-list-item>
+</mat-list>

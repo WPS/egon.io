@@ -1,9 +1,13 @@
 .autosaveEnabled, .autosaveInterval {
   display: inline-grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 120px auto;
   width: 300px;
   grid-row-gap: 5px;
   height: 20px;
+}
+
+.enableButton {
+  justify-self: start;
 }
 
 .autosaveEnabled {
@@ -15,6 +19,11 @@
 }
 
 .autosaveIntervalSpan {
+  padding-top: 2px;
   justify-self: start;
+}
+
+.applyButton {
+  margin-left: 5px;
 }
 

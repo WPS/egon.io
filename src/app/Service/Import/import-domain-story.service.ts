@@ -135,7 +135,8 @@ export class ImportDomainStoryService implements OnDestroy {
         } else {
           // implementation prior to configuration
           elements = JSON.parse(dstText);
-          config = this.domainConfigurationService.createDefaultConfig();
+          config =
+            this.domainConfigurationService.createMinimalConfigurationWithDefaultIcons();
         }
       }
 
