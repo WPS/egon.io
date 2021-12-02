@@ -4,7 +4,7 @@ import {ModelerService} from 'src/app/Service/Modeler/modeler.service';
 import {DomainConfiguration} from 'src/app/Domain/Common/domainConfiguration';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {AutosaveStateService} from '../../Service/Autosave/autosave-state.service';
-import {DomainCustomizationService} from '../../Service/Domain-Configuration/domain-customization.service';
+import {DomainCustomizationService} from '../../Service/DomainConfiguration/domain-customization.service';
 
 @Component({
   selector: 'app-settings',

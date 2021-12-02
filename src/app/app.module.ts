@@ -17,7 +17,7 @@ import {TitleService} from 'src/app/Service/Title/title.service';
 import {LabelDictionaryService} from 'src/app/Service/LabelDictionary/label-dictionary.service';
 import {ReplayService} from 'src/app/Service/Replay/replay.service';
 import {ElementRegistryService} from 'src/app/Service/ElementRegistry/element-registry.service';
-import {DomainConfigurationService} from 'src/app/Service/Domain-Configuration/domain-configuration.service';
+import {DomainConfigurationService} from 'src/app/Service/DomainConfiguration/domain-configuration.service';
 import {MassNamingService} from 'src/app/Service/LabelDictionary/mass-naming.service';
 import {InfoDialogComponent} from 'src/app/Presentation/Dialog/info-dialog/info-dialog.component';
 import {ExportDialogComponent} from 'src/app/Presentation/Dialog/export-dialog/export-dialog.component';
@@ -25,7 +25,7 @@ import {ActivityDialogComponent} from 'src/app/Presentation/Dialog/activity-dial
 import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {HeaderDialogComponent} from 'src/app/Presentation/Dialog/header-dialog/header-dialog.component';
-import {IconDictionaryService} from 'src/app/Service/Domain-Configuration/icon-dictionary.service';
+import {IconDictionaryService} from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
 import {ModelerComponent} from 'src/app/Presentation/Canvas/modeler.component';
 import {SettingsModule} from 'src/app/Modules/settings.module';
 import {MatTabsModule} from '@angular/material/tabs';

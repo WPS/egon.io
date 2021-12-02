@@ -1,32 +1,32 @@
-import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
-import { DirtyFlagService } from 'src/app/Service/DirtyFlag/dirty-flag.service';
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
+import {EventEmitter, Injectable, OnDestroy} from '@angular/core';
+import {DirtyFlagService} from 'src/app/Service/DirtyFlag/dirty-flag.service';
+import {ElementRegistryService} from 'src/app/Service/ElementRegistry/element-registry.service';
 import {
   ICON_PREFIX,
   IconDictionaryService,
-} from 'src/app/Service/Domain-Configuration/icon-dictionary.service';
-import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
-import { elementTypes } from 'src/app/Domain/Common/elementTypes';
-import { TitleService } from 'src/app/Service/Title/title.service';
-import { ImportRepairService } from 'src/app/Service/Import/import-repair.service';
-import { Observable, Subscription } from 'rxjs';
-import { RendererService } from 'src/app/Service/Renderer/renderer.service';
-import { BusinessObject } from 'src/app/Domain/Common/businessObject';
-import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
-import { DialogService } from '../Dialog/dialog.service';
-import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
-import { MatDialogConfig } from '@angular/material/dialog';
-import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
+} from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
+import {Dictionary} from 'src/app/Domain/Common/dictionary/dictionary';
+import {elementTypes} from 'src/app/Domain/Common/elementTypes';
+import {TitleService} from 'src/app/Service/Title/title.service';
+import {ImportRepairService} from 'src/app/Service/Import/import-repair.service';
+import {Observable, Subscription} from 'rxjs';
+import {RendererService} from 'src/app/Service/Renderer/renderer.service';
+import {BusinessObject} from 'src/app/Domain/Common/businessObject';
+import {DomainConfiguration} from 'src/app/Domain/Common/domainConfiguration';
+import {DialogService} from '../Dialog/dialog.service';
+import {InfoDialogComponent} from '../../Presentation/Dialog/info-dialog/info-dialog.component';
+import {MatDialogConfig} from '@angular/material/dialog';
+import {InfoDialogData} from '../../Domain/Dialog/infoDialogData';
 import {
   restoreTitleFromFileName,
   sanitizeIconName,
 } from '../../Utils/sanitizer';
-import { deepCopy } from '../../Utils/deepCopy';
+import {deepCopy} from '../../Utils/deepCopy';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
 } from '../../Domain/Common/constants';
-import { DomainConfigurationService } from '../Domain-Configuration/domain-configuration.service';
+import {DomainConfigurationService} from '../DomainConfiguration/domain-configuration.service';
 
 @Injectable({
   providedIn: 'root',
@@ -367,8 +367,8 @@ export class ImportDomainStoryService implements OnDestroy {
     config.data = new InfoDialogData(
       'Error during import',
       'The uploaded ' +
-        type +
-        ' is not complete, there could be elements missing from the canvas.',
+      type +
+      ' is not complete, there could be elements missing from the canvas.',
       true,
       false
     );

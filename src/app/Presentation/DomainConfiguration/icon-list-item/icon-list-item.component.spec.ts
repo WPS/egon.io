@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {IconListItemComponent} from './icon-list-item.component';
 import {MockProvider} from "ng-mocks";
-import {DomainCustomizationService} from "../../../Service/Domain-Configuration/domain-customization.service";
+import {DomainCustomizationService} from "../../../Service/DomainConfiguration/domain-customization.service";
 import {IconListItem} from "../../../Domain/Domain-Configuration/iconListItem";
 import {BehaviorSubject} from "rxjs";
 

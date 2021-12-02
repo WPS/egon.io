@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
-import { elementTypes } from 'src/app/Domain/Common/elementTypes';
-import { MassNamingService } from 'src/app/Service/LabelDictionary/mass-naming.service';
-import { IconDictionaryService } from '../Domain-Configuration/icon-dictionary.service';
-import { WorkObjectLabelEntry } from '../../Domain/LabelDictionary/workObjectLabelEntry';
-import { LabelEntry } from '../../Domain/LabelDictionary/labelEntry';
+import {Injectable} from '@angular/core';
+import {ElementRegistryService} from 'src/app/Service/ElementRegistry/element-registry.service';
+import {elementTypes} from 'src/app/Domain/Common/elementTypes';
+import {MassNamingService} from 'src/app/Service/LabelDictionary/mass-naming.service';
+import {IconDictionaryService} from '../DomainConfiguration/icon-dictionary.service';
+import {WorkObjectLabelEntry} from '../../Domain/LabelDictionary/workObjectLabelEntry';
+import {LabelEntry} from '../../Domain/LabelDictionary/labelEntry';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,8 @@ export class LabelDictionaryService {
     private massNamingService: MassNamingService,
     private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService
-  ) {}
+  ) {
+  }
 
   public createLabelDictionaries(): void {
     this.activityLabels = [];

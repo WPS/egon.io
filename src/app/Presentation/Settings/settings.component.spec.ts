@@ -5,7 +5,7 @@ import {SettingsService} from '../../Service/Settings/settings.service';
 import {MockProviders} from 'ng-mocks';
 import {ModelerService} from '../../Service/Modeler/modeler.service';
 import {AutosaveStateService} from "../../Service/Autosave/autosave-state.service";
-import {DomainCustomizationService} from "../../Service/Domain-Configuration/domain-customization.service";
+import {DomainCustomizationService} from "../../Service/DomainConfiguration/domain-customization.service";
 
 describe('SettingsComponent', () => {
   let component: SettingsComponent;

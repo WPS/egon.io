@@ -2,9 +2,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {DomainConfigurationComponent} from 'src/app/Presentation/DomainConfiguration/domain-configuration.component';
 import {MockProviders} from 'ng-mocks';
-import {DomainConfigurationService} from '../../Service/Domain-Configuration/domain-configuration.service';
-import {IconDictionaryService} from '../../Service/Domain-Configuration/icon-dictionary.service';
-import {DomainCustomizationService} from "../../Service/Domain-Configuration/domain-customization.service";
+import {DomainConfigurationService} from '../../Service/DomainConfiguration/domain-configuration.service';
+import {IconDictionaryService} from '../../Service/DomainConfiguration/icon-dictionary.service';
+import {DomainCustomizationService} from "../../Service/DomainConfiguration/domain-customization.service";
 
 describe('DomainConfigurationComponent', () => {
   let component: DomainConfigurationComponent;

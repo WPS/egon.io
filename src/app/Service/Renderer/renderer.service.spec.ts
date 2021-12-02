@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {RendererService} from './renderer.service';
 import {ModelerService} from '../Modeler/modeler.service';
 import {ElementRegistryService} from '../ElementRegistry/element-registry.service';
-import {DomainConfigurationService} from '../Domain-Configuration/domain-configuration.service';
+import {DomainConfigurationService} from '../DomainConfiguration/domain-configuration.service';
 import {DirtyFlagService} from '../DirtyFlag/dirty-flag.service';
 import {DomainConfiguration} from '../../Domain/Common/domainConfiguration';
 

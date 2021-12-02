@@ -1,16 +1,12 @@
-import { Injectable } from '@angular/core';
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
-import { allIcons } from 'src/app/Domain/Domain-Configuration/allIcons';
-import { IconDictionaryService } from 'src/app/Service/Domain-Configuration/icon-dictionary.service';
-import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
-import { elementTypes } from 'src/app/Domain/Common/elementTypes';
-import {
-  CustomDomainCofiguration,
-  DomainConfiguration,
-} from 'src/app/Domain/Common/domainConfiguration';
-import { defaultConf } from '../../Domain/Common/iconConfiguration';
-import { TitleService } from '../Title/title.service';
-import { INITIAL_DOMAIN_NAME } from '../../Domain/Common/constants';
+import {Injectable} from '@angular/core';
+import {ElementRegistryService} from 'src/app/Service/ElementRegistry/element-registry.service';
+import {IconDictionaryService} from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
+import {Dictionary} from 'src/app/Domain/Common/dictionary/dictionary';
+import {elementTypes} from 'src/app/Domain/Common/elementTypes';
+import {CustomDomainCofiguration, DomainConfiguration,} from 'src/app/Domain/Common/domainConfiguration';
+import {defaultConf} from '../../Domain/Common/iconConfiguration';
+import {TitleService} from '../Title/title.service';
+import {INITIAL_DOMAIN_NAME} from '../../Domain/Common/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +16,8 @@ export class DomainConfigurationService {
     private iconDictionaryService: IconDictionaryService,
     private elementRegistryService: ElementRegistryService,
     private titleService: TitleService
-  ) {}
+  ) {
+  }
 
   public setDomainName(domainName: string): void {
     this.titleService.setDomainName(
@@ -182,79 +179,38 @@ export class DomainConfigurationService {
   }
 
   public createMinimalConfigurationWithDefaultIcons(): DomainConfiguration {
-    const allCanvasObjects = this.elementRegistryService.getAllCanvasObjects();
+    const minimalConfig = this.createConfigFromCanvas();
 
-    const currentConfig = this.createConfigFromDictionaries(
-      this.iconDictionaryService.getActorsDictionary(),
-      [],
-      this.iconDictionaryService.getWorkObjectsDictionary(),
-      []
-    );
-
-    const defaultActors = new Dictionary();
-    const defaultWorkobjects = new Dictionary();
-
-    const canvasObjectTypes: string[] = [];
-    const currentActors = new Dictionary();
-    const currentWorkobjects = new Dictionary();
-    const allActors = new Dictionary();
-    const allWorkobjects = new Dictionary();
-    const newActors = new Dictionary();
-    const newWorkobjects = new Dictionary();
-
-    // Setup
-    currentActors.addEach(currentConfig.actors);
-    currentWorkobjects.addEach(currentConfig.workObjects);
-
-    this.fillDictionary(currentActors, allActors);
-    this.fillDictionary(currentWorkobjects, allWorkobjects);
-
-    allCanvasObjects.forEach((object) => {
-      const objectType = object.type
-        .replace(elementTypes.ACTOR, '')
-        .replace(elementTypes.WORKOBJECT, '');
-      if (!canvasObjectTypes.includes(objectType)) {
-        canvasObjectTypes.push(objectType);
-      }
+    defaultConf.actors.forEach(iconName => {
+      minimalConfig.actors.add(this.iconDictionaryService.getIconSource(iconName), iconName);
+    });
+    defaultConf.workObjects.forEach(iconName => {
+      minimalConfig.workObjects.add(this.iconDictionaryService.getIconSource(iconName), iconName);
     });
 
-    defaultConf.actors.forEach((a) => {
-      defaultActors.add(allActors.get(a), a);
-    });
-    defaultConf.workObjects.forEach((a) => {
-      defaultWorkobjects.add(allActors.get(a), a);
-    });
-
-    // Excecution
-    this.titleService.setDomainName(INITIAL_DOMAIN_NAME);
-
-    allActors.keysArray().forEach((key) => {
-      if (canvasObjectTypes.includes(key)) {
-        newActors.add(allActors.get(key), key);
-      }
-    });
-
-    allWorkobjects.keysArray().forEach((key) => {
-      if (canvasObjectTypes.includes(key)) {
-        newWorkobjects.add(allWorkobjects.get(key), key);
-      }
-    });
-
-    newActors.appendDict(defaultActors);
-    newWorkobjects.appendDict(defaultWorkobjects);
-
-    return {
-      name: INITIAL_DOMAIN_NAME,
-      actors: newActors,
-      workObjects: newWorkobjects,
-    };
+    return minimalConfig;
   }
 
-  private fillDictionary(current: Dictionary, all: Dictionary) {
-    current.keysArray().forEach((name: string) => {
-      if (!(name in allIcons)) {
-        all.add(current.get(name), name);
+  private createConfigFromCanvas(): DomainConfiguration {
+    const config = {
+      name: INITIAL_DOMAIN_NAME,
+      actors: new Dictionary(),
+      workObjects: new Dictionary()
+    }
+
+    let allCanvasObjects = this.elementRegistryService.getAllCanvasObjects();
+
+    allCanvasObjects.map(e => e.businessObject).forEach(element => {
+      const type = element.type.replace(elementTypes.ACTOR, '').replace(elementTypes.WORKOBJECT, '')
+      if (element.type.includes(elementTypes.ACTOR)) {
+        let src = this.iconDictionaryService.getIconSource(type) || '';
+        config.actors.add(src, type);
+      } else if (element.type.includes(elementTypes.WORKOBJECT)) {
+        let src = this.iconDictionaryService.getIconSource(type) || '';
+        config.workObjects.add(src, type);
       }
     });
+
+    return config;
   }
 }

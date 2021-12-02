@@ -1,7 +1,7 @@
 import {AfterViewChecked, Component, Input, OnInit} from '@angular/core';
 import {IconListItem} from '../../../Domain/Domain-Configuration/iconListItem';
 import {BehaviorSubject} from 'rxjs';
-import {DomainCustomizationService} from '../../../Service/Domain-Configuration/domain-customization.service';
+import {DomainCustomizationService} from '../../../Service/DomainConfiguration/domain-customization.service';
 
 @Component({
   selector: 'app-icon-list-item',

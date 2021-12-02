@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { initializeContextPadProvider } from '../../Modeler/modeler/context-pad/domainStoryContextPadProvider';
+import {initializeContextPadProvider} from '../../Modeler/modeler/context-pad/domainStoryContextPadProvider';
 import {
   getMultipleNumberRegistry,
   getNumberRegistry,
@@ -8,32 +8,33 @@ import {
   setNumberIsMultiple,
   updateExistingNumbersAtEditing,
 } from '../../Modeler/modeler/numbering/numbering';
-import { initializePalette } from '../../Modeler/modeler/palette/domainStoryPalette';
-import { initializeRenderer } from '../../Modeler/modeler/domainStoryRenderer';
+import {initializePalette} from '../../Modeler/modeler/palette/domainStoryPalette';
+import {initializeRenderer} from '../../Modeler/modeler/domainStoryRenderer';
 import {
   initializeLabelEditingProvider,
   toggleStashUse,
 } from '../../Modeler/modeler/labeling/dsLabelEditingProvider';
-import { initializeReplaceOptions } from '../../Modeler/modeler/change-icon/replaceOptions';
+import {initializeReplaceOptions} from '../../Modeler/modeler/change-icon/replaceOptions';
 
-import { DirtyFlagService } from '../DirtyFlag/dirty-flag.service';
-import { IconDictionaryService } from '../Domain-Configuration/icon-dictionary.service';
-import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
-import { DomainConfigurationService } from '../Domain-Configuration/domain-configuration.service';
-import { LabelDictionaryService } from '../LabelDictionary/label-dictionary.service';
-import { elementTypes } from '../../Domain/Common/elementTypes';
-import { ReplayStateService } from '../Replay/replay-state.service';
-import { MatDialogConfig } from '@angular/material/dialog';
-import { ActivityDialogData } from '../../Domain/Dialog/activityDialogData';
-import { ActivityDialogComponent } from '../../Presentation/Dialog/activity-dialog/activity-dialog.component';
-import { DialogService } from '../Dialog/dialog.service';
+import {DirtyFlagService} from '../DirtyFlag/dirty-flag.service';
+import {IconDictionaryService} from '../DomainConfiguration/icon-dictionary.service';
+import {ElementRegistryService} from '../ElementRegistry/element-registry.service';
+import {DomainConfigurationService} from '../DomainConfiguration/domain-configuration.service';
+import {LabelDictionaryService} from '../LabelDictionary/label-dictionary.service';
+import {elementTypes} from '../../Domain/Common/elementTypes';
+import {ReplayStateService} from '../Replay/replay-state.service';
+import {MatDialogConfig} from '@angular/material/dialog';
+import {ActivityDialogData} from '../../Domain/Dialog/activityDialogData';
+import {ActivityDialogComponent} from '../../Presentation/Dialog/activity-dialog/activity-dialog.component';
+import {DialogService} from '../Dialog/dialog.service';
 import massRenameHandler from '../../Modeler/modeler/updateHandler/massRenameHandler';
-import headlineAndDescriptionUpdateHandler from '../../Modeler/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
-import { TitleService } from '../Title/title.service';
-import { MassNamingService } from '../LabelDictionary/mass-naming.service';
-import { ActivityCanvasObject } from '../../Domain/Common/activityCanvasObject';
-import { HtmlPresentationService } from '../Export/html-presentation.service';
-import { positionsMatch } from '../../Utils/mathExtensions';
+import headlineAndDescriptionUpdateHandler
+  from '../../Modeler/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
+import {TitleService} from '../Title/title.service';
+import {MassNamingService} from '../LabelDictionary/mass-naming.service';
+import {ActivityCanvasObject} from '../../Domain/Common/activityCanvasObject';
+import {HtmlPresentationService} from '../Export/html-presentation.service';
+import {positionsMatch} from '../../Utils/mathExtensions';
 import activityUpdateHandler, {
   initializeActivityUpdateHandler,
 } from '../../Modeler/modeler/updateHandler/activityUpdateHandlers';
@@ -54,7 +55,8 @@ export class InitializerService {
     private titleService: TitleService,
     private massNamingService: MassNamingService,
     private htmlPresentationService: HtmlPresentationService
-  ) {}
+  ) {
+  }
 
   public initializeDomainStoryModelerClasses(): void {
     initializeContextPadProvider(

@@ -3,7 +3,7 @@ import {TestBed} from '@angular/core/testing';
 import {AutosaveService} from './autosave.service';
 import {MockService} from 'ng-mocks';
 import {RendererService} from '../Renderer/renderer.service';
-import {DomainConfigurationService} from '../Domain-Configuration/domain-configuration.service';
+import {DomainConfigurationService} from '../DomainConfiguration/domain-configuration.service';
 import {ExportService} from '../Export/export.service';
 import {AutosaveStateService} from './autosave-state.service';
 import {Autosave} from '../../Domain/Autosave/autosave';

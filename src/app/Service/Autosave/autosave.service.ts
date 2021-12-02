@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RendererService} from '../Renderer/renderer.service';
-import {DomainConfigurationService} from '../Domain-Configuration/domain-configuration.service';
+import {DomainConfigurationService} from '../DomainConfiguration/domain-configuration.service';
 import {ExportService} from '../Export/export.service';
 import {Autosave} from '../../Domain/Autosave/autosave';
 import {Autosaves} from '../../Domain/Autosave/autosaves';

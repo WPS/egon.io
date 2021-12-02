@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 
-import {IconDictionaryService} from 'src/app/Service/Domain-Configuration/icon-dictionary.service';
+import {IconDictionaryService} from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
 
 describe('IconDictionaryService', () => {
   let service: IconDictionaryService;

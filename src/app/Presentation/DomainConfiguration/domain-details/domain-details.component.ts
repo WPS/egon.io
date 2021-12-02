@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {DomainCustomizationService} from '../../../Service/Domain-Configuration/domain-customization.service';
+import {DomainCustomizationService} from '../../../Service/DomainConfiguration/domain-customization.service';
 import {IconListItem} from '../../../Domain/Domain-Configuration/iconListItem';
 
 @Component({

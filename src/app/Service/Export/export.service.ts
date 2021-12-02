@@ -1,5 +1,5 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {DomainConfigurationService} from 'src/app/Service/Domain-Configuration/domain-configuration.service';
+import {DomainConfigurationService} from 'src/app/Service/DomainConfiguration/domain-configuration.service';
 import {sanitizeForDesktop} from 'src/app/Utils/sanitizer';
 import {TitleService} from 'src/app/Service/Title/title.service';
 import {ConfigAndDST} from 'src/app/Domain/Export/configAndDst';

@@ -6,6 +6,7 @@ import {MatDialogConfig} from '@angular/material/dialog';
 import {InfoDialogData} from './Domain/Dialog/infoDialogData';
 import {InfoDialogComponent} from './Presentation/Dialog/info-dialog/info-dialog.component';
 import {TitleService} from "./Service/Title/title.service";
+import {VERSION} from "./Domain/Common/constants";
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import {TitleService} from "./Service/Title/title.service";
 export class AppComponent implements OnInit {
   showSettingsSubscription: Observable<boolean> | BehaviorSubject<boolean>;
   showDescription: Observable<boolean>;
+  version: string = '';
 
   constructor(
     private settingsService: SettingsService,
@@ -23,6 +25,7 @@ export class AppComponent implements OnInit {
   ) {
     this.showSettingsSubscription = new BehaviorSubject(false);
     this.showDescription = new BehaviorSubject(true);
+    this.version = VERSION
   }
 
   ngOnInit(): void {
