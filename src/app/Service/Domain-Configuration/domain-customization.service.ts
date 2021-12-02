@@ -75,7 +75,12 @@ export class DomainCustomizationService {
     return this.domainConfigurationTypes;
   }
 
-  checkNone(iconName: string) {
+  checkNone(iconName: string, isActor: boolean) {
+    if (isActor) {
+      this.deselectActor(iconName);
+    } else {
+      this.deselectWorkobject(iconName);
+    }
     this.updateIcon(false, false, iconName);
   }
 

@@ -15,8 +15,8 @@ export class SettingsComponent implements OnInit {
   configurationChanged = false;
   domainConfiguration: DomainConfiguration | undefined;
   autosaveEnable: Observable<boolean>;
-  showGeneralSettings = new BehaviorSubject<boolean>(true);
-  showDomainCustomization = new BehaviorSubject<boolean>(false);
+  showGeneralSettings = new BehaviorSubject<boolean>(false);
+  showDomainCustomization = new BehaviorSubject<boolean>(true);
 
   constructor(
     private settingsService: SettingsService,

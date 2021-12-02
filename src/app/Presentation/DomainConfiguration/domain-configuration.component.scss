@@ -1,20 +1,38 @@
+.content {
+  display: grid;
+  grid-template-columns: auto 250px;
+  grid-column-gap: 2px;
+}
+
 .header {
   display: grid;
-  grid-template-columns: 120px auto 120px 120px auto 130px 130px 140px;
+  grid-template-columns: 50% auto auto;
   border-bottom: #ccc 2px solid;
+  height: 64px;
+}
+
+.buttons {
+  align-self: center;
+  justify-self: right;
+}
+
+.button {
+  width: 36px;
 }
 
 .mat-button {
   color: #666666;
 }
 
+.spacer {
+  flex: 1 1 auto;
+}
+
 .domainConfiguration {
-  display: grid;
-  grid-template-columns: auto 250px;
-  padding-left: 5px;
+  padding-left: 10px;
   padding-bottom: 5px;
-  margin-bottom: 100px;
-  grid-column-gap: 2px;
+  margin-top: 15px;
+  height: 100%;
 }
 
 .icons {
@@ -26,16 +44,31 @@
 
 .searchbar {
   display: grid;
-  grid-template-columns: 300px 10px 150px 170px 170px auto;
+  grid-template-columns: 300px 20px 65px 10px 65px 10px 85px;
+  margin-left: 10px;
+  margin-top: 15px;
 }
 
-.active {
-  color: #42aebb;
+.activeActor {
+  background-color: #42aebb;
+  color: white;
+}
+
+.activeNone {
+  background-color: #e0e0e0;
+  color: black;
+}
+
+.activeWorkObject {
+  background-color: #0168b7;
+  color: white;
 }
 
 .textInput {
   width: 300px;
   margin-top: 5px;
+  margin-left: 5px;
+  border-bottom: #666666 1px solid;
 }
 
 .iconList {

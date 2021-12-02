@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  CustomDomainCofiguration,
-  DomainConfiguration,
-} from 'src/app/Domain/Common/domainConfiguration';
-import { DomainConfigurationService } from 'src/app/Service/Domain-Configuration/domain-configuration.service';
-import { IconDictionaryService } from 'src/app/Service/Domain-Configuration/icon-dictionary.service';
-import { BehaviorSubject } from 'rxjs';
-import { Dictionary, Entry } from 'src/app/Domain/Common/dictionary/dictionary';
-import { sanitizeIconName } from 'src/app/Utils/sanitizer';
-import { IconFilterEnum } from '../../Domain/Domain-Configuration/iconFilterEnum';
-import { DomainCustomizationService } from '../../Service/Domain-Configuration/domain-customization.service';
+import {Component, OnInit} from '@angular/core';
+import {CustomDomainCofiguration, DomainConfiguration,} from 'src/app/Domain/Common/domainConfiguration';
+import {DomainConfigurationService} from 'src/app/Service/Domain-Configuration/domain-configuration.service';
+import {IconDictionaryService} from 'src/app/Service/Domain-Configuration/icon-dictionary.service';
+import {BehaviorSubject} from 'rxjs';
+import {Dictionary} from 'src/app/Domain/Common/dictionary/dictionary';
+import {sanitizeIconName} from 'src/app/Utils/sanitizer';
+import {IconFilterEnum} from '../../Domain/Domain-Configuration/iconFilterEnum';
+import {DomainCustomizationService} from '../../Service/Domain-Configuration/domain-customization.service';
 
 @Component({
   selector: 'app-domain-configuration',
@@ -33,7 +30,7 @@ export class DomainConfigurationComponent implements OnInit {
   constructor(
     private configurationService: DomainConfigurationService,
     private iconDictionaryService: IconDictionaryService,
-    private domainCustomizationService: DomainCustomizationService
+    private domainCustomizationService: DomainCustomizationService,
   ) {
     this.domainConfigurationTypes =
       this.domainCustomizationService.getDomainConfiguration().value;

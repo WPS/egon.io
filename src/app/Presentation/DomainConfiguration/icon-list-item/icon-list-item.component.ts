@@ -1,7 +1,7 @@
-import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
-import { IconListItem } from '../../../Domain/Domain-Configuration/iconListItem';
-import { BehaviorSubject } from 'rxjs';
-import { DomainCustomizationService } from '../../../Service/Domain-Configuration/domain-customization.service';
+import {AfterViewChecked, Component, Input, OnInit} from '@angular/core';
+import {IconListItem} from '../../../Domain/Domain-Configuration/iconListItem';
+import {BehaviorSubject} from 'rxjs';
+import {DomainCustomizationService} from '../../../Service/Domain-Configuration/domain-customization.service';
 
 @Component({
   selector: 'app-icon-list-item',
@@ -54,7 +54,7 @@ export class IconListItemComponent implements OnInit, AfterViewChecked {
   }
 
   toggleNone() {
-    this.domainCustomizationService.checkNone(this.iconName);
+    this.domainCustomizationService.checkNone(this.iconName, this.icon.value.isActor);
   }
 
   toggleActor(): void {

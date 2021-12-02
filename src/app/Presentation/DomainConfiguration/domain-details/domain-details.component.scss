@@ -1,11 +1,15 @@
 .details {
   display: grid;
   grid-template-rows: 70px auto auto;
-  height: calc(100vh - 120px);
+  height: 100%;
   grid-row-gap: 1px;
   overflow-y: scroll;
   overflow-x: hidden;
   border-left: solid 2px #ccc;
+}
+
+.domainDetails {
+  margin-top: 10px;
 }
 
 .fullWidth {
@@ -29,5 +33,5 @@ mat-list {
 }
 
 .actorList {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 2px solid #ccc;
 }
