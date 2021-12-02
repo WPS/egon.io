@@ -22,8 +22,17 @@
   }
 }
 
-.unset {
-  font-weight: lighter;
+.paddedButton {
+  ::ng-deep.mat-button {
+    span {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+}
+
+.highlight {
+  background-color: #37479f;
 }
 
 .tab {

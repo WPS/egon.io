@@ -7,18 +7,20 @@
           <span class="material-icons-outlined materialIconButton"> arrow_back</span>
         </button>
       </div>
-      <button
-        class="headerButton mr-10"
-        [class.unset]="!(showDomainCustomization | async)"
-        mat-button (click)="openDomainCustomization()">
-        <span class="headline">Domain Customization</span>
-      </button>
-      <button
-        class="headerButton"
-        [class.unset]="!(showGeneralSettings | async)"
-        mat-button (click)="openGeneralSettings()">
-        <span class="headline">General Settings</span>
-      </button>
+      <div class="paddedButton">
+        <button
+          class="headerButton mr-10"
+          [class.highlight]="showDomainCustomization | async"
+          mat-button (click)="openDomainCustomization()">
+          <span class="headline">Domain Customization</span>
+        </button>
+        <button
+          class="headerButton"
+          [class.highlight]="showGeneralSettings | async"
+          mat-button (click)="openGeneralSettings()">
+          <span class="headline">General Settings</span>
+        </button>
+      </div>
 
     </mat-toolbar-row>
   </mat-toolbar>
