@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SettingsService} from 'src/app/Service/Settings/settings.service';
 import {ModelerService} from 'src/app/Service/Modeler/modeler.service';
 import {DomainConfiguration} from 'src/app/Domain/Common/domainConfiguration';
@@ -15,11 +15,6 @@ export class SettingsComponent implements OnInit {
   configurationChanged = false;
   domainConfiguration: DomainConfiguration | undefined;
   autosaveEnable: Observable<boolean>;
-
-  @Output()
-  emitIconConfigurationExport = new EventEmitter<boolean>();
-  @Output()
-  emitIconConfigurationImport = new EventEmitter<boolean>();
 
   constructor(
     private settingsService: SettingsService,
@@ -40,13 +35,5 @@ export class SettingsComponent implements OnInit {
       this.modelerService.restart(savedConfiguration);
     }
     this.settingsService.close();
-  }
-
-  importIconConfig(): void {
-    this.emitIconConfigurationImport.emit(true);
-  }
-
-  exportIconConfig(): void {
-    this.emitIconConfigurationExport.emit(true);
   }
 }

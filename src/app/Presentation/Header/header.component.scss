@@ -2,35 +2,8 @@
   cursor: default !important;
 }
 
-.toolbar {
-  height: 65px;
-}
-
 .mr-10 {
   margin-right: 10px;
-}
-
-.headline,
-.headline_hover {
-  font-size: 17pt;
-  height: 40px;
-  cursor: pointer;
-}
-
-.headline_hover {
-  color: #42aebb;
-}
-
-.edit {
-  opacity: 0;
-}
-
-.edit_hover {
-  opacity: 100;
-}
-
-#descriptionContainer {
-  height: 75px;
 }
 
 .description {

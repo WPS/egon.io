@@ -21,13 +21,13 @@ $egon-warn: mat.define-palette(mat.$red-palette);
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $egon-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $egon-primary,
-      accent: $egon-accent,
-      warn: $egon-warn,
-    ),
-  )
+    (
+      color: (
+        primary: $egon-primary,
+        accent: $egon-accent,
+        warn: $egon-warn,
+      ),
+    )
 );
 
 // Include theme styles for core and each component used in your app.
@@ -41,6 +41,7 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -54,6 +55,28 @@ body {
   *::-webkit-scrollbar {
     width: 12px;
   }
+}
+
+.headline {
+  font-size: 17pt;
+  height: 40px;
+  cursor: pointer;
+}
+
+.headerButton {
+  background-color: transparent;
+  border: none;
+}
+
+.materialIconButton {
+  font-size: 24px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-top: 5px;
+}
+
+.toolbar {
+  height: 65px;
 }
 
 app-root {
@@ -277,6 +300,7 @@ app-root {
 .djs-bendpoint.djs-dragging .djs-visual {
   fill: #42aebb;
 }
+
 .djs-tooltip-error > * {
   color: #42aebb;
   border-left: solid 5px #42aebb;

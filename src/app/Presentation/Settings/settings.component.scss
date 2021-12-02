@@ -1,12 +1,17 @@
 .settings {
   display: grid;
-  grid-template-rows: 40px auto;
+  grid-template-rows: 65px auto;
   width: 100%;
   height: 100%;
-}
 
-.materialIconButton {
-  font-size: 12pt;
+  ::ng-deep.mat-button {
+    padding: 0;
+  }
+
+  .materialIconButton {
+    margin-top: 0;
+    padding: 0;
+  }
 }
 
 .tab {
@@ -18,13 +23,6 @@
 
 .tabs {
   overflow-y: hidden;
-}
-
-.header {
-  display: grid;
-  color: #666666;
-  border-bottom: darkgrey 1px solid;
-  grid-template-columns: 150px auto 250px 250px;
 }
 
 ::ng-deep.mat-tab-label,

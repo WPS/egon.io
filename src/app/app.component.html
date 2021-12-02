@@ -1,6 +1,5 @@
 <div class="content" role="main">
   <app-settings *ngIf="showSettingsSubscription | async"></app-settings>
-
   <div
     [class.headerAndCanvas]="
       !(showSettingsSubscription | async) && (showDescription | async)
