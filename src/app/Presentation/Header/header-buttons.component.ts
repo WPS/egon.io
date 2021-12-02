@@ -17,6 +17,8 @@ import {ExportService} from '../../Service/Export/export.service';
 import {ImportDomainStoryService} from '../../Service/Import/import-domain-story.service';
 import {LabelDictionaryDialogComponent} from '../Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
 import {HeaderDialogComponent} from "../Dialog/header-dialog/header-dialog.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SNACKBAR_DURATION, SNACKBAR_INFO, SNACKBAR_WARNING} from "../../Domain/Common/constants";
 
 @Component({
   selector: 'app-header-buttons',
@@ -39,7 +41,8 @@ export class HeaderButtonsComponent {
     private dialogService: DialogService,
     private replayService: ReplayService,
     private exportService: ExportService,
-    private importService: ImportDomainStoryService
+    private importService: ImportDomainStoryService,
+    public snackbar: MatSnackBar
   ) {
     this.isReplay = this.replayStateService.getReplayOnObservable();
     this.isDirty = this.dirtyFlagService.dirtySubject;
@@ -121,20 +124,13 @@ export class HeaderButtonsComponent {
       ]);
 
       this.dialogService.openDialog(ExportDialogComponent, config);
+    } else {
+      this.snackbar.open("No Domain Story to be exported", undefined, {
+        duration: SNACKBAR_DURATION,
+        panelClass: SNACKBAR_INFO
+      })
     }
   }
-
-
-  private openNoDomainStoryDialog(title: string, text: string): void {
-    const config = new MatDialogConfig();
-    config.disableClose = false;
-    config.autoFocus = true;
-
-    config.data = new InfoDialogData(title, text, true);
-
-    this.dialogService.openDialog(InfoDialogComponent, config);
-  }
-
 
   public openHeaderDialog()
     :
@@ -192,9 +188,11 @@ export class HeaderButtonsComponent {
 
       this.dialogService.openDialog(LabelDictionaryDialogComponent, config);
     } else {
-      this.openNoDomainStoryDialog(
-        'Label Dictionary Error',
-        'There are currently no Elements on the canvas'
+      this.snackbar.open(
+        'There are currently no Elements on the canvas', undefined, {
+          duration: SNACKBAR_DURATION,
+          panelClass: SNACKBAR_WARNING
+        }
       );
     }
   }

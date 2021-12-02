@@ -10,6 +10,8 @@ import {Dictionary, Entry} from '../../Domain/Common/dictionary/dictionary';
 import {ImportDomainStoryService} from '../Import/import-domain-story.service';
 import {deepCopy} from '../../Utils/deepCopy';
 import {TitleService} from "../Title/title.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SNACKBAR_DURATION, SNACKBAR_INFO, SNACKBAR_SUCCESS} from "../../Domain/Common/constants";
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +34,7 @@ export class DomainCustomizationService {
     private iconDictionaryService: IconDictionaryService,
     private importService: ImportDomainStoryService,
     private titleService: TitleService,
+    public snackBar: MatSnackBar
   ) {
     this.domainName = this.titleService.getDomainNameAsObservable();
     this.domainConfigurationTypes = new BehaviorSubject(
@@ -179,6 +182,15 @@ export class DomainCustomizationService {
   saveDomain(): void {
     if (this.configurationHasChanged) {
       this.savedDomainConfiguration = this.createDomainConfiguration();
+      this.snackBar.open("Configuration saved sucessfully", undefined, {
+        duration: SNACKBAR_DURATION,
+        panelClass: SNACKBAR_SUCCESS
+      })
+    } else {
+      this.snackBar.open("Nothing to be saved", undefined, {
+        duration: SNACKBAR_DURATION,
+        panelClass: SNACKBAR_INFO
+      })
     }
   }
 

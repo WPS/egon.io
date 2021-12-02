@@ -36,6 +36,7 @@ import {LabelDictionaryDialogComponent} from './Presentation/Dialog/label-dictio
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCardModule} from "@angular/material/card";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import {MatCardModule} from "@angular/material/card";
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
+    MatSnackBarModule,
     MatCardModule,
   ],
   providers: [

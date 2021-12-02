@@ -92,6 +92,28 @@ app-root {
   height: 100%;
 }
 
+/* Snackbar */
+
+.snackbar_success {
+  background-color: darkgreen;
+  color: white;
+}
+
+.snackbar_warning {
+  background-color: orange;
+  color: black;
+}
+
+.snackbar_error {
+  background-color: darkred;
+  color: white;
+}
+
+.snackbar_info {
+  background-color: #42aebb;
+  color: black;
+}
+
 /* BPMN elements */
 
 .djs-overlay-context-pad {
