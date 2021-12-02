@@ -2,12 +2,12 @@
   <form [formGroup]="form">
     <mat-form-field class="dialogWidth">
       <mat-label>Title</mat-label>
-      <input matInput type="text" formControlName="title" />
+      <input matInput type="text" formControlName="title"/>
     </mat-form-field>
-    <br />
+    <br/>
     <mat-form-field class="dialogWidth">
       <mat-label>Description</mat-label>
-      <textarea matInput class="descriptionInput" formControlName="description"></textarea>
+      <textarea maxlength=2000 matInput class="descriptionInput" formControlName="description"></textarea>
     </mat-form-field>
   </form>
 </mat-dialog-content>

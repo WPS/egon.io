@@ -1,124 +1,133 @@
-<div class="ButtonContainer">
-  <div id="editModeButtons" *ngIf="!(isReplay | async)">
-    <button id="settingsButton" (click)="openSettings()">
-      <span class="material-icons-outlined materialIconButton" title="Settings">
-        settings
-      </span>
-      <span>Settings</span>
-    </button>
-    <button id="labelDictionaryButton" class="borderRight" (click)="openLabelDictionary()">
+<div *ngIf="!(isReplay | async)">
+  <button class="headerButton" title="Edit Title and Description"
+          (click)="openHeaderDialog()">
+    <span class="material-icons materialIconButton"> edit </span>
+  </button>
+  <button class="headerButton" title="Label Dictionary" (click)="openLabelDictionary()">
       <span class="material-icons materialIconButton" title="Label Dictionary">
         spellcheck
       </span>
-    <span>Label Dictionary</span>
   </button>
-    <button
-      id="buttonImport"
-      class="importButton"
-      title="Import story from file"
-      onclick="document.getElementById('import').click();"
+  <button
+    id="buttonImport"
+    class="headerButton"
+    title="Import story from file"
+    onclick="document.getElementById('import').click();"
+  >
+    <span class="material-icons materialIconButton"> unarchive </span>
+  </button>
+  <input
+    type="file"
+    accept=".dst, .svg"
+    style="display: none"
+    id="import"
+    onclick="this.value=null;"
+    (change)="import()"
+    name="file"
+  />
+  <button
+    class="headerButton"
+    id="export"
+    title="Export story as .dst, .svg or .png file"
+    (click)="openDownloadDialog()"
+  >
+    <span
+      class="material-icons-outlined materialIconButton"
+      *ngIf="!(isDirty | async)"
     >
-      <span class="material-icons-outlined materialIconButton"> unarchive </span>
-      <span>Import</span>
-    </button>
-    <input
-      type="file"
-      accept=".dst, .svg"
-      style="display: none"
-      id="import"
-      onclick="this.value=null;"
-      (change)="import()"
-      name="file"
-    />
-    <button
-      class="exportButton borderRight"
-      id="export"
-      title="Export story as .dst file"
-      (click)="openDownloadDialog()"
-    >
-      <span
-        class="material-icons-outlined materialIconButton"
-        *ngIf="!(isDirty | async)"
-      >
         archive
       </span>
-      <span
-        class="material-icons-two-tone materialIconButton"
-        *ngIf="isDirty | async"
-      >
+    <span
+      class="material-icons materialIconButton"
+      *ngIf="isDirty | async"
+    >
         archive
       </span>
-      <span>Export</span>
-    </button>
-    <button
-      id="buttonStartReplay"
-      class="startReplayButton borderRight"
-      title="Start replay"
-      (click)="startReplay()"
-    >
-      <span class="material-icons-outlined materialIconButton"> play_arrow </span>
-      <span>Replay</span>
-    </button>
-    <button
-      id="keyboardShortcutInfoButton"
-      class="borderRight"
-      title="Show keyboard shortcuts"
-      (click)="openKeyboardShortcutsDialog()"
-    >
-      <span class="material-icons-outlined materialIconButton"> info </span>
-      <span>Shortcuts</span>
-    </button>
-    <button
-      class="toggleDescriptionButton"
-      title="Hide Description"
-      *ngIf="showDescription | async"
-      (click)="setShowDescription(false)"
-    >
+  </button>
+  <button
+    id="buttonStartReplay"
+    class="headerButton"
+    title="Start replay"
+    (click)="startReplay()"
+  >
+    <span class="material-icons materialIconButton"> play_arrow </span>
+  </button>
+  <button
+    class="headerButton"
+    title="Show keyboard shortcuts"
+    (click)="openKeyboardShortcutsDialog()"
+  >
+    <span class="material-icons materialIconButton"> info </span>
+  </button>
+
+  <button class="headerButton" title="Settings" (click)="openSettings()">
+      <span class="material-icons materialIconButton" title="Settings">
+        settings
+      </span>
+  </button>
+
+
+  <button
+    class="headerButton"
+    title="Hide Description"
+    *ngIf="showDescription | async"
+    (click)="setShowDescription(false)"
+  >
       <span class="material-icons materialIconButton toggle">
         expand_less
       </span>
-    </button>
-    <button
-      class="toggleDescriptionButton"
-      title="Show Description"
-      *ngIf="!(showDescription | async)"
-      (click)="setShowDescription(true)"
-    >
+  </button>
+  <button
+    class="headerButton"
+    title="Show Description"
+    *ngIf="!(showDescription | async)"
+    (click)="setShowDescription(true)"
+  >
       <span class="material-icons materialIconButton toggle">
-        expand_more
+        expand_more</span>
+  </button>
+</div>
+<div *ngIf="isReplay | async">
+  <button
+    class="headerButton"
+    title="Previous Step"
+    (click)="previousStep()"
+  >
+    <span class="material-icons materialIconButton"> skip_previous </span>
+  </button>
+  <button
+    class="headerButton"
+    title="NextStep"
+    (click)="nextStep()"
+  >
+    <span class="material-icons materialIconButton"> skip_next </span>
+  </button>
+  <button
+    class="headerButton"
+    title="Stop replay"
+    (click)="stopReplay()"
+  >
+    <span class="material-icons materialIconButton"> stop </span>
+  </button>
+
+
+  <button
+    class="headerButton"
+    title="Hide Description"
+    *ngIf="showDescription | async"
+    (click)="setShowDescription(false)"
+  >
+      <span class="material-icons materialIconButton toggle">
+        expand_less
       </span>
-    </button>
-  </div>
-  <div id="presentationModeButtons" *ngIf="isReplay | async">
-    <button
-      id="buttonPreviousStep"
-      class="previousStepButton borderLeft"
-      title="Previous Step"
-      (click)="previousStep()"
-    >
-      <span class="material-icons materialIconButton"> skip_previous </span>
-      <span>Previous Step</span>
-    </button>
-    <button
-      id="buttonNextStep"
-      class="NextStepButton borderRight"
-      title="NextStep"
-      (click)="nextStep()"
-    >
-      <span class="material-icons materialIconButton"> skip_next </span>
-      <span>Next Step</span>
-    </button>
-    <button
-      id="buttonStopReplay"
-      class="stopReplayButton"
-      title="Stop replay"
-      (click)="stopReplay()"
-    >
-      <span class="material-icons-outlined materialIconButton"> stop </span>
-      <span> Stop replay</span>
-    </button>
-    <div id="replayStep">
-      Step: {{ currentStepNumber | async }}/{{ maxStepNumber | async }}
-    </div>
-  </div>
+  </button>
+  <button
+    class="headerButton"
+    title="Show Description"
+    *ngIf="!(showDescription | async)"
+    (click)="setShowDescription(true)"
+  >
+      <span class="material-icons materialIconButton toggle">
+        expand_more</span>
+  </button>
 </div>

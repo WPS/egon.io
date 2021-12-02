@@ -1,30 +1,13 @@
 .materialIconButton {
-  font-size: 12pt;
+  font-size: 24px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-top: 5px;
 }
 
 span {
-  font-size: 12pt;
-  color: #666666;
-}
-
-#buttonPreviousStep {
-  margin-left: 6.7rem;
-}
-
-#replayStep {
-  padding: 1px;
-  margin-top: -1.5em;
-  margin-left: 2.4em;
-  font-size: 12pt;
-  color: #666666;
-}
-
-.ButtonContainer {
-  margin-top: 0.2em;
-  position: relative;
-  display: inline-grid;
-  justify-items: right;
-  width: 100%;
+  font-size: 15pt;
+  color: white;
 }
 
 #dictionaryButton {
@@ -32,54 +15,20 @@ span {
   pointer-events: none;
 }
 
-#presentationModeButtons {
-  height: 43px;
-}
-
 .borderRight {
-  border-right: #666666 solid 2px !important;
+  border-right: white solid 2px !important;
 }
 
 .borderLeft {
-  border-left: #666666 solid 2px !important;
+  border-left: white solid 2px !important;
 }
 
-#buttonImport,
-#export,
-#buttonImageDownloads,
-#dictionaryButton,
-#buttonStartReplay,
-#buttonStopReplay,
-#buttonNextStep,
-#buttonPreviousStep,
-#keyboardShortcutInfoButton,
-#labelDictionaryButton,
-.toggleDescriptionButton,
-#settingsButton {
-  background-color: white;
+.headerButton {
+  background-color: transparent;
   border: none;
-  padding: 4px;
 }
 
-#buttonImport:hover,
-#importConfigurationButton:hover,
-#exportConfigurationButton:hover,
-#export:hover,
-#buttonImageDownloads:hover,
-#buttonSVG:hover,
-#buttonPNG:hover,
-#buttonStartReplay:hover,
-#buttonStopReplay:hover,
-#buttonNextStep:hover,
-#buttonPreviousStep:hover,
-#brokenDSTDialogButtonCancel:hover,
-#closeNoContentOnCanvasInfo:hover,
-#keyboardShortcutInfoDialogButtonCancel:hover,
-#settingsButton:hover,
-#labelDictionaryButton:hover,
-.toggleDescriptionButton:hover,
-#downloadDialogCancelButton:hover,
-#keyboardShortcutInfoButton:hover {
+.headerButton:hover {
   cursor: pointer;
-  color: #42aebb;
+  color: white;
 }

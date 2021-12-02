@@ -3,23 +3,13 @@
   overflow: hidden;
 }
 
-#line {
-  padding: 2px;
-  position: relative;
-  right: 0;
-  left: 0;
-  width: 100%;
-  border-bottom: solid 2px #ccc;
-  margin-top: -5px;
-}
-
 /* header and Canvas*/
 
 .headerAndCanvas {
   height: 100%;
   width: 100%;
   display: grid;
-  grid-template-rows: 125px 1px auto;
+  grid-template-rows: 220px auto;
   overflow: hidden;
 }
 
@@ -27,7 +17,7 @@
   height: 100%;
   width: 100%;
   display: grid;
-  grid-template-rows: 30px 1px auto;
+  grid-template-rows: 65px auto;
   overflow: hidden;
 }
 
@@ -37,14 +27,6 @@
 
 .header {
   display: grid;
-  margin-left: 5px;
-  grid-template-rows: 50px 75px;
-}
-
-.headerCollapsed {
-  display: grid;
-  margin-left: 5px;
-  grid-template-rows: 30px;
 }
 
 /* Logo Container */
@@ -75,9 +57,11 @@
   height: 100%;
   box-sizing: border-box; /*new*/
 }
+
 #tab-group {
   height: 100%;
 }
+
 #tab-group mat-tab-body {
   flex-grow: 1;
 }

@@ -1,24 +1,22 @@
-import { Component, Input } from '@angular/core';
-import { SettingsService } from '../../Service/Settings/settings.service';
-import { TitleService } from '../../Service/Title/title.service';
-import { ModelerService } from '../../Service/Modeler/modeler.service';
-import { Observable } from 'rxjs';
-import { ReplayStateService } from '../../Service/Replay/replay-state.service';
-import { DirtyFlagService } from '../../Service/DirtyFlag/dirty-flag.service';
-import {
-  ExportDialogData,
-  ExportOption,
-} from '../../Domain/Dialog/exportDialogData';
-import { MatDialogConfig } from '@angular/material/dialog';
-import { ExportDialogComponent } from '../Dialog/export-dialog/export-dialog.component';
-import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
-import { InfoDialogComponent } from '../Dialog/info-dialog/info-dialog.component';
-import { ElementRegistryService } from '../../Service/ElementRegistry/element-registry.service';
-import { DialogService } from '../../Service/Dialog/dialog.service';
-import { ReplayService } from '../../Service/Replay/replay.service';
-import { ExportService } from '../../Service/Export/export.service';
-import { ImportDomainStoryService } from '../../Service/Import/import-domain-story.service';
-import { LabelDictionaryDialogComponent } from '../Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
+import {Component} from '@angular/core';
+import {SettingsService} from '../../Service/Settings/settings.service';
+import {TitleService} from '../../Service/Title/title.service';
+import {ModelerService} from '../../Service/Modeler/modeler.service';
+import {Observable} from 'rxjs';
+import {ReplayStateService} from '../../Service/Replay/replay-state.service';
+import {DirtyFlagService} from '../../Service/DirtyFlag/dirty-flag.service';
+import {ExportDialogData, ExportOption,} from '../../Domain/Dialog/exportDialogData';
+import {MatDialogConfig} from '@angular/material/dialog';
+import {ExportDialogComponent} from '../Dialog/export-dialog/export-dialog.component';
+import {InfoDialogData} from '../../Domain/Dialog/infoDialogData';
+import {InfoDialogComponent} from '../Dialog/info-dialog/info-dialog.component';
+import {ElementRegistryService} from '../../Service/ElementRegistry/element-registry.service';
+import {DialogService} from '../../Service/Dialog/dialog.service';
+import {ReplayService} from '../../Service/Replay/replay.service';
+import {ExportService} from '../../Service/Export/export.service';
+import {ImportDomainStoryService} from '../../Service/Import/import-domain-story.service';
+import {LabelDictionaryDialogComponent} from '../Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
+import {HeaderDialogComponent} from "../Dialog/header-dialog/header-dialog.component";
 
 @Component({
   selector: 'app-header-buttons',
@@ -28,12 +26,8 @@ import { LabelDictionaryDialogComponent } from '../Dialog/label-dictionary-dialo
 export class HeaderButtonsComponent {
   isReplay: Observable<boolean>;
   isDirty: Observable<boolean>;
-  currentStepNumber: Observable<number>;
-  maxStepNumber: Observable<number>;
 
   showDescription: Observable<boolean>;
-
-  showDescriptionCache = true;
 
   constructor(
     private settingsService: SettingsService,
@@ -49,9 +43,6 @@ export class HeaderButtonsComponent {
   ) {
     this.isReplay = this.replayStateService.getReplayOnObservable();
     this.isDirty = this.dirtyFlagService.dirtySubject;
-    this.currentStepNumber =
-      this.replayService.getCurrentStepNumberObservable();
-    this.maxStepNumber = this.replayService.getMaxStepNumberObservable();
     this.showDescription = this.titleService.getShowDescriptionObservable();
 
     this.setShortcuts();
@@ -130,13 +121,9 @@ export class HeaderButtonsComponent {
       ]);
 
       this.dialogService.openDialog(ExportDialogComponent, config);
-    } else {
-      this.openNoDomainStoryDialog(
-        'Export Error',
-        'There currently is no DomainStory to export.'
-      );
     }
   }
+
 
   private openNoDomainStoryDialog(title: string, text: string): void {
     const config = new MatDialogConfig();
@@ -146,6 +133,16 @@ export class HeaderButtonsComponent {
     config.data = new InfoDialogData(title, text, true);
 
     this.dialogService.openDialog(InfoDialogComponent, config);
+  }
+
+
+  public openHeaderDialog()
+    :
+    void {
+    const config = new MatDialogConfig();
+    config.disableClose = false;
+    config.autoFocus = true;
+    this.dialogService.openDialog(HeaderDialogComponent, config);
   }
 
   public openKeyboardShortcutsDialog(): void {
@@ -173,13 +170,10 @@ export class HeaderButtonsComponent {
 
   public startReplay(): void {
     this.replayService.startReplay();
-    this.showDescriptionCache = this.titleService.getShowDescription();
-    this.setShowDescription(false);
   }
 
   public stopReplay(): void {
     this.replayService.stopReplay();
-    this.setShowDescription(this.showDescriptionCache);
   }
 
   public previousStep(): void {

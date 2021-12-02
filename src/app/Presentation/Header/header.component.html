@@ -1,26 +1,24 @@
-<div id="headlineAndButtons">
-  <h3
-    [class.headline]="!mouseOver"
-    [class.headline_hover]="mouseOver"
-    (mouseover)="mouseOver = true"
-    (mouseout)="mouseOver = false"
-    (click)="openHeaderDialog()"
-  >
-    <span id="title">{{ title | async }}</span>
-    <img
-      src="../../../../assets/logo/edit_blue.png"
-      [class.edit]="!mouseOver"
-      [class.edit_hover]="mouseOver"
-      alt=""
-    />
-  </h3>
-  <app-header-buttons></app-header-buttons>
-</div>
-<div id="descriptionContainer" *ngIf="showDescription | async">
-  <div id="descriptionText">{{ description | async }}</div>
-</div>
+<mat-toolbar color=primary class="toolbar">
+  <mat-toolbar-row class="toolbarRow">
+    <span class="mr-10">
+        <span class="headline noPointer mr-10">egon.io</span>
+        <span
+          class="headline"
+        >
+        <span>{{ title | async }}</span>
+      </span>
+    </span>
+    <span class="mr-10">-</span>
+    <span title="Domain">{{ currentDomainName | async }} </span>
+    <span class="domainNameSpacer"></span>
+    <span title="Replay Step" *ngIf="isReplay | async">
+      Step: {{ currentStepNumber | async }}/{{ maxStepNumber | async }}</span>
 
-<div id="subHeader">
-  <span>Domain: </span>
-  <span id="currentDomainName">{{ currentDomainName | async }}</span>
-</div>
+    <span class="buttonSpacer"></span>
+
+    <app-header-buttons></app-header-buttons>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-card class="smallScrollbar description" *ngIf="showDescription | async">
+  <span class="descriptionText">{{ description | async }}</span>
+</mat-card>

@@ -1,32 +1,24 @@
-#headlineAndButtons {
-  display: grid;
-  grid-template-columns: auto 570px 3px;
+.noPointer {
+  cursor: default !important;
 }
 
-#subHeader {
-  font-size: 10pt;
+.toolbar {
+  height: 65px;
+}
+
+.mr-10 {
+  margin-right: 10px;
 }
 
 .headline,
 .headline_hover {
   font-size: 17pt;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto;
-  -webkit-hyphenate-character: auto; /* not supported by Chrome*/
-  margin-left: 0;
-  margin-top: 0;
-  margin-bottom: 0;
   height: 40px;
   cursor: pointer;
 }
 
 .headline_hover {
   color: #42aebb;
-}
-
-#title {
-  height: 40px;
 }
 
 .edit {
@@ -41,17 +33,30 @@
   height: 75px;
 }
 
-#descriptionText {
-  height: 100%;
-  margin-bottom: 3px;
-  position: relative;
-  font-size: 10pt;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto;
-  -webkit-hyphenate-character: auto; /* not supported by Chrome*/
+.description {
+  top: 0;
+  max-width: 100vw;
+  overflow-y: scroll;
 }
 
-.descriptionText:hover {
+.descriptionText {
+  position: relative;
+  font-size: 10pt;
+  overflow-wrap: anywhere;
+  word-wrap: anywhere;
+  white-space: pre-wrap;
+
+  line-height: 12pt;
+}
+
+.description:hover {
   cursor: default;
+}
+
+.domainNameSpacer {
+  flex: 1 1 auto;
+}
+
+.buttonSpacer {
+  margin-right: 15px;
 }

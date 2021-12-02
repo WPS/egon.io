@@ -1,11 +1,6 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  INITIAL_DESCRIPTION,
-  INITIAL_DOMAIN_NAME,
-  INITIAL_TITLE,
-  VERSION,
-} from '../../Domain/Common/constants';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {INITIAL_DESCRIPTION, INITIAL_DOMAIN_NAME, INITIAL_TITLE, VERSION,} from '../../Domain/Common/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +14,6 @@ export class TitleService {
   private domainNameSubject = new BehaviorSubject<string>(INITIAL_DOMAIN_NAME);
   private showDescription = new BehaviorSubject<boolean>(true);
   private commandStack: any;
-
-  constructor() {}
 
   public setCommandStack(commandStack: any): void {
     this.commandStack = commandStack;
@@ -49,7 +42,7 @@ export class TitleService {
   private updateTitle(title: string): void {
     this.titleSubject.next(title);
     this.title = title;
-    document.title = title + ' - Domain Story Modeler';
+    document.title = title + ' - egon.io';
   }
 
   private updateDescription(description: string): void {

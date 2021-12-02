@@ -10,14 +10,12 @@
     "
     [class.hidden]="showSettingsSubscription | async"
   >
-    <input type="color" id="colorPicker" style="display: none" />
+    <input type="color" id="colorPicker" style="display: none"/>
 
     <app-header
       [class.header]="showDescription | async"
       [class.headerCollapsed]="!(showDescription | async)"
     ></app-header>
-
-    <div id="line"></div>
     <app-modeler></app-modeler>
   </div>
 
