@@ -1,18 +1,15 @@
-import { Injectable } from '@angular/core';
-import {
-  CustomDomainCofiguration,
-  DomainConfiguration,
-} from '../../Domain/Common/domainConfiguration';
-import { BehaviorSubject } from 'rxjs';
-import { DomainConfigurationService } from './domain-configuration.service';
-import { IconDictionaryService } from './icon-dictionary.service';
-import { getNameFromType } from '../../Utils/naming';
-import { elementTypes } from '../../Domain/Common/elementTypes';
-import { IconListItem } from '../../Domain/Domain-Configuration/iconListItem';
-import { Dictionary, Entry } from '../../Domain/Common/dictionary/dictionary';
-import { ImportDomainStoryService } from '../Import/import-domain-story.service';
-import { deepCopy } from '../../Utils/deepCopy';
-import { INITIAL_DOMAIN_NAME } from '../../Domain/Common/constants';
+import {Injectable} from '@angular/core';
+import {CustomDomainCofiguration, DomainConfiguration,} from '../../Domain/Common/domainConfiguration';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {DomainConfigurationService} from './domain-configuration.service';
+import {IconDictionaryService} from './icon-dictionary.service';
+import {getNameFromType} from '../../Utils/naming';
+import {elementTypes} from '../../Domain/Common/elementTypes';
+import {IconListItem} from '../../Domain/Domain-Configuration/iconListItem';
+import {Dictionary, Entry} from '../../Domain/Common/dictionary/dictionary';
+import {ImportDomainStoryService} from '../Import/import-domain-story.service';
+import {deepCopy} from '../../Utils/deepCopy';
+import {TitleService} from "../Title/title.service";
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +19,7 @@ export class DomainCustomizationService {
 
   private allIconListItems = new Dictionary();
 
-  domainName = new BehaviorSubject<string>(INITIAL_DOMAIN_NAME);
+  domainName = new Observable<string>();
 
   private configurationHasChanged = false;
 
@@ -33,8 +30,10 @@ export class DomainCustomizationService {
   constructor(
     private configurationService: DomainConfigurationService,
     private iconDictionaryService: IconDictionaryService,
-    private importService: ImportDomainStoryService
+    private importService: ImportDomainStoryService,
+    private titleService: TitleService,
   ) {
+    this.domainName = this.titleService.getDomainNameAsObservable();
     this.domainConfigurationTypes = new BehaviorSubject(
       this.configurationService.getCurrentConfigurationNamesWithoutPrefix()
     );
@@ -273,12 +272,12 @@ export class DomainCustomizationService {
     );
   }
 
-  getDomainName(): BehaviorSubject<string> {
+  getDomainName(): Observable<string> {
     return this.domainName;
   }
 
   changeName(domainName: string): void {
-    this.domainName.next(domainName);
+    this.titleService.setDomainName(domainName)
   }
 
   getSelectedActors(): BehaviorSubject<string[]> {
@@ -341,7 +340,7 @@ export class DomainCustomizationService {
 
   addNewIcon(iconName: string) {
     this.iconDictionaryService.addIconsToCss([
-      { name: iconName, src: this.getSrcForIcon(iconName) },
+      {name: iconName, src: this.getSrcForIcon(iconName)},
     ]);
     this.addIconToAllIconList(iconName);
   }

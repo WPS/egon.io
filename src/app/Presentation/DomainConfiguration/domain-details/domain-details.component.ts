@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { DomainCustomizationService } from '../../../Service/Domain-Configuration/domain-customization.service';
-import { IconListItem } from '../../../Domain/Domain-Configuration/iconListItem';
+import {Component, OnInit} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {DomainCustomizationService} from '../../../Service/Domain-Configuration/domain-customization.service';
+import {IconListItem} from '../../../Domain/Domain-Configuration/iconListItem';
 
 @Component({
   selector: 'app-domain-details',
@@ -9,7 +9,7 @@ import { IconListItem } from '../../../Domain/Domain-Configuration/iconListItem'
   styleUrls: ['./domain-details.component.scss'],
 })
 export class DomainDetailsComponent implements OnInit {
-  domainName: BehaviorSubject<string>;
+  domainName: Observable<string>;
 
   private draggedIndex = 0;
 
@@ -23,7 +23,8 @@ export class DomainDetailsComponent implements OnInit {
       this.customizationService.getSelectedWorkobjects();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   changeName(event: Event): void {
     // @ts-ignore
