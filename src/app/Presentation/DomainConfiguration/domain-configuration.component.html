@@ -1,6 +1,49 @@
 <div class="content">
   <div>
     <div class="header">
+      <div class="buttons">
+        <button mat-button title="Upload Icon" (click)="startIconUpload()">
+          <span class="material-icons-outlined materialIconButton">upload</span>
+          <input
+            type="file"
+            accept=".svg, image/png, image/jpeg, image/gif, image/bpmn"
+            style="display: none"
+            id="importIcon"
+            name="file"
+            onclick="this.value=null"
+            (change)="importIcon()"
+          />
+        </button>
+        <button
+          mat-button
+          class="button"
+          title="Reset Domain to default configuration. Preserves already used non-default Icons"
+          (click)="resetDomain()"
+        >
+          <span class="material-icons-outlined materialIconButton"> home </span>
+        </button>
+        <button mat-button title="Cancel Domain configuration" (click)="cancel()">
+          <span class="material-icons materialIconButton">restart_alt</span>
+        </button>
+        <button mat-button title="Save Domain" (click)="saveDomain()">
+          <span class="material-icons-outlined materialIconButton">save</span>
+        </button>
+        <button mat-button title="Export Domain" (click)="exportDomain()">
+          <span class="material-icons-outlined materialIconButton">archive</span>
+        </button>
+        <button mat-button title="Import Domain" (click)="startDomainImport()">
+          <span class="material-icons-outlined materialIconButton">unarchive</span>
+          <input
+            type="file"
+            accept=".domain"
+            style="display: none"
+            id="importDomain"
+            name="file"
+            onclick="this.value=null"
+            (change)="importDomain()"
+          />
+        </button>
+      </div>
       <div class="searchbar">
         <label
           class="mdc-text-field mdc-text-field--outlined mdc-text-field--no-label"
@@ -47,49 +90,6 @@
         <div></div>
       </div>
       <div></div>
-      <div class="buttons">
-        <button mat-button title="Upload Icon" (click)="startIconUpload()">
-          <span class="material-icons-outlined materialIconButton">upload</span>
-          <input
-            type="file"
-            accept=".svg, image/png, image/jpeg, image/gif, image/bpmn"
-            style="display: none"
-            id="importIcon"
-            name="file"
-            onclick="this.value=null"
-            (change)="importIcon()"
-          />
-        </button>
-        <button
-          mat-button
-          class="button"
-          title="Reset Domain to default configuration. Preserves already used non-default Icons"
-          (click)="resetDomain()"
-        >
-          <span class="material-icons-outlined materialIconButton"> home </span>
-        </button>
-        <button mat-button title="Cancel Domain configuration" (click)="cancel()">
-          <span class="material-icons materialIconButton">restart_alt</span>
-        </button>
-        <button mat-button title="save Domain" (click)="saveDomain()">
-          <span class="material-icons-outlined materialIconButton">save</span>
-        </button>
-        <button mat-button title="Export Domain" (click)="exportDomain()">
-          <span class="material-icons-outlined materialIconButton">archive</span>
-        </button>
-        <button mat-button title="Import Domain" (click)="startDomainImport()">
-          <span class="material-icons-outlined materialIconButton">unarchive</span>
-          <input
-            type="file"
-            accept=".domain"
-            style="display: none"
-            id="importDomain"
-            name="file"
-            onclick="this.value=null"
-            (change)="importDomain()"
-          />
-        </button>
-      </div>
     </div>
 
     <div class="domainConfiguration">

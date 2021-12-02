@@ -1,19 +1,22 @@
 .content {
   display: grid;
   grid-template-columns: auto 250px;
-  grid-column-gap: 2px;
 }
 
 .header {
   display: grid;
-  grid-template-columns: 50% auto auto;
+  grid-template-columns: max-content auto;
   border-bottom: #ccc 2px solid;
   height: 64px;
 }
 
 .buttons {
   align-self: center;
-  justify-self: right;
+  justify-self: left;
+
+  ::ng-deep.mat-button {
+    min-width: 36px;
+  }
 }
 
 .button {
@@ -45,8 +48,11 @@
 .searchbar {
   display: grid;
   grid-template-columns: 300px 20px 65px 10px 65px 10px 85px;
-  margin-left: 10px;
+  margin-left: 15px;
   margin-top: 15px;
+  margin-right: 10px;
+  align-self: center;
+  justify-self: left;
 }
 
 .activeActor {

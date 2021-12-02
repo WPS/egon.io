@@ -15,6 +15,17 @@
   }
 }
 
+.smallButton {
+  ::ng-deep.mat-button {
+    min-width: 36px;
+    width: 36px;
+  }
+}
+
+.unset {
+  font-weight: lighter;
+}
+
 .tab {
   display: inline-block;
   height: calc(100% - 10px);

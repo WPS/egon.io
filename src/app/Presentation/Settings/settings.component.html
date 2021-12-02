@@ -1,21 +1,23 @@
 <div class="settings">
   <mat-toolbar color=primary class="toolbar">
     <mat-toolbar-row>
-      <button
-        class="headerButton noPadding mr-10" mat-button (click)="close()">
-        <span class="material-icons-outlined materialIconButton"> arrow_back_ios</span>
-      </button>
+      <div class="smallButton">
+        <button
+          class="headerButton noPadding" mat-button (click)="close()">
+          <span class="material-icons-outlined materialIconButton"> arrow_back</span>
+        </button>
+      </div>
       <button
         class="headerButton mr-10"
-        [class.highlight]="showGeneralSettings | async"
-        mat-button (click)="openGeneralSettings()">
-        <span class="headline">General Settings</span>
+        [class.unset]="!(showDomainCustomization | async)"
+        mat-button (click)="openDomainCustomization()">
+        <span class="headline">Domain Customization</span>
       </button>
       <button
         class="headerButton"
-        [class.highlight]="showDomainCustomization | async"
-        mat-button (click)="openDomainCustomization()">
-        <span class="headline">Domain Customization</span>
+        [class.unset]="!(showGeneralSettings | async)"
+        mat-button (click)="openGeneralSettings()">
+        <span class="headline">General Settings</span>
       </button>
 
     </mat-toolbar-row>

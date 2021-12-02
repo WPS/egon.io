@@ -1,11 +1,11 @@
 .details {
   display: grid;
   grid-template-rows: 70px auto auto;
-  height: 100%;
+  min-height: 100vh;
   grid-row-gap: 1px;
   overflow-y: scroll;
   overflow-x: hidden;
-  border-left: solid 2px #ccc;
+  border-left: solid 1px #ccc;
 }
 
 .domainDetails {
