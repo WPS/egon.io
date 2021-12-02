@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SettingsService} from 'src/app/Service/Settings/settings.service';
 import {ModelerService} from 'src/app/Service/Modeler/modeler.service';
 import {DomainConfiguration} from 'src/app/Domain/Common/domainConfiguration';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {AutosaveStateService} from '../../Service/Autosave/autosave-state.service';
 import {DomainCustomizationService} from '../../Service/Domain-Configuration/domain-customization.service';
 
@@ -15,6 +15,8 @@ export class SettingsComponent implements OnInit {
   configurationChanged = false;
   domainConfiguration: DomainConfiguration | undefined;
   autosaveEnable: Observable<boolean>;
+  showGeneralSettings = new BehaviorSubject<boolean>(true);
+  showDomainCustomization = new BehaviorSubject<boolean>(false);
 
   constructor(
     private settingsService: SettingsService,
@@ -35,5 +37,15 @@ export class SettingsComponent implements OnInit {
       this.modelerService.restart(savedConfiguration);
     }
     this.settingsService.close();
+  }
+
+  openGeneralSettings() {
+    this.showGeneralSettings.next(true);
+    this.showDomainCustomization.next(false);
+  }
+
+  openDomainCustomization() {
+    this.showGeneralSettings.next(false);
+    this.showDomainCustomization.next(true);
   }
 }

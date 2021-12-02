@@ -2,19 +2,25 @@
   <mat-toolbar color=primary class="toolbar">
     <mat-toolbar-row>
       <button
-        class="headerButton noPadding" mat-button (click)="close()">
+        class="headerButton noPadding mr-10" mat-button (click)="close()">
         <span class="material-icons-outlined materialIconButton"> arrow_back_ios</span>
-        <span class="headline">Back to Modeler</span>
       </button>
+      <button
+        class="headerButton mr-10"
+        [class.highlight]="showGeneralSettings | async"
+        mat-button (click)="openGeneralSettings()">
+        <span class="headline">General Settings</span>
+      </button>
+      <button
+        class="headerButton"
+        [class.highlight]="showDomainCustomization | async"
+        mat-button (click)="openDomainCustomization()">
+        <span class="headline">Domain Customization</span>
+      </button>
+
     </mat-toolbar-row>
   </mat-toolbar>
 
-  <mat-tab-group class="tabs">
-    <mat-tab label="General">
-      <app-general-settings></app-general-settings>
-    </mat-tab>
-    <mat-tab label="Domain Customization">
-      <app-domain-configuration class="tab"></app-domain-configuration>
-    </mat-tab>
-  </mat-tab-group>
+  <app-general-settings *ngIf="showGeneralSettings | async"></app-general-settings>
+  <app-domain-configuration *ngIf="showDomainCustomization | async" class="tab"></app-domain-configuration>
 </div>

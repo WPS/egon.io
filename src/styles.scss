@@ -68,11 +68,15 @@ body {
   border: none;
 }
 
+.mr-10 {
+  margin-right: 10px !important;
+}
+
 .materialIconButton {
-  font-size: 24px;
+  font-size: 24px !important;
   padding-left: 5px;
   padding-right: 5px;
-  margin-top: 5px;
+  margin-top: 9px;
 }
 
 .toolbar {
