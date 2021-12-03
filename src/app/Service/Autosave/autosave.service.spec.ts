@@ -1,16 +1,16 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {AutosaveService} from './autosave.service';
-import {MockService} from 'ng-mocks';
-import {RendererService} from '../Renderer/renderer.service';
-import {DomainConfigurationService} from '../DomainConfiguration/domain-configuration.service';
-import {ExportService} from '../Export/export.service';
-import {AutosaveStateService} from './autosave-state.service';
-import {Autosave} from '../../Domain/Autosave/autosave';
-import {testConfigAndDst} from '../../Domain/Export/configAndDst';
-import {deepCopy} from '../../Utils/deepCopy';
-import {BehaviorSubject} from 'rxjs';
-import {Autosaves} from '../../Domain/Autosave/autosaves';
+import { AutosaveService } from './autosave.service';
+import { MockService } from 'ng-mocks';
+import { RendererService } from '../Renderer/renderer.service';
+import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
+import { ExportService } from '../Export/export.service';
+import { AutosaveStateService } from './autosave-state.service';
+import { Autosave } from '../../Domain/Autosave/autosave';
+import { testConfigAndDst } from '../../Domain/Export/configAndDst';
+import { deepCopy } from '../../Utils/deepCopy';
+import { BehaviorSubject } from 'rxjs';
+import { Autosaves } from '../../Domain/Autosave/autosaves';
 
 describe('AutosaveService', () => {
   let service: AutosaveService;
@@ -87,7 +87,7 @@ describe('AutosaveService', () => {
     });
 
     it('should call rendererService.importStory', () => {
-      service.applyAutosave(
+      service.loadAutosave(
         createEmptyAutosave(Date.now().toString().slice(0, 25))
       );
       expect(rendererServiceSpy.importStory).toHaveBeenCalled();
@@ -130,7 +130,7 @@ describe('AutosaveService', () => {
   });
 
   describe('loadCurrentAutosaves', () => {
-    const autosaves: Autosaves = {autosaves: []};
+    const autosaves: Autosaves = { autosaves: [] };
 
     beforeEach(() => {
       autosaves.autosaves = [
@@ -142,7 +142,7 @@ describe('AutosaveService', () => {
     });
 
     it('should getItem from local Storage', () => {
-      getItemSpy.and.returnValue(JSON.stringify({autosaves: []}));
+      getItemSpy.and.returnValue(JSON.stringify({ autosaves: [] }));
       const loadedAutosaves = service.loadCurrentAutosaves();
 
       expect(getItemSpy).toHaveBeenCalledWith('autosaveTag');

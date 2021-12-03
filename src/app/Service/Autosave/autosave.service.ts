@@ -36,7 +36,7 @@ export class AutosaveService {
     }
   }
 
-  public applyAutosave(autosave: Autosave): void {
+  public loadAutosave(autosave: Autosave): void {
     const config = JSON.parse(autosave.configAndDST.domain);
     const story = JSON.parse(autosave.configAndDST.dst);
 

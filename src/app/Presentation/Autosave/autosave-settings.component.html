@@ -20,6 +20,6 @@
 <mat-list *ngFor="let autosave of autosaves">
   <mat-list-item>
     <span>{{ autosave.date }}</span>
-    <button mat-flat-button (click)="applyAutosave(autosave)" class="applyButton">apply</button>
+    <button mat-flat-button (click)="loadAutosave(autosave)" class="loadAutosaveButton">load</button>
   </mat-list-item>
 </mat-list>
