@@ -1,11 +1,13 @@
-import {Injectable} from '@angular/core';
-import {RendererService} from '../Renderer/renderer.service';
-import {DomainConfigurationService} from '../DomainConfiguration/domain-configuration.service';
-import {ExportService} from '../Export/export.service';
-import {Autosave} from '../../Domain/Autosave/autosave';
-import {Autosaves} from '../../Domain/Autosave/autosaves';
-import {AutosaveStateService} from './autosave-state.service';
-import {BehaviorSubject, Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { RendererService } from '../Renderer/renderer.service';
+import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
+import { ExportService } from '../Export/export.service';
+import { Autosave } from '../../Domain/Autosave/autosave';
+import { Autosaves } from '../../Domain/Autosave/autosaves';
+import { AutosaveStateService } from './autosave-state.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.service';
+import { elementTypes } from '../../Domain/Common/elementTypes';
 
 const autosaveIntervalTag = 'autosaveIntervalTag';
 const autosaveTag = 'autosaveTag';
@@ -23,7 +25,8 @@ export class AutosaveService {
     private rendererService: RendererService,
     private domainConfigurationService: DomainConfigurationService,
     private exportService: ExportService,
-    private autosaveStateService: AutosaveStateService
+    private autosaveStateService: AutosaveStateService,
+    private iconDistionaryService: IconDictionaryService
   ) {
     this.autosaveEnabled =
       this.autosaveStateService.getAutosaveStateAsObservable();
@@ -36,6 +39,20 @@ export class AutosaveService {
   public applyAutosave(autosave: Autosave): void {
     const config = JSON.parse(autosave.configAndDST.domain);
     const story = JSON.parse(autosave.configAndDST.dst);
+
+    const actorIcons = this.iconDistionaryService.getElementsOfType(
+      story,
+      elementTypes.ACTOR
+    );
+    const workObjectIcons = this.iconDistionaryService.getElementsOfType(
+      story,
+      elementTypes.WORKOBJECT
+    );
+    this.iconDistionaryService.updateIconRegistries(
+      actorIcons,
+      workObjectIcons,
+      config
+    );
     this.rendererService.importStory(story, true, config, false);
   }
 
@@ -95,7 +112,7 @@ export class AutosaveService {
   }
 
   private saveAutosaves(autosaves: Autosave[]): void {
-    localStorage.setItem(autosaveTag, JSON.stringify({autosaves}));
+    localStorage.setItem(autosaveTag, JSON.stringify({ autosaves }));
   }
 
   public loadCurrentAutosaves(): Autosave[] {

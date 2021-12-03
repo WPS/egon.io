@@ -324,4 +324,72 @@ export class IconDictionaryService {
     );
     this.addIconsToCss(customIcons);
   }
+
+  public updateIconRegistries(
+    actorIcons: BusinessObject[],
+    workObjectIcons: BusinessObject[],
+    config: DomainConfiguration
+  ): void {
+    const elements: BusinessObject[] = [];
+
+    actorIcons.forEach((a) => elements.push(a));
+    workObjectIcons.forEach((w) => elements.push(w));
+
+    const customIcons: { name: string; src: string }[] = [];
+
+    const actors = new Dictionary();
+    const workobjects = new Dictionary();
+    actors.addEach(config.actors);
+    workobjects.addEach(config.workObjects);
+
+    this.addIconsToToCustomIcons(actors, customIcons);
+    this.addIconsToToCustomIcons(workobjects, customIcons);
+
+    elements.forEach((element) => {
+      const name = sanitizeIconName(
+        element.type
+          .replace(elementTypes.ACTOR, '')
+          .replace(elementTypes.WORKOBJECT, '')
+      );
+      if (
+        (element.type.includes(elementTypes.ACTOR) ||
+          element.type.includes(elementTypes.WORKOBJECT)) &&
+        !this.getFullDictionary().has(name)
+      ) {
+        this.registerIcon(ICON_PREFIX + name.toLowerCase(), element.type);
+      }
+    });
+
+    this.addNewIconsToDictionary(customIcons);
+
+    this.addIconsToTypeDictionary(actorIcons, workObjectIcons);
+  }
+
+  private addIconsToToCustomIcons(
+    elementDictionary: Dictionary,
+    customIcons: { name: string; src: string }[]
+  ) {
+    elementDictionary.keysArray().forEach((name) => {
+      const sanitizedName = sanitizeIconName(name);
+      if (!this.getFullDictionary().has(sanitizedName)) {
+        customIcons.push({
+          name: sanitizedName,
+          src: elementDictionary.get(name),
+        });
+      }
+    });
+  }
+
+  public getElementsOfType(
+    elements: BusinessObject[],
+    type: string
+  ): BusinessObject[] {
+    const elementOfType: any = [];
+    elements.forEach((element) => {
+      if (element.type.includes(type)) {
+        elementOfType.push(element);
+      }
+    });
+    return elementOfType;
+  }
 }
