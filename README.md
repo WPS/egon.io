@@ -16,7 +16,7 @@ Extract the zip file and open index.html in your browser.
 
 ### Usage
 
-This is a short guide on how to use the Domain Story Modeler.
+This is a short guide on how to use egon.
 We recommend switching your browser to full screen mode (in most browsers: press F11 key) to increase the available modeling space.
 
 #### Palette
@@ -56,8 +56,9 @@ If you want to model activities that happen simultaneously, check the "multiple"
 
 #### Save, Open, and Export Domain Stories
 
-If you want to save your Domain Story, download it as a `.dst` file by clicking the export button ![Export Button](readme_images/archive.png) or pressing ctrl+s on your keyboard. To continue working on a Domain Story, import a `.dst` file using the upload button ![Upload Button](readme_images/unarchive.png).
-You can also export your diagram as a `.svg` or `.png` file by clicking on the image button ![SVG Button](readme_images/image.png) and selecting your preferred format.
+If you want to save your Domain Story, download it as a `.dst` or a `.dst.svg` file by clicking the export button ![Export Button](readme_images/archive.png) and selecting DST or SVG. You can also download your Domain Story as a `.dst` file by pressing crtl + s on your keyboard.
+To continue working on a Domain Story, import a `.dst` or a `.dst.svg` file using the upload button ![Upload Button](readme_images/unarchive.png).
+You can also export your diagram as an `.png` file or as an HTML-Presentation in the export dialog.
 Beginning with version 1.2.0, the `.svg` file contains an embedded `.dst` file. That means that you only need to download one file that you can use as picture and also edit it later by importing it again.
 
 #### Replay
@@ -65,47 +66,58 @@ Beginning with version 1.2.0, the `.svg` file contains an embedded `.dst` file. 
 The replay feature helps you to re-tell a Domain-Story sentence by sentence. When you start a replay with the play button ![Play Button](readme_images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](readme_images/forward.png) shows the next activity and clicking the previous button ![Previous Button](readme_images/previous.png) shows the previous one. The current sentence is highlighted. If a Domain Story contains groups, they are hidden at first and then appear as last step at the end of the story.
 Editing is disabled in replay mode, but you can zoom (mouse wheel up and down) and scroll (ctrl + mouse wheel up and down). The stop the replay, click the stop button ![Stop Button](readme_images/stop.png).
 
+### Hiding the Description
+
+To have more modeling space available you can hide the description by clicking the hide description button ![Hide Description Button](readme_images/hide.png). Once the description is hidden, you can click the show description button![Show Description Button](readme_images/show.png).
+
 #### Keyboard Shortcuts
 
-Click on ![Keyboard Button](readme_images/keyboard.png) to display all available keyboard shortcuts.
+Click on ![Keyboard Button](readme_images/info.png) to display all available keyboard shortcuts.
 
 #### Configuring the icon set
 
 We recommend that the icon set is adapted to the domain that you model. You can configure the palette accordingly and share that configuration:
 
-Click on ![Gear Button](readme_images/gear.png) to open the icon configuration. Configure your icon set by naming it, selecting which icons should be used as actors or as work objects and order these icons (using drag&drop). You can export your configuration as `.domain` file. To switch between configurations, import a different `.domain` file.
+Click on ![Gear Button](readme_images/gear.png) to open the settings page. Navigate to the Domain Customization Tab in the Header.
+Configure your icon set by naming it, selecting which icons should be used as actors or as work objects and order these icons in the Lists on the right side (using drag&drop). You can export your configuration as `.domain` file. To switch between configurations, import a different `.domain` file.
 
-If you import a Domain Story from a `.dst` file, your icon configuration will change automatically to the one with which the Domain Story was created - even if you do not have the corresponding `.domain` file.
+If you import a Domain Story from a `.dst` or `.dst.svg` file, your icon configuration will change automatically to the one with which the Domain Story was created - even if you do not have the corresponding `.domain` file.
 
-**Beta feature:** If you want to use icons that are not in the predefined set that comes with the modeler, you can upload your own icons. Different image formats are allowed, but you will achieve best results with SVG because it is scalable (like the icons that come with the modeler). Also, we recommend to use square images because they look better in the pallet, and the context pad. If you want a consistent look, consider using the same icon set that we use for the predefined icons: https://material.io/resources/icons/?style=outline
+If you want to use icons that are not in the predefined set that comes with the modeler, you can upload your own icons. Different image formats are allowed, but you will achieve best results with SVG because it is scalable (like the icons that come with the modeler). Also, we recommend to use square images because they look better in the pallet, and the context pad. If you want a consistent look, consider using the same icon set that we use for the predefined icons: https://material.io/resources/icons/?style=outline
 
 ### Examples
 
-The examples' directory contains `.dst` files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
-The examples' directory also contains an SVG file for every Domain Story. The images were created using the modeler.
+You can find multiple examples in our example repository at https://github.com/WPS/egon.io-examples as `.dst` or `.dst.svg` files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
 
-### For Developers
+## For Developers
 
 Download the source code or clone the repository.
 Please note that we use the main branch for development. The main branch contains the latest features and bug fixes, but they might be undocumented and tested less thoroughly than a release. To be on the safe side, stick with the latest release branch.
 
-Fetch dependencies:
+### Fetch dependencies:
 
-```
-npm install
-```
+Run `npm install` or `yarn install` to install the dependencies locally.
+We recommend using yarn, since the npm install can take up to 15 minutes, whereas yarn only takes about 2 minutes.
 
-Build and open the modeler in your browser:
+### Development server
 
-```
-npm run start
-```
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-Create distributable bundle:
+### Code scaffolding
 
-```
-npm run build
-```
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+### Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+### Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+### Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 ## License
 
@@ -140,27 +152,3 @@ The above copyright notice and this permission notice shall be included in all c
 The source code responsible for displaying the bpmn.io logo (two green cogwheels in a box) that links back to http://bpmn.io as part of rendered diagrams MUST NOT be removed or changed. When this software is being used in a website or application, the logo must stay fully visible and not visually overlapped by other elements.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

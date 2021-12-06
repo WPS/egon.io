@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
+    "bundle": "grunt build",
     "formatter-check": "prettier --check .",
     "formatter": "prettier --write .",
     "e2e": "ng e2e"
