@@ -1,24 +1,31 @@
-import {Component} from '@angular/core';
-import {SettingsService} from '../../Service/Settings/settings.service';
-import {TitleService} from '../../Service/Title/title.service';
-import {ModelerService} from '../../Service/Modeler/modeler.service';
-import {Observable} from 'rxjs';
-import {ReplayStateService} from '../../Service/Replay/replay-state.service';
-import {DirtyFlagService} from '../../Service/DirtyFlag/dirty-flag.service';
-import {ExportDialogData, ExportOption,} from '../../Domain/Dialog/exportDialogData';
-import {MatDialogConfig} from '@angular/material/dialog';
-import {ExportDialogComponent} from '../Dialog/export-dialog/export-dialog.component';
-import {InfoDialogData} from '../../Domain/Dialog/infoDialogData';
-import {InfoDialogComponent} from '../Dialog/info-dialog/info-dialog.component';
-import {ElementRegistryService} from '../../Service/ElementRegistry/element-registry.service';
-import {DialogService} from '../../Service/Dialog/dialog.service';
-import {ReplayService} from '../../Service/Replay/replay.service';
-import {ExportService} from '../../Service/Export/export.service';
-import {ImportDomainStoryService} from '../../Service/Import/import-domain-story.service';
-import {LabelDictionaryDialogComponent} from '../Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
-import {HeaderDialogComponent} from "../Dialog/header-dialog/header-dialog.component";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {SNACKBAR_DURATION, SNACKBAR_INFO, SNACKBAR_WARNING} from "../../Domain/Common/constants";
+import { Component } from '@angular/core';
+import { SettingsService } from '../../Service/Settings/settings.service';
+import { TitleService } from '../../Service/Title/title.service';
+import { ModelerService } from '../../Service/Modeler/modeler.service';
+import { Observable } from 'rxjs';
+import { ReplayStateService } from '../../Service/Replay/replay-state.service';
+import { DirtyFlagService } from '../../Service/DirtyFlag/dirty-flag.service';
+import {
+  ExportDialogData,
+  ExportOption,
+} from '../../Domain/Dialog/exportDialogData';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { ExportDialogComponent } from '../Dialog/export-dialog/export-dialog.component';
+import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
+import { InfoDialogComponent } from '../Dialog/info-dialog/info-dialog.component';
+import { ElementRegistryService } from '../../Service/ElementRegistry/element-registry.service';
+import { DialogService } from '../../Service/Dialog/dialog.service';
+import { ReplayService } from '../../Service/Replay/replay.service';
+import { ExportService } from '../../Service/Export/export.service';
+import { ImportDomainStoryService } from '../../Service/Import/import-domain-story.service';
+import { LabelDictionaryDialogComponent } from '../Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
+import { HeaderDialogComponent } from '../Dialog/header-dialog/header-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  SNACKBAR_DURATION,
+  SNACKBAR_INFO,
+  SNACKBAR_WARNING,
+} from '../../Domain/Common/constants';
 
 @Component({
   selector: 'app-header-buttons',
@@ -47,28 +54,7 @@ export class HeaderButtonsComponent {
     this.isReplay = this.replayStateService.getReplayOnObservable();
     this.isDirty = this.dirtyFlagService.dirtySubject;
     this.showDescription = this.titleService.getShowDescriptionObservable();
-
-    this.setShortcuts();
   }
-
-  private setShortcuts(): void {
-    document.onkeydown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === 's') {
-        if (this.exportService.isDomainStoryExportable()) {
-          this.exportService.downloadDST();
-        }
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      if (e.ctrlKey && e.key === 'l') {
-        // @ts-ignore
-        document.getElementById('import').click();
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    };
-  }
-
   public import(): void {
     // @ts-ignore
     const filename = document.getElementById('import').files[0].name;
@@ -90,14 +76,15 @@ export class HeaderButtonsComponent {
     this.modelerService.commandStackChanged();
   }
 
-  public openSettings(): void {
-    this.settingsService.open();
-  }
-
   public setShowDescription(show: boolean): void {
     this.titleService.setShowDescription(show);
   }
 
+  public openSettings(): void {
+    this.settingsService.open();
+  }
+
+  /** Open Dialogs **/
   public openDownloadDialog(): void {
     if (this.exportService.isDomainStoryExportable()) {
       const option1 = new ExportOption('DST', () =>
@@ -125,16 +112,14 @@ export class HeaderButtonsComponent {
 
       this.dialogService.openDialog(ExportDialogComponent, config);
     } else {
-      this.snackbar.open("No Domain Story to be exported", undefined, {
+      this.snackbar.open('No Domain Story to be exported', undefined, {
         duration: SNACKBAR_DURATION,
-        panelClass: SNACKBAR_INFO
-      })
+        panelClass: SNACKBAR_INFO,
+      });
     }
   }
 
-  public openHeaderDialog()
-    :
-    void {
+  public openHeaderDialog(): void {
     const config = new MatDialogConfig();
     config.disableClose = false;
     config.autoFocus = true;
@@ -164,6 +149,26 @@ export class HeaderButtonsComponent {
     this.dialogService.openDialog(InfoDialogComponent, config);
   }
 
+  public openLabelDictionary(): void {
+    if (this.exportService.isDomainStoryExportable()) {
+      const config = new MatDialogConfig();
+      config.disableClose = false;
+      config.autoFocus = true;
+
+      this.dialogService.openDialog(LabelDictionaryDialogComponent, config);
+    } else {
+      this.snackbar.open(
+        'There are currently no Elements on the canvas',
+        undefined,
+        {
+          duration: SNACKBAR_DURATION,
+          panelClass: SNACKBAR_WARNING,
+        }
+      );
+    }
+  }
+
+  /** Replay functions **/
   public startReplay(): void {
     this.replayService.startReplay();
   }
@@ -178,22 +183,5 @@ export class HeaderButtonsComponent {
 
   public nextStep(): void {
     this.replayService.nextStep();
-  }
-
-  openLabelDictionary() {
-    if (this.exportService.isDomainStoryExportable()) {
-      const config = new MatDialogConfig();
-      config.disableClose = false;
-      config.autoFocus = true;
-
-      this.dialogService.openDialog(LabelDictionaryDialogComponent, config);
-    } else {
-      this.snackbar.open(
-        'There are currently no Elements on the canvas', undefined, {
-          duration: SNACKBAR_DURATION,
-          panelClass: SNACKBAR_WARNING
-        }
-      );
-    }
   }
 }

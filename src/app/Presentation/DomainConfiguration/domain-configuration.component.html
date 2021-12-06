@@ -18,11 +18,11 @@
           mat-button
           class="button"
           title="Reset Domain to default configuration. Preserves already used non-default Icons"
-          (click)="resetDomain()"
+          (click)="LoadMinimalIconConfigurationWithDefaultIcons()"
         >
           <span class="material-icons-outlined materialIconButton"> home </span>
         </button>
-        <button mat-button title="Cancel Domain configuration" (click)="cancel()">
+        <button mat-button title="Cancel Domain configuration" (click)="loadInitialConfiguration()">
           <span class="material-icons materialIconButton">restart_alt</span>
         </button>
         <button mat-button title="Save Domain" (click)="saveDomain()">

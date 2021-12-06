@@ -38,7 +38,7 @@ export class LabelDictionaryComponent implements AfterViewInit {
     );
   }
 
-  save(): void {
+  public save(): void {
     this.workObjectEntries = this.workobjectEntriesSubject.value;
     this.activityEntries = this.activityEntriesSubject.value;
 
@@ -68,10 +68,10 @@ export class LabelDictionaryComponent implements AfterViewInit {
       workObjectNames,
       originalWorkObjectNames
     );
-    this.closeDialog();
+    this.closeEmitter.emit();
   }
 
-  cancel(): void {
+  public cancel(): void {
     this.workObjectEntries.forEach((w) => {
       w.name = w.originalName;
     });
@@ -83,7 +83,7 @@ export class LabelDictionaryComponent implements AfterViewInit {
     this.activityEntriesSubject.next(this.activityEntries);
   }
 
-  updateActivityEntry($event: Event, activityEntry: LabelEntry) {
+  public updateActivityEntry($event: Event, activityEntry: LabelEntry) {
     let entries = this.activityEntriesSubject.value;
     entries.filter(
       (e) => e.originalName === activityEntry.originalName
@@ -92,16 +92,12 @@ export class LabelDictionaryComponent implements AfterViewInit {
     this.activityEntriesSubject.next(entries);
   }
 
-  updateWorkobjectEntry($event: Event, workobjectEntry: LabelEntry) {
+  public updateWorkobjectEntry($event: Event, workobjectEntry: LabelEntry) {
     let entries = this.workobjectEntriesSubject.value;
     entries.filter(
       (e) => e.originalName === workobjectEntry.originalName
       // @ts-ignore
     )[0].name = $event.target.value;
     this.workobjectEntriesSubject.next(entries);
-  }
-
-  private closeDialog() {
-    this.closeEmitter.emit();
   }
 }

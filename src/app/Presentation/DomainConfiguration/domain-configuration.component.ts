@@ -39,7 +39,7 @@ export class DomainConfigurationComponent implements OnInit {
       this.domainCustomizationService.getDomainConfiguration().value;
 
     this.allIcons = this.iconDictionaryService.getFullDictionary();
-    this.allIconNames.next(this.allIcons.keysArray().sort(this.sortByName()));
+    this.allIconNames.next(this.allIcons.keysArray().sort(this.sortByName));
 
     // @ts-ignore
     this.selectedWorkobjects =
@@ -48,11 +48,131 @@ export class DomainConfigurationComponent implements OnInit {
     this.selectedActors = this.domainCustomizationService.getSelectedActors();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.filter.subscribe((type) => {
       let allFiltered = this.getFilteredNamesForType(type);
-      this.allFilteredIconNames.next(allFiltered.sort(this.sortByName()));
+      this.allFilteredIconNames.next(allFiltered.sort(this.sortByName));
     });
+  }
+
+  private sortByName(a: string, b: string): number {
+    if (a.includes('_custom') == b.includes('_custom')) {
+      if (a < b) return -1;
+      else {
+        return 1;
+      }
+    } else {
+      if (a.includes('_custom')) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }
+  }
+
+  /** Default Domain **/
+  public LoadMinimalIconConfigurationWithDefaultIcons(): void {
+    this.domainCustomizationService.resetDomain();
+  }
+
+  public loadInitialConfiguration(): void {
+    this.domainCustomizationService.cancel();
+  }
+
+  /** Persist Domain **/
+  public saveDomain(): void {
+    this.domainCustomizationService.saveDomain();
+  }
+
+  public exportDomain(): void {
+    this.domainCustomizationService.exportDomain();
+  }
+
+  /** Add Custom Icon **/
+  public startIconUpload(): void {
+    // @ts-ignore
+    document.getElementById('importIcon').click();
+  }
+
+  public importIcon(): void {
+    // @ts-ignore
+    const iconInputFile = document.getElementById('importIcon').files[0];
+    const reader = new FileReader();
+    const endIndex = iconInputFile.name.lastIndexOf('.');
+    const name = sanitizeIconName(iconInputFile.name.substring(0, endIndex));
+    const iconName = name + '_custom';
+
+    reader.onloadend = (e) => {
+      // @ts-ignore
+      const src: string = e.target.result;
+      this.iconDictionaryService.addIMGToIconDictionary(src, iconName);
+      this.iconDictionaryService.registerIconForBPMN(iconName, src);
+
+      this.allIcons = this.iconDictionaryService.getFullDictionary();
+      this.allIconNames.next(this.allIcons.keysArray());
+      this.filter.next(this.filter.value);
+
+      this.domainCustomizationService.addNewIcon(iconName);
+    };
+    reader.readAsDataURL(iconInputFile);
+  }
+
+  /** Import Domain **/
+  public startDomainImport(): void {
+    // @ts-ignore
+    document.getElementById('importDomain').click();
+  }
+
+  public importDomain(): void {
+    // @ts-ignore
+    const domainInputFile = document.getElementById('importDomain').files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = (e) => {
+      const config = JSON.parse(
+        // @ts-ignore
+        e.target.result.toString()
+      ) as DomainConfiguration;
+      this.configurationService.loadConfiguration(config, false);
+
+      this.domainCustomizationService.importConfiguration(config);
+    };
+
+    reader.readAsText(domainInputFile);
+  }
+
+  /** Filter **/
+  public filterForActors(): void {
+    if (this.filter.value !== IconFilterEnum.ICON_FILTER_ACTOR) {
+      this.filter.next(IconFilterEnum.ICON_FILTER_ACTOR);
+    } else {
+      this.filter.next(IconFilterEnum.ICON_FILTER_NONE);
+    }
+  }
+
+  public filterForWorkobjects(): void {
+    if (this.filter.value !== IconFilterEnum.ICON_FILTER_WORKOBJECT) {
+      this.filter.next(IconFilterEnum.ICON_FILTER_WORKOBJECT);
+    } else {
+      this.filter.next(IconFilterEnum.ICON_FILTER_NONE);
+    }
+  }
+
+  public filterForUnassigned(): void {
+    if (this.filter.value !== IconFilterEnum.ICON_FILTER_UNASSIGNED) {
+      this.filter.next(IconFilterEnum.ICON_FILTER_UNASSIGNED);
+    } else {
+      this.filter.next(IconFilterEnum.ICON_FILTER_NONE);
+    }
+  }
+
+  public filterByNameAndType($event: any) {
+    const filteredByNameAndType = this.getFilteredNamesForType(
+      this.filter.value
+    ).filter((name) =>
+      name.toLowerCase().includes($event.target.value.toLowerCase())
+    );
+    this.allFilteredIconNames.next(filteredByNameAndType.sort(this.sortByName));
   }
 
   private getFilteredNamesForType(type: IconFilterEnum): string[] {
@@ -80,124 +200,5 @@ export class DomainConfigurationComponent implements OnInit {
         break;
     }
     return allFiltered;
-  }
-
-  resetDomain(): void {
-    this.domainCustomizationService.resetDomain();
-  }
-
-  saveDomain(): void {
-    this.domainCustomizationService.saveDomain();
-  }
-
-  exportDomain(): void {
-    this.domainCustomizationService.exportDomain();
-  }
-
-  cancel(): void {
-    this.domainCustomizationService.cancel();
-  }
-
-  startIconUpload(): void {
-    // @ts-ignore
-    document.getElementById('importIcon').click();
-  }
-
-  startDomainImport(): void {
-    // @ts-ignore
-    document.getElementById('importDomain').click();
-  }
-
-  importDomain(): void {
-    // @ts-ignore
-    const domainInputFile = document.getElementById('importDomain').files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = (e) => {
-      const config = JSON.parse(
-        // @ts-ignore
-        e.target.result.toString()
-      ) as DomainConfiguration;
-      this.configurationService.loadConfiguration(config, false);
-
-      this.domainCustomizationService.importConfiguration(config);
-    };
-
-    reader.readAsText(domainInputFile);
-  }
-
-  importIcon(): void {
-    // @ts-ignore
-    const iconInputFile = document.getElementById('importIcon').files[0];
-    const reader = new FileReader();
-    const endIndex = iconInputFile.name.lastIndexOf('.');
-    const name = sanitizeIconName(iconInputFile.name.substring(0, endIndex));
-    const iconName = name + '_custom';
-
-    reader.onloadend = (e) => {
-      // @ts-ignore
-      const src: string = e.target.result;
-      this.iconDictionaryService.addIMGToIconDictionary(src, iconName);
-      this.iconDictionaryService.registerIconForBPMN(iconName, src);
-
-      this.allIcons = this.iconDictionaryService.getFullDictionary();
-      this.allIconNames.next(this.allIcons.keysArray());
-      this.filter.next(this.filter.value);
-
-      this.domainCustomizationService.addNewIcon(iconName);
-    };
-    reader.readAsDataURL(iconInputFile);
-  }
-
-  filterForActors(): void {
-    if (this.filter.value !== IconFilterEnum.ICON_FILTER_ACTOR) {
-      this.filter.next(IconFilterEnum.ICON_FILTER_ACTOR);
-    } else {
-      this.filter.next(IconFilterEnum.ICON_FILTER_NONE);
-    }
-  }
-
-  filterForWorkobjects(): void {
-    if (this.filter.value !== IconFilterEnum.ICON_FILTER_WORKOBJECT) {
-      this.filter.next(IconFilterEnum.ICON_FILTER_WORKOBJECT);
-    } else {
-      this.filter.next(IconFilterEnum.ICON_FILTER_NONE);
-    }
-  }
-
-  filterForUnassigned(): void {
-    if (this.filter.value !== IconFilterEnum.ICON_FILTER_UNASSIGNED) {
-      this.filter.next(IconFilterEnum.ICON_FILTER_UNASSIGNED);
-    } else {
-      this.filter.next(IconFilterEnum.ICON_FILTER_NONE);
-    }
-  }
-
-  filterByNameAndType($event: any) {
-    const filteredByNameAndType = this.getFilteredNamesForType(
-      this.filter.value
-    ).filter((name) =>
-      name.toLowerCase().includes($event.target.value.toLowerCase())
-    );
-    this.allFilteredIconNames.next(
-      filteredByNameAndType.sort(this.sortByName())
-    );
-  }
-
-  private sortByName() {
-    return (a: string, b: string) => {
-      if (a.includes('_custom') == b.includes('_custom')) {
-        if (a < b) return -1;
-        else {
-          return 1;
-        }
-      } else {
-        if (a.includes('_custom')) {
-          return -1;
-        } else {
-          return 1;
-        }
-      }
-    };
   }
 }

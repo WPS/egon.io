@@ -13,11 +13,7 @@ export class DetailsListItemComponent implements AfterViewChecked {
 
   private iconInitiated = false;
 
-  ngAfterViewChecked() {
-    this.createIcon();
-  }
-
-  get id() {
+  get id(): string {
     return (
       'domain-configuration-details-icon-' +
       this.icon.name.toLowerCase() +
@@ -28,6 +24,10 @@ export class DetailsListItemComponent implements AfterViewChecked {
 
   get name(): string {
     return this.icon.name;
+  }
+
+  ngAfterViewChecked(): void {
+    this.createIcon();
   }
 
   private createIcon(): void {

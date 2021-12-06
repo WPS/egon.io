@@ -25,20 +25,25 @@ export class DomainDetailsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  changeName(event: Event): void {
+  public changeName(event: Event): void {
     // @ts-ignore
     this.customizationService.changeName(event.target.value);
   }
 
-  getIconForName(iconName: string): IconListItem {
+  public getIconForName(iconName: string): IconListItem {
     return this.customizationService.getIconForName(iconName).value;
   }
 
-  allowDrop($event: DragEvent) {
+  public allowDrop($event: DragEvent) {
     $event.preventDefault();
   }
 
-  onDrop($event: DragEvent, iconName: string, actors: boolean, index: number) {
+  public onDrop(
+    $event: DragEvent,
+    iconName: string,
+    actors: boolean,
+    index: number
+  ) {
     let list;
     if (actors) {
       list = this.selectedActors;
@@ -58,7 +63,7 @@ export class DomainDetailsComponent implements OnInit {
     }
   }
 
-  onDragStart(index: number) {
+  public onDragStart(index: number) {
     this.draggedIndex = index;
   }
 }

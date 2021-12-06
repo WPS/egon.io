@@ -21,6 +21,14 @@ export class IconListItemComponent implements OnInit, AfterViewChecked {
   public isWorkobject: BehaviorSubject<boolean>;
   public isNone: BehaviorSubject<boolean>;
 
+  get name(): string {
+    return this.iconName;
+  }
+
+  get id() {
+    return 'domain-configuration-icon-' + this.iconName;
+  }
+
   constructor(private domainCustomizationService: DomainCustomizationService) {
     this.isActor = new BehaviorSubject<boolean>(false);
     this.isWorkobject = new BehaviorSubject<boolean>(false);
@@ -45,34 +53,26 @@ export class IconListItemComponent implements OnInit, AfterViewChecked {
     this.createIcon();
   }
 
-  get name(): string {
-    return this.iconName;
-  }
-
-  get id() {
-    return 'domain-configuration-icon-' + this.iconName;
-  }
-
-  toggleNone() {
-    this.domainCustomizationService.setAsUnassigned(
-      this.iconName,
-      this.icon.value.isActor
-    );
-  }
-
-  toggleActor(): void {
-    this.domainCustomizationService.setAsActor(true, this.iconName);
-  }
-
-  toggleWorkobject(): void {
-    this.domainCustomizationService.setAsWorkobject(true, this.iconName);
-  }
-
   private createIcon(): void {
     const img = document.getElementById(this.id) as HTMLImageElement;
     if (img && !this.iconInitiated) {
       img.src = '' + this.icon.value?.svg;
       this.iconInitiated = true;
     }
+  }
+
+  public toggleNone() {
+    this.domainCustomizationService.setAsUnassigned(
+      this.iconName,
+      this.icon.value.isActor
+    );
+  }
+
+  public toggleActor(): void {
+    this.domainCustomizationService.setAsActor(true, this.iconName);
+  }
+
+  public toggleWorkobject(): void {
+    this.domainCustomizationService.setAsWorkobject(true, this.iconName);
   }
 }
