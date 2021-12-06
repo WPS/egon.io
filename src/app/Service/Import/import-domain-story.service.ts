@@ -231,14 +231,14 @@ export class ImportDomainStoryService implements OnDestroy {
     let changed = false;
 
     for (let i = 0; i < newActorKeys.length; i++) {
-      changed = this.checkKeysForChange(currentActorKeys[i], newActorKeys[i]);
+      changed = this.keyEquals(currentActorKeys[i], newActorKeys[i]);
       if (changed) {
         i = newActorKeys.length;
       }
     }
     if (!changed) {
       for (let i = 0; i < newWorkObjectKeys.length; i++) {
-        changed = this.checkKeysForChange(
+        changed = this.keyEquals(
           currentWorkobjectKeys[i],
           newWorkObjectKeys[i]
         );
@@ -250,13 +250,11 @@ export class ImportDomainStoryService implements OnDestroy {
     return changed;
   }
 
-  private checkKeysForChange(
-    currentActorKey: string,
-    newActorKey: string
-  ): boolean {
+  private keyEquals(currentKey: string, newKey: string): boolean {
     return !(
-      currentActorKey !== newActorKey &&
-      currentActorKey !== elementTypes.ACTOR + newActorKey
+      currentKey !== newKey &&
+      currentKey !== elementTypes.ACTOR + newKey &&
+      currentKey !== elementTypes.WORKOBJECT + newKey
     );
   }
 
@@ -286,7 +284,7 @@ export class ImportDomainStoryService implements OnDestroy {
     const text =
       'The uploaded Domain-Story is from version ' +
       version +
-      '. There may be problems with the default workobjects contained in the story.';
+      '. There may be problems with the default actors or workobjects contained in the story.';
 
     const config = new MatDialogConfig();
     config.disableClose = false;

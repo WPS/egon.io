@@ -1,18 +1,17 @@
-import {Injectable} from '@angular/core';
-import {elementTypes} from '../../../Domain/Common/elementTypes';
-import {ActivityCanvasObject} from '../../../Domain/Common/activityCanvasObject';
-import {BusinessObject} from '../../../Domain/Common/businessObject';
-import {CanvasObject} from '../../../Domain/Common/canvasObject';
-import {ElementRegistryService} from '../../ElementRegistry/element-registry.service';
-import {StoryStep} from '../../../Domain/Replay/storyStep';
-import {Dictionary} from '../../../Domain/Common/dictionary/dictionary';
+import { Injectable } from '@angular/core';
+import { elementTypes } from '../../../Domain/Common/elementTypes';
+import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
+import { BusinessObject } from '../../../Domain/Common/businessObject';
+import { CanvasObject } from '../../../Domain/Common/canvasObject';
+import { ElementRegistryService } from '../../ElementRegistry/element-registry.service';
+import { StoryStep } from '../../../Domain/Replay/storyStep';
+import { Dictionary } from '../../../Domain/Common/dictionary/dictionary';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StoryCreatorService {
-  constructor(private elementRegistryService: ElementRegistryService) {
-  }
+  constructor(private elementRegistryService: ElementRegistryService) {}
 
   public traceActivitiesAndCreateStory(): StoryStep[] {
     const tracedActivityMap = new Dictionary();
@@ -24,7 +23,7 @@ export class StoryCreatorService {
       // @ts-ignore
       const tracedItem = tracedActivityMap.get(activityNumber - 1)
         ? // @ts-ignore
-        tracedActivityMap.get(activityNumber - 1)
+          tracedActivityMap.get(activityNumber - 1)
         : [];
       tracedItem.push(activity);
       // @ts-ignore
@@ -125,6 +124,7 @@ export class StoryCreatorService {
       .concat(targetObjects.map((t) => t.businessObject));
   }
 
+  /** Groups should be shown at the End of the Story **/
   private addGroupStep(story: StoryStep[]): void {
     const groups = this.elementRegistryService.getAllGroups() as CanvasObject[];
     if (groups.length > 0) {

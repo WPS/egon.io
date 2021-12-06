@@ -46,51 +46,6 @@ export class ImportRepairService {
     return complete;
   }
 
-  // TODO check whether still needed (breaks group deletion without members)
-  // when importing a domain-story, the elements that are visually inside a group are not yet associated with it.
-  // to ensure they are correctly associated, we add them to the group
-  public correctGroupChildren(): void {
-    const allObjects = this.elementRegistryService.getAllCanvasObjects();
-    const groups = this.elementRegistryService.getAllGroups();
-
-    groups.forEach((group) => {
-      const parent = group.parent;
-      // @ts-ignore
-      parent.children.slice().forEach((innerShape) => {
-        if (innerShape.id !== group.id) {
-          if (
-            innerShape.x >= group.x &&
-            innerShape.x <= group.x + group.width
-          ) {
-            if (
-              innerShape.y >= group.y &&
-              innerShape.y <= group.y + group.height
-            ) {
-              innerShape.parent = group;
-              // @ts-ignore
-              if (!group.children.includes(innerShape)) {
-                // @ts-ignore
-                group.children.push(innerShape);
-              }
-            }
-          }
-        }
-      });
-    });
-    allObjects.forEach((shape) => {
-      const businessObject = shape.businessObject;
-      if (
-        shape &&
-        'type' in shape.parent &&
-        shape.parent.type === elementTypes.GROUP
-      ) {
-        assign(businessObject, {
-          parent: shape.parent.id,
-        });
-      }
-    });
-  }
-
   /**
    * Ensure backwards compatibility.
    * Previously Document had no special name and was just addressed as workObject
