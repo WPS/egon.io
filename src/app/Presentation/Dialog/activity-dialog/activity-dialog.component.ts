@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivityDialogData } from 'src/app/Domain/Dialog/activityDialogData';
-import { CanvasObject } from 'src/app/Domain/Common/canvasObject';
 import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
 
 @Component({

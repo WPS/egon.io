@@ -11,7 +11,7 @@ export interface ActivityBusinessObject extends BusinessObject {
   target: BusinessObject | undefined;
 }
 
-export const testActivityBusinessobject: ActivityBusinessObject = {
+export const testActivityBusinessObject: ActivityBusinessObject = {
   ...testBusinessObject,
 
   number: undefined,

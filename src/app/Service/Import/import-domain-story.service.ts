@@ -1,10 +1,7 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { DirtyFlagService } from 'src/app/Service/DirtyFlag/dirty-flag.service';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
-import {
-  ICON_PREFIX,
-  IconDictionaryService,
-} from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
+import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { elementTypes } from 'src/app/Domain/Common/elementTypes';
 import { TitleService } from 'src/app/Service/Title/title.service';
@@ -17,10 +14,7 @@ import { DialogService } from '../Dialog/dialog.service';
 import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
-import {
-  restoreTitleFromFileName,
-  sanitizeIconName,
-} from '../../Utils/sanitizer';
+import { restoreTitleFromFileName } from '../../Utils/sanitizer';
 import { deepCopy } from '../../Utils/deepCopy';
 import {
   INITIAL_DESCRIPTION,

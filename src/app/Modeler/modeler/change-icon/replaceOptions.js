@@ -1,8 +1,6 @@
 import { elementTypes } from "src/app/Domain/Common/elementTypes";
 import { getNameFromType } from "src/app/Utils/naming";
 
-("use strict");
-
 let iconDictionaryService;
 
 export function initializeReplaceOptions(iconDictionary) {

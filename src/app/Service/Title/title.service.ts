@@ -1,6 +1,11 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {INITIAL_DESCRIPTION, INITIAL_DOMAIN_NAME, INITIAL_TITLE, VERSION,} from '../../Domain/Common/constants';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  INITIAL_DESCRIPTION,
+  INITIAL_DOMAIN_NAME,
+  INITIAL_TITLE,
+  VERSION,
+} from '../../Domain/Common/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -64,10 +69,6 @@ export class TitleService {
 
   public getShowDescriptionObservable(): Observable<boolean> {
     return this.showDescription.asObservable();
-  }
-
-  public getShowDescription(): boolean {
-    return this.showDescription.value;
   }
 
   public getTitle(): string {

@@ -1,12 +1,10 @@
-import {ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {HeaderDialogComponent} from 'src/app/Presentation/Dialog/header-dialog/header-dialog.component';
-import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
-import {MockModule, MockService} from 'ng-mocks';
-import {FormBuilder} from '@angular/forms';
-import {ReplayService} from '../../../Service/Replay/replay.service';
-import {TitleService} from '../../../Service/Title/title.service';
-import {Title} from '@angular/platform-browser';
+import { HeaderDialogComponent } from 'src/app/Presentation/Dialog/header-dialog/header-dialog.component';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MockModule, MockService } from 'ng-mocks';
+import { FormBuilder } from '@angular/forms';
+import { ReplayService } from '../../../Service/Replay/replay.service';
 
 xdescribe('HeaderDialogComponent', () => {
   let component: HeaderDialogComponent;

@@ -1,8 +1,8 @@
-import {Dictionary} from 'src/app/Domain/Common/dictionary/dictionary';
-import {overrideAppendedIcons} from 'src/app/Domain/Domain-Configuration/allIcons';
-import {Configuration} from 'src/app/Domain/Common/configuration';
-import {CustomDomainCofiguration} from 'src/app/Domain/Common/domainConfiguration';
-import {INITIAL_DOMAIN_NAME} from "./constants";
+import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
+import { overrideAppendedIcons } from 'src/app/Domain/Domain-Configuration/allIcons';
+import { Configuration } from 'src/app/Domain/Common/configuration';
+import { CustomDomainCofiguration } from 'src/app/Domain/Common/domainConfiguration';
+import { INITIAL_DOMAIN_NAME } from './constants';
 
 export class IconConfiguration {
   public domainName = INITIAL_DOMAIN_NAME;
@@ -90,7 +90,6 @@ export class IconConfiguration {
  * There are more Icons than fit in the palette.
  * This is just for reference
  */
-
 const allIconsConf = {
   actors: ['Person', 'Group', 'System', 'Pet'],
   workObjects: [

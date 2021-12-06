@@ -52,7 +52,7 @@ export default function activityUpdateHandler(commandStack, eventBus) {
       semantic.name = context.oldLabel;
       semantic.number = context.oldNumber;
 
-      revertAutomaticNumbergenerationChange(
+      revertAutomaticNumberGenerationChange(
         context.oldNumbersWithIDs,
         eventBus
       );
@@ -118,7 +118,7 @@ export default function activityUpdateHandler(commandStack, eventBus) {
 }
 
 // reverts the automatic changed done by the automatic number-generation at editing
-function revertAutomaticNumbergenerationChange(iDWithNumber, eventBus) {
+function revertAutomaticNumberGenerationChange(iDWithNumber, eventBus) {
   let activities = canvasElementRegistry.getActivitesFromActors();
   for (let i = activities.length - 1; i >= 0; i--) {
     for (let j = iDWithNumber.length - 1; j >= 0; j--) {

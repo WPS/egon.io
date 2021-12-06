@@ -21,13 +21,6 @@ h3 {
   font-weight: bold;
 }
 
-.verticalFullLine {
-  padding-right: 5px;
-  top: 0;
-  bottom: 0;
-  overflow-y: hidden;
-}
-
 .icon {
   width: 36px;
   height: 36px;
@@ -37,12 +30,6 @@ h3 {
   width: 100%;
   white-space: pre-wrap;
   resize: none;
-}
-
-.listEntry {
-  width: 100%;
-  display: block;
-  height: 40px;
 }
 
 .activityListHeader {

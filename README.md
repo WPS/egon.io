@@ -62,7 +62,7 @@ Beginning with version 1.2.0, the `.svg` file contains an embedded `.dst` file. 
 
 #### Replay
 
-The replay feature helps you to re-tell a Domain Story sentence by sentence. When you start a replay with the play button ![Play Button](readme_images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](readme_images/forward.png) shows the next activity and clicking the previous button ![Previous Button](readme_images/previous.png) shows the previous one. The current sentence is highlighted. If a Domain Story contains groups, they are hidden at first and then appear as last step at the end of the story.
+The replay feature helps you to re-tell a Domain-Story sentence by sentence. When you start a replay with the play button ![Play Button](readme_images/play.png), all activities except the first one disappear. Clicking the forward button ![Forward Button](readme_images/forward.png) shows the next activity and clicking the previous button ![Previous Button](readme_images/previous.png) shows the previous one. The current sentence is highlighted. If a Domain Story contains groups, they are hidden at first and then appear as last step at the end of the story.
 Editing is disabled in replay mode, but you can zoom (mouse wheel up and down) and scroll (ctrl + mouse wheel up and down). The stop the replay, click the stop button ![Stop Button](readme_images/stop.png).
 
 #### Keyboard Shortcuts
@@ -82,7 +82,7 @@ If you import a Domain Story from a `.dst` file, your icon configuration will ch
 ### Examples
 
 The examples' directory contains `.dst` files that you can import to the modeler. They give you an idea how a Domain Story might look like. Use the replay feature to read the story sentence by sentence.
-The examples' directory also contains a SVG file for every Domain Story. The images were created using the modeler.
+The examples' directory also contains an SVG file for every Domain Story. The images were created using the modeler.
 
 ### For Developers
 

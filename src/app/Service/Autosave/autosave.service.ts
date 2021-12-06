@@ -18,7 +18,7 @@ import {
   providedIn: 'root',
 })
 export class AutosaveService {
-  private autosaveEnabled: Observable<boolean>;
+  private readonly autosaveEnabled: Observable<boolean>;
   private autosaveTimer: any;
   private autosaveInterval = new BehaviorSubject(5); // in min
 

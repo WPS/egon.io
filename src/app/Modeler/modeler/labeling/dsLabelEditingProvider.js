@@ -15,7 +15,6 @@ import {
 
 import { elementTypes } from "../../../Domain/Common/elementTypes";
 import { is } from "../util";
-import UpdateLabelHandler from "../updateHandler/updateLabelHandler";
 
 let dictionaryService;
 
@@ -219,7 +218,7 @@ DSLabelEditingProvider.prototype.getEditingBBox = function (element) {
   // default position
   let bounds = { x: bbox.x, y: bbox.y };
 
-  let zoom = canvas.zoom();
+  let zoom = canvas.currentScale();
 
   let defaultStyle = this._textRenderer.getDefaultStyle(),
     externalStyle = this._textRenderer.getExternalStyle();

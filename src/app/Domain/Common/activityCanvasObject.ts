@@ -2,7 +2,7 @@ import { CanvasObject, testCanvasObject } from './canvasObject';
 import { Waypoint } from './waypoint';
 import {
   ActivityBusinessObject,
-  testActivityBusinessobject,
+  testActivityBusinessObject,
 } from './activityBusinessObject';
 import { elementTypes } from './elementTypes';
 
@@ -24,5 +24,5 @@ export const testActivityCanvasObject: ActivityCanvasObject = {
 
   waypoints: undefined,
 
-  businessObject: testActivityBusinessobject,
+  businessObject: testActivityBusinessObject,
 };

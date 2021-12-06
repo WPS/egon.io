@@ -32,7 +32,7 @@ export class IconDictionaryService {
 
   private customConfiguration?: CustomDomainCofiguration | DomainConfiguration;
 
-  private iconConfig: IconConfiguration;
+  private readonly iconConfig: IconConfiguration;
 
   constructor() {
     this.allIconDictionary.addEach(allIcons);

@@ -1,7 +1,6 @@
 import { bootstrapBpmnJS, inject } from "./testHelper";
 
 import { assign } from "min-dash";
-import { test_conf } from "./test_conf";
 import DomainStoryModeler from "../../index";
 import { elementTypes } from "../../../Domain/Common/elementTypes";
 

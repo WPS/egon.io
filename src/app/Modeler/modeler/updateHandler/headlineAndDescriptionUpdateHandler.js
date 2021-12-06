@@ -1,5 +1,3 @@
-"user strict";
-
 /**
  * a handler that updates the text of a BPMN element.
  */
