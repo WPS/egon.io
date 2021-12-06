@@ -218,8 +218,9 @@ DSLabelEditingProvider.prototype.getEditingBBox = function (element) {
   // default position
   let bounds = { x: bbox.x, y: bbox.y };
 
-  let zoom = canvas.currentScale();
-
+  /** The cavnas is an Object from BPMN, the IDE might say, that zoom is deprecated,
+   * because it thinks canvas is the standard HTMLElement. -> Needs to stay toom **/
+  let zoom = canvas.zoom();
   let defaultStyle = this._textRenderer.getDefaultStyle(),
     externalStyle = this._textRenderer.getExternalStyle();
 
