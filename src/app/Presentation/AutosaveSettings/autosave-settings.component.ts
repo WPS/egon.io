@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AutosaveService } from '../../Service/Autosave/autosave.service';
 import { Autosave } from '../../Domain/Autosave/autosave';
-import { Observable } from 'rxjs';
 import { AutosaveStateService } from '../../Service/Autosave/autosave-state.service';
 
 @Component({
@@ -11,41 +10,44 @@ import { AutosaveStateService } from '../../Service/Autosave/autosave-state.serv
 })
 export class AutosaveSettingsComponent implements OnInit {
   autosaves: Autosave[] = [];
-  autosaveIntervalObservable: Observable<number>;
-  autosaveEnabledObservable: Observable<boolean>;
+  autosaveEnabled: boolean;
+  autosaveInterval: number;
+
+  autosaveAmount: number;
 
   constructor(
     private autosaveService: AutosaveService,
     private autosaveStateService: AutosaveStateService
   ) {
-    this.autosaveIntervalObservable =
-      this.autosaveService.getAutosaveIntervalAsObservable();
-    this.autosaveEnabledObservable =
-      this.autosaveStateService.getAutosaveStateAsObservable();
+    this.autosaveAmount = this.autosaveService.getMaxAutosaves();
+    this.autosaveInterval = this.autosaveService.getAutosaveInterval();
+    this.autosaveEnabled = this.autosaveStateService.getAutosaveState();
   }
 
   ngOnInit(): void {
     this.autosaves = this.autosaveService.loadCurrentAutosaves();
-    this.autosaveIntervalObservable =
-      this.autosaveService.getAutosaveIntervalAsObservable();
-    this.autosaveEnabledObservable =
-      this.autosaveStateService.getAutosaveStateAsObservable();
   }
 
   public loadAutosave(autosave: Autosave): void {
     this.autosaveService.loadAutosave(autosave);
   }
 
-  public changeAutosaveInterval(interval: number): void {
-    this.autosaveService.changeAutosaveInterval(interval);
-  }
-
   setInterval($event: any): void {
-    this.autosaveService.changeAutosaveInterval($event.target.value);
+    this.autosaveInterval = $event.target.value;
   }
 
-  setAutosaveState(): void {
-    if (!this.autosaveStateService.getAutosaveState()) {
+  setAutosaveEnabled(): void {
+    this.autosaveEnabled = !this.autosaveEnabled;
+  }
+
+  setAutosaveAmount($event: any) {
+    this.autosaveAmount = $event.target.value;
+  }
+
+  save() {
+    this.autosaveService.changeAutosaveInterval(this.autosaveInterval);
+
+    if (this.autosaveEnabled) {
       this.autosaveService.startAutosaving();
     } else {
       this.autosaveService.stopAutosaving();

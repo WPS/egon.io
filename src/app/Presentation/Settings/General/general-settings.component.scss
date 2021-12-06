@@ -1,3 +1,4 @@
 .content {
-  padding-left: 5px;
+  display: grid;
+  grid-template-columns: 400px auto;
 }

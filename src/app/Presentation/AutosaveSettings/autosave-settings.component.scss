@@ -23,7 +23,45 @@
   justify-self: start;
 }
 
-.loadAutosaveButton {
-  margin-left: 5px;
+.saveButton {
+  align-self: end;
+  right: 0;
 }
 
+.cardContent {
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: auto auto 64px;
+  width: 100%;
+}
+
+.itemSpan {
+  align-self: center;
+}
+
+.items {
+
+  ::ng-deep.mat-list-item-content {
+    padding: 0;
+  }
+  padding-top: 0!important;
+}
+
+.inputContainer {
+  display: inline-grid;
+  width: fit-content;
+}
+
+.numberInput {
+  justify-self: end;
+  width: 64px;
+}
+
+.alignSelfCenter {
+  align-self: center;
+}

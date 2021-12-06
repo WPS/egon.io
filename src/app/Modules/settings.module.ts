@@ -15,6 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     MatCheckboxModule,
     FormsModule,
+    MatCardModule,
+    MatExpansionModule,
   ],
 })
 export class SettingsModule {}

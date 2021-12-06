@@ -94,17 +94,6 @@ describe('AutosaveService', () => {
     });
   });
 
-  describe('changeAutosaveInterval', () => {
-    it('', () => {
-      service.changeAutosaveInterval(10);
-
-      expect(setItemSpy).toHaveBeenCalledWith('autosaveIntervalTag', '10');
-      service
-        .getAutosaveIntervalAsObservable()
-        .subscribe((value) => expect(value).toEqual(10));
-    });
-  });
-
   describe('start & stop Autosaving', () => {
     it('should setAutosaveState true when starting', () => {
       service.startAutosaving();
@@ -121,12 +110,6 @@ describe('AutosaveService', () => {
     service
       .getAutosaveEnabledAsObservable()
       .subscribe((value) => expect(value).toBeFalse());
-  });
-
-  it('getAutosaveIntervalAsObservable', () => {
-    service
-      .getAutosaveIntervalAsObservable()
-      .subscribe((value) => expect(value).toEqual(5));
   });
 
   describe('loadCurrentAutosaves', () => {

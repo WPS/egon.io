@@ -9,6 +9,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.service';
 import { elementTypes } from '../../Domain/Common/elementTypes';
 import {
+  AUTOSAVE_AMOUNT_TAG,
   AUTOSAVE_INTERVAL_TAG,
   AUTOSAVE_TAG,
   MAX_AUTOSAVES,
@@ -21,6 +22,9 @@ export class AutosaveService {
   private readonly autosaveEnabled: Observable<boolean>;
   private autosaveTimer: any;
   private autosaveInterval = new BehaviorSubject(5); // in min
+  private maxAutosaves = Number(
+    localStorage.getItem(AUTOSAVE_AMOUNT_TAG) || MAX_AUTOSAVES
+  );
 
   constructor(
     private rendererService: RendererService,
@@ -76,8 +80,8 @@ export class AutosaveService {
     this.stopTimer();
   }
 
-  public getAutosaveIntervalAsObservable(): Observable<number> {
-    return this.autosaveInterval.asObservable();
+  public getAutosaveInterval(): number {
+    return this.autosaveInterval.value;
   }
 
   public getAutosaveEnabledAsObservable(): Observable<boolean> {
@@ -96,6 +100,15 @@ export class AutosaveService {
     };
   }
 
+  public setMaxAutosaves(amount: number) {
+    this.maxAutosaves = amount;
+    localStorage.setItem(AUTOSAVE_AMOUNT_TAG, '' + amount);
+  }
+
+  public getMaxAutosaves(): number {
+    return this.maxAutosaves;
+  }
+
   private stopTimer(): void {
     clearInterval(this.autosaveTimer);
   }
@@ -104,7 +117,7 @@ export class AutosaveService {
     // @ts-ignore
     this.autosaveTimer = new setInterval(() => {
       const currentAutosaves = this.loadCurrentAutosaves();
-      if (currentAutosaves.length > MAX_AUTOSAVES) {
+      if (currentAutosaves.length > this.maxAutosaves) {
         currentAutosaves.pop();
       }
       currentAutosaves.unshift(this.createAutosave());

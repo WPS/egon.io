@@ -9,6 +9,7 @@ export const INITIAL_DOMAIN_NAME = 'default Domain';
 /** AUTOSAVE **/
 export const MAX_AUTOSAVES = 5;
 export const AUTOSAVE_TAG = 'autosaveTag';
+export const AUTOSAVE_AMOUNT_TAG = 'autosaveAmountTag';
 export const AUTOSAVE_INTERVAL_TAG = 'autosaveIntervalTag';
 export const AUTOSAVE_ACTIVATED_TAG = 'autosaveActivatedTag';
 
