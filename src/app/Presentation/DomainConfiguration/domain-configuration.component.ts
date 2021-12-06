@@ -1,12 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {CustomDomainCofiguration, DomainConfiguration,} from 'src/app/Domain/Common/domainConfiguration';
-import {DomainConfigurationService} from 'src/app/Service/DomainConfiguration/domain-configuration.service';
-import {IconDictionaryService} from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
-import {BehaviorSubject} from 'rxjs';
-import {Dictionary} from 'src/app/Domain/Common/dictionary/dictionary';
-import {sanitizeIconName} from 'src/app/Utils/sanitizer';
-import {IconFilterEnum} from '../../Domain/Domain-Configuration/iconFilterEnum';
-import {DomainCustomizationService} from '../../Service/DomainConfiguration/domain-customization.service';
+import { Component, OnInit } from '@angular/core';
+import {
+  CustomDomainCofiguration,
+  DomainConfiguration,
+} from 'src/app/Domain/Common/domainConfiguration';
+import { DomainConfigurationService } from 'src/app/Service/DomainConfiguration/domain-configuration.service';
+import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
+import { BehaviorSubject } from 'rxjs';
+import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
+import { sanitizeIconName } from 'src/app/Utils/sanitizer';
+import { IconFilterEnum } from '../../Domain/Domain-Configuration/iconFilterEnum';
+import { DomainCustomizationService } from '../../Service/DomainConfiguration/domain-customization.service';
 
 @Component({
   selector: 'app-domain-configuration',
@@ -30,7 +33,7 @@ export class DomainConfigurationComponent implements OnInit {
   constructor(
     private configurationService: DomainConfigurationService,
     private iconDictionaryService: IconDictionaryService,
-    private domainCustomizationService: DomainCustomizationService,
+    private domainCustomizationService: DomainCustomizationService
   ) {
     this.domainConfigurationTypes =
       this.domainCustomizationService.getDomainConfiguration().value;
@@ -60,19 +63,19 @@ export class DomainConfigurationComponent implements OnInit {
         break;
       case IconFilterEnum.ICON_FILTER_ACTOR:
         allFiltered = this.allIconNames.value.filter((name) =>
-          this.domainCustomizationService.checkForActor(name)
+          this.domainCustomizationService.isIconActor(name)
         );
         break;
       case IconFilterEnum.ICON_FILTER_WORKOBJECT:
         allFiltered = this.allIconNames.value.filter((name) =>
-          this.domainCustomizationService.checkForWorkObject(name)
+          this.domainCustomizationService.isIconWorkObject(name)
         );
         break;
       case IconFilterEnum.ICON_FILTER_UNASSIGNED:
         allFiltered = this.allIconNames.value.filter(
           (name) =>
-            !this.domainCustomizationService.checkForActor(name) &&
-            !this.domainCustomizationService.checkForWorkObject(name)
+            !this.domainCustomizationService.isIconActor(name) &&
+            !this.domainCustomizationService.isIconWorkObject(name)
         );
         break;
     }
@@ -135,7 +138,7 @@ export class DomainConfigurationComponent implements OnInit {
       // @ts-ignore
       const src: string = e.target.result;
       this.iconDictionaryService.addIMGToIconDictionary(src, iconName);
-      this.iconDictionaryService.registerIcon(iconName, src);
+      this.iconDictionaryService.registerIconForBPMN(iconName, src);
 
       this.allIcons = this.iconDictionaryService.getFullDictionary();
       this.allIconNames.next(this.allIcons.keysArray());

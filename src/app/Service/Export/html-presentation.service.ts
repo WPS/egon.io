@@ -3,10 +3,10 @@ import { sanitizeForDesktop } from '../../Utils/sanitizer';
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
 import { DialogService } from '../Dialog/dialog.service';
 import { StoryCreatorService } from '../Replay/storyCreator/story-creator.service';
-// @ts-ignore
-import doT from 'dot';
 import { ReplayService } from '../Replay/replay.service';
 import { deepCopy } from '../../Utils/deepCopy';
+// @ts-ignore
+import doT from 'dot';
 
 @Injectable({
   providedIn: 'root',

@@ -14,6 +14,19 @@ export class ElementRegistryService {
 
   constructor() {}
 
+  /**
+   * Initially the registry has only the root-Element.
+   * Once the canvas has bees initialized, we adjust the reference to point to the elements on the canvas for convenience
+   */
+  public correctInitialize(): void {
+    if (!this.fullyInitialized) {
+      if (this.registry.__implicitroot) {
+        this.registry = this.registry.__implicitroot.element.children;
+        this.fullyInitialized = true;
+      }
+    }
+  }
+
   public setElementRegistry(registry: any): void {
     this.registry = registry._elements;
   }
@@ -62,19 +75,6 @@ export class ElementRegistryService {
     groups.forEach((group) => {
       objectList.push(group);
     });
-  }
-
-  /**
-   * Initially the registry has only the root-Element.
-   * Once the canvas has bees initialized, we adjust the reference to point to the elements on the canvas for convenience
-   */
-  public correctInitialize(): void {
-    if (!this.fullyInitialized) {
-      if (this.registry.__implicitroot) {
-        this.registry = this.registry.__implicitroot.element.children;
-        this.fullyInitialized = true;
-      }
-    }
   }
 
   public getAllActivities(): ActivityCanvasObject[] {

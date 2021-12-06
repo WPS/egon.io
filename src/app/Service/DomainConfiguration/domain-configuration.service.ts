@@ -67,11 +67,11 @@ export class DomainConfigurationService {
       .getIconConfiguration()
       .appendSRCFile(actorKeys, actorDict, workObjectKeys, workObjectDict);
 
-    this.iconDictionaryService.registerDomainConfigurationIcons(
+    this.iconDictionaryService.addIconsFromDomainConfiguration(
       elementTypes.ACTOR,
       actorKeys.map((a) => elementTypes.ACTOR + a)
     );
-    this.iconDictionaryService.registerDomainConfigurationIcons(
+    this.iconDictionaryService.addIconsFromDomainConfiguration(
       elementTypes.WORKOBJECT,
       workObjectKeys.map((w) => elementTypes.WORKOBJECT + w)
     );

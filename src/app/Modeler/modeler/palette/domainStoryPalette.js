@@ -108,7 +108,7 @@ function appendCSSStyleCheat(customIcons) {
 }
 
 function initPalette(actions, spaceTool, lassoTool, createAction) {
-  let config = iconDictionary.getIconConfig();
+  let config = iconDictionary.createIconConfiguration();
 
   let customIcons = localStorage.getItem("appendedIcons");
 
@@ -192,7 +192,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
 
 function addCanvasObjectTypes(actorType, createAction, actions, className) {
   let name = getNameFromType(actorType);
-  let icon = iconDictionary.getIconForType(actorType);
+  let icon = iconDictionary.getIconForBPMN(actorType);
 
   let action = [];
   action["domainStory-" + className + name] = createAction(

@@ -1,7 +1,7 @@
-import {AfterViewChecked, Component, Input, OnInit} from '@angular/core';
-import {IconListItem} from '../../../Domain/Domain-Configuration/iconListItem';
-import {BehaviorSubject} from 'rxjs';
-import {DomainCustomizationService} from '../../../Service/DomainConfiguration/domain-customization.service';
+import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
+import { IconListItem } from '../../../Domain/Domain-Configuration/iconListItem';
+import { BehaviorSubject } from 'rxjs';
+import { DomainCustomizationService } from '../../../Service/DomainConfiguration/domain-customization.service';
 
 @Component({
   selector: 'app-icon-list-item',
@@ -54,15 +54,18 @@ export class IconListItemComponent implements OnInit, AfterViewChecked {
   }
 
   toggleNone() {
-    this.domainCustomizationService.checkNone(this.iconName, this.icon.value.isActor);
+    this.domainCustomizationService.setAsUnassigned(
+      this.iconName,
+      this.icon.value.isActor
+    );
   }
 
   toggleActor(): void {
-    this.domainCustomizationService.checkActor(true, this.iconName);
+    this.domainCustomizationService.setAsActor(true, this.iconName);
   }
 
   toggleWorkobject(): void {
-    this.domainCustomizationService.checkWorkobject(true, this.iconName);
+    this.domainCustomizationService.setAsWorkobject(true, this.iconName);
   }
 
   private createIcon(): void {

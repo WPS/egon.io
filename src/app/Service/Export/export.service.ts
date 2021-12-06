@@ -1,15 +1,15 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {DomainConfigurationService} from 'src/app/Service/DomainConfiguration/domain-configuration.service';
-import {sanitizeForDesktop} from 'src/app/Utils/sanitizer';
-import {TitleService} from 'src/app/Service/Title/title.service';
-import {ConfigAndDST} from 'src/app/Domain/Export/configAndDst';
-import {DirtyFlagService} from 'src/app/Service/DirtyFlag/dirty-flag.service';
-import {PngService} from 'src/app/Service/Export/png.service';
-import {SvgService} from 'src/app/Service/Export/svg.service';
-import {Subscription} from 'rxjs';
-import {RendererService} from '../Renderer/renderer.service';
-import {HtmlPresentationService} from './html-presentation.service';
-import {VERSION} from "../../Domain/Common/constants";
+import { Injectable, OnDestroy } from '@angular/core';
+import { DomainConfigurationService } from 'src/app/Service/DomainConfiguration/domain-configuration.service';
+import { sanitizeForDesktop } from 'src/app/Utils/sanitizer';
+import { TitleService } from 'src/app/Service/Title/title.service';
+import { ConfigAndDST } from 'src/app/Domain/Export/configAndDst';
+import { DirtyFlagService } from 'src/app/Service/DirtyFlag/dirty-flag.service';
+import { PngService } from 'src/app/Service/Export/png.service';
+import { SvgService } from 'src/app/Service/Export/svg.service';
+import { Subscription } from 'rxjs';
+import { RendererService } from '../Renderer/renderer.service';
+import { HtmlPresentationService } from './html-presentation.service';
+import { VERSION } from '../../Domain/Common/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -47,43 +47,56 @@ export class ExportService implements OnDestroy {
     this.descriptionSubscription.unsubscribe();
   }
 
-  public downloadHTMLPresentation(): void {
-    const filename = sanitizeForDesktop(
-      this.title + '_' + new Date().toString().slice(0, 10)
+  public isDomainStoryExportable(): boolean {
+    return this.rendererService.getStory().length >= 1;
+  }
+
+  public createConfigAndDST(DomainStory: string): ConfigAndDST {
+    return new ConfigAndDST(
+      JSON.stringify(this.configurationService.getCurrentConfiguration()),
+      DomainStory
     );
-    this.htmlPresentationService.downloadHTMLPresentation(filename).then();
   }
 
   public downloadDST(): void {
     const dst = JSON.stringify(this.getStoryForDownload());
     const configAndDST = this.createConfigAndDST(dst);
     const json = JSON.stringify(configAndDST);
-    const element = document.createElement('a');
 
     const filename = sanitizeForDesktop(
       this.title + '_' + new Date().toString().slice(0, 10)
     );
-    element.setAttribute(
-      'href',
-      'data:text/plain;charset=utf-8,' + encodeURIComponent(json)
+
+    this.downloadFile(
+      json,
+      'data:text/plain;charset=utf-8,',
+      filename,
+      '.dst',
+      true
     );
-    element.setAttribute('download', filename + '.dst');
+  }
+
+  private downloadFile(
+    data: string,
+    datatype: string,
+    filename: string,
+    fileEnding: string,
+    makeClean: boolean
+  ) {
+    const element = document.createElement('a');
+    element.setAttribute('href', datatype + encodeURIComponent(data));
+    element.setAttribute('download', filename + fileEnding);
 
     element.style.display = 'none';
     document.body.appendChild(element);
 
     element.click();
 
-    this.dirtyFlagService.makeClean();
+    if (makeClean) {
+      this.dirtyFlagService.makeClean();
+    }
 
     document.body.removeChild(element);
-  }
-
-  private getStoryForDownload(): unknown[] {
-    const story = this.rendererService.getStory() as unknown[];
-    story.push({'info': this.titleService.getDescription()})
-    story.push({'version': VERSION});
-    return story
   }
 
   public downloadSVG(): void {
@@ -96,26 +109,13 @@ export class ExportService implements OnDestroy {
       dst
     );
 
-    const element = document.createElement('a');
-    element.setAttribute(
-      'href',
-      'data:application/bpmn20-xml;charset=UTF-8,' + svgData
+    this.downloadFile(
+      svgData,
+      'data:application/bpmn20-xml;charset=UTF-8,',
+      sanitizeForDesktop(this.title),
+      '.dst.svg',
+      true
     );
-    element.setAttribute(
-      'download',
-      sanitizeForDesktop(this.title) + '.dst.svg'
-    );
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
-  }
-
-  public isDomainStoryExportable(): boolean {
-    return this.rendererService.getStory().length >= 1;
   }
 
   public downloadPNG(): void {
@@ -159,7 +159,22 @@ export class ExportService implements OnDestroy {
           ctx.drawImage(image, 0, 0);
         }
 
-        this.startPNGDownload(tempCanvas, image);
+        const png64 = tempCanvas.toDataURL('image/png');
+        const ele = document.createElement('a');
+        ele.setAttribute(
+          'download',
+          sanitizeForDesktop(this.title) +
+            '_' +
+            new Date().toISOString().slice(0, 10) +
+            '.png'
+        );
+        ele.setAttribute('href', png64);
+        document.body.appendChild(ele);
+        ele.click();
+        document.body.removeChild(ele);
+
+        // image source has to be removed to circumvent browser caching
+        image.src = '';
       };
       image.onchange = image.onload;
 
@@ -167,51 +182,20 @@ export class ExportService implements OnDestroy {
       image.height = this.pngService.getHeight();
 
       image.src = 'data:image/svg+xml,' + svg;
-
-      if (image.complete && !onLoadTriggered) {
-        onLoadTriggered = true;
-        const tempCanvas = document.createElement('canvas');
-
-        // add a 10px buffer to the right and lower boundary
-        tempCanvas.width = this.pngService.getWidth() + 10;
-        tempCanvas.height = this.pngService.getHeight() + 10;
-
-        const ctx = tempCanvas.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(image, 0, 0);
-        }
-
-        this.startPNGDownload(tempCanvas, image);
-      }
     }
   }
 
-  private startPNGDownload(
-    tempCanvas: HTMLCanvasElement,
-    image: HTMLImageElement
-  ): void {
-    const png64 = tempCanvas.toDataURL('image/png');
-    const ele = document.createElement('a');
-    ele.setAttribute(
-      'download',
-      sanitizeForDesktop(this.title) +
-      '_' +
-      new Date().toISOString().slice(0, 10) +
-      '.png'
+  public downloadHTMLPresentation(): void {
+    const filename = sanitizeForDesktop(
+      this.title + '_' + new Date().toString().slice(0, 10)
     );
-    ele.setAttribute('href', png64);
-    document.body.appendChild(ele);
-    ele.click();
-    document.body.removeChild(ele);
-
-    // image source has to be removed to circumvent browser caching
-    image.src = '';
+    this.htmlPresentationService.downloadHTMLPresentation(filename).then();
   }
 
-  public createConfigAndDST(DomainStory: string): ConfigAndDST {
-    return new ConfigAndDST(
-      JSON.stringify(this.configurationService.getCurrentConfiguration()),
-      DomainStory
-    );
+  private getStoryForDownload(): unknown[] {
+    const story = this.rendererService.getStory() as unknown[];
+    story.push({ info: this.titleService.getDescription() });
+    story.push({ version: VERSION });
+    return story;
   }
 }

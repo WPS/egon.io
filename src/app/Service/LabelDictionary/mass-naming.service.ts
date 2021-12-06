@@ -1,6 +1,7 @@
-import {Injectable} from '@angular/core';
-import {ElementRegistryService} from 'src/app/Service/ElementRegistry/element-registry.service';
-import {CanvasObject} from 'src/app/Domain/Common/canvasObject';
+import { Injectable } from '@angular/core';
+import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
+import { CanvasObject } from 'src/app/Domain/Common/canvasObject';
+import { elementTypes } from '../../Domain/Common/elementTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -8,8 +9,7 @@ import {CanvasObject} from 'src/app/Domain/Common/canvasObject';
 export class MassNamingService {
   private commandStack: any;
 
-  constructor(private elementRegistryService: ElementRegistryService) {
-  }
+  constructor(private elementRegistryService: ElementRegistryService) {}
 
   public setCommandStack(commandStack: any): void {
     this.commandStack = commandStack;
@@ -18,7 +18,7 @@ export class MassNamingService {
   public massChangeNames(
     oldValue: string,
     newValue: string,
-    type: string
+    type: elementTypes
   ): void {
     const allRelevantObjects: CanvasObject[] = [];
 

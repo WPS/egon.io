@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {DomainCustomizationService} from '../../../Service/DomainConfiguration/domain-customization.service';
-import {IconListItem} from '../../../Domain/Domain-Configuration/iconListItem';
+import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { DomainCustomizationService } from '../../../Service/DomainConfiguration/domain-customization.service';
+import { IconListItem } from '../../../Domain/Domain-Configuration/iconListItem';
 
 @Component({
   selector: 'app-domain-details',
@@ -23,8 +23,7 @@ export class DomainDetailsComponent implements OnInit {
       this.customizationService.getSelectedWorkobjects();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   changeName(event: Event): void {
     // @ts-ignore
@@ -53,9 +52,9 @@ export class DomainDetailsComponent implements OnInit {
     list.next(sortedList);
 
     if (actors) {
-      this.customizationService.updateSelectedActors(sortedList);
+      this.customizationService.setSelectedActors(sortedList);
     } else {
-      this.customizationService.updateSelectedWorkObject(sortedList);
+      this.customizationService.setSelectedWorkObject(sortedList);
     }
   }
 
