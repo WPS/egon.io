@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-
-const autosaveActivatedTag = 'autosaveActivatedTag';
+import { AUTOSAVE_ACTIVATED_TAG } from '../../Domain/Common/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -32,10 +31,10 @@ export class AutosaveStateService {
   }
 
   private setAutosaveEnabled(enabled: boolean): void {
-    localStorage.setItem(autosaveActivatedTag, JSON.stringify(enabled));
+    localStorage.setItem(AUTOSAVE_ACTIVATED_TAG, JSON.stringify(enabled));
   }
 
   private isAutosaveEnabled(): boolean {
-    return JSON.parse(localStorage.getItem(autosaveActivatedTag) || 'false');
+    return JSON.parse(localStorage.getItem(AUTOSAVE_ACTIVATED_TAG) || 'false');
   }
 }

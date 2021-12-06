@@ -8,10 +8,11 @@ import { AutosaveStateService } from './autosave-state.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.service';
 import { elementTypes } from '../../Domain/Common/elementTypes';
-
-const autosaveIntervalTag = 'autosaveIntervalTag';
-const autosaveTag = 'autosaveTag';
-const maxAutosaves = 5;
+import {
+  AUTOSAVE_INTERVAL_TAG,
+  AUTOSAVE_TAG,
+  MAX_AUTOSAVES,
+} from '../../Domain/Common/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -103,20 +104,18 @@ export class AutosaveService {
     // @ts-ignore
     this.autosaveTimer = new setInterval(() => {
       const currentAutosaves = this.loadCurrentAutosaves();
-      if (currentAutosaves.length > maxAutosaves) {
+      if (currentAutosaves.length > MAX_AUTOSAVES) {
         currentAutosaves.pop();
       }
       currentAutosaves.unshift(this.createAutosave());
-      this.saveAutosaves(currentAutosaves);
+      localStorage.setItem(
+        AUTOSAVE_TAG,
+        JSON.stringify({ autosaves: currentAutosaves })
+      );
     }, this.autosaveInterval.getValue() * 60000);
   }
-
-  private saveAutosaves(autosaves: Autosave[]): void {
-    localStorage.setItem(autosaveTag, JSON.stringify({ autosaves }));
-  }
-
   public loadCurrentAutosaves(): Autosave[] {
-    const autosavesString = localStorage.getItem(autosaveTag);
+    const autosavesString = localStorage.getItem(AUTOSAVE_TAG);
     if (autosavesString) {
       const autosaves = (JSON.parse(autosavesString) as Autosaves).autosaves;
       if (autosaves && autosaves.length > 0) {
@@ -140,7 +139,7 @@ export class AutosaveService {
   }
 
   private loadAutosaveInterval(): void {
-    const autosaveIntervalString = localStorage.getItem(autosaveIntervalTag);
+    const autosaveIntervalString = localStorage.getItem(AUTOSAVE_INTERVAL_TAG);
     if (autosaveIntervalString) {
       this.autosaveInterval.next(JSON.parse(autosaveIntervalString));
     }
@@ -148,7 +147,7 @@ export class AutosaveService {
 
   private saveAutosaveInterval(): void {
     localStorage.setItem(
-      autosaveIntervalTag,
+      AUTOSAVE_INTERVAL_TAG,
       '' + this.autosaveInterval.getValue()
     );
   }
