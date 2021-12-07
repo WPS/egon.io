@@ -15,6 +15,34 @@ import {
   testGroupCanvasObject,
 } from '../../Domain/Common/groupCanvasObject';
 import { elementTypes } from '../../Domain/Common/elementTypes';
+import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
+import {
+  MatButtonToggle,
+  MatButtonToggleModule,
+} from '@angular/material/button-toggle';
+import { MockProviders } from 'ng-mocks';
+
+function resetRegistry(
+  registry: any,
+  testActivity: ActivityCanvasObject,
+  testActor: CanvasObject,
+  testWorkobject: CanvasObject,
+  testGroup: GroupCanvasObject,
+  testConnection: ActivityCanvasObject
+) {
+  registry._elements = [];
+  registry._elements[testActivity.name] = {
+    element: deepCopy(testActivity),
+  };
+  registry._elements[testActor.name] = { element: deepCopy(testActor) };
+  registry._elements[testWorkobject.name] = {
+    element: deepCopy(testWorkobject),
+  };
+  registry._elements[testGroup.name] = { element: deepCopy(testGroup) };
+  registry._elements[testConnection.name] = {
+    element: deepCopy(testConnection),
+  };
+}
 
 describe('ElementRegistryService', () => {
   let service: ElementRegistryService;
@@ -27,7 +55,10 @@ describe('ElementRegistryService', () => {
   let testConnection: ActivityCanvasObject;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [MatToolbarModule, MatButtonToggleModule],
+      providers: [MockProviders(MatButtonToggle, MatToolbar)],
+    });
     service = TestBed.inject(ElementRegistryService);
 
     registry = {
@@ -43,23 +74,34 @@ describe('ElementRegistryService', () => {
     testActor = deepCopy(testCanvasObject);
     testActor.type = elementTypes.ACTOR;
     testActor.businessObject.type = elementTypes.ACTOR;
+    testActor.name = 'actor';
 
     testActivity = deepCopy(testActivityCanvasObject);
     testActivity.source = testActor;
+    testActivity.name = 'activity';
 
     testWorkobject = deepCopy(testCanvasObject);
+    testWorkobject.name = 'workobject';
 
     testGroup = deepCopy(testGroupCanvasObject);
+    testGroup.name = 'group';
 
     testConnection = deepCopy(testActivityCanvasObject);
-
+    testConnection.name = 'conntection';
     testConnection.type = elementTypes.CONNECTION;
     testConnection.businessObject.type = elementTypes.CONNECTION;
   });
 
   describe('createObjectListForDSTDownload', () => {
     beforeEach(() => {
-      registry._elements = [testActivity, testActor, testWorkobject, testGroup];
+      resetRegistry(
+        registry,
+        testActivity,
+        testActor,
+        testWorkobject,
+        testGroup,
+        testConnection
+      );
     });
 
     it('should return empty if registry not correctly initialized', () => {
@@ -83,13 +125,14 @@ describe('ElementRegistryService', () => {
 
   describe('getObjects', () => {
     beforeEach(() => {
-      registry._elements = [
+      resetRegistry(
+        registry,
         testActivity,
         testActor,
         testWorkobject,
         testGroup,
-        testConnection,
-      ];
+        testConnection
+      );
       service.setElementRegistry(registry);
     });
 
