@@ -1,11 +1,14 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {ReplayService} from 'src/app/Service/Replay/replay.service';
-import {ReplayStateService} from './replay-state.service';
-import {DomManipulationService} from '../DomManipulation/dom-manipulation.service';
-import {DialogService} from '../Dialog/dialog.service';
-import {StoryCreatorService} from './storyCreator/story-creator.service';
-import {preBuildTestStory} from '../../Utils/testHelpers.spec';
+import { ReplayService } from 'src/app/Service/Replay/replay.service';
+import { ReplayStateService } from './replay-state.service';
+import { DomManipulationService } from '../DomManipulation/dom-manipulation.service';
+import { DialogService } from '../Dialog/dialog.service';
+import { StoryCreatorService } from './storyCreator/story-creator.service';
+import { preBuildTestStory } from '../../Utils/testHelpers.spec';
+import { MockProvider } from 'ng-mocks';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('ReplayService', () => {
   let service: ReplayService;
@@ -14,6 +17,7 @@ describe('ReplayService', () => {
   let domManipulationServiceSpy: jasmine.SpyObj<DomManipulationService>;
   let dialogServiceSpy: jasmine.SpyObj<DialogService>;
   let replayStateServiceSpy: jasmine.SpyObj<ReplayStateService>;
+  let snackBarSpy: jasmine.SpyObj<MatSnackBar>;
 
   beforeEach(() => {
     const storyCreatorServiceMock = jasmine.createSpyObj(
@@ -30,6 +34,7 @@ describe('ReplayService', () => {
     const replayStateServiceMock = jasmine.createSpyObj('replayState', [
       'setReplayState',
     ]);
+    const snackBarMock = jasmine.createSpyObj('snackbar', ['open']);
     TestBed.configureTestingModule({
       providers: [
         {
@@ -48,6 +53,11 @@ describe('ReplayService', () => {
           provide: StoryCreatorService,
           useValue: storyCreatorServiceMock,
         },
+        {
+          provide: MatSnackBar,
+          useValue: snackBarMock,
+        },
+        MockProvider(MatDialog),
       ],
     });
     service = TestBed.inject(ReplayService);
@@ -64,6 +74,7 @@ describe('ReplayService', () => {
     replayStateServiceSpy = TestBed.inject(
       ReplayStateService
     ) as jasmine.SpyObj<ReplayStateService>;
+    snackBarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;
   });
 
   it('should be created', () => {
@@ -201,7 +212,7 @@ describe('ReplayService', () => {
         expect(
           storyCreatorServiceSpy.isStoryConsecutivelyNumbered
         ).toHaveBeenCalled();
-        expect(dialogServiceSpy.openDialog).toHaveBeenCalled();
+        expect(snackBarSpy.open).toHaveBeenCalled();
       });
 
       it(' should start replay if consecutively numbered', () => {

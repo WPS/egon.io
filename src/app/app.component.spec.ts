@@ -1,9 +1,11 @@
-import {TestBed} from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {AppComponent} from 'src/app/app.component';
-import {MockService} from 'ng-mocks';
-import {SettingsService} from './Service/Settings/settings.service';
-import {DialogService} from './Service/Dialog/dialog.service';
+import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AppComponent } from 'src/app/app.component';
+import { MockProviders } from 'ng-mocks';
+import { SettingsService } from './Service/Settings/settings.service';
+import { DialogService } from './Service/Dialog/dialog.service';
+import { TitleService } from './Service/Title/title.service';
+import { ExportService } from './Service/Export/export.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -11,14 +13,12 @@ describe('AppComponent', () => {
       imports: [RouterTestingModule],
       declarations: [AppComponent],
       providers: [
-        {
-          provide: SettingsService,
-          useValue: MockService(SettingsService),
-        },
-        {
-          provide: DialogService,
-          useValue: MockService(DialogService),
-        },
+        MockProviders(
+          DialogService,
+          SettingsService,
+          TitleService,
+          ExportService
+        ),
       ],
     }).compileComponents();
   });
