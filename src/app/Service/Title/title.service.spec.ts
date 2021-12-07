@@ -1,7 +1,11 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {TitleService,} from 'src/app/Service/Title/title.service';
-import {INITIAL_DESCRIPTION, INITIAL_TITLE, VERSION} from "../../Domain/Common/constants";
+import { TitleService } from 'src/app/Service/Title/title.service';
+import {
+  INITIAL_DESCRIPTION,
+  INITIAL_TITLE,
+  VERSION,
+} from '../../Domain/Common/constants';
 
 describe('TitleService', () => {
   let service: TitleService;
@@ -31,14 +35,14 @@ describe('TitleService', () => {
       service.updateTitleAndDescription('title', null, false);
 
       expect(service.getTitle()).toEqual('title');
-      expect(service.getDescription()).toEqual('');
+      expect(service.getDescription()).toEqual(INITIAL_DESCRIPTION);
 
       service
         .getTitleObservable()
         .subscribe((value) => expect(value).toEqual('title'));
       service
         .getDescriptionObservable()
-        .subscribe((value) => expect(value).toEqual(''));
+        .subscribe((value) => expect(value).toEqual(INITIAL_DESCRIPTION));
     });
 
     it('should update description', () => {

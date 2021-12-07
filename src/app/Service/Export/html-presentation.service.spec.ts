@@ -1,12 +1,11 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {HtmlPresentationService} from './html-presentation.service';
-import {MockService} from 'ng-mocks';
-import {DomManipulationService} from '../DomManipulation/dom-manipulation.service';
-import {ElementRegistryService} from '../ElementRegistry/element-registry.service';
-import {ReplayStateService} from '../Replay/replay-state.service';
-import {DialogService} from '../Dialog/dialog.service';
-import {StoryCreatorService} from '../Replay/storyCreator/story-creator.service';
+import { HtmlPresentationService } from './html-presentation.service';
+import { MockProviders } from 'ng-mocks';
+import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
+import { DialogService } from '../Dialog/dialog.service';
+import { StoryCreatorService } from '../Replay/storyCreator/story-creator.service';
+import { ReplayService } from '../Replay/replay.service';
 
 describe('HtmlPresentationService', () => {
   let service: HtmlPresentationService;
@@ -14,26 +13,12 @@ describe('HtmlPresentationService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: DomManipulationService,
-          useValue: MockService(DomManipulationService),
-        },
-        {
-          provide: ElementRegistryService,
-          useValue: MockService(ElementRegistryService),
-        },
-        {
-          provide: ReplayStateService,
-          useValue: MockService(ReplayStateService),
-        },
-        {
-          provide: DialogService,
-          useValue: MockService(DialogService),
-        },
-        {
-          provide: StoryCreatorService,
-          useValue: MockService(StoryCreatorService),
-        },
+        MockProviders(
+          ElementRegistryService,
+          DialogService,
+          StoryCreatorService,
+          ReplayService
+        ),
       ],
     });
     service = TestBed.inject(HtmlPresentationService);

@@ -1,17 +1,16 @@
-import {TestBed} from '@angular/core/testing';
-import {RendererService} from './renderer.service';
-import {ModelerService} from '../Modeler/modeler.service';
-import {ElementRegistryService} from '../ElementRegistry/element-registry.service';
-import {DomainConfigurationService} from '../DomainConfiguration/domain-configuration.service';
-import {DirtyFlagService} from '../DirtyFlag/dirty-flag.service';
-import {DomainConfiguration} from '../../Domain/Common/domainConfiguration';
+import { TestBed } from '@angular/core/testing';
+import { RendererService } from './renderer.service';
+import { ModelerService } from '../Modeler/modeler.service';
+import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
+import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
+import { DirtyFlagService } from '../DirtyFlag/dirty-flag.service';
+import { DomainConfiguration } from '../../Domain/Common/domainConfiguration';
 
 describe('RendererService', () => {
   let service: RendererService;
 
   let modelerServiceSpy: jasmine.SpyObj<ModelerService>;
   let elementRegistryServiceSpy: jasmine.SpyObj<ElementRegistryService>;
-  let domainConfigurationServiceSpy: jasmine.SpyObj<DomainConfigurationService>;
   let dirtyFlagServiceSpy: jasmine.SpyObj<DirtyFlagService>;
 
   beforeEach(() => {
@@ -47,10 +46,6 @@ describe('RendererService', () => {
           provide: DirtyFlagService,
           useValue: dirtyFlagServiceMock,
         },
-        {
-          provide: DomainConfigurationService,
-          useValue: domainConfigurationServiceMock,
-        },
       ],
     });
     modelerServiceSpy = TestBed.inject(
@@ -59,9 +54,6 @@ describe('RendererService', () => {
     elementRegistryServiceSpy = TestBed.inject(
       ElementRegistryService
     ) as jasmine.SpyObj<ElementRegistryService>;
-    domainConfigurationServiceSpy = TestBed.inject(
-      DomainConfigurationService
-    ) as jasmine.SpyObj<DomainConfigurationService>;
     dirtyFlagServiceSpy = TestBed.inject(
       DirtyFlagService
     ) as jasmine.SpyObj<DirtyFlagService>;
@@ -75,8 +67,7 @@ describe('RendererService', () => {
   describe('renderStory', () => {
     beforeEach(() => {
       modelerServiceSpy.getModeler.and.returnValue({
-        importCustomElements: (story: any) => {
-        },
+        importCustomElements: (story: any) => {},
       });
     });
 
@@ -95,8 +86,7 @@ describe('RendererService', () => {
 
     beforeEach(() => {
       modelerServiceSpy.getModeler.and.returnValue({
-        importCustomElements: (story: any) => {
-        },
+        importCustomElements: (story: any) => {},
       });
       modelerServiceSpy.restart.and.returnValue();
       elementRegistryServiceSpy.correctInitialize.and.returnValue();
@@ -133,9 +123,6 @@ describe('RendererService', () => {
       service.importStory([], false);
 
       expect(modelerServiceSpy.getModeler).toHaveBeenCalled();
-      expect(
-        domainConfigurationServiceSpy.getCurrentConfiguration
-      ).toHaveBeenCalledTimes(0);
       expect(modelerServiceSpy.restart).toHaveBeenCalledTimes(0);
       expect(elementRegistryServiceSpy.correctInitialize).toHaveBeenCalled();
       expect(modelerServiceSpy.commandStackChanged).toHaveBeenCalled();

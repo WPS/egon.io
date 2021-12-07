@@ -51,62 +51,6 @@ export class HtmlPresentationService {
   ----------------------------
   */
 
-  // tslint:disable-next-line:align
-  private static createSVGData(svg: any): string {
-    let data = deepCopy(svg);
-
-    // to ensure that the title and description are inside the SVG container and do not overlap with any elements,
-    // we change the confines of the SVG viewbox
-    let viewBoxIndex = data.indexOf('width="');
-
-    const viewBox = HtmlPresentationService.viewBoxCoordinates(data);
-
-    let xLeft: number;
-    let width: number;
-    let yUp: number;
-    let height: number;
-    const splitViewBox = viewBox.split(/\s/);
-
-    xLeft = +splitViewBox[0];
-    yUp = +splitViewBox[1];
-    width = +splitViewBox[2];
-    height = +splitViewBox[3];
-
-    if (width < 300) {
-      width += 300;
-    }
-
-    const dataStart = data.substring(0, viewBoxIndex);
-    viewBoxIndex = data.indexOf('" version');
-    const dataEnd = data.substring(viewBoxIndex);
-    dataEnd.substring(viewBoxIndex);
-
-    data = dataStart + this.createBounds(xLeft, yUp, width, height) + dataEnd;
-
-    return encodeURIComponent(data);
-  }
-
-  private static createBounds(
-    xLeft: number,
-    yUp: number,
-    width: number,
-    height: number
-  ) {
-    return (
-      'width="100%"' +
-      ' height="auto" ' +
-      ' preserveAspectRatio="xMidYMid meet"' +
-      ' viewBox="' +
-      xLeft +
-      ' ' +
-      yUp +
-      ' ' +
-      (xLeft + width) +
-      ' ' +
-      (yUp + height)
-    );
-  }
-
   public async downloadHTMLPresentation(filename: string): Promise<void> {
     const svgData = [];
     // export all sentences of domain story
@@ -169,6 +113,62 @@ export class HtmlPresentationService {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+  }
+
+  // tslint:disable-next-line:align
+  private static createSVGData(svg: any): string {
+    let data = deepCopy(svg);
+
+    // to ensure that the title and description are inside the SVG container and do not overlap with any elements,
+    // we change the confines of the SVG viewbox
+    let viewBoxIndex = data.indexOf('width="');
+
+    const viewBox = HtmlPresentationService.viewBoxCoordinates(data);
+
+    let xLeft: number;
+    let width: number;
+    let yUp: number;
+    let height: number;
+    const splitViewBox = viewBox.split(/\s/);
+
+    xLeft = +splitViewBox[0];
+    yUp = +splitViewBox[1];
+    width = +splitViewBox[2];
+    height = +splitViewBox[3];
+
+    if (width < 300) {
+      width += 300;
+    }
+
+    const dataStart = data.substring(0, viewBoxIndex);
+    viewBoxIndex = data.indexOf('" version');
+    const dataEnd = data.substring(viewBoxIndex);
+    dataEnd.substring(viewBoxIndex);
+
+    data = dataStart + this.createBounds(xLeft, yUp, width, height) + dataEnd;
+
+    return encodeURIComponent(data);
+  }
+
+  private static createBounds(
+    xLeft: number,
+    yUp: number,
+    width: number,
+    height: number
+  ) {
+    return (
+      'width="100%"' +
+      ' height="auto" ' +
+      ' preserveAspectRatio="xMidYMid meet"' +
+      ' viewBox="' +
+      xLeft +
+      ' ' +
+      yUp +
+      ' ' +
+      (xLeft + width) +
+      ' ' +
+      (yUp + height)
+    );
   }
 
   /**
