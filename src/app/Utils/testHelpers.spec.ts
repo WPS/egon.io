@@ -1,8 +1,8 @@
-import {StoryStep} from '../Domain/Replay/storyStep';
-import {CanvasObject, testCanvasObject} from '../Domain/Common/canvasObject';
-import {testActivityCanvasObject} from '../Domain/Common/activityCanvasObject';
-import {deepCopy} from './deepCopy';
-import {elementTypes} from '../Domain/Common/elementTypes';
+import { StoryStep } from '../Domain/Replay/storyStep';
+import { CanvasObject, testCanvasObject } from '../Domain/Common/canvasObject';
+import { testActivityCanvasObject } from '../Domain/Common/activityCanvasObject';
+import { deepCopy } from './deepCopy';
+import { elementTypes } from '../Domain/Common/elementTypes';
 
 export function preBuildTestStory(stepAmount: number): StoryStep[] {
   const story: StoryStep[] = [];
@@ -58,19 +58,23 @@ export function createReplayStepObjects(
 
   const source = previousStep
     ? previousStep.objects.filter(
-      (o) => o.id === previousStep.highlightedObjects[4]
-    )
+        (o) => o.id === previousStep.highlightedObjects[4]
+      )
     : deepCopy(testCanvasObject);
   source.type = elementTypes.ACTOR;
   if (!previousStep) {
     source.id = 'source-' + stepNumber;
+    source.type = elementTypes.ACTOR;
     source.businessObject.id = source.id;
     source.businessObject.type = elementTypes.ACTOR;
+  }
+  if (!source.outgoing) {
+    source.outgoing = [];
   }
   source.outgoing.push(activityFromActor);
 
   const workObject = deepCopy(testCanvasObject);
-  workObject.type = elementTypes.ACTOR;
+  workObject.type = elementTypes.WORKOBJECT;
   workObject.id = 'target-' + stepNumber;
   workObject.businessObject.id = workObject.id;
   workObject.businessObject.type = elementTypes.WORKOBJECT;

@@ -44,11 +44,13 @@ export class ModelerService {
       ],
     });
 
-    this.canvas = this.modeler.get('canvas');
-    this.elementRegistry = this.modeler.get('elementRegistry');
-    this.eventBus = this.modeler.get('eventBus');
-    this.commandStack = this.modeler.get('commandStack');
-    this.selection = this.modeler.get('selection');
+    if (this.modeler.get) {
+      this.canvas = this.modeler.get('canvas');
+      this.elementRegistry = this.modeler.get('elementRegistry');
+      this.eventBus = this.modeler.get('eventBus');
+      this.commandStack = this.modeler.get('commandStack');
+      this.selection = this.modeler.get('selection');
+    }
 
     this.initialiserService.initializeDomainStoryModelerEventHandlers(
       this.commandStack,
@@ -63,7 +65,9 @@ export class ModelerService {
     );
 
     const exportArtifacts = this.debounce(this.saveSVG, 500);
-    this.modeler.on('commandStack.changed', exportArtifacts);
+    if (this.modeler.get) {
+      this.modeler.on('commandStack.changed', exportArtifacts);
+    }
 
     this.initialiserService.initiateEventBusListeners(
       this.eventBus,
@@ -93,10 +97,10 @@ export class ModelerService {
     }
 
     this.elementRegistryService.clear();
-    this.modeler.destroy();
+    this.modeler?.destroy();
     this.postInit();
-    if (currentStory) {
-      this.getModeler().importCustomElements(currentStory);
+    if (currentStory && this.modeler.get) {
+      this.modeler.importCustomElements(currentStory);
     }
   }
 

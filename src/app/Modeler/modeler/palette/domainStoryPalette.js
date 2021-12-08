@@ -108,7 +108,7 @@ function appendCSSStyleCheat(customIcons) {
 }
 
 function initPalette(actions, spaceTool, lassoTool, createAction) {
-  let config = iconDictionary.createIconConfiguration();
+  let config = iconDictionary?.createIconConfiguration();
 
   let customIcons = localStorage.getItem("appendedIcons");
 
@@ -127,11 +127,11 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     }
   }
 
-  iconDictionary.initTypeDictionaries(config.actors, config.workObjects);
+  iconDictionary?.initTypeDictionaries(config.actors, config.workObjects);
 
-  let actorTypes = iconDictionary.getTypeDictionary(elementTypes.ACTOR);
+  let actorTypes = iconDictionary?.getTypeDictionary(elementTypes.ACTOR);
 
-  actorTypes.keysArray().forEach((actorType) => {
+  actorTypes?.keysArray().forEach((actorType) => {
     addCanvasObjectTypes(actorType, createAction, actions, "actor");
   });
 
@@ -142,11 +142,11 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     },
   });
 
-  let workObjectTypes = iconDictionary.getTypeDictionary(
+  let workObjectTypes = iconDictionary?.getTypeDictionary(
     elementTypes.WORKOBJECT
   );
 
-  workObjectTypes.keysArray().forEach((workObjectType) => {
+  workObjectTypes?.keysArray().forEach((workObjectType) => {
     addCanvasObjectTypes(workObjectType, createAction, actions, "actor"); // TODO is ClassName 'actor' correct?
   });
 
