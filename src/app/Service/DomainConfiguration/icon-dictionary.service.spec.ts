@@ -3,12 +3,12 @@ import { TestBed } from '@angular/core/testing';
 import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
 import { defaultConf } from '../../Domain/Common/iconConfiguration';
 import { elementTypes } from '../../Domain/Common/elementTypes';
-import {
-  CustomDomainCofiguration,
-  DomainConfiguration,
-} from '../../Domain/Common/domainConfiguration';
+import { DomainConfiguration } from '../../Domain/Common/domainConfiguration';
 import { INITIAL_DOMAIN_NAME } from '../../Domain/Common/constants';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
+import { deepCopy } from '../../Utils/deepCopy';
+import { testBusinessObject } from '../../Domain/Common/businessObject';
+import { allIcons } from '../../Domain/Domain-Configuration/allIcons';
 
 describe('IconDictionaryService', () => {
   let service: IconDictionaryService;
@@ -86,6 +86,69 @@ describe('IconDictionaryService', () => {
       const configuration = service.getCurrentIconConfigurationForBPMN();
       expect(configuration.actors).toEqual(['Dollar']);
       expect(configuration.workObjects).toEqual(['Gavel']);
+    });
+  });
+
+  describe('addIconsFromDomainConfiguration', () => {
+    it('add icons to ActorDictionary', () => {
+      const type = elementTypes.ACTOR + 'Hotel';
+      expect(service.getActorsDictionary().has(type)).toBeFalsy();
+      service.addIconsFromDomainConfiguration(elementTypes.ACTOR, [type]);
+
+      expect(service.getActorsDictionary().has(type)).toBeTruthy();
+    });
+
+    it('add icons to WorkObjectDictionary', () => {
+      const type = elementTypes.WORKOBJECT + 'Hotel';
+      expect(service.getWorkObjectsDictionary().has(type)).toBeFalsy();
+      service.addIconsFromDomainConfiguration(elementTypes.WORKOBJECT, [type]);
+
+      expect(service.getWorkObjectsDictionary().has(type)).toBeTruthy();
+    });
+  });
+
+  describe('addIconsToTypeDictionary', () => {
+    it('', () => {
+      const actor = deepCopy(testBusinessObject);
+      actor.type = elementTypes.ACTOR + 'Hotel';
+
+      const workObject = deepCopy(testBusinessObject);
+      workObject.type = elementTypes.WORKOBJECT + 'Dining';
+
+      service.addIconsToTypeDictionary([actor], [workObject]);
+
+      expect(service.getActorsDictionary().has(actor.type)).toBeTruthy();
+      expect(
+        service.getWorkObjectsDictionary().has(workObject.type)
+      ).toBeTruthy();
+    });
+  });
+
+  describe('registerIconForType', () => {
+    it('register Icon for WorkObjects', () => {
+      service.registerIconForType(
+        elementTypes.WORKOBJECT,
+        'Hotel',
+        allIcons['Hotel']
+      );
+
+      expect(
+        service
+          .getWorkObjectsDictionary()
+          .has(elementTypes.WORKOBJECT + 'Hotel')
+      ).toBeTruthy();
+    });
+
+    it('register Icon for Actors', () => {
+      service.registerIconForType(
+        elementTypes.ACTOR,
+        'Hotel',
+        allIcons['Hotel']
+      );
+
+      expect(
+        service.getActorsDictionary().has(elementTypes.ACTOR + 'Hotel')
+      ).toBeTruthy();
     });
   });
 });
