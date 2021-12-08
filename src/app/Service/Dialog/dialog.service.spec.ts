@@ -4,14 +4,14 @@ import { DialogService } from 'src/app/Service/Dialog/dialog.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
 import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
-import { MockModule } from 'ng-mocks';
+import { MockProvider } from 'ng-mocks';
 
-xdescribe('DialogService', () => {
+describe('DialogService', () => {
   let service: DialogService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MockModule(MatDialog)],
+      providers: [MockProvider(MatDialog)],
     });
     service = TestBed.inject(DialogService);
   });

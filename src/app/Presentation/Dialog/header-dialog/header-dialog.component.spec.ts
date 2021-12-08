@@ -1,12 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderDialogComponent } from 'src/app/Presentation/Dialog/header-dialog/header-dialog.component';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MockModule, MockService } from 'ng-mocks';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MockModule, MockProviders, MockService } from 'ng-mocks';
 import { FormBuilder } from '@angular/forms';
 import { ReplayService } from '../../../Service/Replay/replay.service';
 
-xdescribe('HeaderDialogComponent', () => {
+describe('HeaderDialogComponent', () => {
   let component: HeaderDialogComponent;
   let fixture: ComponentFixture<HeaderDialogComponent>;
 
@@ -22,9 +27,8 @@ xdescribe('HeaderDialogComponent', () => {
         {
           provide: FormBuilder,
         },
-        {
-          provide: MatDialogRef,
-        },
+        MockProviders(MatDialog, MatDialogRef),
+        FormBuilder,
       ],
     }).compileComponents();
   });
