@@ -146,7 +146,6 @@ export class ElementRegistryService {
     allObjects: CanvasObject[]
   ): void {
     const registryElementNames = Object.keys(this.registry);
-    console.log(this.registry);
     for (let name of registryElementNames) {
       const entry = this.registry[name].element;
       if (entry.businessObject) {
