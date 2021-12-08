@@ -14,6 +14,7 @@ import {
   AUTOSAVE_TAG,
   MAX_AUTOSAVES,
 } from '../../Domain/Common/constants';
+import { fromConfiguratioFromFile } from '../../Domain/Common/domainConfiguration';
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +43,8 @@ export class AutosaveService {
   }
 
   public loadAutosave(autosave: Autosave): void {
-    const config = JSON.parse(autosave.configAndDST.domain);
+    const configFromFile = JSON.parse(autosave.configAndDST.domain);
+    const config = fromConfiguratioFromFile(configFromFile);
     const story = JSON.parse(autosave.configAndDST.dst);
 
     const actorIcons = this.iconDistionaryService.getElementsOfType(
