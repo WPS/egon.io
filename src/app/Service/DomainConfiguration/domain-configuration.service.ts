@@ -100,10 +100,8 @@ export class DomainConfigurationService {
   public getCurrentConfigurationNamesWithPrefix(): DomainConfiguration {
     return {
       name: this.titleService.getDomainName() || INITIAL_DOMAIN_NAME,
-      actors: this.iconDictionaryService.getActorsDictionary().keysArray(),
-      workObjects: this.iconDictionaryService
-        .getWorkObjectsDictionary()
-        .keysArray(),
+      actors: this.iconDictionaryService.getActorsDictionary(),
+      workObjects: this.iconDictionaryService.getWorkObjectsDictionary(),
     };
   }
 

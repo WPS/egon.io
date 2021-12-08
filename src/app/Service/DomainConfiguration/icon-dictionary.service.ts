@@ -30,7 +30,7 @@ export class IconDictionaryService {
   private allIconDictionary = new Dictionary();
   private iconDictionaryForBPMN = new Dictionary();
 
-  private customConfiguration?: CustomDomainCofiguration | DomainConfiguration;
+  private customConfiguration?: DomainConfiguration;
 
   private readonly iconConfig: IconConfiguration;
 
@@ -40,10 +40,10 @@ export class IconDictionaryService {
   }
 
   public initTypeDictionaries(actors: string[], workObjects: string[]): void {
-    if (!actors) {
+    if (!actors || actors.length == 0) {
       actors = defaultConf.actors;
     }
-    if (!workObjects) {
+    if (!workObjects || workObjects.length == 0) {
       workObjects = defaultConf.workObjects;
     }
 
@@ -86,17 +86,9 @@ export class IconDictionaryService {
     });
   }
 
-  public createIconConfiguration(
-    domainConfiguration?: CustomDomainCofiguration
-  ): Configuration {
-    if (domainConfiguration) {
-      return this.iconConfig.createCustomConf(true, domainConfiguration);
-    }
+  public getCurrentIconConfigurationForBPMN(): Configuration {
     if (this.customConfiguration) {
-      return this.iconConfig.createCustomConf(
-        false,
-        this.customConfiguration as CustomDomainCofiguration
-      );
+      return this.iconConfig.createCustomConf(this.customConfiguration);
     }
     return this.iconConfig.getDefaultConf();
   }
@@ -124,6 +116,179 @@ export class IconDictionaryService {
       return false;
     }
     return allIn;
+  }
+
+  /** Load Icons from Configuration **/
+
+  public addIconsFromDomainConfiguration(
+    dictionaryType: elementTypes,
+    iconTypes: string[]
+  ): void {
+    let collection: Dictionary;
+    if (dictionaryType === elementTypes.ACTOR) {
+      collection = this.actorIconDictionary;
+    } else if (dictionaryType === elementTypes.WORKOBJECT) {
+      collection = this.workObjectDictionary;
+    }
+
+    const allTypes = new Dictionary();
+    allTypes.addEach(allIcons);
+    allTypes.appendDict(appendedIcons);
+
+    iconTypes.forEach((type) => {
+      if (!collection.has(type)) {
+        const name = getNameFromType(type);
+        const src = allTypes.get(name);
+        if (src) {
+          this.registerIconForType(dictionaryType, type, src);
+          this.registerIconForBPMN(
+            type,
+            sanitizeIconName(ICON_PREFIX + name.toLowerCase())
+          );
+        }
+      }
+    });
+  }
+
+  /** Add Icon(s) to Dictionary **/
+  public registerIconForBPMN(name: string, src: string): void {
+    this.iconDictionaryForBPMN.set(name, src);
+  }
+
+  public addIconsToTypeDictionary(
+    actorIcons: BusinessObject[],
+    workObjectIcons: BusinessObject[]
+  ) {
+    if (!this.allInTypeDictionary(elementTypes.ACTOR, actorIcons)) {
+      this.addIconsFromDomainConfiguration(
+        elementTypes.ACTOR,
+        actorIcons.map((element) => element.type)
+      );
+    }
+    if (!this.allInTypeDictionary(elementTypes.WORKOBJECT, workObjectIcons)) {
+      this.addIconsFromDomainConfiguration(
+        elementTypes.WORKOBJECT,
+        workObjectIcons.map((element) => element.type)
+      );
+    }
+  }
+
+  public registerIconForType(
+    type: elementTypes,
+    name: string,
+    src: string
+  ): void {
+    if (!name.includes(type)) {
+      name = type + name;
+    }
+
+    let collection = new Dictionary();
+    if (type === elementTypes.ACTOR) {
+      collection = this.actorIconDictionary;
+    } else if (type === elementTypes.WORKOBJECT) {
+      collection = this.workObjectDictionary;
+    }
+    collection.set(name, src);
+  }
+
+  public updateIconRegistries(
+    actorIcons: BusinessObject[],
+    workObjectIcons: BusinessObject[],
+    config: DomainConfiguration
+  ): void {
+    const elements: BusinessObject[] = [];
+
+    actorIcons.forEach((a) => elements.push(a));
+    workObjectIcons.forEach((w) => elements.push(w));
+
+    const customIcons: { name: string; src: string }[] = [];
+
+    const actors = new Dictionary();
+    const workobjects = new Dictionary();
+    config.actors.keysArray().forEach((key) => {
+      actors.add(config.actors.get(key), key);
+    });
+    config.workObjects.keysArray().forEach((key) => {
+      workobjects.add(config.workObjects.get(key), key);
+    });
+
+    this.extractCustomIconsFromDictionary(actors, customIcons);
+    this.extractCustomIconsFromDictionary(workobjects, customIcons);
+
+    elements.forEach((element) => {
+      const name = sanitizeIconName(
+        element.type
+          .replace(elementTypes.ACTOR, '')
+          .replace(elementTypes.WORKOBJECT, '')
+      );
+      if (
+        (element.type.includes(elementTypes.ACTOR) ||
+          element.type.includes(elementTypes.WORKOBJECT)) &&
+        !this.getFullDictionary().has(name)
+      ) {
+        this.registerIconForBPMN(
+          ICON_PREFIX + name.toLowerCase(),
+          element.type
+        );
+      }
+    });
+
+    this.addNewIconsToDictionary(customIcons);
+    this.addIconsToTypeDictionary(actorIcons, workObjectIcons);
+  }
+
+  private extractCustomIconsFromDictionary(
+    elementDictionary: Dictionary,
+    customIcons: { name: string; src: string }[]
+  ) {
+    elementDictionary.keysArray().forEach((name) => {
+      const sanitizedName = sanitizeIconName(name);
+      if (!this.getFullDictionary().has(sanitizedName)) {
+        customIcons.push({
+          name: sanitizedName,
+          src: elementDictionary.get(name),
+        });
+      }
+    });
+  }
+
+  /** Add new Icon(s) **/
+
+  public addNewIconsToDictionary(customIcons: { name: string; src: string }[]) {
+    customIcons.forEach((custom) =>
+      this.addIMGToIconDictionary(custom.src, custom.name)
+    );
+    this.addIconsToCss(customIcons);
+  }
+
+  public addIMGToIconDictionary(
+    input: string | ArrayBuffer | null,
+    name: string
+  ): void {
+    appendedIcons.set(name, input);
+  }
+
+  public addIconsToCss(customIcons: { name: string; src: string }[]) {
+    const sheetEl = document.getElementById('iconsCss');
+    customIcons.forEach((custom) => {
+      const iconStyle =
+        '.' +
+        ICON_PREFIX +
+        sanitizeIconName(custom.name.toLowerCase()) +
+        '::before{ content: url("data:image/svg+xml;utf8,' +
+        this.wrapSRCInSVG(custom.src) +
+        '"); margin: 3px;}';
+      // @ts-ignore
+      sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
+    });
+  }
+
+  private wrapSRCInSVG(src: string): string {
+    return (
+      "<svg viewBox='0 0 22 22' width='22' height='22' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><image width='22' height='22' xlink:href='" +
+      src +
+      "'/></svg>"
+    );
   }
 
   /** Getter & Setter **/
@@ -216,177 +381,8 @@ export class IconDictionaryService {
   }
 
   public setCusomtConfiguration(
-    customConfiguration: CustomDomainCofiguration | DomainConfiguration
+    customConfiguration: DomainConfiguration
   ): void {
     this.customConfiguration = customConfiguration;
-  }
-
-  /** Load Icons from Configuration **/
-
-  public addIconsFromDomainConfiguration(
-    dictionaryType: elementTypes,
-    iconTypes: string[]
-  ): void {
-    let collection: Dictionary;
-    if (dictionaryType === elementTypes.ACTOR) {
-      collection = this.actorIconDictionary;
-    } else if (dictionaryType === elementTypes.WORKOBJECT) {
-      collection = this.workObjectDictionary;
-    }
-
-    const allTypes = new Dictionary();
-    allTypes.addEach(allIcons);
-    allTypes.appendDict(appendedIcons);
-
-    iconTypes.forEach((type) => {
-      if (!collection.has(type)) {
-        const name = getNameFromType(type);
-        const src = allTypes.get(name);
-        if (src) {
-          this.registerIconForType(dictionaryType, type, src);
-          this.registerIconForBPMN(
-            type,
-            sanitizeIconName(ICON_PREFIX + name.toLowerCase())
-          );
-        }
-      }
-    });
-  }
-
-  /** Add Icon(s) to Dictionary **/
-  public registerIconForBPMN(name: string, src: string): void {
-    this.iconDictionaryForBPMN.set(name, src);
-  }
-
-  public addIconsToTypeDictionary(
-    actorIcons: BusinessObject[],
-    workObjectIcons: BusinessObject[]
-  ) {
-    if (!this.allInTypeDictionary(elementTypes.ACTOR, actorIcons)) {
-      this.addIconsFromDomainConfiguration(
-        elementTypes.ACTOR,
-        actorIcons.map((element) => element.type)
-      );
-    }
-    if (!this.allInTypeDictionary(elementTypes.WORKOBJECT, workObjectIcons)) {
-      this.addIconsFromDomainConfiguration(
-        elementTypes.WORKOBJECT,
-        workObjectIcons.map((element) => element.type)
-      );
-    }
-  }
-
-  public registerIconForType(
-    type: elementTypes,
-    name: string,
-    src: string
-  ): void {
-    if (!name.includes(type)) {
-      name = type + name;
-    }
-
-    let collection = new Dictionary();
-    if (type === elementTypes.ACTOR) {
-      collection = this.actorIconDictionary;
-    } else if (type === elementTypes.WORKOBJECT) {
-      collection = this.workObjectDictionary;
-    }
-    collection.set(name, src);
-  }
-
-  public updateIconRegistries(
-    actorIcons: BusinessObject[],
-    workObjectIcons: BusinessObject[],
-    config: DomainConfiguration
-  ): void {
-    const elements: BusinessObject[] = [];
-
-    actorIcons.forEach((a) => elements.push(a));
-    workObjectIcons.forEach((w) => elements.push(w));
-
-    const customIcons: { name: string; src: string }[] = [];
-
-    const actors = new Dictionary();
-    const workobjects = new Dictionary();
-    actors.addEach(config.actors);
-    workobjects.addEach(config.workObjects);
-
-    this.extractCustomIconsFromDictionary(actors, customIcons);
-    this.extractCustomIconsFromDictionary(workobjects, customIcons);
-
-    elements.forEach((element) => {
-      const name = sanitizeIconName(
-        element.type
-          .replace(elementTypes.ACTOR, '')
-          .replace(elementTypes.WORKOBJECT, '')
-      );
-      if (
-        (element.type.includes(elementTypes.ACTOR) ||
-          element.type.includes(elementTypes.WORKOBJECT)) &&
-        !this.getFullDictionary().has(name)
-      ) {
-        this.registerIconForBPMN(
-          ICON_PREFIX + name.toLowerCase(),
-          element.type
-        );
-      }
-    });
-
-    this.addNewIconsToDictionary(customIcons);
-    this.addIconsToTypeDictionary(actorIcons, workObjectIcons);
-  }
-
-  private extractCustomIconsFromDictionary(
-    elementDictionary: Dictionary,
-    customIcons: { name: string; src: string }[]
-  ) {
-    elementDictionary.keysArray().forEach((name) => {
-      const sanitizedName = sanitizeIconName(name);
-      if (!this.getFullDictionary().has(sanitizedName)) {
-        customIcons.push({
-          name: sanitizedName,
-          src: elementDictionary.get(name),
-        });
-      }
-    });
-  }
-
-  /** Add new Icon(s) **/
-
-  public addNewIconsToDictionary(customIcons: { name: string; src: string }[]) {
-    customIcons.forEach((custom) =>
-      this.addIMGToIconDictionary(custom.src, custom.name)
-    );
-    this.addIconsToCss(customIcons);
-  }
-
-  public addIMGToIconDictionary(
-    input: string | ArrayBuffer | null,
-    name: string
-  ): void {
-    appendedIcons.set(name, input);
-  }
-
-  public addIconsToCss(customIcons: { name: string; src: string }[]) {
-    const sheetEl = document.getElementById('iconsCss');
-    customIcons.forEach((custom) => {
-      const iconStyle =
-        '.' +
-        ICON_PREFIX +
-        sanitizeIconName(custom.name.toLowerCase()) +
-        '::before{ content: url("data:image/svg+xml;utf8,' +
-        this.wrapSRCInSVG(custom.src) +
-        '"); margin: 3px;}';
-      // @ts-ignore
-      sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
-    });
-  }
-
-  private wrapSRCInSVG(src: string): string {
-    return (
-      "<svg viewBox='0 0 22 22' width='22' height='22' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><image width='22' height='22' xlink:href='" +
-      src +
-      "'/></svg>"
-    );
   }
 }

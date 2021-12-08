@@ -5,6 +5,7 @@ import { ElementRegistryService } from '../ElementRegistry/element-registry.serv
 import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
 import { DirtyFlagService } from '../DirtyFlag/dirty-flag.service';
 import { DomainConfiguration } from '../../Domain/Common/domainConfiguration';
+import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 
 describe('RendererService', () => {
   let service: RendererService;
@@ -80,8 +81,8 @@ describe('RendererService', () => {
   describe('importStory', () => {
     const domainConfig: DomainConfiguration = {
       name: 'test',
-      actors: {},
-      workObjects: {},
+      actors: new Dictionary(),
+      workObjects: new Dictionary(),
     };
 
     beforeEach(() => {

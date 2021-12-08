@@ -2,11 +2,12 @@ import { INITIAL_DOMAIN_NAME } from './constants';
 import { deepCopy } from '../../Utils/deepCopy';
 import { testBusinessObject } from './businessObject';
 import { elementTypes } from './elementTypes';
+import { Dictionary } from './dictionary/dictionary';
 
 export interface DomainConfiguration {
   name: string;
-  actors: { [key: string]: any };
-  workObjects: { [key: string]: any };
+  actors: Dictionary;
+  workObjects: Dictionary;
 }
 
 export interface CustomDomainCofiguration {
@@ -22,3 +23,24 @@ export const testCustomDomainConfiguration: CustomDomainCofiguration = {
   actors: [actor],
   workObjects: [deepCopy(testBusinessObject)],
 };
+
+export function fromConfiguratioFromFile(configFromFile: {
+  name: string;
+  actors: { [p: string]: any };
+  workObjects: { [p: string]: any };
+}) {
+  const actorsDict = new Dictionary();
+  const workObjectsDict = new Dictionary();
+  Object.keys(configFromFile.actors).forEach((key) => {
+    actorsDict.add(configFromFile.actors[key], key);
+  });
+  Object.keys(configFromFile.workObjects).forEach((key) => {
+    workObjectsDict.add(configFromFile.workObjects[key], key);
+  });
+
+  return {
+    name: configFromFile.name,
+    actors: actorsDict,
+    workObjects: workObjectsDict,
+  };
+}

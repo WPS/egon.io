@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
   CustomDomainCofiguration,
   DomainConfiguration,
+  fromConfiguratioFromFile,
 } from 'src/app/Domain/Common/domainConfiguration';
 import { DomainConfigurationService } from 'src/app/Service/DomainConfiguration/domain-configuration.service';
 import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
@@ -129,10 +130,15 @@ export class DomainConfigurationComponent implements OnInit {
     const reader = new FileReader();
 
     reader.onloadend = (e) => {
-      const config = JSON.parse(
+      const configFromFile = JSON.parse(
         // @ts-ignore
         e.target.result.toString()
-      ) as DomainConfiguration;
+      ) as {
+        name: string;
+        actors: { [key: string]: any };
+        workObjects: { [key: string]: any };
+      };
+      const config = fromConfiguratioFromFile(configFromFile);
       this.configurationService.loadConfiguration(config, false);
 
       this.domainCustomizationService.importConfiguration(config);

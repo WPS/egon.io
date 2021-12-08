@@ -27,8 +27,8 @@ describe('DomainCustomizationService', () => {
           get importedConfigurationEvent(): Observable<DomainConfiguration> {
             const domainConfiguration: DomainConfiguration = {
               name: INITIAL_DOMAIN_NAME,
-              actors: [],
-              workObjects: [],
+              actors: new Dictionary(),
+              workObjects: new Dictionary(),
             };
             return of(domainConfiguration);
           },

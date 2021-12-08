@@ -1,7 +1,7 @@
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { overrideAppendedIcons } from 'src/app/Domain/Domain-Configuration/allIcons';
 import { Configuration } from 'src/app/Domain/Common/configuration';
-import { CustomDomainCofiguration } from 'src/app/Domain/Common/domainConfiguration';
+import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
 import { INITIAL_DOMAIN_NAME } from './constants';
 
 export class IconConfiguration {
@@ -52,34 +52,21 @@ export class IconConfiguration {
   }
 
   public createCustomConf(
-    includeNecessary: boolean,
-    domainConfiguration: CustomDomainCofiguration
+    domainConfiguration: DomainConfiguration
   ): Configuration {
     this.domainName = domainConfiguration.name;
 
     let actors = domainConfiguration.actors;
     let workObjects = domainConfiguration.workObjects;
 
-    const actorDict = new Dictionary();
-    const workObjectDict = new Dictionary();
+    this.appendSRCFile(
+      actors.keysArray(),
+      actors,
+      workObjects.keysArray(),
+      workObjects
+    );
 
-    actorDict.addEach(actors);
-    workObjectDict.addEach(workObjects);
-
-    let actorKeys = actorDict.keysArray();
-    let workObjectKeys = workObjectDict.keysArray();
-
-    if (includeNecessary) {
-      defaultConf.actors.forEach((actor) => {
-        actors.push(actor);
-      });
-      defaultConf.workObjects.forEach((workObject) => {
-        workObjects.push(workObject);
-      });
-    }
-    this.appendSRCFile(actorKeys, actorDict, workObjectKeys, workObjectDict);
-
-    return new Configuration(actorKeys, workObjectKeys);
+    return new Configuration(actors.keysArray(), workObjects.keysArray());
   }
 }
 

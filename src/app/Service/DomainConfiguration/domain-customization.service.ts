@@ -88,7 +88,7 @@ export class DomainCustomizationService {
   public isIconActor(iconName: string): boolean {
     return (
       this.domainConfigurationTypes.value.actors.filter((actor: string) =>
-        actor.includes(iconName)
+        actor?.includes(iconName)
       ).length > 0
     );
   }
@@ -113,14 +113,8 @@ export class DomainCustomizationService {
     customConfig: DomainConfiguration,
     saveDomain = true
   ): void {
-    const actorDict = new Dictionary();
-    const workObjectDict = new Dictionary();
-
-    actorDict.addEach(customConfig.actors);
-    workObjectDict.addEach(customConfig.workObjects);
-
-    const actorKeys = actorDict.keysArray();
-    const workObjectKeys = workObjectDict.keysArray();
+    const actorKeys = customConfig.actors.keysArray();
+    const workObjectKeys = customConfig.workObjects.keysArray();
 
     actorKeys.forEach((iconName) => {
       if (!this.allIconListItems.has(iconName)) {
@@ -258,10 +252,8 @@ export class DomainCustomizationService {
 
     this.domainConfigurationTypes.next({
       name: defaultConfig.name,
-      actors: defaultConfig.actors.entries.map((entry: Entry) => entry.key),
-      workObjects: defaultConfig.workObjects.entries.map(
-        (entry: Entry) => entry.key
-      ),
+      actors: defaultConfig.actors.keysArray(),
+      workObjects: defaultConfig.workObjects.keysArray(),
     } as CustomDomainCofiguration);
     this.updateAllIconBehaviourSubjects();
   }
@@ -307,14 +299,14 @@ export class DomainCustomizationService {
   }
 
   private createDomainConfiguration(): DomainConfiguration {
-    const actors: { [key: string]: any } = {};
-    const workObjects: { [key: string]: any } = {};
+    const actors = new Dictionary();
+    const workObjects = new Dictionary();
 
     this.domainConfigurationTypes.value.actors.forEach((type: string) => {
-      actors[type] = this.iconDictionaryService.getIconSource(type);
+      actors.add(this.iconDictionaryService.getIconSource(type), type);
     });
     this.domainConfigurationTypes.value.workObjects.forEach((type: string) => {
-      workObjects[type] = this.iconDictionaryService.getIconSource(type);
+      workObjects.add(this.iconDictionaryService.getIconSource(type), type);
     });
 
     return {

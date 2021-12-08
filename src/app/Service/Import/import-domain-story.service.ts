@@ -9,7 +9,10 @@ import { ImportRepairService } from 'src/app/Service/Import/import-repair.servic
 import { Observable, Subscription } from 'rxjs';
 import { RendererService } from 'src/app/Service/Renderer/renderer.service';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
-import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
+import {
+  DomainConfiguration,
+  fromConfiguratioFromFile,
+} from 'src/app/Domain/Common/domainConfiguration';
 import { DialogService } from '../Dialog/dialog.service';
 import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
@@ -71,7 +74,11 @@ export class ImportDomainStoryService implements OnDestroy {
   }
 
   public getImportedConfiguration(): DomainConfiguration {
-    const config = deepCopy(this.importedConfiguration);
+    const config: DomainConfiguration = {
+      name: this.importedConfiguration?.name || '',
+      actors: this.importedConfiguration?.actors || new Dictionary(),
+      workObjects: this.importedConfiguration?.workObjects || new Dictionary(),
+    };
     this.importedConfiguration = null;
     return config;
   }
@@ -107,7 +114,13 @@ export class ImportDomainStoryService implements OnDestroy {
         dstText = text;
       }
 
-      let elements, config: DomainConfiguration;
+      let elements: any[];
+      let config: DomainConfiguration;
+      let configFromFile: {
+        name: string;
+        actors: { [key: string]: any };
+        workObjects: { [key: string]: any };
+      };
       let configChanged = false;
 
       let dstAndConfig = this.extractDstAndConfig(dstText, isSVG);
@@ -117,13 +130,16 @@ export class ImportDomainStoryService implements OnDestroy {
 
       // current implementation
       if (dstAndConfig.domain) {
-        config = JSON.parse(dstAndConfig.domain);
+        configFromFile = JSON.parse(dstAndConfig.domain);
+
+        config = fromConfiguratioFromFile(configFromFile);
         configChanged = this.checkConfigForChanges(config);
         elements = JSON.parse(dstAndConfig.dst);
       } else {
         // legacy implementation
         if (dstAndConfig.config) {
-          config = JSON.parse(dstAndConfig.config);
+          configFromFile = JSON.parse(dstAndConfig.config);
+          config = fromConfiguratioFromFile(configFromFile);
           configChanged = this.checkConfigForChanges(config);
           elements = JSON.parse(dstAndConfig.dst);
         } else {

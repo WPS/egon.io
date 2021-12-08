@@ -10,6 +10,7 @@ import { createTestCanvasObjects } from '../../Utils/testHelpers.spec';
 import { BusinessObject } from '../../Domain/Common/businessObject';
 import { INITIAL_DOMAIN_NAME } from '../../Domain/Common/constants';
 import { elementTypes } from '../../Domain/Common/elementTypes';
+import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 // @ts-ignore
 import Modeler from 'bpmn-js/lib/Modeler';
 
@@ -24,12 +25,16 @@ describe('ModelerService', () => {
   let testDomainStory: BusinessObject[] = createTestCanvasObjects(1).map(
     (e) => e.businessObject
   );
+  const actorsDict = new Dictionary();
+  actorsDict.add('', elementTypes.ACTOR);
+
+  const workObjectsDict = new Dictionary();
+  workObjectsDict.add('', elementTypes.WORKOBJECT);
+
   let testConfiguration: DomainConfiguration = {
     name: INITIAL_DOMAIN_NAME,
-    actors: testDomainStory.filter((e) => e.type === elementTypes.ACTOR),
-    workObjects: testDomainStory.filter(
-      (e) => e.type === elementTypes.WORKOBJECT
-    ),
+    actors: actorsDict,
+    workObjects: workObjectsDict,
   };
 
   beforeEach(() => {

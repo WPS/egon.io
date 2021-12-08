@@ -108,7 +108,7 @@ function appendCSSStyleCheat(customIcons) {
 }
 
 function initPalette(actions, spaceTool, lassoTool, createAction) {
-  let config = iconDictionary?.createIconConfiguration();
+  let config = iconDictionary?.getCurrentIconConfigurationForBPMN();
 
   let customIcons = localStorage.getItem("appendedIcons");
 
