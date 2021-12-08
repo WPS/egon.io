@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { assign } from 'min-dash';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { elementTypes } from 'src/app/Domain/Common/elementTypes';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
