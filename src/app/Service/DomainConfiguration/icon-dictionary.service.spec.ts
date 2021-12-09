@@ -7,7 +7,10 @@ import { DomainConfiguration } from '../../Domain/Common/domainConfiguration';
 import { INITIAL_DOMAIN_NAME } from '../../Domain/Common/constants';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
 import { deepCopy } from '../../Utils/deepCopy';
-import { testBusinessObject } from '../../Domain/Common/businessObject';
+import {
+  BusinessObject,
+  testBusinessObject,
+} from '../../Domain/Common/businessObject';
 import { allIcons } from '../../Domain/Domain-Configuration/allIcons';
 
 describe('IconDictionaryService', () => {
@@ -149,6 +152,47 @@ describe('IconDictionaryService', () => {
       expect(
         service.getActorsDictionary().has(elementTypes.ACTOR + 'Hotel')
       ).toBeTruthy();
+    });
+  });
+
+  describe('updateIconRegistries', () => {
+    const actor = deepCopy(testBusinessObject);
+    actor.type = elementTypes.ACTOR + 'Person';
+
+    const workObject = deepCopy(testBusinessObject);
+    workObject.type = elementTypes.WORKOBJECT + 'Document';
+
+    const actors: BusinessObject[] = [actor];
+    const workObjects: BusinessObject[] = [workObject];
+
+    const actorsDict = new Dictionary();
+    const workObjectsDict = new Dictionary();
+
+    actorsDict.add(actor, 'TestCustomActor');
+    workObjectsDict.add(workObject, 'TestCustomWorkObject');
+
+    const config: DomainConfiguration = {
+      name: INITIAL_DOMAIN_NAME,
+      actors: actorsDict,
+      workObjects: workObjectsDict,
+    };
+
+    it('With elements and Config', () => {
+      service.updateIconRegistries(actors, workObjects, config);
+
+      expect(service.getActorsDictionary().keysArray()).toContain(
+        elementTypes.ACTOR + 'Person'
+      );
+      expect(service.getAppendedIconDictionary().keysArray()).toContain(
+        'TestCustomActor'
+      );
+
+      expect(service.getWorkObjectsDictionary().keysArray()).toContain(
+        elementTypes.WORKOBJECT + 'Document'
+      );
+      expect(service.getAppendedIconDictionary().keysArray()).toContain(
+        'TestCustomWorkObject'
+      );
     });
   });
 });

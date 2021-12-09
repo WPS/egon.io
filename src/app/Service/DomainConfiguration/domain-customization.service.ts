@@ -319,9 +319,9 @@ export class DomainCustomizationService {
   /** Update Icons **/
 
   public addNewIcon(iconName: string): void {
-    this.iconDictionaryService.addIconsToCss([
-      { name: iconName, src: this.getSrcForIcon(iconName) },
-    ]);
+    const iconDict = new Dictionary();
+    iconDict.add(this.getSrcForIcon(iconName), iconName);
+    this.iconDictionaryService.addIconsToCss(iconDict);
     this.addIconToAllIconList(iconName);
   }
 

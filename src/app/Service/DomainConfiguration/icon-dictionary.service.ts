@@ -192,28 +192,28 @@ export class IconDictionaryService {
   }
 
   public updateIconRegistries(
-    actorIcons: BusinessObject[],
-    workObjectIcons: BusinessObject[],
+    actors: BusinessObject[],
+    workObjects: BusinessObject[],
     config: DomainConfiguration
   ): void {
     const elements: BusinessObject[] = [];
 
-    actorIcons.forEach((a) => elements.push(a));
-    workObjectIcons.forEach((w) => elements.push(w));
+    actors.forEach((a) => elements.push(a));
+    workObjects.forEach((w) => elements.push(w));
 
-    const customIcons: { name: string; src: string }[] = [];
+    const customIcons = new Dictionary();
 
-    const actors = new Dictionary();
-    const workobjects = new Dictionary();
+    const actorsDict = new Dictionary();
+    const workObjectsDict = new Dictionary();
     config.actors.keysArray().forEach((key) => {
-      actors.add(config.actors.get(key), key);
+      actorsDict.add(config.actors.get(key), key);
     });
     config.workObjects.keysArray().forEach((key) => {
-      workobjects.add(config.workObjects.get(key), key);
+      workObjectsDict.add(config.workObjects.get(key), key);
     });
 
-    this.extractCustomIconsFromDictionary(actors, customIcons);
-    this.extractCustomIconsFromDictionary(workobjects, customIcons);
+    this.extractCustomIconsFromDictionary(actorsDict, customIcons);
+    this.extractCustomIconsFromDictionary(workObjectsDict, customIcons);
 
     elements.forEach((element) => {
       const name = sanitizeIconName(
@@ -234,43 +234,39 @@ export class IconDictionaryService {
     });
 
     this.addNewIconsToDictionary(customIcons);
-    this.addIconsToTypeDictionary(actorIcons, workObjectIcons);
+    this.addIconsToTypeDictionary(actors, workObjects);
   }
 
   private extractCustomIconsFromDictionary(
     elementDictionary: Dictionary,
-    customIcons: { name: string; src: string }[]
+    customIcons: Dictionary
   ) {
     elementDictionary.keysArray().forEach((name) => {
       const sanitizedName = sanitizeIconName(name);
       if (!this.getFullDictionary().has(sanitizedName)) {
-        customIcons.push({
-          name: sanitizedName,
-          src: elementDictionary.get(name),
-        });
+        customIcons.add(elementDictionary.get(name), sanitizedName);
       }
     });
   }
 
   /** Add new Icon(s) **/
 
-  public addNewIconsToDictionary(customIcons: { name: string; src: string }[]) {
-    customIcons.forEach((custom) =>
-      this.addIMGToIconDictionary(custom.src, custom.name)
-    );
+  public addNewIconsToDictionary(customIcons: Dictionary) {
+    customIcons.keysArray().forEach((key) => {
+      const custom = customIcons.get(key);
+      this.addIMGToIconDictionary(custom.src, key);
+    });
     this.addIconsToCss(customIcons);
   }
 
-  public addIMGToIconDictionary(
-    input: string | ArrayBuffer | null,
-    name: string
-  ): void {
+  public addIMGToIconDictionary(input: string, name: string): void {
     appendedIcons.set(name, input);
   }
 
-  public addIconsToCss(customIcons: { name: string; src: string }[]) {
+  public addIconsToCss(customIcons: Dictionary) {
     const sheetEl = document.getElementById('iconsCss');
-    customIcons.forEach((custom) => {
+    customIcons.keysArray().forEach((key) => {
+      const custom = customIcons.get(key);
       const iconStyle =
         '.' +
         ICON_PREFIX +
@@ -279,7 +275,7 @@ export class IconDictionaryService {
         this.wrapSRCInSVG(custom.src) +
         '"); margin: 3px;}';
       // @ts-ignore
-      sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
+      sheetEl?.sheet?.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
     });
   }
 
