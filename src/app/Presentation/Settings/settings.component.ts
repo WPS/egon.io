@@ -31,6 +31,7 @@ export class SettingsComponent {
     const savedConfiguration =
       this.domainCustomizationService.getSavedConfiguration();
     if (savedConfiguration) {
+      this.domainCustomizationService.clearSavedConfiguration();
       this.modelerService.restart(savedConfiguration);
     }
     this.settingsService.close();

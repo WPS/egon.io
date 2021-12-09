@@ -18,7 +18,6 @@ import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-
 import { MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
 import { restoreTitleFromFileName } from '../../Utils/sanitizer';
-import { deepCopy } from '../../Utils/deepCopy';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
@@ -121,7 +120,6 @@ export class ImportDomainStoryService implements OnDestroy {
         actors: { [key: string]: any };
         workObjects: { [key: string]: any };
       };
-      let configChanged = false;
 
       let dstAndConfig = this.extractDstAndConfig(dstText, isSVG);
       if (dstAndConfig == null) {
@@ -131,16 +129,13 @@ export class ImportDomainStoryService implements OnDestroy {
       // current implementation
       if (dstAndConfig.domain) {
         configFromFile = JSON.parse(dstAndConfig.domain);
-
         config = fromConfiguratioFromFile(configFromFile);
-        configChanged = this.checkConfigForChanges(config);
         elements = JSON.parse(dstAndConfig.dst);
       } else {
         // legacy implementation
         if (dstAndConfig.config) {
           configFromFile = JSON.parse(dstAndConfig.config);
           config = fromConfiguratioFromFile(configFromFile);
-          configChanged = this.checkConfigForChanges(config);
           elements = JSON.parse(dstAndConfig.dst);
         } else {
           // implementation prior to configuration
@@ -149,6 +144,8 @@ export class ImportDomainStoryService implements OnDestroy {
             this.domainConfigurationService.createMinimalConfigurationWithDefaultIcons();
         }
       }
+
+      const configChanged = this.checkConfigForChanges(config);
 
       let lastElement = elements[elements.length - 1];
       if (!lastElement.id) {
@@ -230,14 +227,9 @@ export class ImportDomainStoryService implements OnDestroy {
   public checkConfigForChanges(
     domainConfiguration: DomainConfiguration
   ): boolean {
-    const newActorsDict = new Dictionary();
-    const newWorkObjectsDict = new Dictionary();
+    const newActorKeys = domainConfiguration.actors.keysArray();
+    const newWorkObjectKeys = domainConfiguration.workObjects.keysArray();
 
-    newActorsDict.addEach(domainConfiguration.actors);
-    newWorkObjectsDict.addEach(domainConfiguration.workObjects);
-
-    const newActorKeys = newActorsDict.keysArray();
-    const newWorkObjectKeys = newWorkObjectsDict.keysArray();
     const currentActorKeys = this.iconDictionaryService.getTypeDictionaryKeys(
       elementTypes.ACTOR
     );

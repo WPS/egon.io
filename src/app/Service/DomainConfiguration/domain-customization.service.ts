@@ -9,9 +9,8 @@ import { IconDictionaryService } from './icon-dictionary.service';
 import { getNameFromType } from '../../Utils/naming';
 import { elementTypes } from '../../Domain/Common/elementTypes';
 import { IconListItem } from '../../Domain/Domain-Configuration/iconListItem';
-import { Dictionary, Entry } from '../../Domain/Common/dictionary/dictionary';
+import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
 import { ImportDomainStoryService } from '../Import/import-domain-story.service';
-import { deepCopy } from '../../Utils/deepCopy';
 import { TitleService } from '../Title/title.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
@@ -293,9 +292,7 @@ export class DomainCustomizationService {
   }
 
   public getSavedConfiguration(): DomainConfiguration | undefined {
-    const config = deepCopy(this.savedDomainConfiguration);
-    this.savedDomainConfiguration = undefined;
-    return config;
+    return this.savedDomainConfiguration;
   }
 
   private createDomainConfiguration(): DomainConfiguration {
@@ -381,5 +378,9 @@ export class DomainCustomizationService {
     } else {
       return 'data:image/svg+xml,' + rawSrc;
     }
+  }
+
+  clearSavedConfiguration() {
+    this.savedDomainConfiguration = undefined;
   }
 }

@@ -88,6 +88,7 @@ export class IconDictionaryService {
 
   public getCurrentIconConfigurationForBPMN(): Configuration {
     if (this.customConfiguration) {
+      console.log(this.customConfiguration);
       return this.iconConfig.createCustomConf(this.customConfiguration);
     }
     return this.iconConfig.getDefaultConf();
