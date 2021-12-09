@@ -96,8 +96,9 @@ Please note that we use the main branch for development. The main branch contain
 
 ### Fetch dependencies:
 
-Run `npm install` or `yarn install` to install the dependencies locally.
-We recommend using yarn, since the npm install can take up to 15 minutes, whereas yarn only takes about 2 minutes.
+Run `yarn` to install the dependencies locally. If yarn is not installed, use `npm install -g yarn` to install it globally.
+
+We recommend using yarn, since the npm install can take up to 15 minutes, whereas yarn only takes about 2 minutes and for some reason the tests won't run using npm.
 
 ### Development server
 
