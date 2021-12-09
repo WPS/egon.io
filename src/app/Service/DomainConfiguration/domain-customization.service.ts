@@ -295,6 +295,10 @@ export class DomainCustomizationService {
     return this.savedDomainConfiguration;
   }
 
+  public clearSavedConfiguration(): void {
+    this.savedDomainConfiguration = undefined;
+  }
+
   private createDomainConfiguration(): DomainConfiguration {
     const actors = new Dictionary();
     const workObjects = new Dictionary();
@@ -314,7 +318,6 @@ export class DomainCustomizationService {
   }
 
   /** Update Icons **/
-
   public addNewIcon(iconName: string): void {
     const iconDict = new Dictionary();
     iconDict.add(this.getSrcForIcon(iconName), iconName);
@@ -378,9 +381,5 @@ export class DomainCustomizationService {
     } else {
       return 'data:image/svg+xml,' + rawSrc;
     }
-  }
-
-  clearSavedConfiguration() {
-    this.savedDomainConfiguration = undefined;
   }
 }
