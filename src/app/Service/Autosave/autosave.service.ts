@@ -34,7 +34,7 @@ export class AutosaveService {
     private iconDistionaryService: IconDictionaryService,
     private storageService: StorageService
   ) {
-    this.maxAutosaves = storageService.getMaxAUtosaves();
+    this.maxAutosaves = storageService.getMaxAutosaves();
     this.autosaveEnabled =
       this.autosaveStateService.getAutosaveStateAsObservable();
     this.loadAutosaveInterval();

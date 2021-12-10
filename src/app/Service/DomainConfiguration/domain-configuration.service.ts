@@ -97,14 +97,6 @@ export class DomainConfigurationService {
     return domainConfiguration;
   }
 
-  public getCurrentConfigurationNamesWithPrefix(): DomainConfiguration {
-    return {
-      name: this.titleService.getDomainName() || INITIAL_DOMAIN_NAME,
-      actors: this.iconDictionaryService.getActorsDictionary(),
-      workObjects: this.iconDictionaryService.getWorkObjectsDictionary(),
-    };
-  }
-
   public getCurrentConfigurationNamesWithoutPrefix(): CustomDomainCofiguration {
     return {
       name: this.titleService.getDomainName() || INITIAL_DOMAIN_NAME,

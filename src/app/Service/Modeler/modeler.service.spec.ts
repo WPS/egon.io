@@ -13,6 +13,9 @@ import { elementTypes } from '../../Domain/Common/elementTypes';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 // @ts-ignore
 import Modeler from 'bpmn-js/lib/Modeler';
+import { SettingsService } from '../Settings/settings.service';
+import { MockProvider } from 'ng-mocks';
+import { StorageService } from '../BrowserStorage/storage.service';
 
 describe('ModelerService', () => {
   let service: ModelerService;
@@ -76,6 +79,7 @@ describe('ModelerService', () => {
           provide: DomainConfigurationService,
           useValue: domainConfigurationMock,
         },
+        MockProvider(StorageService),
       ],
     });
     elementRegistrySpy = TestBed.inject(

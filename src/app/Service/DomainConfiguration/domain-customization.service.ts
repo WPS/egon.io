@@ -3,7 +3,7 @@ import {
   CustomDomainCofiguration,
   DomainConfiguration,
 } from '../../Domain/Common/domainConfiguration';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, config, Observable } from 'rxjs';
 import { DomainConfigurationService } from './domain-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { getNameFromType } from '../../Utils/naming';
@@ -83,10 +83,8 @@ export class DomainCustomizationService {
       }
       const selectedActorNames = this.selectedActors.value;
       if (!selectedActorNames.includes(iconName)) {
-        selectedActorNames.push(iconName);
-        this.selectedActors.next(selectedActorNames);
+        this.selectActor(iconName);
       }
-      this.selectActor(iconName);
     });
     workObjectKeys.forEach((iconName) => {
       if (!this.allIconListItems.has(iconName)) {
@@ -94,10 +92,8 @@ export class DomainCustomizationService {
       }
       const selectedWorkobjectNames = this.selectedWorkobjects.value;
       if (!selectedWorkobjectNames.includes(iconName)) {
-        selectedWorkobjectNames.push(iconName);
-        this.selectedWorkobjects.next(selectedWorkobjectNames);
+        this.selectWorkObject(iconName);
       }
-      this.selectWorkObject(iconName);
     });
     if (saveDomain) {
       this.saveDomain();

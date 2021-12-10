@@ -27,7 +27,7 @@ export class StorageService {
     return JSON.parse(localStorage.getItem(AUTOSAVE_ACTIVATED_TAG) || 'false');
   }
 
-  getMaxAUtosaves(): number {
+  getMaxAutosaves(): number {
     return Number(localStorage.getItem(AUTOSAVE_AMOUNT_TAG) || MAX_AUTOSAVES);
   }
 

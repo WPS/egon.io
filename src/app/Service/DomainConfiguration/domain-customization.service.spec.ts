@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { DomainCustomizationService } from './domain-customization.service';
 import { IconDictionaryService } from './icon-dictionary.service';
-import { MockProvider } from 'ng-mocks';
+import { MockProvider, MockProviders } from 'ng-mocks';
 import { TitleService } from '../Title/title.service';
 import { DomainConfigurationService } from './domain-configuration.service';
 import { ImportDomainStoryService } from '../Import/import-domain-story.service';
@@ -18,6 +18,8 @@ import {
   SNACKBAR_SUCCESS,
 } from '../../Domain/Common/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { StorageService } from '../BrowserStorage/storage.service';
+import { deepCopy } from '../../Utils/deepCopy';
 
 describe('DomainCustomizationService', () => {
   let service: DomainCustomizationService;
@@ -25,6 +27,7 @@ describe('DomainCustomizationService', () => {
   let matSnackbarSpy: jasmine.SpyObj<MatSnackBar>;
   let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
   let configurationServiceSpy: jasmine.SpyObj<DomainConfigurationService>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
 
   beforeEach(() => {
     const matSnackbarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
@@ -40,10 +43,17 @@ describe('DomainCustomizationService', () => {
         'getCurrentConfigurationNamesWithoutPrefix',
       ]
     );
+    const storageServiceMock = jasmine.createSpyObj('StorageService', [
+      'setSavedDomainConfiguration',
+    ]);
 
     TestBed.configureTestingModule({
       providers: [
         MockProvider(TitleService),
+        {
+          provide: StorageService,
+          useValue: storageServiceMock,
+        },
         {
           provide: MatSnackBar,
           useValue: matSnackbarMock,
@@ -75,10 +85,13 @@ describe('DomainCustomizationService', () => {
     configurationServiceSpy = TestBed.inject(
       DomainConfigurationService
     ) as jasmine.SpyObj<DomainConfigurationService>;
+    storageServiceSpy = TestBed.inject(
+      StorageService
+    ) as jasmine.SpyObj<StorageService>;
 
     iconDictionarySpy.getAllIconDictionary.and.returnValue(new Dictionary());
     configurationServiceSpy.getCurrentConfigurationNamesWithoutPrefix.and.returnValue(
-      testCustomDomainConfiguration
+      deepCopy(testCustomDomainConfiguration)
     );
     configurationServiceSpy.createMinimalConfigurationWithDefaultIcons.and.returnValue(
       {
@@ -124,6 +137,8 @@ describe('DomainCustomizationService', () => {
       expect(selectedActors).toContain('TestActor');
       expect(selectedWorkObjects).toContain('Document');
       expect(selectedWorkObjects).toContain('TestWorkObject');
+
+      expect(storageServiceSpy.setSavedDomainConfiguration).toHaveBeenCalled();
 
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('Person');
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('TestActor');

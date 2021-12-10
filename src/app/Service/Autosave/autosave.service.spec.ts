@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AutosaveService } from './autosave.service';
-import { MockService } from 'ng-mocks';
+import { MockProviders } from 'ng-mocks';
 import { RendererService } from '../Renderer/renderer.service';
 import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
 import { ExportService } from '../Export/export.service';
@@ -10,7 +10,6 @@ import { Autosave } from '../../Domain/Autosave/autosave';
 import { testConfigAndDst } from '../../Domain/Export/configAndDst';
 import { deepCopy } from '../../Utils/deepCopy';
 import { BehaviorSubject } from 'rxjs';
-import { Autosaves } from '../../Domain/Autosave/autosaves';
 import { StorageService } from '../BrowserStorage/storage.service';
 
 describe('AutosaveService', () => {
@@ -45,14 +44,6 @@ describe('AutosaveService', () => {
           useValue: renderServiceMock,
         },
         {
-          provide: DomainConfigurationService,
-          useValue: MockService(DomainConfigurationService),
-        },
-        {
-          provide: ExportService,
-          useValue: MockService(ExportService),
-        },
-        {
           provide: AutosaveStateService,
           useValue: autosaveStateServiceMock,
         },
@@ -60,6 +51,7 @@ describe('AutosaveService', () => {
           provide: StorageService,
           useValue: storageServiceMock,
         },
+        MockProviders(DomainConfigurationService, ExportService),
       ],
     });
     rendererServiceSpy = TestBed.inject(
