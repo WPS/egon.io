@@ -68,6 +68,41 @@ export class DomainCustomizationService {
     }
   }
 
+  public importConfiguration(
+    customConfig: DomainConfiguration,
+    saveDomain = true
+  ): void {
+    const actorKeys = customConfig.actors.keysArray();
+    const workObjectKeys = customConfig.workObjects.keysArray();
+
+    actorKeys.forEach((iconName) => {
+      if (!this.allIconListItems.has(iconName)) {
+        this.addIconToAllIconList(iconName);
+      }
+      const selectedActorNames = this.selectedActors.value;
+      if (!selectedActorNames.includes(iconName)) {
+        selectedActorNames.push(iconName);
+        this.selectedActors.next(selectedActorNames);
+      }
+      this.setAsActor(true, iconName);
+    });
+    workObjectKeys.forEach((iconName) => {
+      if (!this.allIconListItems.has(iconName)) {
+        this.addIconToAllIconList(iconName);
+      }
+      const selectedWorkobjectNames = this.selectedWorkobjects.value;
+      if (!selectedWorkobjectNames.includes(iconName)) {
+        selectedWorkobjectNames.push(iconName);
+        this.selectedWorkobjects.next(selectedWorkobjectNames);
+      }
+      this.setAsWorkobject(true, iconName);
+    });
+    if (saveDomain) {
+      this.saveDomain();
+    }
+  }
+
+  /** Getter & Setter **/
   public getDomainConfiguration(): BehaviorSubject<CustomDomainCofiguration> {
     return this.domainConfigurationTypes;
   }
@@ -106,40 +141,6 @@ export class DomainCustomizationService {
 
   public changeName(domainName: string): void {
     this.titleService.setDomainName(domainName);
-  }
-
-  public importConfiguration(
-    customConfig: DomainConfiguration,
-    saveDomain = true
-  ): void {
-    const actorKeys = customConfig.actors.keysArray();
-    const workObjectKeys = customConfig.workObjects.keysArray();
-
-    actorKeys.forEach((iconName) => {
-      if (!this.allIconListItems.has(iconName)) {
-        this.addIconToAllIconList(iconName);
-      }
-      const selectedActorNames = this.selectedActors.value;
-      if (!selectedActorNames.includes(iconName)) {
-        selectedActorNames.push(iconName);
-        this.selectedActors.next(selectedActorNames);
-      }
-      this.setAsActor(true, iconName);
-    });
-    workObjectKeys.forEach((iconName) => {
-      if (!this.allIconListItems.has(iconName)) {
-        this.addIconToAllIconList(iconName);
-      }
-      const selectedWorkobjectNames = this.selectedWorkobjects.value;
-      if (!selectedWorkobjectNames.includes(iconName)) {
-        selectedWorkobjectNames.push(iconName);
-        this.selectedWorkobjects.next(selectedWorkobjectNames);
-      }
-      this.setAsWorkobject(true, iconName);
-    });
-    if (saveDomain) {
-      this.saveDomain();
-    }
   }
 
   /** Seleted Icons **/
