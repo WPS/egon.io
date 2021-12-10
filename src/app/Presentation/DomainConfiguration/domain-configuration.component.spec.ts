@@ -11,6 +11,7 @@ import {
   testCustomDomainConfiguration,
 } from '../../Domain/Common/domainConfiguration';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
+import { DomainDetailsComponent } from './domain-details/domain-details.component';
 
 describe('DomainConfigurationComponent', () => {
   let component: DomainConfigurationComponent;
@@ -18,7 +19,7 @@ describe('DomainConfigurationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DomainConfigurationComponent],
+      declarations: [DomainConfigurationComponent, DomainDetailsComponent],
       providers: [
         MockProviders(DomainConfigurationService),
         MockProvider(IconDictionaryService, {

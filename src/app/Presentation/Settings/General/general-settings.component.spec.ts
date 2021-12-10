@@ -1,6 +1,7 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {GeneralSettingsComponent} from "./general-settings.component";
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { GeneralSettingsComponent } from './general-settings.component';
+import { AutosaveSettingsComponent } from '../../AutosaveSettings/autosave-settings.component';
+import { MockComponent } from 'ng-mocks';
 
 describe('GeneralSettingsComponent', () => {
   let component: GeneralSettingsComponent;
@@ -8,7 +9,10 @@ describe('GeneralSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GeneralSettingsComponent],
+      declarations: [
+        GeneralSettingsComponent,
+        MockComponent(AutosaveSettingsComponent),
+      ],
     }).compileComponents();
   });
 

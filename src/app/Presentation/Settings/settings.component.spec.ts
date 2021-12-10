@@ -1,11 +1,12 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {SettingsComponent} from 'src/app/Presentation/Settings/settings.component';
-import {SettingsService} from '../../Service/Settings/settings.service';
-import {MockProviders} from 'ng-mocks';
-import {ModelerService} from '../../Service/Modeler/modeler.service';
-import {AutosaveStateService} from "../../Service/Autosave/autosave-state.service";
-import {DomainCustomizationService} from "../../Service/DomainConfiguration/domain-customization.service";
+import { SettingsComponent } from 'src/app/Presentation/Settings/settings.component';
+import { SettingsService } from '../../Service/Settings/settings.service';
+import { MockComponent, MockProviders } from 'ng-mocks';
+import { ModelerService } from '../../Service/Modeler/modeler.service';
+import { AutosaveStateService } from '../../Service/Autosave/autosave-state.service';
+import { DomainCustomizationService } from '../../Service/DomainConfiguration/domain-customization.service';
+import { DomainConfigurationComponent } from '../DomainConfiguration/domain-configuration.component';
 
 describe('SettingsComponent', () => {
   let component: SettingsComponent;
@@ -13,13 +14,17 @@ describe('SettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SettingsComponent],
+      declarations: [
+        SettingsComponent,
+        MockComponent(DomainConfigurationComponent),
+      ],
       providers: [
         MockProviders(
           SettingsService,
           ModelerService,
           AutosaveStateService,
-          DomainCustomizationService)
+          DomainCustomizationService
+        ),
       ],
     }).compileComponents();
   });

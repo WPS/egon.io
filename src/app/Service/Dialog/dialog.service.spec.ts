@@ -4,15 +4,24 @@ import { DialogService } from 'src/app/Service/Dialog/dialog.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
 import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
-import { MockProvider } from 'ng-mocks';
+import { MockProvider, MockProviders } from 'ng-mocks';
+import { of } from 'rxjs';
 
 describe('DialogService', () => {
   let service: DialogService;
+  let matDialogSpy: jasmine.Spy;
+  let dialogRefSpyObj = jasmine.createSpyObj({
+    afterClosed: of({}),
+    close: null,
+  });
+  dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [MockProvider(MatDialog)],
     });
+    matDialogSpy = spyOn(TestBed.get(MatDialog), 'open');
+
     service = TestBed.inject(DialogService);
   });
 
@@ -30,5 +39,7 @@ describe('DialogService', () => {
     const text = 'Test.';
     config.data = new InfoDialogData(title, text, true);
     service.openDialog(InfoDialogComponent, config);
+
+    expect(matDialogSpy).toHaveBeenCalled();
   });
 });

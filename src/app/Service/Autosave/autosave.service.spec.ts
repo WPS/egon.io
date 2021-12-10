@@ -24,6 +24,7 @@ describe('AutosaveService', () => {
   beforeEach(() => {
     const renderServiceMock = jasmine.createSpyObj('RendererService', [
       'importStory',
+      'getStory',
     ]);
     const autosaveStateServiceMock = jasmine.createSpyObj(
       'AutosaveStateService',

@@ -20,8 +20,8 @@ actor.type = elementTypes.ACTOR;
 
 export const testCustomDomainConfiguration: CustomDomainCofiguration = {
   name: INITIAL_DOMAIN_NAME,
-  actors: [actor],
-  workObjects: [deepCopy(testBusinessObject)],
+  actors: ['Person'],
+  workObjects: ['Document'],
 };
 
 export function fromConfiguratioFromFile(configFromFile: {

@@ -236,9 +236,6 @@ export class ImportDomainStoryService implements OnDestroy {
     const currentWorkobjectKeys =
       this.iconDictionaryService.getTypeDictionaryKeys(elementTypes.WORKOBJECT);
 
-    console.log(newActorKeys, currentActorKeys);
-    console.log(newWorkObjectKeys, currentWorkobjectKeys);
-
     let changed = false;
 
     if (

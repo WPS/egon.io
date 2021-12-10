@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LabelDictionaryDialogComponent } from './label-dictionary-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MockProvider } from 'ng-mocks';
+import { MockComponent, MockProvider } from 'ng-mocks';
+import { LabelDictionaryComponent } from '../../LabelDictionary/label-dictionary.component';
 
 describe('LabelDictionaryDialogComponent', () => {
   let component: LabelDictionaryDialogComponent;
@@ -10,7 +11,10 @@ describe('LabelDictionaryDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LabelDictionaryDialogComponent],
+      declarations: [
+        LabelDictionaryDialogComponent,
+        MockComponent(LabelDictionaryComponent),
+      ],
       providers: [MockProvider(MatDialogRef)],
     }).compileComponents();
   });
