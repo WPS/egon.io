@@ -236,34 +236,42 @@ export class ImportDomainStoryService implements OnDestroy {
     const currentWorkobjectKeys =
       this.iconDictionaryService.getTypeDictionaryKeys(elementTypes.WORKOBJECT);
 
+    console.log(newActorKeys, currentActorKeys);
+    console.log(newWorkObjectKeys, currentWorkobjectKeys);
+
     let changed = false;
 
+    if (
+      newActorKeys.length !== currentActorKeys.length ||
+      newWorkObjectKeys.length !== currentWorkobjectKeys.length
+    ) {
+      return true;
+    }
+
     for (let i = 0; i < newActorKeys.length; i++) {
-      changed = this.keyEquals(currentActorKeys[i], newActorKeys[i]);
+      changed =
+        this.clearName(currentActorKeys[i]) !== this.clearName(newActorKeys[i]);
       if (changed) {
         i = newActorKeys.length;
       }
     }
-    if (!changed) {
-      for (let i = 0; i < newWorkObjectKeys.length; i++) {
-        changed = this.keyEquals(
-          currentWorkobjectKeys[i],
-          newWorkObjectKeys[i]
-        );
-        if (changed) {
-          i = newActorKeys.length;
-        }
+    if (changed) {
+      return changed;
+    }
+    for (let i = 0; i < newWorkObjectKeys.length; i++) {
+      changed =
+        this.clearName(currentWorkobjectKeys[i]) !==
+        this.clearName(newWorkObjectKeys[i]);
+      if (changed) {
+        i = newActorKeys.length;
       }
     }
     return changed;
   }
-
-  private keyEquals(currentKey: string, newKey: string): boolean {
-    return !(
-      currentKey !== newKey &&
-      currentKey !== elementTypes.ACTOR + newKey &&
-      currentKey !== elementTypes.WORKOBJECT + newKey
-    );
+  private clearName(name: string): string {
+    return name
+      .replace(elementTypes.ACTOR, '')
+      .replace(elementTypes.WORKOBJECT, '');
   }
 
   private updateIconRegistries(

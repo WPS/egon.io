@@ -84,7 +84,9 @@ describe('ImportDomainStoryService', () => {
         .withArgs(elementTypes.WORKOBJECT)
         .and.returnValue(['workObject']);
 
-      expect(service.checkConfigForChanges(testDomainCofiguration)).toBeFalsy();
+      expect(
+        service.checkConfigForChanges(testDomainCofiguration)
+      ).toBeTruthy();
     });
 
     it('should find changes, different actors', () => {
@@ -95,7 +97,9 @@ describe('ImportDomainStoryService', () => {
         .withArgs(elementTypes.WORKOBJECT)
         .and.returnValue(['workObject']);
 
-      expect(service.checkConfigForChanges(testDomainCofiguration)).toBeFalsy();
+      expect(
+        service.checkConfigForChanges(testDomainCofiguration)
+      ).toBeTruthy();
     });
 
     it('should find changes, different workobjects', () => {
@@ -106,7 +110,9 @@ describe('ImportDomainStoryService', () => {
         .withArgs(elementTypes.WORKOBJECT)
         .and.returnValue(['workObject', 'test']);
 
-      expect(service.checkConfigForChanges(testDomainCofiguration)).toBeFalsy();
+      expect(
+        service.checkConfigForChanges(testDomainCofiguration)
+      ).toBeTruthy();
     });
 
     it('should find changes, different workobjects', () => {
@@ -117,7 +123,9 @@ describe('ImportDomainStoryService', () => {
         .withArgs(elementTypes.WORKOBJECT)
         .and.returnValue(['test']);
 
-      expect(service.checkConfigForChanges(testDomainCofiguration)).toBeFalsy();
+      expect(
+        service.checkConfigForChanges(testDomainCofiguration)
+      ).toBeTruthy();
     });
 
     it('should not find changes', () => {
