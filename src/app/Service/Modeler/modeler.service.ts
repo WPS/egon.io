@@ -10,6 +10,7 @@ import { ElementRegistryService } from '../ElementRegistry/element-registry.serv
 import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.service';
 import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
 import { BusinessObject } from '../../Domain/Common/businessObject';
+import { StorageService } from '../BrowserStorage/storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,8 @@ export class ModelerService {
     private initialiserService: InitializerService,
     private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService,
-    private domainConfigurationService: DomainConfigurationService
+    private domainConfigurationService: DomainConfigurationService,
+    private storageService: StorageService
   ) {}
 
   private modeler: any;
@@ -32,6 +34,16 @@ export class ModelerService {
   private encoded: string | undefined;
 
   public postInit(): void {
+    const savedDomainConfiguration =
+      this.storageService.getSavedDomainConfiguration();
+    if (savedDomainConfiguration) {
+      this.iconDictionaryService.setCusomtConfiguration(
+        savedDomainConfiguration
+      );
+      this.domainConfigurationService.loadConfiguration(
+        savedDomainConfiguration
+      );
+    }
     this.initialiserService.initializeDomainStoryModelerClasses();
     this.modeler = new DomainStoryModeler({
       container: '#canvas',
@@ -94,7 +106,11 @@ export class ModelerService {
         : this.elementRegistryService
             .createObjectListForDSTDownload()
             .map((e) => e.businessObject);
+    if (!domainConfiguration) {
+      domainConfiguration = this.storageService.getSavedDomainConfiguration();
+    }
     if (domainConfiguration) {
+      this.storageService.setSavedDomainConfiguration(domainConfiguration);
       this.iconDictionaryService.setCusomtConfiguration(domainConfiguration);
       this.domainConfigurationService.loadConfiguration(domainConfiguration);
     }

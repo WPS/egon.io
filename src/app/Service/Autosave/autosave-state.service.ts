@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AUTOSAVE_ACTIVATED_TAG } from '../../Domain/Common/constants';
+import { StorageService } from '../BrowserStorage/storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { AUTOSAVE_ACTIVATED_TAG } from '../../Domain/Common/constants';
 export class AutosaveStateService {
   private autosaveEnabled = new BehaviorSubject<boolean>(false);
 
-  constructor() {
+  constructor(private storageService: StorageService) {
     this.readAutosaveState();
   }
 
@@ -31,10 +32,10 @@ export class AutosaveStateService {
   }
 
   private setAutosaveEnabled(enabled: boolean): void {
-    localStorage.setItem(AUTOSAVE_ACTIVATED_TAG, JSON.stringify(enabled));
+    this.storageService.setAutosaveEnabled(enabled);
   }
 
   private isAutosaveEnabled(): boolean {
-    return JSON.parse(localStorage.getItem(AUTOSAVE_ACTIVATED_TAG) || 'false');
+    return this.storageService.getAutosaveEnabled();
   }
 }

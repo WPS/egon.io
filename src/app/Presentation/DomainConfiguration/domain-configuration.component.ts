@@ -11,6 +11,7 @@ import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { sanitizeIconName } from 'src/app/Utils/sanitizer';
 import { IconFilterEnum } from '../../Domain/Domain-Configuration/iconFilterEnum';
 import { DomainCustomizationService } from '../../Service/DomainConfiguration/domain-customization.service';
+import { StorageService } from '../../Service/BrowserStorage/storage.service';
 
 @Component({
   selector: 'app-domain-configuration',

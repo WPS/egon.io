@@ -15,6 +15,7 @@ import {
   MAX_AUTOSAVES,
 } from '../../Domain/Common/constants';
 import { fromConfiguratioFromFile } from '../../Domain/Common/domainConfiguration';
+import { StorageService } from '../BrowserStorage/storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,17 +24,17 @@ export class AutosaveService {
   private readonly autosaveEnabled: Observable<boolean>;
   private autosaveTimer: any;
   private autosaveInterval = new BehaviorSubject(5); // in min
-  private maxAutosaves = Number(
-    localStorage.getItem(AUTOSAVE_AMOUNT_TAG) || MAX_AUTOSAVES
-  );
+  private maxAutosaves: number;
 
   constructor(
     private rendererService: RendererService,
     private domainConfigurationService: DomainConfigurationService,
     private exportService: ExportService,
     private autosaveStateService: AutosaveStateService,
-    private iconDistionaryService: IconDictionaryService
+    private iconDistionaryService: IconDictionaryService,
+    private storageService: StorageService
   ) {
+    this.maxAutosaves = storageService.getMaxAUtosaves();
     this.autosaveEnabled =
       this.autosaveStateService.getAutosaveStateAsObservable();
     this.loadAutosaveInterval();
@@ -104,7 +105,7 @@ export class AutosaveService {
 
   public setMaxAutosaves(amount: number) {
     this.maxAutosaves = amount;
-    localStorage.setItem(AUTOSAVE_AMOUNT_TAG, '' + amount);
+    this.storageService.setMaxAutosaves(amount);
   }
 
   public getMaxAutosaves(): number {
@@ -123,22 +124,13 @@ export class AutosaveService {
         currentAutosaves.pop();
       }
       currentAutosaves.unshift(this.createAutosave());
-      localStorage.setItem(
-        AUTOSAVE_TAG,
-        JSON.stringify({ autosaves: currentAutosaves })
-      );
+      this.storageService.setAutosaves(currentAutosaves);
     }, this.autosaveInterval.getValue() * 60000);
   }
   public loadCurrentAutosaves(): Autosave[] {
-    const autosavesString = localStorage.getItem(AUTOSAVE_TAG);
-    if (autosavesString) {
-      const autosaves = (JSON.parse(autosavesString) as Autosaves).autosaves;
-      if (autosaves && autosaves.length > 0) {
-        this.sortAutosaves(autosaves);
-        return autosaves;
-      }
-    }
-    return [];
+    const autosaves = this.storageService.getAutosaves();
+    this.sortAutosaves(autosaves);
+    return autosaves;
   }
 
   private sortAutosaves(autosaves: Autosave[]): void {
@@ -154,16 +146,13 @@ export class AutosaveService {
   }
 
   private loadAutosaveInterval(): void {
-    const autosaveIntervalString = localStorage.getItem(AUTOSAVE_INTERVAL_TAG);
+    const autosaveIntervalString = this.storageService.getAutosaveInterval();
     if (autosaveIntervalString) {
       this.autosaveInterval.next(JSON.parse(autosaveIntervalString));
     }
   }
 
   private saveAutosaveInterval(): void {
-    localStorage.setItem(
-      AUTOSAVE_INTERVAL_TAG,
-      '' + this.autosaveInterval.getValue()
-    );
+    this.storageService.setAutosaveInterval(this.autosaveInterval.value);
   }
 }

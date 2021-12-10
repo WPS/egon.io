@@ -5,6 +5,7 @@ import { overrideAppendedIcons } from "src/app/Domain/Domain-Configuration/allIc
 import { Dictionary } from "src/app/Domain/Common/dictionary/dictionary";
 import { elementTypes } from "src/app/Domain/Common/elementTypes";
 import { getNameFromType } from "src/app/Utils/naming";
+import { APPENDED_ICONS_TAG } from "../../../Domain/Common/constants";
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.
@@ -110,7 +111,7 @@ function appendCSSStyleCheat(customIcons) {
 function initPalette(actions, spaceTool, lassoTool, createAction) {
   let config = iconDictionary?.getCurrentIconConfigurationForBPMN();
 
-  let customIcons = localStorage.getItem("appendedIcons");
+  let customIcons = localStorage.getItem(APPENDED_ICONS_TAG);
 
   if (customIcons) {
     customIcons = JSON.parse(customIcons);

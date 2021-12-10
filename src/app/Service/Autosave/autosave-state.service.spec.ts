@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AutosaveStateService } from './autosave-state.service';
+import { StorageService } from '../BrowserStorage/storage.service';
+import { MockProvider } from 'ng-mocks';
 
 describe('AutosaveStateService', () => {
   let service: AutosaveStateService;
@@ -9,12 +11,15 @@ describe('AutosaveStateService', () => {
   let getItemSpy: jasmine.Spy;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-
-    getItemSpy = spyOn(localStorage, 'getItem').and.returnValue('false');
-    setItemSpy = spyOn(localStorage, 'setItem').and.returnValue();
-
-    getItemSpy.and.returnValue(false);
+    TestBed.configureTestingModule({
+      providers: [
+        MockProvider(StorageService, {
+          getAutosaveEnabled() {
+            return false;
+          },
+        }),
+      ],
+    });
 
     service = TestBed.inject(AutosaveStateService);
   });

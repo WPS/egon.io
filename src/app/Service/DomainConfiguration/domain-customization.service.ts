@@ -18,6 +18,7 @@ import {
   SNACKBAR_INFO,
   SNACKBAR_SUCCESS,
 } from '../../Domain/Common/constants';
+import { StorageService } from '../BrowserStorage/storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +41,7 @@ export class DomainCustomizationService {
     private iconDictionaryService: IconDictionaryService,
     private importService: ImportDomainStoryService,
     private titleService: TitleService,
+    private storageService: StorageService,
     public snackBar: MatSnackBar
   ) {
     this.domainName = this.titleService.getDomainNameAsObservable();
@@ -84,7 +86,7 @@ export class DomainCustomizationService {
         selectedActorNames.push(iconName);
         this.selectedActors.next(selectedActorNames);
       }
-      this.setAsActor(true, iconName);
+      this.selectActor(iconName);
     });
     workObjectKeys.forEach((iconName) => {
       if (!this.allIconListItems.has(iconName)) {
@@ -95,7 +97,7 @@ export class DomainCustomizationService {
         selectedWorkobjectNames.push(iconName);
         this.selectedWorkobjects.next(selectedWorkobjectNames);
       }
-      this.setAsWorkobject(true, iconName);
+      this.selectWorkObject(iconName);
     });
     if (saveDomain) {
       this.saveDomain();
@@ -250,11 +252,23 @@ export class DomainCustomizationService {
     const defaultConfig =
       this.configurationService.createMinimalConfigurationWithDefaultIcons();
 
+    this.selectedWorkobjects.value.forEach((workObjectName) => {
+      if (!defaultConfig.workObjects.has(workObjectName)) {
+        this.deselectWorkobject(workObjectName);
+      }
+    });
+    this.selectedActors.value.forEach((actorName) => {
+      if (!defaultConfig.actors.has(actorName)) {
+        this.deselectActor(actorName);
+      }
+    });
+
     this.domainConfigurationTypes.next({
       name: defaultConfig.name,
       actors: defaultConfig.actors.keysArray(),
       workObjects: defaultConfig.workObjects.keysArray(),
     } as CustomDomainCofiguration);
+
     this.updateAllIconBehaviourSubjects();
   }
 
@@ -275,6 +289,9 @@ export class DomainCustomizationService {
   public saveDomain(): void {
     if (this.configurationHasChanged) {
       this.savedDomainConfiguration = this.createDomainConfiguration();
+      this.storageService.setSavedDomainConfiguration(
+        this.savedDomainConfiguration
+      );
       this.snackBar.open('Configuration saved sucessfully', undefined, {
         duration: SNACKBAR_DURATION,
         panelClass: SNACKBAR_SUCCESS,
