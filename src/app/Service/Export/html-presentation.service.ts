@@ -7,6 +7,7 @@ import { ReplayService } from '../Replay/replay.service';
 import { deepCopy } from '../../Utils/deepCopy';
 // @ts-ignore
 import doT from 'dot';
+import { TitleService } from '../Title/title.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,8 @@ export class HtmlPresentationService {
     private elementRegistryService: ElementRegistryService,
     private dialogService: DialogService,
     private storyCreatorService: StoryCreatorService,
-    private replayService: ReplayService
+    private replayService: ReplayService,
+    private titleService: TitleService
   ) {}
 
   private multiplexSecret: any;
@@ -95,10 +97,8 @@ export class HtmlPresentationService {
     const dots = doT.template(revealjsTemplate.innerHTML);
     const revealjsData = {
       script: 'script',
-      // @ts-ignore
-      title: document.getElementById('title').innerHTML,
-      // @ts-ignore
-      description: document.getElementById('descriptionText').innerHTML,
+      title: this.titleService.getTitle(),
+      description: this.titleService.getDescription(),
       sentences: svgData,
       multiplexSecret: this.multiplexSecret,
       multiplexId: this.multiplexId,
