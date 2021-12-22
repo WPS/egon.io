@@ -11,6 +11,7 @@ import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.se
 import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
 import { BusinessObject } from '../../Domain/Common/businessObject';
 import { StorageService } from '../BrowserStorage/storage.service';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +33,15 @@ export class ModelerService {
   private eventBus: any;
 
   private encoded: string | undefined;
+
+  /**
+   * Emits an event every time the domain story or title/description is updated.
+   */
+  private modelerUpdated$ = new Subject();
+
+  public modelerUpdated(): Observable<any> {
+    return this.modelerUpdated$.asObservable();
+  }
 
   public postInit(): void {
     const storedDomainConfiguration =
@@ -150,6 +160,7 @@ export class ModelerService {
         // tslint:disable-next-line:no-unused-expression
         fn(this.modeler).then((svg: string) => {
           this.encoded = svg;
+          this.modelerUpdated$.next()
         }) as Promise<any>;
       }, timeout);
     };
