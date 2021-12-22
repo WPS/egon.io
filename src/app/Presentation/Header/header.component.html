@@ -1,13 +1,11 @@
 <mat-toolbar color=primary class="toolbar">
   <mat-toolbar-row>
     <span class="mr-10">
-      <span class="headline noPointer mr-10">egon.io</span>
       <span
         class="headline"
       >{{ title | async }}
       </span>
     </span>
-    <span class="mr-10">-</span>
     <span title="Domain">{{ currentDomainName | async }} </span>
     <span class="domainNameSpacer"></span>
     <span title="Replay Step" *ngIf="isReplay | async">

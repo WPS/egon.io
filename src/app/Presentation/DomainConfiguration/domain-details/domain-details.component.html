@@ -1,6 +1,6 @@
 <div class="details smallScrollbar">
   <div class="domainDetails">
-    <h3>Domain</h3>
+    <h3>Name of icon set</h3>
     <form>
       <mat-form-field class="fullWidth">
         <input
@@ -13,7 +13,7 @@
     </form>
   </div>
   <div class="actorList">
-    <h3>Actors</h3>
+    <h3>Order of actors</h3>
     <mat-list>
       <mat-list-item
         *ngFor="let iconName of selectedActors | async let i = index"
@@ -29,7 +29,7 @@
     </mat-list>
   </div>
   <div class="workobjectList">
-    <h3>Workobjects</h3>
+    <h3>Order of work objects</h3>
     <mat-list>
       <mat-list-item
         *ngFor="let iconName of selectedWorkobjects | async let i = index"

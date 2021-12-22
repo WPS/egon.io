@@ -1,10 +1,10 @@
 /** GLOBAL **/
-export const VERSION = '2.0.0-alpha';
+export const VERSION = '2.0.0-beta.1';
 
 /** DEFAULT VALUES **/
 export const INITIAL_TITLE = '< title >';
 export const INITIAL_DESCRIPTION = '< description >';
-export const INITIAL_DOMAIN_NAME = 'default Domain';
+export const INITIAL_DOMAIN_NAME = '[icons: default]';
 
 /** AUTOSAVE **/
 export const MAX_AUTOSAVES = 5;
