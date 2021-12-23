@@ -11,7 +11,7 @@ import { Autosave } from '../../Domain/Autosave/autosave';
 import { Autosaves } from '../../Domain/Autosave/autosaves';
 import {
   DomainConfiguration,
-  fromConfiguratioFromFile,
+  fromConfigurationFromFile,
 } from '../../Domain/Common/domainConfiguration';
 import { askConfirmation } from '@angular/cli/utilities/prompt';
 
@@ -66,7 +66,7 @@ export class StorageService {
     if (!domainString) {
       return;
     } else {
-      const configuratioFromFile = fromConfiguratioFromFile(
+      const configuratioFromFile = fromConfigurationFromFile(
         JSON.parse(domainString)
       );
       if (

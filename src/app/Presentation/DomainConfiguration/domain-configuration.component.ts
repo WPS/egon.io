@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  CustomDomainCofiguration,
+  CustomDomainConfiguration,
   DomainConfiguration,
-  fromConfiguratioFromFile,
+  fromConfigurationFromFile,
 } from 'src/app/Domain/Common/domainConfiguration';
 import { DomainConfigurationService } from 'src/app/Service/DomainConfiguration/domain-configuration.service';
 import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
@@ -19,7 +19,7 @@ import { StorageService } from '../../Service/BrowserStorage/storage.service';
   styleUrls: ['./domain-configuration.component.scss'],
 })
 export class DomainConfigurationComponent implements OnInit {
-  private domainConfigurationTypes: CustomDomainCofiguration;
+  private domainConfigurationTypes: CustomDomainConfiguration;
 
   public filter = new BehaviorSubject<IconFilterEnum>(
     IconFilterEnum.ICON_FILTER_NONE
@@ -139,7 +139,7 @@ export class DomainConfigurationComponent implements OnInit {
         actors: { [key: string]: any };
         workObjects: { [key: string]: any };
       };
-      const config = fromConfiguratioFromFile(configFromFile);
+      const config = fromConfigurationFromFile(configFromFile);
       this.configurationService.loadConfiguration(config, false);
 
       this.domainCustomizationService.importConfiguration(config);

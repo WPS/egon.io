@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  CustomDomainCofiguration,
+  CustomDomainConfiguration,
   DomainConfiguration,
 } from '../../Domain/Common/domainConfiguration';
 import { BehaviorSubject, config, Observable } from 'rxjs';
@@ -24,7 +24,7 @@ import { StorageService } from '../BrowserStorage/storage.service';
   providedIn: 'root',
 })
 export class DomainCustomizationService {
-  private readonly domainConfigurationTypes: BehaviorSubject<CustomDomainCofiguration>;
+  private readonly domainConfigurationTypes: BehaviorSubject<CustomDomainConfiguration>;
 
   private allIconListItems = new Dictionary();
 
@@ -101,7 +101,7 @@ export class DomainCustomizationService {
   }
 
   /** Getter & Setter **/
-  public getDomainConfiguration(): BehaviorSubject<CustomDomainCofiguration> {
+  public getDomainConfiguration(): BehaviorSubject<CustomDomainConfiguration> {
     return this.domainConfigurationTypes;
   }
 
@@ -263,7 +263,7 @@ export class DomainCustomizationService {
       name: defaultConfig.name,
       actors: defaultConfig.actors.keysArray(),
       workObjects: defaultConfig.workObjects.keysArray(),
-    } as CustomDomainCofiguration);
+    } as CustomDomainConfiguration);
 
     this.updateAllIconBehaviourSubjects();
   }
