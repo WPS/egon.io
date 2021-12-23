@@ -10,7 +10,7 @@ export interface DomainConfiguration {
   workObjects: Dictionary;
 }
 
-export interface CustomDomainCofiguration {
+export interface CustomDomainConfiguration {
   name: string;
   actors: string[];
   workObjects: string[];
@@ -18,13 +18,13 @@ export interface CustomDomainCofiguration {
 const actor = deepCopy(testBusinessObject);
 actor.type = elementTypes.ACTOR;
 
-export const testCustomDomainConfiguration: CustomDomainCofiguration = {
+export const testCustomDomainConfiguration: CustomDomainConfiguration = {
   name: INITIAL_DOMAIN_NAME,
   actors: ['Person'],
   workObjects: ['Document'],
 };
 
-export function fromConfiguratioFromFile(configFromFile: {
+export function fromConfigurationFromFile(configFromFile: {
   name: string;
   actors: { [p: string]: any };
   workObjects: { [p: string]: any };

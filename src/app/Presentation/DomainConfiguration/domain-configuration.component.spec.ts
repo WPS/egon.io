@@ -7,7 +7,7 @@ import { IconDictionaryService } from '../../Service/DomainConfiguration/icon-di
 import { DomainCustomizationService } from '../../Service/DomainConfiguration/domain-customization.service';
 import { BehaviorSubject } from 'rxjs';
 import {
-  CustomDomainCofiguration,
+  CustomDomainConfiguration,
   testCustomDomainConfiguration,
 } from '../../Domain/Common/domainConfiguration';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
@@ -28,7 +28,7 @@ describe('DomainConfigurationComponent', () => {
           },
         }),
         MockProvider(DomainCustomizationService, {
-          getDomainConfiguration(): BehaviorSubject<CustomDomainCofiguration> {
+          getDomainConfiguration(): BehaviorSubject<CustomDomainConfiguration> {
             return new BehaviorSubject(testCustomDomainConfiguration);
           },
         }),

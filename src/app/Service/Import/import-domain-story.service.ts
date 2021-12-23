@@ -11,7 +11,7 @@ import { RendererService } from 'src/app/Service/Renderer/renderer.service';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import {
   DomainConfiguration,
-  fromConfiguratioFromFile,
+  fromConfigurationFromFile,
 } from 'src/app/Domain/Common/domainConfiguration';
 import { DialogService } from '../Dialog/dialog.service';
 import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
@@ -129,13 +129,13 @@ export class ImportDomainStoryService implements OnDestroy {
       // current implementation
       if (dstAndConfig.domain) {
         configFromFile = JSON.parse(dstAndConfig.domain);
-        config = fromConfiguratioFromFile(configFromFile);
+        config = fromConfigurationFromFile(configFromFile);
         elements = JSON.parse(dstAndConfig.dst);
       } else {
         // legacy implementation
         if (dstAndConfig.config) {
           configFromFile = JSON.parse(dstAndConfig.config);
-          config = fromConfiguratioFromFile(configFromFile);
+          config = fromConfigurationFromFile(configFromFile);
           elements = JSON.parse(dstAndConfig.dst);
         } else {
           // implementation prior to configuration
