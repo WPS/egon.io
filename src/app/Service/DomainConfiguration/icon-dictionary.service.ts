@@ -266,13 +266,13 @@ export class IconDictionaryService {
   public addIconsToCss(customIcons: Dictionary) {
     const sheetEl = document.getElementById('iconsCss');
     customIcons.keysArray().forEach((key) => {
-      const custom = customIcons.get(key);
+      const src = customIcons.get(key);
       const iconStyle =
         '.' +
         ICON_PREFIX +
-        sanitizeIconName(custom.name.toLowerCase()) +
+        sanitizeIconName(key.toLowerCase()) +
         '::before{ content: url("data:image/svg+xml;utf8,' +
-        this.wrapSRCInSVG(custom.src) +
+        this.wrapSRCInSVG(src) +
         '"); margin: 3px;}';
       // @ts-ignore
       sheetEl?.sheet?.insertRule(iconStyle, sheetEl.sheet.cssRules.length);

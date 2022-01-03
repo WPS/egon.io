@@ -183,6 +183,7 @@ export class ImportDomainStoryService implements OnDestroy {
 
       this.importRepairService.adjustPositions(elements);
 
+      this.setImportedConfigurationAndEmit(config);
       this.updateIconRegistries(elements, config);
       this.rendererService.importStory(elements, configChanged, config);
     }
