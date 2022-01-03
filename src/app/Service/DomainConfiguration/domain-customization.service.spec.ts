@@ -138,7 +138,7 @@ describe('DomainCustomizationService', () => {
       expect(selectedWorkObjects).toContain('Document');
       expect(selectedWorkObjects).toContain('TestWorkObject');
 
-      expect(storageServiceSpy.setSavedDomainConfiguration).toHaveBeenCalled();
+      expect(storageServiceSpy.setStoredDomainConfiguration).toHaveBeenCalled();
 
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('Person');
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('TestActor');

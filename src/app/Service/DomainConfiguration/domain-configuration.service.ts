@@ -63,6 +63,8 @@ export class DomainConfigurationService {
     const actorKeys = actorDict.keysArray();
     const workObjectKeys = workObjectDict.keysArray();
 
+    this.iconDictionaryService.updateIconRegistries([], [], customConfig);
+
     this.iconDictionaryService
       .getIconConfiguration()
       .appendSRCFile(actorKeys, actorDict, workObjectKeys, workObjectDict);

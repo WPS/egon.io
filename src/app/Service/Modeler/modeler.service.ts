@@ -34,14 +34,14 @@ export class ModelerService {
   private encoded: string | undefined;
 
   public postInit(): void {
-    const savedDomainConfiguration =
-      this.storageService.getSavedDomainConfiguration();
-    if (savedDomainConfiguration) {
+    const storedDomainConfiguration =
+      this.storageService.getStoredDomainConfiguration();
+    if (storedDomainConfiguration) {
       this.iconDictionaryService.setCusomtConfiguration(
-        savedDomainConfiguration
+        storedDomainConfiguration
       );
       this.domainConfigurationService.loadConfiguration(
-        savedDomainConfiguration
+        storedDomainConfiguration
       );
     }
     this.initializerService.initializeDomainStoryModelerClasses();
@@ -107,10 +107,10 @@ export class ModelerService {
             .createObjectListForDSTDownload()
             .map((e) => e.businessObject);
     if (!domainConfiguration) {
-      domainConfiguration = this.storageService.getSavedDomainConfiguration();
+      domainConfiguration = this.storageService.getStoredDomainConfiguration();
     }
     if (domainConfiguration) {
-      this.storageService.setSavedDomainConfiguration(domainConfiguration);
+      this.storageService.setStoredDomainConfiguration(domainConfiguration);
       this.iconDictionaryService.setCusomtConfiguration(domainConfiguration);
       this.domainConfigurationService.loadConfiguration(domainConfiguration);
     }

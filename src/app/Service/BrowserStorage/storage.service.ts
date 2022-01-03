@@ -13,7 +13,6 @@ import {
   DomainConfiguration,
   fromConfigurationFromFile,
 } from '../../Domain/Common/domainConfiguration';
-import { askConfirmation } from '@angular/cli/utilities/prompt';
 
 @Injectable({
   providedIn: 'root',
@@ -61,7 +60,7 @@ export class StorageService {
     localStorage.setItem(AUTOSAVE_INTERVAL_TAG, '' + interval);
   }
 
-  getSavedDomainConfiguration(): DomainConfiguration | undefined {
+  getStoredDomainConfiguration(): DomainConfiguration | undefined {
     const domainString = localStorage.getItem(DOMAIN_CONFIGURATION_TAG);
     if (!domainString) {
       return;
@@ -79,7 +78,7 @@ export class StorageService {
     }
   }
 
-  setSavedDomainConfiguration(config: DomainConfiguration): void {
+  setStoredDomainConfiguration(config: DomainConfiguration): void {
     const actors: {
       [p: string]: any;
     } = {};

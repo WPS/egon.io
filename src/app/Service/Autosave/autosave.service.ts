@@ -3,17 +3,10 @@ import { RendererService } from '../Renderer/renderer.service';
 import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
 import { ExportService } from '../Export/export.service';
 import { Autosave } from '../../Domain/Autosave/autosave';
-import { Autosaves } from '../../Domain/Autosave/autosaves';
 import { AutosaveStateService } from './autosave-state.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.service';
 import { elementTypes } from '../../Domain/Common/elementTypes';
-import {
-  AUTOSAVE_AMOUNT_TAG,
-  AUTOSAVE_INTERVAL_TAG,
-  AUTOSAVE_TAG,
-  MAX_AUTOSAVES,
-} from '../../Domain/Common/constants';
 import { fromConfigurationFromFile } from '../../Domain/Common/domainConfiguration';
 import { StorageService } from '../BrowserStorage/storage.service';
 

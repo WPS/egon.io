@@ -12,7 +12,6 @@ import { DomainCustomizationService } from '../../Service/DomainConfiguration/do
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-  configurationChanged = false;
   domainConfiguration: DomainConfiguration | undefined;
   autosaveEnable: Observable<boolean>;
   showGeneralSettings = new BehaviorSubject<boolean>(false);
@@ -29,9 +28,8 @@ export class SettingsComponent {
 
   public close(): void {
     const savedConfiguration =
-      this.domainCustomizationService.getSavedConfiguration();
+      this.domainCustomizationService.getAndClearSavedConfiguration();
     if (savedConfiguration) {
-      this.domainCustomizationService.clearSavedConfiguration();
       this.modelerService.restart(savedConfiguration);
     }
     this.settingsService.close();

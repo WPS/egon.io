@@ -34,7 +34,7 @@ export class DomainCustomizationService {
 
   selectedActors = new BehaviorSubject<string[]>([]);
   selectedWorkobjects = new BehaviorSubject<string[]>([]);
-  private savedDomainConfiguration: DomainConfiguration | undefined;
+  private changedDomainCofiguration: DomainConfiguration | undefined;
 
   constructor(
     private configurationService: DomainConfigurationService,
@@ -64,6 +64,11 @@ export class DomainCustomizationService {
     importService.importedConfigurationEvent.subscribe((config) => {
       this.importConfiguration(config);
     });
+    const storedDomainConfiguration =
+      this.storageService.getStoredDomainConfiguration();
+    if (storedDomainConfiguration) {
+      this.importConfiguration(storedDomainConfiguration, false);
+    }
     const importedConfiguration = this.importService.getImportedConfiguration();
     if (importedConfiguration) {
       this.importConfiguration(importedConfiguration, false);
@@ -284,9 +289,9 @@ export class DomainCustomizationService {
   /** Persist Domain **/
   public saveDomain(): void {
     if (this.configurationHasChanged) {
-      this.savedDomainConfiguration = this.createDomainConfiguration();
-      this.storageService.setSavedDomainConfiguration(
-        this.savedDomainConfiguration
+      this.changedDomainCofiguration = this.createDomainConfiguration();
+      this.storageService.setStoredDomainConfiguration(
+        this.changedDomainCofiguration
       );
       this.snackBar.open('Configuration saved sucessfully', undefined, {
         duration: SNACKBAR_DURATION,
@@ -305,12 +310,11 @@ export class DomainCustomizationService {
     this.configurationService.exportConfiguration();
   }
 
-  public getSavedConfiguration(): DomainConfiguration | undefined {
-    return this.savedDomainConfiguration;
-  }
+  public getAndClearSavedConfiguration(): DomainConfiguration | undefined {
+    const temp = this.changedDomainCofiguration;
+    this.changedDomainCofiguration = undefined;
 
-  public clearSavedConfiguration(): void {
-    this.savedDomainConfiguration = undefined;
+    return temp;
   }
 
   private createDomainConfiguration(): DomainConfiguration {
