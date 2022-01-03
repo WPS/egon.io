@@ -44,12 +44,13 @@ describe('DomainCustomizationService', () => {
       ]
     );
     const storageServiceMock = jasmine.createSpyObj('StorageService', [
-      'setSavedDomainConfiguration',
+      'setStoredDomainConfiguration',
+      'getStoredDomainConfiguration',
     ]);
 
     TestBed.configureTestingModule({
       providers: [
-        MockProvider(TitleService),
+        MockProviders(TitleService),
         {
           provide: StorageService,
           useValue: storageServiceMock,
