@@ -72,9 +72,7 @@ export class SvgService {
       data.slice(insertIndex),
     ].join('');
 
-    data = this.appendDST(data, dst);
-
-    return encodeURIComponent(data);
+    return this.appendDST(data, dst);
   }
 
   private findIndexTOInsertData(data: string) {
