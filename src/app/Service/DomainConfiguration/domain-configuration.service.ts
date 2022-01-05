@@ -5,7 +5,7 @@ import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { elementTypes } from 'src/app/Domain/Common/elementTypes';
 import {
   CustomDomainConfiguration,
-  DomainConfiguration,
+  DomainConfiguration, DomainConfigurationForExport,
 } from 'src/app/Domain/Common/domainConfiguration';
 import { defaultConf } from '../../Domain/Common/iconConfiguration';
 import { TitleService } from '../Title/title.service';
@@ -97,6 +97,18 @@ export class DomainConfigurationService {
       );
     }
     return domainConfiguration;
+  }
+
+  public getCurrentConfigurationForExport(): DomainConfigurationForExport | undefined {
+    const currentConfiguration = this.getCurrentConfiguration();
+    if(currentConfiguration) {
+      return {
+        name: currentConfiguration.name,
+        actors: currentConfiguration.actors.all(),
+        workObjects: currentConfiguration.workObjects.all()
+      }
+    }
+    return;
   }
 
   public getCurrentConfigurationNamesWithoutPrefix(): CustomDomainConfiguration {
