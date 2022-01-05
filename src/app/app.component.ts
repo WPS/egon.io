@@ -8,6 +8,8 @@ import { InfoDialogComponent } from './Presentation/Dialog/info-dialog/info-dial
 import { TitleService } from './Service/Title/title.service';
 import { VERSION } from './Domain/Common/constants';
 import { ExportService } from './Service/Export/export.service';
+import { ReplayStateService } from "./Service/Replay/replay-state.service";
+import { ReplayService } from "./Service/Replay/replay.service";
 
 @Component({
   selector: 'app-root',
@@ -23,7 +25,9 @@ export class AppComponent implements OnInit {
     private settingsService: SettingsService,
     private dialogService: DialogService,
     private titleService: TitleService,
-    private exportService: ExportService
+    private exportService: ExportService,
+    private replayStateSerice: ReplayStateService,
+    private replayService: ReplayService
   ) {
     this.showSettingsSubscription = new BehaviorSubject(false);
     this.showDescription = new BehaviorSubject(true);
@@ -42,6 +46,16 @@ export class AppComponent implements OnInit {
         document.getElementById('import').click();
         e.preventDefault();
         e.stopPropagation();
+      }
+      if(e.key === 'ArrowRight' && this.replayStateSerice.getReplayOn()) {
+        e.preventDefault();
+        e.stopPropagation();
+        replayService.nextStep();
+      }
+      if(e.key === 'ArrowLeft' && this.replayStateSerice.getReplayOn()) {
+        e.preventDefault();
+        e.stopPropagation();
+        replayService.previousStep();
       }
     };
   }
