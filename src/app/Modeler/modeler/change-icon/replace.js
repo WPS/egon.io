@@ -20,7 +20,6 @@ function replaceElement(oldElement, newElementData, modeling) {
   let newElement = setCenterOfElement(
     newElementData,
     oldElement,
-    newElement,
     modeling
   );
   let outgoingActivities = newElement.outgoing;
@@ -37,7 +36,7 @@ function replaceElement(oldElement, newElementData, modeling) {
   return newElement;
 }
 
-function setCenterOfElement(newElementData, oldElement, newElement, modeling) {
+function setCenterOfElement(newElementData, oldElement, modeling) {
   newElementData.x = Math.ceil(
     oldElement.x + (newElementData.width || oldElement.width) / 2
   );
