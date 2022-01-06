@@ -2,7 +2,7 @@ import { INITIAL_DOMAIN_NAME } from './constants';
 import { deepCopy } from '../../Utils/deepCopy';
 import { testBusinessObject } from './businessObject';
 import { elementTypes } from './elementTypes';
-import { Dictionary, Entry } from './dictionary/dictionary';
+import { Dictionary } from './dictionary/dictionary';
 
 export interface DomainConfiguration {
   name: string;
@@ -12,8 +12,8 @@ export interface DomainConfiguration {
 
 export interface DomainConfigurationForExport {
   name: string;
-  actors: Entry[];
-  workObjects: Entry[];
+  actors: any;
+  workObjects: any;
 }
 
 export interface CustomDomainConfiguration {

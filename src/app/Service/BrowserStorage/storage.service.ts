@@ -60,22 +60,27 @@ export class StorageService {
     localStorage.setItem(AUTOSAVE_INTERVAL_TAG, '' + interval);
   }
 
+  checkValidityOfConfiguration(configuratioFromFile: DomainConfiguration) {
+    return configuratioFromFile.actors.keysArray().length > 1 &&
+      configuratioFromFile.workObjects.keysArray().length > 1 &&
+      !configuratioFromFile.actors.all().some(e => typeof e.value !== "string") &&
+      !configuratioFromFile.workObjects.all().some(e => typeof e.value !== "string");
+    }
+
   getStoredDomainConfiguration(): DomainConfiguration | undefined {
     const domainString = localStorage.getItem(DOMAIN_CONFIGURATION_TAG);
+
     if (!domainString) {
       return;
     } else {
       const configuratioFromFile = fromConfigurationFromFile(
         JSON.parse(domainString)
       );
-      if (
-        configuratioFromFile.actors.keysArray().length > 0 &&
-        configuratioFromFile.workObjects.keysArray().length > 0
-      ) {
+      if(this.checkValidityOfConfiguration(configuratioFromFile)) {
         return configuratioFromFile;
       }
-      return;
     }
+    return;
   }
 
   setStoredDomainConfiguration(config: DomainConfiguration): void {

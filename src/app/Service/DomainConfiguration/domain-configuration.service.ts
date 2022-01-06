@@ -101,11 +101,22 @@ export class DomainConfigurationService {
 
   public getCurrentConfigurationForExport(): DomainConfigurationForExport | undefined {
     const currentConfiguration = this.getCurrentConfiguration();
+
     if(currentConfiguration) {
+      const actors: any = [];
+      const workObjects: any = []
+
+      currentConfiguration.actors.all().forEach(entry=> {
+        actors.push({[entry.key]: entry.value})
+      })
+      currentConfiguration.workObjects.all().forEach(entry=> {
+        workObjects.push({[entry.key]: entry.value})
+      })
+
       return {
         name: currentConfiguration.name,
-        actors: currentConfiguration.actors.all(),
-        workObjects: currentConfiguration.workObjects.all()
+        actors: actors,
+        workObjects: workObjects
       }
     }
     return;
