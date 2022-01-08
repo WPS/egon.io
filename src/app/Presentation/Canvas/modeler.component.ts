@@ -12,7 +12,7 @@ export class ModelerComponent implements OnInit, OnDestroy {
   modelerUpdatedSubscription: Subscription;
 
   constructor(private modelerService: ModelerService) {
-    this.modelerUpdatedSubscription = this.modelerService.modelerUpdated().subscribe(() => {
+    this.modelerUpdatedSubscription = this.modelerService.getModelerUpdatedAsObservable().subscribe(() => {
       console.log('Modeler updated');
     });
   }

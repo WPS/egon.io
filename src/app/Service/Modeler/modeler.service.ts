@@ -37,10 +37,10 @@ export class ModelerService {
   /**
    * Emits an event every time the domain story or title/description is updated.
    */
-  private modelerUpdated$ = new Subject();
+  private modelerUpdated = new Subject();
 
-  public modelerUpdated(): Observable<any> {
-    return this.modelerUpdated$.asObservable();
+  public getModelerUpdatedAsObservable(): Observable<any> {
+    return this.modelerUpdated.asObservable();
   }
 
   public postInit(): void {
@@ -160,7 +160,7 @@ export class ModelerService {
         // tslint:disable-next-line:no-unused-expression
         fn(this.modeler).then((svg: string) => {
           this.encoded = svg;
-          this.modelerUpdated$.next()
+          this.modelerUpdated.next()
         }) as Promise<any>;
       }, timeout);
     };
