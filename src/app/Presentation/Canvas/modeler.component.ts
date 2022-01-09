@@ -14,8 +14,7 @@ export class ModelerComponent implements OnInit, OnDestroy {
 
   constructor(private modelerService: ModelerService, private autosaveService: AutosaveService) {
     this.modelerUpdatedSubscription = this.modelerService.getModelerUpdatedAsObservable().subscribe(() => {
-      console.log('Modeler updated');
-      this.autosaveService.updateSaveState();
+      this.autosaveService.createSaveState();
     });
   }
 

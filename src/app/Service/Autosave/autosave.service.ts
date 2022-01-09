@@ -10,6 +10,7 @@ import { elementTypes } from '../../Domain/Common/elementTypes';
 import { fromConfigurationFromFile } from '../../Domain/Common/domainConfiguration';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { TitleService } from '../Title/title.service';
+import { SaveState } from '../../Domain/Autosave/saveState';
 
 @Injectable({
   providedIn: 'root',
@@ -86,19 +87,24 @@ export class AutosaveService {
     return this.autosaveEnabled;
   }
 
-  public updateSaveState(): void {
-    const title = this.titleService.getTitle();
-    const description = this.titleService.getDescription();
-    const domainStory = this.rendererService.getStory();
-    this.storageService.setSaveState({title, description, domainStory});
+  public createSaveState(): SaveState {
+    const saveState = {
+      title: this.titleService.getTitle(),
+      description: this.titleService.getDescription(),
+      domainStory: this.rendererService.getStory()
+    }
+    this.storageService.setSaveState(saveState);
+    return saveState;
   }
 
-  public loadSaveState() {
+  public loadSaveState(): SaveState | undefined {
     const saveState = this.storageService.getSaveState();
     if (saveState) {
       this.titleService.updateTitleAndDescription(saveState.title, saveState.description, false);
       this.rendererService.renderStory(saveState.domainStory)
+      return saveState;
     }
+    return;
   }
 
   private createAutosave(): Autosave {
