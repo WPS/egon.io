@@ -9,6 +9,7 @@ import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.se
 import { elementTypes } from '../../Domain/Common/elementTypes';
 import { fromConfigurationFromFile } from '../../Domain/Common/domainConfiguration';
 import { StorageService } from '../BrowserStorage/storage.service';
+import { TitleService } from '../Title/title.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,8 @@ export class AutosaveService {
     private exportService: ExportService,
     private autosaveStateService: AutosaveStateService,
     private iconDistionaryService: IconDictionaryService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private titleService: TitleService,
   ) {
     this.maxAutosaves = storageService.getMaxAutosaves();
     this.autosaveEnabled =
@@ -85,16 +87,16 @@ export class AutosaveService {
   }
 
   public updateSaveState(): void {
-    const title = this.exportService.title;
-    const description = this.exportService.description;
+    const title = this.titleService.getTitle();
+    const description = this.titleService.getDescription();
     const domainStory = this.rendererService.getStory();
-
     this.storageService.setSaveState({title, description, domainStory});
   }
 
   public loadSaveState() {
     const saveState = this.storageService.getSaveState();
     if (saveState) {
+      this.titleService.updateTitleAndDescription(saveState.title, saveState.description, false);
       this.rendererService.renderStory(saveState.domainStory)
     }
   }
