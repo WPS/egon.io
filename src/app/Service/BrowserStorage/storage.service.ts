@@ -14,7 +14,7 @@ import {
   DomainConfiguration,
   fromConfigurationFromFile,
 } from '../../Domain/Common/domainConfiguration';
-import { SaveState } from '../../Domain/Autosave/saveState';
+import { SaveState } from '../../Domain/SaveState/saveState';
 
 @Injectable({
   providedIn: 'root',

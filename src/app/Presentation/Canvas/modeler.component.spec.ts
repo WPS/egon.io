@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {ModelerComponent} from 'src/app/Presentation/Canvas/modeler.component';
+import { ModelerComponent } from 'src/app/Presentation/Canvas/modeler.component';
 import { MockProvider } from 'ng-mocks';
 import { ModelerService } from '../../Service/Modeler/modeler.service';
 import { EMPTY } from 'rxjs';
-import { AutosaveService } from '../../Service/Autosave/autosave.service';
+import { SaveStateService } from '../../Service/SaveState/save-state.service';
 
 describe('ModelerComponent', () => {
   let component: ModelerComponent;
@@ -16,7 +16,7 @@ describe('ModelerComponent', () => {
       providers: [MockProvider(ModelerService, {
           getModelerUpdatedAsObservable: () => EMPTY,
         }),
-        MockProvider(AutosaveService)
+        MockProvider(SaveStateService)
       ],
     }).compileComponents();
   });
@@ -30,4 +30,7 @@ describe('ModelerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // TODO: Test creating and loading save state
+
 });

@@ -9,8 +9,6 @@ import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.se
 import { elementTypes } from '../../Domain/Common/elementTypes';
 import { fromConfigurationFromFile } from '../../Domain/Common/domainConfiguration';
 import { StorageService } from '../BrowserStorage/storage.service';
-import { TitleService } from '../Title/title.service';
-import { SaveState } from '../../Domain/Autosave/saveState';
 
 @Injectable({
   providedIn: 'root',
@@ -27,8 +25,7 @@ export class AutosaveService {
     private exportService: ExportService,
     private autosaveStateService: AutosaveStateService,
     private iconDistionaryService: IconDictionaryService,
-    private storageService: StorageService,
-    private titleService: TitleService,
+    private storageService: StorageService
   ) {
     this.maxAutosaves = storageService.getMaxAutosaves();
     this.autosaveEnabled =
@@ -87,26 +84,6 @@ export class AutosaveService {
     return this.autosaveEnabled;
   }
 
-  public createSaveState(): SaveState {
-    const saveState = {
-      title: this.titleService.getTitle(),
-      description: this.titleService.getDescription(),
-      domainStory: this.rendererService.getStory()
-    }
-    this.storageService.setSaveState(saveState);
-    return saveState;
-  }
-
-  public loadSaveState(): SaveState | undefined {
-    const saveState = this.storageService.getSaveState();
-    if (saveState) {
-      this.titleService.updateTitleAndDescription(saveState.title, saveState.description, false);
-      this.rendererService.renderStory(saveState.domainStory)
-      return saveState;
-    }
-    return;
-  }
-
   private createAutosave(): Autosave {
     const dst = JSON.stringify(this.rendererService.getStory(), null, 2);
     const configAndDST = this.exportService.createConfigAndDST(dst);
@@ -143,6 +120,7 @@ export class AutosaveService {
       this.storageService.setAutosaves(currentAutosaves);
     }, this.autosaveInterval.getValue() * 60000);
   }
+
   public loadCurrentAutosaves(): Autosave[] {
     const autosaves = this.storageService.getAutosaves();
     this.sortAutosaves(autosaves);

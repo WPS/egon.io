@@ -12,7 +12,6 @@ import { deepCopy } from '../../Utils/deepCopy';
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { TitleService } from '../Title/title.service';
-import { SaveState } from '../../Domain/Autosave/saveState';
 
 describe('AutosaveService', () => {
   let service: AutosaveService;
@@ -20,13 +19,11 @@ describe('AutosaveService', () => {
   let rendererServiceSpy: jasmine.SpyObj<RendererService>;
   let autosaveStateSpy: jasmine.SpyObj<AutosaveStateService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let titleServiceSpy: jasmine.SpyObj<TitleService>;
 
   beforeEach(() => {
     const renderServiceMock = jasmine.createSpyObj('RendererService', [
       'importStory',
       'getStory',
-      'renderStory',
     ]);
     const autosaveStateServiceMock = jasmine.createSpyObj(
       'AutosaveStateService',
@@ -38,14 +35,7 @@ describe('AutosaveService', () => {
       'getAutosaves',
       'setAutosaves',
       'setMaxAutosaves',
-      'getMaxAutosaves',
-      'setSaveState',
-      'getSaveState'
-    ]);
-    const titleServiceMock = jasmine.createSpyObj('TitleService', [
-      'getTitle',
-      'getDescription',
-      'updateTitleAndDescription',
+      'getMaxAutosaves'
     ]);
 
     TestBed.configureTestingModule({
@@ -62,12 +52,8 @@ describe('AutosaveService', () => {
           provide: StorageService,
           useValue: storageServiceMock,
         },
-        {
-          provide: TitleService,
-          useValue: titleServiceMock,
-        },
-        MockProviders(DomainConfigurationService, ExportService),
-      ],
+        MockProviders(DomainConfigurationService, ExportService)
+      ]
     });
     rendererServiceSpy = TestBed.inject(
       RendererService
@@ -78,9 +64,6 @@ describe('AutosaveService', () => {
     storageServiceSpy = TestBed.inject(
       StorageService
     ) as jasmine.SpyObj<StorageService>;
-    titleServiceSpy = TestBed.inject(
-      TitleService
-    ) as jasmine.SpyObj<TitleService>;
 
     autosaveStateSpy.getAutosaveStateAsObservable.and.returnValue(
       new BehaviorSubject(false).asObservable()
@@ -174,57 +157,5 @@ describe('AutosaveService', () => {
       date,
     };
   }
-
-  describe('createSaveState', () => {
-
-    it('should set title and description from title service', () => {
-      titleServiceSpy.getTitle.and.returnValue('test title');
-      titleServiceSpy.getDescription.and.returnValue('test description');
-      const saveState = service.createSaveState();
-
-      expect(titleServiceSpy.getTitle).toHaveBeenCalled();
-      expect(titleServiceSpy.getDescription).toHaveBeenCalled();
-      expect(saveState.title).toEqual('test title');
-      expect(saveState.description).toEqual('test description');
-    });
-
-    it('should set domain story from renderer service', () => {
-
-    });
-  });
-
-  describe('loadSaveState', () => {
-    const saveState: SaveState = {
-      title: 'test title',
-      description: 'test description',
-      domainStory: []
-    };
-
-    beforeEach(() => {
-      storageServiceSpy.getSaveState.and.returnValue(saveState);
-    });
-
-    it('should getSaveState from local Storage', () => {
-      const loadedSaveState = service.loadSaveState();
-
-      expect(storageServiceSpy.getSaveState).toHaveBeenCalled();
-      expect(loadedSaveState).toEqual(saveState);
-    });
-
-    it('should call titleService.updateTitleAndDescription', () => {
-      service.loadSaveState();
-
-      expect(titleServiceSpy.updateTitleAndDescription)
-        .toHaveBeenCalledWith(saveState.title, saveState.description, false);
-    });
-
-    it('should call rendererService.renderStory', () => {
-      service.loadSaveState();
-
-      expect(rendererServiceSpy.renderStory).toHaveBeenCalledWith(saveState.domainStory);
-    });
-
-  });
-
 
 });

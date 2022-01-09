@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModelerService } from '../../Service/Modeler/modeler.service';
 import { Subscription } from 'rxjs';
 import { AutosaveService } from '../../Service/Autosave/autosave.service';
+import { SaveStateService } from '../../Service/SaveState/save-state.service';
 
 @Component({
   selector: 'app-modeler',
@@ -12,15 +13,15 @@ export class ModelerComponent implements OnInit, OnDestroy {
 
   modelerUpdatedSubscription: Subscription;
 
-  constructor(private modelerService: ModelerService, private autosaveService: AutosaveService) {
+  constructor(private modelerService: ModelerService, private saveStateService: SaveStateService) {
     this.modelerUpdatedSubscription = this.modelerService.getModelerUpdatedAsObservable().subscribe(() => {
-      this.autosaveService.createSaveState();
+      this.saveStateService.createSaveState();
     });
   }
 
   ngOnInit(): void {
     this.modelerService.postInit();
-    this.autosaveService.loadSaveState();
+    this.saveStateService.loadSaveState();
   }
 
   ngOnDestroy() {
