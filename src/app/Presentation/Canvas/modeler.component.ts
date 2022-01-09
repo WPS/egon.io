@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModelerService } from '../../Service/Modeler/modeler.service';
 import { Subscription } from 'rxjs';
+import { AutosaveService } from '../../Service/Autosave/autosave.service';
 
 @Component({
   selector: 'app-modeler',
@@ -11,9 +12,10 @@ export class ModelerComponent implements OnInit, OnDestroy {
 
   modelerUpdatedSubscription: Subscription;
 
-  constructor(private modelerService: ModelerService) {
+  constructor(private modelerService: ModelerService, private autosaveService: AutosaveService) {
     this.modelerUpdatedSubscription = this.modelerService.getModelerUpdatedAsObservable().subscribe(() => {
       console.log('Modeler updated');
+      this.autosaveService.updateSaveState();
     });
   }
 

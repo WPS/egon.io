@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import {ModelerComponent} from 'src/app/Presentation/Canvas/modeler.component';
-import { MockProvider, MockProviders } from 'ng-mocks';
+import { MockProvider } from 'ng-mocks';
 import { ModelerService } from '../../Service/Modeler/modeler.service';
 import { EMPTY } from 'rxjs';
+import { AutosaveService } from '../../Service/Autosave/autosave.service';
 
 describe('ModelerComponent', () => {
   let component: ModelerComponent;
@@ -14,7 +15,9 @@ describe('ModelerComponent', () => {
       declarations: [ModelerComponent],
       providers: [MockProvider(ModelerService, {
           getModelerUpdatedAsObservable: () => EMPTY,
-        }),],
+        }),
+        MockProvider(AutosaveService)
+      ],
     }).compileComponents();
   });
 

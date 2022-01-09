@@ -84,6 +84,14 @@ export class AutosaveService {
     return this.autosaveEnabled;
   }
 
+  public updateSaveState(): void {
+    const title = this.exportService.title;
+    const description = this.exportService.description;
+    const story = JSON.stringify(this.rendererService.getStory());
+
+    this.storageService.setSaveState({title, description, story: story});
+  }
+
   private createAutosave(): Autosave {
     const dst = JSON.stringify(this.rendererService.getStory(), null, 2);
     const configAndDST = this.exportService.createConfigAndDST(dst);

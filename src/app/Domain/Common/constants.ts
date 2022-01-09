@@ -16,6 +16,7 @@ export const AUTOSAVE_INTERVAL_TAG = 'autosaveIntervalTag';
 export const AUTOSAVE_ACTIVATED_TAG = 'autosaveActivatedTag';
 export const APPENDED_ICONS_TAG = 'appendedIcons';
 export const DOMAIN_CONFIGURATION_TAG = 'domainConfigurationTag';
+export const SAVE_STATE_TAG = 'saveStateTag';
 
 /** SNACKBAR **/
 export const SNACKBAR_DURATION = 2000;

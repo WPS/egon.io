@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  SAVE_STATE_TAG,
   AUTOSAVE_ACTIVATED_TAG,
   AUTOSAVE_AMOUNT_TAG,
   AUTOSAVE_INTERVAL_TAG,
@@ -13,6 +14,7 @@ import {
   DomainConfiguration,
   fromConfigurationFromFile,
 } from '../../Domain/Common/domainConfiguration';
+import { SaveState } from '../../Domain/Autosave/saveState';
 
 @Injectable({
   providedIn: 'root',
@@ -114,4 +116,9 @@ export class StorageService {
       JSON.stringify(configForStorage, null, 2)
     );
   }
+
+  setSaveState(saveState: SaveState) {
+    localStorage.setItem(SAVE_STATE_TAG, JSON.stringify(saveState));
+  }
+
 }
