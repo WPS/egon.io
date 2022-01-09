@@ -1,5 +1,7 @@
+import { BusinessObject } from '../Common/businessObject';
+
 export interface SaveState {
   title: string;
   description: string;
-  story: string;
+  domainStory: BusinessObject[];
 }

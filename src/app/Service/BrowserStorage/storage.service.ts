@@ -121,4 +121,12 @@ export class StorageService {
     localStorage.setItem(SAVE_STATE_TAG, JSON.stringify(saveState));
   }
 
+  getSaveState(): SaveState | undefined {
+    const saveStateString = localStorage.getItem(SAVE_STATE_TAG);
+    if (saveStateString) {
+      return JSON.parse(saveStateString);
+    }
+    return;
+  }
+
 }
