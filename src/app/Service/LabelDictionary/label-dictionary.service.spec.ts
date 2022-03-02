@@ -1,6 +1,6 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {LabelDictionaryService} from 'src/app/Service/LabelDictionary/label-dictionary.service';
+import { LabelDictionaryService } from 'src/app/Service/LabelDictionary/label-dictionary.service';
 
 describe('LabelDictionaryService', () => {
   let service: LabelDictionaryService;

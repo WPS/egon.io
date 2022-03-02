@@ -61,11 +61,17 @@ export class StorageService {
   }
 
   checkValidityOfConfiguration(configuratioFromFile: DomainConfiguration) {
-    return configuratioFromFile.actors.keysArray().length > 1 &&
+    return (
+      configuratioFromFile.actors.keysArray().length > 1 &&
       configuratioFromFile.workObjects.keysArray().length > 1 &&
-      !configuratioFromFile.actors.all().some(e => typeof e.value !== "string") &&
-      !configuratioFromFile.workObjects.all().some(e => typeof e.value !== "string");
-    }
+      !configuratioFromFile.actors
+        .all()
+        .some((e) => typeof e.value !== 'string') &&
+      !configuratioFromFile.workObjects
+        .all()
+        .some((e) => typeof e.value !== 'string')
+    );
+  }
 
   getStoredDomainConfiguration(): DomainConfiguration | undefined {
     const domainString = localStorage.getItem(DOMAIN_CONFIGURATION_TAG);
@@ -76,7 +82,7 @@ export class StorageService {
       const configuratioFromFile = fromConfigurationFromFile(
         JSON.parse(domainString)
       );
-      if(this.checkValidityOfConfiguration(configuratioFromFile)) {
+      if (this.checkValidityOfConfiguration(configuratioFromFile)) {
         return configuratioFromFile;
       }
     }

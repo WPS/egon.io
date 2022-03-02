@@ -1,14 +1,17 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {StoryCreatorService} from './story-creator.service';
-import {ElementRegistryService} from '../../ElementRegistry/element-registry.service';
-import {StoryStep} from '../../../Domain/Replay/storyStep';
-import {ActivityCanvasObject} from '../../../Domain/Common/activityCanvasObject';
-import {deepCopy} from '../../../Utils/deepCopy';
-import {CanvasObject} from '../../../Domain/Common/canvasObject';
-import {elementTypes} from '../../../Domain/Common/elementTypes';
-import {testGroupCanvasObject} from '../../../Domain/Common/groupCanvasObject';
-import {createReplayStepObjects, preBuildTestStory,} from '../../../Utils/testHelpers.spec';
+import { StoryCreatorService } from './story-creator.service';
+import { ElementRegistryService } from '../../ElementRegistry/element-registry.service';
+import { StoryStep } from '../../../Domain/Replay/storyStep';
+import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
+import { deepCopy } from '../../../Utils/deepCopy';
+import { CanvasObject } from '../../../Domain/Common/canvasObject';
+import { elementTypes } from '../../../Domain/Common/elementTypes';
+import { testGroupCanvasObject } from '../../../Domain/Common/groupCanvasObject';
+import {
+  createReplayStepObjects,
+  preBuildTestStory,
+} from '../../../Utils/testHelpers.spec';
 
 describe('StoryCreatorService', () => {
   let service: StoryCreatorService;

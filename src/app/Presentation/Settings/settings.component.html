@@ -1,30 +1,39 @@
 <div class="settings">
-  <mat-toolbar color=primary class="toolbar">
+  <mat-toolbar color="primary" class="toolbar">
     <mat-toolbar-row>
       <div class="smallButton">
-        <button
-          class="headerButton noPadding" mat-button (click)="close()">
-          <span class="material-icons-outlined materialIconButton"> arrow_back</span>
+        <button class="headerButton noPadding" mat-button (click)="close()">
+          <span class="material-icons-outlined materialIconButton">
+            arrow_back</span
+          >
         </button>
       </div>
       <div class="paddedButton">
         <button
           class="headerButton mr-10"
           [class.highlight]="showDomainCustomization | async"
-          mat-button (click)="openDomainCustomization()">
+          mat-button
+          (click)="openDomainCustomization()"
+        >
           <span class="headline">Customize Icons for Your Domain</span>
         </button>
         <button
           class="headerButton"
           [class.highlight]="showGeneralSettings | async"
-          mat-button (click)="openGeneralSettings()">
+          mat-button
+          (click)="openGeneralSettings()"
+        >
           <span class="headline">General Settings</span>
         </button>
       </div>
-
     </mat-toolbar-row>
   </mat-toolbar>
 
-  <app-general-settings *ngIf="showGeneralSettings | async"></app-general-settings>
-  <app-domain-configuration *ngIf="showDomainCustomization | async" class="tab"></app-domain-configuration>
+  <app-general-settings
+    *ngIf="showGeneralSettings | async"
+  ></app-general-settings>
+  <app-domain-configuration
+    *ngIf="showDomainCustomization | async"
+    class="tab"
+  ></app-domain-configuration>
 </div>

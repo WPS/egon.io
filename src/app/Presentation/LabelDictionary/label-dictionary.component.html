@@ -15,7 +15,7 @@
     </mat-list>
   </div>
   <div class="activityList">
-      <h3 class="activityListTitle">Activity List</h3>
+    <h3 class="activityListTitle">Activity List</h3>
     <mat-list>
       <mat-list-item
         *ngFor="let activityEntry of activityEntriesSubject | async"
@@ -31,7 +31,13 @@
   </div>
 </div>
 <footer class="footer">
-  <button class="saveButton" mat-button color="primary" title="update dictionaries" (click)="save()">
+  <button
+    class="saveButton"
+    mat-button
+    color="primary"
+    title="update dictionaries"
+    (click)="save()"
+  >
     <span class="material-icons materialIconButton">library_books</span>
     <span class="saveButtonSpan">update Dictionaries</span>
   </button>

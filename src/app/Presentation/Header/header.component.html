@@ -1,15 +1,13 @@
-<mat-toolbar color=primary class="toolbar">
+<mat-toolbar color="primary" class="toolbar">
   <mat-toolbar-row>
     <span class="mr-10">
-      <span
-        class="headline"
-      >{{ title | async }}
-      </span>
+      <span class="headline">{{ title | async }} </span>
     </span>
     <span title="Domain">{{ currentDomainName | async }} </span>
     <span class="domainNameSpacer"></span>
     <span title="Replay Step" *ngIf="isReplay | async">
-      Step: {{ currentStepNumber | async }}/{{ maxStepNumber | async }}</span>
+      Step: {{ currentStepNumber | async }}/{{ maxStepNumber | async }}</span
+    >
 
     <span class="buttonSpacer"></span>
 

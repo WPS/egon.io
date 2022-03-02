@@ -53,7 +53,9 @@ export class ExportService implements OnDestroy {
 
   public createConfigAndDST(DomainStory: string): ConfigAndDST {
     return new ConfigAndDST(
-      JSON.stringify(this.configurationService.getCurrentConfigurationForExport()),
+      JSON.stringify(
+        this.configurationService.getCurrentConfigurationForExport()
+      ),
       DomainStory
     );
   }

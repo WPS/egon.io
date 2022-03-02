@@ -1,4 +1,4 @@
-import {elementTypes} from 'src/app/Domain/Common/elementTypes';
+import { elementTypes } from 'src/app/Domain/Common/elementTypes';
 
 export function getNameFromType(type: string): string {
   if (type.includes(elementTypes.ACTOR)) {

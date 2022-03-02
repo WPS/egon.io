@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Edit Activity</h2>
 
-<mat-dialog-content >
+<mat-dialog-content>
   <form [formGroup]="form">
     <div [hidden]="!showNumberFields">
       <mat-form-field class="shortWidth">
@@ -14,13 +14,13 @@
       />
       multiple
     </div>
-    <mat-form-field
-      class="fullWidth">
+    <mat-form-field class="fullWidth">
       <textarea
         matInput
         type="text"
         placeholder="label"
         formControlName="activityLabel"
+        autofocus
       ></textarea>
     </mat-form-field>
   </form>

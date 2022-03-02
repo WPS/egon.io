@@ -5,7 +5,8 @@ import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { elementTypes } from 'src/app/Domain/Common/elementTypes';
 import {
   CustomDomainConfiguration,
-  DomainConfiguration, DomainConfigurationForExport,
+  DomainConfiguration,
+  DomainConfigurationForExport,
 } from 'src/app/Domain/Common/domainConfiguration';
 import { defaultConf } from '../../Domain/Common/iconConfiguration';
 import { TitleService } from '../Title/title.service';
@@ -99,25 +100,27 @@ export class DomainConfigurationService {
     return domainConfiguration;
   }
 
-  public getCurrentConfigurationForExport(): DomainConfigurationForExport | undefined {
+  public getCurrentConfigurationForExport():
+    | DomainConfigurationForExport
+    | undefined {
     const currentConfiguration = this.getCurrentConfiguration();
 
-    if(currentConfiguration) {
+    if (currentConfiguration) {
       const actors: any = [];
-      const workObjects: any = []
+      const workObjects: any = [];
 
-      currentConfiguration.actors.all().forEach(entry=> {
-        actors.push({[entry.key]: entry.value})
-      })
-      currentConfiguration.workObjects.all().forEach(entry=> {
-        workObjects.push({[entry.key]: entry.value})
-      })
+      currentConfiguration.actors.all().forEach((entry) => {
+        actors.push({ [entry.key]: entry.value });
+      });
+      currentConfiguration.workObjects.all().forEach((entry) => {
+        workObjects.push({ [entry.key]: entry.value });
+      });
 
       return {
         name: currentConfiguration.name,
         actors: actors,
-        workObjects: workObjects
-      }
+        workObjects: workObjects,
+      };
     }
     return;
   }

@@ -1,6 +1,6 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {PngService} from 'src/app/Service/Export/png.service';
+import { PngService } from 'src/app/Service/Export/png.service';
 
 describe('SvgService', () => {
   let service: PngService;

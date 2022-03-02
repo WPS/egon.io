@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from 'src/app/app.component';
 import { MockComponent, MockProviders } from 'ng-mocks';
 import { SettingsService } from './Service/Settings/settings.service';
@@ -12,7 +11,6 @@ import { HeaderComponent } from './Presentation/Header/header.component';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       declarations: [
         AppComponent,
         MockComponent(ModelerComponent),

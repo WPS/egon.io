@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialogRef} from '@angular/material/dialog';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {TitleService} from 'src/app/Service/Title/title.service';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { TitleService } from 'src/app/Service/Title/title.service';
 
 @Component({
   selector: 'app-header-dialog',
@@ -30,8 +30,7 @@ export class HeaderDialogComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   save(): void {
     this.titleService.updateTitleAndDescription(

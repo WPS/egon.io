@@ -1,4 +1,4 @@
-import {ConfigAndDST} from '../Export/configAndDst';
+import { ConfigAndDST } from '../Export/configAndDst';
 
 export interface Autosave {
   configAndDST: ConfigAndDST;

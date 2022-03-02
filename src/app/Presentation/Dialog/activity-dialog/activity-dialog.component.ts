@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivityDialogData } from 'src/app/Domain/Dialog/activityDialogData';
@@ -9,7 +9,7 @@ import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObjec
   templateUrl: './activity-dialog.component.html',
   styleUrls: ['./activity-dialog.component.scss'],
 })
-export class ActivityDialogComponent implements OnInit {
+export class ActivityDialogComponent {
   form: FormGroup;
   activityLabel: string;
   activityNumber: number | undefined;
@@ -38,8 +38,6 @@ export class ActivityDialogComponent implements OnInit {
       multipleNumbers: [this.numberIsAllowedMultipleTimes, []],
     });
   }
-
-  ngOnInit(): void {}
 
   onSubmit(): void {
     this.numberIsAllowedMultipleTimes = !this.numberIsAllowedMultipleTimes;

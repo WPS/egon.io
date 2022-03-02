@@ -16,7 +16,7 @@
     <h3>Order of actors</h3>
     <mat-list>
       <mat-list-item
-        *ngFor="let iconName of selectedActors | async let i = index"
+        *ngFor="let iconName of selectedActors | async; let i = index"
         draggable="true"
         (dragover)="allowDrop($event)"
         (dragstart)="onDragStart(i)"
@@ -32,7 +32,7 @@
     <h3>Order of work objects</h3>
     <mat-list>
       <mat-list-item
-        *ngFor="let iconName of selectedWorkobjects | async let i = index"
+        *ngFor="let iconName of selectedWorkobjects | async; let i = index"
         draggable="true"
         (dragover)="allowDrop($event)"
         (dragstart)="onDragStart(i)"

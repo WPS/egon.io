@@ -3,8 +3,12 @@
     <mat-card-title>Autosave</mat-card-title>
   </mat-card-header>
   <mat-card-content class="cardContent">
-    <div  class="alignSelfCenter">
-      <input type="checkbox" [checked]="autosaveEnabled" (change)="setAutosaveEnabled()"/>
+    <div class="alignSelfCenter">
+      <input
+        type="checkbox"
+        [checked]="autosaveEnabled"
+        (change)="setAutosaveEnabled()"
+      />
       <mat-label>Enabled</mat-label>
     </div>
     <div class="inputContainer">
@@ -28,26 +32,35 @@
       />
     </div>
     <div class="separator"></div>
-    <button class="saveButton" mat-raised-button color="primary" (click)="save()">Save</button>
+    <button
+      class="saveButton"
+      mat-raised-button
+      color="primary"
+      (click)="save()"
+    >
+      Save
+    </button>
   </mat-card-content>
 </mat-card>
 
 <mat-accordion>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title>
-        Autosaves
-      </mat-panel-title>
-    <mat-panel-description>
-      List of all Autosaves
-    </mat-panel-description>
+      <mat-panel-title> Autosaves </mat-panel-title>
+      <mat-panel-description> List of all Autosaves </mat-panel-description>
     </mat-expansion-panel-header>
     <mat-list *ngFor="let autosave of autosaves" class="items">
       <mat-list-item>
-        <div class = "item">
+        <div class="item">
           <span class="itemSpan">{{ autosave.date }}</span>
           <div class="separator"></div>
-          <button mat-raised-button color="primary" (click)="loadAutosave(autosave)">load</button>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="loadAutosave(autosave)"
+          >
+            load
+          </button>
         </div>
       </mat-list-item>
     </mat-list>

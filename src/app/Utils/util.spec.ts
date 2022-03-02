@@ -1,9 +1,9 @@
-import {testActivityCanvasObject} from '../Domain/Common/activityCanvasObject';
-import {deepCopy} from './deepCopy';
-import {angleBetween, degrees, positionsMatch,} from './mathExtensions';
-import {elementTypes} from '../Domain/Common/elementTypes';
-import {getNameFromType} from './naming';
-import {sanitizeForDesktop, sanitizeIconName} from './sanitizer';
+import { testActivityCanvasObject } from '../Domain/Common/activityCanvasObject';
+import { deepCopy } from './deepCopy';
+import { angleBetween, degrees, positionsMatch } from './mathExtensions';
+import { elementTypes } from '../Domain/Common/elementTypes';
+import { getNameFromType } from './naming';
+import { sanitizeForDesktop, sanitizeIconName } from './sanitizer';
 
 describe('mathExtendsions', () => {
   beforeEach(() => {

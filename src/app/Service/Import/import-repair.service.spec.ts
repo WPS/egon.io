@@ -1,13 +1,13 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {ImportRepairService} from 'src/app/Service/Import/import-repair.service';
-import {ElementRegistryService} from '../ElementRegistry/element-registry.service';
+import { ImportRepairService } from 'src/app/Service/Import/import-repair.service';
+import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
 
 describe('ImportRepairService', () => {
   let service: ImportRepairService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [ElementRegistryService]});
+    TestBed.configureTestingModule({ providers: [ElementRegistryService] });
     service = TestBed.inject(ImportRepairService);
   });
 

@@ -22,17 +22,29 @@
         >
           <span class="material-icons-outlined materialIconButton"> home </span>
         </button>
-        <button mat-button title="Cancel changes" (click)="loadInitialConfiguration()">
+        <button
+          mat-button
+          title="Cancel changes"
+          (click)="loadInitialConfiguration()"
+        >
           <span class="material-icons materialIconButton">restart_alt</span>
         </button>
         <button mat-button title="Save icon set" (click)="saveDomain()">
           <span class="material-icons-outlined materialIconButton">save</span>
         </button>
         <button mat-button title="Export icon set" (click)="exportDomain()">
-          <span class="material-icons-outlined materialIconButton">archive</span>
+          <span class="material-icons-outlined materialIconButton"
+            >archive</span
+          >
         </button>
-        <button mat-button title="Import icon set" (click)="startDomainImport()">
-          <span class="material-icons-outlined materialIconButton">unarchive</span>
+        <button
+          mat-button
+          title="Import icon set"
+          (click)="startDomainImport()"
+        >
+          <span class="material-icons-outlined materialIconButton"
+            >unarchive</span
+          >
           <input
             type="file"
             accept=".domain"
@@ -48,10 +60,10 @@
         <label
           class="mdc-text-field mdc-text-field--outlined mdc-text-field--no-label"
         >
-            <span class="mdc-notched-outline">
-              <span class="mdc-notched-outline__leading"></span>
-              <span class="mdc-notched-outline__trailing"></span>
-            </span>
+          <span class="mdc-notched-outline">
+            <span class="mdc-notched-outline__leading"></span>
+            <span class="mdc-notched-outline__trailing"></span>
+          </span>
           <input
             class="textInput"
             matInput
@@ -81,7 +93,9 @@
         <div></div>
         <button
           mat-button
-          [class.activeWorkObject]="(filter | async) === 'ICON_FILTER_WORKOBJECT'"
+          [class.activeWorkObject]="
+            (filter | async) === 'ICON_FILTER_WORKOBJECT'
+          "
           title="Workobjects"
           (click)="filterForWorkobjects()"
         >

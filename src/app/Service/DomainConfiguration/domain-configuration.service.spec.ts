@@ -1,6 +1,6 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {DomainConfigurationService} from 'src/app/Service/DomainConfiguration/domain-configuration.service';
+import { DomainConfigurationService } from 'src/app/Service/DomainConfiguration/domain-configuration.service';
 
 describe('DomainConfigurationService', () => {
   let service: DomainConfigurationService;

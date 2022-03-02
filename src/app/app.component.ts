@@ -8,8 +8,8 @@ import { InfoDialogComponent } from './Presentation/Dialog/info-dialog/info-dial
 import { TitleService } from './Service/Title/title.service';
 import { VERSION } from './Domain/Common/constants';
 import { ExportService } from './Service/Export/export.service';
-import { ReplayStateService } from "./Service/Replay/replay-state.service";
-import { ReplayService } from "./Service/Replay/replay.service";
+import { ReplayStateService } from './Service/Replay/replay-state.service';
+import { ReplayService } from './Service/Replay/replay.service';
 
 @Component({
   selector: 'app-root',
@@ -47,12 +47,12 @@ export class AppComponent implements OnInit {
         e.preventDefault();
         e.stopPropagation();
       }
-      if(e.key === 'ArrowRight' && this.replayStateSerice.getReplayOn()) {
+      if (e.key === 'ArrowRight' && this.replayStateSerice.getReplayOn()) {
         e.preventDefault();
         e.stopPropagation();
         replayService.nextStep();
       }
-      if(e.key === 'ArrowLeft' && this.replayStateSerice.getReplayOn()) {
+      if (e.key === 'ArrowLeft' && this.replayStateSerice.getReplayOn()) {
         e.preventDefault();
         e.stopPropagation();
         replayService.previousStep();

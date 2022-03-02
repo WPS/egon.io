@@ -2,9 +2,9 @@ import {
   BusinessObject,
   testBusinessObject,
 } from 'src/app/Domain/Common/businessObject';
-import {RootObject, testRoot} from 'src/app/Domain/Common/rootObject';
-import {ActivityCanvasObject} from './activityCanvasObject';
-import {elementTypes} from './elementTypes';
+import { RootObject, testRoot } from 'src/app/Domain/Common/rootObject';
+import { ActivityCanvasObject } from './activityCanvasObject';
+import { elementTypes } from './elementTypes';
 
 export interface CanvasObject {
   attachers: any;

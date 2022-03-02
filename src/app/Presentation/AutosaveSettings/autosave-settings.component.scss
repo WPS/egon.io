@@ -1,4 +1,5 @@
-.autosaveEnabled, .autosaveInterval {
+.autosaveEnabled,
+.autosaveInterval {
   display: inline-grid;
   grid-template-columns: 120px auto;
   width: 300px;
@@ -45,11 +46,10 @@
 }
 
 .items {
-
   ::ng-deep.mat-list-item-content {
     padding: 0;
   }
-  padding-top: 0!important;
+  padding-top: 0 !important;
 }
 
 .inputContainer {

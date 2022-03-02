@@ -1,4 +1,4 @@
-import {Dictionary} from 'src/app/Domain/Common/dictionary/dictionary';
+import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 
 export let appendedIcons = new Dictionary();
 export const allIcons = {

@@ -1,12 +1,19 @@
 <div *ngIf="!(isReplay | async)">
-  <button class="headerButton" title="Edit Title and Description"
-          (click)="openHeaderDialog()">
+  <button
+    class="headerButton"
+    title="Edit Title and Description"
+    (click)="openHeaderDialog()"
+  >
     <span class="material-icons materialIconButton"> edit </span>
   </button>
-  <button class="headerButton" title="Label Dictionary" (click)="openLabelDictionary()">
-      <span class="material-icons materialIconButton" title="Label Dictionary">
-        spellcheck
-      </span>
+  <button
+    class="headerButton"
+    title="Label Dictionary"
+    (click)="openLabelDictionary()"
+  >
+    <span class="material-icons materialIconButton" title="Label Dictionary">
+      spellcheck
+    </span>
   </button>
   <button
     id="buttonImport"
@@ -35,14 +42,11 @@
       class="material-icons-outlined materialIconButton"
       *ngIf="!(isDirty | async)"
     >
-        archive
-      </span>
-    <span
-      class="material-icons materialIconButton"
-      *ngIf="isDirty | async"
-    >
-        archive
-      </span>
+      archive
+    </span>
+    <span class="material-icons materialIconButton" *ngIf="isDirty | async">
+      archive
+    </span>
   </button>
   <button
     id="buttonStartReplay"
@@ -61,9 +65,12 @@
   </button>
 
   <button class="headerButton" title="Settings" (click)="openSettings()">
-      <span class="material-icons materialIconButton" title="Change Icons and Settings">
-        settings
-      </span>
+    <span
+      class="material-icons materialIconButton"
+      title="Change Icons and Settings"
+    >
+      settings
+    </span>
   </button>
 
   <button
@@ -72,9 +79,7 @@
     *ngIf="showDescription | async"
     (click)="setShowDescription(false)"
   >
-      <span class="material-icons materialIconButton toggle">
-        expand_less
-      </span>
+    <span class="material-icons materialIconButton toggle"> expand_less </span>
   </button>
   <button
     class="headerButton"
@@ -82,33 +87,19 @@
     *ngIf="!(showDescription | async)"
     (click)="setShowDescription(true)"
   >
-      <span class="material-icons materialIconButton toggle">
-        expand_more</span>
+    <span class="material-icons materialIconButton toggle"> expand_more</span>
   </button>
 </div>
 <div *ngIf="isReplay | async">
-  <button
-    class="headerButton"
-    title="Previous Step"
-    (click)="previousStep()"
-  >
+  <button class="headerButton" title="Previous Step" (click)="previousStep()">
     <span class="material-icons materialIconButton"> skip_previous </span>
   </button>
-  <button
-    class="headerButton"
-    title="NextStep"
-    (click)="nextStep()"
-  >
+  <button class="headerButton" title="NextStep" (click)="nextStep()">
     <span class="material-icons materialIconButton"> skip_next </span>
   </button>
-  <button
-    class="headerButton"
-    title="Stop replay"
-    (click)="stopReplay()"
-  >
+  <button class="headerButton" title="Stop replay" (click)="stopReplay()">
     <span class="material-icons materialIconButton"> stop </span>
   </button>
-
 
   <button
     class="headerButton"
@@ -116,9 +107,7 @@
     *ngIf="showDescription | async"
     (click)="setShowDescription(false)"
   >
-      <span class="material-icons materialIconButton toggle">
-        expand_less
-      </span>
+    <span class="material-icons materialIconButton toggle"> expand_less </span>
   </button>
   <button
     class="headerButton"
@@ -126,7 +115,6 @@
     *ngIf="!(showDescription | async)"
     (click)="setShowDescription(true)"
   >
-      <span class="material-icons materialIconButton toggle">
-        expand_more</span>
+    <span class="material-icons materialIconButton toggle"> expand_more</span>
   </button>
 </div>
