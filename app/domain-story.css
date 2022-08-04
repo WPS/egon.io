@@ -3,7 +3,7 @@ body {
   height: 100%;
   width: 100%;
   position: absolute;
-  font-family: Helvetica;
+  font-family: 'Helvetica', 'Arial', sans-serif;
   overflow: hidden;
   margin: 0px;
 }
@@ -92,9 +92,12 @@ input {
   cursor: default;
 }
 
-.ButtonContainer {
+.buttonContainer {
+  display: inline-flex;
+  width: 100%;
   margin-top: 0.2em;
   position: relative;
+  justify-content: center;
 }
 
 #replayStep {
