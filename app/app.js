@@ -125,6 +125,7 @@ let modal = document.getElementById('modal'),
     multipleNumberAllowedCheckBox = document.getElementById(
       'multipleNumberAllowed'
     ),
+    imageDownloadWithTitle = document.getElementById('withTitleInput'),
 
     // dialogs
     headlineDialog = document.getElementById('dialog'),
@@ -533,14 +534,16 @@ exportButton.addEventListener('click', function() {
 });
 
 svgSaveButton.addEventListener('click', function() {
+  const withTitle = imageDownloadWithTitle.checked;
   const filename =
     title.innerText + '_' + new Date().toISOString().slice(0, 10);
-  downloadSVG(filename);
+  downloadSVG(filename, withTitle);
   closeImageDownloadDialog();
 });
 
 pngSaveButton.addEventListener('click', function() {
-  downloadPNG();
+  const withTitle = imageDownloadWithTitle.checked;
+  downloadPNG(withTitle);
   closeImageDownloadDialog();
 });
 
