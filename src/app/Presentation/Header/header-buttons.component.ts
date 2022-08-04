@@ -87,16 +87,16 @@ export class HeaderButtonsComponent {
   /** Open Dialogs **/
   public openDownloadDialog(): void {
     if (this.exportService.isDomainStoryExportable()) {
-      const option1 = new ExportOption('DST', () =>
+      const option1 = new ExportOption('DST', (withTitle: boolean) =>
         this.exportService.downloadDST()
       );
-      const option2 = new ExportOption('SVG', () =>
-        this.exportService.downloadSVG()
+      const option2 = new ExportOption('SVG', (withTitle: boolean) =>
+        this.exportService.downloadSVG(withTitle)
       );
-      const option3 = new ExportOption('PNG', () =>
-        this.exportService.downloadPNG()
+      const option3 = new ExportOption('PNG', (withTitle: boolean) =>
+        this.exportService.downloadPNG(withTitle)
       );
-      const option4 = new ExportOption('HTML', () =>
+      const option4 = new ExportOption('HTML', (withTitle: boolean) =>
         this.exportService.downloadHTMLPresentation()
       );
 

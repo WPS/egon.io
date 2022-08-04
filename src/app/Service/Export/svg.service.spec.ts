@@ -39,7 +39,8 @@ describe('SvgService', () => {
     const svgData = service.createSVGData(
       'title',
       'description',
-      testConfigAndDst
+      testConfigAndDst,
+      true
     );
     expect(svgData).toEqual(TEST_URI_ENCODED_SVG);
   });

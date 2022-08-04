@@ -155,7 +155,8 @@ export class PngService {
     svg: string,
     layerBase: any,
     description: string,
-    title: string
+    title: string,
+    withTitle: boolean
   ): string {
     const box = this.findMostOuterElements(layerBase);
     let viewBoxIndex = svg.indexOf('width="');
@@ -169,7 +170,9 @@ export class PngService {
       box.yUp + 20,
       this.width
     );
-    this.height += extraHeight;
+    if(withTitle) {
+      this.height += extraHeight;
+    }
 
     const bounds = this.createBounds(box, extraHeight);
 
@@ -183,9 +186,11 @@ export class PngService {
 
     const insertIndex = svg.indexOf('<g class="viewport">') + 20;
 
-    svg = [svg.slice(0, insertIndex), insertText, svg.slice(insertIndex)].join(
-      ''
-    );
+    if(withTitle) {
+      svg = [svg.slice(0, insertIndex), insertText, svg.slice(insertIndex)].join(
+        ''
+      );
+    }
     svg = this.URIHashtagFix(svg);
 
     return svg;

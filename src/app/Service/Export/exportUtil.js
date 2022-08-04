@@ -23,7 +23,7 @@ export function createTitleAndDescriptionSVGElement(
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
   let insertText =
     '<g class="djs-group"><g class="djs-element djs-shape" style = "display:block" transform="translate(' +
-    (xLeft + 10) +
+    (xLeft - 10) +
     " " +
     (yUp - extraHeight) +
     ')"><g class="djs-visual">' +

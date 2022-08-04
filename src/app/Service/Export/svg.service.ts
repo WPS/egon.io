@@ -15,14 +15,13 @@ export class SvgService {
   public createSVGData(
     title: string,
     description: string,
-    dst: ConfigAndDST
+    dst: ConfigAndDST,
+    withTitle: boolean
   ): string {
     this.cacheData = this.modelerService.getEncoded();
 
     let data = deepCopy(this.cacheData);
 
-    // to ensure that the title and description are inside the SVG container and do not overlap with any elements,
-    // we change the confines of the SVG viewbox
     let viewBoxIndex = data.indexOf('width="');
 
     let { width, height, viewBox } = this.viewBoxCoordinates(data);
@@ -33,7 +32,6 @@ export class SvgService {
     let yDown: number;
     const splitViewBox = viewBox.split(/\s/);
 
-    height += 80;
     xLeft = +splitViewBox[0];
     yUp = +splitViewBox[1];
     xRight = +splitViewBox[2];
@@ -44,7 +42,6 @@ export class SvgService {
       width += 300;
     }
 
-    // to display the title and description in the SVG-file, we need to add a container for the text-elements
     const { insertText, extraHeight } = createTitleAndDescriptionSVGElement(
       title,
       description,
@@ -52,9 +49,13 @@ export class SvgService {
       yUp,
       width
     );
-    height += extraHeight;
+    if(withTitle) {
+      // to display the title and description in the SVG-file, we need to add a container for the text-elements
+      height += extraHeight + 80;
 
-    const bounds = this.createBounds(width, height, xLeft, yUp, xRight, yDown);
+    }
+
+    const bounds = this.createBounds(width, height, xLeft, yUp, xRight, yDown, withTitle);
 
     const dataStart = data.substring(0, viewBoxIndex);
     viewBoxIndex = data.indexOf('" version');
@@ -66,11 +67,13 @@ export class SvgService {
 
     const insertIndex = this.findIndexTOInsertData(data);
 
-    data = [
-      data.slice(0, insertIndex),
-      insertText,
-      data.slice(insertIndex),
-    ].join('');
+    if(withTitle) {
+      data = [
+        data.slice(0, insertIndex),
+        insertText,
+        data.slice(insertIndex),
+      ].join('');
+    }
 
     return this.appendDST(data, dst);
   }
@@ -91,7 +94,8 @@ export class SvgService {
     xLeft: number,
     yUp: number,
     xRight: number,
-    yDown: number
+    yDown: number,
+    withTitle: boolean
   ): string {
     return (
       'width="' +
@@ -101,7 +105,7 @@ export class SvgService {
       '" viewBox="' +
       xLeft +
       ' ' +
-      (yUp - 80) +
+      (withTitle? (yUp - 80): yUp) +
       ' ' +
       xRight +
       ' ' +

@@ -101,14 +101,15 @@ export class ExportService implements OnDestroy {
     document.body.removeChild(element);
   }
 
-  public downloadSVG(): void {
+  public downloadSVG(withTitle: boolean): void {
     const story = this.getStoryForDownload();
     const dst = this.createConfigAndDST(JSON.stringify(story));
 
     const svgData = this.svgService.createSVGData(
       this.title,
       this.description,
-      dst
+      dst,
+      withTitle
     );
 
     this.downloadFile(
@@ -120,7 +121,7 @@ export class ExportService implements OnDestroy {
     );
   }
 
-  public downloadPNG(): void {
+  public downloadPNG(withTitle: boolean): void {
     const canvas = document.getElementById('canvas');
     if (canvas) {
       const container = canvas.getElementsByClassName('djs-container');
@@ -140,7 +141,8 @@ export class ExportService implements OnDestroy {
         svg,
         layerBase,
         this.description,
-        this.title
+        this.title,
+        withTitle
       );
 
       image.onload = () => {
