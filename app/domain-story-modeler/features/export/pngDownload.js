@@ -7,7 +7,7 @@ let width, height;
 let title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
 
-export function downloadPNG() {
+export function downloadPNG(withTitle) {
   let canvas = document.getElementById('canvas');
   let container = canvas.getElementsByClassName('djs-container');
   let svgElements = container[0].getElementsByTagName('svg');
@@ -22,7 +22,7 @@ export function downloadPNG() {
   // removes unwanted black dots in image
   let svg = extractSVG(viewport);
 
-  svg = prepareSVG(svg, layerBase);
+  svg = prepareSVG(svg, layerBase, withTitle);
 
   image.onload = function() {
     onLoadTriggered = true;
@@ -174,8 +174,8 @@ export function calculateWidthAndHeight(xLeft, xRight, yUp, yDown) {
   return [height, width];
 }
 
-function prepareSVG(svg, layertBase) {
-  let { xLeft, xRight, yUp, yDown } = findMostOuterElements(layertBase);
+function prepareSVG(svg, layertBase, withTitle) {
+  let { xLeft, xRight, yUp, yDown } = findMostOuterElements(layertBase, withTitle);
   let descriptionText = infoText.innerHTML;
   let titleText = title.innerHTML;
   let viewBoxIndex = svg.indexOf('width="');
@@ -189,22 +189,40 @@ function prepareSVG(svg, layertBase) {
     yUp + 20,
     width
   );
-  height += extraHeight;
 
-  let bounds =
-    'width="' +
-    width +
-    '" height="' +
-    height +
-    '" viewBox=" ' +
-    xLeft +
-    ' ' +
-    (yUp - extraHeight) +
-    ' ' +
-    width +
-    ' ' +
-    height +
-    '" ';
+  let bounds ;
+  if (withTitle) {
+    height += extraHeight;
+    
+      bounds = 'width="' +
+      width +
+      '" height="' +
+      height +
+      '" viewBox=" ' +
+      xLeft +
+      ' ' +
+      (yUp - extraHeight) +
+      ' ' +
+      width +
+      ' ' +
+      height +
+      '" ';
+  }
+  else {
+      bounds = 'width="' +
+      width +
+      '" height="' +
+      height +
+      '" viewBox=" ' +
+      xLeft +
+      ' ' +
+      yUp +
+      ' ' +
+      width +
+      ' ' +
+      height +
+      '" ';
+  } 
 
   let dataStart = svg.substring(0, viewBoxIndex);
   viewBoxIndex = svg.indexOf('style="');
@@ -215,9 +233,11 @@ function prepareSVG(svg, layertBase) {
 
   let insertIndex = svg.indexOf('<g class="viewport">') + 20;
 
-  svg = [svg.slice(0, insertIndex), insertText, svg.slice(insertIndex)].join(
-    ''
-  );
+  if(withTitle) {
+    svg = [svg.slice(0, insertIndex), insertText, svg.slice(insertIndex)].join(
+      ''
+    );
+  }
   svg = URIHashtagFix(svg);
 
   return svg;
@@ -273,7 +293,7 @@ function URIHashtagFix(svg) {
   return svg;
 }
 
-function findMostOuterElements(svg) {
+function findMostOuterElements(svg, withTitle) {
   let xLeft = 0;
   let xRight = 0;
   let yUp = 0;
@@ -334,7 +354,9 @@ function findMostOuterElements(svg) {
     }
   }
 
-  yUp -= 75; // we need to adjust yUp to have space for the title and description
+   if(withTitle) {
+    yUp -= 75; // we need to adjust yUp to have space for the title and description
+   }
 
   return {
     xLeft: xLeft,
