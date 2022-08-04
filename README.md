@@ -8,30 +8,12 @@ A tool to visualize Domain Stories in your browser.
 
 ### Run the Modeler
 
-You can either:
-
-- Try the modeler online at https://www.wps.de/modeler.
-- Run the modeler locally. To do that download the [latest release from GitHub](https://github.com/WPS/domain-story-modeler/releases).
+- **Online:** Open <https://www.wps.de/modeler>.
+- **In Docker:** Enter `docker compose up` in the command line. Then point your browser to <http://localhost:9080>.
+- **Locally:** Download the [latest release from GitHub](https://github.com/WPS/domain-story-modeler/releases).
 Extract the zip file and open index.html in your browser.
-- Run the modeler in Docker (see below).
 
 **Important:** Starting with v1.0.0, the modeler requires that your browser allows third party cookies (How to turn on third party cookies in [Firefox](https://support.mozilla.org/en-US/kb/disable-third-party-cookies) and [Chrome](https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=en)). We rely on storing your modeler's configuration in your browser. That enabled us to develop a cool feature that allows you to choose which icons you want to use for modeling (see below).
-
-#### Run in Docker
-
-Build the image:
-
-```fish
-docker build --tag egonio .
-```
-
-Run the container:
-
-```fish
-docker run --name egonio -p 9080:80 egonio
-```
-
-Point your browser to <http://localhost:9080>
 
 ### Usage
 
