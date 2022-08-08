@@ -74,7 +74,7 @@ input {
 }
 
 #infoContainer {
-  height: 75px;
+  height: 0px;
 }
 
 #infoText {
