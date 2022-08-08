@@ -128,7 +128,7 @@ function stopReplay() {
     // show all canvas elements
     let allObjects = [];
     let groupObjects = [];
-    let canvasObjects = canvas._rootElement.children;
+    let canvasObjects = canvas._activePlane._rootElement.children;
     let i = 0;
 
     for (i = 0; i < canvasObjects.length; i++) {

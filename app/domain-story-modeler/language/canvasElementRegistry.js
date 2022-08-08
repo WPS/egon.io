@@ -18,8 +18,8 @@ export function initElementRegistry(registry) {
 // once the desired children are present, we correct the referenced Object to the one we actually want.
 export function correctElementRegitryInit() {
   if (!initCorrected) {
-    if (elementRegistry.__implicitroot) {
-      elementRegistry = elementRegistry.__implicitroot.element.children;
+    if (elementRegistry.__implicitrootbase) {
+      elementRegistry = elementRegistry.__implicitrootbase.element.children;
       initCorrected = true;
     }
   }

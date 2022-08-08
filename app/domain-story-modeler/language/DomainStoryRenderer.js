@@ -59,7 +59,6 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
     // whenever we want to edit an activity, it gets redrawn as a new object
     // and the custom information is lost,
     // so we stash it before the editing occurs and set the value here
-
     let numberStash = getNumberStash();
     let semantic = element.businessObject;
 
