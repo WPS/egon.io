@@ -23,5 +23,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: domain-story-modeler
-          path: dist
+          path: |
+            dist
+            README.md
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
