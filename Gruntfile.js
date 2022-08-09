@@ -34,16 +34,16 @@ module.exports = function(grunt) {
           watch: true
         },
         files: {
-          'dist/app.js': ['app/app.js']
+          'build/app.js': ['app/app.js']
         }
       },
       app: {
         files: {
-          'dist/app.js': ['app/app.js']
+          'build/app.js': ['app/app.js']
         }
       }
     },
-    clean: ['dist'],
+    clean: ['build'],
     copydeps: {
       target: {
         options: {
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
           css: true,
         },
         pkg: 'package.json',
-        dest: 'dist/dependencies/'
+        dest: 'build/dependencies/'
       }
     },
     copy: {
@@ -60,9 +60,9 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: resolvePath('bpmn-js', 'dist'),
+            cwd: resolvePath('bpmn-js', 'build'),
             src: ['**/*.*', '!**/*.js'],
-            dest: 'dist/dependencies/bpmn-js'
+            dest: 'build/dependencies/bpmn-js'
           }
         ]
       },
@@ -72,7 +72,7 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'node_modules/dot',
             src: ['**/*.min.js'],
-            dest: 'dist/dependencies'
+            dest: 'build/dependencies'
           }
         ]
       },
@@ -82,7 +82,7 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'app/',
             src: ['**/*.*', '!**/*.js'],
-            dest: 'dist'
+            dest: 'build'
           }
         ]
       },
@@ -106,7 +106,7 @@ module.exports = function(grunt) {
           hostname: 'localhost',
           open: true,
           base: [
-            'dist'
+            'build'
           ]
         }
       }
