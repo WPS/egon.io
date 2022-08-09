@@ -24,6 +24,6 @@ jobs:
         with:
           name: domain-story-modeler
           path: |
-            dist
+            dist/*.zip
             README.md
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
