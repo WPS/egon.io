@@ -17,5 +17,4 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
-      - run: xvfb-run npm all
-  
+      - run: xvfb-run npm run all
