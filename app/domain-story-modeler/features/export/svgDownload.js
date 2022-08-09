@@ -33,9 +33,10 @@ export function setEncoded(data) {
 function createSVGData(withTitle) {
 
   let data = JSON.parse(JSON.stringify(cacheData));
-  
+
   if (withTitle) {
-    // to ensure that the title and description are inside the SVG container and do not overlapp with any elements,
+
+    // to ensure that the title and description are inside the SVG container and do not overlap with any elements,
     // we change the confines of the SVG viewbox
     let descriptionText = infoText.innerHTML;
     let titleText = title.innerHTML;
