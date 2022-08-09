@@ -17,5 +17,5 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
-      - run: xvfb-run npm test
+      - run: xvfb-run npm all
   
