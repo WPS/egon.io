@@ -22,5 +22,6 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          path: dist/*.zip
+          name: domain-story-modeler
+          path: dist
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
