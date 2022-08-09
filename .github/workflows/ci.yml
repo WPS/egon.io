@@ -16,5 +16,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+
       - run: npm ci
       - run: xvfb-run npm run all
+
+      - uses: actions/upload-artifact@v3
+        with:
+          path: dist/*.zip
+          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
