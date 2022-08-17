@@ -5,95 +5,100 @@
   <meta charset="utf-8">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  
-  <link rel="stylesheet" href="dependencies/bpmn-js/assets/bpmn-font/css/bpmn.css" /> <!-- for lasso tool, space tool etc. -->
+
+  <link rel="stylesheet" href="dependencies/bpmn-js/assets/bpmn-font/css/bpmn.css" />
+  <!-- for lasso tool, space tool etc. -->
   <link rel="stylesheet" href="dependencies/diagram-js.css" /> <!-- for palette -->
   <link rel="stylesheet" href="domain-story.css" />
-  <link rel="stylesheet" href="domain-story-modeler/language/icon/icons.css" id="iconsCss"/>
+  <link rel="stylesheet" href="domain-story-modeler/language/icon/icons.css" id="iconsCss" />
 
   <title>Domain Story Modeler</title>
-  <link rel="icon"
-        type="image/png"
-        href="./logo/domainStorytellingIcon.png">
+  <link rel="icon" type="image/png" href="./logo/domainStorytellingIcon.png">
 </head>
 
 <body>
 
-  <input type="file" accept=".svg, image/png, image/jpeg, image/gif, image/bmp" style="display:none;" id="importIcon" onclick="this.value=null;" name="file" />
+  <input type="file" accept=".svg, image/png, image/jpeg, image/gif, image/bmp" style="display:none;" id="importIcon"
+    onclick="this.value=null;" name="file" />
 
   <div id="modal" style="display:none;"></div>
-  <div class ="headerAndCanvas">
-    <div id = "pickerAnchor"></div>
+  <div class="headerAndCanvas">
+    <div id="pickerAnchor"></div>
     <div class="header">
       <div id="headlineAndButtons">
         <h3 id="headline">
-              <text id="title">&ltname of this Domain Story&gt</text>
-              <img src="./logo/edit_blue.png" id="edit">
+          <text id="title">&ltname of this Domain Story&gt</text>
+          <img src="./logo/edit_blue.png" id="edit">
         </h3>
         <div class="ButtonContainer">
-            <div id=editModeButtons>
-                <button id="buttonStartReplay" class="startReplayButton" title="Start replay">
-                    <img src="./logo/play.png">
-                </button>
-                <button id="buttonImport" class="importButton" title="Import story from file" onclick="document.getElementById('import').click();">
-                    <img src="./logo/unarchive.png">
-                  </button>
-                  <input type="file" accept=".dst, .svg" style="display:none;" id="import" onclick="this.value=null;" name="file" />
-                  <button class="exportButton" id="export" title="Export story as .dst file">
-                    <img id="exportButtonIMG" src="./logo/archive.png">
-                    <img id="exportButtonIMGDirty" src = "./logo/archive_dirty.png" style="display: none">
-                  </button>
-                  <button class="downloadButton" id="buttonImageDownloads" title="Export story as SVG or PNG image, or animated HTML">
-                     <img src="./logo/image.png">
-                  </button>
-                  <button id="dictionaryButton" title="Edit dictionary">
-                    <img src="./logo/spellcheck.png">
-                  </button>
-                  <button id="iconCustomizationButton">
-                    <img src="./logo//settings.png" title="Customize icons">
-                  <button id="keyboardShortcutInfoButton" title="Show keyboard shortcuts">
-                      <img src="./logo/shortCutInfo.png">
-                    </button>
-            </div>
-            <div id="presentationModeButtons" style="display: none">
-              <button id="buttonPreviousStep" class="prevoiusStepButton" title="Previous Step">
-                <img src="./logo/previous.png">
+          <div id=editModeButtons>
+            <button id="buttonStartReplay" class="startReplayButton" title="Start replay">
+              <img src="./logo/play.png">
+            </button>
+            <button id="buttonImport" class="importButton" title="Import story from file"
+              onclick="document.getElementById('import').click();">
+              <img src="./logo/unarchive.png">
+            </button>
+            <input type="file" accept=".dst, .svg" style="display:none;" id="import" onclick="this.value=null;"
+              name="file" />
+            <button class="exportButton" id="export" title="Export story as .dst file">
+              <img id="exportButtonIMG" src="./logo/archive.png">
+              <img id="exportButtonIMGDirty" src="./logo/archive_dirty.png" style="display: none">
+            </button>
+            <button class="downloadButton" id="buttonImageDownloads"
+              title="Export story as SVG or PNG image, or animated HTML">
+              <img src="./logo/image.png">
+            </button>
+            <button id="dictionaryButton" title="Edit dictionary">
+              <img src="./logo/spellcheck.png">
+            </button>
+            <button id="iconCustomizationButton">
+              <img src="./logo//settings.png" title="Customize icons">
+              <button id="keyboardShortcutInfoButton" title="Show keyboard shortcuts">
+                <img src="./logo/shortCutInfo.png">
               </button>
-              <button id="buttonNextStep" class="NextStepButton" title="NextStep">
-                <img src="./logo/forward.png">
-              </button>
-              <button id="buttonStopReplay" class="stopReplayButton" title="Stop replay">
-                <img src="./logo/stop.png">
-              </button>
-              <div id="replayStep"> 0/0</div>
+          </div>
+          <div id="presentationModeButtons" style="display: none">
+            <button id="buttonPreviousStep" class="prevoiusStepButton" title="Previous Step">
+              <img src="./logo/previous.png">
+            </button>
+            <button id="buttonNextStep" class="NextStepButton" title="NextStep">
+              <img src="./logo/forward.png">
+            </button>
+            <button id="buttonStopReplay" class="stopReplayButton" title="Stop replay">
+              <img src="./logo/stop.png">
+            </button>
+            <div id="replayStep"> 0/0</div>
           </div>
           <div></div>
         </div>
       </div>
       <div id="infoContainer">
         <div id="infoText">
-            <!-- THESIS -->
-            <p>Das ist ein Test</p>
-          </div>
-          <div id="bounded__context__selection__">
-            <label for="contexts">Select bounded context...</label>
-            <select name="contexts" id="contexts">
-              <option value="contextA">Context A</option>
-              <option value="contextB">Context B</option>
-              <option value="contextC">Context C</option>
-              <option value="contextD">Context D</option>
-            </select>
-          </div>
-          <!-- THESIS:END -->
-        <div id="currentDomainNameContainer">
-            <text>Domain: </text>
-            <text id="currentDomainName">default</text>
+          <!-- THESIS -->
         </div>
+        <div id="bounded__context__selection__">
+          <label for="contexts">Select bounded context...</label>
+          <select name="contexts" id="contexts">
+            <option value="contextA">Context A</option>
+            <option value="contextB">Context B</option>
+            <option value="contextC">Context C</option>
+            <option value="contextD">Context D</option>
+          </select>
+        </div>
+        <div id="currentDomainNameContainer">
+          <text>Domain: </text>
+          <text id="currentDomainName">default</text>
+        </div>
+        <div id="analysisResults">
+          <button id="btn__showAnalysisResults">Show results</button>
+        </div>
+        <!-- THESIS:END -->
+      </div>
     </div>
+    <div id="line"></div>
+    <div id="canvas"></div>
   </div>
-  <div id="line"></div>
-  <div id="canvas"></div>
-</div>
   <div class="logoContainer">
     <div id="imgWPS">
       <img src="./logo/Quadrat_wps_de_Farbig.png" height="54" width="40" />
@@ -118,14 +123,14 @@
   <div id="dstLogoInfo" style="display:none;">
     <button id="closeDSTLogoInfo">X</button>
     <br>
-    <text id= "dstLogoInnerText"></text>
+    <text id="dstLogoInnerText"></text>
     <br>
     <a href="http://www.domainstorytelling.org">domainstorytelling.org</a>
   </div>
 
   <div id="arrowDialog">
-      <div id="arrow" class="arrow" style="display:none;"></div>
-      <div id="dialog" style="display:none;">
+    <div id="arrow" class="arrow" style="display:none;"></div>
+    <div id="dialog" style="display:none;">
       <div id="dialogTitle">Title:</div>
       <div id="dialogInput">
         <input type="text" id="titleInput" maxlength="160" />
@@ -141,21 +146,24 @@
     </div>
   </div>
 
-  <div id="iconCustomizationContainer"  style ="display:none">
+  <div id="iconCustomizationContainer" style="display:none">
     <div class="iconConfigCustomization">
       <div class="topButtonRow">
         <div>
           <button id="resetIconConfigButton">reset to default</button>
-          <button id="uploadCutomIcon" onclick="document.getElementById('importIcon').click();"> upload custom icon</button>
+          <button id="uploadCutomIcon" onclick="document.getElementById('importIcon').click();"> upload custom
+            icon</button>
         </div>
         <div>
           <span>Domain name:</span>
           <input type="text" id="domainNameInput" value="default">
         </div>
         <div>
-          <img src="./logo/unarchive.png" id="importConfigurationButton" title="import icon configuration" onclick="document.getElementById('importConfig').click()">
+          <img src="./logo/unarchive.png" id="importConfigurationButton" title="import icon configuration"
+            onclick="document.getElementById('importConfig').click()">
           <img id="exportConfigurationButton" src="./logo/archive.png" title="export icon configuration">
-          <input type="file" accept=".domain" style="display:none;" id="importConfig" onclick="this.value=null;" name="file" />
+          <input type="file" accept=".domain" style="display:none;" id="importConfig" onclick="this.value=null;"
+            name="file" />
         </div>
         <div>
           <button id="customIconConfigSaveButton">Save</button>
@@ -195,7 +203,7 @@
     <button id="downloadDialogCancelButton">X</button>
     <br>
     <label>
-      <input id="withTitleInput" type="checkbox"/>
+      <input id="withTitleInput" type="checkbox" />
       Add title and description into image
     </label>
     <br>
@@ -216,7 +224,7 @@
     <div id="number">Number:</div>
     <input type="number" class="numberID" id="inputNumber" min="1" max="99" maxlength="2" size="2">
     <label>
-      <input type="checkbox" name ="Nummer mehrfach zulassen" id="multipleNumberAllowed">
+      <input type="checkbox" name="Nummer mehrfach zulassen" id="multipleNumberAllowed">
       multiple
     </label>
     <div id="label">Activity:</div>
@@ -240,73 +248,73 @@
     </div>
   </div>
 
-  <div id= "keyboardShortcutInfo" style="display:none">
-    <button id ="keyboardShortcutInfoDialogButtonCancel" style="float:right; margin-left:5px">X</button>
+  <div id="keyboardShortcutInfo" style="display:none">
+    <button id="keyboardShortcutInfoDialogButtonCancel" style="float:right; margin-left:5px">X</button>
     <br>
-      <table id="keyboardTable">
-        <thead>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Undo</td>
-            <td>ctrl + Z</td>
-          </tr>
-          <tr>
-            <td>Redo</td>
-            <td>ctrl + Y     or     ctrl + shift + Z</td>
-          </tr>
-          <tr>
-            <td>Select All</td>
-            <td>ctrl + A</td>
-          </tr>
-          <tr>
-            <td>Export as .dst</td>
-            <td>ctrl + S</td>
-          </tr>
-          <tr>
-            <td>Import from .dst</td>
-            <td>ctrl + L</td>
-          </tr>
-          <tr>
-            <td>Search for text (default browser funtion)</td>
-            <td>ctrl + F</td>
-          </tr>
-          <tr>
-            <td>Edit label</td>
-            <td>E</td>
-          </tr>
-          <tr>
-            <td>Copy/paste</td>
-            <td>ctrl + C, ctrl + V</td>
-          </tr>
-          <tr>
-            <td>Hand tool</td>
-            <td>H</td>
-          </tr>
-          <tr>
-            <td>Lasso tool</td>
-            <td>L</td>
-          </tr>
-          <tr>
-            <td>Space tool</td>
-            <td>S</td>
-          </tr>
-        </tbody>
-      </table>
+    <table id="keyboardTable">
+      <thead>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Undo</td>
+          <td>ctrl + Z</td>
+        </tr>
+        <tr>
+          <td>Redo</td>
+          <td>ctrl + Y or ctrl + shift + Z</td>
+        </tr>
+        <tr>
+          <td>Select All</td>
+          <td>ctrl + A</td>
+        </tr>
+        <tr>
+          <td>Export as .dst</td>
+          <td>ctrl + S</td>
+        </tr>
+        <tr>
+          <td>Import from .dst</td>
+          <td>ctrl + L</td>
+        </tr>
+        <tr>
+          <td>Search for text (default browser funtion)</td>
+          <td>ctrl + F</td>
+        </tr>
+        <tr>
+          <td>Edit label</td>
+          <td>E</td>
+        </tr>
+        <tr>
+          <td>Copy/paste</td>
+          <td>ctrl + C, ctrl + V</td>
+        </tr>
+        <tr>
+          <td>Hand tool</td>
+          <td>H</td>
+        </tr>
+        <tr>
+          <td>Lasso tool</td>
+          <td>L</td>
+        </tr>
+        <tr>
+          <td>Space tool</td>
+          <td>S</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div id="dictionaryDialog" style="display:none">
     <div>
-    <div id="activityDictionary" style="float:left">
-      <text>Activities:</text>
-      <div id="activityDictionaryContainer"></div>
+      <div id="activityDictionary" style="float:left">
+        <text>Activities:</text>
+        <div id="activityDictionaryContainer"></div>
+      </div>
+      <div id="workobjectDictionary" style="float:left">
+        <text>Work Objects:</text>
+        <div id="workobjectDictionaryContainer"></div>
+      </div>
     </div>
-    <div id="workobjectDictionary" style="float:left">
-      <text>Work Objects:</text>
-      <div id= "workobjectDictionaryContainer"></div>
-    </div>
-  </div>
-  <div style="clear:both;"></div>
+    <div style="clear:both;"></div>
     <div id="dictionaryButtons">
       <button id="closeDictionaryButtonSave">Save</button>
       <button id="closeDictionaryButtonCancel">Cancel</button>
@@ -314,8 +322,8 @@
   </div>
 
   <div id="incompleteStoryInfo" style="display:none">
-  <button id="closeIncompleteStoryInfo">X</button>
-  <br>
+    <button id="closeIncompleteStoryInfo">X</button>
+    <br>
   </div>
 
   <div id="noContentOnCanvasInfo" style="display: none">
@@ -326,13 +334,13 @@
   </div>
 
   <div id="versionInfo" style="display:none">
-  <button id="closeVersionDialog">X</button>
-  <br>
-  <text>Your Domain Story was created with modeler version</text>
-  <text id="importedVersion"></text>
-  <text>. This modeler is version</text>
-  <text id="modelerVersion"></text>
-  <text>. Please check release notes for possible compatibility problems.</text>
+    <button id="closeVersionDialog">X</button>
+    <br>
+    <text>Your Domain Story was created with modeler version</text>
+    <text id="importedVersion"></text>
+    <text>. This modeler is version</text>
+    <text id="modelerVersion"></text>
+    <text>. Please check release notes for possible compatibility problems.</text>
   </div>
 
   <div id="brokenDSTInfo" style="display:none">
@@ -352,6 +360,22 @@
   <script src="dependencies/jquery.min.js"></script>
 
   <script>
+    
+    // THESIS-START
+    let btn__analysisResults = document.getElementById('btn__showAnalysisResults');
+    let select = document.getElementById('contexts');
+    let currentDomain = document.getElementById('currentDomainName');
+    console.log(select);
+    btn__analysisResults.addEventListener('click', () => { console.log("test");})
+    select.addEventListener('change', () => { 
+      let options = select.options[select.selectedIndex];
+      if(options){
+        console.log(options);
+        currentDomain.innerText = options.text;
+      }
+     });
+    // THESIS-END
+    
     /* from http://jsfiddle.net/jAYEt/2188/
     */
     var inputQuantity = [];
@@ -394,7 +418,7 @@
       });
     });</script>
 
-    <script type="text/x-dot-template" id="revealjs-template">
+  <script type="text/x-dot-template" id="revealjs-template">
       <!doctype html>
       <html>
         <head>
