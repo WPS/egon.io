@@ -12,6 +12,29 @@ input {
   margin-bottom: 20px;
 }
 
+/* THESIS-Start */
+#modal_resilience {
+  display: none;
+}
+
+#modal_loadtest {
+  display: none;
+}
+
+#modal_monitoring {
+  display: none;
+}
+
+#modal_close_btn {
+  
+}
+
+#modal_save_btn {
+  
+}
+
+/* THESIS-End */
+
 #modal {
   top: 0;
   left: 0;

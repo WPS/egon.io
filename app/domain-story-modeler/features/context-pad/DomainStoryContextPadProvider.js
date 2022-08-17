@@ -83,6 +83,9 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       connect.start(event, element, autoActivate);
     };
 
+    // Eventuell überlegen hier mit der ID der shape zu arbeiten
+    console.log('Element in contextprovider', element);
+
     if (element.type.includes(WORKOBJECT)) {
       if (allStandardIconKeys.includes(element.type.replace(WORKOBJECT, ''))) {
         addColorChange(actions);
