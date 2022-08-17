@@ -76,14 +76,24 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   popupMenu.registerProvider('bpmn-replace', replaceMenuProvider);
 
   this.getContextPadEntries = function(element) {
+    const chaosExperiment__label = 'domainStory:workObjectChaosExperiment';
     const allStandardIconKeys = getAllStandardIconKeys();
     let actions = cached(element);
+
+    console.log('Das ist ein Test');
 
     startConnect= function(event, element, autoActivate) {
       connect.start(event, element, autoActivate);
     };
 
+    console.log(element.type);
+
     if (element.type.includes(WORKOBJECT)) {
+
+      if (element.type.includes(chaosExperiment__label)) {
+        addInputFields(actions);
+      }
+
       if (allStandardIconKeys.includes(element.type.replace(WORKOBJECT, ''))) {
         addColorChange(actions);
       }
@@ -93,6 +103,8 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       addWorkObjects(appendAction, actions);
       addChangeWorkObjectTypeMenu(actions);
     }
+
+
 
     else if (element.type.includes(ACTOR)) {
       if (allStandardIconKeys.includes(element.type.replace(ACTOR, ''))) {
@@ -217,6 +229,15 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           dragstart: startConnect
         }
       }
+    });
+  }
+
+  function addInputFields(actions) {
+    console.log('Actions', actions);
+    assign(actions, {
+      group: 'type',
+      className: 'bpmn-icon-testType',
+      title: translate('Give a test type')
     });
   }
 
