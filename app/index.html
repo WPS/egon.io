@@ -77,33 +77,47 @@
         <div id="infoText">
           <!-- THESIS -->
         </div>
-        <div id="bounded__context__selection__">
-          <label for="contexts">Select bounded context...</label>
-          <select name="contexts" id="contexts">
-            <option value="contextA">Context A</option>
-            <option value="contextB">Context B</option>
-            <option value="contextC">Context C</option>
-            <option value="contextD">Context D</option>
-          </select>
+        <div id="col-left">
+          <div id="bounded__context__selection__">
+            <label for="contexts">Select bounded context...</label>
+            <select name="contexts" id="contexts">
+              <option value="contextA">Context A</option>
+              <option value="contextB">Context B</option>
+              <option value="contextC">Context C</option>
+              <option value="contextD">Context D</option>
+            </select> 
+          </div>
+          <div id="currentDomainNameContainer">
+            <text>Domain: </text>
+            <text id="currentDomainName">default</text>
+          </div>
         </div>
-        <div id="currentDomainNameContainer">
-          <text>Domain: </text>
-          <text id="currentDomainName">default</text>
+        <div id="col-right">
+          <div id="selectedContextContainer">
+            <div id="currentBoundedContextContainer">
+              <text>Context: </text>
+              <text id="currentContext">default</text>
+            </div>
+          </div>
+          <div id="analysisResultsContainer">
+            <div id="analysisResults">
+              <button id="btn__showAnalysisResults">Show results</button>
+            </div>
+          </div>
         </div>
-        <div id="analysisResults">
-          <button id="btn__showAnalysisResults">Show results</button>
+        <div>
+          <div id="modal_resilence">
+            <div id="modal_resilience_content"></div>
+          </div>
+          <div id="modal_loadtest">
+            <div id="modal_loadtest_content"></div>
+          </div>
+          <div id="modal_monitoring">
+            <div id="modal_monitoring_content"></div>
+          </div>
         </div>
-        <div id="modal_resilence">
-          <div id="modal_resilience_content"></div>
-        </div>
-        <div id="modal_loadtest">
-          <div id="modal_loadtest_content"></div>
-        </div>
-        <div id="modal_monitoring">
-          <div id="modal_monitoring_content"></div>
-        </div>
-        <!-- THESIS:END -->
       </div>
+        <!-- THESIS:END -->
     </div>
     <div id="line"></div>
     <div id="canvas"></div>
@@ -373,14 +387,14 @@
     // THESIS-START
     let btn__analysisResults = document.getElementById('btn__showAnalysisResults');
     let select = document.getElementById('contexts');
-    let currentDomain = document.getElementById('currentDomainName');
+    let currentContext = document.getElementById('currentContext');
     console.log(select);
     btn__analysisResults.addEventListener('click', () => { console.log("test");})
     select.addEventListener('change', () => { 
       let options = select.options[select.selectedIndex];
       if(options){
         console.log(options);
-        currentDomain.innerText = options.text;
+        currentContext.innerText = options.text;
       }
      });
     // THESIS-END

@@ -86,14 +86,10 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       connect.start(event, element, autoActivate);
     };
 
-<<<<<<< HEAD
     // Eventuell überlegen hier mit der ID der shape zu arbeiten
     // Hier modal box öffnen, falls das Element entweder ein Chaos Experiment, Load test
     // oder resilience test ist
     console.log('Element in contextprovider', element);
-=======
-    console.log(element.type);
->>>>>>> DOMINIK-KESIM-THESIS-feature/adding-icons
 
     if (element.type.includes(WORKOBJECT)) {
 
