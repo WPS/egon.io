@@ -84,6 +84,8 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     };
 
     // Eventuell überlegen hier mit der ID der shape zu arbeiten
+    // Hier modal box öffnen, falls das Element entweder ein Chaos Experiment, Load test
+    // oder resilience test ist
     console.log('Element in contextprovider', element);
 
     if (element.type.includes(WORKOBJECT)) {
