@@ -93,7 +93,10 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     const MONITORING = 'Monitoring';
     const SERVICE_DELAY = 'ServiceDelay';
 
+    let ids = [];
+    let idExists = false;
     const chaosExperiment__label = 'domainStory:workObjectChaosExperiment';
+
     const allStandardIconKeys = getAllStandardIconKeys();
     let actions = cached(element);
 
@@ -105,7 +108,40 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     // oder resilience test ist
     if (element.type.includes(EXPERIMENT)) {
       console.log('Element in contextprovider is EXPERIMENT', element);
-      modal_chaosExperiment.style.display = 'block';
+      console.log(element.id);
+
+      let elementContainer = document.getElementById('runtimeAnalysisSummaryContainer');
+      let modal_resilience = document.getElementById('modal_resilience');
+      let elementName = element.id;
+      ids.push(elementName);
+      console.log(ids);
+
+      if (elementContainer.hasChildNodes) {
+        for (let node of elementContainer.childNodes) {
+          if (ids.includes(node.id)) {
+            console.log('Node is in container');
+            idExists = true;
+            break;
+          }
+        }
+
+        if (!idExists) {
+          let newRuntimeAnalysisElement = document.createElement('button');
+
+          newRuntimeAnalysisElement.id = element.id;
+          newRuntimeAnalysisElement.classList.add(elementName);
+          newRuntimeAnalysisElement.innerText = 'Chaos Experiment ' + element.id.toString();
+
+          newRuntimeAnalysisElement.addEventListener('click', () => {
+            modal_resilience.style.display = 'block';
+          });
+
+          elementContainer.appendChild(newRuntimeAnalysisElement);
+        }
+      }
+
+      // modal_chaosExperiment.style.display = 'block';
+
     } else if (element.type.includes(LOADTEST)) {
       console.log('Element in contextprovider is LOADTEST', element);
     } else if (element.type.includes(MONITORING)) {

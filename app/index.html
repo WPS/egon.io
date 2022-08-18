@@ -77,38 +77,45 @@
         <div id="infoText">
           <!-- THESIS -->
         </div>
-        <div id="col-left">
-          <div id="bounded__context__selection__">
-            <label for="contexts">Select bounded context...</label>
-            <select name="contexts" id="contexts">
-              <option value="contextA">Context A</option>
-              <option value="contextB">Context B</option>
-              <option value="contextC">Context C</option>
-              <option value="contextD">Context D</option>
-            </select> 
+        <div id="infoContextContainer">
+          <div id="col-left">
+            <div id="bounded__context__selection__">
+              <label for="contexts">Select bounded context...</label>
+              <select name="contexts" id="contexts">
+                <option value="contextA">Context A</option>
+                <option value="contextB">Context B</option>
+                <option value="contextC">Context C</option>
+                <option value="contextD">Context D</option>
+              </select>
+            </div>
+            <div id="currentDomainNameContainer">
+              <text>Domain: </text>
+              <text id="currentDomainName">default</text>
+            </div>
           </div>
-          <div id="currentDomainNameContainer">
-            <text>Domain: </text>
-            <text id="currentDomainName">default</text>
+          <div id="col-right">
+            <div id="selectedContextContainer">
+              <div id="currentBoundedContextContainer">
+                <text>Context: </text>
+                <text id="currentContext">default</text>
+              </div>
+            </div>
+            <div id="analysisResultsContainer">
+              <div id="analysisResults">
+                <button id="btn__showAnalysisResults">Show results</button>
+              </div>
+            </div>
           </div>
         </div>
-        <div id="col-right">
-          <div id="selectedContextContainer">
-            <div id="currentBoundedContextContainer">
-              <text>Context: </text>
-              <text id="currentContext">default</text>
-            </div>
-          </div>
-          <div id="analysisResultsContainer">
-            <div id="analysisResults">
-              <button id="btn__showAnalysisResults">Show results</button>
-            </div>
+        <div id="summaryContainer">
+          <div id="runtimeAnalysisSummaryContainer">
           </div>
         </div>
         <div>
           <div id="modal_resilience">
             <div id="modal_resilience_content">
               <p>Das ist ein test...</p>
+              <button id="modal_close_btn">Close</button>
             </div>
           </div>
           <div id="modal_loadtest">
@@ -119,7 +126,7 @@
           </div>
         </div>
       </div>
-        <!-- THESIS:END -->
+      <!-- THESIS:END -->
     </div>
     <div id="line"></div>
     <div id="canvas"></div>
@@ -385,20 +392,36 @@
   <script src="dependencies/jquery.min.js"></script>
 
   <script>
-    
+
     // THESIS-START
+    /**
+     * Get elements
+     */
     let btn__analysisResults = document.getElementById('btn__showAnalysisResults');
+    let btn_modal_close = document.getElementById('modal_close_btn');
     let select = document.getElementById('contexts');
     let currentContext = document.getElementById('currentContext');
-    btn__analysisResults.addEventListener('click', () => { console.log("Show analysis results...");})
-    select.addEventListener('change', () => { 
+    let modal_resilience = document.getElementById('modal_resilience');
+
+
+    /**
+     * Listeners
+     */
+    btn__analysisResults.addEventListener('click', () => { console.log("Show analysis results..."); })
+    btn_modal_close.addEventListener('click', () => { modal_resilience.style.display = 'none'; })
+
+
+    select.addEventListener('change', () => {
       let options = select.options[select.selectedIndex];
-      if(options){
+      if (options) {
         currentContext.innerText = options.text;
       }
-     });
+    });
+
+    let canvas = document.getElementsByClassName('viewport');
+    console.log(canvas);
     // THESIS-END
-    
+
     /* from http://jsfiddle.net/jAYEt/2188/
     */
     var inputQuantity = [];
