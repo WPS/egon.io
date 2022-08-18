@@ -106,8 +106,10 @@
           </div>
         </div>
         <div>
-          <div id="modal_resilence">
-            <div id="modal_resilience_content"></div>
+          <div id="modal_resilience">
+            <div id="modal_resilience_content">
+              <p>Das ist ein test...</p>
+            </div>
           </div>
           <div id="modal_loadtest">
             <div id="modal_loadtest_content"></div>
@@ -388,12 +390,10 @@
     let btn__analysisResults = document.getElementById('btn__showAnalysisResults');
     let select = document.getElementById('contexts');
     let currentContext = document.getElementById('currentContext');
-    console.log(select);
-    btn__analysisResults.addEventListener('click', () => { console.log("test");})
+    btn__analysisResults.addEventListener('click', () => { console.log("Show analysis results...");})
     select.addEventListener('change', () => { 
       let options = select.options[select.selectedIndex];
       if(options){
-        console.log(options);
         currentContext.innerText = options.text;
       }
      });

@@ -76,20 +76,43 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   popupMenu.registerProvider('bpmn-replace', replaceMenuProvider);
 
   this.getContextPadEntries = function(element) {
+
+    /**
+     * Get modal elements
+     */
+    const modal_chaosExperiment = document.getElementById('modal_resilience');
+
+    // const modal_loadtest = document.getElementById('modal_loadtest');
+    // const modal_monitoring = document.getElementById('modal_monitoring');
+
+    /**
+     * Constants
+     */
+    const EXPERIMENT = 'ChaosExperiment';
+    const LOADTEST = 'Loadtest';
+    const MONITORING = 'Monitoring';
+    const SERVICE_DELAY = 'ServiceDelay';
+
     const chaosExperiment__label = 'domainStory:workObjectChaosExperiment';
     const allStandardIconKeys = getAllStandardIconKeys();
     let actions = cached(element);
-
-    console.log('Das ist ein Test');
 
     startConnect= function(event, element, autoActivate) {
       connect.start(event, element, autoActivate);
     };
 
-    // Eventuell überlegen hier mit der ID der shape zu arbeiten
     // Hier modal box öffnen, falls das Element entweder ein Chaos Experiment, Load test
     // oder resilience test ist
-    console.log('Element in contextprovider', element);
+    if (element.type.includes(EXPERIMENT)) {
+      console.log('Element in contextprovider is EXPERIMENT', element);
+      modal_chaosExperiment.style.display = 'block';
+    } else if (element.type.includes(LOADTEST)) {
+      console.log('Element in contextprovider is LOADTEST', element);
+    } else if (element.type.includes(MONITORING)) {
+      console.log('Element in contextprovider is MONITORING', element);
+    } else if (element.type.includes(SERVICE_DELAY)) {
+      console.log('Element in contextprovider is SERVICE_DELAY', element);
+    }
 
     if (element.type.includes(WORKOBJECT)) {
 
@@ -236,7 +259,6 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   }
 
   function addInputFields(actions) {
-    console.log('Actions', actions);
     assign(actions, {
       group: 'type',
       className: 'bpmn-icon-testType',
