@@ -260,7 +260,7 @@ document.onkeydown = function(e) {
 };
 
 function initiateDSTDownload() {
-  if (canvas._activePlane._rootElement) {
+  if (canvas._activePlane.rootElement) {
     const objects = createObjectListForDSTDownload(version);
 
     const json = JSON.stringify(objects);
