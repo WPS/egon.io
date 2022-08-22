@@ -60,7 +60,7 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: resolvePath('bpmn-js', 'build'),
+            cwd: resolvePath('bpmn-js', 'dist'),
             src: ['**/*.*', '!**/*.js'],
             dest: 'build/dependencies/bpmn-js'
           }
