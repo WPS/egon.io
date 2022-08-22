@@ -28,7 +28,7 @@
               "replaceDuplicatePlugins": true
             },
             "allowedCommonJsDependencies": ["util", "object-refs", "hammerjs"],
-            "outputPath": "dist/egon",
+            "outputPath": "dist_build/egon",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
