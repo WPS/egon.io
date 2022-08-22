@@ -48,7 +48,7 @@ function createSVGData(withTitle) {
     let bounds = '';
     let splitViewBox = viewBox.split(/\s/);
 
-    height += 80;
+    height += 120;
     xLeft = +splitViewBox[0];
     yUp = +splitViewBox[1];
     xRight = +splitViewBox[2];
@@ -72,16 +72,16 @@ function createSVGData(withTitle) {
     bounds =
       'width="' +
       width +
-      '" height=" ' +
+      ' " height="' +
       height +
-      '" viewBox="' +
+      ' " viewBox="' +
       xLeft +
       ' ' +
-      (yUp - 80) +
+      (yUp - 90) +
       ' ' +
       xRight +
       ' ' +
-      (yDown + 30);
+      (yDown + 70);
     let dataStart = data.substring(0, viewBoxIndex);
     viewBoxIndex = data.indexOf('" version');
     let dataEnd = data.substring(viewBoxIndex);
@@ -102,6 +102,13 @@ function createSVGData(withTitle) {
       data.slice(insertIndex)
     ].join('');
   }
+
+  const svgIndex = data.indexOf('width="');
+  let backgroundColorWhite = 'style="background-color:white" ';
+  data = [data.slice(0, svgIndex),
+  backgroundColorWhite,
+  data.slice(svgIndex)].join('');
+
 
   data = appendDST(data);
 
