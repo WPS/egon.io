@@ -106,8 +106,8 @@ function createSVGData(withTitle) {
   const svgIndex = data.indexOf('width="');
   let backgroundColorWhite = 'style="background-color:white" ';
   data = [data.slice(0, svgIndex),
-  backgroundColorWhite,
-  data.slice(svgIndex)].join('');
+    backgroundColorWhite,
+    data.slice(svgIndex)].join('');
 
 
   data = appendDST(data);
