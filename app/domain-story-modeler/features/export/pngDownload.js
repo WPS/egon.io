@@ -193,36 +193,36 @@ function prepareSVG(svg, layertBase, withTitle) {
   let bounds ;
   if (withTitle) {
     height += extraHeight;
-    
-      bounds = 'width="' +
-      width +
-      '" height="' +
-      height +
-      '" viewBox=" ' +
-      xLeft +
-      ' ' +
-      (yUp - extraHeight) +
-      ' ' +
-      width +
-      ' ' +
-      height +
-      '" ';
+
+    bounds = 'width="' +
+    width +
+    '" height="' +
+    height +
+    '" viewBox=" ' +
+    xLeft +
+    ' ' +
+    (yUp - extraHeight) +
+    ' ' +
+    width +
+    ' ' +
+    height +
+    '" ';
   }
   else {
-      bounds = 'width="' +
-      width +
-      '" height="' +
-      height +
-      '" viewBox=" ' +
-      xLeft +
-      ' ' +
-      yUp +
-      ' ' +
-      width +
-      ' ' +
-      height +
-      '" ';
-  } 
+    bounds = 'width="' +
+    width +
+    '" height="' +
+    height +
+    '" viewBox=" ' +
+    xLeft +
+    ' ' +
+    yUp +
+    ' ' +
+    width +
+    ' ' +
+    height +
+    '" ';
+  }
 
   let dataStart = svg.substring(0, viewBoxIndex);
   viewBoxIndex = svg.indexOf('style="');
@@ -233,7 +233,7 @@ function prepareSVG(svg, layertBase, withTitle) {
 
   let insertIndex = svg.indexOf('<g class="viewport">') + 20;
 
-  if(withTitle) {
+  if (withTitle) {
     svg = [svg.slice(0, insertIndex), insertText, svg.slice(insertIndex)].join(
       ''
     );
@@ -354,9 +354,9 @@ function findMostOuterElements(svg, withTitle) {
     }
   }
 
-   if(withTitle) {
+  if (withTitle) {
     yUp -= 75; // we need to adjust yUp to have space for the title and description
-   }
+  }
 
   return {
     xLeft: xLeft,
