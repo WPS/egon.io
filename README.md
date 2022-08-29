@@ -92,20 +92,29 @@ Please note that we use the main branch for development. The main branch contain
 
 Fetch dependencies:
 
-```
-npm install
+```sh
+npm ci
 ```
 
 Build and open the modeler in your browser:
 
-```
+```sh
 npm run dev
 ```
 
 Create distributable bundle:
 
-```
+```sh
 npm run all
+```
+
+#### Docker
+
+If Docker stops working try to rebuild the image:
+
+```sh
+docker compose build --no-cache
+docker compose up
 ```
 
 ## License
