@@ -5,6 +5,9 @@ import inherits from 'inherits';
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
 import Picker from 'vanilla-picker';
 
+// THESIS
+import { EXPERIMENT_NAME, LOADTEST_NAME, MONITORING_NAME, SERVICE_DELAY_NAME } from '../runtime-quality-analysis/RuntimeAnalysisConstants';
+
 import {
   assign,
   bind
@@ -77,44 +80,28 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
   this.getContextPadEntries = function(element) {
 
-    /**
-     * Get modal elements
-     */
-    const modal_chaosExperiment = document.getElementById('modal_resilience');
-
-    // const modal_loadtest = document.getElementById('modal_loadtest');
-    // const modal_monitoring = document.getElementById('modal_monitoring');
-
-    /**
-     * Constants
-     */
-    const EXPERIMENT = 'ChaosExperiment';
-    const LOADTEST = 'Loadtest';
-    const MONITORING = 'Monitoring';
-    const SERVICE_DELAY = 'ServiceDelay';
-
-    let ids = [];
-    let idExists = false;
-    const chaosExperiment__label = 'domainStory:workObjectChaosExperiment';
-
     const allStandardIconKeys = getAllStandardIconKeys();
     let actions = cached(element);
 
     startConnect= function(event, element, autoActivate) {
       connect.start(event, element, autoActivate);
     };
+    
 
-    // Hier modal box öffnen, falls das Element entweder ein Chaos Experiment, Load test
-    // oder resilience test ist
-    if (element.type.includes(EXPERIMENT)) {
-      console.log('Element in contextprovider is EXPERIMENT', element);
-      console.log(element.id);
+    // const modal_loadtest = document.getElementById('modal_loadtest');
+    // const modal_monitoring = document.getElementById('modal_monitoring');
+  
+    let ids = [];
+    let idExists = false;
+    
+    const chaosExperiment__label = 'domainStory:workObjectChaosExperiment';
+
+    if (element.type.includes(EXPERIMENT_NAME)) {
 
       let elementContainer = document.getElementById('runtimeAnalysisSummaryContainer');
       let modal_resilience = document.getElementById('modal_resilience');
       let elementName = element.id;
       ids.push(elementName);
-      console.log(ids);
 
       if (elementContainer.hasChildNodes) {
         for (let node of elementContainer.childNodes) {
@@ -125,6 +112,9 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           }
         }
 
+        /**
+         * If there is no chaos experiment with the same ID add it to the HTML container
+         */
         if (!idExists) {
           let newRuntimeAnalysisElement = document.createElement('button');
 
@@ -141,20 +131,21 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       }
 
       // modal_chaosExperiment.style.display = 'block';
+      return actions;
 
-    } else if (element.type.includes(LOADTEST)) {
+    } else if (element.type.includes(LOADTEST_NAME)) {
       console.log('Element in contextprovider is LOADTEST', element);
-    } else if (element.type.includes(MONITORING)) {
+    } else if (element.type.includes(MONITORING_NAME)) {
       console.log('Element in contextprovider is MONITORING', element);
-    } else if (element.type.includes(SERVICE_DELAY)) {
+    } else if (element.type.includes(SERVICE_DELAY_NAME)) {
       console.log('Element in contextprovider is SERVICE_DELAY', element);
     }
 
     if (element.type.includes(WORKOBJECT)) {
 
-      if (element.type.includes(chaosExperiment__label)) {
-        addInputFields(actions);
-      }
+      // if (element.type.includes(chaosExperiment__label)) {
+      //   addInputFields(actions);
+      // }
 
       if (allStandardIconKeys.includes(element.type.replace(WORKOBJECT, ''))) {
         addColorChange(actions);
