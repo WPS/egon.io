@@ -72,9 +72,9 @@ function createSVGData(withTitle) {
     bounds =
       'width="' +
       width +
-      ' " height="' +
+      '" height="' +
       height +
-      ' " viewBox="' +
+      '" viewBox="' +
       xLeft +
       ' ' +
       (yUp - 90) +
