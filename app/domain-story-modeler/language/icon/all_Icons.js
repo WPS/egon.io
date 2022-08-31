@@ -197,6 +197,7 @@ export const all_icons = {
   // THESIS-END
 };
 
+
 export function getAllStandardIconKeys() {
   let allIcons = new Dict();
 

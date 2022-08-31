@@ -5,8 +5,10 @@ import inherits from 'inherits';
 import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
 import Picker from 'vanilla-picker';
 
-// THESIS
+// THESIS-START
 import { EXPERIMENT_NAME, LOADTEST_NAME, MONITORING_NAME, SERVICE_DELAY_NAME } from '../runtime-quality-analysis/RuntimeAnalysisConstants';
+import { createResilienceTemplateView } from '../runtime-quality-analysis';
+// THESIS-END
 
 import {
   assign,
@@ -80,10 +82,13 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
   this.getContextPadEntries = function(element) {
 
+    /**
+     * Returns all icons in a dictionary from all_Icons.js
+     */
     const allStandardIconKeys = getAllStandardIconKeys();
     let actions = cached(element);
 
-    startConnect= function(event, element, autoActivate) {
+    startConnect = function(event, element, autoActivate) {
       connect.start(event, element, autoActivate);
     };
     
@@ -116,17 +121,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
          * If there is no chaos experiment with the same ID add it to the HTML container
          */
         if (!idExists) {
-          let newRuntimeAnalysisElement = document.createElement('button');
-
-          newRuntimeAnalysisElement.id = element.id;
-          newRuntimeAnalysisElement.classList.add(elementName);
-          newRuntimeAnalysisElement.innerText = 'Chaos Experiment ' + element.id.toString();
-
-          newRuntimeAnalysisElement.addEventListener('click', () => {
-            modal_resilience.style.display = 'block';
-          });
-
-          elementContainer.appendChild(newRuntimeAnalysisElement);
+          createResilienceTemplateView(element);
         }
       }
 

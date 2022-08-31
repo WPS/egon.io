@@ -34,12 +34,14 @@ module.exports = function(grunt) {
           watch: true
         },
         files: {
-          'dist/app.js': ['app/app.js']
+          'dist/app.js': ['app/app.js'],
+          // 'dist/domain-story-modeler/features/runtime-quality-analysis/index.js': ['index.js']
         }
       },
       app: {
         files: {
-          'dist/app.js': ['app/app.js']
+          'dist/app.js': ['app/app.js'],
+          // 'dist/domain-story-modeler/features/runtime-quality-analysis/index.js': ['index.js']
         }
       }
     },

@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="dependencies/diagram-js.css" /> <!-- for palette -->
   <link rel="stylesheet" href="domain-story.css" />
   <link rel="stylesheet" href="domain-story-modeler/language/icon/icons.css" id="iconsCss" />
+  <!-- <script type="text/javascript" src="./domain-story-modeler/features/runtime-quality-analysis/index.js"></script> -->
 
   <title>Domain Story Modeler</title>
   <link rel="icon" type="image/png" href="./logo/domainStorytellingIcon.png">
@@ -114,7 +115,17 @@
         <div>
           <div id="modal_resilience">
             <div id="modal_resilience_content">
-              <p>Das ist ein test...</p>
+              <div id="input__container">
+                <!-- Name
+                <input type="text" id="scenarioName" placeholder="Geben Sie dem Szenario einen Namen...">
+                <label for="scenarioName">Szenario-Name</label>
+                Type
+                <input type="text" id="scenarioType" placeholder="Geben Sie den Typ an...">
+                <label for="scenarioType">Szenario-Typ</label>
+                Start
+                <input type="text" id="scenarioStart" placeholder="Geben Sie wann das Szenario beginnen soll...">
+                <label for="scenarioStart">Szenario-Start</label> -->
+              </div>
               <button id="modal_close_btn">Close</button>
             </div>
           </div>
@@ -403,12 +414,18 @@
     let currentContext = document.getElementById('currentContext');
     let modal_resilience = document.getElementById('modal_resilience');
 
+    // let scenarioName = document.getElementById('scenarioName');
+    // console.log(scenarioName);
+    // scenarioName.addEventListener('click', test);
+
 
     /**
      * Listeners
      */
     btn__analysisResults.addEventListener('click', () => { console.log("Show analysis results..."); })
     btn_modal_close.addEventListener('click', () => { modal_resilience.style.display = 'none'; })
+    // scenarioName.addEventListener('click', () => { console.log("Show analysis results..."); });
+    // scenarioName.addEventListener('click', test2);
 
 
     select.addEventListener('change', () => {
@@ -418,8 +435,6 @@
       }
     });
 
-    let canvas = document.getElementsByClassName('viewport');
-    console.log(canvas);
     // THESIS-END
 
     /* from http://jsfiddle.net/jAYEt/2188/
@@ -462,8 +477,9 @@
         }
         inputQuantity[$thisIndex] = val;
       });
-    });</script>
-
+    });
+  </script>
+  <!-- <script src="./domain-story-modeler/features/runtime-quality-analysis/index.js"></script> -->
   <script type="text/x-dot-template" id="revealjs-template">
       <!doctype html>
       <html>
@@ -838,7 +854,6 @@
         </body>
       </html>
     </script>
-
 </body>
 
 </html>

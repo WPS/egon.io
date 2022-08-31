@@ -1,5 +1,9 @@
 'use strict';
 
+// THESIS-START
+import { test } from './domain-story-modeler/features/runtime-quality-analysis/index';
+
+// THESIS-END
 import 'regenerator-runtime/runtime';
 import './domain-story-modeler/util/MathExtensions';
 import './domain-story-modeler/util/ArrayExtensions';
@@ -97,6 +101,14 @@ initialize(canvas, elementRegistry, version, modeler, eventBus, saveSVG);
 
 // interal variables
 let keysPressed = [];
+
+
+// THESIS-START
+let scenarioName = document.getElementById('scenarioName');
+console.log(scenarioName);
+scenarioName.addEventListener('click', test);
+console.log(scenarioName);
+// THESIS-END
 
 // HTML-Elements
 let modal = document.getElementById('modal'),
