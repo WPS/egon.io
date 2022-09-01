@@ -104,10 +104,10 @@ let keysPressed = [];
 
 
 // THESIS-START
-let scenarioName = document.getElementById('scenarioName');
-console.log(scenarioName);
-scenarioName.addEventListener('click', test);
-console.log(scenarioName);
+// let scenarioName = document.getElementById('scenarioName');
+// console.log(scenarioName);
+// scenarioName.addEventListener('click', test);
+// console.log(scenarioName);
 // THESIS-END
 
 // HTML-Elements

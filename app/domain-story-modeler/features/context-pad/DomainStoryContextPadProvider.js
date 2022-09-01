@@ -102,16 +102,16 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     const chaosExperiment__label = 'domainStory:workObjectChaosExperiment';
 
     if (element.type.includes(EXPERIMENT_NAME)) {
+      
+      console.log(element);
 
       let elementContainer = document.getElementById('runtimeAnalysisSummaryContainer');
-      let modal_resilience = document.getElementById('modal_resilience');
       let elementName = element.id;
       ids.push(elementName);
 
       if (elementContainer.hasChildNodes) {
         for (let node of elementContainer.childNodes) {
           if (ids.includes(node.id)) {
-            console.log('Node is in container');
             idExists = true;
             break;
           }
@@ -125,7 +125,6 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
         }
       }
 
-      // modal_chaosExperiment.style.display = 'block';
       return actions;
 
     } else if (element.type.includes(LOADTEST_NAME)) {

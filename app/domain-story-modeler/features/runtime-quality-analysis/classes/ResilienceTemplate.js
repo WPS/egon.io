@@ -10,3 +10,19 @@ class ResilienceTemplate {
         return this.name;
     }
 }
+
+export const ResilienceInjectionTypesEnum = {
+    APPLICATION: 'application',
+    INFRASTRUCTURE: 'infrastructure'
+}
+
+export const ResilienceEnvironmentEnum = {
+    PROD: 'production',
+    TESTING: 'testing',
+    STAGING: 'staging'
+}
+
+export const ResilienceFaultTypeEnum = {
+    SERVICE_FAILURE: 'service failure',
+    SERVICE_DELAY: 'service call delay'
+}

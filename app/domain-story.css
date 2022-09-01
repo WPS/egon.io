@@ -14,6 +14,14 @@ input {
 
 /* THESIS-Start */
 
+#input__container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 0 5% 0;
+  /* justify-content: center; */
+}
+
 #infoContextContainer {
   display: flex;
   flex-direction: row;
@@ -176,12 +184,12 @@ input {
   left: 0em;
   width: 100%;
   border-bottom: solid 2px #ccc;
-  margin-top: 10px;
+  margin-top: 25px;
 }
 
 #canvas,
 #canvas > div {
-  top: 0px;
+  top: 25px;
   width: 100%;
   height: 100%;
   position: relative;

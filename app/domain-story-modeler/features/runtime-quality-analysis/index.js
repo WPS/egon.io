@@ -1,11 +1,12 @@
 // 'use-strict';
-
+import { ResilienceFaultTypeEnum, ResilienceInjectionTypesEnum, ResilienceEnvironmentEnum } from './classes/ResilienceTemplate';
 /**
  * Get Elements
  */
 let elementContainer = document.getElementById('runtimeAnalysisSummaryContainer');
 let input__container = document.getElementById('input__container');
 let modal_resilience = document.getElementById('modal_resilience');
+let modal_resilience__content = document.getElementById('modal_resilience_content');
 
 
 /**
@@ -19,17 +20,25 @@ export function createResilienceTemplateView(element) {
     /**
      * Create html elements
      */
-    let newRuntimeAnalysisElement = document.createElement('button');
+    let resilienceTemplateView__btn__open = document.createElement('button');
+    let resilienceTemplateView__btn__close = document.createElement('button');
+    let resilienceTemplateView__btn__save = document.createElement('button');
+    
     let resilienceScenarioName = document.createElement('input');
     let resilienceScenarioType = document.createElement('input');
     let resilienceScenarioStart = document.createElement('input');
     let resilienceScenarioEnvironment = document.createElement('input');
     
+    let resilienceScenarioFaultTypeSelect = document.createElement('select');
+    let resilienceScenarioInjectionTypeSelect = document.createElement('select');
+    let resilienceScenarioEnvironmentSelect = document.createElement('select');
     /**
      * Create html labels for input fields
      */
     let resilienceScenarioName__label = document.createElement('label');
     let resilienceScenarioType__label = document.createElement('label');
+    let resilienceScenarioFaultType__label = document.createElement('label');
+    let resilienceScenarioInjection__label = document.createElement('label');
     let resilienceScenarioStart__label = document.createElement('label');
     let resilienceScenarioEnvironment__label = document.createElement('label');
     
@@ -37,9 +46,44 @@ export function createResilienceTemplateView(element) {
     /**
      * Adding event listeners
      */
-    newRuntimeAnalysisElement.addEventListener('click', () => {
+    resilienceTemplateView__btn__open.addEventListener('click', () => {
         modal_resilience.style.display = 'block';
     });
+    
+    resilienceTemplateView__btn__close.addEventListener('click', () => {
+        modal_resilience.style.display = 'none';
+    })
+    
+    /**
+     * In here, we create a new resilience template object
+     */
+    resilienceTemplateView__btn__save.addEventListener('click', () => {
+        console.log("Save content...");
+    })
+    
+    /**
+     * Create options for select elements
+     */
+    for(const [key, value] of Object.entries(ResilienceFaultTypeEnum)) {
+        let optionItem = document.createElement('option');
+        optionItem.value = key;
+        optionItem.text = value;
+        resilienceScenarioFaultTypeSelect.appendChild(optionItem);
+    }
+    
+    for(const [key, value] of Object.entries(ResilienceInjectionTypesEnum)) {
+        let optionItem = document.createElement('option');
+        optionItem.value = key;
+        optionItem.text = value;
+        resilienceScenarioInjectionTypeSelect.appendChild(optionItem);
+    }
+    
+    for(const [key, value] of Object.entries(ResilienceEnvironmentEnum)) {
+        let optionItem = document.createElement('option');
+        optionItem.value = key;
+        optionItem.text = value;
+        resilienceScenarioEnvironmentSelect.appendChild(optionItem);
+    }
     
     /**
      * As the domain-story-modeler does not assign nor create unique IDs in a specific manner,
@@ -47,9 +91,25 @@ export function createResilienceTemplateView(element) {
      */
     let templateId = element.id;
     
-    newRuntimeAnalysisElement.id = element.id;
-    newRuntimeAnalysisElement.classList.add(templateId);
-    newRuntimeAnalysisElement.innerText = 'Resilience Scenario ' + element.id.toString();
+    resilienceTemplateView__btn__open.id = element.id;
+    resilienceTemplateView__btn__open.innerText = 'Resilience Szenario ' + element.id.toString();
+    elementContainer.appendChild(resilienceTemplateView__btn__open);
+    
+    resilienceTemplateView__btn__close.innerText = 'Schließen';
+    resilienceTemplateView__btn__save.innerText = 'Speichern';
+    
+    resilienceTemplateView__btn__close.classList.add('btn');
+    resilienceTemplateView__btn__close.classList.add('btn-secondary');
+    
+    resilienceTemplateView__btn__save.classList.add('btn');
+    resilienceTemplateView__btn__save.classList.add('btn-primary');
+    
+    resilienceTemplateView__btn__open.classList.add('btn');
+    resilienceTemplateView__btn__open.classList.add('btn-primary');
+    
+    resilienceScenarioFaultTypeSelect.id = 'resilienceScenarioFaultTypeSelect';
+    resilienceScenarioInjectionTypeSelect.id = 'resilienceScenarioInjectionTypeSelect';
+    resilienceScenarioEnvironmentSelect.id = 'resilienceScenarioEnvironmentTypeSelect';
     
     resilienceScenarioName.id = 'resilienceScenarioName';
     resilienceScenarioType.id = 'resilienceScenarioType';
@@ -66,29 +126,41 @@ export function createResilienceTemplateView(element) {
     resilienceScenarioStart.placeholder = 'Geben Sie wann das Szenario beginnen soll...';
     resilienceScenarioEnvironment.placeholder = 'Geben Sie eine Umgebung für das Szenario an...';
     
-    resilienceScenarioName__label.innerText = 'Name des Szenarios'
-    resilienceScenarioType__label.innerText = 'Typ des Szenarios'
-    resilienceScenarioStart__label.innerText = 'Startzeitpunkt des Szenarios'
-    resilienceScenarioEnvironment__label.innerText = 'Umgebung des Szenarios'
+    resilienceScenarioName__label.innerText = 'Name des Szenarios';
+    resilienceScenarioType__label.innerText = 'Typ des Szenarios';
+    resilienceScenarioStart__label.innerText = 'Startzeitpunkt des Szenarios';
+    resilienceScenarioEnvironment__label.innerText = 'Umgebung des Szenarios';
+    resilienceScenarioInjection__label.innerText = 'Injection Typ des Szenarios';
+    resilienceScenarioFaultType__label.innerText = 'Typ des Fault Loads';
     
     resilienceScenarioName__label.setAttribute("for", 'resilienceScenarioName');
     resilienceScenarioType__label.setAttribute("for", 'resilienceScenarioType');
     resilienceScenarioStart__label.setAttribute("for", 'resilienceScenarioStart');
-    resilienceScenarioEnvironment__label.setAttribute("for", 'resilienceScenarioEnvironment');
+    resilienceScenarioEnvironment__label.setAttribute("for", 'resilienceScenarioEnvironmentSelect');
+    resilienceScenarioInjection__label.setAttribute("for", 'resilienceScenarioInjectionTypeSelect');
+    resilienceScenarioFaultType__label.setAttribute("for", 'resilienceScenarioFaultTypeSelect');
+    
     
     /**
      * Appending all child nodes to parent container, i.e., template view
      */
-    elementContainer.appendChild(newRuntimeAnalysisElement);
+    modal_resilience__content.appendChild(resilienceTemplateView__btn__close);
+    modal_resilience__content.appendChild(resilienceTemplateView__btn__save);
     
     input__container.appendChild(resilienceScenarioName__label);
     input__container.appendChild(resilienceScenarioName);
-    input__container.appendChild(resilienceScenarioType__label);
-    input__container.appendChild(resilienceScenarioType);
+
+    input__container.appendChild(resilienceScenarioInjection__label);
+    input__container.appendChild(resilienceScenarioInjectionTypeSelect);
+    
+    input__container.appendChild(resilienceScenarioFaultType__label);
+    input__container.appendChild(resilienceScenarioFaultTypeSelect);
+    
     input__container.appendChild(resilienceScenarioStart__label);
     input__container.appendChild(resilienceScenarioStart);
+    
     input__container.appendChild(resilienceScenarioEnvironment__label);
-    input__container.appendChild(resilienceScenarioEnvironment);
+    input__container.appendChild(resilienceScenarioEnvironmentSelect);
     
 }
 
