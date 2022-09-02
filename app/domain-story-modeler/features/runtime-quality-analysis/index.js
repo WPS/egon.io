@@ -7,7 +7,20 @@ let elementContainer = document.getElementById('runtimeAnalysisSummaryContainer'
 let input__container = document.getElementById('input__container');
 let modal_resilience = document.getElementById('modal_resilience');
 let modal_resilience__content = document.getElementById('modal_resilience_content');
+let modal__container = document.getElementById('modal__container');
 
+/**
+ * This should remove existing template views if the icon is removed from the canvas
+ */
+const clearRemovedRuntimeAnalysisViews = () => {
+    let canvasItemsList = document.getElementsByClassName('djs-group');
+    console.log(canvasItemsList);
+
+    for (let i = 0; i < canvasItemsList.length; i++) {
+        let SVGItemParent = canvasItemsList[i];
+        console.log("Shape id:", SVGItemParent.firstChild.getAttribute('data-element-id'));
+    }
+}
 
 /**
  * Creates new template view for resilience tests with a unique ID
@@ -16,9 +29,16 @@ let modal_resilience__content = document.getElementById('modal_resilience_conten
  */
 export function createResilienceTemplateView(element) {
 
+    clearRemovedRuntimeAnalysisViews();
+    
     /**
      * Create html elements
      */
+    
+    let resilienceTemplateModal = document.createElement('div');
+    let resilienceTemplateContent = document.createElement('div');
+    let resilienceTemplateContentInputContainer = document.createElement('div');
+    
     let resilienceTemplateView__btn__open = document.createElement('button');
     let resilienceTemplateView__btn__close = document.createElement('button');
     let resilienceTemplateView__btn__save = document.createElement('button');
@@ -43,11 +63,11 @@ export function createResilienceTemplateView(element) {
      * Adding event listeners
      */
     resilienceTemplateView__btn__open.addEventListener('click', () => {
-        modal_resilience.style.display = 'block';
+        resilienceTemplateModal.style.display = 'block';
     });
 
     resilienceTemplateView__btn__close.addEventListener('click', () => {
-        modal_resilience.style.display = 'none';
+        resilienceTemplateModal.style.display = 'none';
     })
 
     /**
@@ -86,6 +106,13 @@ export function createResilienceTemplateView(element) {
      * we will use the shape_id of a newly created element on the canvas
      */
     let templateId = element.id;
+    
+    resilienceTemplateModal.id = 'modal_resilience';
+    // resilienceTemplateModal.classList.add('templateId');
+    resilienceTemplateContent.id = 'modal_resilience_content';
+    // resilienceTemplateContent.classList.add('templateId');
+    resilienceTemplateContentInputContainer.id = 'input__container';
+    // resilienceTemplateContentInputContainer.classList.add('input__container');
 
     resilienceTemplateView__btn__open.id = templateId;
     resilienceTemplateView__btn__open.innerText = 'Resilience Szenario ' + templateId.toString();
@@ -138,23 +165,29 @@ export function createResilienceTemplateView(element) {
     /**
      * Appending all child nodes to parent container, i.e., template view
      */
-    modal_resilience__content.appendChild(resilienceTemplateView__btn__close);
-    modal_resilience__content.appendChild(resilienceTemplateView__btn__save);
-
-    input__container.appendChild(resilienceScenarioName__label);
-    input__container.appendChild(resilienceScenarioName);
-
-    input__container.appendChild(resilienceScenarioInjection__label);
-    input__container.appendChild(resilienceScenarioInjectionTypeSelect);
-
-    input__container.appendChild(resilienceScenarioFaultType__label);
-    input__container.appendChild(resilienceScenarioFaultTypeSelect);
-
-    input__container.appendChild(resilienceScenarioStart__label);
-    input__container.appendChild(resilienceScenarioStart);
-
-    input__container.appendChild(resilienceScenarioEnvironment__label);
-    input__container.appendChild(resilienceScenarioEnvironmentSelect);
+    
+    modal__container.appendChild(resilienceTemplateModal);
+    resilienceTemplateModal.appendChild(resilienceTemplateContent);
+    resilienceTemplateContent.appendChild(resilienceTemplateContentInputContainer);
+    
+    
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__label);
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName);
+    
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioInjection__label);
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioInjectionTypeSelect);
+    
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioFaultType__label);
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioFaultTypeSelect);
+    
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioStart__label);
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioStart);
+    
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironment__label);
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironmentSelect);
+    
+    resilienceTemplateContent.appendChild(resilienceTemplateView__btn__close);
+    resilienceTemplateContent.appendChild(resilienceTemplateView__btn__save);
 
 }
 

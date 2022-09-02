@@ -116,10 +116,10 @@
           <div id="runtimeAnalysisSummaryContainer">
           </div>
         </div>
-        <div>
-          <div id="modal_resilience">
-            <div id="modal_resilience_content">
-              <div id="input__container">
+        <div id="modal__container">
+          <!-- <div class="modal_resilience">
+            <div class="modal_resilience_content">
+              <div class="input__container">
               </div>
             </div>
           </div>
@@ -128,7 +128,7 @@
           </div>
           <div id="modal_monitoring">
             <div id="modal_monitoring_content"></div>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- THESIS:END -->
@@ -403,23 +403,15 @@
      * Get elements
      */
     let btn__analysisResults = document.getElementById('btn__showAnalysisResults');
-    let btn_modal_close = document.getElementById('modal_close_btn');
-    let select = document.getElementById('contexts');
+    // let btn_modal_close = document.getElementById('modal_close_btn');
     let currentContext = document.getElementById('currentContext');
-    let modal_resilience = document.getElementById('modal_resilience');
-
-    // let scenarioName = document.getElementById('scenarioName');
-    // console.log(scenarioName);
-    // scenarioName.addEventListener('click', test);
-
+    // let modal_resilience = document.getElementById('modal_resilience');
 
     /**
      * Listeners
      */
     btn__analysisResults.addEventListener('click', () => { console.log("Show analysis results..."); })
     btn_modal_close.addEventListener('click', () => { modal_resilience.style.display = 'none'; })
-    // scenarioName.addEventListener('click', () => { console.log("Show analysis results..."); });
-    // scenarioName.addEventListener('click', test2);
 
 
     select.addEventListener('change', () => {
