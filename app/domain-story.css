@@ -18,7 +18,7 @@ input {
   display: flex;
   flex-direction: column;
   width: 50%;
-  margin: 0 0 5% 0;
+  margin: 5% 0 5% 2%;
   /* justify-content: center; */
 }
 
@@ -47,6 +47,7 @@ input {
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
+  max-width: 800px;
 }
 
 #modal_loadtest {

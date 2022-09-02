@@ -128,6 +128,12 @@ export function createResilienceTemplateView(element) {
     resilienceScenarioInjection__label.setAttribute("for", 'resilienceScenarioInjectionTypeSelect');
     resilienceScenarioFaultType__label.setAttribute("for", 'resilienceScenarioFaultTypeSelect');
 
+    resilienceScenarioName__label.style.margin = '2% 0 0 0';
+    resilienceScenarioStart__label.style.margin = '2% 0 0 0';
+    resilienceScenarioEnvironment__label.style.margin = '2% 0 0 0';
+    resilienceScenarioInjection__label.style.margin = '2% 0 0 0';
+    resilienceScenarioFaultType__label.style.margin = '2% 0 0 0';
+
 
     /**
      * Appending all child nodes to parent container, i.e., template view
