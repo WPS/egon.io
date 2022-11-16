@@ -107,17 +107,32 @@ export function initImports(
     titleInputLast = titleInput.value;
   };
 
-  document.getElementById('importIcon').onchange = function() {
-    const inputIcon = document.getElementById('importIcon').files[0];
-    let reader = new FileReader();
-    const endIndex = inputIcon.name.lastIndexOf('.');
-    let name = sanitizeIconName(inputIcon.name.substring(0, endIndex));
+  document.getElementById('importIcon').onchange = async function() {
 
-    reader.onloadend = function(e) {
-      addIMGToIconDictionary(e.target.result, name + '-custom');
-    };
+    function importIcon(file) {
+      const reader = new FileReader()
+      const endIndex = file.name.lastIndexOf('.');
+      let name = sanitizeIconName(file.name.substring(0, endIndex));
 
-    reader.readAsDataURL(inputIcon);
+      return new Promise(resolve => {
+        reader.onload = ev => {
+          addIMGToIconDictionary(ev.target.result, name + '-custom');
+          resolve()
+        }
+        reader.readAsDataURL(file)
+        
+      })
+    }
+
+    let fileList = document.getElementById('importIcon').files;
+    const promises = []
+
+    for (let i = 0; i < fileList.length; i++) {
+      promises.push(importIcon(fileList[i]))
+    }
+    
+    return await Promise.all(promises)
+    
   };
 
   document.getElementById('importConfig').onchange = function() {
