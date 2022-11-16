@@ -2,7 +2,8 @@
     "extends": "plugin:bpmn-io/es6",
     "env": {
         "browser": true,
-        "mocha": true
+        "mocha": true,
+        "es6": true
     },
     "globals": {
         "assert": true,

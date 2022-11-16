@@ -110,29 +110,27 @@ export function initImports(
   document.getElementById('importIcon').onchange = async function() {
 
     function importIcon(file) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       const endIndex = file.name.lastIndexOf('.');
       let name = sanitizeIconName(file.name.substring(0, endIndex));
 
       return new Promise(resolve => {
         reader.onload = ev => {
           addIMGToIconDictionary(ev.target.result, name + '-custom');
-          resolve()
-        }
-        reader.readAsDataURL(file)
-        
-      })
+          resolve();
+        };
+        reader.readAsDataURL(file);
+      });
     }
 
     let fileList = document.getElementById('importIcon').files;
-    const promises = []
+    const promises = [];
 
     for (let i = 0; i < fileList.length; i++) {
-      promises.push(importIcon(fileList[i]))
+      promises.push(importIcon(fileList[i]));
     }
-    
-    return await Promise.all(promises)
-    
+
+    return await Promise.all(promises);
   };
 
   document.getElementById('importConfig').onchange = function() {
