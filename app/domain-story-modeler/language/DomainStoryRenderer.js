@@ -337,7 +337,8 @@ export default function DomainStoryRenderer(eventBus, styles, canvas, textRender
       if (!element.businessObject.pickedColor) {
         element.businessObject.pickedColor = DEFAULT_COLOR;
       }
-      if (iconSRC.match(/fill=".*?"/).length > 1) {
+      const match = iconSRC.match(/fill=".*?"/);
+      if (match && match.length > 1) {
         iconSRC=iconSRC.replace(/fill=".*?"/, 'fill="'+ element.businessObject.pickedColor +'"');
       } else {
         const index = iconSRC.indexOf('<svg ') + 5;

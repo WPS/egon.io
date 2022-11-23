@@ -85,6 +85,15 @@ export function setTitleInputLast(title) {
   titleInputLast = title;
 }
 
+function importIcon(file) {
+  const reader = new FileReader();
+  const endIndex = file.name.lastIndexOf('.');
+  let name = sanitizeIconName(file.name.substring(0, endIndex));
+
+  reader.onload = ev => addIMGToIconDictionary(ev.target.result, name + '-custom');
+  reader.readAsDataURL(file);
+}
+
 export function initImports(
     elementRegistry,
     version,
@@ -108,16 +117,8 @@ export function initImports(
   };
 
   document.getElementById('importIcon').onchange = function() {
-    const inputIcon = document.getElementById('importIcon').files[0];
-    let reader = new FileReader();
-    const endIndex = inputIcon.name.lastIndexOf('.');
-    let name = sanitizeIconName(inputIcon.name.substring(0, endIndex));
-
-    reader.onloadend = function(e) {
-      addIMGToIconDictionary(e.target.result, name + '-custom');
-    };
-
-    reader.readAsDataURL(inputIcon);
+    let fileList = Array.from(document.getElementById('importIcon').files);
+    fileList.forEach(importIcon);
   };
 
   document.getElementById('importConfig').onchange = function() {
