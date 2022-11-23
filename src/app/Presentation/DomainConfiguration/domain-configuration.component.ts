@@ -98,25 +98,27 @@ export class DomainConfigurationComponent implements OnInit {
 
   public importIcon(): void {
     // @ts-ignore
-    const iconInputFile = document.getElementById('importIcon').files[0];
-    const reader = new FileReader();
-    const endIndex = iconInputFile.name.lastIndexOf('.');
-    const name = sanitizeIconName(iconInputFile.name.substring(0, endIndex));
-    const iconName = name + '_custom';
+    const files = document.getElementById('importIcon').files;
+    for (let iconInputFile of files) {
+      const reader = new FileReader();
+      const endIndex = iconInputFile.name.lastIndexOf('.');
+      const name = sanitizeIconName(iconInputFile.name.substring(0, endIndex));
+      const iconName = name + '_custom';
 
-    reader.onloadend = (e) => {
-      // @ts-ignore
-      const src: string = e.target.result;
-      this.iconDictionaryService.addIMGToIconDictionary(src, iconName);
-      this.iconDictionaryService.registerIconForBPMN(iconName, src);
+      reader.onloadend = (e) => {
+        // @ts-ignore
+        const src: string = e.target.result;
+        this.iconDictionaryService.addIMGToIconDictionary(src, iconName);
+        this.iconDictionaryService.registerIconForBPMN(iconName, src);
 
-      this.allIcons = this.iconDictionaryService.getFullDictionary();
-      this.allIconNames.next(this.allIcons.keysArray());
-      this.filter.next(this.filter.value);
+        this.allIcons = this.iconDictionaryService.getFullDictionary();
+        this.allIconNames.next(this.allIcons.keysArray());
+        this.filter.next(this.filter.value);
 
-      this.domainCustomizationService.addNewIcon(iconName);
-    };
-    reader.readAsDataURL(iconInputFile);
+        this.domainCustomizationService.addNewIcon(iconName);
+      };
+      reader.readAsDataURL(iconInputFile);
+    }
   }
 
   /** Import Domain **/

@@ -1,11 +1,15 @@
 <h2 mat-dialog-title>{{ title }}</h2>
 
 <label>
-  <input type="checkbox" [checked]="withTitle | async" (change)="updateWithTitle($event)">
+  <input
+    type="checkbox"
+    [checked]="withTitle | async"
+    (change)="updateWithTitle($event)"
+  />
   Add title and description into image
 </label>
 <mat-dialog-actions>
-  <br>
+  <br />
   <button class="mat-raised-button" (click)="doOption(0)">
     {{ options[0].text }}
   </button>

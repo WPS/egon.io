@@ -170,7 +170,7 @@ export class PngService {
       box.yUp + 20,
       this.width
     );
-    if(withTitle) {
+    if (withTitle) {
       this.height += extraHeight;
     }
 
@@ -186,10 +186,12 @@ export class PngService {
 
     const insertIndex = svg.indexOf('<g class="viewport">') + 20;
 
-    if(withTitle) {
-      svg = [svg.slice(0, insertIndex), insertText, svg.slice(insertIndex)].join(
-        ''
-      );
+    if (withTitle) {
+      svg = [
+        svg.slice(0, insertIndex),
+        insertText,
+        svg.slice(insertIndex),
+      ].join('');
     }
     svg = this.URIHashtagFix(svg);
 

@@ -49,19 +49,28 @@ export class SvgService {
       yUp,
       width
     );
-    if(withTitle) {
+    if (withTitle) {
       // to display the title and description in the SVG-file, we need to add a container for the text-elements
       height += extraHeight + 80;
     }
 
     const svgIndex = data.indexOf('width="');
     const backgroundColorWhite = 'style="background-color:white" ';
-    data = [data.slice(0, svgIndex),
+    data = [
+      data.slice(0, svgIndex),
       backgroundColorWhite,
-      data.slice(svgIndex)].join('');
+      data.slice(svgIndex),
+    ].join('');
 
-
-    const bounds = this.createBounds(width, height, xLeft, yUp, xRight, yDown, withTitle);
+    const bounds = this.createBounds(
+      width,
+      height,
+      xLeft,
+      yUp,
+      xRight,
+      yDown,
+      withTitle
+    );
 
     const dataStart = data.substring(0, viewBoxIndex);
     viewBoxIndex = data.indexOf('" version');
@@ -73,7 +82,7 @@ export class SvgService {
 
     const insertIndex = this.findIndexTOInsertData(data);
 
-    if(withTitle) {
+    if (withTitle) {
       data = [
         data.slice(0, insertIndex),
         insertText,
@@ -111,7 +120,7 @@ export class SvgService {
       '" viewBox="' +
       xLeft +
       ' ' +
-      (withTitle? (yUp - 80): yUp) +
+      (withTitle ? yUp - 80 : yUp) +
       ' ' +
       xRight +
       ' ' +
