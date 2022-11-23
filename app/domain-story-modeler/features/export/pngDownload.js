@@ -7,7 +7,7 @@ let width, height;
 let title = document.getElementById('title'),
     infoText = document.getElementById('infoText');
 
-export function downloadPNG(withTitle) {
+export async function downloadPNG(withTitle) {
   let canvas = document.getElementById('canvas');
   let container = canvas.getElementsByClassName('djs-container');
   let svgElements = container[0].getElementsByTagName('svg');
@@ -20,7 +20,7 @@ export function downloadPNG(withTitle) {
   let onLoadTriggered = false;
 
   // removes unwanted black dots in image
-  let svg = extractSVG(viewport);
+  let svg = await extractSVG(viewport);
 
   svg = prepareSVG(svg, layerBase, withTitle);
 
@@ -94,15 +94,26 @@ export function downloadPNG(withTitle) {
     image.src ='';
   }
 
+  async function wait(ms) {
+    // eslint-disable-next-line no-undef
+    return new Promise((resolve, reject) =>
+      setTimeout(() => {
+        resolve();
+      }, ms));
+  }
 
-  function extractSVG(viewport) {
+  async function extractSVG(viewport) {
     let layerResizers = viewport.getElementsByClassName('layer-resizers');
     let layerOverlays = viewport.getElementsByClassName('layer-overlays');
     let transform = viewport.getAttribute('transform');
     let translate = viewport.getAttribute('translate');
 
-    const layerRes = layerResizers[0];
-    const layerOver= layerOverlays[0];
+    let layerRes, layerOver;
+    while (layerOver == undefined) {
+      await wait(500);
+      layerOver = layerOverlays[0];
+      layerRes = layerResizers[0];
+    }
 
     const layerResizersParent = layerResizers[0].parentNode;
     const layerOverlaysParent = layerOverlays[0].parentNode;
