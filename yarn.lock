@@ -2263,10 +2263,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/jasmine@^3.10.2":
-  "integrity" "sha512-brLuHhITMz4YV2IxLstAJtyRJgtWfLqFKiqiJFvFWMSmydpAmn42CE4wfw7ywkSk02UrufhtzipTcehk8FctoQ=="
-  "resolved" "https://registry.npmjs.org/@types/jasmine/-/jasmine-3.10.7.tgz"
-  "version" "3.10.7"
+"@types/jasmine@^4.3.1":
+  "integrity" "sha512-Vu8l+UGcshYmV1VWwULgnV/2RDbBaO6i2Ptx7nd//oJPIZGhoI1YLST4VKagD2Pq/Bc2/7zvtvhM7F3p4SN7kQ=="
+  "resolved" "https://registry.npmjs.org/@types/jasmine/-/jasmine-4.3.1.tgz"
+  "version" "4.3.1"
 
 "@types/json-schema@*", "@types/json-schema@^7.0.8", "@types/json-schema@^7.0.9":
   "integrity" "sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ=="
@@ -2278,10 +2278,10 @@
   "resolved" "https://registry.npmjs.org/@types/mime/-/mime-3.0.1.tgz"
   "version" "3.0.1"
 
-"@types/node@*", "@types/node@^12.20.37", "@types/node@>=10.0.0":
-  "integrity" "sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-12.20.55.tgz"
-  "version" "12.20.55"
+"@types/node@*", "@types/node@^16.18.12", "@types/node@>=10.0.0":
+  "integrity" "sha512-vzLe5NaNMjIE3mcddFVGlAXN1LEWueUsMsOJWaT6wWMJGyljHAWHznqfnKUQWGzu7TLPrGvWdNAsvQYW+C0xtw=="
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-16.18.12.tgz"
+  "version" "16.18.12"
 
 "@types/parse-json@^4.0.0":
   "integrity" "sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA=="
@@ -5211,10 +5211,10 @@
   "resolved" "https://registry.npmjs.org/ini/-/ini-3.0.1.tgz"
   "version" "3.0.1"
 
-"inquirer@^8.2.4":
-  "integrity" "sha512-nn4F01dxU8VeKfq192IjLsxu0/OmMZ4Lg3xKAns148rCaXP6ntAoEkVYZThWjwON8AlzdZZi6oqnhNbxUG9hVg=="
-  "resolved" "https://registry.npmjs.org/inquirer/-/inquirer-8.2.4.tgz"
-  "version" "8.2.4"
+"inquirer@^8.2.5":
+  "integrity" "sha512-QAgPDQMEgrDssk1XiwwHoOGYF9BAbUcc1+j+FhEvaOt8/cKRqyLn0U5qA6F74fGhTMGxf92pOvPBeh29jQJDTQ=="
+  "resolved" "https://registry.npmjs.org/inquirer/-/inquirer-8.2.5.tgz"
+  "version" "8.2.5"
   dependencies:
     "ansi-escapes" "^4.2.1"
     "chalk" "^4.1.1"
@@ -5567,20 +5567,20 @@
     "html-escaper" "^2.0.0"
     "istanbul-lib-report" "^3.0.0"
 
-"jasmine-core@^3.6.0", "jasmine-core@>=3.8", "jasmine-core@~3.6.0":
-  "integrity" "sha512-8uQYa7zJN8hq9z+g8z1bqCfdC8eoDAeVnM5sfqs7KHv9/ifoJ500m018fpFc7RDaO6SWCLCXwo/wPSNcdYTgcw=="
-  "resolved" "https://registry.npmjs.org/jasmine-core/-/jasmine-core-3.6.0.tgz"
-  "version" "3.6.0"
+"jasmine-core@^4.0.0", "jasmine-core@^4.1.0", "jasmine-core@^4.5.0":
+  "integrity" "sha512-9PMzyvhtocxb3aXJVOPqBDswdgyAeSB81QnLop4npOpbqnheaTEwPc9ZloQeVswugPManznQBjD8kWDTjlnHuw=="
+  "resolved" "https://registry.npmjs.org/jasmine-core/-/jasmine-core-4.5.0.tgz"
+  "version" "4.5.0"
 
 "jasmine-core@~2.8.0":
   "integrity" "sha512-SNkOkS+/jMZvLhuSx1fjhcNWUC/KG6oVyFUGkSBEr9n1axSNduWU8GlI7suaHXr4yxjet6KjrUZxUTE5WzzWwQ=="
   "resolved" "https://registry.npmjs.org/jasmine-core/-/jasmine-core-2.8.0.tgz"
   "version" "2.8.0"
 
-"jasmine-spec-reporter@~5.0.0":
-  "integrity" "sha512-6gP1LbVgJ+d7PKksQBc2H0oDGNRQI3gKUsWlswKaQ2fif9X5gzhQcgM5+kiJGCQVurOG09jqNhk7payggyp5+g=="
-  "resolved" "https://registry.npmjs.org/jasmine-spec-reporter/-/jasmine-spec-reporter-5.0.2.tgz"
-  "version" "5.0.2"
+"jasmine-spec-reporter@^7.0.0":
+  "integrity" "sha512-OtC7JRasiTcjsaCBPtMO0Tl8glCejM4J4/dNuOJdA8lBjz4PmWjYQ6pzb0uzpBNAWJMDudYuj9OdXJWqM2QTJg=="
+  "resolved" "https://registry.npmjs.org/jasmine-spec-reporter/-/jasmine-spec-reporter-7.0.0.tgz"
+  "version" "7.0.0"
   dependencies:
     "colors" "1.4.0"
 
@@ -5731,17 +5731,17 @@
     "istanbul-reports" "^3.0.5"
     "minimatch" "^3.0.4"
 
-"karma-jasmine-html-reporter@^1.7.0":
-  "integrity" "sha512-pzum1TL7j90DTE86eFt48/s12hqwQuiD+e5aXx2Dc9wDEn2LfGq6RoAxEZZjFiN0RDSCOnosEKRZWxbQ+iMpQQ=="
-  "resolved" "https://registry.npmjs.org/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-1.7.0.tgz"
-  "version" "1.7.0"
+"karma-jasmine-html-reporter@^2.0.0":
+  "integrity" "sha512-SB8HNNiazAHXM1vGEzf8/tSyEhkfxuDdhYdPBX2Mwgzt0OuF2gicApQ+uvXLID/gXyJQgvrM9+1/2SxZFUUDIA=="
+  "resolved" "https://registry.npmjs.org/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-2.0.0.tgz"
+  "version" "2.0.0"
 
-"karma-jasmine@^4.0.1", "karma-jasmine@>=1.1":
-  "integrity" "sha512-ggi84RMNQffSDmWSyyt4zxzh2CQGwsxvYYsprgyR1j8ikzIduEdOlcLvXjZGwXG/0j41KUXOWsUCBfbEHPWP9g=="
-  "resolved" "https://registry.npmjs.org/karma-jasmine/-/karma-jasmine-4.0.2.tgz"
-  "version" "4.0.2"
+"karma-jasmine@^5.0.0", "karma-jasmine@^5.1.0":
+  "integrity" "sha512-i/zQLFrfEpRyQoJF9fsCdTMOF5c2dK7C7OmsuKg2D0YSsuZSfQDiLuaiktbuio6F2wiCsZSnSnieIQ0ant/uzQ=="
+  "resolved" "https://registry.npmjs.org/karma-jasmine/-/karma-jasmine-5.1.0.tgz"
+  "version" "5.1.0"
   dependencies:
-    "jasmine-core" "^3.6.0"
+    "jasmine-core" "^4.1.0"
 
 "karma-source-map-support@1.4.0":
   "integrity" "sha512-RsBECncGO17KAoJCYXjv+ckIz+Ii9NCi+9enk+rq6XC81ezYkb4/RHE6CTXdA7IOJqoF3wcaLfVG0CPmE5ca6A=="
@@ -5750,10 +5750,10 @@
   dependencies:
     "source-map-support" "^0.5.5"
 
-"karma@*", "karma@^6.3.0", "karma@^6.3.9", "karma@>=0.9":
-  "integrity" "sha512-s8m7z0IF5g/bS5ONT7wsOavhW4i4aFkzD4u4wgzAQWT4HGUeWI3i21cK2Yz6jndMAeHETp5XuNsRoyGJZXVd4w=="
-  "resolved" "https://registry.npmjs.org/karma/-/karma-6.4.0.tgz"
-  "version" "6.4.0"
+"karma@^6.0.0", "karma@^6.3.0", "karma@^6.4.1":
+  "integrity" "sha512-Cj57NKOskK7wtFWSlMvZf459iX+kpYIPXmkNUzP2WAFcA7nhr/ALn5R7sw3w+1udFDcpMx/tuB8d5amgm3ijaA=="
+  "resolved" "https://registry.npmjs.org/karma/-/karma-6.4.1.tgz"
+  "version" "6.4.1"
   dependencies:
     "@colors/colors" "1.5.0"
     "body-parser" "^1.19.0"
@@ -8002,13 +8002,6 @@
   dependencies:
     "ansi-regex" "^5.0.1"
 
-"strip-ansi@^6.0.1":
-  "integrity" "sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A=="
-  "resolved" "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
-  "version" "6.0.1"
-  dependencies:
-    "ansi-regex" "^5.0.1"
-
 "strip-bom@^3.0.0":
   "integrity" "sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA=="
   "resolved" "https://registry.npmjs.org/strip-bom/-/strip-bom-3.0.0.tgz"
@@ -8886,12 +8879,12 @@
   "resolved" "https://registry.npmjs.org/yn/-/yn-3.1.1.tgz"
   "version" "3.1.1"
 
-"zip-build@^1.7.0":
-  "integrity" "sha512-Z+v143+DST+POhF0J6lba8OVsavZ14hvvIVtEkesxXPJ/akxGwXgVGPdv/9/3d3SlHeLPazzEg7OERw9EitHEg=="
-  "resolved" "https://registry.npmjs.org/zip-build/-/zip-build-1.7.0.tgz"
-  "version" "1.7.0"
+"zip-build@^1.8.0":
+  "integrity" "sha512-4wYrsrYyme1RTeNCCXg9AwseQFRpj3n7qjiIfaq9qtOAYevgbhtktCzxK7CL0KDZyz/tA9Yxqrn1HismAiJ/eg=="
+  "resolved" "https://registry.npmjs.org/zip-build/-/zip-build-1.8.0.tgz"
+  "version" "1.8.0"
   dependencies:
-    "inquirer" "^8.2.4"
+    "inquirer" "^8.2.5"
     "yargs" "^16.2.0"
     "zip-folder-promise" "^1.2.0"
 
