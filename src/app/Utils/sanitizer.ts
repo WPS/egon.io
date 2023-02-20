@@ -42,11 +42,12 @@ export function restoreTitleFromFileName(
 ): string {
   let title;
 
-  const dstRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst/;
-  const svgRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst.svg/;
+  const dstRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(.dst|.egn)/;
+  const svgRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(.dst|.egn).svg/;
 
+  const egnSuffix = '.dst';
   const dstSuffix = '.dst';
-  const svgSuffix = dstSuffix+'.svg';
+  const svgSuffix = '.svg';
 
   let filenameWithoutDateSuffix = filename.replace(
     isSVG ? svgRegex : dstRegex,
@@ -54,7 +55,13 @@ export function restoreTitleFromFileName(
   );
   if (filenameWithoutDateSuffix.includes(isSVG ? svgSuffix : dstSuffix)) {
     filenameWithoutDateSuffix = filenameWithoutDateSuffix.replace(
-      isSVG ? svgSuffix : dstSuffix,
+      svgSuffix,
+      ''
+    ).replace(
+      dstSuffix,
+      ''
+    ).replace(
+      egnSuffix,
       ''
     );
   }

@@ -19,7 +19,7 @@ import {
 })
 export class StorageService {
   setAutosaveEnabled(enabled: boolean): void {
-    localStorage.setItem(AUTOSAVE_ACTIVATED_TAG, JSON.stringify(enabled));
+    localStorage.setItem(AUTOSAVE_ACTIVATED_TAG, JSON.stringify(enabled, null, 2));
   }
 
   getAutosaveEnabled() {
@@ -37,7 +37,7 @@ export class StorageService {
   setAutosaves(currentAutosaves: Autosave[]): void {
     localStorage.setItem(
       AUTOSAVE_TAG,
-      JSON.stringify({ autosaves: currentAutosaves })
+      JSON.stringify({ autosaves: currentAutosaves }, null, 2)
     );
   }
 
@@ -111,7 +111,7 @@ export class StorageService {
 
     localStorage.setItem(
       DOMAIN_CONFIGURATION_TAG,
-      JSON.stringify(configForStorage)
+      JSON.stringify(configForStorage, null, 2)
     );
   }
 }

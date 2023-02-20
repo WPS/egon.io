@@ -34,7 +34,7 @@ export class DomainConfigurationService {
       return;
     }
 
-    const configJSONString = JSON.stringify(domainConfiguration);
+    const configJSONString = JSON.stringify(domainConfiguration, null, 2);
     const filename = this.titleService.getDomainName();
     const element = document.createElement('a');
 

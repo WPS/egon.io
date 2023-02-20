@@ -1,8 +1,8 @@
 export class ConfigAndDST {
-  public domain = '';
-  public dst = '';
+  public domain: any;
+  public dst: any;
 
-  public constructor(domain: string, dst: string) {
+  public constructor(domain: any, dst: any) {
     this.domain = domain;
     this.dst = dst;
   }

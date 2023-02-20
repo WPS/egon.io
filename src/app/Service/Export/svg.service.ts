@@ -143,7 +143,7 @@ export class SvgService {
   }
 
   private appendDST(data: string, dst: ConfigAndDST): string {
-    data += '\n<!-- <DST>\n' + JSON.stringify(dst) + '\n </DST> -->';
+    data += '\n<!-- <DST>\n' + JSON.stringify(dst, null, 2) + '\n </DST> -->';
     return data;
   }
 }

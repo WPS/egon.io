@@ -65,8 +65,22 @@ export class HeaderButtonsComponent {
         filename,
         false
       );
-    } else if (filename.endsWith('.svg')) {
+    } else if (filename.endsWith('.dst.svg')) {
       this.importService.importDST(
+        // @ts-ignore
+        document.getElementById('import').files[0],
+        filename,
+        true
+      );
+    } else if (filename.endsWith('.egn')) {
+      this.importService.importEGN(
+        // @ts-ignore
+        document.getElementById('import').files[0],
+        filename,
+        false
+      );
+    } else if (filename.endsWith('.egn.svg')) {
+      this.importService.importEGN(
         // @ts-ignore
         document.getElementById('import').files[0],
         filename,
@@ -87,7 +101,7 @@ export class HeaderButtonsComponent {
   /** Open Dialogs **/
   public openDownloadDialog(): void {
     if (this.exportService.isDomainStoryExportable()) {
-      const option1 = new ExportOption('DST', (withTitle: boolean) =>
+      const option1 = new ExportOption('EGN', (withTitle: boolean) =>
         this.exportService.downloadDST()
       );
       const option2 = new ExportOption('SVG', (withTitle: boolean) =>

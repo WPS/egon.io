@@ -85,7 +85,7 @@ export class AutosaveService {
   }
 
   private createAutosave(): Autosave {
-    const dst = JSON.stringify(this.rendererService.getStory());
+    const dst = JSON.stringify(this.rendererService.getStory(), null, 2);
     const configAndDST = this.exportService.createConfigAndDST(dst);
 
     const date = new Date().toString().slice(0, 25);

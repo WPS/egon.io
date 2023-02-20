@@ -51,19 +51,17 @@ export class ExportService implements OnDestroy {
     return this.rendererService.getStory().length >= 1;
   }
 
-  public createConfigAndDST(DomainStory: string): ConfigAndDST {
+  public createConfigAndDST(DomainStory: any): ConfigAndDST {
     return new ConfigAndDST(
-      JSON.stringify(
-        this.configurationService.getCurrentConfigurationForExport()
-      ),
+      this.configurationService.getCurrentConfigurationForExport(),
       DomainStory
     );
   }
 
   public downloadDST(): void {
-    const dst = JSON.stringify(this.getStoryForDownload());
+    const dst = this.getStoryForDownload();
     const configAndDST = this.createConfigAndDST(dst);
-    const json = JSON.stringify(configAndDST);
+    const json = JSON.stringify(configAndDST, null, 2);
 
     const filename = sanitizeForDesktop(
       this.title + '_' + new Date().toString().slice(0, 10)
@@ -73,7 +71,7 @@ export class ExportService implements OnDestroy {
       json,
       'data:text/plain;charset=utf-8,',
       filename,
-      '.dst',
+      '.egn',
       true
     );
   }
@@ -103,7 +101,7 @@ export class ExportService implements OnDestroy {
 
   public downloadSVG(withTitle: boolean): void {
     const story = this.getStoryForDownload();
-    const dst = this.createConfigAndDST(JSON.stringify(story));
+    const dst = this.createConfigAndDST(story);
 
     const svgData = this.svgService.createSVGData(
       this.title,
@@ -116,7 +114,7 @@ export class ExportService implements OnDestroy {
       svgData,
       'data:application/bpmn20-xml;charset=UTF-8,',
       sanitizeForDesktop(this.title),
-      '.dst.svg',
+      '.egn.svg',
       true
     );
   }

@@ -94,7 +94,26 @@ export class ImportDomainStoryService implements OnDestroy {
 
     fileReader.onloadend = (e) => {
       if (e && e.target) {
-        this.fileReaderFunction(e.target.result, isSVG);
+        this.fileReaderFunction(e.target.result, isSVG, false);
+      }
+    };
+
+    fileReader.readAsText(input);
+  }
+
+  public importEGN(input: Blob, filename: string, isSVG: boolean): void {
+    this.titleInputLast = '';
+    this.descriptionInputLast = '';
+
+    const fileReader = new FileReader();
+    const titleText = restoreTitleFromFileName(filename, isSVG);
+
+    // no need to put this on the commandStack
+    this.titleService.updateTitleAndDescription(titleText, null, false);
+
+    fileReader.onloadend = (e) => {
+      if (e && e.target) {
+        this.fileReaderFunction(e.target.result, isSVG, true);
       }
     };
 
@@ -103,7 +122,7 @@ export class ImportDomainStoryService implements OnDestroy {
 
   private fileReaderFunction(
     text: string | ArrayBuffer | null,
-    isSVG: boolean
+    isSVG: boolean, isEGN: boolean
   ): void {
     let dstText;
     if (typeof text === 'string') {
@@ -128,7 +147,7 @@ export class ImportDomainStoryService implements OnDestroy {
 
       // current implementation
       if (dstAndConfig.domain) {
-        configFromFile = JSON.parse(dstAndConfig.domain);
+        configFromFile = isEGN? dstAndConfig.domain: JSON.parse(dstAndConfig.domain);
         config = fromConfigurationFromFile(configFromFile);
         elements = JSON.parse(dstAndConfig.dst);
       } else {
