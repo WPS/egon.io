@@ -8,7 +8,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MockModule, MockProviders, MockService } from 'ng-mocks';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { ReplayService } from '../../../Service/Replay/replay.service';
 
 describe('HeaderDialogComponent', () => {
@@ -25,10 +25,10 @@ describe('HeaderDialogComponent', () => {
           useValue: MockService(ReplayService),
         },
         {
-          provide: FormBuilder,
+          provide: UntypedFormBuilder,
         },
         MockProviders(MatDialog, MatDialogRef),
-        FormBuilder,
+        UntypedFormBuilder,
       ],
     }).compileComponents();
   });

@@ -7,7 +7,7 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { InfoDialogData } from '../../../Domain/Dialog/infoDialogData';
 
 describe('InfoDialogComponent', () => {
@@ -31,7 +31,7 @@ describe('InfoDialogComponent', () => {
           provide: MAT_DIALOG_DATA,
           useValue: infoData,
         },
-        FormBuilder,
+        UntypedFormBuilder,
       ],
     }).compileComponents();
   });

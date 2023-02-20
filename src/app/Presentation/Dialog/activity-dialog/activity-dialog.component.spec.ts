@@ -1,7 +1,7 @@
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
 import { ActivityDialogComponent } from 'src/app/Presentation/Dialog/activity-dialog/activity-dialog.component';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { MockProviders } from 'ng-mocks';
 import {
   MAT_DIALOG_DATA,
@@ -31,12 +31,12 @@ describe('ActivityDialogComponent', () => {
           provide: MAT_DIALOG_DATA,
           useValue: activityData,
         },
-        FormBuilder,
+        UntypedFormBuilder,
       ],
     }).compileComponents();
   });
 
-  beforeEach(inject([FormBuilder], (formBuilder: FormBuilder) => {
+  beforeEach(inject([UntypedFormBuilder], (formBuilder: UntypedFormBuilder) => {
     fixture = TestBed.createComponent(ActivityDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

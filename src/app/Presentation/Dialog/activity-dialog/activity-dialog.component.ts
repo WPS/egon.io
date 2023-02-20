@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ActivityDialogData } from 'src/app/Domain/Dialog/activityDialogData';
 import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
 
@@ -10,7 +10,7 @@ import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObjec
   styleUrls: ['./activity-dialog.component.scss'],
 })
 export class ActivityDialogComponent {
-  form: FormGroup;
+  form: UntypedFormGroup;
   activityLabel: string;
   activityNumber: number | undefined;
   numberIsAllowedMultipleTimes: boolean;
@@ -20,7 +20,7 @@ export class ActivityDialogComponent {
   saveFN: any;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private dialogRef: MatDialogRef<ActivityDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: ActivityDialogData
   ) {

@@ -25,7 +25,7 @@ import { MassNamingService } from 'src/app/Service/LabelDictionary/mass-naming.s
 import { InfoDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/info-dialog.component';
 import { ExportDialogComponent } from 'src/app/Presentation/Dialog/export-dialog/export-dialog.component';
 import { ActivityDialogComponent } from 'src/app/Presentation/Dialog/activity-dialog/activity-dialog.component';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { HeaderDialogComponent } from 'src/app/Presentation/Dialog/header-dialog/header-dialog.component';
 import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
@@ -83,7 +83,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         DomainConfigurationService,
         ModelerService,
         MassNamingService,
-        FormBuilder,
+        UntypedFormBuilder,
         {
             provide: MAT_CHECKBOX_DEFAULT_OPTIONS,
             useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions,

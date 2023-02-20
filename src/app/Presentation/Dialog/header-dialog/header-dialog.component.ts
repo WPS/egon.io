@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { TitleService } from 'src/app/Service/Title/title.service';
 
 @Component({
@@ -9,12 +9,12 @@ import { TitleService } from 'src/app/Service/Title/title.service';
   styleUrls: ['./header-dialog.component.scss'],
 })
 export class HeaderDialogComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   title: string;
   description: string;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private dialogRef: MatDialogRef<HeaderDialogComponent>,
     private titleService: TitleService
   ) {
