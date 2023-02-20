@@ -46,7 +46,7 @@ export function restoreTitleFromFileName(
   const svgRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?.dst.svg/;
 
   const dstSuffix = '.dst';
-  const svgSuffix = '.svg';
+  const svgSuffix = dstSuffix+'.svg';
 
   let filenameWithoutDateSuffix = filename.replace(
     isSVG ? svgRegex : dstRegex,

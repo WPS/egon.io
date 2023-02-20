@@ -80,7 +80,7 @@ export class SvgService {
 
     data = dataStart + bounds + dataEnd;
 
-    const insertIndex = this.findIndexTOInsertData(data);
+    const insertIndex = this.findIndexToInsertData(data);
 
     if (withTitle) {
       data = [
@@ -93,7 +93,7 @@ export class SvgService {
     return this.appendDST(data, dst);
   }
 
-  private findIndexTOInsertData(data: string) {
+  private findIndexToInsertData(data: string) {
     let insertIndex = data.indexOf('</defs>');
     if (insertIndex < 0) {
       insertIndex = data.indexOf('version="1.2">') + 14;
