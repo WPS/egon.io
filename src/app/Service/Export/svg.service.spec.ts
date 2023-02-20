@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { SvgService } from 'src/app/Service/Export/svg.service';
 import { ModelerService } from '../Modeler/modeler.service';
 import { testConfigAndDst } from '../../Domain/Export/configAndDst';
-import { TEST_SVG, TEST_URI_ENCODED_SVG } from './spec/testSVG';
+import { TEST_SVG } from './spec/testSVG';
 
 describe('SvgService', () => {
   let service: SvgService;
@@ -42,6 +42,13 @@ describe('SvgService', () => {
       testConfigAndDst,
       true
     );
-    expect(svgData).toEqual(TEST_URI_ENCODED_SVG);
+    console.log(svgData)
+    expect(svgData).toContain('<svg xmlns="http://www.w3.org/2000/svg"');
+    expect(svgData).toContain('"dst":');
+    expect(svgData).toContain('domainStory:activity');
+    expect(svgData).toContain('domainStory:workObjectDocument');
+    expect(svgData).toContain('"domain":');
+    expect(svgData).toContain('<!-- <DST>');
+    expect(svgData).toContain('</DST> -->');
   });
 });

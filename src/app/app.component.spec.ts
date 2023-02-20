@@ -7,6 +7,7 @@ import { TitleService } from './Service/Title/title.service';
 import { ExportService } from './Service/Export/export.service';
 import { ModelerComponent } from './Presentation/Canvas/modeler.component';
 import { HeaderComponent } from './Presentation/Header/header.component';
+import { ReplayService } from 'src/app/Service/Replay/replay.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -21,7 +22,8 @@ describe('AppComponent', () => {
           DialogService,
           SettingsService,
           TitleService,
-          ExportService
+          ExportService,
+          ReplayService
         ),
       ],
     }).compileComponents();
