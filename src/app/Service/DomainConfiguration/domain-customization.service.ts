@@ -144,6 +144,9 @@ export class DomainCustomizationService {
 
   public changeName(domainName: string): void {
     this.titleService.setDomainName(domainName);
+    const changedDomain = this.domainConfigurationTypes.value;
+    changedDomain.name = domainName
+    this.domainConfigurationTypes.next(changedDomain);
   }
 
   /** Seleted Icons **/
