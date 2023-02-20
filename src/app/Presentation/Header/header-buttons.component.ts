@@ -9,7 +9,7 @@ import {
   ExportDialogData,
   ExportOption,
 } from '../../Domain/Dialog/exportDialogData';
-import { MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { ExportDialogComponent } from '../Dialog/export-dialog/export-dialog.component';
 import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
 import { InfoDialogComponent } from '../Dialog/info-dialog/info-dialog.component';
@@ -20,7 +20,7 @@ import { ExportService } from '../../Service/Export/export.service';
 import { ImportDomainStoryService } from '../../Service/Import/import-domain-story.service';
 import { LabelDictionaryDialogComponent } from '../Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
 import { HeaderDialogComponent } from '../Dialog/header-dialog/header-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,

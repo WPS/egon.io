@@ -4,7 +4,7 @@ import { DomManipulationService } from 'src/app/Service/DomManipulation/dom-mani
 import { StoryStep } from 'src/app/Domain/Replay/storyStep';
 import { StoryCreatorService } from './storyCreator/story-creator.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_WARNING,

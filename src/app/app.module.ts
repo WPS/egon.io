@@ -1,12 +1,12 @@
 import { ApplicationRef, DoBootstrap, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import {
-  MAT_CHECKBOX_DEFAULT_OPTIONS,
-  MatCheckboxDefaultOptions,
-  MatCheckboxModule,
-} from '@angular/material/checkbox';
+  MAT_LEGACY_CHECKBOX_DEFAULT_OPTIONS as MAT_CHECKBOX_DEFAULT_OPTIONS,
+  MatLegacyCheckboxDefaultOptions as MatCheckboxDefaultOptions,
+  MatLegacyCheckboxModule as MatCheckboxModule,
+} from '@angular/material/legacy-checkbox';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from 'src/app/Presentation/Header/header.component';
@@ -26,20 +26,20 @@ import { InfoDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/inf
 import { ExportDialogComponent } from 'src/app/Presentation/Dialog/export-dialog/export-dialog.component';
 import { ActivityDialogComponent } from 'src/app/Presentation/Dialog/activity-dialog/activity-dialog.component';
 import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { HeaderDialogComponent } from 'src/app/Presentation/Dialog/header-dialog/header-dialog.component';
 import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
 import { ModelerComponent } from 'src/app/Presentation/Canvas/modeler.component';
 import { SettingsModule } from 'src/app/Modules/settings.module';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 import { AutosaveService } from './Service/Autosave/autosave.service';
 import { DomainStoryModelerModuleModule } from './Modules/domain-story-modeler-module.module';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { LabelDictionaryDialogComponent } from './Presentation/Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatCardModule } from '@angular/material/card';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 @NgModule({
     declarations: [

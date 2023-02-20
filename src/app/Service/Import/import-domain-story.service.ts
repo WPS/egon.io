@@ -15,7 +15,7 @@ import {
 } from 'src/app/Domain/Common/domainConfiguration';
 import { DialogService } from '../Dialog/dialog.service';
 import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
-import { MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
 import { restoreTitleFromFileName } from '../../Utils/sanitizer';
 import {

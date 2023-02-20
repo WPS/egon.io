@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ActivityDialogData } from 'src/app/Domain/Dialog/activityDialogData';
 import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';

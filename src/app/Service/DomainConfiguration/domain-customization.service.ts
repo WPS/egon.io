@@ -12,7 +12,7 @@ import { IconListItem } from '../../Domain/Domain-Configuration/iconListItem';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
 import { ImportDomainStoryService } from '../Import/import-domain-story.service';
 import { TitleService } from '../Title/title.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,

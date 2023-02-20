@@ -7,8 +7,8 @@ import { DialogService } from '../Dialog/dialog.service';
 import { StoryCreatorService } from './storyCreator/story-creator.service';
 import { preBuildTestStory } from '../../Utils/testHelpers.spec';
 import { MockProvider } from 'ng-mocks';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 describe('ReplayService', () => {
   let service: ReplayService;
