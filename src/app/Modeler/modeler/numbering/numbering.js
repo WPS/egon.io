@@ -17,7 +17,6 @@ export function numberBoxDefinitions(element) {
   let boxWidth = 30;
   let boxHeight = 30;
   let position = element.waypoints[0];
-  console.log(element)
   let xPos = position.x;
   let yPos = position.y;
 
