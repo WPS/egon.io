@@ -84,6 +84,10 @@ export default function DomainStoryRenderer(
     box.x += 9;
     box.y -= 7;
 
+    if(semantic.number < 10) {
+      box.x += 3;
+    }
+
     let newRenderedNumber = renderNumber(
       parentGfx,
       semantic.number,
@@ -228,7 +232,7 @@ export default function DomainStoryRenderer(
   // render a number on the canvas
   function renderNumber(parentGfx, number, options, type) {
     if (number < 10) {
-      number = "0" + String(number);
+      number = String(number);
     }
     number = String(number);
     let text = textRenderer.createText(number || "", options);
