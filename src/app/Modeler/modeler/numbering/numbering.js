@@ -16,9 +16,10 @@ export function numberBoxDefinitions(element) {
   let alignment = "center";
   let boxWidth = 30;
   let boxHeight = 30;
-  let position = labelPosition(element.waypoints);
-  let xPos = position.x - 50;
-  let yPos = position.y - 19;
+  let position = element.waypoints[0];
+  console.log(element)
+  let xPos = position.x;
+  let yPos = position.y;
 
   return {
     textAlign: alignment,

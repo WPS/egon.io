@@ -73,12 +73,16 @@ export default function DomainStoryRenderer(
       semantic.number = numberStash.number;
     }
 
-    box.x -= 15;
-    renderNumber(parentGfx, ".", backgroundStyle(box), element.type);
+    box.x -= 50;
+    box.y -= 3;
+    renderNumber(parentGfx, ".", backgroundDotStyle(box), element.type);
+    box.x += 30;
+    box.y += 3;
+    renderNumber(parentGfx, "o", backgroundBoxStyle(box), element.type);
 
     numbers[semantic.number] = true;
-    box.x += 39;
-    box.y -= 5;
+    box.x += 9;
+    box.y -= 7;
 
     let newRenderedNumber = renderNumber(
       parentGfx,
@@ -95,19 +99,31 @@ export default function DomainStoryRenderer(
       box: box,
       fitBox: true,
       style: assign({}, textRenderer.getExternalStyle(), {
-        fill: "white",
-        backgroundColor: "green",
+        fill: "black",
         position: "absolute",
       }),
     };
   }
 
-  function backgroundStyle(box) {
+  function backgroundBoxStyle(box) {
     return {
       box: box,
       fitBox: true,
       style: assign({}, textRenderer.getExternalStyle(), {
-        fill: "#42aebb",
+        fill: "black",
+        fontSize: 50,
+        position: "absolute",
+        fontFamily: "Courier New",
+      }),
+    };
+  }
+
+  function backgroundDotStyle(box) {
+    return {
+      box: box,
+      fitBox: true,
+      style: assign({}, textRenderer.getExternalStyle(), {
+        fill: "white",
         fontSize: 150,
         position: "absolute",
         fontFamily: "Courier",
