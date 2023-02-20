@@ -104,10 +104,11 @@ export function initImports(
   document.getElementById('import').onchange = function() {
     initElementRegistry(elementRegistry);
     const filename = document.getElementById('import').files[0].name;
-    if (filename.endsWith('.dst')) {
-      importDST(document.getElementById('import').files[0], filename, version, modeler);
+    const egnFile = filename.includes('.egn');
+    if (filename.endsWith('.dst') || filename.endsWith('.egn')) {
+      importDST(document.getElementById('import').files[0], filename, version, modeler, egnFile);
     } else if (filename.endsWith('.svg')) {
-      importSVG(document.getElementById('import').files[0], filename, version, modeler);
+      importSVG(document.getElementById('import').files[0], filename, version, modeler, egnFile);
     }
 
     // to update the title of the svg, we need to tell the command stack, that a value has changed
@@ -180,7 +181,7 @@ export function restoreTitleFromFileName(filename, isSVG) {
   return title;
 }
 
-export function importDST(input, filename, version, modeler) {
+export function importDST(input, filename, version, modeler, egnFile) {
   titleInputLast = '';
   descriptionInputLast = '';
 
@@ -191,13 +192,13 @@ export function importDST(input, filename, version, modeler) {
   changeWebsiteTitle(titleText);
 
   reader.onloadend = function(e) {
-    readerFunction(e.target.result, version, modeler, DST_TYPE);
+    readerFunction(e.target.result, version, modeler, DST_TYPE, egnFile);
   };
 
   reader.readAsText(input);
 }
 
-export function importSVG(input, filename, version, modeler) {
+export function importSVG(input, filename, version, modeler, egnFile) {
   titleInputLast = '';
   descriptionInputLast = '';
 
@@ -208,13 +209,13 @@ export function importSVG(input, filename, version, modeler) {
   changeWebsiteTitle(titleText);
 
   reader.onloadend = function(e) {
-    readerFunction(e.target.result, version, modeler, SVG_TYPE);
+    readerFunction(e.target.result, version, modeler, SVG_TYPE, egnFile);
   };
 
   reader.readAsText(input);
 }
 
-export function readerFunction(text, version, modeler, type) {
+export function readerFunction(text, version, modeler, type, egnFile) {
   let dstText;
   if (type === SVG_TYPE) {
     dstText = removeXMLComments(text);
@@ -243,7 +244,7 @@ export function readerFunction(text, version, modeler, type) {
 
   if (dstAndConfig.domain) {
     config = dstAndConfig.domain;
-    configChanged = configHasChanged(config);
+    configChanged = configHasChanged(config, egnFile);
     if (configChanged) {
       const name = loadConfiguration(config);
       if (domExists()) {
@@ -255,7 +256,7 @@ export function readerFunction(text, version, modeler, type) {
   } else {
     if (dstAndConfig.config) {
       config = dstAndConfig.config;
-      configChanged = configHasChanged(config);
+      configChanged = configHasChanged(config, egnFile);
       if (configChanged) {
         const name = loadConfiguration(config);
         if (domExists()) {
@@ -322,8 +323,8 @@ function removeXMLComments(xmlText) {
   return xmlText;
 }
 
-export function configHasChanged(config) {
-  const customConfigJSON = JSON.parse(config);
+export function configHasChanged(config, egnFile) {
+  const customConfigJSON = egnFile? config :JSON.parse(config);
   const newActorsDict = new Dict();
   const newWorkObjectsDict = new Dict();
 
