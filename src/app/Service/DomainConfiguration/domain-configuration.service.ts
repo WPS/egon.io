@@ -110,10 +110,10 @@ export class DomainConfigurationService {
       const workObjects: any = [];
 
       currentConfiguration.actors.all().forEach((entry) => {
-        actors.push({ [entry.key]: entry.value });
+        actors[entry.key] = entry.value;
       });
       currentConfiguration.workObjects.all().forEach((entry) => {
-        workObjects.push({ [entry.key]: entry.value });
+        workObjects[entry.key] = entry.value;
       });
 
       return {
