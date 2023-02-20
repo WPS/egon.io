@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-builders/custom-webpack": "^13.1.0",
+    "@angular-builders/custom-webpack": "^14.1.0",
     "@angular/animations": "^14.2.12",
     "@angular/cdk": "^14.2.7",
     "@angular/common": "^14.2.12",
@@ -27,7 +27,7 @@
     "jest-worker": "^27.3.1",
     "material-design-icons": "^3.0.1",
     "min-dash": "^3.8.0",
-    "ng-mocks": "^12.5.0",
+    "ng-mocks": "^14.6.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"
