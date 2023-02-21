@@ -12,6 +12,7 @@ export class ExportDialogComponent implements OnInit {
   title: string;
   options: {
     text: string;
+    tooltip: string;
     fn: any;
   }[];
   public withTitle: BehaviorSubject<boolean>;

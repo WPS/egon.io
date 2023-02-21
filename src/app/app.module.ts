@@ -40,6 +40,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
 
 @NgModule({
     declarations: [
@@ -53,23 +54,24 @@ import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/
         ModelerComponent,
         LabelDictionaryDialogComponent,
     ],
-    imports: [
-        BrowserModule,
-        NoopAnimationsModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatCheckboxModule,
-        MatInputModule,
-        MatTabsModule,
-        ReactiveFormsModule,
-        SettingsModule,
-        DomainStoryModelerModuleModule,
-        MatButtonModule,
-        MatToolbarModule,
-        MatExpansionModule,
-        MatSnackBarModule,
-        MatCardModule,
-    ],
+  imports: [
+    BrowserModule,
+    NoopAnimationsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatCheckboxModule,
+    MatInputModule,
+    MatTabsModule,
+    ReactiveFormsModule,
+    SettingsModule,
+    DomainStoryModelerModuleModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatExpansionModule,
+    MatSnackBarModule,
+    MatCardModule,
+    MatLegacyTooltipModule,
+  ],
     providers: [
         AutosaveService,
         ExportService,
