@@ -149,7 +149,7 @@ export class ImportDomainStoryService implements OnDestroy {
       if (dstAndConfig.domain) {
         configFromFile = isEGN? dstAndConfig.domain: JSON.parse(dstAndConfig.domain);
         config = fromConfigurationFromFile(configFromFile);
-        elements = JSON.parse(dstAndConfig.dst);
+        elements = isEGN? dstAndConfig.dst : JSON.parse(dstAndConfig.dst);
       } else {
         // legacy implementation
         if (dstAndConfig.config) {
