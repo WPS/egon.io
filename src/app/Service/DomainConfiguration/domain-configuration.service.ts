@@ -106,8 +106,8 @@ export class DomainConfigurationService {
     const currentConfiguration = this.getCurrentConfiguration();
 
     if (currentConfiguration) {
-      const actors: any = [];
-      const workObjects: any = [];
+      const actors: any = { };
+      const workObjects: any = { };
 
       currentConfiguration.actors.all().forEach((entry) => {
         actors[entry.key] = entry.value;
