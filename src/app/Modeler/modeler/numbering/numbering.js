@@ -38,8 +38,8 @@ export function generateAutomaticNumber(elementActivity, commandStack) {
   activitiesFromActors = canvasElementRegistry.getActivitiesFromActors();
 
   activitiesFromActors.forEach((element) => {
-    if (element.businessObject.number != null) {
-      usedNumbers.push(element.businessObject.number);
+    if (element.businessObject.number) {
+      usedNumbers.push(+element.businessObject.number);
     }
   });
   for (let i = 0; i < usedNumbers.length; i++) {
