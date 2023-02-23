@@ -30,12 +30,11 @@ export function numberBoxDefinitions(element) {
 
 // determine the next available number that is not yet used
 export function generateAutomaticNumber(elementActivity, commandStack) {
-  let semantic = elementActivity.businessObject;
-  let activitiesFromActors;
-  let usedNumbers = [0];
+  const semantic = elementActivity.businessObject;
+  const usedNumbers = [0];
   let wantedNumber = -1;
 
-  activitiesFromActors = canvasElementRegistry.getActivitiesFromActors();
+  const activitiesFromActors = canvasElementRegistry.getActivitiesFromActors();
 
   activitiesFromActors.forEach((element) => {
     if (element.businessObject.number) {
