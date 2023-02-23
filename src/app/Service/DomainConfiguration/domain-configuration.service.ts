@@ -29,7 +29,7 @@ export class DomainConfigurationService {
   }
 
   public exportConfiguration(): void {
-    const domainConfiguration = this.getCurrentConfiguration();
+    const domainConfiguration = this.getCurrentConfigurationForExport();
     if (!domainConfiguration) {
       return;
     }
@@ -55,11 +55,16 @@ export class DomainConfigurationService {
     customConfig: DomainConfiguration,
     updateDomainName = true
   ): void {
-    const actorDict = new Dictionary();
-    const workObjectDict = new Dictionary();
+    let actorDict = new Dictionary();
+    let workObjectDict = new Dictionary();
 
-    actorDict.addEach(customConfig.actors);
-    workObjectDict.addEach(customConfig.workObjects);
+    if(customConfig.actors.keysArray()) {
+      actorDict = customConfig.actors;
+      workObjectDict = customConfig.workObjects;
+    } else {
+      actorDict.addEach(customConfig.actors);
+      workObjectDict.addEach(customConfig.workObjects);
+    }
 
     const actorKeys = actorDict.keysArray();
     const workObjectKeys = workObjectDict.keysArray();

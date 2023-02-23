@@ -11,7 +11,6 @@ import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { sanitizeIconName } from 'src/app/Utils/sanitizer';
 import { IconFilterEnum } from '../../Domain/Domain-Configuration/iconFilterEnum';
 import { DomainCustomizationService } from '../../Service/DomainConfiguration/domain-customization.service';
-import { StorageService } from '../../Service/BrowserStorage/storage.service';
 
 @Component({
   selector: 'app-domain-configuration',
@@ -28,7 +27,7 @@ export class DomainConfigurationComponent implements OnInit {
   selectedActors = new BehaviorSubject<string[]>([]);
   selectedWorkobjects = new BehaviorSubject<string[]>([]);
 
-  allIcons: Dictionary;
+  allIcons: BehaviorSubject<Dictionary>;
   allIconNames = new BehaviorSubject<string[]>([]);
   allFilteredIconNames = new BehaviorSubject<string[]>([]);
 
@@ -40,8 +39,10 @@ export class DomainConfigurationComponent implements OnInit {
     this.domainConfigurationTypes =
       this.domainCustomizationService.getDomainConfiguration().value;
 
-    this.allIcons = this.iconDictionaryService.getFullDictionary();
-    this.allIconNames.next(this.allIcons.keysArray().sort(this.sortByName));
+    this.allIcons = new BehaviorSubject(this.iconDictionaryService.getFullDictionary());
+    this.allIcons.subscribe(allIcons => {
+      this.allIconNames.next(allIcons.keysArray().sort(this.sortByName));
+    })
 
     // @ts-ignore
     this.selectedWorkobjects =
@@ -101,8 +102,7 @@ export class DomainConfigurationComponent implements OnInit {
     const files = document.getElementById('importIcon').files;
     for (let iconInputFile of files) {
       const reader = new FileReader();
-      const endIndex = iconInputFile.name.lastIndexOf('.');
-      const name = sanitizeIconName(iconInputFile.name.substring(0, endIndex));
+      const name = sanitizeIconName(iconInputFile.name.replace('.svg', '').replace('.egn', ''));
       const iconName = name + '_custom';
 
       reader.onloadend = (e) => {
@@ -111,8 +111,7 @@ export class DomainConfigurationComponent implements OnInit {
         this.iconDictionaryService.addIMGToIconDictionary(src, iconName);
         this.iconDictionaryService.registerIconForBPMN(iconName, src);
 
-        this.allIcons = this.iconDictionaryService.getFullDictionary();
-        this.allIconNames.next(this.allIcons.keysArray());
+        this.allIcons.next(this.iconDictionaryService.getFullDictionary());
         this.filter.next(this.filter.value);
 
         this.domainCustomizationService.addNewIcon(iconName);

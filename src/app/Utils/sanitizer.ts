@@ -31,6 +31,7 @@ export function sanitizeIconName(name: string): string {
     '(': '',
     ')': '',
     ' ': '-',
+    '.': '-',
   };
   const reg = /[/\\:*?"<>|() ]/gi;
   return name ? name.replace(reg, (match) => map[match]) : '';
