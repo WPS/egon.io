@@ -138,10 +138,10 @@ export default function DomainStoryRenderer(
   // render functions
   // render label associated with actors and workobjects
   function renderEmbeddedLabel(parentGfx, element, align, padding) {
-    let semantic = element.businessObject;
+    let businessObject = element.businessObject;
     return renderLabel(
       parentGfx,
-      semantic.name,
+      businessObject.name,
       {
         box: element,
         align: align,

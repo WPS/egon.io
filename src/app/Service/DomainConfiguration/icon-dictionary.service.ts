@@ -13,7 +13,6 @@ import {
 import { Configuration } from 'src/app/Domain/Common/configuration';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import {
-  CustomDomainConfiguration,
   DomainConfiguration,
 } from 'src/app/Domain/Common/domainConfiguration';
 import { sanitizeIconName } from '../../Utils/sanitizer';

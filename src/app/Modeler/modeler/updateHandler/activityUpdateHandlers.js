@@ -75,7 +75,7 @@ export default function activityUpdateHandler(commandStack, eventBus) {
     };
 
     this.execute = function (context) {
-      let semantic = context.businessObject;
+      let businessObject = context.businessObject;
       let element = context.element;
       let swapSource = element.source;
       let newWaypoints = [];
@@ -86,12 +86,12 @@ export default function activityUpdateHandler(commandStack, eventBus) {
       }
 
       element.source = element.target;
-      semantic.source = semantic.target;
+      businessObject.source = businessObject.target;
       element.target = swapSource;
-      semantic.target = swapSource.id;
+      businessObject.target = swapSource.id;
 
-      semantic.name = context.name;
-      semantic.number = context.newNumber;
+      businessObject.name = context.name;
+      businessObject.number = context.newNumber;
       element.waypoints = newWaypoints;
 
       eventBus.fire("element.changed", { element });
