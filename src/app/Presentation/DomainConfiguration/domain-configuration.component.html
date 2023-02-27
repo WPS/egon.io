@@ -58,21 +58,13 @@
         </button>
       </div>
       <div class="searchbar">
-        <label
-          class="mdc-text-field mdc-text-field--outlined mdc-text-field--no-label"
-        >
-          <span class="mdc-notched-outline">
-            <span class="mdc-notched-outline__leading"></span>
-            <span class="mdc-notched-outline__trailing"></span>
-          </span>
-          <input
-            class="textInput"
-            matInput
-            type="text"
-            placeholder="Filter by name"
-            (input)="filterByNameAndType($event)"
-          />
-        </label>
+        <input
+          class="textInput"
+          matInput
+          type="text"
+          placeholder="Filter by name"
+          (input)="filterByNameAndType($event)"
+        />
         <div></div>
         <button
           mat-button

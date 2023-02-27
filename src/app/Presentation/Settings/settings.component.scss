@@ -1,3 +1,7 @@
+mat-toolbar * {
+  color: white;
+}
+
 .settings {
   display: grid;
   grid-template-rows: 65px auto;
@@ -12,22 +16,6 @@
     margin-top: 0;
     margin-right: 5px;
     padding: 0;
-  }
-}
-
-.smallButton {
-  ::ng-deep.mat-button {
-    min-width: 36px;
-    width: 36px;
-  }
-}
-
-.paddedButton {
-  ::ng-deep.mat-button {
-    span {
-      padding-left: 5px;
-      padding-right: 5px;
-    }
   }
 }
 

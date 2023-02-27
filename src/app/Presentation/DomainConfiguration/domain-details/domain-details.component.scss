@@ -1,6 +1,6 @@
 .details {
   display: grid;
-  grid-template-rows: 70px auto auto;
+  grid-template-rows: 106px auto auto;
   min-height: 100vh;
   grid-row-gap: 1px;
   overflow-y: scroll;
@@ -14,6 +14,11 @@
 
 .fullWidth {
   width: 100%;
+  padding-left: 15px;
+}
+
+.inputWidth {
+  width: 200px;
   padding-left: 15px;
 }
 
@@ -32,6 +37,6 @@ mat-list {
   border: none;
 }
 
-.actorList {
+.bottom-border {
   border-bottom: 2px solid #ccc;
 }
