@@ -73,8 +73,8 @@ export default function DomainStoryRenderer(
       semantic.number = numberStash.number;
     }
 
-    box.x -= 50;
-    box.y -= 3;
+    box.x -= 65;
+    box.y -= 12;
     renderNumber(parentGfx, ".", backgroundDotStyle(box), element.type);
     box.x += 30;
     box.y += 3;

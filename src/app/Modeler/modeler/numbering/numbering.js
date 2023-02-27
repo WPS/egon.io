@@ -16,31 +16,29 @@ export function numberBoxDefinitions(element) {
   let alignment = "center";
   let boxWidth = 30;
   let boxHeight = 30;
-  let position = element.waypoints[0];
-  let xPos = position.x;
-  let yPos = position.y;
+  let position = labelPosition(element.waypoints);
+
 
   return {
     textAlign: alignment,
     width: boxWidth,
     height: boxHeight,
-    x: xPos,
-    y: yPos,
+    x: position.x,
+    y: position.y,
   };
 }
 
 // determine the next available number that is not yet used
 export function generateAutomaticNumber(elementActivity, commandStack) {
-  let semantic = elementActivity.businessObject;
-  let activitiesFromActors;
-  let usedNumbers = [0];
+  const semantic = elementActivity.businessObject;
+  const usedNumbers = [0];
   let wantedNumber = -1;
 
-  activitiesFromActors = canvasElementRegistry.getActivitiesFromActors();
+  const activitiesFromActors = canvasElementRegistry.getActivitiesFromActors();
 
   activitiesFromActors.forEach((element) => {
-    if (element.businessObject.number != null) {
-      usedNumbers.push(element.businessObject.number);
+    if (element.businessObject.number) {
+      usedNumbers.push(+element.businessObject.number);
     }
   });
   for (let i = 0; i < usedNumbers.length; i++) {

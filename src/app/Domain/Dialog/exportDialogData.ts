@@ -11,9 +11,11 @@ export class ExportDialogData {
 export class ExportOption {
   public text: string;
   public fn: any;
+  public tooltip: string;
 
-  constructor(text: string, fn: any) {
+  constructor(text: string, tooltip: string, fn: any) {
     this.text = text;
+    this.tooltip = tooltip;
     this.fn = fn;
   }
 }

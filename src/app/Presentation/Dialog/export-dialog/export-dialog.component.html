@@ -10,16 +10,9 @@
 </label>
 <mat-dialog-actions>
   <br />
-  <button class="mat-raised-button" (click)="doOption(0)">
-    {{ options[0].text }}
-  </button>
-  <button class="mat-raised-button" (click)="doOption(1)">
-    {{ options[1].text }}
-  </button>
-  <button class="mat-raised-button" (click)="doOption(2)">
-    {{ options[2].text }}
-  </button>
-  <button class="mat-raised-button" (click)="doOption(3)">
-    {{ options[3].text }}
-  </button>
+  <div *ngFor="let option of options; let i = index">
+    <button class="mat-raised-button" [title]="option.tooltip" (click)="doOption(i)">
+      {{ option.text }}
+    </button>
+  </div>
 </mat-dialog-actions>

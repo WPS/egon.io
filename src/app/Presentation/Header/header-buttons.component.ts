@@ -101,16 +101,16 @@ export class HeaderButtonsComponent {
   /** Open Dialogs **/
   public openDownloadDialog(): void {
     if (this.exportService.isDomainStoryExportable()) {
-      const option1 = new ExportOption('EGN', (withTitle: boolean) =>
-        this.exportService.downloadDST()
-      );
-      const option2 = new ExportOption('SVG', (withTitle: boolean) =>
+      const SVGDownloadOption = new ExportOption('SVG', 'Download an SVG-Image with the Domain-Story embedded. Can be used to save and share your Domain-Story.',(withTitle: boolean) =>
         this.exportService.downloadSVG(withTitle)
       );
-      const option3 = new ExportOption('PNG', (withTitle: boolean) =>
+      const EGNDownloadOption = new ExportOption('EGN', 'Download an EGN-File with the Domain-Story. Can be used to save and share your Domain-Story.', (withTitle: boolean) =>
+        this.exportService.downloadDST()
+      );
+      const PNGDownloadOption = new ExportOption('PNG', 'Donwload a PNG-Image of the DOmain-Story. This does not include the Domain-Story!', (withTitle: boolean) =>
         this.exportService.downloadPNG(withTitle)
       );
-      const option4 = new ExportOption('HTML', (withTitle: boolean) =>
+      const HTMLDownloadOption = new ExportOption('HTML-Presentation', 'Download an HTML-Presentation. This does not include the Domain-Story!', (withTitle: boolean) =>
         this.exportService.downloadHTMLPresentation()
       );
 
@@ -118,10 +118,10 @@ export class HeaderButtonsComponent {
       config.disableClose = false;
       config.autoFocus = true;
       config.data = new ExportDialogData('Export', [
-        option1,
-        option2,
-        option3,
-        option4,
+        SVGDownloadOption,
+        EGNDownloadOption,
+        PNGDownloadOption,
+        HTMLDownloadOption,
       ]);
 
       this.dialogService.openDialog(ExportDialogComponent, config);
