@@ -1,30 +1,30 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_DOMAIN_NAME,
   INITIAL_TITLE,
   VERSION,
 } from '../../Domain/Common/constants';
+import { CommandStackService } from '../CommandStack/command-stack.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TitleService {
-  private title = INITIAL_TITLE;
-  private description = INITIAL_DESCRIPTION;
-
-  private titleSubject = new BehaviorSubject<string>(this.title);
-  private descriptionSubject = new BehaviorSubject<string>(this.description);
+  private titleSubject = new BehaviorSubject<string>(INITIAL_TITLE);
+  private descriptionSubject = new BehaviorSubject<string>(INITIAL_DESCRIPTION);
   private domainNameSubject = new BehaviorSubject<string>(INITIAL_DOMAIN_NAME);
-  private showDescription = new BehaviorSubject<boolean>(true);
-  private commandStack: any;
+  private showDescriptionSubject = new BehaviorSubject<boolean>(true);
 
-  public setCommandStack(commandStack: any): void {
-    this.commandStack = commandStack;
-  }
+  title$ = this.titleSubject.asObservable();
+  description$ = this.descriptionSubject.asObservable();
+  showDescription$ = this.showDescriptionSubject.asObservable();
+  domainName$ = this.domainNameSubject.asObservable();
 
-  public updateTitleAndDescription(
+  constructor(private commandStackService: CommandStackService) {}
+
+  updateTitleAndDescription(
     title: string | null,
     description: string | null,
     allowUndo: boolean
@@ -32,58 +32,41 @@ export class TitleService {
     if (allowUndo) {
       this.fireTitleAndDescriptionUpdate(title, description);
     } else {
-      if (!title) {
-        title = this.title;
-      }
-      if (!description) {
-        description = this.description;
-      }
-
       this.updateTitle(title);
       this.updateDescription(description);
     }
   }
 
-  private updateTitle(title: string): void {
-    this.titleSubject.next(title);
-    this.title = title;
+  private updateTitle(title: string | null): void {
+    this.titleSubject.next(title ?? this.titleSubject.value);
     document.title = title + ' - egon.io';
   }
 
-  private updateDescription(description: string): void {
-    this.descriptionSubject.next(description);
-    this.description = description;
+  private updateDescription(description: string | null): void {
+    this.descriptionSubject.next(description ?? this.descriptionSubject.value);
   }
 
-  public getTitleObservable(): Observable<string> {
-    return this.titleSubject as Observable<string>;
+  setShowDescription(show: boolean): void {
+    this.showDescriptionSubject.next(show);
   }
 
-  public setShowDescription(show: boolean): void {
-    this.showDescription.next(show);
-  }
-
-  public setDomainName(name: string): void {
+  setDomainName(name: string): void {
     this.domainNameSubject.next(name);
   }
 
-  public getShowDescriptionObservable(): Observable<boolean> {
-    return this.showDescription.asObservable();
+  getTitle(): string {
+    return this.titleSubject.value;
   }
 
-  public getTitle(): string {
-    return this.title;
+  getDescription(): string {
+    return this.descriptionSubject.value;
   }
 
-  public getDescriptionObservable(): Observable<string> {
-    return this.descriptionSubject as Observable<string>;
+  getDomainName(): string {
+    return this.domainNameSubject.value;
   }
 
-  public getDescription(): string {
-    return this.description;
-  }
-
-  public getVersion(): string {
+  getVersion(): string {
     return VERSION;
   }
 
@@ -95,14 +78,6 @@ export class TitleService {
       newTitle,
       newDescription,
     };
-    this.commandStack.execute('story.updateHeadlineAndDescription', context);
-  }
-
-  getDomainNameAsObservable(): Observable<string> {
-    return this.domainNameSubject.asObservable();
-  }
-
-  getDomainName(): string {
-    return this.domainNameSubject.value;
+    this.commandStackService.commandStack.execute('story.updateHeadlineAndDescription', context);
   }
 }

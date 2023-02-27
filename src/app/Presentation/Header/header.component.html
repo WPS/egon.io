@@ -1,9 +1,9 @@
 <mat-toolbar color="primary" class="toolbar">
   <mat-toolbar-row>
     <span class="mr-10">
-      <span class="headline">{{ title | async }} </span>
+      <span class="headline">{{ title$ | async }} </span>
     </span>
-    <span title="Domain">{{ currentDomainName | async }} </span>
+    <span title="Domain">{{ currentDomainName$ | async }} </span>
     <span class="domainNameSpacer"></span>
     <span title="Replay Step" *ngIf="isReplay | async">
       Step: {{ currentStepNumber | async }}/{{ maxStepNumber | async }}</span
@@ -14,6 +14,6 @@
     <app-header-buttons></app-header-buttons>
   </mat-toolbar-row>
 </mat-toolbar>
-<mat-card class="smallScrollbar description" *ngIf="showDescription | async">
-  <span class="descriptionText">{{ description | async }}</span>
+<mat-card class="smallScrollbar description" *ngIf="showDescription$ | async">
+  <span class="descriptionText">{{ description$ | async }}</span>
 </mat-card>

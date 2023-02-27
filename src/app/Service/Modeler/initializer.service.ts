@@ -38,6 +38,7 @@ import activityUpdateHandler, {
   initializeActivityUpdateHandler,
 } from '../../Modeler/modeler/updateHandler/activityUpdateHandlers';
 import elementUpdateHandler from '../../Modeler/modeler/updateHandler/elementUpdateHandler';
+import { CommandStackService } from '../CommandStack/command-stack.service';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +52,7 @@ export class InitializerService {
     private labelDictionaryService: LabelDictionaryService,
     private replayStateService: ReplayStateService,
     private dialogService: DialogService,
+    private commandStackService: CommandStackService,
     private titleService: TitleService,
     private massNamingService: MassNamingService,
     private htmlPresentationService: HtmlPresentationService
@@ -82,8 +84,7 @@ export class InitializerService {
     selection: any,
     modeler: any
   ): void {
-    this.titleService.setCommandStack(commandStack);
-    this.massNamingService.setCommandStack(commandStack);
+    this.commandStackService.setCommandStack(commandStack);
     this.elementRegistryService.setElementRegistry(elementRegistry);
     this.htmlPresentationService.setModelerClasses(canvas, selection, modeler);
   }

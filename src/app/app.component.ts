@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.showDescription = this.titleService.getShowDescriptionObservable();
+    this.showDescription = this.titleService.showDescription$;
     this.showSettingsSubscription = this.settingsService.getShowSettings();
   }
 

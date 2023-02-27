@@ -31,12 +31,12 @@ export class ExportService implements OnDestroy {
     private rendererService: RendererService
   ) {
     this.titleSubscription = this.titleService
-      .getTitleObservable()
+      .title$
       .subscribe((title: string) => {
         this.title = title;
       });
     this.descriptionSubscription = this.titleService
-      .getDescriptionObservable()
+      .description$
       .subscribe((description: string) => {
         this.description = description;
       });

@@ -24,8 +24,8 @@ export default function headlineAndDescriptionUpdateHandler(
 
     this.revert = function (ctx) {
       titleService.updateTitleAndDescription(
-        ctx.newTitle,
-        ctx.newDescription,
+        ctx.oldTitle,
+        ctx.oldDescription,
         false
       );
     };

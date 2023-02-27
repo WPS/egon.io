@@ -53,7 +53,7 @@ export class HeaderButtonsComponent {
   ) {
     this.isReplay = this.replayStateService.getReplayOnObservable();
     this.isDirty = this.dirtyFlagService.dirtySubject;
-    this.showDescription = this.titleService.getShowDescriptionObservable();
+    this.showDescription = this.titleService.showDescription$;
   }
   public import(): void {
     // @ts-ignore

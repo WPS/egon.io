@@ -28,8 +28,6 @@ export class DomainCustomizationService {
 
   private allIconListItems = new Dictionary();
 
-  domainName = new Observable<string>();
-
   private configurationHasChanged = false;
 
   selectedActors = new BehaviorSubject<string[]>([]);
@@ -44,7 +42,6 @@ export class DomainCustomizationService {
     private storageService: StorageService,
     public snackBar: MatSnackBar
   ) {
-    this.domainName = this.titleService.getDomainNameAsObservable();
     this.domainConfigurationTypes = new BehaviorSubject(
       this.configurationService.getCurrentConfigurationNamesWithoutPrefix()
     );
@@ -136,10 +133,6 @@ export class DomainCustomizationService {
         (workObject: string) => workObject.includes(iconName)
       ).length > 0
     );
-  }
-
-  public getDomainName(): Observable<string> {
-    return this.domainName;
   }
 
   public changeName(domainName: string): void {

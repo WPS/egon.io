@@ -52,12 +52,12 @@ export class ImportDomainStoryService implements OnDestroy {
     private domainConfigurationService: DomainConfigurationService
   ) {
     this.titleSubscription = this.titleService
-      .getTitleObservable()
+      .title$
       .subscribe((title: string) => {
         this.title = title;
       });
     this.descriptionSubscription = this.titleService
-      .getDescriptionObservable()
+      .description$
       .subscribe((description: string) => {
         this.description = description;
       });

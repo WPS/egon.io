@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DomainCustomizationService } from '../../../Service/DomainConfiguration/domain-customization.service';
 import { IconListItem } from '../../../Domain/Domain-Configuration/iconListItem';
+import { TitleService } from 'src/app/Service/Title/title.service';
 
 @Component({
   selector: 'app-domain-details',
@@ -16,8 +17,10 @@ export class DomainDetailsComponent implements OnInit {
   public selectedActors: BehaviorSubject<string[]>;
   public selectedWorkobjects: BehaviorSubject<string[]>;
 
-  constructor(private customizationService: DomainCustomizationService) {
-    this.domainName = customizationService.getDomainName();
+  constructor(
+    private customizationService: DomainCustomizationService,
+    titleService: TitleService) {
+    this.domainName = titleService.domainName$;
     this.selectedActors = this.customizationService.getSelectedActors();
     this.selectedWorkobjects =
       this.customizationService.getSelectedWorkobjects();
