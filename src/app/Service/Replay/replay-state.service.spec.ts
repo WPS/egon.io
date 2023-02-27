@@ -20,7 +20,7 @@ describe('ReplayStateService', () => {
 
   it('should return Observable', () => {
     service
-      .getReplayOnObservable()
+      .replayOn$
       .subscribe((value) => expect(value).toBeFalse());
   });
 

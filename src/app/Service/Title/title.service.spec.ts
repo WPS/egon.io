@@ -38,10 +38,10 @@ describe('TitleService', () => {
       expect(service.getDescription()).toEqual(INITIAL_DESCRIPTION);
 
       service
-        .getTitleObservable()
+        .title$
         .subscribe((value) => expect(value).toEqual('title'));
       service
-        .getDescriptionObservable()
+        .description$
         .subscribe((value) => expect(value).toEqual(INITIAL_DESCRIPTION));
     });
 
@@ -52,10 +52,10 @@ describe('TitleService', () => {
       expect(service.getDescription()).toEqual('description');
 
       service
-        .getTitleObservable()
+        .title$
         .subscribe((value) => expect(value).toEqual(INITIAL_TITLE));
       service
-        .getDescriptionObservable()
+        .description$
         .subscribe((value) => expect(value).toEqual('description'));
     });
 
@@ -66,10 +66,10 @@ describe('TitleService', () => {
       expect(service.getDescription()).toEqual('description');
 
       service
-        .getTitleObservable()
+        .title$
         .subscribe((value) => expect(value).toEqual('title'));
       service
-        .getDescriptionObservable()
+        .description$
         .subscribe((value) => expect(value).toEqual('description'));
     });
   });

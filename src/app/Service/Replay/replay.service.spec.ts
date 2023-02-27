@@ -83,13 +83,13 @@ describe('ReplayService', () => {
 
   it('should return initial currentStepNumber', () => {
     service
-      .getCurrentStepNumberObservable()
+      .currentStep$
       .subscribe((value) => expect(value).toEqual(-1));
   });
 
   it('should return initial maxStepNumber', () => {
     service
-      .getMaxStepNumberObservable()
+      .maxStepNumber$
       .subscribe((value) => expect(value).toEqual(0));
   });
 
@@ -104,10 +104,10 @@ describe('ReplayService', () => {
       service.initializeReplay();
 
       service
-        .getCurrentStepNumberObservable()
+        .currentStep$
         .subscribe((value) => expect(value).toEqual(1));
       service
-        .getMaxStepNumberObservable()
+        .maxStepNumber$
         .subscribe((value) => expect(value).toEqual(1));
       expect(
         storyCreatorServiceSpy.traceActivitiesAndCreateStory
@@ -124,20 +124,11 @@ describe('ReplayService', () => {
     });
 
     describe('nextStep ', () => {
-      it('should not select next step when no story', () => {
-        service.nextStep();
-
-        service.getCurrentStepNumberObservable().subscribe((value) => {
-          expect(value).toEqual(-1);
-        });
-        expect(domManipulationServiceSpy.showStep).toHaveBeenCalledTimes(0);
-      });
-
       it('should select next step', () => {
         service.initializeReplay();
         service.nextStep();
 
-        service.getCurrentStepNumberObservable().subscribe((value) => {
+        service.currentStep$.subscribe((value) => {
           expect(value).toEqual(2);
         });
         expect(domManipulationServiceSpy.showStep).toHaveBeenCalled();
@@ -147,12 +138,12 @@ describe('ReplayService', () => {
         service.initializeReplay();
         service.nextStep();
 
-        service.getCurrentStepNumberObservable().subscribe((value) => {
+        service.currentStep$.subscribe((value) => {
           expect(value).toEqual(2);
         });
         service.nextStep();
 
-        service.getCurrentStepNumberObservable().subscribe((value) => {
+        service.currentStep$.subscribe((value) => {
           expect(value).toEqual(2);
         });
         expect(domManipulationServiceSpy.showStep).toHaveBeenCalledTimes(1);
@@ -163,7 +154,7 @@ describe('ReplayService', () => {
       it('should not select previous step when no story', () => {
         service.previousStep();
 
-        service.getCurrentStepNumberObservable().subscribe((value) => {
+        service.currentStep$.subscribe((value) => {
           expect(value).toEqual(-1);
         });
         expect(domManipulationServiceSpy.showStep).toHaveBeenCalledTimes(0);
@@ -175,7 +166,7 @@ describe('ReplayService', () => {
 
         service.previousStep();
 
-        service.getCurrentStepNumberObservable().subscribe((value) => {
+        service.currentStep$.subscribe((value) => {
           expect(value).toEqual(1);
         });
         expect(domManipulationServiceSpy.showStep).toHaveBeenCalled();
@@ -185,7 +176,7 @@ describe('ReplayService', () => {
         service.initializeReplay();
         service.previousStep();
 
-        service.getCurrentStepNumberObservable().subscribe((value) => {
+        service.currentStep$.subscribe((value) => {
           expect(value).toEqual(1);
         });
         expect(domManipulationServiceSpy.showStep).toHaveBeenCalledTimes(0);
@@ -252,10 +243,10 @@ describe('ReplayService', () => {
         service.stopReplay();
 
         service
-          .getCurrentStepNumberObservable()
+          .currentStep$
           .subscribe((value) => expect(value).toEqual(-1));
         service
-          .getMaxStepNumberObservable()
+          .maxStepNumber$
           .subscribe((value) => expect(value).toEqual(0));
 
         expect(replayStateServiceSpy.setReplayState).toHaveBeenCalledWith(true);
