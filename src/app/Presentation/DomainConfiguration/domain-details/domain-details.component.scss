@@ -1,6 +1,6 @@
 .details {
   display: grid;
-  grid-template-rows: 106px auto auto;
+  grid-template-rows: 68px auto auto;
   min-height: 100vh;
   grid-row-gap: 1px;
   overflow-y: scroll;
@@ -20,6 +20,7 @@
 .inputWidth {
   width: 200px;
   padding-left: 15px;
+  height: 46px;
 }
 
 h3 {
@@ -33,8 +34,18 @@ mat-list {
   padding-top: 0;
 }
 
-::ng-deep.mat-form-field-infix {
+::ng-deep.mat-mdc-form-field-infix {
   border: none;
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+}
+
+::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white;
+}
+
+::ng-deep.mdc-text-field {
+  padding-left: 0 !important;
 }
 
 .bottom-border {
