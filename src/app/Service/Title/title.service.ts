@@ -78,6 +78,6 @@ export class TitleService {
       newTitle,
       newDescription,
     };
-    this.commandStackService.commandStack.execute('story.updateHeadlineAndDescription', context);
+    this.commandStackService.execute('story.updateHeadlineAndDescription', context);
   }
 }

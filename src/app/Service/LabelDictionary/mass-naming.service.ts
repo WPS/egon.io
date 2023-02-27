@@ -32,6 +32,6 @@ export class MassNamingService {
       newValue,
     };
 
-    this.commandStackService.commandStack.execute('domainStoryObjects.massRename', context);
+    this.commandStackService.execute('domainStoryObjects.massRename', context);
   }
 }
