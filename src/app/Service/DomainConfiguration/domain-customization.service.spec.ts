@@ -17,7 +17,7 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_SUCCESS,
 } from '../../Domain/Common/constants';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { deepCopy } from '../../Utils/deepCopy';
 

@@ -1,17 +1,19 @@
-<h2 mat-dialog-title>{{ title }}</h2>
 
-<label>
-  <input
-    type="checkbox"
-    [checked]="withTitle | async"
-    (change)="updateWithTitle($event)"
-  />
-  Add title and description into image
-</label>
+<mat-dialog-content>
+  <h2>{{ title }}</h2>
+  <label>
+    <input
+      type="checkbox"
+      [checked]="withTitle | async"
+      (change)="updateWithTitle($event)"
+    />
+    Add title and description into image
+  </label>
+</mat-dialog-content>
 <mat-dialog-actions>
   <br />
   <div *ngFor="let option of options; let i = index">
-    <button class="mat-raised-button" [title]="option.tooltip" (click)="doOption(i)">
+    <button mat-stroked-button class="mr-1" [title]="option.tooltip" (click)="doOption(i)">
       {{ option.text }}
     </button>
   </div>

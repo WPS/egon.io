@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { TitleService } from 'src/app/Service/Title/title.service';
 

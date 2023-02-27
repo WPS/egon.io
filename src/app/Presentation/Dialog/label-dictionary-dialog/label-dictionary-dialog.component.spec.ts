@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LabelDictionaryDialogComponent } from './label-dictionary-dialog.component';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MockComponent, MockProvider } from 'ng-mocks';
 import { LabelDictionaryComponent } from '../../LabelDictionary/label-dictionary.component';
 

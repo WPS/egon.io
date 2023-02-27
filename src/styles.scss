@@ -365,3 +365,11 @@ app-root {
 .djs-search-overlay {
   background: #42aebb;
 }
+
+mat-dialog-actions.mdc-dialog__actions {
+  padding: 0 24px 20px 24px;
+}
+
+.mr-1 {
+  margin-right: 8px !important;
+}

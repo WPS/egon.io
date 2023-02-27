@@ -23,7 +23,7 @@ import { DomainConfigurationService } from '../DomainConfiguration/domain-config
 import { LabelDictionaryService } from '../LabelDictionary/label-dictionary.service';
 import { elementTypes } from '../../Domain/Common/elementTypes';
 import { ReplayStateService } from '../Replay/replay-state.service';
-import { MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialogConfig } from '@angular/material/dialog';
 import { ActivityDialogData } from '../../Domain/Dialog/activityDialogData';
 import { ActivityDialogComponent } from '../../Presentation/Dialog/activity-dialog/activity-dialog.component';
 import { DialogService } from '../Dialog/dialog.service';

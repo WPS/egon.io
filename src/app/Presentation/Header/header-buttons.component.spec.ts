@@ -12,7 +12,7 @@ import { DialogService } from '../../Service/Dialog/dialog.service';
 import { ReplayService } from '../../Service/Replay/replay.service';
 import { ExportService } from '../../Service/Export/export.service';
 import { ImportDomainStoryService } from '../../Service/Import/import-domain-story.service';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('HeaderButtonsComponent', () => {
   let component: HeaderButtonsComponent;

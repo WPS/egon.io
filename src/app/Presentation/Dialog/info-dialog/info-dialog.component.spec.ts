@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InfoDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/info-dialog.component';
 import { MockProviders } from 'ng-mocks';
 import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { UntypedFormBuilder } from '@angular/forms';
 import { InfoDialogData } from '../../../Domain/Dialog/infoDialogData';
 

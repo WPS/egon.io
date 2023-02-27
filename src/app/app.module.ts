@@ -1,6 +1,6 @@
 import { ApplicationRef, DoBootstrap, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import {
   MAT_LEGACY_CHECKBOX_DEFAULT_OPTIONS as MAT_CHECKBOX_DEFAULT_OPTIONS,
@@ -39,7 +39,7 @@ import { LabelDictionaryDialogComponent } from './Presentation/Dialog/label-dict
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
 
 @NgModule({

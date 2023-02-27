@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { DialogService } from 'src/app/Service/Dialog/dialog.service';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
 import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
 import { MockProvider, MockProviders } from 'ng-mocks';

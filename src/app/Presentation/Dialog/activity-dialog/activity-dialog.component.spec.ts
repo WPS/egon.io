@@ -4,10 +4,10 @@ import { ActivityDialogComponent } from 'src/app/Presentation/Dialog/activity-di
 import { UntypedFormBuilder } from '@angular/forms';
 import { MockProviders } from 'ng-mocks';
 import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { ActivityDialogData } from '../../../Domain/Dialog/activityDialogData';
 import { testActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
 

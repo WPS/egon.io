@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExportDialogComponent } from 'src/app/Presentation/Dialog/export-dialog/export-dialog.component';
 import { MockProvider } from 'ng-mocks';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ExportDialogData } from '../../../Domain/Dialog/exportDialogData';
 
 describe('ExportDialogComponent', () => {
@@ -12,10 +12,10 @@ describe('ExportDialogComponent', () => {
   const exportData: ExportDialogData = {
     title: '',
     options: [
-      { text: '1', fn: () => {} },
-      { text: '2', fn: () => {} },
-      { text: '3', fn: () => {} },
-      { text: '4', fn: () => {} },
+      { text: '1', tooltip: '', fn: () => {} },
+      { text: '2', tooltip: '', fn: () => {} },
+      { text: '3', tooltip: '', fn: () => {} },
+      { text: '4', tooltip: '', fn: () => {} },
     ],
   };
 
