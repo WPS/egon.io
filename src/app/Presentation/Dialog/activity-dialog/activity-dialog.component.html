@@ -3,7 +3,7 @@
   <form [formGroup]="form">
     <div [hidden]="!showNumberFields">
       <mat-form-field class="shortWidth">
-        <mat-label>number</mat-label>
+        <mat-label>Number</mat-label>
         <input matInput type="number" formControlName="activityNumber" />
       </mat-form-field>
       <input
@@ -14,10 +14,10 @@
       multiple
     </div>
     <mat-form-field class="fullWidth">
+      <mat-label>Label</mat-label>
       <textarea
         matInput
         type="text"
-        placeholder="label"
         formControlName="activityLabel"
         autofocus
       ></textarea>
