@@ -152,6 +152,8 @@ describe('AutosaveService', () => {
 
   function createEmptyAutosave(date: string): Autosave {
     return {
+      description: 'desc',
+      title: 'title',
       configAndDST: deepCopy(testConfigAndDst),
       date,
     };

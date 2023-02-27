@@ -140,8 +140,8 @@ describe('sanitizer', () => {
 
   describe('sanitize Icon Name', () => {
     it('should sanitize', () => {
-      const unsanitized = '/\\:*?"<>|()test';
-      expect(sanitizeIconName(unsanitized)).toEqual('test');
+      const unsanitized = '/\\:*?"<>|().-test';
+      expect(sanitizeIconName(unsanitized)).toEqual('_-test');
     });
   });
 });

@@ -322,16 +322,6 @@ export default function DomainStoryContextPadProvider(
       create.start(event, shape, context);
     }
 
-    autoPlace
-      ? function (element) {
-          let shape = elementFactory.createShape(
-            assign({ type: type }, options)
-          );
-
-          autoPlace.append(element, shape);
-        }
-      : appendStart;
-
     return {
       group: group,
       className: className,

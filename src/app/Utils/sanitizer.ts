@@ -31,10 +31,14 @@ export function sanitizeIconName(name: string): string {
     '(': '',
     ')': '',
     ' ': '-',
-    '.': '-',
+    '\.': '_',
   };
-  const reg = /[/\\:*?"<>|() ]/gi;
-  return name ? name.replace(reg, (match) => map[match]) : '';
+  const reg = /[/\\:*?"<>|() .]/gi;
+  return name ?
+    name.replace(reg, (match) => {
+      return map[match];
+    }
+  ) : '';
 }
 
 export function restoreTitleFromFileName(

@@ -74,7 +74,7 @@ export class DomainConfigurationComponent implements OnInit {
   }
 
   /** Default Domain **/
-  public LoadMinimalIconConfigurationWithDefaultIcons(): void {
+  public loadMinimalIconConfigurationWithDefaultIcons(): void {
     this.domainCustomizationService.resetDomain();
   }
 
@@ -102,7 +102,7 @@ export class DomainConfigurationComponent implements OnInit {
     const files = document.getElementById('importIcon').files;
     for (let iconInputFile of files) {
       const reader = new FileReader();
-      const name = sanitizeIconName(iconInputFile.name.replace('.svg', '').replace('.egn', ''));
+      const name = sanitizeIconName(iconInputFile.name);
       const iconName = name + '_custom';
 
       reader.onloadend = (e) => {
