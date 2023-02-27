@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatListModule } from '@angular/material/list';
 
-import { MockService } from 'ng-mocks';
+import { MockModule, MockService } from 'ng-mocks';
+import { MaterialModule } from 'src/app/material.module';
 import { LabelDictionaryService } from '../../Service/LabelDictionary/label-dictionary.service';
 import { LabelDictionaryComponent } from './label-dictionary.component';
 
@@ -10,6 +12,7 @@ describe('LabelDictionaryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [MockModule(MaterialModule)],
       declarations: [LabelDictionaryComponent],
       providers: [
         {

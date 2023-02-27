@@ -7,6 +7,7 @@ import { ModelerService } from '../../Service/Modeler/modeler.service';
 import { AutosaveStateService } from '../../Service/Autosave/autosave-state.service';
 import { DomainCustomizationService } from '../../Service/DomainConfiguration/domain-customization.service';
 import { DomainConfigurationComponent } from '../DomainConfiguration/domain-configuration.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 describe('SettingsComponent', () => {
   let component: SettingsComponent;
@@ -14,6 +15,7 @@ describe('SettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [MatToolbarModule],
       declarations: [
         SettingsComponent,
         MockComponent(DomainConfigurationComponent),

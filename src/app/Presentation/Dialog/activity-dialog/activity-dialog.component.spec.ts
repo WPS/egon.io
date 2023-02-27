@@ -1,8 +1,8 @@
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
 import { ActivityDialogComponent } from 'src/app/Presentation/Dialog/activity-dialog/activity-dialog.component';
-import { UntypedFormBuilder } from '@angular/forms';
-import { MockProviders } from 'ng-mocks';
+import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
+import { MockModule, MockProviders } from 'ng-mocks';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -10,6 +10,7 @@ import {
 } from '@angular/material/dialog';
 import { ActivityDialogData } from '../../../Domain/Dialog/activityDialogData';
 import { testActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
+import { MaterialModule } from 'src/app/material.module';
 
 describe('ActivityDialogComponent', () => {
   let component: ActivityDialogComponent;
@@ -24,6 +25,7 @@ describe('ActivityDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [MockModule(MaterialModule), ReactiveFormsModule],
       declarations: [ActivityDialogComponent],
       providers: [
         MockProviders(MatDialog, MatDialogRef),

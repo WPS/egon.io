@@ -6,6 +6,7 @@ import {
   MAT_DIALOG_DATA,
   MatDialog,
   MatDialogRef,
+  MatDialogModule,
 } from '@angular/material/dialog';
 import { UntypedFormBuilder } from '@angular/forms';
 import { InfoDialogData } from '../../../Domain/Dialog/infoDialogData';
@@ -24,6 +25,7 @@ describe('InfoDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [MatDialogModule],
       declarations: [InfoDialogComponent],
       providers: [
         MockProviders(MatDialog, MatDialogRef),

@@ -1,7 +1,5 @@
 import { ApplicationRef, DoBootstrap, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   MAT_CHECKBOX_DEFAULT_OPTIONS,
   MatCheckboxDefaultOptions,
@@ -25,7 +23,6 @@ import { InfoDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/inf
 import { ExportDialogComponent } from 'src/app/Presentation/Dialog/export-dialog/export-dialog.component';
 import { ActivityDialogComponent } from 'src/app/Presentation/Dialog/activity-dialog/activity-dialog.component';
 import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
 import { HeaderDialogComponent } from 'src/app/Presentation/Dialog/header-dialog/header-dialog.component';
 import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
 import { ModelerComponent } from 'src/app/Presentation/Canvas/modeler.component';
@@ -33,11 +30,7 @@ import { SettingsModule } from 'src/app/Modules/settings.module';
 import { AutosaveService } from './Service/Autosave/autosave.service';
 import { DomainStoryModelerModuleModule } from './Modules/domain-story-modeler-module.module';
 import { LabelDictionaryDialogComponent } from './Presentation/Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatCardModule } from '@angular/material/card';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import {MatButtonModule} from "@angular/material/button";
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -51,40 +44,33 @@ import {MatButtonModule} from "@angular/material/button";
     ModelerComponent,
     LabelDictionaryDialogComponent,
   ],
-    imports: [
-        BrowserModule,
-        NoopAnimationsModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        SettingsModule,
-        DomainStoryModelerModuleModule,
-        MatToolbarModule,
-        MatExpansionModule,
-        MatSnackBarModule,
-        MatCardModule,
-        MatButtonModule,
-    ],
-    providers: [
-        AutosaveService,
-        ExportService,
-        ImportDomainStoryService,
-        ImportRepairService,
-        IconDictionaryService,
-        TitleService,
-        LabelDictionaryService,
-        ReplayService,
-        ElementRegistryService,
-        DomainConfigurationService,
-        ModelerService,
-        MassNamingService,
-        UntypedFormBuilder,
-        {
-            provide: MAT_CHECKBOX_DEFAULT_OPTIONS,
-            useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions,
-        },
-    ]
+  imports: [
+    BrowserModule,
+    NoopAnimationsModule,
+    ReactiveFormsModule,
+    SettingsModule,
+    DomainStoryModelerModuleModule,
+    MaterialModule
+  ],
+  providers: [
+      AutosaveService,
+      ExportService,
+      ImportDomainStoryService,
+      ImportRepairService,
+      IconDictionaryService,
+      TitleService,
+      LabelDictionaryService,
+      ReplayService,
+      ElementRegistryService,
+      DomainConfigurationService,
+      ModelerService,
+      MassNamingService,
+      UntypedFormBuilder,
+      {
+          provide: MAT_CHECKBOX_DEFAULT_OPTIONS,
+          useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions,
+      },
+  ]
 })
 export class AppModule implements DoBootstrap {
   ngDoBootstrap(app: ApplicationRef): void {

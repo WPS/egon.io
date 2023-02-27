@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DomainDetailsComponent } from './domain-details.component';
-import { MockProviders } from 'ng-mocks';
+import { MockModule, MockProviders } from 'ng-mocks';
 import { DomainCustomizationService } from '../../../Service/DomainConfiguration/domain-customization.service';
+import { MaterialModule } from 'src/app/material.module';
 
 describe('DomainDetailsComponent', () => {
   let component: DomainDetailsComponent;
@@ -10,6 +11,7 @@ describe('DomainDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [MockModule(MaterialModule)],
       declarations: [DomainDetailsComponent],
       providers: [MockProviders(DomainCustomizationService)],
     }).compileComponents();
