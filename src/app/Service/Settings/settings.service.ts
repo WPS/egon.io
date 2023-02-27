@@ -1,21 +1,18 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
   private showSettings = new BehaviorSubject(false);
+  showSettings$ = this.showSettings.asObservable();
 
-  public getShowSettings(): Observable<boolean> {
-    return this.showSettings.asObservable();
-  }
-
-  public close(): void {
+  close(): void {
     this.showSettings.next(false);
   }
 
-  public open(): void {
+  open(): void {
     this.showSettings.next(true);
   }
 }

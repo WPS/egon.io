@@ -5,8 +5,8 @@
     </span>
     <span title="Domain">{{ currentDomainName$ | async }} </span>
     <span class="domainNameSpacer"></span>
-    <span title="Replay Step" *ngIf="isReplay | async">
-      Step: {{ currentStepNumber | async }}/{{ maxStepNumber | async }}</span
+    <span title="Replay Step" *ngIf="isReplay$ | async">
+      Step: {{ stepDescription$ | async }}</span
     >
 
     <span class="buttonSpacer"></span>

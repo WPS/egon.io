@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 import { TitleService } from '../../Service/Title/title.service';
 import { ReplayService } from '../../Service/Replay/replay.service';
 import { ReplayStateService } from '../../Service/Replay/replay-state.service';
@@ -15,9 +15,8 @@ export class HeaderComponent {
   showDescription$ = this.titleService.showDescription$;
   currentDomainName$ = this.titleService.domainName$;
 
-  isReplay: Observable<boolean>;
-  currentStepNumber: Observable<number>;
-  maxStepNumber: Observable<number>;
+  isReplay$: Observable<boolean>;
+  stepDescription$: Observable<string>;
 
   mouseOver = false;
 
@@ -26,9 +25,9 @@ export class HeaderComponent {
     private replayService: ReplayService,
     private replayStateService: ReplayStateService
   ) {
-    this.isReplay = this.replayStateService.getReplayOnObservable();
-    this.currentStepNumber =
-      this.replayService.getCurrentStepNumberObservable();
-    this.maxStepNumber = this.replayService.getMaxStepNumberObservable();
+    this.isReplay$ = this.replayStateService.replayOn$;
+
+    this.stepDescription$ = combineLatest([this.replayService.currentStep$, this.replayService.maxStepNumber$])
+      .pipe(map(([step, count]) => `${step}/${count}`));
   }
 }

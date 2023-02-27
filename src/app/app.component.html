@@ -1,26 +1,26 @@
 <div class="content" role="main">
-  <app-settings *ngIf="showSettingsSubscription | async"></app-settings>
+  <app-settings *ngIf="showSettings$ | async"></app-settings>
   <div
     [class.headerAndCanvas]="
-      !(showSettingsSubscription | async) && (showDescription | async)
+      !(showSettings$ | async) && (showDescription$ | async)
     "
     [class.headerAndCanvasCollapsed]="
-      !(showSettingsSubscription | async) && !(showDescription | async)
+      !(showSettings$ | async) && !(showDescription$ | async)
     "
-    [class.hidden]="showSettingsSubscription | async"
+    [class.hidden]="showSettings$ | async"
   >
     <input type="color" id="colorPicker" style="display: none" />
 
     <app-header
-      [class.header]="showDescription | async"
-      [class.headerCollapsed]="!(showDescription | async)"
+      [class.header]="showDescription$ | async"
+      [class.headerCollapsed]="!(showDescription$ | async)"
     ></app-header>
     <app-modeler></app-modeler>
   </div>
 
   <div
-    [class.logoContainer]="!(showSettingsSubscription | async)"
-    [class.hidden]="showSettingsSubscription | async"
+    [class.logoContainer]="!(showSettings$ | async)"
+    [class.hidden]="showSettings$ | async"
   >
     <div id="imgWPS">
       <img

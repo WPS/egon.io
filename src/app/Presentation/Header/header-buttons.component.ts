@@ -33,7 +33,7 @@ import {
   styleUrls: ['./header-buttons.component.scss'],
 })
 export class HeaderButtonsComponent {
-  isReplay: Observable<boolean>;
+  isReplay$: Observable<boolean>;
   isDirty: Observable<boolean>;
 
   showDescription: Observable<boolean>;
@@ -51,7 +51,7 @@ export class HeaderButtonsComponent {
     private importService: ImportDomainStoryService,
     public snackbar: MatSnackBar
   ) {
-    this.isReplay = this.replayStateService.getReplayOnObservable();
+    this.isReplay$ = this.replayStateService.replayOn$;
     this.isDirty = this.dirtyFlagService.dirtySubject;
     this.showDescription = this.titleService.showDescription$;
   }

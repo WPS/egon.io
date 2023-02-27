@@ -3,7 +3,7 @@ import { ReplayStateService } from 'src/app/Service/Replay/replay-state.service'
 import { DomManipulationService } from 'src/app/Service/DomManipulation/dom-manipulation.service';
 import { StoryStep } from 'src/app/Domain/Replay/storyStep';
 import { StoryCreatorService } from './storyCreator/story-creator.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
@@ -18,63 +18,54 @@ export class ReplayService {
   private currentStep = new BehaviorSubject(-1);
   private maxStepNumber = new BehaviorSubject(0);
 
+  currentStep$ = this.currentStep.asObservable();
+  maxStepNumber$ = this.maxStepNumber.asObservable();
+
   constructor(
     private replayStateService: ReplayStateService,
     private domManipulationService: DomManipulationService,
     private storyCreatorService: StoryCreatorService,
-    public snackbar: MatSnackBar
+    private snackbar: MatSnackBar
   ) {}
 
-  public initializeReplay(): void {
+  initializeReplay(): void {
     this.currentStep.next(1);
     this.story = this.storyCreatorService.traceActivitiesAndCreateStory();
     this.maxStepNumber.next(this.story.length);
   }
 
-  public getCurrentStepNumberObservable(): Observable<number> {
-    return this.currentStep.asObservable();
+  getCurrentStepNumber(): number {
+    return this.currentStep.value;
   }
 
-  public getMaxStepNumberObservable(): Observable<number> {
-    return this.maxStepNumber.asObservable();
+  getMaxStepNumber(): number {
+    return this.maxStepNumber.value;
   }
 
-  public getCurrentStepNumber(): number {
-    return this.currentStep.getValue();
-  }
-
-  public getMaxStepNumber(): number {
-    return this.maxStepNumber.getValue();
-  }
-
-  public nextStep(): void {
-    if (
-      this.story.length > 0 &&
-      this.story.length > this.currentStep.getValue()
-    ) {
-      this.currentStep.next(this.currentStep.getValue() + 1);
-      this.domManipulationService.showStep(
-        this.story[this.currentStep.getValue() - 1],
-        this.currentStep.getValue() > 0
-          ? this.story[this.currentStep.getValue() - 2]
-          : undefined
-      );
+  nextStep(): void {
+    if (this.currentStep.value < this.story.length) {
+      this.currentStep.next(this.currentStep.value + 1);
+      this.showCurrentStep();
     }
   }
 
-  public previousStep(): void {
-    if (this.currentStep.getValue() > 1) {
-      this.currentStep.next(this.currentStep.getValue() - 1);
-      this.domManipulationService.showStep(
-        this.story[this.currentStep.getValue() - 1],
-        this.currentStep.getValue() > 0
-          ? this.story[this.currentStep.getValue() - 2]
-          : undefined
-      );
+  previousStep(): void {
+    if (this.currentStep.value > 1) {
+      this.currentStep.next(this.currentStep.value - 1);
+      this.showCurrentStep();
     }
   }
 
-  public startReplay(): void {
+  private showCurrentStep() {
+    this.domManipulationService.showStep(
+      this.story[this.currentStep.value - 1],
+      this.currentStep.value > 1
+        ? this.story[this.currentStep.value - 2]
+        : undefined
+    );
+  }
+
+  startReplay(): void {
     this.initializeReplay();
     if (this.storyCreatorService.isStoryConsecutivelyNumbered(this.story)) {
       this.replayStateService.setReplayState(true);
@@ -93,7 +84,7 @@ export class ReplayService {
     }
   }
 
-  public stopReplay(): void {
+  stopReplay(): void {
     this.currentStep.next(-1);
     this.maxStepNumber.next(0);
     this.replayStateService.setReplayState(false);

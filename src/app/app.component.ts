@@ -17,8 +17,8 @@ import { ReplayService } from './Service/Replay/replay.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  showSettingsSubscription: Observable<boolean> | BehaviorSubject<boolean>;
-  showDescription: Observable<boolean>;
+  showSettings$: Observable<boolean> | BehaviorSubject<boolean>;
+  showDescription$: Observable<boolean>;
   version: string = '';
 
   constructor(
@@ -29,8 +29,8 @@ export class AppComponent implements OnInit {
     private replayStateSerice: ReplayStateService,
     private replayService: ReplayService
   ) {
-    this.showSettingsSubscription = new BehaviorSubject(false);
-    this.showDescription = new BehaviorSubject(true);
+    this.showSettings$ = new BehaviorSubject(false);
+    this.showDescription$ = new BehaviorSubject(true);
     this.version = VERSION;
 
     document.onkeydown = (e: KeyboardEvent) => {
@@ -61,8 +61,8 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.showDescription = this.titleService.showDescription$;
-    this.showSettingsSubscription = this.settingsService.getShowSettings();
+    this.showDescription$ = this.titleService.showDescription$;
+    this.showSettings$ = this.settingsService.showSettings$;
   }
 
   public openLinkDialog(link: string, title: string, text: string): void {

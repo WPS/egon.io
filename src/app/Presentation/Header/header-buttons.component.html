@@ -1,4 +1,4 @@
-<div *ngIf="!(isReplay | async)">
+<div *ngIf="!(isReplay$ | async)">
   <button
     class="headerButton"
     title="Edit Title and Description"
@@ -90,7 +90,7 @@
     <span class="material-icons materialIconButton toggle"> expand_more</span>
   </button>
 </div>
-<div *ngIf="isReplay | async">
+<div *ngIf="isReplay$ | async">
   <button class="headerButton" title="Previous Step" (click)="previousStep()">
     <span class="material-icons materialIconButton"> skip_previous </span>
   </button>
