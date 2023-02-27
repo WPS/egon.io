@@ -58,7 +58,7 @@ export class DomainConfigurationService {
     let actorDict = new Dictionary();
     let workObjectDict = new Dictionary();
 
-    if(customConfig.actors.keysArray()) {
+    if (customConfig.actors.keysArray()) {
       actorDict = customConfig.actors;
       workObjectDict = customConfig.workObjects;
     } else {
@@ -111,8 +111,8 @@ export class DomainConfigurationService {
     const currentConfiguration = this.getCurrentConfiguration();
 
     if (currentConfiguration) {
-      const actors: any = { };
-      const workObjects: any = { };
+      const actors: any = {};
+      const workObjects: any = {};
 
       currentConfiguration.actors.all().forEach((entry) => {
         actors[entry.key] = entry.value;

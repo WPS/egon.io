@@ -122,7 +122,8 @@ export class ImportDomainStoryService implements OnDestroy {
 
   private fileReaderFunction(
     text: string | ArrayBuffer | null,
-    isSVG: boolean, isEGN: boolean
+    isSVG: boolean,
+    isEGN: boolean
   ): void {
     let dstText;
     if (typeof text === 'string') {
@@ -147,9 +148,11 @@ export class ImportDomainStoryService implements OnDestroy {
 
       // current implementation
       if (dstAndConfig.domain) {
-        configFromFile = isEGN? dstAndConfig.domain: JSON.parse(dstAndConfig.domain);
+        configFromFile = isEGN
+          ? dstAndConfig.domain
+          : JSON.parse(dstAndConfig.domain);
         config = fromConfigurationFromFile(configFromFile);
-        elements = isEGN? dstAndConfig.dst : JSON.parse(dstAndConfig.dst);
+        elements = isEGN ? dstAndConfig.dst : JSON.parse(dstAndConfig.dst);
       } else {
         // legacy implementation
         if (dstAndConfig.config) {

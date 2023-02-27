@@ -50,10 +50,9 @@ export default function elementUpdateHandler(commandStack, eventBus) {
 
     this.revert = function (ctx) {
       let element = ctx.element;
-      console.log(element)
-      eventBus.fire('shape.added', { element });
+      eventBus.fire("shape.added", { element });
 
-      ctx.element.children.forEach(child => {
+      ctx.element.children.forEach((child) => {
         reworkGroupElements(element, child);
       });
     };

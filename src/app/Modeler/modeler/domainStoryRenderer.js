@@ -84,7 +84,7 @@ export default function DomainStoryRenderer(
     box.x += 9;
     box.y -= 7;
 
-    if(semantic.number < 10) {
+    if (semantic.number < 10) {
       box.x += 3;
     }
 

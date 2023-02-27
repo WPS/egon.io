@@ -26,10 +26,6 @@ import { MaterialModule } from '../material.module';
     DomainConfigurationComponent,
     LabelDictionaryComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    MaterialModule
-  ],
+  imports: [CommonModule, FormsModule, MaterialModule],
 })
 export class SettingsModule {}

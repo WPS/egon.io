@@ -101,17 +101,25 @@ export class HeaderButtonsComponent {
   /** Open Dialogs **/
   public openDownloadDialog(): void {
     if (this.exportService.isDomainStoryExportable()) {
-      const SVGDownloadOption = new ExportOption('SVG', 'Download an SVG-Image with the Domain-Story embedded. Can be used to save and share your Domain-Story.',(withTitle: boolean) =>
-        this.exportService.downloadSVG(withTitle)
+      const SVGDownloadOption = new ExportOption(
+        'SVG',
+        'Download an SVG-Image with the Domain-Story embedded. Can be used to save and share your Domain-Story.',
+        (withTitle: boolean) => this.exportService.downloadSVG(withTitle)
       );
-      const EGNDownloadOption = new ExportOption('EGN', 'Download an EGN-File with the Domain-Story. Can be used to save and share your Domain-Story.', (withTitle: boolean) =>
-        this.exportService.downloadDST()
+      const EGNDownloadOption = new ExportOption(
+        'EGN',
+        'Download an EGN-File with the Domain-Story. Can be used to save and share your Domain-Story.',
+        (withTitle: boolean) => this.exportService.downloadDST()
       );
-      const PNGDownloadOption = new ExportOption('PNG', 'Donwload a PNG-Image of the DOmain-Story. This does not include the Domain-Story!', (withTitle: boolean) =>
-        this.exportService.downloadPNG(withTitle)
+      const PNGDownloadOption = new ExportOption(
+        'PNG',
+        'Donwload a PNG-Image of the DOmain-Story. This does not include the Domain-Story!',
+        (withTitle: boolean) => this.exportService.downloadPNG(withTitle)
       );
-      const HTMLDownloadOption = new ExportOption('HTML-Presentation', 'Download an HTML-Presentation. This does not include the Domain-Story!', (withTitle: boolean) =>
-        this.exportService.downloadHTMLPresentation()
+      const HTMLDownloadOption = new ExportOption(
+        'HTML-Presentation',
+        'Download an HTML-Presentation. This does not include the Domain-Story!',
+        (withTitle: boolean) => this.exportService.downloadHTMLPresentation()
       );
 
       const config = new MatDialogConfig();

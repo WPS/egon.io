@@ -39,10 +39,12 @@ export class DomainConfigurationComponent implements OnInit {
     this.domainConfigurationTypes =
       this.domainCustomizationService.getDomainConfiguration().value;
 
-    this.allIcons = new BehaviorSubject(this.iconDictionaryService.getFullDictionary());
-    this.allIcons.subscribe(allIcons => {
+    this.allIcons = new BehaviorSubject(
+      this.iconDictionaryService.getFullDictionary()
+    );
+    this.allIcons.subscribe((allIcons) => {
       this.allIconNames.next(allIcons.keysArray().sort(this.sortByName));
-    })
+    });
 
     // @ts-ignore
     this.selectedWorkobjects =

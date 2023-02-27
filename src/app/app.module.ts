@@ -50,27 +50,27 @@ import { MaterialModule } from './material.module';
     ReactiveFormsModule,
     SettingsModule,
     DomainStoryModelerModuleModule,
-    MaterialModule
+    MaterialModule,
   ],
   providers: [
-      AutosaveService,
-      ExportService,
-      ImportDomainStoryService,
-      ImportRepairService,
-      IconDictionaryService,
-      TitleService,
-      LabelDictionaryService,
-      ReplayService,
-      ElementRegistryService,
-      DomainConfigurationService,
-      ModelerService,
-      MassNamingService,
-      UntypedFormBuilder,
-      {
-          provide: MAT_CHECKBOX_DEFAULT_OPTIONS,
-          useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions,
-      },
-  ]
+    AutosaveService,
+    ExportService,
+    ImportDomainStoryService,
+    ImportRepairService,
+    IconDictionaryService,
+    TitleService,
+    LabelDictionaryService,
+    ReplayService,
+    ElementRegistryService,
+    DomainConfigurationService,
+    ModelerService,
+    MassNamingService,
+    UntypedFormBuilder,
+    {
+      provide: MAT_CHECKBOX_DEFAULT_OPTIONS,
+      useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions,
+    },
+  ],
 })
 export class AppModule implements DoBootstrap {
   ngDoBootstrap(app: ApplicationRef): void {

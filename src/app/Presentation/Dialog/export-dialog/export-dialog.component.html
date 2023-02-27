@@ -1,4 +1,3 @@
-
 <mat-dialog-content>
   <h2>{{ title }}</h2>
   <label>
@@ -13,7 +12,12 @@
 <mat-dialog-actions>
   <br />
   <div *ngFor="let option of options; let i = index">
-    <button mat-stroked-button class="mr-1" [title]="option.tooltip" (click)="doOption(i)">
+    <button
+      mat-stroked-button
+      class="mr-1"
+      [title]="option.tooltip"
+      (click)="doOption(i)"
+    >
       {{ option.text }}
     </button>
   </div>

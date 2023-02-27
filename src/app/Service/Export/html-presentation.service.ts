@@ -106,7 +106,8 @@ export class HtmlPresentationService {
     const element = document.createElement('a');
     element.setAttribute(
       'href',
-      'data:text/html;charset=UTF-8,' + this.fixMalformedHtmlScript(dots, revealjsData)
+      'data:text/html;charset=UTF-8,' +
+        this.fixMalformedHtmlScript(dots, revealjsData)
     );
     element.setAttribute('download', sanitizeForDesktop(filename) + '.html');
     element.style.display = 'none';
@@ -115,11 +116,21 @@ export class HtmlPresentationService {
     document.body.removeChild(element);
   }
 
-  private fixMalformedHtmlScript(dots: any, revealjsData: { multiplexId: any; sentences: any[]; multiplexSecret: any; description: string; title: string; script: string }) {
+  private fixMalformedHtmlScript(
+    dots: any,
+    revealjsData: {
+      multiplexId: any;
+      sentences: any[];
+      multiplexSecret: any;
+      description: string;
+      title: string;
+      script: string;
+    }
+  ) {
     return dots(revealjsData).replace('</ script', '</script');
   }
 
-// tslint:disable-next-line:align
+  // tslint:disable-next-line:align
   private static createSVGData(svg: any): string {
     let data = deepCopy(svg);
 

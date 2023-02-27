@@ -18,7 +18,6 @@ export function numberBoxDefinitions(element) {
   let boxHeight = 30;
   let position = labelPosition(element.waypoints);
 
-
   return {
     textAlign: alignment,
     width: boxWidth,

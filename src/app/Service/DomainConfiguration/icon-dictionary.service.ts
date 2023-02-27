@@ -12,9 +12,7 @@ import {
 } from 'src/app/Domain/Common/iconConfiguration';
 import { Configuration } from 'src/app/Domain/Common/configuration';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
-import {
-  DomainConfiguration,
-} from 'src/app/Domain/Common/domainConfiguration';
+import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
 import { sanitizeIconName } from '../../Utils/sanitizer';
 
 export const ICON_PREFIX = 'icon-domain-story-';

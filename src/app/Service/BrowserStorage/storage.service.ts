@@ -19,7 +19,10 @@ import {
 })
 export class StorageService {
   setAutosaveEnabled(enabled: boolean): void {
-    localStorage.setItem(AUTOSAVE_ACTIVATED_TAG, JSON.stringify(enabled, null, 2));
+    localStorage.setItem(
+      AUTOSAVE_ACTIVATED_TAG,
+      JSON.stringify(enabled, null, 2)
+    );
   }
 
   getAutosaveEnabled() {

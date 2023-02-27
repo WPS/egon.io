@@ -31,14 +31,14 @@ export function sanitizeIconName(name: string): string {
     '(': '',
     ')': '',
     ' ': '-',
-    '\.': '_',
+    '.': '_',
   };
   const reg = /[/\\:*?"<>|() .]/gi;
-  return name ?
-    name.replace(reg, (match) => {
-      return map[match];
-    }
-  ) : '';
+  return name
+    ? name.replace(reg, (match) => {
+        return map[match];
+      })
+    : '';
 }
 
 export function restoreTitleFromFileName(
@@ -59,16 +59,10 @@ export function restoreTitleFromFileName(
     ''
   );
   if (filenameWithoutDateSuffix.includes(isSVG ? svgSuffix : dstSuffix)) {
-    filenameWithoutDateSuffix = filenameWithoutDateSuffix.replace(
-      svgSuffix,
-      ''
-    ).replace(
-      dstSuffix,
-      ''
-    ).replace(
-      egnSuffix,
-      ''
-    );
+    filenameWithoutDateSuffix = filenameWithoutDateSuffix
+      .replace(svgSuffix, '')
+      .replace(dstSuffix, '')
+      .replace(egnSuffix, '');
   }
   title = filenameWithoutDateSuffix;
   return title;
