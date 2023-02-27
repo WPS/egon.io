@@ -279,7 +279,7 @@ export class ImportDomainStoryService implements OnDestroy {
         this.clearName(currentWorkobjectKeys[i]) !==
         this.clearName(newWorkObjectKeys[i]);
       if (changed) {
-        i = newActorKeys.length;
+        i = newWorkObjectKeys.length;
       }
     }
     return changed;
