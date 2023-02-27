@@ -27,11 +27,14 @@
 .saveButton {
   align-self: end;
   right: 0;
+  margin-left: -5px;
 }
 
 .cardContent {
+  padding-left: 0;
+  padding-right: 0;
   display: inline-flex;
-  width: 100%;
+  width: calc(100% - 15px);
   justify-content: space-between;
 }
 

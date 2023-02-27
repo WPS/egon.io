@@ -72,3 +72,7 @@
   padding: 0 5px !important;
   line-height: inherit !important;
 }
+
+::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white;
+}

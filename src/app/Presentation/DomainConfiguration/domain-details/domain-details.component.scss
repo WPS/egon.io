@@ -10,6 +10,17 @@
 
 .domainDetails {
   margin-top: 10px;
+
+  ::ng-deep.mat-mdc-form-field-infix {
+    border: none;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  ::ng-deep.mdc-text-field {
+    padding-left: 0 !important;
+  }
+
 }
 
 .fullWidth {
@@ -32,20 +43,6 @@ h3 {
 mat-list {
   overflow: auto;
   padding-top: 0;
-}
-
-::ng-deep.mat-mdc-form-field-infix {
-  border: none;
-  padding-bottom: 0 !important;
-  padding-top: 0 !important;
-}
-
-::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: white;
-}
-
-::ng-deep.mdc-text-field {
-  padding-left: 0 !important;
 }
 
 .bottom-border {

@@ -37,6 +37,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -50,20 +51,21 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ModelerComponent,
     LabelDictionaryDialogComponent,
   ],
-  imports: [
-    BrowserModule,
-    NoopAnimationsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    SettingsModule,
-    DomainStoryModelerModuleModule,
-    MatToolbarModule,
-    MatExpansionModule,
-    MatSnackBarModule,
-    MatCardModule,
-  ],
+    imports: [
+        BrowserModule,
+        NoopAnimationsModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        SettingsModule,
+        DomainStoryModelerModuleModule,
+        MatToolbarModule,
+        MatExpansionModule,
+        MatSnackBarModule,
+        MatCardModule,
+        MatButtonModule,
+    ],
     providers: [
         AutosaveService,
         ExportService,
