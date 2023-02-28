@@ -116,7 +116,7 @@ export class AutosaveService {
   private startTimer(): void {
     this.autosaveTimer = setInterval(() => {
       const currentAutosaves = this.loadCurrentAutosaves();
-      if (currentAutosaves.length > this.maxAutosaves) {
+      if (currentAutosaves.length >= this.maxAutosaves) {
         currentAutosaves.pop();
       }
       currentAutosaves.unshift(this.createAutosave());
