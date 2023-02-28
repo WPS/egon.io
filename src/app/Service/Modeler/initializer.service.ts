@@ -151,8 +151,8 @@ export class InitializerService {
                     const ty = tspan.getAttribute('y');
                     const tNumber = parseInt(tspan.innerHTML, undefined);
 
-                    const elementX = tx * zoomX + (transformX - 5 * zoomX);
-                    const elementY = ty * zoomY + (transformY - 15 * zoomY);
+                    const elementX = Math.floor(tx * zoomX + (transformX - 11 * zoomX));
+                    const elementY = Math.floor(ty * zoomY + (transformY - 15 * zoomY));
 
                     allActivities.forEach((activity: ActivityCanvasObject) => {
                       const activityNumber = activity.businessObject.number;
