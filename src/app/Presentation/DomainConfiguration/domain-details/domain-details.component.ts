@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { DomainCustomizationService } from '../../../Service/DomainConfiguration/domain-customization.service';
-import { IconListItem } from '../../../Domain/Domain-Configuration/iconListItem';
+import { Observable } from 'rxjs';
+import { DomainCustomizationService } from 'src/app/Service/DomainConfiguration/domain-customization.service';
+import { IconListItem } from 'src/app/Domain/Domain-Configuration/iconListItem';
 import { TitleService } from 'src/app/Service/Title/title.service';
 
 @Component({
@@ -12,6 +12,7 @@ import { TitleService } from 'src/app/Service/Title/title.service';
 export class DomainDetailsComponent implements OnInit {
   domainName: Observable<string>;
 
+  private draggedList: string = '';
   private draggedIndex = 0;
 
   selectedActors$ = this.customizationService.selectedActors$;
@@ -34,8 +35,10 @@ export class DomainDetailsComponent implements OnInit {
     return this.customizationService.getIconForName(iconName).value;
   }
 
-  allowDrop($event: DragEvent) {
-    $event.preventDefault();
+  allowDrop($event: DragEvent, listName: string) {
+    if(this.draggedList === listName){
+      $event.preventDefault();
+    }
   }
 
   onDrop(
@@ -63,7 +66,8 @@ export class DomainDetailsComponent implements OnInit {
     }
   }
 
-  onDragStart(index: number) {
+  onDragStart(index: number, draggedList: string) {
+    this.draggedList = draggedList;
     this.draggedIndex = index;
   }
 }
