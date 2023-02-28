@@ -1,5 +1,5 @@
-export const NUMBER_BACKGROUND_COLOR = '#42aebb';
-export const NUMBER_COLOR = 'white';
+export const NUMBER_BACKGROUND_COLOR = 'white';
+export const NUMBER_COLOR = 'black';
 export const STROKE_WIDTH = '1.5';
 
 export const HIGHLIGHT_NUMBER_BACKGROUNG_COLOR = 'orange';
