@@ -1,6 +1,4 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
-import { DirtyFlagService } from 'src/app/Service/DirtyFlag/dirty-flag.service';
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { elementTypes } from 'src/app/Domain/Common/elementTypes';
@@ -31,9 +29,6 @@ export class ImportDomainStoryService implements OnDestroy {
   titleSubscription: Subscription;
   descriptionSubscription: Subscription;
 
-  private titleInputLast = '';
-  private descriptionInputLast = '';
-
   title = INITIAL_TITLE;
   description = INITIAL_DESCRIPTION;
   private importedConfiguration: DomainConfiguration | null = null;
@@ -42,9 +37,7 @@ export class ImportDomainStoryService implements OnDestroy {
     new EventEmitter<DomainConfiguration>();
 
   constructor(
-    private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService,
-    private dirtyFlagService: DirtyFlagService,
     private importRepairService: ImportRepairService,
     private titleService: TitleService,
     private rendererService: RendererService,
@@ -83,9 +76,6 @@ export class ImportDomainStoryService implements OnDestroy {
   }
 
   importDST(input: Blob, filename: string, isSVG: boolean): void {
-    this.titleInputLast = '';
-    this.descriptionInputLast = '';
-
     const fileReader = new FileReader();
     const titleText = restoreTitleFromFileName(filename, isSVG);
 
@@ -102,9 +92,6 @@ export class ImportDomainStoryService implements OnDestroy {
   }
 
   importEGN(input: Blob, filename: string, isSVG: boolean): void {
-    this.titleInputLast = '';
-    this.descriptionInputLast = '';
-
     const fileReader = new FileReader();
     const titleText = restoreTitleFromFileName(filename, isSVG);
 

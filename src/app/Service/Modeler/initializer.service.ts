@@ -30,7 +30,6 @@ import { DialogService } from '../Dialog/dialog.service';
 import massRenameHandler from '../../Modeler/modeler/updateHandler/massRenameHandler';
 import headlineAndDescriptionUpdateHandler from '../../Modeler/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
 import { TitleService } from '../Title/title.service';
-import { MassNamingService } from '../LabelDictionary/mass-naming.service';
 import { ActivityCanvasObject } from '../../Domain/Common/activityCanvasObject';
 import { HtmlPresentationService } from '../Export/html-presentation.service';
 import { positionsMatch } from '../../Utils/mathExtensions';
@@ -54,7 +53,6 @@ export class InitializerService {
     private dialogService: DialogService,
     private commandStackService: CommandStackService,
     private titleService: TitleService,
-    private massNamingService: MassNamingService,
     private htmlPresentationService: HtmlPresentationService
   ) {}
 
@@ -111,8 +109,7 @@ export class InitializerService {
 
           // add a DoubleClickListener to the number on activities
           if (renderedNumberRegistry.length > 1) {
-            const allActivities =
-              this.elementRegistryService.getActivitiesFromActors();
+            const allActivities = this.elementRegistryService.getActivitiesFromActors();
 
             if (allActivities.length > 0) {
               const htmlCanvas = document.getElementById('canvas');
@@ -120,8 +117,7 @@ export class InitializerService {
                 const container = htmlCanvas.getElementsByClassName('djs-container');
                 const svgElements = container[0].getElementsByTagName('svg');
                 const outerSVGElement = svgElements[0];
-                const viewport =
-                  outerSVGElement.getElementsByClassName('viewport')[0];
+                const viewport = outerSVGElement.getElementsByClassName('viewport')[0];
                 let transform = viewport.getAttribute('transform');
 
                 let transformX = 0;

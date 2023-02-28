@@ -3,7 +3,7 @@ import {
   CustomDomainConfiguration,
   DomainConfiguration,
 } from '../../Domain/Common/domainConfiguration';
-import { BehaviorSubject, config, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { DomainConfigurationService } from './domain-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { getNameFromType } from '../../Utils/naming';
@@ -30,8 +30,8 @@ export class DomainCustomizationService {
 
   private configurationHasChanged = false;
 
-  selectedActors = new BehaviorSubject<string[]>([]);
-  selectedWorkobjects = new BehaviorSubject<string[]>([]);
+  selectedActors$ = new BehaviorSubject<string[]>([]);
+  selectedWorkobjects$ = new BehaviorSubject<string[]>([]);
   private changedDomainCofiguration: DomainConfiguration | undefined;
 
   constructor(
@@ -46,10 +46,10 @@ export class DomainCustomizationService {
       this.configurationService.getCurrentConfigurationNamesWithoutPrefix()
     );
 
-    this.selectedWorkobjects.next(
+    this.selectedWorkobjects$.next(
       this.domainConfigurationTypes.value.workObjects
     );
-    this.selectedActors.next(this.domainConfigurationTypes.value.actors);
+    this.selectedActors$.next(this.domainConfigurationTypes.value.actors);
 
     iconDictionaryService
       .getAllIconDictionary()
@@ -83,7 +83,7 @@ export class DomainCustomizationService {
       if (!this.allIconListItems.has(iconName)) {
         this.addIconToAllIconList(iconName);
       }
-      const selectedActorNames = this.selectedActors.value;
+      const selectedActorNames = this.selectedActors$.value;
       if (!selectedActorNames.includes(iconName)) {
         this.selectActor(iconName);
       }
@@ -92,7 +92,7 @@ export class DomainCustomizationService {
       if (!this.allIconListItems.has(iconName)) {
         this.addIconToAllIconList(iconName);
       }
-      const selectedWorkobjectNames = this.selectedWorkobjects.value;
+      const selectedWorkobjectNames = this.selectedWorkobjects$.value;
       if (!selectedWorkobjectNames.includes(iconName)) {
         this.selectWorkObject(iconName);
       }
@@ -109,14 +109,6 @@ export class DomainCustomizationService {
 
   getIconForName(iconName: string): BehaviorSubject<IconListItem> {
     return this.allIconListItems.get(iconName);
-  }
-
-  getSelectedActors(): BehaviorSubject<string[]> {
-    return this.selectedActors;
-  }
-
-  getSelectedWorkobjects(): BehaviorSubject<string[]> {
-    return this.selectedWorkobjects;
   }
 
   isIconActor(iconName: string): boolean {
@@ -233,12 +225,12 @@ export class DomainCustomizationService {
   }
 
   private updateActorSubject(): void {
-    this.selectedActors.next(this.domainConfigurationTypes.value.actors);
+    this.selectedActors$.next(this.domainConfigurationTypes.value.actors);
     this.configurationHasChanged = true;
   }
 
   private updateWorkObjectSubject(): void {
-    this.selectedWorkobjects.next(
+    this.selectedWorkobjects$.next(
       this.domainConfigurationTypes.value.workObjects
     );
     this.configurationHasChanged = true;
@@ -249,12 +241,12 @@ export class DomainCustomizationService {
     const defaultConfig =
       this.configurationService.createMinimalConfigurationWithDefaultIcons();
 
-    this.selectedWorkobjects.value.forEach((workObjectName) => {
+    this.selectedWorkobjects$.value.forEach((workObjectName) => {
       if (!defaultConfig.workObjects.has(workObjectName)) {
         this.deselectWorkobject(workObjectName);
       }
     });
-    this.selectedActors.value.forEach((actorName) => {
+    this.selectedActors$.value.forEach((actorName) => {
       if (!defaultConfig.actors.has(actorName)) {
         this.deselectActor(actorName);
       }

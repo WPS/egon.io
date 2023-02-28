@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { sanitizeForDesktop } from '../../Utils/sanitizer';
-import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
-import { DialogService } from '../Dialog/dialog.service';
-import { StoryCreatorService } from '../Replay/storyCreator/story-creator.service';
 import { ReplayService } from '../Replay/replay.service';
 // @ts-ignore
 import doT from 'dot';
@@ -16,9 +13,6 @@ import { TitleService } from '../Title/title.service';
  */
 export class HtmlPresentationService {
   constructor(
-    private elementRegistryService: ElementRegistryService,
-    private dialogService: DialogService,
-    private storyCreatorService: StoryCreatorService,
     private replayService: ReplayService,
     private titleService: TitleService
   ) {}
@@ -26,17 +20,10 @@ export class HtmlPresentationService {
   private multiplexSecret: any;
   private multiplexId: any;
 
-  private canvas: any;
-  private selection: any;
   private modeler: any;
 
-  private initialized = false;
-
   setModelerClasses(canvas: any, selection: any, modeler: any): void {
-    this.canvas = canvas;
-    this.selection = selection;
     this.modeler = modeler;
-    this.initialized = true;
   }
 
   private static viewBoxCoordinates(svg: any): any {

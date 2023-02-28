@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { assign } from 'min-dash';
 import DomainStoryModeler from 'src/app/Modeler';
-import {
-  CustomDomainConfiguration,
-  DomainConfiguration,
-} from 'src/app/Domain/Common/domainConfiguration';
+import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
 import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
 import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.service';

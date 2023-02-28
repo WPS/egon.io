@@ -12,8 +12,6 @@ export class ElementRegistryService {
   private registry: any;
   private fullyInitialized = false;
 
-  constructor() {}
-
   /**
    * Initially the registry has only the root-Element.
    * Once the canvas has bees initialized, we adjust the reference to point to the elements on the canvas for convenience

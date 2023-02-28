@@ -40,11 +40,11 @@
   >
     <span
       class="material-icons-outlined materialIconButton"
-      *ngIf="!(isDirty | async)"
+      *ngIf="!(isDirty$ | async)"
     >
       archive
     </span>
-    <span class="material-icons materialIconButton" *ngIf="isDirty | async">
+    <span class="material-icons materialIconButton" *ngIf="isDirty$ | async">
       archive
     </span>
   </button>

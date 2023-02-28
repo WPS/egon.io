@@ -130,8 +130,8 @@ describe('DomainCustomizationService', () => {
 
       service.importConfiguration(customConfig);
 
-      const selectedActors = service.getSelectedActors().value;
-      const selectedWorkObjects = service.getSelectedWorkobjects().value;
+      const selectedActors = service.selectedActors$.value;
+      const selectedWorkObjects = service.selectedWorkobjects$.value;
 
       expect(selectedActors).toContain('Person');
       expect(selectedActors).toContain('TestActor');
@@ -162,8 +162,8 @@ describe('DomainCustomizationService', () => {
       iconDictionarySpy.getIconSource.calls.reset();
       service.importConfiguration(customConfig, false);
 
-      const selectedActors = service.getSelectedActors().value;
-      const selectedWorkObjects = service.getSelectedWorkobjects().value;
+      const selectedActors = service.selectedActors$.value;
+      const selectedWorkObjects = service.selectedWorkobjects$.value;
 
       expect(selectedActors).toContain('Person');
       expect(selectedActors).toContain('TestActor');

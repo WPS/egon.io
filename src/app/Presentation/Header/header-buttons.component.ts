@@ -13,7 +13,6 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { ExportDialogComponent } from '../Dialog/export-dialog/export-dialog.component';
 import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
 import { InfoDialogComponent } from '../Dialog/info-dialog/info-dialog.component';
-import { ElementRegistryService } from '../../Service/ElementRegistry/element-registry.service';
 import { DialogService } from '../../Service/Dialog/dialog.service';
 import { ReplayService } from '../../Service/Replay/replay.service';
 import { ExportService } from '../../Service/Export/export.service';
@@ -34,7 +33,7 @@ import {
 })
 export class HeaderButtonsComponent {
   isReplay$: Observable<boolean>;
-  isDirty: Observable<boolean>;
+  isDirty$: Observable<boolean>;
 
   showDescription: Observable<boolean>;
 
@@ -44,7 +43,6 @@ export class HeaderButtonsComponent {
     private modelerService: ModelerService,
     private replayStateService: ReplayStateService,
     private dirtyFlagService: DirtyFlagService,
-    private elementRegistryService: ElementRegistryService,
     private dialogService: DialogService,
     private replayService: ReplayService,
     private exportService: ExportService,
@@ -52,7 +50,7 @@ export class HeaderButtonsComponent {
     private snackbar: MatSnackBar
   ) {
     this.isReplay$ = this.replayStateService.replayOn$;
-    this.isDirty = this.dirtyFlagService.dirtySubject;
+    this.isDirty$ = this.dirtyFlagService.dirty$;
     this.showDescription = this.titleService.showDescription$;
   }
   import(): void {

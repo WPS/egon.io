@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { RendererService } from '../Renderer/renderer.service';
-import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
 import { ExportService } from '../Export/export.service';
 import { Autosave } from '../../Domain/Autosave/autosave';
 import { AutosaveStateService } from './autosave-state.service';
@@ -15,14 +14,14 @@ import { TitleService } from '../Title/title.service';
   providedIn: 'root',
 })
 export class AutosaveService {
-  private readonly autosaveEnabled: Observable<boolean>;
+  readonly autosaveEnabled$: Observable<boolean>;
+
   private autosaveTimer: any;
   private autosaveInterval = new BehaviorSubject(5); // in min
   private maxAutosaves: number;
 
   constructor(
     private rendererService: RendererService,
-    private domainConfigurationService: DomainConfigurationService,
     private exportService: ExportService,
     private autosaveStateService: AutosaveStateService,
     private iconDistionaryService: IconDictionaryService,
@@ -30,8 +29,7 @@ export class AutosaveService {
     private titleService: TitleService
   ) {
     this.maxAutosaves = storageService.getMaxAutosaves();
-    this.autosaveEnabled =
-      this.autosaveStateService.getAutosaveStateAsObservable();
+    this.autosaveEnabled$ = this.autosaveStateService.autosaveEnabled$;
     this.loadAutosaveInterval();
     if (this.autosaveStateService.getAutosaveState()) {
       this.startTimer();
@@ -68,7 +66,7 @@ export class AutosaveService {
   changeAutosaveInterval(interval: number): void {
     this.autosaveInterval.next(interval);
     this.saveAutosaveInterval();
-    if (this.autosaveEnabled) {
+    if (this.autosaveEnabled$) {
       this.stopTimer();
       this.startTimer();
     }
@@ -86,10 +84,6 @@ export class AutosaveService {
 
   getAutosaveInterval(): number {
     return this.autosaveInterval.value;
-  }
-
-  getAutosaveEnabledAsObservable(): Observable<boolean> {
-    return this.autosaveEnabled;
   }
 
   private createAutosave(): Autosave {

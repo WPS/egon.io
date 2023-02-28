@@ -63,9 +63,6 @@ describe('AutosaveService', () => {
       StorageService
     ) as jasmine.SpyObj<StorageService>;
 
-    autosaveStateSpy.getAutosaveStateAsObservable.and.returnValue(
-      new BehaviorSubject(false).asObservable()
-    );
     autosaveStateSpy.getAutosaveState.and.returnValue(false);
     autosaveStateSpy.setAutosaveState.and.returnValue();
 
@@ -75,14 +72,6 @@ describe('AutosaveService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-
-  it('should not autostart when deactivated', () => {
-    service
-      .getAutosaveEnabledAsObservable()
-      .subscribe((value) => expect(value).toBeFalse());
-  });
-
-  // TODO test for activated autostart
 
   describe('applyAutosave', () => {
     beforeEach(() => {
@@ -107,12 +96,6 @@ describe('AutosaveService', () => {
       service.stopAutosaving();
       expect(autosaveStateSpy.setAutosaveState).toHaveBeenCalledWith(false);
     });
-  });
-
-  it('getAutosaveEnabledAsObservable', () => {
-    service
-      .getAutosaveEnabledAsObservable()
-      .subscribe((value) => expect(value).toBeFalse());
   });
 
   describe('loadCurrentAutosaves', () => {

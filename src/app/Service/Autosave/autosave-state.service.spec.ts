@@ -31,7 +31,7 @@ describe('AutosaveStateService', () => {
   it('should initialize disabled', () => {
     expect(service.getAutosaveState()).toBeFalse();
     service
-      .getAutosaveStateAsObservable()
+      .autosaveEnabled$
       .subscribe((value) => expect(value).toBeFalse());
   });
 
@@ -40,7 +40,7 @@ describe('AutosaveStateService', () => {
 
     expect(service.getAutosaveState()).toBeTrue();
     service
-      .getAutosaveStateAsObservable()
+      .autosaveEnabled$
       .subscribe((value) => expect(value).toBeTrue());
   });
 });

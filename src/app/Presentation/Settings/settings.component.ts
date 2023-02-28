@@ -23,7 +23,7 @@ export class SettingsComponent {
     private autosaveStateService: AutosaveStateService,
     private domainCustomizationService: DomainCustomizationService
   ) {
-    this.autosaveEnable = autosaveStateService.getAutosaveStateAsObservable();
+    this.autosaveEnable = autosaveStateService.autosaveEnabled$;
   }
 
   close(): void {

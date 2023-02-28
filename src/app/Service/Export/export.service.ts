@@ -130,8 +130,6 @@ export class ExportService implements OnDestroy {
 
       const image = document.createElement('img');
 
-      let onLoadTriggered = false;
-
       // removes unwanted black dots in image
       let svg = this.pngService.extractSVG(viewport, outerSVGElement);
 
@@ -144,7 +142,6 @@ export class ExportService implements OnDestroy {
       );
 
       image.onload = () => {
-        onLoadTriggered = true;
         const tempCanvas = document.createElement('canvas');
 
         // add a 10px buffer to the right and lower boundary

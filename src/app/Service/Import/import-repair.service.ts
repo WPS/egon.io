@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { elementTypes } from 'src/app/Domain/Common/elementTypes';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import { Waypoint } from 'src/app/Domain/Common/waypoint';
@@ -13,7 +12,6 @@ import { ActivityBusinessObject } from '../../Domain/Common/activityBusinessObje
   providedIn: 'root',
 })
 export class ImportRepairService {
-  constructor(private elementRegistryService: ElementRegistryService) {}
 
   checkForUnreferencedElementsInActivitiesAndRepair(
     elements: BusinessObject[]

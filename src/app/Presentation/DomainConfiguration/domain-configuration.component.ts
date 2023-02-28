@@ -46,9 +46,8 @@ export class DomainConfigurationComponent implements OnInit {
       this.allIconNames.next(allIcons.keysArray().sort(this.sortByName));
     });
 
-    this.selectedWorkobjects =
-      this.domainCustomizationService.getSelectedWorkobjects();
-    this.selectedActors = this.domainCustomizationService.getSelectedActors();
+    this.selectedActors = this.domainCustomizationService.selectedActors$;
+    this.selectedWorkobjects = this.domainCustomizationService.selectedWorkobjects$;
   }
 
   ngOnInit(): void {

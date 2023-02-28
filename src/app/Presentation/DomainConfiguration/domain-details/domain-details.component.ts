@@ -14,16 +14,13 @@ export class DomainDetailsComponent implements OnInit {
 
   private draggedIndex = 0;
 
-  selectedActors: BehaviorSubject<string[]>;
-  selectedWorkobjects: BehaviorSubject<string[]>;
+  selectedActors$ = this.customizationService.selectedActors$;
+  selectedWorkobjects$ = this.customizationService.selectedWorkobjects$;
 
   constructor(
     private customizationService: DomainCustomizationService,
     titleService: TitleService) {
     this.domainName = titleService.domainName$;
-    this.selectedActors = this.customizationService.getSelectedActors();
-    this.selectedWorkobjects =
-      this.customizationService.getSelectedWorkobjects();
   }
 
   ngOnInit(): void {}
@@ -49,9 +46,9 @@ export class DomainDetailsComponent implements OnInit {
   ) {
     let list;
     if (actors) {
-      list = this.selectedActors;
+      list = this.selectedActors$;
     } else {
-      list = this.selectedWorkobjects;
+      list = this.selectedWorkobjects$;
     }
     const sortedList = list.value;
     const item = sortedList[this.draggedIndex];

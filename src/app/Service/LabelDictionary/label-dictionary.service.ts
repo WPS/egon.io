@@ -21,7 +21,6 @@ export class LabelDictionaryService {
 
   createLabelDictionaries(): void {
     this.activityLabels = [];
-    this.activityLabels = [];
     this.workObjektLabels = [];
 
     const allObjects = this.elementRegistryService.getAllCanvasObjects();
