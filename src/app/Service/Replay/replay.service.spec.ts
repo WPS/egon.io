@@ -22,7 +22,7 @@ describe('ReplayService', () => {
   beforeEach(() => {
     const storyCreatorServiceMock = jasmine.createSpyObj(
       'StoryCreatorService',
-      ['traceActivitiesAndCreateStory', 'isStoryConsecutivelyNumbered']
+      ['traceActivitiesAndCreateStory', 'getMissingSteps']
     );
     const domManipulationServiceMock = jasmine.createSpyObj(
       'DomManipulationService',
@@ -194,27 +194,27 @@ describe('ReplayService', () => {
       });
 
       it('should show dialog if not consecutively numbered', () => {
-        storyCreatorServiceSpy.isStoryConsecutivelyNumbered.and.returnValue(
-          false
+        storyCreatorServiceSpy.getMissingSteps.and.returnValue(
+          [1]
         );
 
         service.startReplay();
 
         expect(
-          storyCreatorServiceSpy.isStoryConsecutivelyNumbered
+          storyCreatorServiceSpy.getMissingSteps
         ).toHaveBeenCalled();
         expect(snackBarSpy.open).toHaveBeenCalled();
       });
 
       it(' should start replay if consecutively numbered', () => {
-        storyCreatorServiceSpy.isStoryConsecutivelyNumbered.and.returnValue(
-          true
+        storyCreatorServiceSpy.getMissingSteps.and.returnValue(
+          []
         );
 
         service.startReplay();
 
         expect(
-          storyCreatorServiceSpy.isStoryConsecutivelyNumbered
+          storyCreatorServiceSpy.getMissingSteps
         ).toHaveBeenCalled();
         expect(replayStateServiceSpy.setReplayState).toHaveBeenCalledOnceWith(
           true
@@ -232,9 +232,7 @@ describe('ReplayService', () => {
         );
         domManipulationServiceSpy.showStep.and.returnValue();
         replayStateServiceSpy.setReplayState.and.returnValue();
-        storyCreatorServiceSpy.isStoryConsecutivelyNumbered.and.returnValue(
-          true
-        );
+        storyCreatorServiceSpy.getMissingSteps.and.returnValue([]);
 
         service.startReplay();
       });

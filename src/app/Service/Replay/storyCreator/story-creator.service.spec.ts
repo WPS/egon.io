@@ -101,12 +101,12 @@ describe('StoryCreatorService', () => {
     });
 
     it('should be true', () => {
-      expect(service.isStoryConsecutivelyNumbered(story)).toBeTruthy();
+      expect(service.getMissingSteps(story).length).toBe(0);
     });
 
     it(' should be false', () => {
       story[1].objects = [];
-      expect(service.isStoryConsecutivelyNumbered(story)).toBeFalsy();
+      expect(service.getMissingSteps(story).length > 0).toBeTrue();
     });
   });
 });

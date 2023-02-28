@@ -57,11 +57,12 @@ export class StoryCreatorService {
     };
   }
 
-  isStoryConsecutivelyNumbered(story: StoryStep[]): boolean {
+  getMissingSteps(story: StoryStep[]): number[] {
     if (!story || story.length === 0) {
-      return false;
+      return [];
     }
 
+    const missingSteps: number[] = [];
     let complete = true;
     for (let i = 0; i < story.length; i++) {
       if (
@@ -71,10 +72,11 @@ export class StoryCreatorService {
           (element) => element.type === elementTypes.ACTIVITY
         ).length <= 0
       ) {
+        missingSteps.push(i+1);
         complete = false;
       }
     }
-    return complete;
+    return missingSteps;
   }
 
   private getStepObjects(

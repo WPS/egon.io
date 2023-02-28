@@ -67,14 +67,16 @@ export class ReplayService {
 
   startReplay(): void {
     this.initializeReplay();
-    if (this.storyCreatorService.isStoryConsecutivelyNumbered(this.story)) {
+    const missingSteps = this.storyCreatorService.getMissingSteps(this.story);
+    if (missingSteps.length === 0) {
       this.replayStateService.setReplayState(true);
       this.domManipulationService.showStep(
         this.story[this.currentStep.getValue() - 1]
       );
     } else {
+      const steps = missingSteps.join(', ');
       this.snackbar.open(
-        'The Domain Story is not complete. At least one Step is missing.',
+        `The Domain Story is not complete. At least Steps ${steps} are missing.`,
         undefined,
         {
           duration: SNACKBAR_DURATION * 2,
