@@ -8,7 +8,6 @@ import {
   MAX_AUTOSAVES,
 } from '../../Domain/Common/constants';
 import { Autosave } from '../../Domain/Autosave/autosave';
-import { Autosaves } from '../../Domain/Autosave/autosaves';
 import {
   DomainConfiguration,
   fromConfigurationFromFile,
@@ -40,14 +39,14 @@ export class StorageService {
   setAutosaves(currentAutosaves: Autosave[]): void {
     localStorage.setItem(
       AUTOSAVE_TAG,
-      JSON.stringify({ autosaves: currentAutosaves }, null, 2)
+      JSON.stringify(currentAutosaves, null, 2)
     );
   }
 
   getAutosaves(): Autosave[] {
     const autosavesString = localStorage.getItem(AUTOSAVE_TAG);
     if (autosavesString) {
-      const autosaves = (JSON.parse(autosavesString) as Autosaves).autosaves;
+      const autosaves = (JSON.parse(autosavesString) as Autosave[]);
       if (autosaves && autosaves.length > 0) {
         return autosaves;
       }

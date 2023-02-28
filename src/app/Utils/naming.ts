@@ -6,7 +6,5 @@ export function getNameFromType(type: string): string {
   } else if (type.includes(elementTypes.WORKOBJECT)) {
     return type.replace(elementTypes.WORKOBJECT, '');
   }
-
   return '';
-  // error Handling    else throw new InvalidTypeError(type);
 }
