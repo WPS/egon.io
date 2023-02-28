@@ -207,9 +207,7 @@ describe('ReplayService', () => {
       });
 
       it(' should start replay if consecutively numbered', () => {
-        storyCreatorServiceSpy.getMissingSteps.and.returnValue(
-          []
-        );
+        storyCreatorServiceSpy.getMissingSteps.and.returnValue([]);
 
         service.startReplay();
 

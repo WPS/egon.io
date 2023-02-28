@@ -103,24 +103,27 @@ app-root {
 
 /* Snackbar */
 
-.snackbar_success {
-  background-color: darkgreen;
-  color: white;
-}
-
-.snackbar_warning {
-  background-color: orange;
-  color: black;
-}
-
-.snackbar_error {
-  background-color: darkred;
-  color: white;
-}
-
-.snackbar_info {
-  background-color: #42aebb;
-  color: black;
+.mat-mdc-snack-bar-container {
+  &.snackbar_success {
+    --mdc-snackbar-container-color: darkgreen;
+    --mat-mdc-snack-bar-button-color: #fff
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+  &.snackbar_warning {
+    --mdc-snackbar-container-color: darkorange;
+    --mat-mdc-snack-bar-button-color: black;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+  &.snackbar_error {
+    --mdc-snackbar-container-color: #d04437;
+    --mat-mdc-snack-bar-button-color: #fff
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+  &.snackbar_info {
+    --mdc-snackbar-container-color: #42aebb;
+    --mat-mdc-snack-bar-button-color: black;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
 }
 
 /* BPMN elements */

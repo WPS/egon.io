@@ -67,16 +67,29 @@ export class ReplayService {
 
   startReplay(): void {
     this.initializeReplay();
-    const missingSteps = this.storyCreatorService.getMissingSteps(this.story);
-    if (missingSteps.length === 0) {
-      this.replayStateService.setReplayState(true);
-      this.domManipulationService.showStep(
-        this.story[this.currentStep.getValue() - 1]
-      );
+    if (this.story?.length) {
+      const missingSteps = this.storyCreatorService.getMissingSteps(this.story);
+      if (missingSteps.length === 0) {
+        this.replayStateService.setReplayState(true);
+        this.domManipulationService.showStep(
+          this.story[this.currentStep.getValue() - 1]
+        );
+      } else {
+        const steps = missingSteps.join(', ');
+        this.snackbar.open(
+          steps.length === 1
+          ? `The Domain Story is not complete. Step ${steps} is missing.`
+          : `The Domain Story is not complete. Steps ${steps} are missing.`,
+          undefined,
+          {
+            duration: SNACKBAR_DURATION * 2,
+            panelClass: SNACKBAR_WARNING,
+          }
+        );
+      }
     } else {
-      const steps = missingSteps.join(', ');
       this.snackbar.open(
-        `The Domain Story is not complete. At least Steps ${steps} are missing.`,
+        'You need a Domain Story for replay.',
         undefined,
         {
           duration: SNACKBAR_DURATION * 2,
