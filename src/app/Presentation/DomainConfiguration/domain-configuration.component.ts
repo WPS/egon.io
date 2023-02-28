@@ -20,7 +20,7 @@ import { DomainCustomizationService } from '../../Service/DomainConfiguration/do
 export class DomainConfigurationComponent implements OnInit {
   private domainConfigurationTypes: CustomDomainConfiguration;
 
-  public filter = new BehaviorSubject<IconFilterEnum>(
+  filter = new BehaviorSubject<IconFilterEnum>(
     IconFilterEnum.ICON_FILTER_NONE
   );
 
@@ -53,7 +53,7 @@ export class DomainConfigurationComponent implements OnInit {
     this.selectedActors = this.domainCustomizationService.getSelectedActors();
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.filter.subscribe((type) => {
       let allFiltered = this.getFilteredNamesForType(type);
       this.allFilteredIconNames.next(allFiltered.sort(this.sortByName));
@@ -76,30 +76,30 @@ export class DomainConfigurationComponent implements OnInit {
   }
 
   /** Default Domain **/
-  public loadMinimalIconConfigurationWithDefaultIcons(): void {
+  loadMinimalIconConfigurationWithDefaultIcons(): void {
     this.domainCustomizationService.resetDomain();
   }
 
-  public loadInitialConfiguration(): void {
+  loadInitialConfiguration(): void {
     this.domainCustomizationService.cancel();
   }
 
   /** Persist Domain **/
-  public saveDomain(): void {
+  saveDomain(): void {
     this.domainCustomizationService.saveDomain();
   }
 
-  public exportDomain(): void {
+  exportDomain(): void {
     this.domainCustomizationService.exportDomain();
   }
 
   /** Add Custom Icon **/
-  public startIconUpload(): void {
+  startIconUpload(): void {
     // @ts-ignore
     document.getElementById('importIcon').click();
   }
 
-  public importIcon(): void {
+  importIcon(): void {
     // @ts-ignore
     const files = document.getElementById('importIcon').files;
     for (let iconInputFile of files) {
@@ -123,12 +123,12 @@ export class DomainConfigurationComponent implements OnInit {
   }
 
   /** Import Domain **/
-  public startDomainImport(): void {
+  startDomainImport(): void {
     // @ts-ignore
     document.getElementById('importDomain').click();
   }
 
-  public importDomain(): void {
+  importDomain(): void {
     // @ts-ignore
     const domainInputFile = document.getElementById('importDomain').files[0];
     const reader = new FileReader();
@@ -152,7 +152,7 @@ export class DomainConfigurationComponent implements OnInit {
   }
 
   /** Filter **/
-  public filterForActors(): void {
+  filterForActors(): void {
     if (this.filter.value !== IconFilterEnum.ICON_FILTER_ACTOR) {
       this.filter.next(IconFilterEnum.ICON_FILTER_ACTOR);
     } else {
@@ -160,7 +160,7 @@ export class DomainConfigurationComponent implements OnInit {
     }
   }
 
-  public filterForWorkobjects(): void {
+  filterForWorkobjects(): void {
     if (this.filter.value !== IconFilterEnum.ICON_FILTER_WORKOBJECT) {
       this.filter.next(IconFilterEnum.ICON_FILTER_WORKOBJECT);
     } else {
@@ -168,7 +168,7 @@ export class DomainConfigurationComponent implements OnInit {
     }
   }
 
-  public filterForUnassigned(): void {
+  filterForUnassigned(): void {
     if (this.filter.value !== IconFilterEnum.ICON_FILTER_UNASSIGNED) {
       this.filter.next(IconFilterEnum.ICON_FILTER_UNASSIGNED);
     } else {
@@ -176,7 +176,7 @@ export class DomainConfigurationComponent implements OnInit {
     }
   }
 
-  public filterByNameAndType($event: any) {
+  filterByNameAndType($event: any) {
     const filteredByNameAndType = this.getFilteredNamesForType(
       this.filter.value
     ).filter((name) =>

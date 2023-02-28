@@ -13,7 +13,7 @@ import { Dictionary } from '../../../Domain/Common/dictionary/dictionary';
 export class StoryCreatorService {
   constructor(private elementRegistryService: ElementRegistryService) {}
 
-  public traceActivitiesAndCreateStory(): StoryStep[] {
+  traceActivitiesAndCreateStory(): StoryStep[] {
     const tracedActivityMap = new Dictionary();
     const story: StoryStep[] = [];
     const activities = this.elementRegistryService.getActivitiesFromActors();
@@ -59,11 +59,11 @@ export class StoryCreatorService {
     };
   }
 
-  public isStoryConsecutivelyNumbered(story: StoryStep[]): boolean {
+  isStoryConsecutivelyNumbered(story: StoryStep[]): boolean {
     if (!story || story.length === 0) {
       return false;
     }
-    const errorStep = [];
+
     let complete = true;
     for (let i = 0; i < story.length; i++) {
       if (
@@ -74,9 +74,6 @@ export class StoryCreatorService {
         ).length <= 0
       ) {
         complete = false;
-        errorStep[i] = true;
-      } else {
-        errorStep[i] = false;
       }
     }
     return complete;

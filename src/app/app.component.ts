@@ -60,12 +60,12 @@ export class AppComponent implements OnInit {
     };
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.showDescription$ = this.titleService.showDescription$;
     this.showSettings$ = this.settingsService.showSettings$;
   }
 
-  public openLinkDialog(link: string, title: string, text: string): void {
+  openLinkDialog(link: string, title: string, text: string): void {
     const config = new MatDialogConfig();
     config.disableClose = false;
     config.autoFocus = true;

@@ -19,7 +19,7 @@ export class LabelDictionaryService {
     private iconDictionaryService: IconDictionaryService
   ) {}
 
-  public createLabelDictionaries(): void {
+  createLabelDictionaries(): void {
     this.activityLabels = [];
     this.activityLabels = [];
     this.workObjektLabels = [];
@@ -67,15 +67,15 @@ export class LabelDictionaryService {
     });
   }
 
-  public getActivityLabels(): LabelEntry[] {
+  getActivityLabels(): LabelEntry[] {
     return this.activityLabels.slice();
   }
 
-  public getWorkObjectLabels(): WorkObjectLabelEntry[] {
+  getWorkObjectLabels(): WorkObjectLabelEntry[] {
     return this.workObjektLabels.slice();
   }
 
-  public massRenameLabels(
+  massRenameLabels(
     activityNames: string[],
     originalActivityNames: string[],
     workObjectNames: string[],

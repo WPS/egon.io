@@ -26,7 +26,7 @@ export class SettingsComponent {
     this.autosaveEnable = autosaveStateService.getAutosaveStateAsObservable();
   }
 
-  public close(): void {
+  close(): void {
     const savedConfiguration =
       this.domainCustomizationService.getAndClearSavedConfiguration();
     if (savedConfiguration) {
@@ -35,12 +35,12 @@ export class SettingsComponent {
     this.settingsService.close();
   }
 
-  public openGeneralSettings() {
+  openGeneralSettings() {
     this.showGeneralSettings.next(true);
     this.showDomainCustomization.next(false);
   }
 
-  public openDomainCustomization() {
+  openDomainCustomization() {
     this.showGeneralSettings.next(false);
     this.showDomainCustomization.next(true);
   }

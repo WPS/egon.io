@@ -18,7 +18,7 @@ export class ElementRegistryService {
    * Initially the registry has only the root-Element.
    * Once the canvas has bees initialized, we adjust the reference to point to the elements on the canvas for convenience
    */
-  public correctInitialize(): void {
+  correctInitialize(): void {
     if (!this.fullyInitialized) {
       if (this.registry.__implicitroot) {
         this.registry = this.registry.__implicitroot.element.children;
@@ -27,16 +27,16 @@ export class ElementRegistryService {
     }
   }
 
-  public setElementRegistry(registry: any): void {
+  setElementRegistry(registry: any): void {
     this.registry = registry._elements;
   }
 
-  public clear(): void {
+  clear(): void {
     this.registry = null;
     this.fullyInitialized = false;
   }
 
-  public createObjectListForDSTDownload(): CanvasObject[] {
+  createObjectListForDSTDownload(): CanvasObject[] {
     if (this.registry) {
       const allObjectsFromCanvas = this.getAllCanvasObjects();
       const groups = this.getAllGroups();
@@ -77,7 +77,7 @@ export class ElementRegistryService {
     });
   }
 
-  public getAllActivities(): ActivityCanvasObject[] {
+  getAllActivities(): ActivityCanvasObject[] {
     const activities: ActivityCanvasObject[] = [];
 
     this.getAllCanvasObjects().forEach((element) => {
@@ -88,7 +88,7 @@ export class ElementRegistryService {
     return activities;
   }
 
-  public getAllConnections(): ActivityCanvasObject[] {
+  getAllConnections(): ActivityCanvasObject[] {
     const connections: ActivityCanvasObject[] = [];
     this.getAllCanvasObjects().forEach((element) => {
       const type = element.type;
@@ -99,7 +99,7 @@ export class ElementRegistryService {
     return connections;
   }
 
-  public getAllCanvasObjects(): CanvasObject[] {
+  getAllCanvasObjects(): CanvasObject[] {
     const allObjects: CanvasObject[] = [];
     const groupObjects: GroupCanvasObject[] = [];
 
@@ -124,7 +124,7 @@ export class ElementRegistryService {
   }
 
   // returns all groups on the canvas and inside other groups
-  public getAllGroups(): GroupCanvasObject[] {
+  getAllGroups(): GroupCanvasObject[] {
     const groupObjects: GroupCanvasObject[] = [];
     const allObjects: CanvasObject[] = [];
 
@@ -161,7 +161,7 @@ export class ElementRegistryService {
   }
 
   // get a list of activities, that originate from an actor-type
-  public getActivitiesFromActors(): ActivityCanvasObject[] {
+  getActivitiesFromActors(): ActivityCanvasObject[] {
     const activitiesFromActors: ActivityCanvasObject[] = [];
     const activities = this.getAllActivities();
 

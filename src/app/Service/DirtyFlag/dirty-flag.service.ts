@@ -10,12 +10,12 @@ export class DirtyFlagService {
 
   constructor() {}
 
-  public makeDirty(): void {
+  makeDirty(): void {
     this.isDirty = true;
     this.isDirtySubject.next(true);
   }
 
-  public makeClean(): void {
+  makeClean(): void {
     this.isDirty = false;
     this.isDirtySubject.next(false);
   }

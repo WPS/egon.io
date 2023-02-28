@@ -5,26 +5,26 @@ import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
 import { INITIAL_DOMAIN_NAME } from './constants';
 
 export class IconConfiguration {
-  public domainName = INITIAL_DOMAIN_NAME;
+  domainName = INITIAL_DOMAIN_NAME;
 
   private allIconDictionary: Dictionary;
 
-  public constructor(allIconDictionary: Dictionary) {
+  constructor(allIconDictionary: Dictionary) {
     this.allIconDictionary = allIconDictionary;
   }
 
   /**
    * Select the Iconset which you want to use
    */
-  public getDefaultConf(): Configuration {
+  getDefaultConf(): Configuration {
     return defaultConf;
   }
 
-  public updateAllIconRegistry(allIconDictionary: Dictionary): void {
+  updateAllIconRegistry(allIconDictionary: Dictionary): void {
     this.allIconDictionary = allIconDictionary;
   }
 
-  public appendSRCFile(
+  appendSRCFile(
     actors: string[],
     actorsDict: Dictionary,
     workObjects: string[],
@@ -51,7 +51,7 @@ export class IconConfiguration {
     overrideAppendedIcons(appen);
   }
 
-  public createCustomConf(
+  createCustomConf(
     domainConfiguration: DomainConfiguration
   ): Configuration {
     this.domainName = domainConfiguration.name;

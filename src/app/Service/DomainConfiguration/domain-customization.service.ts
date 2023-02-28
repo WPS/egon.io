@@ -40,7 +40,7 @@ export class DomainCustomizationService {
     private importService: ImportDomainStoryService,
     private titleService: TitleService,
     private storageService: StorageService,
-    public snackBar: MatSnackBar
+    private snackBar: MatSnackBar
   ) {
     this.domainConfigurationTypes = new BehaviorSubject(
       this.configurationService.getCurrentConfigurationNamesWithoutPrefix()
@@ -72,7 +72,7 @@ export class DomainCustomizationService {
     }
   }
 
-  public importConfiguration(
+  importConfiguration(
     customConfig: DomainConfiguration,
     saveDomain = true
   ): void {
@@ -103,23 +103,23 @@ export class DomainCustomizationService {
   }
 
   /** Getter & Setter **/
-  public getDomainConfiguration(): BehaviorSubject<CustomDomainConfiguration> {
+  getDomainConfiguration(): BehaviorSubject<CustomDomainConfiguration> {
     return this.domainConfigurationTypes;
   }
 
-  public getIconForName(iconName: string): BehaviorSubject<IconListItem> {
+  getIconForName(iconName: string): BehaviorSubject<IconListItem> {
     return this.allIconListItems.get(iconName);
   }
 
-  public getSelectedActors(): BehaviorSubject<string[]> {
+  getSelectedActors(): BehaviorSubject<string[]> {
     return this.selectedActors;
   }
 
-  public getSelectedWorkobjects(): BehaviorSubject<string[]> {
+  getSelectedWorkobjects(): BehaviorSubject<string[]> {
     return this.selectedWorkobjects;
   }
 
-  public isIconActor(iconName: string): boolean {
+  isIconActor(iconName: string): boolean {
     return (
       this.domainConfigurationTypes.value.actors.filter((actor: string) =>
         actor?.includes(iconName)
@@ -127,7 +127,7 @@ export class DomainCustomizationService {
     );
   }
 
-  public isIconWorkObject(iconName: string): boolean {
+  isIconWorkObject(iconName: string): boolean {
     return (
       this.domainConfigurationTypes.value.workObjects.filter(
         (workObject: string) => workObject.includes(iconName)
@@ -135,7 +135,7 @@ export class DomainCustomizationService {
     );
   }
 
-  public changeName(domainName: string): void {
+  changeName(domainName: string): void {
     this.titleService.setDomainName(domainName);
     const changedDomain = this.domainConfigurationTypes.value;
     changedDomain.name = domainName;
@@ -143,7 +143,7 @@ export class DomainCustomizationService {
   }
 
   /** Seleted Icons **/
-  public setAsUnassigned(iconName: string, isActor: boolean): void {
+  setAsUnassigned(iconName: string, isActor: boolean): void {
     if (isActor) {
       this.deselectActor(iconName);
     } else {
@@ -152,7 +152,7 @@ export class DomainCustomizationService {
     this.updateIcon(false, false, iconName);
   }
 
-  public setAsActor(isActor: boolean, actor: string): void {
+  setAsActor(isActor: boolean, actor: string): void {
     if (isActor) {
       this.updateIcon(true, false, actor);
       this.selectActor(actor);
@@ -163,7 +163,7 @@ export class DomainCustomizationService {
     }
   }
 
-  public setAsWorkobject(isWorkobject: boolean, workobject: string): void {
+  setAsWorkobject(isWorkobject: boolean, workobject: string): void {
     if (isWorkobject) {
       this.updateIcon(false, true, workobject);
       this.selectWorkObject(workobject);
@@ -174,7 +174,7 @@ export class DomainCustomizationService {
     }
   }
 
-  public selectActor(actor: string): void {
+  selectActor(actor: string): void {
     const value = this.domainConfigurationTypes.value;
     if (!value.actors.includes(actor)) {
       value.actors.push(actor);
@@ -183,7 +183,7 @@ export class DomainCustomizationService {
     }
   }
 
-  public selectWorkObject(workObject: string): void {
+  selectWorkObject(workObject: string): void {
     const value = this.domainConfigurationTypes.value;
     if (!value.workObjects.includes(workObject)) {
       value.workObjects.push(workObject);
@@ -192,7 +192,7 @@ export class DomainCustomizationService {
     }
   }
 
-  public deselectActor(actor: string): void {
+  deselectActor(actor: string): void {
     if (this.domainConfigurationTypes) {
       this.domainConfigurationTypes.next({
         name: this.domainConfigurationTypes.value.name,
@@ -205,7 +205,7 @@ export class DomainCustomizationService {
     this.updateActorSubject();
   }
 
-  public deselectWorkobject(workobject: string): void {
+  deselectWorkobject(workobject: string): void {
     if (this.domainConfigurationTypes) {
       this.domainConfigurationTypes.next({
         name: this.domainConfigurationTypes.value.name,
@@ -218,14 +218,14 @@ export class DomainCustomizationService {
     this.updateWorkObjectSubject();
   }
 
-  public setSelectedWorkObject(sortedList: string[]): void {
+  setSelectedWorkObject(sortedList: string[]): void {
     const value = this.domainConfigurationTypes.value;
     value.workObjects = sortedList;
     this.domainConfigurationTypes.next(value);
     this.updateWorkObjectSubject();
   }
 
-  public setSelectedActors(sortedList: string[]): void {
+  setSelectedActors(sortedList: string[]): void {
     const value = this.domainConfigurationTypes.value;
     value.actors = sortedList;
     this.domainConfigurationTypes.next(value);
@@ -245,7 +245,7 @@ export class DomainCustomizationService {
   }
 
   /** Revert Domain **/
-  public resetDomain(): void {
+  resetDomain(): void {
     const defaultConfig =
       this.configurationService.createMinimalConfigurationWithDefaultIcons();
 
@@ -269,7 +269,7 @@ export class DomainCustomizationService {
     this.updateAllIconBehaviourSubjects();
   }
 
-  public cancel(): void {
+  cancel(): void {
     this.domainConfigurationTypes.next(
       this.configurationService.getCurrentConfigurationNamesWithoutPrefix()
     );
@@ -283,7 +283,7 @@ export class DomainCustomizationService {
   }
 
   /** Persist Domain **/
-  public saveDomain(): void {
+  saveDomain(): void {
     if (this.configurationHasChanged) {
       this.changedDomainCofiguration = this.createDomainConfiguration();
       this.storageService.setStoredDomainConfiguration(
@@ -301,12 +301,12 @@ export class DomainCustomizationService {
     }
   }
 
-  public exportDomain(): void {
+  exportDomain(): void {
     this.saveDomain();
     this.configurationService.exportConfiguration();
   }
 
-  public getAndClearSavedConfiguration(): DomainConfiguration | undefined {
+  getAndClearSavedConfiguration(): DomainConfiguration | undefined {
     const temp = this.changedDomainCofiguration;
     this.changedDomainCofiguration = undefined;
 
@@ -332,7 +332,7 @@ export class DomainCustomizationService {
   }
 
   /** Update Icons **/
-  public addNewIcon(iconName: string): void {
+  addNewIcon(iconName: string): void {
     const iconDict = new Dictionary();
     iconDict.add(this.getSrcForIcon(iconName), iconName);
     this.iconDictionaryService.addIconsToCss(iconDict);

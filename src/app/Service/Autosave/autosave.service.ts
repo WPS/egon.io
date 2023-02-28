@@ -38,7 +38,7 @@ export class AutosaveService {
     }
   }
 
-  public loadAutosave(autosave: Autosave): void {
+  loadAutosave(autosave: Autosave): void {
     const configFromFile = autosave.configAndDST.domain;
     const config = fromConfigurationFromFile(configFromFile);
     const story = JSON.parse(autosave.configAndDST.dst);
@@ -65,7 +65,7 @@ export class AutosaveService {
     this.rendererService.importStory(story, true, config, false);
   }
 
-  public changeAutosaveInterval(interval: number): void {
+  changeAutosaveInterval(interval: number): void {
     this.autosaveInterval.next(interval);
     this.saveAutosaveInterval();
     if (this.autosaveEnabled) {
@@ -74,21 +74,21 @@ export class AutosaveService {
     }
   }
 
-  public startAutosaving(): void {
+  startAutosaving(): void {
     this.autosaveStateService.setAutosaveState(true);
     this.startTimer();
   }
 
-  public stopAutosaving(): void {
+  stopAutosaving(): void {
     this.autosaveStateService.setAutosaveState(false);
     this.stopTimer();
   }
 
-  public getAutosaveInterval(): number {
+  getAutosaveInterval(): number {
     return this.autosaveInterval.value;
   }
 
-  public getAutosaveEnabledAsObservable(): Observable<boolean> {
+  getAutosaveEnabledAsObservable(): Observable<boolean> {
     return this.autosaveEnabled;
   }
 
@@ -106,12 +106,12 @@ export class AutosaveService {
     };
   }
 
-  public setMaxAutosaves(amount: number) {
+  setMaxAutosaves(amount: number) {
     this.maxAutosaves = amount;
     this.storageService.setMaxAutosaves(amount);
   }
 
-  public getMaxAutosaves(): number {
+  getMaxAutosaves(): number {
     return this.maxAutosaves;
   }
 
@@ -130,7 +130,7 @@ export class AutosaveService {
       this.storageService.setAutosaves(currentAutosaves);
     }, this.autosaveInterval.getValue() * 60000);
   }
-  public loadCurrentAutosaves(): Autosave[] {
+  loadCurrentAutosaves(): Autosave[] {
     const autosaves = this.storageService.getAutosaves();
     this.sortAutosaves(autosaves);
     return autosaves;

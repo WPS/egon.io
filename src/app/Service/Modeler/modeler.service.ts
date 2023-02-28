@@ -33,7 +33,7 @@ export class ModelerService {
 
   private encoded: string | undefined;
 
-  public postInit(): void {
+  postInit(): void {
     const storedDomainConfiguration =
       this.storageService.getStoredDomainConfiguration();
     if (storedDomainConfiguration) {
@@ -96,7 +96,7 @@ export class ModelerService {
     this.startDebounce();
   }
 
-  public restart(
+  restart(
     domainConfiguration?: DomainConfiguration,
     domainStory?: BusinessObject[]
   ): void {
@@ -124,11 +124,11 @@ export class ModelerService {
   }
 
   /** Interactions with the Modeler **/
-  public getModeler(): any {
+  getModeler(): any {
     return this.modeler;
   }
 
-  public commandStackChanged(): void {
+  commandStackChanged(): void {
     // to update the title of the svg, we need to tell the command stack, that a value has changed
     this.eventBus.fire(
       'commandStack.changed',
@@ -136,11 +136,11 @@ export class ModelerService {
     );
   }
 
-  public startDebounce(): void {
+  startDebounce(): void {
     this.debounce(this.saveSVG, 500);
   }
 
-  public debounce(fn: any, timeout: number): any {
+  debounce(fn: any, timeout: number): any {
     return () => {
       let timer;
       if (timer) {
@@ -155,7 +155,7 @@ export class ModelerService {
     };
   }
 
-  public getEncoded(): string {
+  getEncoded(): string {
     return this.encoded ? this.encoded : '';
   }
 

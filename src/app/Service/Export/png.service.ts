@@ -41,7 +41,7 @@ export class PngService {
   }
 
   /** Needed for an SVG-Fix in CHrome where the # needs to be replaced by %23 **/
-  public URIHashtagFix(svg: string): string {
+  URIHashtagFix(svg: string): string {
     let fix = false;
 
     const browser = this.browserSpecs();
@@ -68,7 +68,7 @@ export class PngService {
     return svg;
   }
 
-  public findMostOuterElements(svg: HTMLElement): Box {
+  findMostOuterElements(svg: HTMLElement): Box {
     let xLeft = 0;
     let xRight = 0;
     let yUp = 0;
@@ -151,7 +151,7 @@ export class PngService {
     };
   }
 
-  public prepareSVG(
+  prepareSVG(
     svg: string,
     layerBase: any,
     description: string,
@@ -255,7 +255,7 @@ export class PngService {
     return [this.height, this.width];
   }
 
-  public extractSVG(viewport: any, outerSVGElement: any): string {
+  extractSVG(viewport: any, outerSVGElement: any): string {
     const layerResizers = viewport.getElementsByClassName('layer-resizers');
     const layerOverlays = viewport.getElementsByClassName('layer-overlays');
     const transform = viewport.getAttribute('transform');
@@ -288,11 +288,11 @@ export class PngService {
     return svg;
   }
 
-  public getWidth(): number {
+  getWidth(): number {
     return this.width;
   }
 
-  public getHeight(): number {
+  getHeight(): number {
     return this.height;
   }
 }

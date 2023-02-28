@@ -33,7 +33,7 @@ export class HtmlPresentationService {
 
   private initialized = false;
 
-  public setModelerClasses(canvas: any, selection: any, modeler: any): void {
+  setModelerClasses(canvas: any, selection: any, modeler: any): void {
     this.canvas = canvas;
     this.selection = selection;
     this.modeler = modeler;
@@ -53,7 +53,7 @@ export class HtmlPresentationService {
   ----------------------------
   */
 
-  public async downloadHTMLPresentation(filename: string): Promise<void> {
+  async downloadHTMLPresentation(filename: string): Promise<void> {
     const svgData = [];
     // export all sentences of domain story
     this.replayService.startReplay();

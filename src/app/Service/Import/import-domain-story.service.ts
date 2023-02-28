@@ -34,8 +34,8 @@ export class ImportDomainStoryService implements OnDestroy {
   private titleInputLast = '';
   private descriptionInputLast = '';
 
-  public title = INITIAL_TITLE;
-  public description = INITIAL_DESCRIPTION;
+  title = INITIAL_TITLE;
+  description = INITIAL_DESCRIPTION;
   private importedConfiguration: DomainConfiguration | null = null;
 
   private importedConfigurationEmitter =
@@ -72,7 +72,7 @@ export class ImportDomainStoryService implements OnDestroy {
     return this.importedConfigurationEmitter.asObservable();
   }
 
-  public getImportedConfiguration(): DomainConfiguration {
+  getImportedConfiguration(): DomainConfiguration {
     const config: DomainConfiguration = {
       name: this.importedConfiguration?.name || '',
       actors: this.importedConfiguration?.actors || new Dictionary(),
@@ -82,7 +82,7 @@ export class ImportDomainStoryService implements OnDestroy {
     return config;
   }
 
-  public importDST(input: Blob, filename: string, isSVG: boolean): void {
+  importDST(input: Blob, filename: string, isSVG: boolean): void {
     this.titleInputLast = '';
     this.descriptionInputLast = '';
 
@@ -101,7 +101,7 @@ export class ImportDomainStoryService implements OnDestroy {
     fileReader.readAsText(input);
   }
 
-  public importEGN(input: Blob, filename: string, isSVG: boolean): void {
+  importEGN(input: Blob, filename: string, isSVG: boolean): void {
     this.titleInputLast = '';
     this.descriptionInputLast = '';
 
@@ -246,7 +246,7 @@ export class ImportDomainStoryService implements OnDestroy {
     return xmlText;
   }
 
-  public checkConfigForChanges(
+  checkConfigForChanges(
     domainConfiguration: DomainConfiguration
   ): boolean {
     const newActorKeys = domainConfiguration.actors.keysArray();

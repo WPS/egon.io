@@ -1,11 +1,11 @@
 import { ActivityCanvasObject } from '../Common/activityCanvasObject';
 
 export class ActivityDialogData {
-  public activity: ActivityCanvasObject;
-  public numberIsAllowedMultipleTimes: boolean;
-  public showNumberFields: boolean;
+  activity: ActivityCanvasObject;
+  numberIsAllowedMultipleTimes: boolean;
+  showNumberFields: boolean;
 
-  public saveFN: any;
+  saveFN: any;
 
   constructor(
     activity: ActivityCanvasObject,

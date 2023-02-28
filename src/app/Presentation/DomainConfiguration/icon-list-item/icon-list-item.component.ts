@@ -10,16 +10,16 @@ import { DomainCustomizationService } from '../../../Service/DomainConfiguration
 })
 export class IconListItemComponent implements OnInit, AfterViewChecked {
   @Input()
-  public iconName: string = '';
+  iconName: string = '';
 
   private iconInitiated = false;
 
   // @ts-ignore
-  public icon = new BehaviorSubject<IconListItem>({});
+  icon = new BehaviorSubject<IconListItem>({});
 
-  public isActor: BehaviorSubject<boolean>;
-  public isWorkobject: BehaviorSubject<boolean>;
-  public isNone: BehaviorSubject<boolean>;
+  isActor: BehaviorSubject<boolean>;
+  isWorkobject: BehaviorSubject<boolean>;
+  isNone: BehaviorSubject<boolean>;
 
   get name(): string {
     return this.iconName;
@@ -61,18 +61,18 @@ export class IconListItemComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  public toggleNone() {
+  toggleNone() {
     this.domainCustomizationService.setAsUnassigned(
       this.iconName,
       this.icon.value.isActor
     );
   }
 
-  public toggleActor(): void {
+  toggleActor(): void {
     this.domainCustomizationService.setAsActor(true, this.iconName);
   }
 
-  public toggleWorkobject(): void {
+  toggleWorkobject(): void {
     this.domainCustomizationService.setAsWorkobject(true, this.iconName);
   }
 }

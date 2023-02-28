@@ -14,8 +14,8 @@ export class DomainDetailsComponent implements OnInit {
 
   private draggedIndex = 0;
 
-  public selectedActors: BehaviorSubject<string[]>;
-  public selectedWorkobjects: BehaviorSubject<string[]>;
+  selectedActors: BehaviorSubject<string[]>;
+  selectedWorkobjects: BehaviorSubject<string[]>;
 
   constructor(
     private customizationService: DomainCustomizationService,
@@ -28,20 +28,20 @@ export class DomainDetailsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public changeName(event: Event): void {
+  changeName(event: Event): void {
     // @ts-ignore
     this.customizationService.changeName(event.target.value);
   }
 
-  public getIconForName(iconName: string): IconListItem {
+  getIconForName(iconName: string): IconListItem {
     return this.customizationService.getIconForName(iconName).value;
   }
 
-  public allowDrop($event: DragEvent) {
+  allowDrop($event: DragEvent) {
     $event.preventDefault();
   }
 
-  public onDrop(
+  onDrop(
     $event: DragEvent,
     iconName: string,
     actors: boolean,
@@ -66,7 +66,7 @@ export class DomainDetailsComponent implements OnInit {
     }
   }
 
-  public onDragStart(index: number) {
+  onDragStart(index: number) {
     this.draggedIndex = index;
   }
 }

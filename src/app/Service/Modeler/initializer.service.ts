@@ -58,7 +58,7 @@ export class InitializerService {
     private htmlPresentationService: HtmlPresentationService
   ) {}
 
-  public initializeDomainStoryModelerClasses(): void {
+  initializeDomainStoryModelerClasses(): void {
     initializeContextPadProvider(
       this.dirtyFlagService,
       this.iconDictionaryService
@@ -77,7 +77,7 @@ export class InitializerService {
     initializeActivityUpdateHandler(this.elementRegistryService);
   }
 
-  public propagateDomainStoryModelerClassesToServices(
+  propagateDomainStoryModelerClassesToServices(
     commandStack: any,
     elementRegistry: any,
     canvas: any,
@@ -89,7 +89,7 @@ export class InitializerService {
     this.htmlPresentationService.setModelerClasses(canvas, selection, modeler);
   }
 
-  public initializeDomainStoryModelerEventHandlers(
+  initializeDomainStoryModelerEventHandlers(
     commandStack: any,
     eventBus: any
   ): void {
@@ -99,7 +99,7 @@ export class InitializerService {
     headlineAndDescriptionUpdateHandler(commandStack, this.titleService);
   }
 
-  public initiateEventBusListeners(eventBus: any, commandStack: any): void {
+  initiateEventBusListeners(eventBus: any, commandStack: any): void {
     eventBus.on('element.dblclick', (e: any) => {
       if (!this.replayStateService.getReplayOn()) {
         const element = e.element;

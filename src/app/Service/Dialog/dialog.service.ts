@@ -8,7 +8,7 @@ import { ComponentType } from '@angular/cdk/overlay';
 export class DialogService {
   constructor(private matDialog: MatDialog) {}
 
-  public openDialog(dialog: ComponentType<any>, config: MatDialogConfig): void {
+  openDialog(dialog: ComponentType<any>, config: MatDialogConfig): void {
     this.matDialog.open(dialog, config);
   }
 }

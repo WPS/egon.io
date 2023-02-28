@@ -18,8 +18,8 @@ export class ExportService implements OnDestroy {
   titleSubscription: Subscription;
   descriptionSubscription: Subscription;
 
-  public title = '';
-  public description = '';
+  title = '';
+  description = '';
 
   constructor(
     private configurationService: DomainConfigurationService,
@@ -47,18 +47,18 @@ export class ExportService implements OnDestroy {
     this.descriptionSubscription.unsubscribe();
   }
 
-  public isDomainStoryExportable(): boolean {
+  isDomainStoryExportable(): boolean {
     return this.rendererService.getStory().length >= 1;
   }
 
-  public createConfigAndDST(DomainStory: any): ConfigAndDST {
+  createConfigAndDST(DomainStory: any): ConfigAndDST {
     return new ConfigAndDST(
       this.configurationService.getCurrentConfigurationForExport(),
       DomainStory
     );
   }
 
-  public downloadDST(): void {
+  downloadDST(): void {
     const dst = this.getStoryForDownload();
     const configAndDST = this.createConfigAndDST(dst);
     const json = JSON.stringify(configAndDST, null, 2);
@@ -99,7 +99,7 @@ export class ExportService implements OnDestroy {
     document.body.removeChild(element);
   }
 
-  public downloadSVG(withTitle: boolean): void {
+  downloadSVG(withTitle: boolean): void {
     const story = this.getStoryForDownload();
     const dst = this.createConfigAndDST(story);
 
@@ -119,7 +119,7 @@ export class ExportService implements OnDestroy {
     );
   }
 
-  public downloadPNG(withTitle: boolean): void {
+  downloadPNG(withTitle: boolean): void {
     const canvas = document.getElementById('canvas');
     if (canvas) {
       const container = canvas.getElementsByClassName('djs-container');
@@ -187,7 +187,7 @@ export class ExportService implements OnDestroy {
     }
   }
 
-  public downloadHTMLPresentation(): void {
+  downloadHTMLPresentation(): void {
     const filename = sanitizeForDesktop(
       this.title + '_' + new Date().toString().slice(0, 10)
     );

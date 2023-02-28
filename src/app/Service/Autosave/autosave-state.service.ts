@@ -18,16 +18,16 @@ export class AutosaveStateService {
     this.autosaveEnabled.next(storedAutosafeState);
   }
 
-  public setAutosaveState(enabled: boolean): void {
+  setAutosaveState(enabled: boolean): void {
     this.setAutosaveEnabled(enabled);
     this.autosaveEnabled.next(enabled);
   }
 
-  public getAutosaveStateAsObservable(): Observable<boolean> {
+  getAutosaveStateAsObservable(): Observable<boolean> {
     return this.autosaveEnabled.asObservable();
   }
 
-  public getAutosaveState(): boolean {
+  getAutosaveState(): boolean {
     return this.autosaveEnabled.getValue();
   }
 

@@ -36,7 +36,7 @@ export class IconDictionaryService {
     this.iconConfig = new IconConfiguration(this.allIconDictionary);
   }
 
-  public initTypeDictionaries(actors: string[], workObjects: string[]): void {
+  initTypeDictionaries(actors: string[], workObjects: string[]): void {
     if (!actors || actors.length == 0) {
       actors = defaultConf.actors;
     }
@@ -83,14 +83,14 @@ export class IconDictionaryService {
     });
   }
 
-  public getCurrentIconConfigurationForBPMN(): Configuration {
+  getCurrentIconConfigurationForBPMN(): Configuration {
     if (this.customConfiguration) {
       return this.iconConfig.createCustomConf(this.customConfiguration);
     }
     return this.iconConfig.getDefaultConf();
   }
 
-  public allInTypeDictionary(
+  allInTypeDictionary(
     type: elementTypes,
     elements: BusinessObject[]
   ): boolean {
@@ -117,7 +117,7 @@ export class IconDictionaryService {
 
   /** Load Icons from Configuration **/
 
-  public addIconsFromDomainConfiguration(
+  addIconsFromDomainConfiguration(
     dictionaryType: elementTypes,
     iconTypes: string[]
   ): void {
@@ -148,11 +148,11 @@ export class IconDictionaryService {
   }
 
   /** Add Icon(s) to Dictionary **/
-  public registerIconForBPMN(name: string, src: string): void {
+  registerIconForBPMN(name: string, src: string): void {
     this.iconDictionaryForBPMN.set(name, src);
   }
 
-  public addIconsToTypeDictionary(
+  addIconsToTypeDictionary(
     actorIcons: BusinessObject[],
     workObjectIcons: BusinessObject[]
   ) {
@@ -170,7 +170,7 @@ export class IconDictionaryService {
     }
   }
 
-  public registerIconForType(
+  registerIconForType(
     type: elementTypes,
     name: string,
     src: string
@@ -188,7 +188,7 @@ export class IconDictionaryService {
     collection.set(name, src);
   }
 
-  public updateIconRegistries(
+  updateIconRegistries(
     actors: BusinessObject[],
     workObjects: BusinessObject[],
     config: DomainConfiguration
@@ -248,7 +248,7 @@ export class IconDictionaryService {
 
   /** Add new Icon(s) **/
 
-  public addNewIconsToDictionary(customIcons: Dictionary) {
+  addNewIconsToDictionary(customIcons: Dictionary) {
     customIcons.keysArray().forEach((key) => {
       const custom = customIcons.get(key);
       this.addIMGToIconDictionary(custom.src, key);
@@ -256,11 +256,11 @@ export class IconDictionaryService {
     this.addIconsToCss(customIcons);
   }
 
-  public addIMGToIconDictionary(input: string, name: string): void {
+  addIMGToIconDictionary(input: string, name: string): void {
     appendedIcons.set(name, input);
   }
 
-  public addIconsToCss(customIcons: Dictionary) {
+  addIconsToCss(customIcons: Dictionary) {
     const sheetEl = document.getElementById('iconsCss');
     customIcons.keysArray().forEach((key) => {
       const src = customIcons.get(key);
@@ -286,14 +286,14 @@ export class IconDictionaryService {
 
   /** Getter & Setter **/
 
-  public getFullDictionary(): Dictionary {
+  getFullDictionary(): Dictionary {
     const fullDictionary = new Dictionary();
     fullDictionary.appendDict(this.allIconDictionary);
     fullDictionary.appendDict(this.getAppendedIconDictionary());
     return fullDictionary;
   }
 
-  public getAppendedIconDictionary(): Dictionary {
+  getAppendedIconDictionary(): Dictionary {
     const appendedDict = new Dictionary();
     appendedIcons.keysArray().forEach((key) => {
       if (!this.allIconDictionary.has(key)) {
@@ -303,7 +303,7 @@ export class IconDictionaryService {
     return appendedDict;
   }
 
-  public getTypeDictionary(type: elementTypes): Dictionary {
+  getTypeDictionary(type: elementTypes): Dictionary {
     if (type === elementTypes.ACTOR) {
       return this.actorIconDictionary;
     } else if (type === elementTypes.WORKOBJECT) {
@@ -312,11 +312,11 @@ export class IconDictionaryService {
     return new Dictionary();
   }
 
-  public getTypeDictionaryKeys(type: elementTypes): string[] {
+  getTypeDictionaryKeys(type: elementTypes): string[] {
     return this.getTypeDictionary(type).keysArray();
   }
 
-  public getTypeIconSRC(type: elementTypes, name: string): string | null {
+  getTypeIconSRC(type: elementTypes, name: string): string | null {
     if (type === elementTypes.ACTOR) {
       if (!name.startsWith(elementTypes.ACTOR)) {
         name = elementTypes.ACTOR + name;
@@ -331,11 +331,11 @@ export class IconDictionaryService {
     return null;
   }
 
-  public getIconForBPMN(type: elementTypes): string | null {
+  getIconForBPMN(type: elementTypes): string | null {
     return this.iconDictionaryForBPMN.get(type);
   }
 
-  public getIconSource(name: string): string | null {
+  getIconSource(name: string): string | null {
     if (this.allIconDictionary.has(name)) {
       return this.allIconDictionary.get(name);
     } else if (appendedIcons.has(name)) {
@@ -344,7 +344,7 @@ export class IconDictionaryService {
     return null;
   }
 
-  public getElementsOfType(
+  getElementsOfType(
     elements: BusinessObject[],
     type: elementTypes
   ): BusinessObject[] {
@@ -357,23 +357,23 @@ export class IconDictionaryService {
     return elementOfType;
   }
 
-  public getAllIconDictionary(): Dictionary {
+  getAllIconDictionary(): Dictionary {
     return this.allIconDictionary;
   }
 
-  public getActorsDictionary(): Dictionary {
+  getActorsDictionary(): Dictionary {
     return this.actorIconDictionary;
   }
 
-  public getWorkObjectsDictionary(): Dictionary {
+  getWorkObjectsDictionary(): Dictionary {
     return this.workObjectDictionary;
   }
 
-  public getIconConfiguration(): IconConfiguration {
+  getIconConfiguration(): IconConfiguration {
     return this.iconConfig;
   }
 
-  public setCusomtConfiguration(
+  setCusomtConfiguration(
     customConfiguration: DomainConfiguration
   ): void {
     this.customConfiguration = customConfiguration;

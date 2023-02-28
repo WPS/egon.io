@@ -15,11 +15,11 @@ export class RendererService {
     private dirtyFlagService: DirtyFlagService
   ) {}
 
-  public renderStory(domainStory: BusinessObject[]): void {
+  renderStory(domainStory: BusinessObject[]): void {
     this.modelerService.getModeler().importCustomElements(domainStory);
   }
 
-  public importStory(
+  importStory(
     domainStory: BusinessObject[],
     configurationChange: boolean,
     config?: DomainConfiguration,
@@ -40,7 +40,7 @@ export class RendererService {
     }
   }
 
-  public getStory(): BusinessObject[] {
+  getStory(): BusinessObject[] {
     return this.elementRegistryService
       .createObjectListForDSTDownload()
       .map((c) => c.businessObject);

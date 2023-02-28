@@ -22,13 +22,13 @@ export class DomainConfigurationService {
     private titleService: TitleService
   ) {}
 
-  public setDomainName(domainName: string): void {
+  setDomainName(domainName: string): void {
     this.titleService.setDomainName(
       domainName ? domainName : INITIAL_DOMAIN_NAME
     );
   }
 
-  public exportConfiguration(): void {
+  exportConfiguration(): void {
     const domainConfiguration = this.getCurrentConfigurationForExport();
     if (!domainConfiguration) {
       return;
@@ -51,7 +51,7 @@ export class DomainConfigurationService {
     document.body.removeChild(element);
   }
 
-  public loadConfiguration(
+  loadConfiguration(
     customConfig: DomainConfiguration,
     updateDomainName = true
   ): void {
@@ -90,7 +90,7 @@ export class DomainConfigurationService {
     }
   }
 
-  public getCurrentConfiguration(): DomainConfiguration | undefined {
+  getCurrentConfiguration(): DomainConfiguration | undefined {
     const actors = this.iconDictionaryService.getActorsDictionary();
     const workObjects = this.iconDictionaryService.getWorkObjectsDictionary();
 
@@ -105,7 +105,7 @@ export class DomainConfigurationService {
     return domainConfiguration;
   }
 
-  public getCurrentConfigurationForExport():
+  getCurrentConfigurationForExport():
     | DomainConfigurationForExport
     | undefined {
     const currentConfiguration = this.getCurrentConfiguration();
@@ -130,7 +130,7 @@ export class DomainConfigurationService {
     return;
   }
 
-  public getCurrentConfigurationNamesWithoutPrefix(): CustomDomainConfiguration {
+  getCurrentConfigurationNamesWithoutPrefix(): CustomDomainConfiguration {
     return {
       name: this.titleService.getDomainName() || INITIAL_DOMAIN_NAME,
       actors: this.iconDictionaryService
@@ -144,7 +144,7 @@ export class DomainConfigurationService {
     };
   }
 
-  public createMinimalConfigurationWithDefaultIcons(): DomainConfiguration {
+  createMinimalConfigurationWithDefaultIcons(): DomainConfiguration {
     const minimalConfig = this.createConfigFromCanvas();
 
     defaultConf.actors.forEach((iconName) => {

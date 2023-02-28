@@ -15,7 +15,7 @@ export class ExportDialogComponent implements OnInit {
     tooltip: string;
     fn: any;
   }[];
-  public withTitle: BehaviorSubject<boolean>;
+  withTitle: BehaviorSubject<boolean>;
 
   constructor(
     private dialogRef: MatDialogRef<ExportDialogComponent>,

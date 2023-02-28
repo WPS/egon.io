@@ -15,7 +15,7 @@ import { ActivityBusinessObject } from '../../Domain/Common/activityBusinessObje
 export class ImportRepairService {
   constructor(private elementRegistryService: ElementRegistryService) {}
 
-  public checkForUnreferencedElementsInActivitiesAndRepair(
+  checkForUnreferencedElementsInActivitiesAndRepair(
     elements: BusinessObject[]
   ): boolean {
     const activities: ActivityBusinessObject[] = [];
@@ -50,7 +50,7 @@ export class ImportRepairService {
    * Previously Document had no special name and was just addressed as workObject
    * Bubble was renamed to Conversation
    */
-  public updateCustomElementsPreviousV050(
+  updateCustomElementsPreviousV050(
     elements: BusinessObject[]
   ): BusinessObject[] {
     for (const element of elements) {
@@ -66,7 +66,7 @@ export class ImportRepairService {
   /**
    * Adjusts Positions of Elements to ensure the Domain Story starts in the visible parts of the canvas
    */
-  public adjustPositions(elements: BusinessObject[]): void {
+  adjustPositions(elements: BusinessObject[]): void {
     let xLeft = 0;
     let yUp = 0;
     let isFirst = true;

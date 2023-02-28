@@ -22,7 +22,7 @@ import {
 export class DomManipulationService {
   constructor(private elementRegistryService: ElementRegistryService) {}
 
-  public showAll(): void {
+  showAll(): void {
     this.removeHighlights();
     this.elementRegistryService
       .getAllCanvasObjects()
@@ -38,7 +38,7 @@ export class DomManipulationService {
       });
   }
 
-  public showStep(replayStep: StoryStep, previousStep?: StoryStep): void {
+  showStep(replayStep: StoryStep, previousStep?: StoryStep): void {
     this.removeHighlights();
     const notShown = this.getAllNotShown(replayStep.objects);
 
@@ -69,7 +69,7 @@ export class DomManipulationService {
     });
   }
 
-  public getNumberDomForActivity(activity: SVGPolylineElement): any {
+  getNumberDomForActivity(activity: SVGPolylineElement): any {
     const numberDOMS =
       // @ts-ignore
       activity.parentElement.getElementsByClassName('djs-labelNumber');

@@ -12,7 +12,7 @@ export class SvgService {
 
   constructor(private modelerService: ModelerService) {}
 
-  public createSVGData(
+  createSVGData(
     title: string,
     description: string,
     dst: ConfigAndDST,

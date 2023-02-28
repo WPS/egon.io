@@ -49,13 +49,13 @@ export class HeaderButtonsComponent {
     private replayService: ReplayService,
     private exportService: ExportService,
     private importService: ImportDomainStoryService,
-    public snackbar: MatSnackBar
+    private snackbar: MatSnackBar
   ) {
     this.isReplay$ = this.replayStateService.replayOn$;
     this.isDirty = this.dirtyFlagService.dirtySubject;
     this.showDescription = this.titleService.showDescription$;
   }
-  public import(): void {
+  import(): void {
     // @ts-ignore
     const filename = document.getElementById('import').files[0].name;
     if (filename.endsWith('.dst')) {
@@ -90,16 +90,16 @@ export class HeaderButtonsComponent {
     this.modelerService.commandStackChanged();
   }
 
-  public setShowDescription(show: boolean): void {
+  setShowDescription(show: boolean): void {
     this.titleService.setShowDescription(show);
   }
 
-  public openSettings(): void {
+  openSettings(): void {
     this.settingsService.open();
   }
 
   /** Open Dialogs **/
-  public openDownloadDialog(): void {
+  openDownloadDialog(): void {
     if (this.exportService.isDomainStoryExportable()) {
       const SVGDownloadOption = new ExportOption(
         'SVG',
@@ -141,14 +141,14 @@ export class HeaderButtonsComponent {
     }
   }
 
-  public openHeaderDialog(): void {
+  openHeaderDialog(): void {
     const config = new MatDialogConfig();
     config.disableClose = false;
     config.autoFocus = true;
     this.dialogService.openDialog(HeaderDialogComponent, config);
   }
 
-  public openKeyboardShortcutsDialog(): void {
+  openKeyboardShortcutsDialog(): void {
     const title = 'Keyboard shortcuts';
     const shortCutText =
       'Undo:\t\t\t\t\tctrl + Z \n' +
@@ -171,7 +171,7 @@ export class HeaderButtonsComponent {
     this.dialogService.openDialog(InfoDialogComponent, config);
   }
 
-  public openLabelDictionary(): void {
+  openLabelDictionary(): void {
     if (this.exportService.isDomainStoryExportable()) {
       const config = new MatDialogConfig();
       config.disableClose = false;
@@ -191,19 +191,19 @@ export class HeaderButtonsComponent {
   }
 
   /** Replay functions **/
-  public startReplay(): void {
+  startReplay(): void {
     this.replayService.startReplay();
   }
 
-  public stopReplay(): void {
+  stopReplay(): void {
     this.replayService.stopReplay();
   }
 
-  public previousStep(): void {
+  previousStep(): void {
     this.replayService.previousStep();
   }
 
-  public nextStep(): void {
+  nextStep(): void {
     this.replayService.nextStep();
   }
 }

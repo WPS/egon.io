@@ -91,8 +91,8 @@ export class Dictionary {
 }
 
 export class Entry {
-  public value: any;
-  public key: string;
+  value: any;
+  key: string;
 
   constructor(value: any, key: string) {
     this.value = value;

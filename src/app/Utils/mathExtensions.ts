@@ -66,6 +66,6 @@ export function positionsMatch(
 }
 
 export class Point {
-  public y = 0;
-  public x = 0;
+  y = 0;
+  x = 0;
 }

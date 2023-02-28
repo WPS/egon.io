@@ -11,7 +11,7 @@ export class MassNamingService {
 
   constructor(private elementRegistryService: ElementRegistryService, private commandStackService: CommandStackService) {}
 
-  public massChangeNames(
+  massChangeNames(
     oldValue: string,
     newValue: string,
     type: elementTypes

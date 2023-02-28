@@ -1,9 +1,9 @@
 export class InfoDialogData {
-  public title: string;
-  public infoText: string;
-  public isInfo: boolean;
-  public isLink: boolean;
-  public linkText: string | undefined;
+  title: string;
+  infoText: string;
+  isInfo: boolean;
+  isLink: boolean;
+  linkText: string | undefined;
 
   constructor(
     title: string,

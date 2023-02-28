@@ -28,7 +28,7 @@ export class AutosaveSettingsComponent implements OnInit {
     this.autosaves = this.autosaveService.loadCurrentAutosaves();
   }
 
-  public loadAutosave(autosave: Autosave): void {
+  loadAutosave(autosave: Autosave): void {
     this.autosaveService.loadAutosave(autosave);
   }
 
