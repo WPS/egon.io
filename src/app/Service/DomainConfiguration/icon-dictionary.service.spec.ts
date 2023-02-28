@@ -6,7 +6,6 @@ import { elementTypes } from '../../Domain/Common/elementTypes';
 import { DomainConfiguration } from '../../Domain/Common/domainConfiguration';
 import { INITIAL_DOMAIN_NAME } from '../../Domain/Common/constants';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
-import { deepCopy } from '../../Utils/deepCopy';
 import {
   BusinessObject,
   testBusinessObject,
@@ -112,10 +111,10 @@ describe('IconDictionaryService', () => {
 
   describe('addIconsToTypeDictionary', () => {
     it('', () => {
-      const actor = deepCopy(testBusinessObject);
+      const actor = structuredClone(testBusinessObject);
       actor.type = elementTypes.ACTOR + 'Hotel';
 
-      const workObject = deepCopy(testBusinessObject);
+      const workObject = structuredClone(testBusinessObject);
       workObject.type = elementTypes.WORKOBJECT + 'Dining';
 
       service.addIconsToTypeDictionary([actor], [workObject]);
@@ -156,10 +155,10 @@ describe('IconDictionaryService', () => {
   });
 
   describe('updateIconRegistries', () => {
-    const actor = deepCopy(testBusinessObject);
+    const actor = structuredClone(testBusinessObject);
     actor.type = elementTypes.ACTOR + 'Person';
 
-    const workObject = deepCopy(testBusinessObject);
+    const workObject = structuredClone(testBusinessObject);
     workObject.type = elementTypes.WORKOBJECT + 'Document';
 
     const actors: BusinessObject[] = [actor];

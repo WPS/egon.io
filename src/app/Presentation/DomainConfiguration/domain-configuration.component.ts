@@ -46,10 +46,8 @@ export class DomainConfigurationComponent implements OnInit {
       this.allIconNames.next(allIcons.keysArray().sort(this.sortByName));
     });
 
-    // @ts-ignore
     this.selectedWorkobjects =
       this.domainCustomizationService.getSelectedWorkobjects();
-    // @ts-ignore
     this.selectedActors = this.domainCustomizationService.getSelectedActors();
   }
 
@@ -95,8 +93,7 @@ export class DomainConfigurationComponent implements OnInit {
 
   /** Add Custom Icon **/
   startIconUpload(): void {
-    // @ts-ignore
-    document.getElementById('importIcon').click();
+    document.getElementById('importIcon')?.click();
   }
 
   importIcon(): void {
@@ -107,16 +104,17 @@ export class DomainConfigurationComponent implements OnInit {
       const name = sanitizeIconName(iconInputFile.name);
       const iconName = name + '_custom';
 
-      reader.onloadend = (e) => {
-        // @ts-ignore
-        const src: string = e.target.result;
-        this.iconDictionaryService.addIMGToIconDictionary(src, iconName);
-        this.iconDictionaryService.registerIconForBPMN(iconName, src);
+      reader.onloadend = (e: ProgressEvent<FileReader>) => {
+        if (e.target) {
+          const src: string = e.target.result as unknown as string;
+          this.iconDictionaryService.addIMGToIconDictionary(src, iconName);
+          this.iconDictionaryService.registerIconForBPMN(iconName, src);
 
-        this.allIcons.next(this.iconDictionaryService.getFullDictionary());
-        this.filter.next(this.filter.value);
+          this.allIcons.next(this.iconDictionaryService.getFullDictionary());
+          this.filter.next(this.filter.value);
 
-        this.domainCustomizationService.addNewIcon(iconName);
+          this.domainCustomizationService.addNewIcon(iconName);
+        }
       };
       reader.readAsDataURL(iconInputFile);
     }
@@ -124,8 +122,7 @@ export class DomainConfigurationComponent implements OnInit {
 
   /** Import Domain **/
   startDomainImport(): void {
-    // @ts-ignore
-    document.getElementById('importDomain').click();
+    document.getElementById('importDomain')?.click();
   }
 
   importDomain(): void {
@@ -133,10 +130,9 @@ export class DomainConfigurationComponent implements OnInit {
     const domainInputFile = document.getElementById('importDomain').files[0];
     const reader = new FileReader();
 
-    reader.onloadend = (e) => {
+    reader.onloadend = (e: ProgressEvent<FileReader>) => {
       const configFromFile = JSON.parse(
-        // @ts-ignore
-        e.target.result.toString()
+        e.target?.result as unknown as string
       ) as {
         name: string;
         actors: { [key: string]: any };

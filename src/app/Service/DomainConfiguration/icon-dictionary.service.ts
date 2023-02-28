@@ -102,7 +102,6 @@ export class IconDictionaryService {
     }
 
     let allIn = true;
-    // @ts-ignore
     if (elements) {
       elements.forEach((element) => {
         if (!collection.has(element.type)) {

@@ -42,8 +42,7 @@ export class AppComponent implements OnInit {
         e.stopPropagation();
       }
       if (e.ctrlKey && e.key === 'l') {
-        // @ts-ignore
-        document.getElementById('import').click();
+        document.getElementById('import')?.click();
         e.preventDefault();
         e.stopPropagation();
       }

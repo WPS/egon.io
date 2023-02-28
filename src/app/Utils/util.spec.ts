@@ -1,5 +1,4 @@
 import { testActivityCanvasObject } from '../Domain/Common/activityCanvasObject';
-import { deepCopy } from './deepCopy';
 import { angleBetween, degrees, positionsMatch } from './mathExtensions';
 import { elementTypes } from '../Domain/Common/elementTypes';
 import { getNameFromType } from './naming';
@@ -97,7 +96,7 @@ describe('mathExtendsions', () => {
 describe('deepCopy', () => {
   it('should copy deep', () => {
     const activity = testActivityCanvasObject;
-    const copy = deepCopy(activity);
+    const copy = structuredClone(activity);
 
     expect(copy).toEqual(activity);
 

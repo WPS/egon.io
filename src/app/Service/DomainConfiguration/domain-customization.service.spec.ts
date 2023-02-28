@@ -19,7 +19,6 @@ import {
 } from '../../Domain/Common/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StorageService } from '../BrowserStorage/storage.service';
-import { deepCopy } from '../../Utils/deepCopy';
 
 describe('DomainCustomizationService', () => {
   let service: DomainCustomizationService;
@@ -92,7 +91,7 @@ describe('DomainCustomizationService', () => {
 
     iconDictionarySpy.getAllIconDictionary.and.returnValue(new Dictionary());
     configurationServiceSpy.getCurrentConfigurationNamesWithoutPrefix.and.returnValue(
-      deepCopy(testCustomDomainConfiguration)
+      structuredClone(testCustomDomainConfiguration)
     );
     configurationServiceSpy.createMinimalConfigurationWithDefaultIcons.and.returnValue(
       {

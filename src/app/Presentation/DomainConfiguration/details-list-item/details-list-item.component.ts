@@ -8,8 +8,7 @@ import { IconListItem } from '../../../Domain/Domain-Configuration/iconListItem'
 })
 export class DetailsListItemComponent implements AfterViewChecked {
   @Input()
-  // @ts-ignore
-  icon: IconListItem;
+  icon!: IconListItem;
 
   private iconInitiated = false;
 

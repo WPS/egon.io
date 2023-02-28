@@ -1,7 +1,6 @@
 import { StoryStep } from '../Domain/Replay/storyStep';
 import { CanvasObject, testCanvasObject } from '../Domain/Common/canvasObject';
 import { testActivityCanvasObject } from '../Domain/Common/activityCanvasObject';
-import { deepCopy } from './deepCopy';
 import { elementTypes } from '../Domain/Common/elementTypes';
 
 export function preBuildTestStory(stepAmount: number): StoryStep[] {
@@ -50,7 +49,7 @@ export function createReplayStepObjects(
   stepNumber: number,
   previousStep?: StoryStep
 ): CanvasObject[] {
-  const activityFromActor = deepCopy(testActivityCanvasObject);
+  const activityFromActor = structuredClone(testActivityCanvasObject);
 
   activityFromActor.id = 'activity-' + stepNumber;
   activityFromActor.businessObject.id = activityFromActor.id;
@@ -60,7 +59,7 @@ export function createReplayStepObjects(
     ? previousStep.objects.filter(
         (o) => o.id === previousStep.highlightedObjects[4]
       )
-    : deepCopy(testCanvasObject);
+    : structuredClone(testCanvasObject);
   source.type = elementTypes.ACTOR;
   if (!previousStep) {
     source.id = 'source-' + stepNumber;
@@ -73,7 +72,7 @@ export function createReplayStepObjects(
   }
   source.outgoing.push(activityFromActor);
 
-  const workObject = deepCopy(testCanvasObject);
+  const workObject = structuredClone(testCanvasObject);
   workObject.type = elementTypes.WORKOBJECT;
   workObject.id = 'target-' + stepNumber;
   workObject.businessObject.id = workObject.id;
@@ -85,12 +84,12 @@ export function createReplayStepObjects(
   activityFromActor.businessObject.source = source.businessObject;
   activityFromActor.businessObject.target = workObject.businessObject;
 
-  const activityFromWorkObject = deepCopy(testActivityCanvasObject);
+  const activityFromWorkObject = structuredClone(testActivityCanvasObject);
 
   activityFromWorkObject.id = 'activity2-' + stepNumber;
   activityFromWorkObject.businessObject.id = activityFromWorkObject.id;
 
-  const endActor = deepCopy(testCanvasObject);
+  const endActor = structuredClone(testCanvasObject);
   endActor.type = elementTypes.ACTOR;
   endActor.id = 'source-' + stepNumber;
   endActor.businessObject.id = source.id;

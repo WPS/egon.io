@@ -5,20 +5,20 @@ import { elementTypes } from './elementTypes';
 export interface ActivityBusinessObject extends BusinessObject {
   number: number | undefined;
 
-  waypoints: Waypoint[] | undefined;
+  waypoints: Waypoint[];
 
-  source: BusinessObject | undefined;
-  target: BusinessObject | undefined;
+  source: string;
+  target: string;
 }
 
 export const testActivityBusinessObject: ActivityBusinessObject = {
   ...testBusinessObject,
 
   number: undefined,
-  waypoints: undefined,
+  waypoints: [],
 
   type: elementTypes.ACTIVITY,
 
-  source: undefined,
-  target: undefined,
+  source: '1',
+  target: '2',
 };

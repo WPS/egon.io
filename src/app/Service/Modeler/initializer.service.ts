@@ -116,70 +116,70 @@ export class InitializerService {
 
             if (allActivities.length > 0) {
               const htmlCanvas = document.getElementById('canvas');
-              const container =
-                // @ts-ignore
-                htmlCanvas.getElementsByClassName('djs-container');
-              const svgElements = container[0].getElementsByTagName('svg');
-              const outerSVGElement = svgElements[0];
-              const viewport =
-                outerSVGElement.getElementsByClassName('viewport')[0];
-              let transform = viewport.getAttribute('transform');
+              if (htmlCanvas) {
+                const container = htmlCanvas.getElementsByClassName('djs-container');
+                const svgElements = container[0].getElementsByTagName('svg');
+                const outerSVGElement = svgElements[0];
+                const viewport =
+                  outerSVGElement.getElementsByClassName('viewport')[0];
+                let transform = viewport.getAttribute('transform');
 
-              let transformX = 0;
-              let transformY = 0;
-              let zoomX = 1;
-              let zoomY = 1;
-              let nums;
+                let transformX = 0;
+                let transformY = 0;
+                let zoomX = 1;
+                let zoomY = 1;
+                let nums;
 
-              const clickX = e.originalEvent.offsetX;
-              const clickY = e.originalEvent.offsetY;
+                const clickX = e.originalEvent.offsetX;
+                const clickY = e.originalEvent.offsetY;
 
-              // adjust for zoom and panning
-              if (transform) {
-                transform = transform.replace('matrix(', '');
-                transform.replace(')', '');
-                nums = transform.split(',');
-                zoomX = parseFloat(nums[0]);
-                zoomY = parseFloat(nums[3]);
-                transformX = parseInt(nums[4], undefined);
-                transformY = parseInt(nums[5], undefined);
-              }
+                // adjust for zoom and panning
+                if (transform) {
+                  transform = transform.replace('matrix(', '');
+                  transform.replace(')', '');
+                  nums = transform.split(',');
+                  zoomX = parseFloat(nums[0]);
+                  zoomY = parseFloat(nums[3]);
+                  transformX = parseInt(nums[4], undefined);
+                  transformY = parseInt(nums[5], undefined);
+                }
 
-              const width = 25 * zoomX;
-              const height = 22 * zoomY;
+                const width = 25 * zoomX;
+                const height = 22 * zoomY;
 
-              for (let i = 1; i < renderedNumberRegistry.length; i++) {
-                const currentNum = renderedNumberRegistry[i];
-                if (currentNum) {
-                  const tspan = currentNum.getElementsByTagName('tspan')[0];
-                  const tx = tspan.getAttribute('x');
-                  const ty = tspan.getAttribute('y');
-                  const tNumber = parseInt(tspan.innerHTML, undefined);
+                for (let i = 1; i < renderedNumberRegistry.length; i++) {
+                  const currentNum = renderedNumberRegistry[i];
+                  if (currentNum) {
+                    const tspan = currentNum.getElementsByTagName('tspan')[0];
+                    const tx = tspan.getAttribute('x');
+                    const ty = tspan.getAttribute('y');
+                    const tNumber = parseInt(tspan.innerHTML, undefined);
 
-                  const elementX = tx * zoomX + (transformX - 5 * zoomX);
-                  const elementY = ty * zoomY + (transformY - 15 * zoomY);
+                    const elementX = tx * zoomX + (transformX - 5 * zoomX);
+                    const elementY = ty * zoomY + (transformY - 15 * zoomY);
 
-                  allActivities.forEach((activity: ActivityCanvasObject) => {
-                    const activityNumber = activity.businessObject.number;
-                    if (activityNumber === tNumber) {
-                      if (
-                        positionsMatch(
-                          width,
-                          height,
-                          elementX,
-                          elementY,
-                          clickX,
-                          clickY
-                        )
-                      ) {
-                        this.activityDoubleClick(
-                          activity,
-                          eventBus,
-                          commandStack
-                        );
+                    allActivities.forEach((activity: ActivityCanvasObject) => {
+                      const activityNumber = activity.businessObject.number;
+                      if (activityNumber === tNumber) {
+                        if (
+                          positionsMatch(
+                            width,
+                            height,
+                            elementX,
+                            elementY,
+                            clickX,
+                            clickY
+                          )
+                        ) {
+                          this.activityDoubleClick(
+                            activity,
+                            eventBus,
+                            commandStack
+                          );
+                        }
                       }
-                    }
-                  });
+                    });
+                  }
                 }
               }
             }

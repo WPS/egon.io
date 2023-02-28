@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ConfigAndDST } from 'src/app/Domain/Export/configAndDst';
 import { createTitleAndDescriptionSVGElement } from 'src/app/Service/Export/exportUtil';
 import { ModelerService } from '../Modeler/modeler.service';
-import { deepCopy } from '../../Utils/deepCopy';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +19,7 @@ export class SvgService {
   ): string {
     this.cacheData = this.modelerService.getEncoded();
 
-    let data = deepCopy(this.cacheData);
+    let data = structuredClone(this.cacheData);
 
     let viewBoxIndex = data.indexOf('width="');
 

@@ -4,7 +4,6 @@ import { StoryCreatorService } from './story-creator.service';
 import { ElementRegistryService } from '../../ElementRegistry/element-registry.service';
 import { StoryStep } from '../../../Domain/Replay/storyStep';
 import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
-import { deepCopy } from '../../../Utils/deepCopy';
 import { CanvasObject } from '../../../Domain/Common/canvasObject';
 import { elementTypes } from '../../../Domain/Common/elementTypes';
 import { testGroupCanvasObject } from '../../../Domain/Common/groupCanvasObject';
@@ -45,7 +44,7 @@ describe('StoryCreatorService', () => {
 
     beforeEach(() => {
       let objects: CanvasObject[] = [];
-      const group = deepCopy(testGroupCanvasObject);
+      const group = structuredClone(testGroupCanvasObject);
 
       let i = 1;
       while (i <= 3) {

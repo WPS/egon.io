@@ -1,5 +1,4 @@
 import { INITIAL_DOMAIN_NAME } from './constants';
-import { deepCopy } from '../../Utils/deepCopy';
 import { testBusinessObject } from './businessObject';
 import { elementTypes } from './elementTypes';
 import { Dictionary } from './dictionary/dictionary';
@@ -21,7 +20,7 @@ export interface CustomDomainConfiguration {
   actors: string[];
   workObjects: string[];
 }
-const actor = deepCopy(testBusinessObject);
+const actor = structuredClone(testBusinessObject);
 actor.type = elementTypes.ACTOR;
 
 export const testCustomDomainConfiguration: CustomDomainConfiguration = {

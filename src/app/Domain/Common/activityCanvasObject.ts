@@ -7,22 +7,22 @@ import {
 import { elementTypes } from './elementTypes';
 
 export interface ActivityCanvasObject extends CanvasObject {
-  source: CanvasObject | undefined;
-  target: CanvasObject | undefined;
+  source: CanvasObject;
+  target: CanvasObject;
 
-  waypoints: Waypoint[] | undefined;
+  waypoints: Waypoint[];
   businessObject: ActivityBusinessObject;
 }
 
 export const testActivityCanvasObject: ActivityCanvasObject = {
   ...testCanvasObject,
 
-  source: undefined,
-  target: undefined,
+  source: testCanvasObject,
+  target: testCanvasObject,
 
   type: elementTypes.ACTIVITY,
 
-  waypoints: undefined,
+  waypoints: [],
 
   businessObject: testActivityBusinessObject,
 };

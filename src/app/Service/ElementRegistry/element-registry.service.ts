@@ -131,8 +131,7 @@ export class ElementRegistryService {
     this.checkChildForGroup(groupObjects, allObjects);
 
     for (const group of groupObjects) {
-      // @ts-ignore
-      group.children.forEach((child: CanvasObject) => {
+      group.children?.forEach((child: CanvasObject) => {
         if (child.type.includes(elementTypes.GROUP)) {
           groupObjects.push(child as GroupCanvasObject);
         }

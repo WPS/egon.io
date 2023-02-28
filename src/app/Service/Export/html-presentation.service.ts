@@ -4,7 +4,6 @@ import { ElementRegistryService } from '../ElementRegistry/element-registry.serv
 import { DialogService } from '../Dialog/dialog.service';
 import { StoryCreatorService } from '../Replay/storyCreator/story-creator.service';
 import { ReplayService } from '../Replay/replay.service';
-import { deepCopy } from '../../Utils/deepCopy';
 // @ts-ignore
 import doT from 'dot';
 import { TitleService } from '../Title/title.service';
@@ -93,8 +92,7 @@ export class HtmlPresentationService {
 
     // create download for presentation
     const revealjsTemplate = document.getElementById('revealjs-template');
-    // @ts-ignore
-    const dots = doT.template(revealjsTemplate.innerHTML);
+    const dots = doT.template(revealjsTemplate?.innerHTML);
     const revealjsData = {
       script: 'script',
       title: this.titleService.getTitle(),
@@ -132,7 +130,7 @@ export class HtmlPresentationService {
 
   // tslint:disable-next-line:align
   private static createSVGData(svg: any): string {
-    let data = deepCopy(svg);
+    let data = structuredClone(svg);
 
     // to ensure that the title and description are inside the SVG container and do not overlap with any elements,
     // we change the confines of the SVG viewbox
@@ -207,8 +205,7 @@ export class HtmlPresentationService {
 
     for (let i = 1; i < split.length; i++) {
       const ids = split[i].match(/(id="[^"]*")/g);
-      // @ts-ignore
-      ids.forEach((id) => {
+      ids?.forEach((id) => {
         const idToReplace = id.substring(4, id.length - 1);
         const newId =
           idToReplace.slice(0, id.length - 5) +

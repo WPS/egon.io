@@ -20,17 +20,16 @@ export class StoryCreatorService {
 
     activities.forEach((activity) => {
       const activityNumber = activity.businessObject.number;
-      // @ts-ignore
-      const tracedItem = tracedActivityMap.get(activityNumber - 1)
-        ? // @ts-ignore
-          tracedActivityMap.get(activityNumber - 1)
-        : [];
-      tracedItem.push(activity);
-      // @ts-ignore
-      tracedActivityMap.set(activityNumber - 1, tracedItem);
+      if (typeof activityNumber === 'number') {
+        const tracedItem = tracedActivityMap.get(`${activityNumber - 1}`)
+          ?
+            tracedActivityMap.get(`${activityNumber - 1}`)
+          : [];
+        tracedItem.push(activity);
+        tracedActivityMap.set(`${activityNumber - 1}`, tracedItem);
+      }
     });
 
-    // @ts-ignore
     for (let i = 0; i < tracedActivityMap.keysArray().length; i++) {
       this.createStep(tracedActivityMap, i, story);
     }
@@ -43,8 +42,7 @@ export class StoryCreatorService {
     i: number,
     story: StoryStep[]
   ): void {
-    // @ts-ignore
-    const stepObjects = this.getStepObjects(tracedActivityMap.get(i) || []);
+    const stepObjects = this.getStepObjects(tracedActivityMap.get(`${i}`) || []);
     const highlightedElements = stepObjects.map((t) => t.id);
     if (i > 0) {
       story[i - 1].objects.forEach((object) => {
@@ -87,11 +85,9 @@ export class StoryCreatorService {
     const targetObjects: CanvasObject[] = [];
 
     tracedActivity.forEach((parallelStep: ActivityCanvasObject) => {
-      // @ts-ignore
       initialSource.push(parallelStep.source);
 
       const firstTarget = parallelStep.target;
-      // @ts-ignore
       targetObjects.push(firstTarget);
 
       // check the outgoing activities for each target
@@ -103,12 +99,9 @@ export class StoryCreatorService {
         ) {
           // check the target for each outgoing activity
           checkTarget.outgoing.forEach((activity: ActivityCanvasObject) => {
-            // @ts-ignore
             activities.push(activity);
             const activityTarget = activity.target;
-            // @ts-ignore
-            if (!targetObjects.includes(activityTarget)) {
-              // @ts-ignore
+            if (activityTarget && !targetObjects.includes(activityTarget)) {
               targetObjects.push(activityTarget);
             }
           });

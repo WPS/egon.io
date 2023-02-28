@@ -120,8 +120,7 @@ export class AutosaveService {
   }
 
   private startTimer(): void {
-    // @ts-ignore
-    this.autosaveTimer = new setInterval(() => {
+    this.autosaveTimer = setInterval(() => {
       const currentAutosaves = this.loadCurrentAutosaves();
       if (currentAutosaves.length > this.maxAutosaves) {
         currentAutosaves.pop();

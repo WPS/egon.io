@@ -35,7 +35,6 @@ export class ImportRepairService {
     activities.forEach((activity) => {
       const source = activity.source;
       const target = activity.target;
-      // @ts-ignore
       if (!objectIDs.includes(source) || !objectIDs.includes(target)) {
         complete = false;
         const activityIndex = elements.indexOf(activity);
@@ -94,7 +93,6 @@ export class ImportRepairService {
       element.type === elementTypes.CONNECTION
     ) {
       const waypoints = (element as ActivityBusinessObject).waypoints;
-      // @ts-ignore
       waypoints.forEach((point: Waypoint) => {
         point.x -= xLeft;
         point.y -= yUp;
@@ -124,16 +122,12 @@ export class ImportRepairService {
         element.type !== elementTypes.CONNECTION
       ) {
         if (isFirst) {
-          // @ts-ignore
-          xLeft = parseFloat(element.x);
-          // @ts-ignore
-          yUp = parseFloat(element.y);
+          xLeft = element.x;
+          yUp = element.y;
           isFirst = false;
         }
-        // @ts-ignore
-        elXLeft = parseFloat(element.x);
-        // @ts-ignore
-        elYUp = parseFloat(element.y);
+        elXLeft = element.x;
+        elYUp = element.y;
         if (elXLeft < xLeft) {
           xLeft = elXLeft;
         }

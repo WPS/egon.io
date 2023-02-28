@@ -8,7 +8,6 @@ import { ExportService } from '../Export/export.service';
 import { AutosaveStateService } from './autosave-state.service';
 import { Autosave } from '../../Domain/Autosave/autosave';
 import { testConfigAndDst } from '../../Domain/Export/configAndDst';
-import { deepCopy } from '../../Utils/deepCopy';
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from '../BrowserStorage/storage.service';
 
@@ -154,7 +153,7 @@ describe('AutosaveService', () => {
     return {
       description: 'desc',
       title: 'title',
-      configAndDST: deepCopy(testConfigAndDst),
+      configAndDST: structuredClone(testConfigAndDst),
       date,
     };
   }

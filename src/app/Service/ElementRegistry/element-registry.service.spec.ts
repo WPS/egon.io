@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
-import { deepCopy } from '../../Utils/deepCopy';
 import {
   ActivityCanvasObject,
   testActivityCanvasObject,
@@ -32,15 +31,15 @@ function resetRegistry(
 ) {
   registry._elements = [];
   registry._elements[testActivity.name] = {
-    element: deepCopy(testActivity),
+    element: structuredClone(testActivity),
   };
-  registry._elements[testActor.name] = { element: deepCopy(testActor) };
+  registry._elements[testActor.name] = { element: structuredClone(testActor) };
   registry._elements[testWorkobject.name] = {
-    element: deepCopy(testWorkobject),
+    element: structuredClone(testWorkobject),
   };
-  registry._elements[testGroup.name] = { element: deepCopy(testGroup) };
+  registry._elements[testGroup.name] = { element: structuredClone(testGroup) };
   registry._elements[testConnection.name] = {
-    element: deepCopy(testConnection),
+    element: structuredClone(testConnection),
   };
 }
 
@@ -71,22 +70,22 @@ describe('ElementRegistryService', () => {
   });
 
   beforeEach(() => {
-    testActor = deepCopy(testCanvasObject);
+    testActor = structuredClone(testCanvasObject);
     testActor.type = elementTypes.ACTOR;
     testActor.businessObject.type = elementTypes.ACTOR;
     testActor.name = 'actor';
 
-    testActivity = deepCopy(testActivityCanvasObject);
+    testActivity = structuredClone(testActivityCanvasObject);
     testActivity.source = testActor;
     testActivity.name = 'activity';
 
-    testWorkobject = deepCopy(testCanvasObject);
+    testWorkobject = structuredClone(testCanvasObject);
     testWorkobject.name = 'workobject';
 
-    testGroup = deepCopy(testGroupCanvasObject);
+    testGroup = structuredClone(testGroupCanvasObject);
     testGroup.name = 'group';
 
-    testConnection = deepCopy(testActivityCanvasObject);
+    testConnection = structuredClone(testActivityCanvasObject);
     testConnection.name = 'conntection';
     testConnection.type = elementTypes.CONNECTION;
     testConnection.businessObject.type = elementTypes.CONNECTION;
