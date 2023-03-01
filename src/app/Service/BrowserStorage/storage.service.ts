@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  AUTOSAVE_TAG,
-  DOMAIN_CONFIGURATION_TAG,
-} from '../../Domain/Common/constants';
-import { Autosave } from '../../Domain/Autosave/autosave';
-import {
-  DomainConfiguration,
-  fromConfigurationFromFile,
-} from '../../Domain/Common/domainConfiguration';
+import { DOMAIN_CONFIGURATION_TAG } from '../../Domain/Common/constants';
+import { DomainConfiguration, fromConfigurationFromFile } from '../../Domain/Common/domainConfiguration';
 
 @Injectable({
   providedIn: 'root',
@@ -28,24 +21,6 @@ export class StorageService {
 
   removeItem(key: string) {
     localStorage.removeItem(key);
-  }
-
-  setAutosaves(currentAutosaves: Autosave[]): void {
-    localStorage.setItem(
-      AUTOSAVE_TAG,
-      JSON.stringify(currentAutosaves, null, 2)
-    );
-  }
-
-  getAutosaves(): Autosave[] {
-    const autosavesString = localStorage.getItem(AUTOSAVE_TAG);
-    if (autosavesString) {
-      const autosaves = (JSON.parse(autosavesString) as Autosave[]);
-      if (autosaves && autosaves.length > 0) {
-        return autosaves;
-      }
-    }
-    return [];
   }
 
   checkValidityOfConfiguration(configuratioFromFile: DomainConfiguration) {

@@ -10,6 +10,8 @@ import { Autosave } from '../../Domain/Autosave/autosave';
 import { testConfigAndDst } from '../../Domain/Export/configAndDst';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { of } from 'rxjs';
+import { AUTOSAVE_TAG } from 'src/app/Domain/Common/constants';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('AutosaveService', () => {
   let service: AutosaveService;
@@ -24,7 +26,7 @@ describe('AutosaveService', () => {
       'importStory',
       'getStory',
     ]);
-    const storageServiceMock = jasmine.createSpyObj('StorageService', ['getAutosaves', 'setAutosaves']);
+    const storageServiceMock = jasmine.createSpyObj('StorageService', ['get', 'set']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -40,7 +42,7 @@ describe('AutosaveService', () => {
           provide: StorageService,
           useValue: storageServiceMock,
         },
-        MockProviders(DomainConfigurationService, ExportService),
+        MockProviders(DomainConfigurationService, ExportService, MatSnackBar),
       ],
     });
     rendererServiceSpy = TestBed.inject(RendererService) as jasmine.SpyObj<RendererService>;
@@ -80,19 +82,19 @@ describe('AutosaveService', () => {
     });
 
     it('should getItem from local Storage', () => {
-      storageServiceSpy.getAutosaves.and.returnValue([]);
+      storageServiceSpy.get.withArgs(AUTOSAVE_TAG).and.returnValue([]);
       const loadedAutosaves = service.loadCurrentAutosaves();
 
-      expect(storageServiceSpy.getAutosaves).toHaveBeenCalled();
+      expect(storageServiceSpy.get).toHaveBeenCalledWith(AUTOSAVE_TAG);
       expect(loadedAutosaves).toEqual([]);
     });
 
     it('should return sorted autosaves', () => {
-      storageServiceSpy.getAutosaves.and.returnValue(autosaves);
+      storageServiceSpy.get.withArgs(AUTOSAVE_TAG).and.returnValue(autosaves);
 
       const loadedAutosaves = service.loadCurrentAutosaves();
 
-      expect(storageServiceSpy.getAutosaves).toHaveBeenCalled();
+      expect(storageServiceSpy.get).toHaveBeenCalledWith(AUTOSAVE_TAG);
       expect(loadedAutosaves).toEqual(autosaves);
     });
   });

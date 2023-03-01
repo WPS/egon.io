@@ -1,0 +1,53 @@
+.autosaveEnabled,
+.autosaveInterval {
+  display: inline-grid;
+  grid-template-columns: 120px auto;
+  width: 300px;
+  grid-row-gap: 5px;
+  height: 20px;
+}
+
+.enableButton {
+  justify-self: start;
+}
+
+.autosaveEnabled {
+  padding-bottom: 2px;
+}
+
+.autosaveInterval {
+  padding-bottom: 10px;
+}
+
+.autosaveIntervalSpan {
+  padding-top: 2px;
+  justify-self: start;
+}
+
+.saveButton {
+  align-self: end;
+  right: 0;
+  margin-left: -5px;
+}
+
+.cardContent {
+  padding-left: 0;
+  padding-right: 0;
+  display: inline-flex;
+  width: calc(100% - 15px);
+  justify-content: space-between;
+}
+
+.inputContainer {
+  display: inline-grid;
+  width: fit-content;
+}
+
+.numberInput {
+  justify-self: end;
+  width: 64px;
+}
+
+.alignSelfCenter {
+  align-self: center;
+}

@@ -9,6 +9,8 @@ import { fromConfigurationFromFile } from '../../Domain/Common/domainConfigurati
 import { StorageService } from '../BrowserStorage/storage.service';
 import { TitleService } from '../Title/title.service';
 import { AutosaveState } from './autosave-state';
+import { AUTOSAVE_TAG, SNACKBAR_DURATION, SNACKBAR_INFO } from 'src/app/Domain/Common/constants';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +24,8 @@ export class AutosaveService {
     private autosaveStateService: AutosaveStateService,
     private iconDistionaryService: IconDictionaryService,
     private storageService: StorageService,
-    private titleService: TitleService
+    private titleService: TitleService,
+    private snackbar: MatSnackBar
   ) {
     this.autosaveStateService.state$.subscribe(
       state => this.updateState(state)
@@ -30,7 +33,7 @@ export class AutosaveService {
   }
 
   loadCurrentAutosaves(): Autosave[] {
-    const autosaves = this.storageService.getAutosaves();
+    const autosaves = this.readAutosaves();
     this.sortAutosaves(autosaves);
     return autosaves;
   }
@@ -80,12 +83,32 @@ export class AutosaveService {
   private startTimer(interval: number, amount: number): void {
     this.autosaveTimer = setInterval(() => {
       const currentAutosaves = this.loadCurrentAutosaves();
-      if (currentAutosaves.length > amount) {
-        currentAutosaves.pop();
+      const newAutosave = this.createAutosave();
+      let isChanged = amount > 0;
+      if (currentAutosaves.length > 0) {
+        isChanged = isChanged && !this.isSame(newAutosave, currentAutosaves[0]);
       }
-      currentAutosaves.unshift(this.createAutosave());
-      this.storageService.setAutosaves(currentAutosaves);
+      if (isChanged) {
+        currentAutosaves.unshift(this.createAutosave());
+        while (currentAutosaves.length > amount) {
+          currentAutosaves.pop();
+        }
+        this.writeAutosaves(currentAutosaves);
+        this.snackbar.open('Draft Saved', undefined, { panelClass: SNACKBAR_INFO, duration: SNACKBAR_DURATION });
+      }
     }, interval * 60000);
+  }
+
+  private isSame(a: Autosave, b: Autosave) {
+    return a.title === b.title && a.description === b.description && JSON.stringify(a.configAndDST) === JSON.stringify(b.configAndDST);
+  }
+
+  private writeAutosaves(autosaves: Autosave[]) {
+    this.storageService.set(AUTOSAVE_TAG, autosaves);
+  }
+
+  private readAutosaves(): Autosave[] {
+    return this.storageService.get(AUTOSAVE_TAG) ?? [];
   }
 
   private createAutosave(): Autosave {
