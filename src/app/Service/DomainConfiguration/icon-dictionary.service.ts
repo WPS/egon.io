@@ -90,10 +90,7 @@ export class IconDictionaryService {
     return this.iconConfig.getDefaultConf();
   }
 
-  allInTypeDictionary(
-    type: elementTypes,
-    elements: BusinessObject[]
-  ): boolean {
+  allInTypeDictionary(type: elementTypes, elements: BusinessObject[]): boolean {
     let collection: Dictionary;
     if (type === elementTypes.ACTOR) {
       collection = this.actorIconDictionary;
@@ -169,11 +166,7 @@ export class IconDictionaryService {
     }
   }
 
-  registerIconForType(
-    type: elementTypes,
-    name: string,
-    src: string
-  ): void {
+  registerIconForType(type: elementTypes, name: string, src: string): void {
     if (!name.includes(type)) {
       name = type + name;
     }
@@ -372,9 +365,7 @@ export class IconDictionaryService {
     return this.iconConfig;
   }
 
-  setCusomtConfiguration(
-    customConfiguration: DomainConfiguration
-  ): void {
+  setCusomtConfiguration(customConfiguration: DomainConfiguration): void {
     this.customConfiguration = customConfiguration;
   }
 }

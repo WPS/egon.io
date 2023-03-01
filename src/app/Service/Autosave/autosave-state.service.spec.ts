@@ -12,9 +12,7 @@ describe('AutosaveStateService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        MockProvider(StorageService),
-      ],
+      providers: [MockProvider(StorageService)],
     });
 
     service = TestBed.inject(AutosaveStateService);

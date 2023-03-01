@@ -19,7 +19,11 @@ describe('AutosaveService', () => {
   let rendererServiceSpy: jasmine.SpyObj<RendererService>;
   let autosaveStateSpy: jasmine.SpyObj<AutosaveStateService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  const autosaveStateServiceMock = jasmine.createSpyObj('AutosaveStateService', ['setState'], {'state$': of({ activated: true, amount: 1, interval: 1})});
+  const autosaveStateServiceMock = jasmine.createSpyObj(
+    'AutosaveStateService',
+    ['setState'],
+    { state$: of({ activated: true, amount: 1, interval: 1 }) }
+  );
 
   beforeEach(() => {
     const renderServiceMock = jasmine.createSpyObj('RendererService', [
@@ -45,9 +49,15 @@ describe('AutosaveService', () => {
         MockProviders(DomainConfigurationService, ExportService, MatSnackBar),
       ],
     });
-    rendererServiceSpy = TestBed.inject(RendererService) as jasmine.SpyObj<RendererService>;
-    autosaveStateSpy = TestBed.inject(AutosaveStateService) as jasmine.SpyObj<AutosaveStateService>;
-    storageServiceSpy = TestBed.inject(StorageService) as jasmine.SpyObj<StorageService>;
+    rendererServiceSpy = TestBed.inject(
+      RendererService
+    ) as jasmine.SpyObj<RendererService>;
+    autosaveStateSpy = TestBed.inject(
+      AutosaveStateService
+    ) as jasmine.SpyObj<AutosaveStateService>;
+    storageServiceSpy = TestBed.inject(
+      StorageService
+    ) as jasmine.SpyObj<StorageService>;
 
     service = TestBed.inject(AutosaveService);
   });

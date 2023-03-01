@@ -12,7 +12,6 @@ import { ActivityBusinessObject } from '../../Domain/Common/activityBusinessObje
   providedIn: 'root',
 })
 export class ImportRepairService {
-
   checkForUnreferencedElementsInActivitiesAndRepair(
     elements: BusinessObject[]
   ): boolean {

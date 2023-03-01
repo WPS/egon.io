@@ -6,7 +6,6 @@ import { DomainConfiguration, fromConfigurationFromFile } from '../../Domain/Com
   providedIn: 'root',
 })
 export class StorageService {
-
   set(key: string, value: any) {
     localStorage.setItem(key, JSON.stringify(value));
   }

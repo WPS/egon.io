@@ -27,8 +27,8 @@ export class AutosaveService {
     private titleService: TitleService,
     private snackbar: MatSnackBar
   ) {
-    this.autosaveStateService.state$.subscribe(
-      state => this.updateState(state)
+    this.autosaveStateService.state$.subscribe((state) =>
+      this.updateState(state)
     );
   }
 

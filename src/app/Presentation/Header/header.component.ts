@@ -27,7 +27,9 @@ export class HeaderComponent {
   ) {
     this.isReplay$ = this.replayStateService.replayOn$;
 
-    this.stepDescription$ = combineLatest([this.replayService.currentStep$, this.replayService.maxStepNumber$])
-      .pipe(map(([step, count]) => `${step}/${count}`));
+    this.stepDescription$ = combineLatest([
+      this.replayService.currentStep$,
+      this.replayService.maxStepNumber$,
+    ]).pipe(map(([step, count]) => `${step}/${count}`));
   }
 }

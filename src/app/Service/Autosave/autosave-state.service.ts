@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
-import { AUTOSAVE_ACTIVATED_TAG, AUTOSAVE_AMOUNT_TAG, AUTOSAVE_INTERVAL_TAG, DEFAULT_AUTOSAVES_INTERVAL, DEFAULT_AUTOSAVES_AMOUNT } from 'src/app/Domain/Common/constants';
+import {
+  AUTOSAVE_ACTIVATED_TAG,
+  AUTOSAVE_AMOUNT_TAG,
+  AUTOSAVE_INTERVAL_TAG,
+  DEFAULT_AUTOSAVES_INTERVAL,
+  DEFAULT_AUTOSAVES_AMOUNT,
+} from 'src/app/Domain/Common/constants';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { AutosaveState } from './autosave-state';
 
@@ -8,11 +14,10 @@ import { AutosaveState } from './autosave-state';
   providedIn: 'root',
 })
 export class AutosaveStateService {
-
   private state: AutosaveState = {
     activated: false,
     amount: DEFAULT_AUTOSAVES_AMOUNT,
-    interval: DEFAULT_AUTOSAVES_INTERVAL
+    interval: DEFAULT_AUTOSAVES_INTERVAL,
   };
   private readonly stateSubject = new ReplaySubject<AutosaveState>(1);
   readonly state$ = this.stateSubject.asObservable();
@@ -25,7 +30,7 @@ export class AutosaveStateService {
     this.state = {
       activated: this.readAutosaveEnabled(),
       amount: this.readAutosaveAmount(),
-      interval: this.readAutosaveInterval()
+      interval: this.readAutosaveInterval(),
     };
     this.stateSubject.next(this.state);
   }
@@ -48,11 +53,16 @@ export class AutosaveStateService {
   }
 
   private readAutosaveAmount(): number {
-    return + (this.storageService.get(AUTOSAVE_AMOUNT_TAG) ?? DEFAULT_AUTOSAVES_AMOUNT);
+    return +(
+      this.storageService.get(AUTOSAVE_AMOUNT_TAG) ?? DEFAULT_AUTOSAVES_AMOUNT
+    );
   }
 
   private readAutosaveInterval(): number {
-    return + (this.storageService.get(AUTOSAVE_INTERVAL_TAG) ?? DEFAULT_AUTOSAVES_INTERVAL);
+    return +(
+      this.storageService.get(AUTOSAVE_INTERVAL_TAG) ??
+      DEFAULT_AUTOSAVES_INTERVAL
+    );
   }
 
   private writeAutosaveEnabled(value: boolean) {

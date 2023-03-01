@@ -82,15 +82,11 @@ describe('ReplayService', () => {
   });
 
   it('should return initial currentStepNumber', () => {
-    service
-      .currentStep$
-      .subscribe((value) => expect(value).toEqual(-1));
+    service.currentStep$.subscribe((value) => expect(value).toEqual(-1));
   });
 
   it('should return initial maxStepNumber', () => {
-    service
-      .maxStepNumber$
-      .subscribe((value) => expect(value).toEqual(0));
+    service.maxStepNumber$.subscribe((value) => expect(value).toEqual(0));
   });
 
   describe('initializeReplay', () => {
@@ -103,12 +99,8 @@ describe('ReplayService', () => {
     it('should initialize Replay', () => {
       service.initializeReplay();
 
-      service
-        .currentStep$
-        .subscribe((value) => expect(value).toEqual(1));
-      service
-        .maxStepNumber$
-        .subscribe((value) => expect(value).toEqual(1));
+      service.currentStep$.subscribe((value) => expect(value).toEqual(1));
+      service.maxStepNumber$.subscribe((value) => expect(value).toEqual(1));
       expect(
         storyCreatorServiceSpy.traceActivitiesAndCreateStory
       ).toHaveBeenCalled();
@@ -194,15 +186,11 @@ describe('ReplayService', () => {
       });
 
       it('should show dialog if not consecutively numbered', () => {
-        storyCreatorServiceSpy.getMissingSteps.and.returnValue(
-          [1]
-        );
+        storyCreatorServiceSpy.getMissingSteps.and.returnValue([1]);
 
         service.startReplay();
 
-        expect(
-          storyCreatorServiceSpy.getMissingSteps
-        ).toHaveBeenCalled();
+        expect(storyCreatorServiceSpy.getMissingSteps).toHaveBeenCalled();
         expect(snackBarSpy.open).toHaveBeenCalled();
       });
 
@@ -211,9 +199,7 @@ describe('ReplayService', () => {
 
         service.startReplay();
 
-        expect(
-          storyCreatorServiceSpy.getMissingSteps
-        ).toHaveBeenCalled();
+        expect(storyCreatorServiceSpy.getMissingSteps).toHaveBeenCalled();
         expect(replayStateServiceSpy.setReplayState).toHaveBeenCalledOnceWith(
           true
         );
@@ -238,12 +224,8 @@ describe('ReplayService', () => {
       it('should call methods', () => {
         service.stopReplay();
 
-        service
-          .currentStep$
-          .subscribe((value) => expect(value).toEqual(-1));
-        service
-          .maxStepNumber$
-          .subscribe((value) => expect(value).toEqual(0));
+        service.currentStep$.subscribe((value) => expect(value).toEqual(-1));
+        service.maxStepNumber$.subscribe((value) => expect(value).toEqual(0));
 
         expect(replayStateServiceSpy.setReplayState).toHaveBeenCalledWith(true);
         expect(replayStateServiceSpy.setReplayState).toHaveBeenCalledWith(
