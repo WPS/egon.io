@@ -106,7 +106,7 @@ app-root {
 .mat-mdc-snack-bar-container {
   &.snackbar_success {
     --mdc-snackbar-container-color: darkgreen;
-    --mat-mdc-snack-bar-button-color: #fff
+    --mat-mdc-snack-bar-button-color: #fff;
     --mdc-snackbar-supporting-text-color: #fff;
   }
   &.snackbar_warning {
@@ -116,7 +116,7 @@ app-root {
   }
   &.snackbar_error {
     --mdc-snackbar-container-color: #d04437;
-    --mat-mdc-snack-bar-button-color: #fff
+    --mat-mdc-snack-bar-button-color: #fff;
     --mdc-snackbar-supporting-text-color: #fff;
   }
   &.snackbar_info {

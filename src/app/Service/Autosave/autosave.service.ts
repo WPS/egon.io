@@ -24,8 +24,8 @@ export class AutosaveService {
     private storageService: StorageService,
     private titleService: TitleService
   ) {
-    this.autosaveStateService.state$.subscribe(
-      state => this.updateState(state)
+    this.autosaveStateService.state$.subscribe((state) =>
+      this.updateState(state)
     );
   }
 

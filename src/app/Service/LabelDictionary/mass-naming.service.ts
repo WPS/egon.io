@@ -8,8 +8,10 @@ import { CommandStackService } from '../CommandStack/command-stack.service';
   providedIn: 'root',
 })
 export class MassNamingService {
-
-  constructor(private elementRegistryService: ElementRegistryService, private commandStackService: CommandStackService) {}
+  constructor(
+    private elementRegistryService: ElementRegistryService,
+    private commandStackService: CommandStackService
+  ) {}
 
   massChangeNames(
     oldValue: string,

@@ -20,8 +20,7 @@ export class SettingsComponent {
     private settingsService: SettingsService,
     private modelerService: ModelerService,
     private domainCustomizationService: DomainCustomizationService
-  ) {
-  }
+  ) {}
 
   close(): void {
     const savedConfiguration =

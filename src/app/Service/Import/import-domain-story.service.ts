@@ -44,16 +44,16 @@ export class ImportDomainStoryService implements OnDestroy {
     private dialogService: DialogService,
     private domainConfigurationService: DomainConfigurationService
   ) {
-    this.titleSubscription = this.titleService
-      .title$
-      .subscribe((title: string) => {
+    this.titleSubscription = this.titleService.title$.subscribe(
+      (title: string) => {
         this.title = title;
-      });
-    this.descriptionSubscription = this.titleService
-      .description$
-      .subscribe((description: string) => {
+      }
+    );
+    this.descriptionSubscription = this.titleService.description$.subscribe(
+      (description: string) => {
         this.description = description;
-      });
+      }
+    );
   }
 
   ngOnDestroy(): void {
@@ -233,9 +233,7 @@ export class ImportDomainStoryService implements OnDestroy {
     return xmlText;
   }
 
-  checkConfigForChanges(
-    domainConfiguration: DomainConfiguration
-  ): boolean {
+  checkConfigForChanges(domainConfiguration: DomainConfiguration): boolean {
     const newActorKeys = domainConfiguration.actors.keysArray();
     const newWorkObjectKeys = domainConfiguration.workObjects.keysArray();
 

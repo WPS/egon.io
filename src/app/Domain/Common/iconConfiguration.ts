@@ -51,9 +51,7 @@ export class IconConfiguration {
     overrideAppendedIcons(appen);
   }
 
-  createCustomConf(
-    domainConfiguration: DomainConfiguration
-  ): Configuration {
+  createCustomConf(domainConfiguration: DomainConfiguration): Configuration {
     this.domainName = domainConfiguration.name;
 
     let actors = domainConfiguration.actors;

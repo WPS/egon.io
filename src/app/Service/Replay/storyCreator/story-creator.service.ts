@@ -22,8 +22,7 @@ export class StoryCreatorService {
       const activityNumber = activity.businessObject.number;
       if (typeof activityNumber === 'number') {
         const tracedItem = tracedActivityMap.get(`${activityNumber - 1}`)
-          ?
-            tracedActivityMap.get(`${activityNumber - 1}`)
+          ? tracedActivityMap.get(`${activityNumber - 1}`)
           : [];
         tracedItem.push(activity);
         tracedActivityMap.set(`${activityNumber - 1}`, tracedItem);
@@ -42,7 +41,9 @@ export class StoryCreatorService {
     i: number,
     story: StoryStep[]
   ): void {
-    const stepObjects = this.getStepObjects(tracedActivityMap.get(`${i}`) || []);
+    const stepObjects = this.getStepObjects(
+      tracedActivityMap.get(`${i}`) || []
+    );
     const highlightedElements = stepObjects.map((t) => t.id);
     if (i > 0) {
       story[i - 1].objects.forEach((object) => {
@@ -72,7 +73,7 @@ export class StoryCreatorService {
           (element) => element.type === elementTypes.ACTIVITY
         ).length <= 0
       ) {
-        missingSteps.push(i+1);
+        missingSteps.push(i + 1);
         complete = false;
       }
     }

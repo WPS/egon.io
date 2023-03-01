@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CommandStackService {
-
   private commandStack: any;
 
-  constructor() { }
+  constructor() {}
 
   setCommandStack(commandStack: any): void {
     this.commandStack = commandStack;

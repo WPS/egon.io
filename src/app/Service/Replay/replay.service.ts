@@ -78,8 +78,8 @@ export class ReplayService {
         const steps = missingSteps.join(', ');
         this.snackbar.open(
           steps.length === 1
-          ? `The Domain Story is not complete. Step ${steps} is missing.`
-          : `The Domain Story is not complete. Steps ${steps} are missing.`,
+            ? `The Domain Story is not complete. Step ${steps} is missing.`
+            : `The Domain Story is not complete. Steps ${steps} are missing.`,
           undefined,
           {
             duration: SNACKBAR_DURATION * 2,
@@ -88,14 +88,10 @@ export class ReplayService {
         );
       }
     } else {
-      this.snackbar.open(
-        'You need a Domain Story for replay.',
-        undefined,
-        {
-          duration: SNACKBAR_DURATION * 2,
-          panelClass: SNACKBAR_WARNING,
-        }
-      );
+      this.snackbar.open('You need a Domain Story for replay.', undefined, {
+        duration: SNACKBAR_DURATION * 2,
+        panelClass: SNACKBAR_WARNING,
+      });
     }
   }
 

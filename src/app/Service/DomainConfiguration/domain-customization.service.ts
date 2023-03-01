@@ -17,8 +17,11 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
   SNACKBAR_SUCCESS,
+  SNACKBAR_WARNING,
 } from '../../Domain/Common/constants';
 import { StorageService } from '../BrowserStorage/storage.service';
+import { UsedIconList } from 'src/app/Domain/Domain-Configuration/UsedIconList';
+import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +43,8 @@ export class DomainCustomizationService {
     private importService: ImportDomainStoryService,
     private titleService: TitleService,
     private storageService: StorageService,
-    private snackBar: MatSnackBar
+    private elementRegistryService: ElementRegistryService,
+    private snackbar: MatSnackBar
   ) {
     this.domainConfigurationTypes = new BehaviorSubject(
       this.configurationService.getCurrentConfigurationNamesWithoutPrefix()
@@ -98,7 +102,7 @@ export class DomainCustomizationService {
       }
     });
     if (saveDomain) {
-      this.saveDomain();
+      this.saveDomain(this.elementRegistryService.getUsedIcons(), true);
     }
   }
 
@@ -275,26 +279,87 @@ export class DomainCustomizationService {
   }
 
   /** Persist Domain **/
-  saveDomain(): void {
+  saveDomain(usedIcons: UsedIconList, imported = false): void {
+    const changedActors: string[] = [];
+    const changedWorkobjects: string[] = [];
     if (this.configurationHasChanged) {
-      this.changedDomainCofiguration = this.createDomainConfiguration();
-      this.storageService.setStoredDomainConfiguration(
-        this.changedDomainCofiguration
-      );
-      this.snackBar.open('Configuration saved sucessfully', undefined, {
-        duration: SNACKBAR_DURATION,
-        panelClass: SNACKBAR_SUCCESS,
+      const changedDomain = this.createDomainConfiguration();
+
+      const configurationActors = changedDomain.actors.keysArray();
+      usedIcons?.actors.forEach((actor) => {
+        if (
+          !configurationActors?.includes(actor) &&
+          !changedActors.includes(actor)
+        ) {
+          changedActors.push(actor);
+        }
       });
+      const configurationWorkobjects = changedDomain.workObjects.keysArray();
+      usedIcons?.workobjects.forEach((workobject) => {
+        if (
+          !configurationWorkobjects?.includes(workobject) &&
+          !changedWorkobjects.includes(workobject)
+        ) {
+          changedWorkobjects.push(workobject);
+        }
+      });
+
+      if (!changedActors.length && !changedWorkobjects.length) {
+        this.changedDomainCofiguration = changedDomain;
+
+        this.updateIcons(changedDomain);
+
+        this.storageService.setStoredDomainConfiguration(
+          this.changedDomainCofiguration
+        );
+        this.snackbar.open(
+          imported
+            ? 'Configuration imported successfully'
+            : 'Configuration saved sucessfully',
+          undefined,
+          {
+            duration: SNACKBAR_DURATION,
+            panelClass: SNACKBAR_SUCCESS,
+          }
+        );
+      }
     } else {
-      this.snackBar.open('Nothing to be saved', undefined, {
-        duration: SNACKBAR_DURATION,
-        panelClass: SNACKBAR_INFO,
-      });
+      this.snackbar.open(
+        imported ? 'Nothing to be imported' : 'Nothing to be saved',
+        undefined,
+        {
+          duration: SNACKBAR_DURATION,
+          panelClass: SNACKBAR_INFO,
+        }
+      );
+    }
+    if (changedActors.length || changedWorkobjects.length) {
+      if (changedActors.length) {
+        const actors = changedActors.join(', ');
+        this.snackbar.open(
+          `The following icons are already in use as actors and cannot be changed: ${actors}`,
+          undefined,
+          {
+            duration: SNACKBAR_DURATION * 3,
+            panelClass: SNACKBAR_WARNING,
+          }
+        );
+      }
+      if (changedWorkobjects.length) {
+        const workobjects = changedWorkobjects.join(', ');
+        this.snackbar.open(
+          `The following icons are already in use as workobjects and cannot be changed: ${workobjects}`,
+          undefined,
+          {
+            duration: SNACKBAR_DURATION * 3,
+            panelClass: SNACKBAR_WARNING,
+          }
+        );
+      }
     }
   }
 
   exportDomain(): void {
-    this.saveDomain();
     this.configurationService.exportConfiguration();
   }
 
@@ -370,7 +435,7 @@ export class DomainCustomizationService {
   }
 
   private getSrcForIcon(name: string): string {
-    let iconName = '';
+    let iconName: string;
     if (name.includes(elementTypes.DOMAINSTORY)) {
       iconName = getNameFromType(name);
     } else {
@@ -387,5 +452,17 @@ export class DomainCustomizationService {
     } else {
       return 'data:image/svg+xml,' + rawSrc;
     }
+  }
+
+  private updateIcons(changedDomain: DomainConfiguration) {
+    this.allIconListItems
+      .keysArray()
+      .forEach((item) => this.setAsUnassigned(item, this.isIconActor(item)));
+    changedDomain.actors
+      .keysArray()
+      .forEach((actor) => this.setAsActor(true, actor));
+    changedDomain.workObjects
+      .keysArray()
+      .forEach((workObject) => this.setAsWorkobject(true, workObject));
   }
 }

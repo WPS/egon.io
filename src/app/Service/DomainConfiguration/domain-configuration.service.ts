@@ -105,9 +105,7 @@ export class DomainConfigurationService {
     return domainConfiguration;
   }
 
-  getCurrentConfigurationForExport():
-    | DomainConfigurationForExport
-    | undefined {
+  getCurrentConfigurationForExport(): DomainConfigurationForExport | undefined {
     const currentConfiguration = this.getCurrentConfiguration();
 
     if (currentConfiguration) {

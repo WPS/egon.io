@@ -3,7 +3,11 @@ import { AutosaveService } from '../../Service/Autosave/autosave.service';
 import { Autosave } from '../../Domain/Autosave/autosave';
 import { AutosaveStateService } from '../../Service/Autosave/autosave-state.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SNACKBAR_DURATION, SNACKBAR_ERROR, SNACKBAR_SUCCESS } from 'src/app/Domain/Common/constants';
+import {
+  SNACKBAR_DURATION,
+  SNACKBAR_ERROR,
+  SNACKBAR_SUCCESS,
+} from 'src/app/Domain/Common/constants';
 
 @Component({
   selector: 'app-autosave-settings',
@@ -17,7 +21,7 @@ export class AutosaveSettingsComponent implements OnInit {
     private autosaveService: AutosaveService,
     protected autosaveStateService: AutosaveStateService,
     private snackbar: MatSnackBar
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.autosaves = this.autosaveService.loadCurrentAutosaves();
@@ -31,13 +35,17 @@ export class AutosaveSettingsComponent implements OnInit {
     if (this.autosaveStateService.setState({ activated, amount, interval })) {
       this.snackbar.open('Settings for Autosave saved', undefined, {
         duration: SNACKBAR_DURATION,
-        panelClass: SNACKBAR_SUCCESS
+        panelClass: SNACKBAR_SUCCESS,
       });
     } else {
-      this.snackbar.open('Unable to save settings for Autosave - please try again', undefined, {
-        duration: 2 * SNACKBAR_DURATION,
-        panelClass: SNACKBAR_ERROR
-      });
+      this.snackbar.open(
+        'Unable to save settings for Autosave - please try again',
+        undefined,
+        {
+          duration: 2 * SNACKBAR_DURATION,
+          panelClass: SNACKBAR_ERROR,
+        }
+      );
     }
   }
 }

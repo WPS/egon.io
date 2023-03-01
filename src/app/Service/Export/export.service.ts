@@ -30,16 +30,16 @@ export class ExportService implements OnDestroy {
     private htmlPresentationService: HtmlPresentationService,
     private rendererService: RendererService
   ) {
-    this.titleSubscription = this.titleService
-      .title$
-      .subscribe((title: string) => {
+    this.titleSubscription = this.titleService.title$.subscribe(
+      (title: string) => {
         this.title = title;
-      });
-    this.descriptionSubscription = this.titleService
-      .description$
-      .subscribe((description: string) => {
+      }
+    );
+    this.descriptionSubscription = this.titleService.description$.subscribe(
+      (description: string) => {
         this.description = description;
-      });
+      }
+    );
   }
 
   ngOnDestroy(): void {

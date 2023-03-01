@@ -4,6 +4,7 @@ import { elementTypes } from 'src/app/Domain/Common/elementTypes';
 import { CanvasObject } from 'src/app/Domain/Common/canvasObject';
 import { GroupCanvasObject } from '../../Domain/Common/groupCanvasObject';
 import { ActivityCanvasObject } from '../../Domain/Common/activityCanvasObject';
+import { UsedIconList } from 'src/app/Domain/Domain-Configuration/UsedIconList';
 
 @Injectable({
   providedIn: 'root',
@@ -168,5 +169,29 @@ export class ElementRegistryService {
       }
     });
     return activitiesFromActors;
+  }
+
+  getUsedIcons(): UsedIconList {
+    const actors = this.getAllActors();
+    const workobjects = this.getAllWorkobjects();
+
+    return {
+      actors: actors.map((a) => a.type.replace(elementTypes.ACTOR, '')),
+      workobjects: workobjects.map((w) =>
+        w.type.replace(elementTypes.WORKOBJECT, '')
+      ),
+    };
+  }
+
+  private getAllActors() {
+    return this.getAllCanvasObjects().filter((co) =>
+      co.type.includes(elementTypes.ACTOR)
+    );
+  }
+
+  private getAllWorkobjects() {
+    return this.getAllCanvasObjects().filter((co) =>
+      co.type.includes(elementTypes.WORKOBJECT)
+    );
   }
 }

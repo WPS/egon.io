@@ -20,7 +20,8 @@ export class DomainDetailsComponent implements OnInit {
 
   constructor(
     private customizationService: DomainCustomizationService,
-    titleService: TitleService) {
+    titleService: TitleService
+  ) {
     this.domainName = titleService.domainName$;
   }
 
@@ -36,17 +37,12 @@ export class DomainDetailsComponent implements OnInit {
   }
 
   allowDrop($event: DragEvent, listName: string) {
-    if(this.draggedList === listName){
+    if (this.draggedList === listName) {
       $event.preventDefault();
     }
   }
 
-  onDrop(
-    $event: DragEvent,
-    iconName: string,
-    actors: boolean,
-    index: number
-  ) {
+  onDrop($event: DragEvent, iconName: string, actors: boolean, index: number) {
     let list;
     if (actors) {
       list = this.selectedActors$;

@@ -13,7 +13,6 @@ import {
   providedIn: 'root',
 })
 export class StorageService {
-
   set(key: string, value: any) {
     localStorage.setItem(key, JSON.stringify(value));
   }
@@ -40,7 +39,7 @@ export class StorageService {
   getAutosaves(): Autosave[] {
     const autosavesString = localStorage.getItem(AUTOSAVE_TAG);
     if (autosavesString) {
-      const autosaves = (JSON.parse(autosavesString) as Autosave[]);
+      const autosaves = JSON.parse(autosavesString) as Autosave[];
       if (autosaves && autosaves.length > 0) {
         return autosaves;
       }

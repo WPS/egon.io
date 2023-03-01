@@ -109,15 +109,18 @@ export class InitializerService {
 
           // add a DoubleClickListener to the number on activities
           if (renderedNumberRegistry.length > 1) {
-            const allActivities = this.elementRegistryService.getActivitiesFromActors();
+            const allActivities =
+              this.elementRegistryService.getActivitiesFromActors();
 
             if (allActivities.length > 0) {
               const htmlCanvas = document.getElementById('canvas');
               if (htmlCanvas) {
-                const container = htmlCanvas.getElementsByClassName('djs-container');
+                const container =
+                  htmlCanvas.getElementsByClassName('djs-container');
                 const svgElements = container[0].getElementsByTagName('svg');
                 const outerSVGElement = svgElements[0];
-                const viewport = outerSVGElement.getElementsByClassName('viewport')[0];
+                const viewport =
+                  outerSVGElement.getElementsByClassName('viewport')[0];
                 let transform = viewport.getAttribute('transform');
 
                 let transformX = 0;
@@ -151,8 +154,12 @@ export class InitializerService {
                     const ty = tspan.getAttribute('y');
                     const tNumber = parseInt(tspan.innerHTML, undefined);
 
-                    const elementX = Math.floor(tx * zoomX + (transformX - 11 * zoomX));
-                    const elementY = Math.floor(ty * zoomY + (transformY - 15 * zoomY));
+                    const elementX = Math.floor(
+                      tx * zoomX + (transformX - 11 * zoomX)
+                    );
+                    const elementY = Math.floor(
+                      ty * zoomY + (transformY - 15 * zoomY)
+                    );
 
                     allActivities.forEach((activity: ActivityCanvasObject) => {
                       const activityNumber = activity.businessObject.number;

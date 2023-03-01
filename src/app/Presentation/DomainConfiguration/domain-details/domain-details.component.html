@@ -35,7 +35,7 @@
         *ngFor="let iconName of selectedWorkobjects$ | async; let i = index"
         draggable="true"
         (dragover)="allowDrop($event, 'workobjectList')"
-        (dragstart)="onDragStart(i,'workobjectList')"
+        (dragstart)="onDragStart(i, 'workobjectList')"
         (drop)="onDrop($event, iconName, false, i)"
       >
         <app-details-list-item

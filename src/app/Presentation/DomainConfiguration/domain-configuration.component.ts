@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   CustomDomainConfiguration,
-  DomainConfiguration,
   fromConfigurationFromFile,
 } from 'src/app/Domain/Common/domainConfiguration';
 import { DomainConfigurationService } from 'src/app/Service/DomainConfiguration/domain-configuration.service';
@@ -11,6 +10,7 @@ import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { sanitizeIconName } from 'src/app/Utils/sanitizer';
 import { IconFilterEnum } from '../../Domain/Domain-Configuration/iconFilterEnum';
 import { DomainCustomizationService } from '../../Service/DomainConfiguration/domain-customization.service';
+import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 
 @Component({
   selector: 'app-domain-configuration',
@@ -20,9 +20,7 @@ import { DomainCustomizationService } from '../../Service/DomainConfiguration/do
 export class DomainConfigurationComponent implements OnInit {
   private domainConfigurationTypes: CustomDomainConfiguration;
 
-  filter = new BehaviorSubject<IconFilterEnum>(
-    IconFilterEnum.ICON_FILTER_NONE
-  );
+  filter = new BehaviorSubject<IconFilterEnum>(IconFilterEnum.ICON_FILTER_NONE);
 
   selectedActors = new BehaviorSubject<string[]>([]);
   selectedWorkobjects = new BehaviorSubject<string[]>([]);
@@ -34,7 +32,8 @@ export class DomainConfigurationComponent implements OnInit {
   constructor(
     private configurationService: DomainConfigurationService,
     private iconDictionaryService: IconDictionaryService,
-    private domainCustomizationService: DomainCustomizationService
+    private domainCustomizationService: DomainCustomizationService,
+    private elementRegistryService: ElementRegistryService
   ) {
     this.domainConfigurationTypes =
       this.domainCustomizationService.getDomainConfiguration().value;
@@ -47,7 +46,8 @@ export class DomainConfigurationComponent implements OnInit {
     });
 
     this.selectedActors = this.domainCustomizationService.selectedActors$;
-    this.selectedWorkobjects = this.domainCustomizationService.selectedWorkobjects$;
+    this.selectedWorkobjects =
+      this.domainCustomizationService.selectedWorkobjects$;
   }
 
   ngOnInit(): void {
@@ -83,7 +83,9 @@ export class DomainConfigurationComponent implements OnInit {
 
   /** Persist Domain **/
   saveDomain(): void {
-    this.domainCustomizationService.saveDomain();
+    this.domainCustomizationService.saveDomain(
+      this.elementRegistryService.getUsedIcons()
+    );
   }
 
   exportDomain(): void {
