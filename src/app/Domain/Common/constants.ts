@@ -7,7 +7,8 @@ export const INITIAL_DESCRIPTION = '< description >';
 export const INITIAL_DOMAIN_NAME = '[icons: default]';
 
 /** AUTOSAVE **/
-export const MAX_AUTOSAVES = 5;
+export const DEFAULT_AUTOSAVES_AMOUNT = 5;
+export const DEFAULT_AUTOSAVES_INTERVAL = 1;
 
 /** LocalStorageTags **/
 export const AUTOSAVE_TAG = 'autosaveTag';

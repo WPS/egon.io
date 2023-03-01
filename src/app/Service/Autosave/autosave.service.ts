@@ -3,22 +3,18 @@ import { RendererService } from '../Renderer/renderer.service';
 import { ExportService } from '../Export/export.service';
 import { Autosave } from '../../Domain/Autosave/autosave';
 import { AutosaveStateService } from './autosave-state.service';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.service';
 import { elementTypes } from '../../Domain/Common/elementTypes';
 import { fromConfigurationFromFile } from '../../Domain/Common/domainConfiguration';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { TitleService } from '../Title/title.service';
+import { AutosaveState } from './autosave-state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AutosaveService {
-  readonly autosaveEnabled$: Observable<boolean>;
-
   private autosaveTimer: any;
-  private autosaveInterval = new BehaviorSubject(5); // in min
-  private maxAutosaves: number;
 
   constructor(
     private rendererService: RendererService,
@@ -28,12 +24,15 @@ export class AutosaveService {
     private storageService: StorageService,
     private titleService: TitleService
   ) {
-    this.maxAutosaves = storageService.getMaxAutosaves();
-    this.autosaveEnabled$ = this.autosaveStateService.autosaveEnabled$;
-    this.loadAutosaveInterval();
-    if (this.autosaveStateService.getAutosaveState()) {
-      this.startTimer();
-    }
+    this.autosaveStateService.state$.subscribe(
+      state => this.updateState(state)
+    );
+  }
+
+  loadCurrentAutosaves(): Autosave[] {
+    const autosaves = this.storageService.getAutosaves();
+    this.sortAutosaves(autosaves);
+    return autosaves;
   }
 
   loadAutosave(autosave: Autosave): void {
@@ -63,27 +62,32 @@ export class AutosaveService {
     this.rendererService.importStory(story, true, config, false);
   }
 
-  changeAutosaveInterval(interval: number): void {
-    this.autosaveInterval.next(interval);
-    this.saveAutosaveInterval();
-    if (this.autosaveEnabled$) {
-      this.stopTimer();
-      this.startTimer();
+  private updateState(state: AutosaveState) {
+    this.stopTimer();
+
+    if (state.activated) {
+      this.startTimer(state.interval, state.amount);
     }
   }
 
-  startAutosaving(): void {
-    this.autosaveStateService.setAutosaveState(true);
-    this.startTimer();
+  private stopTimer(): void {
+    if (this.autosaveTimer) {
+      console.log('stopped Timer');
+      clearInterval(this.autosaveTimer);
+      this.autosaveTimer = undefined;
+    }
   }
 
-  stopAutosaving(): void {
-    this.autosaveStateService.setAutosaveState(false);
-    this.stopTimer();
-  }
-
-  getAutosaveInterval(): number {
-    return this.autosaveInterval.value;
+  private startTimer(interval: number, amount: number): void {
+    console.log(`startTimer(interval=${interval}, amount=${amount})`);
+    this.autosaveTimer = setInterval(() => {
+      const currentAutosaves = this.loadCurrentAutosaves();
+      if (currentAutosaves.length > amount) {
+        currentAutosaves.pop();
+      }
+      currentAutosaves.unshift(this.createAutosave());
+      this.storageService.setAutosaves(currentAutosaves);
+    }, interval * 60000);
   }
 
   private createAutosave(): Autosave {
@@ -100,35 +104,6 @@ export class AutosaveService {
     };
   }
 
-  setMaxAutosaves(amount: number) {
-    this.maxAutosaves = amount;
-    this.storageService.setMaxAutosaves(amount);
-  }
-
-  getMaxAutosaves(): number {
-    return this.maxAutosaves;
-  }
-
-  private stopTimer(): void {
-    clearInterval(this.autosaveTimer);
-  }
-
-  private startTimer(): void {
-    this.autosaveTimer = setInterval(() => {
-      const currentAutosaves = this.loadCurrentAutosaves();
-      if (currentAutosaves.length > this.maxAutosaves) {
-        currentAutosaves.pop();
-      }
-      currentAutosaves.unshift(this.createAutosave());
-      this.storageService.setAutosaves(currentAutosaves);
-    }, this.autosaveInterval.getValue() * 60000);
-  }
-  loadCurrentAutosaves(): Autosave[] {
-    const autosaves = this.storageService.getAutosaves();
-    this.sortAutosaves(autosaves);
-    return autosaves;
-  }
-
   private sortAutosaves(autosaves: Autosave[]): void {
     autosaves.sort((a: Autosave, b: Autosave) => {
       const aDate = Date.parse(a.date);
@@ -139,16 +114,5 @@ export class AutosaveService {
       }
       return 1;
     });
-  }
-
-  private loadAutosaveInterval(): void {
-    const autosaveIntervalString = this.storageService.getAutosaveInterval();
-    if (autosaveIntervalString) {
-      this.autosaveInterval.next(JSON.parse(autosaveIntervalString));
-    }
-  }
-
-  private saveAutosaveInterval(): void {
-    this.storageService.setAutosaveInterval(this.autosaveInterval.value);
   }
 }

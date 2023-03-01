@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
-  AUTOSAVE_ACTIVATED_TAG,
-  AUTOSAVE_AMOUNT_TAG,
-  AUTOSAVE_INTERVAL_TAG,
   AUTOSAVE_TAG,
   DOMAIN_CONFIGURATION_TAG,
-  MAX_AUTOSAVES,
 } from '../../Domain/Common/constants';
 import { Autosave } from '../../Domain/Autosave/autosave';
 import {
@@ -17,23 +13,21 @@ import {
   providedIn: 'root',
 })
 export class StorageService {
-  setAutosaveEnabled(enabled: boolean): void {
-    localStorage.setItem(
-      AUTOSAVE_ACTIVATED_TAG,
-      JSON.stringify(enabled, null, 2)
-    );
+
+  set(key: string, value: any) {
+    localStorage.setItem(key, JSON.stringify(value));
   }
 
-  getAutosaveEnabled() {
-    return JSON.parse(localStorage.getItem(AUTOSAVE_ACTIVATED_TAG) || 'false');
+  get(key: string): any {
+    const json = localStorage.getItem(key);
+    if (json) {
+      return JSON.parse(json);
+    }
+    return null;
   }
 
-  getMaxAutosaves(): number {
-    return Number(localStorage.getItem(AUTOSAVE_AMOUNT_TAG) || MAX_AUTOSAVES);
-  }
-
-  setMaxAutosaves(amount: number): void {
-    localStorage.setItem(AUTOSAVE_AMOUNT_TAG, '' + amount);
+  removeItem(key: string) {
+    localStorage.removeItem(key);
   }
 
   setAutosaves(currentAutosaves: Autosave[]): void {
@@ -52,14 +46,6 @@ export class StorageService {
       }
     }
     return [];
-  }
-
-  getAutosaveInterval(): string | null {
-    return localStorage.getItem(AUTOSAVE_INTERVAL_TAG);
-  }
-
-  setAutosaveInterval(interval: number): void {
-    localStorage.setItem(AUTOSAVE_INTERVAL_TAG, '' + interval);
   }
 
   checkValidityOfConfiguration(configuratioFromFile: DomainConfiguration) {

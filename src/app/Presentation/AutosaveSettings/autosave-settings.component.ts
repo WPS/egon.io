@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AutosaveService } from '../../Service/Autosave/autosave.service';
 import { Autosave } from '../../Domain/Autosave/autosave';
 import { AutosaveStateService } from '../../Service/Autosave/autosave-state.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SNACKBAR_DURATION, SNACKBAR_ERROR, SNACKBAR_SUCCESS } from 'src/app/Domain/Common/constants';
 
 @Component({
   selector: 'app-autosave-settings',
@@ -10,19 +12,12 @@ import { AutosaveStateService } from '../../Service/Autosave/autosave-state.serv
 })
 export class AutosaveSettingsComponent implements OnInit {
   autosaves: Autosave[] = [];
-  autosaveEnabled: boolean;
-  autosaveInterval: number;
-
-  autosaveAmount: number;
 
   constructor(
     private autosaveService: AutosaveService,
-    private autosaveStateService: AutosaveStateService
-  ) {
-    this.autosaveAmount = this.autosaveService.getMaxAutosaves();
-    this.autosaveInterval = this.autosaveService.getAutosaveInterval();
-    this.autosaveEnabled = this.autosaveStateService.getAutosaveState();
-  }
+    protected autosaveStateService: AutosaveStateService,
+    private snackbar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
     this.autosaves = this.autosaveService.loadCurrentAutosaves();
@@ -32,25 +27,17 @@ export class AutosaveSettingsComponent implements OnInit {
     this.autosaveService.loadAutosave(autosave);
   }
 
-  setInterval($event: any): void {
-    this.autosaveInterval = $event.target.value;
-  }
-
-  setAutosaveEnabled(): void {
-    this.autosaveEnabled = !this.autosaveEnabled;
-  }
-
-  setAutosaveAmount($event: any) {
-    this.autosaveAmount = $event.target.value;
-  }
-
-  save() {
-    this.autosaveService.changeAutosaveInterval(this.autosaveInterval);
-
-    if (this.autosaveEnabled) {
-      this.autosaveService.startAutosaving();
+  save(activated: boolean, amount: number, interval: number) {
+    if (this.autosaveStateService.setState({ activated, amount, interval })) {
+      this.snackbar.open('Settings for Autosave saved', undefined, {
+        duration: SNACKBAR_DURATION,
+        panelClass: SNACKBAR_SUCCESS
+      });
     } else {
-      this.autosaveService.stopAutosaving();
+      this.snackbar.open('Unable to save settings for Autosave - please try again', undefined, {
+        duration: 2 * SNACKBAR_DURATION,
+        panelClass: SNACKBAR_ERROR
+      });
     }
   }
 }

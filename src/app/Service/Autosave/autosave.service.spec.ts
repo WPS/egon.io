@@ -8,8 +8,8 @@ import { ExportService } from '../Export/export.service';
 import { AutosaveStateService } from './autosave-state.service';
 import { Autosave } from '../../Domain/Autosave/autosave';
 import { testConfigAndDst } from '../../Domain/Export/configAndDst';
-import { BehaviorSubject } from 'rxjs';
 import { StorageService } from '../BrowserStorage/storage.service';
+import { of } from 'rxjs';
 
 describe('AutosaveService', () => {
   let service: AutosaveService;
@@ -17,24 +17,14 @@ describe('AutosaveService', () => {
   let rendererServiceSpy: jasmine.SpyObj<RendererService>;
   let autosaveStateSpy: jasmine.SpyObj<AutosaveStateService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  const autosaveStateServiceMock = jasmine.createSpyObj('AutosaveStateService', ['setState'], {'state$': of({ activated: true, amount: 1, interval: 1})});
 
   beforeEach(() => {
     const renderServiceMock = jasmine.createSpyObj('RendererService', [
       'importStory',
       'getStory',
     ]);
-    const autosaveStateServiceMock = jasmine.createSpyObj(
-      'AutosaveStateService',
-      ['getAutosaveStateAsObservable', 'getAutosaveState', 'setAutosaveState']
-    );
-    const storageServiceMock = jasmine.createSpyObj('StorageService', [
-      'setAutosaveInterval',
-      'getAutosaveInterval',
-      'getAutosaves',
-      'setAutosaves',
-      'setMaxAutosaves',
-      'getMaxAutosaves',
-    ]);
+    const storageServiceMock = jasmine.createSpyObj('StorageService', ['getAutosaves', 'setAutosaves']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -53,18 +43,9 @@ describe('AutosaveService', () => {
         MockProviders(DomainConfigurationService, ExportService),
       ],
     });
-    rendererServiceSpy = TestBed.inject(
-      RendererService
-    ) as jasmine.SpyObj<RendererService>;
-    autosaveStateSpy = TestBed.inject(
-      AutosaveStateService
-    ) as jasmine.SpyObj<AutosaveStateService>;
-    storageServiceSpy = TestBed.inject(
-      StorageService
-    ) as jasmine.SpyObj<StorageService>;
-
-    autosaveStateSpy.getAutosaveState.and.returnValue(false);
-    autosaveStateSpy.setAutosaveState.and.returnValue();
+    rendererServiceSpy = TestBed.inject(RendererService) as jasmine.SpyObj<RendererService>;
+    autosaveStateSpy = TestBed.inject(AutosaveStateService) as jasmine.SpyObj<AutosaveStateService>;
+    storageServiceSpy = TestBed.inject(StorageService) as jasmine.SpyObj<StorageService>;
 
     service = TestBed.inject(AutosaveService);
   });
@@ -83,18 +64,6 @@ describe('AutosaveService', () => {
         createEmptyAutosave(Date.now().toString().slice(0, 25))
       );
       expect(rendererServiceSpy.importStory).toHaveBeenCalled();
-    });
-  });
-
-  describe('start & stop Autosaving', () => {
-    it('should setAutosaveState true when starting', () => {
-      service.startAutosaving();
-      expect(autosaveStateSpy.setAutosaveState).toHaveBeenCalledWith(true);
-    });
-
-    it('should setAutosaveState false when stopping', () => {
-      service.stopAutosaving();
-      expect(autosaveStateSpy.setAutosaveState).toHaveBeenCalledWith(false);
     });
   });
 
@@ -126,10 +95,6 @@ describe('AutosaveService', () => {
       expect(storageServiceSpy.getAutosaves).toHaveBeenCalled();
       expect(loadedAutosaves).toEqual(autosaves);
     });
-  });
-
-  afterEach(() => {
-    service.stopAutosaving();
   });
 
   function createEmptyAutosave(date: string): Autosave {

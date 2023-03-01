@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AutosaveSettingsComponent } from './autosave-settings.component';
-import { MockModule, MockService } from 'ng-mocks';
+import { MockModule, MockProviders, MockService } from 'ng-mocks';
 import { AutosaveService } from '../../Service/Autosave/autosave.service';
 import { AutosaveStateService } from '../../Service/Autosave/autosave-state.service';
 import { MaterialModule } from 'src/app/material.module';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('AutosaveSettingsComponent', () => {
   let component: AutosaveSettingsComponent;
@@ -22,6 +23,7 @@ describe('AutosaveSettingsComponent', () => {
         {
           provide: AutosaveStateService,
         },
+        MockProviders(MatSnackBar)
       ],
     }).compileComponents();
   });

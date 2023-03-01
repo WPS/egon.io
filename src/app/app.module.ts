@@ -73,6 +73,10 @@ import { MaterialModule } from './material.module';
   ],
 })
 export class AppModule implements DoBootstrap {
+  constructor(private autosaveService: AutosaveService) {
+    // autosaveService wird so automatisch initialisiert, auf keinen Fall entfernen!
+  }
+
   ngDoBootstrap(app: ApplicationRef): void {
     const componentElement = document.createElement('app-root');
     document.body.append(componentElement);

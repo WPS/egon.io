@@ -13,11 +13,7 @@ describe('AutosaveStateService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MockProvider(StorageService, {
-          getAutosaveEnabled() {
-            return false;
-          },
-        }),
+        MockProvider(StorageService),
       ],
     });
 
@@ -26,21 +22,5 @@ describe('AutosaveStateService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('should initialize disabled', () => {
-    expect(service.getAutosaveState()).toBeFalse();
-    service
-      .autosaveEnabled$
-      .subscribe((value) => expect(value).toBeFalse());
-  });
-
-  it('should set state', () => {
-    service.setAutosaveState(true);
-
-    expect(service.getAutosaveState()).toBeTrue();
-    service
-      .autosaveEnabled$
-      .subscribe((value) => expect(value).toBeTrue());
   });
 });

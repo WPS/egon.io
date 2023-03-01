@@ -13,17 +13,14 @@ import { DomainCustomizationService } from '../../Service/DomainConfiguration/do
 })
 export class SettingsComponent {
   domainConfiguration: DomainConfiguration | undefined;
-  autosaveEnable: Observable<boolean>;
   showGeneralSettings = new BehaviorSubject<boolean>(false);
   showDomainCustomization = new BehaviorSubject<boolean>(true);
 
   constructor(
     private settingsService: SettingsService,
     private modelerService: ModelerService,
-    private autosaveStateService: AutosaveStateService,
     private domainCustomizationService: DomainCustomizationService
   ) {
-    this.autosaveEnable = autosaveStateService.autosaveEnabled$;
   }
 
   close(): void {

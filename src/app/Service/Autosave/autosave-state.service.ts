@@ -1,37 +1,69 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
+import { AUTOSAVE_ACTIVATED_TAG, AUTOSAVE_AMOUNT_TAG, AUTOSAVE_INTERVAL_TAG, DEFAULT_AUTOSAVES_INTERVAL, DEFAULT_AUTOSAVES_AMOUNT } from 'src/app/Domain/Common/constants';
 import { StorageService } from '../BrowserStorage/storage.service';
+import { AutosaveState } from './autosave-state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AutosaveStateService {
-  private autosaveEnabled = new BehaviorSubject<boolean>(false);
-  autosaveEnabled$ = this.autosaveEnabled.asObservable();
+
+  private state: AutosaveState = {
+    activated: false,
+    amount: DEFAULT_AUTOSAVES_AMOUNT,
+    interval: DEFAULT_AUTOSAVES_INTERVAL
+  };
+  private readonly stateSubject = new ReplaySubject<AutosaveState>(1);
+  readonly state$ = this.stateSubject.asObservable();
 
   constructor(private storageService: StorageService) {
-    this.readAutosaveState();
+    this.initializeState();
   }
 
-  private readAutosaveState(): void {
-    const storedAutosafeState = this.isAutosaveEnabled();
-    this.autosaveEnabled.next(storedAutosafeState);
+  private initializeState() {
+    this.state = {
+      activated: this.readAutosaveEnabled(),
+      amount: this.readAutosaveAmount(),
+      interval: this.readAutosaveInterval()
+    };
+    this.stateSubject.next(this.state);
   }
 
-  setAutosaveState(enabled: boolean): void {
-    this.setAutosaveEnabled(enabled);
-    this.autosaveEnabled.next(enabled);
+  setState(state: AutosaveState): boolean {
+    try {
+      this.writeAutosaveEnabled(state.activated);
+      this.writeAutosaveAmount(state.amount);
+      this.writeAutosaveInterval(state.interval);
+      this.state = state;
+      this.stateSubject.next(this.state);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
-  getAutosaveState(): boolean {
-    return this.autosaveEnabled.getValue();
+  private readAutosaveEnabled(): boolean {
+    return this.storageService.get(AUTOSAVE_ACTIVATED_TAG) ?? false;
   }
 
-  private setAutosaveEnabled(enabled: boolean): void {
-    this.storageService.setAutosaveEnabled(enabled);
+  private readAutosaveAmount(): number {
+    return + (this.storageService.get(AUTOSAVE_AMOUNT_TAG) ?? DEFAULT_AUTOSAVES_AMOUNT);
   }
 
-  private isAutosaveEnabled(): boolean {
-    return this.storageService.getAutosaveEnabled();
+  private readAutosaveInterval(): number {
+    return + (this.storageService.get(AUTOSAVE_INTERVAL_TAG) ?? DEFAULT_AUTOSAVES_INTERVAL);
+  }
+
+  private writeAutosaveEnabled(value: boolean) {
+    this.storageService.set(AUTOSAVE_ACTIVATED_TAG, value);
+  }
+
+  private writeAutosaveInterval(value: number) {
+    this.storageService.set(AUTOSAVE_INTERVAL_TAG, value);
+  }
+
+  private writeAutosaveAmount(value: number) {
+    this.storageService.set(AUTOSAVE_AMOUNT_TAG, value);
   }
 }
