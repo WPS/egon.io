@@ -72,14 +72,12 @@ export class AutosaveService {
 
   private stopTimer(): void {
     if (this.autosaveTimer) {
-      console.log('stopped Timer');
       clearInterval(this.autosaveTimer);
       this.autosaveTimer = undefined;
     }
   }
 
   private startTimer(interval: number, amount: number): void {
-    console.log(`startTimer(interval=${interval}, amount=${amount})`);
     this.autosaveTimer = setInterval(() => {
       const currentAutosaves = this.loadCurrentAutosaves();
       if (currentAutosaves.length > amount) {
