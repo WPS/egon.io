@@ -6,17 +6,13 @@ export const INITIAL_TITLE = '< title >';
 export const INITIAL_DESCRIPTION = '< description >';
 export const INITIAL_DOMAIN_NAME = '[icons: default]';
 
-/** AUTOSAVE **/
-export const DEFAULT_AUTOSAVES_AMOUNT = 5;
-export const DEFAULT_AUTOSAVES_INTERVAL = 5;
-
 /** LocalStorageTags **/
-export const AUTOSAVE_TAG = 'autosaveTag';
-export const AUTOSAVE_AMOUNT_TAG = 'autosaveAmountTag';
-export const AUTOSAVE_INTERVAL_TAG = 'autosaveIntervalTag';
-export const AUTOSAVE_ACTIVATED_TAG = 'autosaveActivatedTag';
 export const APPENDED_ICONS_TAG = 'appendedIcons';
 export const DOMAIN_CONFIGURATION_TAG = 'domainConfigurationTag';
+
+/** AUTOSAVE DEFAULTS **/
+export const DEFAULT_AUTOSAVES_AMOUNT = 5;
+export const DEFAULT_AUTOSAVES_INTERVAL = 5;
 
 /** SNACKBAR **/
 export const SNACKBAR_DURATION = 2000;

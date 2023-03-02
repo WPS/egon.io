@@ -1,28 +1,27 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AutosaveService } from './autosave.service';
+import { AutosaveService, DRAFTS_TAG } from './autosave.service';
 import { MockProviders } from 'ng-mocks';
 import { RendererService } from '../Renderer/renderer.service';
 import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
 import { ExportService } from '../Export/export.service';
-import { AutosaveStateService } from './autosave-state.service';
-import { Autosave } from '../../Domain/Autosave/autosave';
+import { AutosaveConfigurationService } from './autosave-configuration.service';
+import { Draft } from '../../Domain/Autosave/draft';
 import { testConfigAndDst } from '../../Domain/Export/configAndDst';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { of } from 'rxjs';
-import { AUTOSAVE_TAG } from 'src/app/Domain/Common/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('AutosaveService', () => {
   let service: AutosaveService;
 
   let rendererServiceSpy: jasmine.SpyObj<RendererService>;
-  let autosaveStateSpy: jasmine.SpyObj<AutosaveStateService>;
+  let autosaveStateSpy: jasmine.SpyObj<AutosaveConfigurationService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  const autosaveStateServiceMock = jasmine.createSpyObj(
-    'AutosaveStateService',
-    ['setState'],
-    { state$: of({ activated: true, amount: 1, interval: 1 }) }
+  const autosaveConfigurationServiceMock = jasmine.createSpyObj(
+    'AutosaveConfigurationService',
+    ['setConfiguration'],
+    { configuration$: of({ activated: true, amount: 1, interval: 1 }) }
   );
 
   beforeEach(() => {
@@ -39,8 +38,8 @@ describe('AutosaveService', () => {
           useValue: renderServiceMock,
         },
         {
-          provide: AutosaveStateService,
-          useValue: autosaveStateServiceMock,
+          provide: AutosaveConfigurationService,
+          useValue: autosaveConfigurationServiceMock,
         },
         {
           provide: StorageService,
@@ -53,8 +52,8 @@ describe('AutosaveService', () => {
       RendererService
     ) as jasmine.SpyObj<RendererService>;
     autosaveStateSpy = TestBed.inject(
-      AutosaveStateService
-    ) as jasmine.SpyObj<AutosaveStateService>;
+      AutosaveConfigurationService
+    ) as jasmine.SpyObj<AutosaveConfigurationService>;
     storageServiceSpy = TestBed.inject(
       StorageService
     ) as jasmine.SpyObj<StorageService>;
@@ -72,7 +71,7 @@ describe('AutosaveService', () => {
     });
 
     it('should call rendererService.importStory', () => {
-      service.loadAutosave(
+      service.loadDraft(
         createEmptyAutosave(Date.now().toString().slice(0, 25))
       );
       expect(rendererServiceSpy.importStory).toHaveBeenCalled();
@@ -80,7 +79,7 @@ describe('AutosaveService', () => {
   });
 
   describe('loadCurrentAutosaves', () => {
-    let autosaves: Autosave[] = [];
+    let autosaves: Draft[] = [];
 
     beforeEach(() => {
       autosaves = [
@@ -92,24 +91,24 @@ describe('AutosaveService', () => {
     });
 
     it('should getItem from local Storage', () => {
-      storageServiceSpy.get.withArgs(AUTOSAVE_TAG).and.returnValue([]);
-      const loadedAutosaves = service.loadCurrentAutosaves();
+      storageServiceSpy.get.withArgs(DRAFTS_TAG).and.returnValue([]);
+      const loadedAutosaves = service.loadCurrentDrafts();
 
-      expect(storageServiceSpy.get).toHaveBeenCalledWith(AUTOSAVE_TAG);
+      expect(storageServiceSpy.get).toHaveBeenCalledWith(DRAFTS_TAG);
       expect(loadedAutosaves).toEqual([]);
     });
 
     it('should return sorted autosaves', () => {
-      storageServiceSpy.get.withArgs(AUTOSAVE_TAG).and.returnValue(autosaves);
+      storageServiceSpy.get.withArgs(DRAFTS_TAG).and.returnValue(autosaves);
 
-      const loadedAutosaves = service.loadCurrentAutosaves();
+      const loadedAutosaves = service.loadCurrentDrafts();
 
-      expect(storageServiceSpy.get).toHaveBeenCalledWith(AUTOSAVE_TAG);
+      expect(storageServiceSpy.get).toHaveBeenCalledWith(DRAFTS_TAG);
       expect(loadedAutosaves).toEqual(autosaves);
     });
   });
 
-  function createEmptyAutosave(date: string): Autosave {
+  function createEmptyAutosave(date: string): Draft {
     return {
       description: 'desc',
       title: 'title',

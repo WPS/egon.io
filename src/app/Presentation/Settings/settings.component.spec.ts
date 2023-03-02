@@ -4,7 +4,7 @@ import { SettingsComponent } from 'src/app/Presentation/Settings/settings.compon
 import { SettingsService } from '../../Service/Settings/settings.service';
 import { MockComponent, MockProviders } from 'ng-mocks';
 import { ModelerService } from '../../Service/Modeler/modeler.service';
-import { AutosaveStateService } from '../../Service/Autosave/autosave-state.service';
+import { AutosaveConfigurationService } from '../../Service/Autosave/autosave-configuration.service';
 import { DomainCustomizationService } from '../../Service/DomainConfiguration/domain-customization.service';
 import { DomainConfigurationComponent } from '../DomainConfiguration/domain-configuration.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -24,7 +24,7 @@ describe('SettingsComponent', () => {
         MockProviders(
           SettingsService,
           ModelerService,
-          AutosaveStateService,
+          AutosaveConfigurationService,
           DomainCustomizationService
         ),
       ],

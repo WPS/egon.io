@@ -3,7 +3,7 @@ import { SettingsService } from 'src/app/Service/Settings/settings.service';
 import { ModelerService } from 'src/app/Service/Modeler/modeler.service';
 import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AutosaveStateService } from '../../Service/Autosave/autosave-state.service';
+import { AutosaveConfigurationService } from '../../Service/Autosave/autosave-configuration.service';
 import { DomainCustomizationService } from '../../Service/DomainConfiguration/domain-customization.service';
 
 @Component({

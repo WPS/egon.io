@@ -31,10 +31,7 @@
 }
 
 .cardContent {
-  padding-left: 0;
-  padding-right: 0;
-  display: inline-flex;
-  width: calc(100% - 15px);
+  display: flex;
   justify-content: space-between;
 }
 
@@ -51,3 +48,4 @@
 .alignSelfCenter {
   align-self: center;
 }
+

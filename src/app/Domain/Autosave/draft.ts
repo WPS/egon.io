@@ -1,6 +1,6 @@
 import { ConfigAndDST } from '../Export/configAndDst';
 
-export interface Autosave {
+export interface Draft {
   title: string;
   description: string;
   configAndDST: ConfigAndDST;

@@ -2,6 +2,10 @@ mat-toolbar * {
   color: white;
 }
 
+app-general-settings {
+  overflow-y: auto;
+}
+
 .settings {
   display: grid;
   grid-template-rows: 65px auto;

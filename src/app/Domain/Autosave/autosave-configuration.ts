@@ -1,4 +1,4 @@
-export interface AutosaveState {
+export interface AutosaveConfiguration {
   activated: boolean;
   amount: number;
   interval: number;
