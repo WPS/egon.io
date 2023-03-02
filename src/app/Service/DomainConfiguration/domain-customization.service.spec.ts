@@ -19,6 +19,7 @@ import {
 } from '../../Domain/Common/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StorageService } from '../BrowserStorage/storage.service';
+import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 
 describe('DomainCustomizationService', () => {
   let service: DomainCustomizationService;
@@ -45,6 +46,9 @@ describe('DomainCustomizationService', () => {
     const storageServiceMock = jasmine.createSpyObj('StorageService', [
       'setStoredDomainConfiguration',
       'getStoredDomainConfiguration',
+    ]);
+    const elementRegistryServiceMock = jasmine.createSpyObj('ElementRegistryService', [
+      'getUsedIcons',
     ]);
 
     TestBed.configureTestingModule({
@@ -76,6 +80,10 @@ describe('DomainCustomizationService', () => {
           provide: DomainConfigurationService,
           useValue: configurationServiceMock,
         },
+        {
+          provide: ElementRegistryService,
+          useValue: elementRegistryServiceMock
+        }
       ],
     });
     matSnackbarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;
@@ -148,7 +156,7 @@ describe('DomainCustomizationService', () => {
       );
 
       expect(matSnackbarSpy.open).toHaveBeenCalledWith(
-        'Configuration saved sucessfully',
+        'Configuration imported successfully',
         undefined,
         {
           duration: SNACKBAR_DURATION,
