@@ -11,11 +11,18 @@ import { of } from 'rxjs';
 describe('AutosavedDraftsComponent', () => {
   let component: AutosavedDraftsComponent;
   let fixture: ComponentFixture<AutosavedDraftsComponent>;
+  let autosaveServiceSpy: jasmine.SpyObj<AutosaveService>;
 
   const autosaveConfigurationServiceMock = jasmine.createSpyObj(
     'AutosaveConfigurationService',
     ['setConfiguration'],
     { configuration$: of({ activated: true, amount: 1, interval: 1 }) }
+  );
+
+  const autosaveServiceMock = jasmine.createSpyObj(
+    'AutosaveService',
+    ['loadCurrentDrafts', 'loadDraft', 'removeAllDrafts'],
+    { autosavedDraftsChanged$: of() }
   );
 
   beforeEach(async () => {
@@ -25,7 +32,7 @@ describe('AutosavedDraftsComponent', () => {
       providers: [
         {
           provide: AutosaveService,
-          useValue: MockService(AutosaveService),
+          useValue: autosaveServiceMock,
         },
         {
           provide: AutosaveConfigurationService,
@@ -34,6 +41,11 @@ describe('AutosavedDraftsComponent', () => {
         MockProviders(MatSnackBar)
       ],
     }).compileComponents();
+
+    autosaveServiceSpy = TestBed.inject(
+      AutosaveService
+    ) as jasmine.SpyObj<AutosaveService>;
+    autosaveServiceSpy.loadCurrentDrafts.and.returnValue([]);
   });
 
   beforeEach(() => {
