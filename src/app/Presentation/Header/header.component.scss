@@ -5,8 +5,8 @@
 .description {
   top: 0;
   max-width: 100vw;
-  overflow-y: scroll;
-  display: grid;
+  max-height: 150px;
+  overflow-y: auto;
 }
 
 .descriptionText {
@@ -17,8 +17,6 @@
   white-space: pre-wrap;
   padding-left: 15px;
   padding-right: 15px;
-
-  align-self: center;
 
   line-height: 12pt;
 }

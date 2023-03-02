@@ -15,5 +15,5 @@
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-card class="smallScrollbar description" *ngIf="showDescription$ | async">
-  <span class="descriptionText">{{ description$ | async }}</span>
+  <div class="descriptionText">{{ description$ | async }}</div>
 </mat-card>

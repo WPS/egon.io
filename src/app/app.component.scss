@@ -8,26 +8,17 @@
 .headerAndCanvas {
   height: 100%;
   width: 100%;
-  display: grid;
-  grid-template-rows: 220px auto;
   overflow: hidden;
 }
 
 .headerAndCanvasCollapsed {
   height: 100%;
   width: 100%;
-  display: grid;
-  grid-template-rows: 65px auto;
   overflow: hidden;
 }
 
 .settings {
   height: 100%;
-}
-
-.header {
-  display: grid;
-  grid-template-rows: 65px 155px;
 }
 
 /* Logo Container */
