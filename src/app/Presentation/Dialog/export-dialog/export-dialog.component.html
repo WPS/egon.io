@@ -11,8 +11,11 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <br />
-  <div *ngFor="let option of options; let i = index">
+
+  <div>
+    <button mat-flat-button (click)="close()">Cancel</button>
     <button
+      *ngFor="let option of options; let i = index"
       mat-stroked-button
       class="mr-1"
       [title]="option.tooltip"
