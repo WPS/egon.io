@@ -39,7 +39,7 @@ export class TitleService {
 
   private updateTitle(title: string | null): void {
     this.titleSubject.next(title ?? this.titleSubject.value);
-    document.title = title + ' - egon.io';
+    document.title = title ?? this.titleSubject.value + ' - egon.io';
   }
 
   private updateDescription(description: string | null): void {
