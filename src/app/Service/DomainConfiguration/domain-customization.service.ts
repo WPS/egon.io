@@ -118,7 +118,7 @@ export class DomainCustomizationService {
   isIconActor(iconName: string): boolean {
     return (
       this.domainConfigurationTypes.value.actors.filter((actor: string) =>
-        actor?.includes(iconName)
+        actor === iconName
       ).length > 0
     );
   }
@@ -126,7 +126,7 @@ export class DomainCustomizationService {
   isIconWorkObject(iconName: string): boolean {
     return (
       this.domainConfigurationTypes.value.workObjects.filter(
-        (workObject: string) => workObject.includes(iconName)
+        (workObject: string) => workObject === iconName
       ).length > 0
     );
   }
