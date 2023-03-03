@@ -19,14 +19,12 @@ export class StoryCreatorService {
     const activities = this.elementRegistryService.getActivitiesFromActors();
 
     activities.forEach((activity) => {
-      const activityNumber = activity.businessObject.number;
-      if (typeof activityNumber === 'number') {
-        const tracedItem = tracedActivityMap.get(`${activityNumber - 1}`)
-          ? tracedActivityMap.get(`${activityNumber - 1}`)
-          : [];
-        tracedItem.push(activity);
-        tracedActivityMap.set(`${activityNumber - 1}`, tracedItem);
-      }
+      const activityNumber = Number(activity.businessObject.number); // Sometimes the activityNumber is a string for some reason
+      const tracedItem = tracedActivityMap.get(`${activityNumber - 1}`)
+        ? tracedActivityMap.get(`${activityNumber - 1}`)
+        : [];
+      tracedItem.push(activity);
+      tracedActivityMap.set(`${activityNumber - 1}`, tracedItem);
     });
 
     for (let i = 0; i < tracedActivityMap.keysArray().length; i++) {
