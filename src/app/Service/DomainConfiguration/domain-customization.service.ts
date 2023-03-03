@@ -325,7 +325,7 @@ export class DomainCustomizationService {
       }
     } else {
       this.snackbar.open(
-        imported ? 'Nothing to be imported' : 'Nothing to be saved',
+        imported ? 'No configuration to be imported' : 'No configuration to be saved',
         undefined,
         {
           duration: SNACKBAR_DURATION,
