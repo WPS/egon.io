@@ -82,6 +82,11 @@
   height: calc(100vh - 130px);
 }
 
+.domainDetails {
+  overflow-y: scroll;
+  height: calc(100vh - 65px);
+}
+
 ::ng-deep.mat-grid-tile {
   .mat-grid-tile-content {
     justify-content: inherit;
