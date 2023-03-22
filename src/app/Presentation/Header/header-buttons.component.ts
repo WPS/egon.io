@@ -22,8 +22,7 @@ import { HeaderDialogComponent } from '../Dialog/header-dialog/header-dialog.com
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
-  SNACKBAR_INFO,
-  SNACKBAR_WARNING,
+  SNACKBAR_INFO
 } from '../../Domain/Common/constants';
 
 @Component({
@@ -182,7 +181,7 @@ export class HeaderButtonsComponent {
         undefined,
         {
           duration: SNACKBAR_DURATION,
-          panelClass: SNACKBAR_WARNING,
+          panelClass: SNACKBAR_INFO,
         }
       );
     }

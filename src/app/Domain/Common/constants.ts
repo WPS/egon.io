@@ -17,7 +17,6 @@ export const DEFAULT_AUTOSAVES_INTERVAL = 5;
 /** SNACKBAR **/
 export const SNACKBAR_DURATION = 2000;
 export const SNACKBAR_SUCCESS = 'snackbar_success';
-export const SNACKBAR_WARNING = 'snackbar_warning';
 export const SNACKBAR_ERROR = 'snackbar_error';
 export const SNACKBAR_INFO = 'snackbar_info';
 

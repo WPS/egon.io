@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
-  SNACKBAR_WARNING,
+  SNACKBAR_INFO,
 } from '../../Domain/Common/constants';
 
 @Injectable({
@@ -83,14 +83,14 @@ export class ReplayService {
           undefined,
           {
             duration: SNACKBAR_DURATION * 2,
-            panelClass: SNACKBAR_WARNING,
+            panelClass: SNACKBAR_INFO,
           }
         );
       }
     } else {
       this.snackbar.open('You need a Domain Story for replay.', undefined, {
         duration: SNACKBAR_DURATION * 2,
-        panelClass: SNACKBAR_WARNING,
+        panelClass: SNACKBAR_INFO,
       });
     }
   }

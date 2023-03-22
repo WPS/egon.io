@@ -17,7 +17,6 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
   SNACKBAR_SUCCESS,
-  SNACKBAR_WARNING,
 } from '../../Domain/Common/constants';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { UsedIconList } from 'src/app/Domain/Domain-Configuration/UsedIconList';
@@ -341,7 +340,7 @@ export class DomainCustomizationService {
           undefined,
           {
             duration: SNACKBAR_DURATION * 3,
-            panelClass: SNACKBAR_WARNING,
+            panelClass: SNACKBAR_INFO,
           }
         );
       }
@@ -352,7 +351,7 @@ export class DomainCustomizationService {
           undefined,
           {
             duration: SNACKBAR_DURATION * 3,
-            panelClass: SNACKBAR_WARNING,
+            panelClass: SNACKBAR_INFO,
           }
         );
       }
