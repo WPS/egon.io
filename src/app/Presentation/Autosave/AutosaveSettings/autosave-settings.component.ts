@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './autosave-settings.component.html',
   styleUrls: ['./autosave-settings.component.scss'],
 })
-export class AutosaveSettingsComponent {
-}
+export class AutosaveSettingsComponent {}

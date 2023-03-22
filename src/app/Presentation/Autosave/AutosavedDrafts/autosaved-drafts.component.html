@@ -3,8 +3,8 @@
     <mat-expansion-panel-header>
       <mat-panel-title> Autosaves </mat-panel-title>
       <mat-panel-description>
-        {{ drafts.length ? drafts.length : 'no' }}
-        {{ drafts.length > 1 ? 'drafts' : 'draft' }} available
+        {{ drafts.length ? drafts.length : "no" }}
+        {{ drafts.length > 1 ? "drafts" : "draft" }} available
       </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="items" *ngIf="drafts.length; else noDrafts">
@@ -13,11 +13,25 @@
           <div class="item-title">{{ draft.title }}</div>
           <div class="item-date">{{ draft.date }}</div>
         </div>
-        <button class="item-button" mat-raised-button color="primary" (click)="loadDraft(draft)">Load Draft</button>
+        <button
+          class="item-button"
+          mat-raised-button
+          color="primary"
+          (click)="loadDraft(draft)"
+        >
+          Load Draft
+        </button>
       </div>
       <div class="item">
         <div></div>
-        <button class="item-button" mat-raised-button color="primary" (click)="removeAllDrafts()">Remove All Drafts</button>
+        <button
+          class="item-button"
+          mat-raised-button
+          color="primary"
+          (click)="removeAllDrafts()"
+        >
+          Remove All Drafts
+        </button>
       </div>
     </div>
   </mat-expansion-panel>

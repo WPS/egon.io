@@ -47,9 +47,10 @@ describe('DomainCustomizationService', () => {
       'setStoredDomainConfiguration',
       'getStoredDomainConfiguration',
     ]);
-    const elementRegistryServiceMock = jasmine.createSpyObj('ElementRegistryService', [
-      'getUsedIcons',
-    ]);
+    const elementRegistryServiceMock = jasmine.createSpyObj(
+      'ElementRegistryService',
+      ['getUsedIcons']
+    );
 
     TestBed.configureTestingModule({
       providers: [
@@ -82,8 +83,8 @@ describe('DomainCustomizationService', () => {
         },
         {
           provide: ElementRegistryService,
-          useValue: elementRegistryServiceMock
-        }
+          useValue: elementRegistryServiceMock,
+        },
       ],
     });
     matSnackbarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;

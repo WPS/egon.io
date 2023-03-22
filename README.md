@@ -7,7 +7,6 @@ A tool to visualize Domain Stories in your browser.
 - See http://domainstorytelling.org for more information on Domain Storytelling.
 - The [Egon.io Website](https://egon.io/) contains a user manual and instructions how to run Egon.
 
-
 ## Development
 
 Download the source code or clone the repository. Please note that we use the main branch for development. The main branch contains the latest features and bug fixes, but they might be undocumented and tested less thoroughly than a release. To be on the safe side, stick with the latest release branch.

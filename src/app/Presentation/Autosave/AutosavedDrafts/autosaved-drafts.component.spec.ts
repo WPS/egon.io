@@ -36,9 +36,9 @@ describe('AutosavedDraftsComponent', () => {
         },
         {
           provide: AutosaveConfigurationService,
-          useValue: autosaveConfigurationServiceMock
+          useValue: autosaveConfigurationServiceMock,
         },
-        MockProviders(MatSnackBar)
+        MockProviders(MatSnackBar),
       ],
     }).compileComponents();
 

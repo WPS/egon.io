@@ -9,7 +9,10 @@ import { fromConfigurationFromFile } from '../../Domain/Common/domainConfigurati
 import { StorageService } from '../BrowserStorage/storage.service';
 import { TitleService } from '../Title/title.service';
 import { AutosaveConfiguration } from '../../Domain/Autosave/autosave-configuration';
-import { SNACKBAR_DURATION, SNACKBAR_INFO } from 'src/app/Domain/Common/constants';
+import {
+  SNACKBAR_DURATION,
+  SNACKBAR_INFO,
+} from 'src/app/Domain/Common/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 
@@ -29,7 +32,7 @@ export class AutosaveService {
     private rendererService: RendererService,
     private snackbar: MatSnackBar,
     private storageService: StorageService,
-    private titleService: TitleService,
+    private titleService: TitleService
   ) {
     this.autosaveConfiguration.configuration$.subscribe((configuration) =>
       this.updateConfiguration(configuration)
@@ -103,16 +106,21 @@ export class AutosaveService {
           drafts.pop();
         }
         this.writeDrafts(drafts);
-        this.snackbar.open('Draft Saved', undefined, { panelClass: SNACKBAR_INFO, duration: SNACKBAR_DURATION });
+        this.snackbar.open('Draft Saved', undefined, {
+          panelClass: SNACKBAR_INFO,
+          duration: SNACKBAR_DURATION,
+        });
         this.autosavedDraftsChanged$.next();
       }
     }, interval * 60000);
   }
 
   private isSame(a: Draft, b: Draft) {
-    return a.title === b.title
-      && a.description === b.description
-      && JSON.stringify(a.configAndDST) === JSON.stringify(b.configAndDST);
+    return (
+      a.title === b.title &&
+      a.description === b.description &&
+      JSON.stringify(a.configAndDST) === JSON.stringify(b.configAndDST)
+    );
   }
 
   private writeDrafts(drafts: Draft[]) {

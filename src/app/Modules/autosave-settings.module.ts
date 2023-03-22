@@ -12,9 +12,7 @@ import { MaterialModule } from '../material.module';
     AutosaveOptionsComponent,
     AutosavedDraftsComponent,
   ],
-  exports: [
-    AutosaveSettingsComponent,
-  ],
+  exports: [AutosaveSettingsComponent],
   imports: [CommonModule, FormsModule, MaterialModule],
 })
 export class AutosaveSettingsModule {}

@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AutosaveService } from '../../../Service/Autosave/autosave.service';
 import { Draft } from '../../../Domain/Autosave/draft';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SNACKBAR_DURATION, SNACKBAR_SUCCESS } from 'src/app/Domain/Common/constants';
+import {
+  SNACKBAR_DURATION,
+  SNACKBAR_SUCCESS,
+} from 'src/app/Domain/Common/constants';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,7 +21,9 @@ export class AutosavedDraftsComponent implements OnInit {
     private autosaveService: AutosaveService,
     private snackbar: MatSnackBar
   ) {
-    this.subscription = this.autosaveService.autosavedDraftsChanged$.subscribe(() => this.initDrafts());
+    this.subscription = this.autosaveService.autosavedDraftsChanged$.subscribe(
+      () => this.initDrafts()
+    );
   }
 
   ngOnInit(): void {
@@ -33,7 +38,7 @@ export class AutosavedDraftsComponent implements OnInit {
     this.autosaveService.loadDraft(draft);
     this.snackbar.open('Draft loaded', undefined, {
       duration: SNACKBAR_DURATION,
-      panelClass: SNACKBAR_SUCCESS
+      panelClass: SNACKBAR_SUCCESS,
     });
   }
 

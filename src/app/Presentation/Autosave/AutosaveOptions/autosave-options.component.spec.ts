@@ -18,7 +18,7 @@ describe('AutosaveOptionsComponent', () => {
         {
           provide: AutosaveConfigurationService,
         },
-        MockProviders(MatSnackBar)
+        MockProviders(MatSnackBar),
       ],
     }).compileComponents();
   });

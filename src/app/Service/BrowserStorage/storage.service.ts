@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { DOMAIN_CONFIGURATION_TAG } from '../../Domain/Common/constants';
-import { DomainConfiguration, fromConfigurationFromFile } from '../../Domain/Common/domainConfiguration';
+import {
+  DomainConfiguration,
+  fromConfigurationFromFile,
+} from '../../Domain/Common/domainConfiguration';
 
 @Injectable({
   providedIn: 'root',

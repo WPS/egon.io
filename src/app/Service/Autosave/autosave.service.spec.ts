@@ -29,7 +29,10 @@ describe('AutosaveService', () => {
       'importStory',
       'getStory',
     ]);
-    const storageServiceMock = jasmine.createSpyObj('StorageService', ['get', 'set']);
+    const storageServiceMock = jasmine.createSpyObj('StorageService', [
+      'get',
+      'set',
+    ]);
 
     TestBed.configureTestingModule({
       providers: [

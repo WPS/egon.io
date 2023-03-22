@@ -22,7 +22,7 @@ import { HeaderDialogComponent } from '../Dialog/header-dialog/header-dialog.com
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
-  SNACKBAR_INFO
+  SNACKBAR_INFO,
 } from '../../Domain/Common/constants';
 
 @Component({

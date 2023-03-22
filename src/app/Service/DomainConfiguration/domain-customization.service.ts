@@ -116,8 +116,8 @@ export class DomainCustomizationService {
 
   isIconActor(iconName: string): boolean {
     return (
-      this.domainConfigurationTypes.value.actors.filter((actor: string) =>
-        actor === iconName
+      this.domainConfigurationTypes.value.actors.filter(
+        (actor: string) => actor === iconName
       ).length > 0
     );
   }
@@ -324,7 +324,9 @@ export class DomainCustomizationService {
       }
     } else {
       this.snackbar.open(
-        imported ? 'No configuration to be imported' : 'No configuration to be saved',
+        imported
+          ? 'No configuration to be imported'
+          : 'No configuration to be saved',
         undefined,
         {
           duration: SNACKBAR_DURATION,

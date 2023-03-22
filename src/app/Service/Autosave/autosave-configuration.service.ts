@@ -2,24 +2,27 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { AutosaveConfiguration } from '../../Domain/Autosave/autosave-configuration';
-import { DEFAULT_AUTOSAVES_AMOUNT, DEFAULT_AUTOSAVES_INTERVAL } from 'src/app/Domain/Common/constants';
+import {
+  DEFAULT_AUTOSAVES_AMOUNT,
+  DEFAULT_AUTOSAVES_INTERVAL,
+} from 'src/app/Domain/Common/constants';
 
 const AUTOSAVE_CONFIGURATION_TAG = 'autosaveConfiguration';
 
 const defaultConfiguration: AutosaveConfiguration = {
   activated: true,
   interval: DEFAULT_AUTOSAVES_INTERVAL,
-  amount: DEFAULT_AUTOSAVES_AMOUNT
+  amount: DEFAULT_AUTOSAVES_AMOUNT,
 };
 
 @Injectable({
   providedIn: 'root',
 })
 export class AutosaveConfigurationService {
-
   private configuration = defaultConfiguration;
 
-  private readonly configurationSubject = new ReplaySubject<AutosaveConfiguration>(1);
+  private readonly configurationSubject =
+    new ReplaySubject<AutosaveConfiguration>(1);
   readonly configuration$ = this.configurationSubject.asObservable();
 
   constructor(private storageService: StorageService) {
@@ -43,7 +46,9 @@ export class AutosaveConfigurationService {
   }
 
   private loadConfiguration() {
-    this.configuration = this.storageService.get(AUTOSAVE_CONFIGURATION_TAG) ?? defaultConfiguration;
+    this.configuration =
+      this.storageService.get(AUTOSAVE_CONFIGURATION_TAG) ??
+      defaultConfiguration;
   }
 
   private saveConfiguration() {

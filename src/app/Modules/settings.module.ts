@@ -24,11 +24,6 @@ import { AutosaveSettingsModule } from './autosave-settings.module';
     DomainConfigurationComponent,
     LabelDictionaryComponent,
   ],
-  imports: [
-    AutosaveSettingsModule,
-    CommonModule,
-    FormsModule,
-    MaterialModule
-  ],
+  imports: [AutosaveSettingsModule, CommonModule, FormsModule, MaterialModule],
 })
 export class SettingsModule {}
