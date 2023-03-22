@@ -23,49 +23,10 @@
         >
           <span class="material-icons-outlined materialIconButton"> home </span>
         </button>
-        <button
-          mat-button
-          title="Cancel changes"
-          (click)="loadInitialConfiguration()"
-        >
-          <span class="material-icons materialIconButton">restart_alt</span>
-        </button>
-        <button mat-button title="Save icon set" (click)="saveDomain()">
-          <span class="material-icons-outlined materialIconButton">save</span>
-        </button>
-        <button mat-button title="Export icon set" (click)="exportDomain()">
-          <span class="material-icons-outlined materialIconButton"
-            >archive</span
-          >
-        </button>
-        <button
-          mat-button
-          title="Import icon set"
-          (click)="startDomainImport()"
-        >
-          <span class="material-icons-outlined materialIconButton"
-            >unarchive</span
-          >
-          <input
-            type="file"
-            accept=".domain"
-            style="display: none"
-            id="importDomain"
-            name="file"
-            onclick="this.value=null"
-            (change)="importDomain()"
-          />
-        </button>
       </div>
       <div class="searchbar">
-        <input
-          class="textInput"
-          matInput
-          type="text"
-          placeholder="Filter by name"
-          (input)="filterByNameAndType($event)"
-        />
         <div></div>
+        <div> Filter: </div>
         <button
           mat-button
           [class.activeNone]="(filter | async) === 'ICON_FILTER_UNASSIGNED'"
@@ -95,8 +56,50 @@
           <span>Workobjects</span>
         </button>
         <div></div>
+        <input
+          class="textInput"
+          matInput
+          type="text"
+          placeholder="Filter by name"
+          (input)="filterByNameAndType($event)"
+        />
       </div>
-      <div></div>
+      <div class="saveButtons">
+        <button mat-button title="Export icon set" (click)="exportDomain()">
+          <span class="material-icons-outlined materialIconButton"
+          >archive</span
+          >
+        </button>
+        <button
+          mat-button
+          title="Import icon set"
+          (click)="startDomainImport()"
+        >
+          <span class="material-icons-outlined materialIconButton"
+          >unarchive</span
+          >
+          <input
+            type="file"
+            accept=".domain"
+            style="display: none"
+            id="importDomain"
+            name="file"
+            onclick="this.value=null"
+            (change)="importDomain()"
+          />
+        </button>
+        <div class="divider"></div>
+        <button
+          mat-button
+          title="Cancel changes"
+          (click)="loadInitialConfiguration()"
+        >
+          <span class="material-icons-outlined materialIconButton">close</span>
+        </button>
+        <button mat-button title="Save icon set" (click)="saveDomain()">
+          <span class="material-icons-outlined materialIconButton">save</span>
+        </button>
+      </div>
     </div>
 
     <div class="domainConfiguration">
