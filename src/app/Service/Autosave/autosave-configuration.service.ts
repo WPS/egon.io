@@ -10,7 +10,7 @@ import {
 const AUTOSAVE_CONFIGURATION_TAG = 'autosaveConfiguration';
 
 const defaultConfiguration: AutosaveConfiguration = {
-  activated: true,
+  activated: false,
   interval: DEFAULT_AUTOSAVES_INTERVAL,
   amount: DEFAULT_AUTOSAVES_AMOUNT,
 };
