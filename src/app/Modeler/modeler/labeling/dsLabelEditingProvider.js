@@ -126,6 +126,7 @@ export default function DSLabelEditingProvider(
     let editingBox = document.getElementsByClassName(
       "djs-direct-editing-content"
     );
+    editingBox[0].focus();
     autocomplete(
       editingBox[0],
       dictionaryService.getWorkObjectLabels(),
