@@ -38,6 +38,7 @@ export class ExportDialogComponent implements OnInit {
   }
 
   updateWithTitle($event: Event) {
-    this.withTitle.next($event.returnValue);
+    // @ts-ignore
+    this.withTitle.next($event.target.checked);
   }
 }
