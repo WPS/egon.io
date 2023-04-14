@@ -25,16 +25,14 @@ export class RendererService {
     config?: DomainConfiguration,
     makeClean = true
   ): void {
-    if (configurationChange) {
-      this.modelerService.restart(config, domainStory);
-    } else {
-      this.renderStory(domainStory);
+    this.modelerService.restart(config, domainStory);
+    this.renderStory(domainStory);
 
-      this.elementRegistryService.correctInitialize();
+    this.elementRegistryService.correctInitialize();
 
-      this.modelerService.commandStackChanged();
-      this.modelerService.startDebounce();
-    }
+    this.modelerService.commandStackChanged();
+    this.modelerService.startDebounce();
+
     if (makeClean) {
       this.dirtyFlagService.makeClean();
     }
