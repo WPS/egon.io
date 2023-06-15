@@ -91,6 +91,10 @@ body {
   flex: 1 1 auto;
 }
 
+.mr-1 {
+  margin-right: 8px !important;
+}
+
 .mr-10 {
   margin-right: 10px !important;
 }
@@ -109,6 +113,13 @@ body {
 app-root {
   display: block;
   height: 100%;
+}
+
+/* Material Design */
+
+mat-dialog-actions.mdc-dialog__actions {
+  padding: 0 24px 20px 24px;
+  justify-content: end;
 }
 
 /* Snackbar */
@@ -381,13 +392,4 @@ app-root {
 
 .djs-search-overlay {
   background: #42aebb;
-}
-
-mat-dialog-actions.mdc-dialog__actions {
-  padding: 0 24px 20px 24px;
-  justify-content: end;
-}
-
-.mr-1 {
-  margin-right: 8px !important;
 }
