@@ -8,7 +8,7 @@ A tool to visualize Domain Stories in your browser.
 
 ### Run the Modeler
 
-- **Online:** Open <https://www.wps.de/modeler>.
+- **Online:** Open <https://egon.io/app>.
 - **In Docker:** Enter `docker compose up` in the command line. Then point your browser to <http://localhost:9080>.
 - **Locally:** Download the [latest release from GitHub](https://github.com/WPS/domain-story-modeler/releases).
 Extract the zip file and open index.html in your browser.
