@@ -124,7 +124,7 @@ The Modeler uses [bpmn-js](https://github.com/bpmn-io/bpmn-js) which is licensed
 
 ### GPLv3.0
 
-Copyright (c) 2018-2021 WPS - Workplace Solutions GmbH
+Copyright (c) 2018-2023 WPS - Workplace Solutions GmbH
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -7,7 +7,7 @@
     "url": "https://github.com/wps/domain-story-modeler.git"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint ./app",
     "auto-test": "npm test -- --auto-watch --no-single-run",
     "test": "karma start",
     "bundle": "grunt build",
