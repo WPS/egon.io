@@ -1,13 +1,13 @@
 {
   "name": "domain-story-modeler",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "A tool to visualize Domain Stories in the browser",
   "repository": {
     "type": "git",
     "url": "https://github.com/wps/domain-story-modeler.git"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint ./app",
     "auto-test": "npm test -- --auto-watch --no-single-run",
     "test": "karma start",
     "bundle": "grunt build",
