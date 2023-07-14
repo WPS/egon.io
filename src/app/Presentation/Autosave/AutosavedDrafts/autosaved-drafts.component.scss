@@ -1,5 +1,5 @@
 .items {
-  ::ng-deep.mat-list-item-content {
+  :host::ng-deep.mat-list-item-content {
     padding: 0;
   }
   padding-top: 0 !important;

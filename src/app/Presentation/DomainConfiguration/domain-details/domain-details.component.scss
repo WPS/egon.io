@@ -11,13 +11,13 @@
 .domainDetails {
   margin-top: 10px;
 
-  ::ng-deep.mat-mdc-form-field-infix {
+  :host::ng-deep.mat-mdc-form-field-infix {
     border: none;
     padding-bottom: 0 !important;
     padding-top: 0 !important;
   }
 
-  ::ng-deep.mdc-text-field {
+  :host::ng-deep.mdc-text-field {
     padding-left: 0 !important;
   }
 }

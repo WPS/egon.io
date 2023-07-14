@@ -7,12 +7,12 @@
   grid-column-gap: 5px;
   width: 75vw;
 
-  ::ng-deep.mat-list-item {
-    height: 40px !important;
-    padding-bottom: 2px !important;
+  mat-list-item {
+    height: unset !important;
+    //padding-bottom: 2px !important;
   }
 
-  ::ng-deep.mat-list-item-content {
+  mat-list-item-content {
     padding: 0 !important;
   }
 }
@@ -27,7 +27,7 @@ h3 {
 }
 
 .inputText {
-  width: 100%;
+  width: 99%;
   white-space: pre-wrap;
   resize: none;
 }

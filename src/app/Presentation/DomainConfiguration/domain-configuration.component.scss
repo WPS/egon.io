@@ -14,7 +14,7 @@
   align-self: center;
   justify-self: left;
 
-  ::ng-deep.mat-button {
+  :host::ng-deep.mat-button {
     min-width: 36px;
   }
 }
@@ -25,7 +25,7 @@
   justify-items: center;
   padding-right: 5px;
 
-  ::ng-deep.mat-button {
+  :host::ng-deep.mat-button {
     min-width: 36px;
   }
 }
@@ -103,7 +103,7 @@
   height: calc(100vh - 65px);
 }
 
-::ng-deep.mat-grid-tile {
+:host::ng-deep.mat-grid-tile {
   .mat-grid-tile-content {
     justify-content: inherit;
   }

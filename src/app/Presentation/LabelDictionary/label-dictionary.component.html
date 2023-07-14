@@ -1,31 +1,29 @@
 <div class="labelDictionary">
   <div class="workobjectList">
-    <h3>Workobject List</h3>
+    <h3>Workobjects</h3>
     <mat-list>
       <mat-list-item
         *ngFor="let workobjectEntry of workobjectEntriesSubject | async"
       >
-        <textarea
+        <input matInput
           class="inputText"
-          rows="1"
           [value]="workobjectEntry.name"
           (change)="updateWorkobjectEntry($event, workobjectEntry)"
-        ></textarea>
+        />
       </mat-list-item>
     </mat-list>
   </div>
   <div class="activityList">
-    <h3 class="activityListTitle">Activity List</h3>
+    <h3 class="activityListTitle">Activities</h3>
     <mat-list>
       <mat-list-item
         *ngFor="let activityEntry of activityEntriesSubject | async"
       >
-        <textarea
+        <input matInput
           class="inputText"
-          rows="2"
           [value]="activityEntry.name"
           (change)="updateActivityEntry($event, activityEntry)"
-        ></textarea>
+        />
       </mat-list-item>
     </mat-list>
   </div>
