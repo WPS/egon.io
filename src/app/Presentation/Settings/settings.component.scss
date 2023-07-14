@@ -12,7 +12,7 @@ app-general-settings {
   width: 100%;
   height: 100%;
 
-  :host::ng-deep.mat-button {
+  ::ng-deep.mat-button {
     padding: 0;
   }
 
@@ -34,7 +34,7 @@ app-general-settings {
   overflow: hidden;
 }
 
-:host::ng-deep.mat-tab-label,
-:host::ng-deep.mat-tab-label-active {
+::ng-deep.mat-tab-label,
+::ng-deep.mat-tab-label-active {
   height: 30px !important;
 }

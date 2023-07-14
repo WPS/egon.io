@@ -5,21 +5,27 @@
   grid-row-gap: 1px;
   overflow-y: scroll;
   overflow-x: hidden;
+  width: 250px;
   border-left: solid 1px #ccc;
 }
 
 .domainDetails {
   margin-top: 10px;
 
-  :host::ng-deep.mat-mdc-form-field-infix {
+  ::ng-deep.mat-mdc-form-field-infix {
     border: none;
     padding-bottom: 0 !important;
     padding-top: 0 !important;
   }
 
-  :host::ng-deep.mdc-text-field {
+
+  ::ng-deep.mdc-text-field {
     padding-left: 0 !important;
   }
+}
+
+.compactItem {
+  height: 40px !important;
 }
 
 .fullWidth {

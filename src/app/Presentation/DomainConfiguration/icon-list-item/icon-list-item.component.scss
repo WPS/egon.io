@@ -25,18 +25,18 @@
   display: flex;
   justify-content: center;
 
-  :host::ng-deep.mat-button-toggle-label-content {
+  ::ng-deep.mat-button-toggle-label-content {
     font-size: 10pt !important;
     padding: 0 5px !important;
     line-height: inherit !important;
   }
 
-  :host::ng-deep.activeMatButtonActor button {
+  ::ng-deep.activeMatButtonActor button {
     background-color: #43acbf;
     color: #ffffff;
   }
 
-  :host::ng-deep.activeMatButtonWorkObject button {
+  ::ng-deep.activeMatButtonWorkObject button {
     background-color: #0168b7;
     color: #ffffff;
   }

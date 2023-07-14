@@ -5,6 +5,6 @@
 .fullWidth {
   width: 100%;
 }
-:host::ng-deep.mat-form-field-label {
+::ng-deep.mat-form-field-label {
   font-size: 12pt !important;
 }
