@@ -91,7 +91,7 @@ function appendCSSStyleCheat(customIcons) {
   let customIconDictKeys = customIconDict.keysArray();
 
   customIconDictKeys.forEach((name) => {
-    if (configuration.getAppendedIconDictionary().has(name)) {
+    if (iconDictionary.getAppendedIconDictionary().has(name)) {
       let src = customIconDict.get(name);
 
       const iconStyle =
