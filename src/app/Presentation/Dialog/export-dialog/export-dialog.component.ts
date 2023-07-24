@@ -16,12 +16,14 @@ export class ExportDialogComponent implements OnInit {
     fn: any;
   }[];
   withTitle: BehaviorSubject<boolean>;
+  useWhiteBackground: BehaviorSubject<boolean>;
 
   constructor(
     private dialogRef: MatDialogRef<ExportDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: ExportDialogData
   ) {
     this.withTitle = new BehaviorSubject<boolean>(true);
+    this.useWhiteBackground = new BehaviorSubject<boolean>(true);
     this.title = data.title;
     this.options = data.options;
   }
@@ -29,7 +31,7 @@ export class ExportDialogComponent implements OnInit {
   ngOnInit(): void {}
 
   doOption(i: number): void {
-    this.options[i].fn(this.withTitle.value);
+    this.options[i].fn(this.withTitle.value, this.useWhiteBackground.value);
     this.close();
   }
 
@@ -40,5 +42,10 @@ export class ExportDialogComponent implements OnInit {
   updateWithTitle($event: Event) {
     // @ts-ignore
     this.withTitle.next($event.target.checked);
+  }
+
+  updateUseWhiteBackground($event: Event) {
+    // @ts-ignore
+    this.useWhiteBackground.next($event.target.checked);
   }
 }

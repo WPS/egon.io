@@ -99,7 +99,7 @@ export class ExportService implements OnDestroy {
     document.body.removeChild(element);
   }
 
-  downloadSVG(withTitle: boolean): void {
+  downloadSVG(withTitle: boolean, useWhiteBackground: boolean): void {
     const story = this.getStoryForDownload();
     const dst = this.createConfigAndDST(story);
 
@@ -107,7 +107,8 @@ export class ExportService implements OnDestroy {
       this.title,
       this.description,
       dst,
-      withTitle
+      withTitle,
+      useWhiteBackground
     );
 
     this.downloadFile(

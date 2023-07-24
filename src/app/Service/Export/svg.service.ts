@@ -15,7 +15,8 @@ export class SvgService {
     title: string,
     description: string,
     dst: ConfigAndDST,
-    withTitle: boolean
+    withTitle: boolean,
+    useWhiteBackground: boolean
   ): string {
     this.cacheData = this.modelerService.getEncoded();
 
@@ -54,12 +55,14 @@ export class SvgService {
     }
 
     const svgIndex = data.indexOf('width="');
-    const backgroundColorWhite = 'style="background-color:white" ';
-    data = [
-      data.slice(0, svgIndex),
-      backgroundColorWhite,
-      data.slice(svgIndex),
-    ].join('');
+    if(useWhiteBackground) {
+      const backgroundColorWhite = 'style="background-color:white" ';
+      data = [
+        data.slice(0, svgIndex),
+        backgroundColorWhite,
+        data.slice(svgIndex),
+      ].join('');
+    }
 
     const bounds = this.createBounds(
       width,

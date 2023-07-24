@@ -6,7 +6,16 @@
       [checked]="withTitle | async"
       (change)="updateWithTitle($event)"
     />
-    Add title and description into image
+    Add title and description to image
+  </label>
+  <br>
+  <label>
+    <input
+      type="checkbox"
+      [checked]="useWhiteBackground | async"
+      (change)="updateUseWhiteBackground($event)"
+    />
+    Add white background to SVG (default: transparent)
   </label>
 </mat-dialog-content>
 <mat-dialog-actions>
