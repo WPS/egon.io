@@ -5,7 +5,8 @@
       <mat-list-item
         *ngFor="let workobjectEntry of workobjectEntriesSubject | async"
       >
-        <input matInput
+        <input
+          matInput
           class="inputText"
           [value]="workobjectEntry.name"
           (change)="updateWorkobjectEntry($event, workobjectEntry)"
@@ -19,7 +20,8 @@
       <mat-list-item
         *ngFor="let activityEntry of activityEntriesSubject | async"
       >
-        <input matInput
+        <input
+          matInput
           class="inputText"
           [value]="activityEntry.name"
           (change)="updateActivityEntry($event, activityEntry)"

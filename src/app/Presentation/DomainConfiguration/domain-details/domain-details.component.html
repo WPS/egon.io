@@ -15,7 +15,8 @@
   <div class="actorList bottom-border">
     <h3>Order of actors</h3>
     <mat-list>
-      <mat-list-item class="compactItem"
+      <mat-list-item
+        class="compactItem"
         *ngFor="let iconName of selectedActors$ | async; let i = index"
         draggable="true"
         (dragover)="allowDrop($event, 'actorList')"
@@ -31,7 +32,8 @@
   <div class="workobjectList">
     <h3>Order of work objects</h3>
     <mat-list>
-      <mat-list-item class="compactItem"
+      <mat-list-item
+        class="compactItem"
         *ngFor="let iconName of selectedWorkobjects$ | async; let i = index"
         draggable="true"
         (dragover)="allowDrop($event, 'workobjectList')"

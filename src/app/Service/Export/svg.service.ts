@@ -54,16 +54,6 @@ export class SvgService {
       height += extraHeight + 80;
     }
 
-    const svgIndex = data.indexOf('width="');
-    if(useWhiteBackground) {
-      const backgroundColorWhite = 'style="background-color:white" ';
-      data = [
-        data.slice(0, svgIndex),
-        backgroundColorWhite,
-        data.slice(svgIndex),
-      ].join('');
-    }
-
     const bounds = this.createBounds(
       width,
       height,
@@ -85,11 +75,14 @@ export class SvgService {
     const insertIndex = this.findIndexToInsertData(data);
 
     if (withTitle) {
-      data = [
-        data.slice(0, insertIndex),
-        insertText,
-        data.slice(insertIndex),
-      ].join('');
+      data = data.slice(0, insertIndex) + insertText + data.slice(insertIndex);
+    }
+
+    if (useWhiteBackground) {
+      const svgIndex = data.indexOf('width="');
+      const backgroundColorWhite = 'style="background-color:white" ';
+      data =
+        data.slice(0, svgIndex) + backgroundColorWhite + data.slice(svgIndex);
     }
 
     return this.appendDST(data, dst);
