@@ -101,10 +101,10 @@ describe('RendererService', () => {
 
       expect(modelerServiceSpy.restart).toHaveBeenCalled();
       expect(elementRegistryServiceSpy.correctInitialize).toHaveBeenCalledTimes(
-        0
+        1
       );
-      expect(modelerServiceSpy.commandStackChanged).toHaveBeenCalledTimes(0);
-      expect(modelerServiceSpy.startDebounce).toHaveBeenCalledTimes(0);
+      expect(modelerServiceSpy.commandStackChanged).toHaveBeenCalledTimes(1);
+      expect(modelerServiceSpy.startDebounce).toHaveBeenCalledTimes(1);
       expect(dirtyFlagServiceSpy.makeClean).toHaveBeenCalled();
     });
 
@@ -113,10 +113,10 @@ describe('RendererService', () => {
 
       expect(modelerServiceSpy.restart).toHaveBeenCalled();
       expect(elementRegistryServiceSpy.correctInitialize).toHaveBeenCalledTimes(
-        0
+        1
       );
-      expect(modelerServiceSpy.commandStackChanged).toHaveBeenCalledTimes(0);
-      expect(modelerServiceSpy.startDebounce).toHaveBeenCalledTimes(0);
+      expect(modelerServiceSpy.commandStackChanged).toHaveBeenCalledTimes(1);
+      expect(modelerServiceSpy.startDebounce).toHaveBeenCalledTimes(1);
       expect(dirtyFlagServiceSpy.makeClean).toHaveBeenCalledTimes(0);
     });
 
@@ -124,7 +124,7 @@ describe('RendererService', () => {
       service.importStory([], false);
 
       expect(modelerServiceSpy.getModeler).toHaveBeenCalled();
-      expect(modelerServiceSpy.restart).toHaveBeenCalledTimes(0);
+      expect(modelerServiceSpy.restart).toHaveBeenCalledTimes(1);
       expect(elementRegistryServiceSpy.correctInitialize).toHaveBeenCalled();
       expect(modelerServiceSpy.commandStackChanged).toHaveBeenCalled();
       expect(modelerServiceSpy.startDebounce).toHaveBeenCalled();

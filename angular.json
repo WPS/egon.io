@@ -98,7 +98,8 @@
           "builder": "@angular-builders/custom-webpack:karma",
           "options": {
             "customWebpackConfig": {
-              "path": "./polyfill-webpack.config.js"
+              "path": "./polyfill-webpack.config.js",
+              "replaceDuplicatePlugins": true
             },
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",

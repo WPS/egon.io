@@ -181,7 +181,7 @@
     "symbol-observable" "4.0.0"
     "yargs" "17.7.2"
 
-"@angular/common@^16.0.0 || ^17.0.0", "@angular/common@^16.1.5", "@angular/common@16.1.5", "@angular/common@5.0.0-alpha - 5 || 6.0.0-alpha - 6 || 7.0.0-alpha - 7 || 8.0.0-alpha - 8 || 9.0.0-alpha - 9 || 10.0.0-alpha - 10 || 11.0.0-alpha - 11 || 12.0.0-alpha - 12 || 13.0.0-alpha - 13 || 14.0.0-alpha - 14 || 15.0.0-alpha - 15":
+"@angular/common@^16.0.0 || ^17.0.0", "@angular/common@^16.1.5", "@angular/common@16.1.5", "@angular/common@5.0.0-alpha - 5 || 6.0.0-alpha - 6 || 7.0.0-alpha - 7 || 8.0.0-alpha - 8 || 9.0.0-alpha - 9 || 10.0.0-alpha - 10 || 11.0.0-alpha - 11 || 12.0.0-alpha - 12 || 13.0.0-alpha - 13 || 14.0.0-alpha - 14 || 15.0.0-alpha - 15 || 16.0.0-alpha - 16":
   "integrity" "sha512-XQVIpICniWXXMoXsr6X7Q3pVcYBeQ0FZF06BNNolkkkVuReYpqr3TwWrZfuB9TUmxdF6R5WZ+M3NAdXodDDUNA=="
   "resolved" "https://registry.npmjs.org/@angular/common/-/common-16.1.5.tgz"
   "version" "16.1.5"
@@ -214,7 +214,7 @@
   "resolved" "https://registry.npmjs.org/@angular/compiler/-/compiler-9.0.0.tgz"
   "version" "9.0.0"
 
-"@angular/core@^16.0.0 || ^17.0.0", "@angular/core@^16.1.5", "@angular/core@16.1.5", "@angular/core@5.0.0-alpha - 5 || 6.0.0-alpha - 6 || 7.0.0-alpha - 7 || 8.0.0-alpha - 8 || 9.0.0-alpha - 9 || 10.0.0-alpha - 10 || 11.0.0-alpha - 11 || 12.0.0-alpha - 12 || 13.0.0-alpha - 13 || 14.0.0-alpha - 14 || 15.0.0-alpha - 15":
+"@angular/core@^16.0.0 || ^17.0.0", "@angular/core@^16.1.5", "@angular/core@16.1.5", "@angular/core@5.0.0-alpha - 5 || 6.0.0-alpha - 6 || 7.0.0-alpha - 7 || 8.0.0-alpha - 8 || 9.0.0-alpha - 9 || 10.0.0-alpha - 10 || 11.0.0-alpha - 11 || 12.0.0-alpha - 12 || 13.0.0-alpha - 13 || 14.0.0-alpha - 14 || 15.0.0-alpha - 15 || 16.0.0-alpha - 16":
   "integrity" "sha512-xmk+WeL3qtFb3BM2hsEq/kGHJinqaTNVJkK/m4TiGArY+hjJwfCOeuTss7nOkKXvhRkZxU9VP0tej1w3QV5Yzw=="
   "resolved" "https://registry.npmjs.org/@angular/core/-/core-16.1.5.tgz"
   "version" "16.1.5"
@@ -226,7 +226,7 @@
   "resolved" "https://registry.npmjs.org/@angular/core/-/core-9.0.0.tgz"
   "version" "9.0.0"
 
-"@angular/forms@^16.0.0 || ^17.0.0", "@angular/forms@^16.1.5", "@angular/forms@5.0.0-alpha - 5 || 6.0.0-alpha - 6 || 7.0.0-alpha - 7 || 8.0.0-alpha - 8 || 9.0.0-alpha - 9 || 10.0.0-alpha - 10 || 11.0.0-alpha - 11 || 12.0.0-alpha - 12 || 13.0.0-alpha - 13 || 14.0.0-alpha - 14 || 15.0.0-alpha - 15":
+"@angular/forms@^16.0.0 || ^17.0.0", "@angular/forms@^16.1.5", "@angular/forms@5.0.0-alpha - 5 || 6.0.0-alpha - 6 || 7.0.0-alpha - 7 || 8.0.0-alpha - 8 || 9.0.0-alpha - 9 || 10.0.0-alpha - 10 || 11.0.0-alpha - 11 || 12.0.0-alpha - 12 || 13.0.0-alpha - 13 || 14.0.0-alpha - 14 || 15.0.0-alpha - 15 || 16.0.0-alpha - 16":
   "integrity" "sha512-4E/5msvODs5tixlkB1iHPsRv7jHj189WMpN2n7LKXT+l+jA3/rD2AbGnYVKR04gymN2x/HQ/qOrbvrqv3E1NBw=="
   "resolved" "https://registry.npmjs.org/@angular/forms/-/forms-16.1.5.tgz"
   "version" "16.1.5"
@@ -294,7 +294,7 @@
   dependencies:
     "tslib" "^2.3.0"
 
-"@angular/platform-browser@^16.0.0 || ^17.0.0", "@angular/platform-browser@^16.1.5", "@angular/platform-browser@16.1.5", "@angular/platform-browser@5.0.0-alpha - 5 || 6.0.0-alpha - 6 || 7.0.0-alpha - 7 || 8.0.0-alpha - 8 || 9.0.0-alpha - 9 || 10.0.0-alpha - 10 || 11.0.0-alpha - 11 || 12.0.0-alpha - 12 || 13.0.0-alpha - 13 || 14.0.0-alpha - 14 || 15.0.0-alpha - 15":
+"@angular/platform-browser@^16.0.0 || ^17.0.0", "@angular/platform-browser@^16.1.5", "@angular/platform-browser@16.1.5", "@angular/platform-browser@5.0.0-alpha - 5 || 6.0.0-alpha - 6 || 7.0.0-alpha - 7 || 8.0.0-alpha - 8 || 9.0.0-alpha - 9 || 10.0.0-alpha - 10 || 11.0.0-alpha - 11 || 12.0.0-alpha - 12 || 13.0.0-alpha - 13 || 14.0.0-alpha - 14 || 15.0.0-alpha - 15 || 16.0.0-alpha - 16":
   "integrity" "sha512-TLM29KPr0A0pQ0YEmSy0JUOkfBXfwfBFzXQSt9SOiUs0wgDVVLMdGOpR/tbvBx2QfrSU3qgOX8P1FXIPJch6TQ=="
   "resolved" "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-16.1.5.tgz"
   "version" "16.1.5"
@@ -6616,10 +6616,10 @@
   "resolved" "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz"
   "version" "2.6.2"
 
-"ng-mocks@^14.6.0":
-  "integrity" "sha512-etGBdUkEkvDDGecRMj+ymPO2T0kcZme+wX4KAgOAFm2NJoRox7wPLtdxxD0CmnmrTcArW69KpkQKG2w9ILhg4w=="
-  "resolved" "https://registry.npmjs.org/ng-mocks/-/ng-mocks-14.6.0.tgz"
-  "version" "14.6.0"
+"ng-mocks@^14.11.0":
+  "integrity" "sha512-6h0TafPogU7iEbWKGQt5npfEtI7IjThsqqnDboMIZ4AJyUY7VHUmhFa39Zkd2e4oOLDLb/6sVnfDIaWCp3oFgQ=="
+  "resolved" "https://registry.npmjs.org/ng-mocks/-/ng-mocks-14.11.0.tgz"
+  "version" "14.11.0"
 
 "node-forge@^1":
   "integrity" "sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA=="

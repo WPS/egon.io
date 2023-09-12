@@ -33,6 +33,9 @@ describe('DomainCustomizationService', () => {
     const matSnackbarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
     const iconDictionaryMock = jasmine.createSpyObj('IconDictionarySService', [
       'getAllIconDictionary',
+      'getFullDictionary',
+      'getActorsDictionary',
+      'getWorkObjectsDictionary',
       'getIconSource',
       'addIconsToCss',
     ]);
@@ -99,6 +102,11 @@ describe('DomainCustomizationService', () => {
     ) as jasmine.SpyObj<StorageService>;
 
     iconDictionarySpy.getAllIconDictionary.and.returnValue(new Dictionary());
+    iconDictionarySpy.getFullDictionary.and.returnValue(new Dictionary());
+    iconDictionarySpy.getActorsDictionary.and.returnValue(new Dictionary());
+    iconDictionarySpy.getWorkObjectsDictionary.and.returnValue(
+      new Dictionary()
+    );
     configurationServiceSpy.getCurrentConfigurationNamesWithoutPrefix.and.returnValue(
       structuredClone(testCustomDomainConfiguration)
     );

@@ -152,9 +152,13 @@ export class DomainCustomizationService {
       this.updateIcon(true, false, actor);
       this.selectActor(actor);
       this.deselectWorkobject(actor);
+
+      const icon = this.iconDictionaryService.getFullDictionary().get(actor);
+      this.iconDictionaryService.getActorsDictionary().add(icon, actor);
     } else {
       this.deselectActor(actor);
       this.updateIcon(false, false, actor);
+      this.iconDictionaryService.getActorsDictionary().delete(actor);
     }
   }
 
@@ -163,9 +167,17 @@ export class DomainCustomizationService {
       this.updateIcon(false, true, workobject);
       this.selectWorkObject(workobject);
       this.deselectActor(workobject);
+
+      const icon = this.iconDictionaryService
+        .getFullDictionary()
+        .get(workobject);
+      this.iconDictionaryService
+        .getWorkObjectsDictionary()
+        .add(icon, workobject);
     } else {
       this.deselectWorkobject(workobject);
       this.updateIcon(false, false, workobject);
+      this.iconDictionaryService.getWorkObjectsDictionary().delete(workobject);
     }
   }
 

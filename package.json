@@ -29,7 +29,7 @@
     "material-design-icons": "^3.0.1",
     "material-icons": "^1.13.2",
     "min-dash": "^3.8.0",
-    "ng-mocks": "^14.6.0",
+    "ng-mocks": "^14.11.0",
     "rxjs": "^7.8.0",
     "tslib": "^2.3.1",
     "zone.js": "~0.13.1"
