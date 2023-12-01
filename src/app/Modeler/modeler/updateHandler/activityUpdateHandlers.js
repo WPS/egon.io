@@ -33,15 +33,15 @@ export default function activityUpdateHandler(commandStack, eventBus) {
     };
 
     this.execute = function (context) {
-      let semantic = context.businessObject;
+      let businessObject = context.businessObject;
       let element = context.element;
 
       if (context.newLabel && context.newLabel.length < 1) {
         context.newLabel = " ";
       }
 
-      semantic.name = context.newLabel;
-      semantic.number = context.newNumber;
+      businessObject.name = context.newLabel;
+      businessObject.number = context.newNumber;
 
       eventBus.fire("element.changed", { element });
     };

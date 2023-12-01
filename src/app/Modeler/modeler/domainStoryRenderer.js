@@ -366,7 +366,7 @@ export default function DomainStoryRenderer(
     }
   }
 
-  this.drawActor = function (p, element) {
+  this.drawActor = function (parent, element) {
     let svgDynamicSizeAttributes = {
         width: element.width,
         height: element.height,
@@ -380,13 +380,13 @@ export default function DomainStoryRenderer(
     actor = svgCreate(iconSRC);
 
     svgAttr(actor, svgDynamicSizeAttributes);
-    svgAppend(p, actor);
+    svgAppend(parent, actor);
 
-    renderEmbeddedLabel(p, element, "center", -5);
+    renderEmbeddedLabel(parent, element, "center", -5);
     return actor;
   };
 
-  this.drawWorkObject = function (p, element) {
+  this.drawWorkObject = function (parent, element) {
     let svgDynamicSizeAttributes = {
         width: element.width * 0.65,
         height: element.height * 0.65,
@@ -402,8 +402,8 @@ export default function DomainStoryRenderer(
     workObject = svgCreate(iconSRC);
 
     svgAttr(workObject, svgDynamicSizeAttributes);
-    svgAppend(p, workObject);
-    renderEmbeddedLabel(p, element, "center", -5);
+    svgAppend(parent, workObject);
+    renderEmbeddedLabel(parent, element, "center", -5);
 
     return workObject;
   };
