@@ -3,6 +3,9 @@ import { combineLatest, map, Observable } from 'rxjs';
 import { TitleService } from '../../Service/Title/title.service';
 import { ReplayService } from '../../Service/Replay/replay.service';
 import { ReplayStateService } from '../../Service/Replay/replay-state.service';
+import {MatDialogConfig} from "@angular/material/dialog";
+import {HeaderDialogComponent} from "../Dialog/header-dialog/header-dialog.component";
+import {DialogService} from "../../Service/Dialog/dialog.service";
 
 @Component({
   selector: 'app-header',
@@ -23,7 +26,8 @@ export class HeaderComponent {
   constructor(
     private titleService: TitleService,
     private replayService: ReplayService,
-    private replayStateService: ReplayStateService
+    private replayStateService: ReplayStateService,
+    private dialogService: DialogService
   ) {
     this.isReplay$ = this.replayStateService.replayOn$;
 
@@ -32,4 +36,10 @@ export class HeaderComponent {
       this.replayService.maxStepNumber$,
     ]).pipe(map(([step, count]) => `${step}/${count}`));
   }
-}
+
+  openHeaderDialog(): void {
+    const config = new MatDialogConfig();
+    config.disableClose = false;
+    config.autoFocus = true;
+    this.dialogService.openDialog(HeaderDialogComponent, config);
+  }}

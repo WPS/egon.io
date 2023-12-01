@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" class="toolbar">
   <mat-toolbar-row>
     <span class="mr-10">
-      <span class="headline">{{ title$ | async }} </span>
+      <span class="headline" (click)="openHeaderDialog()">{{ title$ | async }} </span>
     </span>
     <span title="Domain">{{ currentDomainName$ | async }} </span>
     <span class="domainNameSpacer"></span>
