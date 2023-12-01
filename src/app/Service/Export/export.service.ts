@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { RendererService } from '../Renderer/renderer.service';
 import { HtmlPresentationService } from './html-presentation.service';
 import { VERSION } from '../../Domain/Common/constants';
+import { formatDate } from "@angular/common";
 
 @Injectable({
   providedIn: 'root',
@@ -64,7 +65,7 @@ export class ExportService implements OnDestroy {
     const json = JSON.stringify(configAndDST, null, 2);
 
     const filename = sanitizeForDesktop(
-      this.title + '_' + new Date().toString().slice(0, 10)
+      this.title + '_' + this.getCurrentDateString()
     );
 
     this.downloadFile(
@@ -114,7 +115,7 @@ export class ExportService implements OnDestroy {
     this.downloadFile(
       svgData,
       'data:application/bpmn20-xml;charset=UTF-8,',
-      sanitizeForDesktop(this.title),
+      sanitizeForDesktop(this.title + '_' + this.getCurrentDateString()),
       '.egn.svg',
       true
     );
@@ -165,7 +166,7 @@ export class ExportService implements OnDestroy {
           'download',
           sanitizeForDesktop(this.title) +
             '_' +
-            new Date().toISOString().slice(0, 10) +
+            this.getCurrentDateString() +
             '.png'
         );
         ele.setAttribute('href', png64);
@@ -187,7 +188,7 @@ export class ExportService implements OnDestroy {
 
   downloadHTMLPresentation(): void {
     const filename = sanitizeForDesktop(
-      this.title + '_' + new Date().toString().slice(0, 10)
+      this.title + '_' + this.getCurrentDateString()
     );
     this.htmlPresentationService.downloadHTMLPresentation(filename).then();
   }
@@ -197,5 +198,9 @@ export class ExportService implements OnDestroy {
     story.push({ info: this.titleService.getDescription() });
     story.push({ version: VERSION });
     return story;
+  }
+
+  private getCurrentDateString(): string {
+    return formatDate(new Date(), 'YYYY-MM-dd', 'en-GB')
   }
 }
