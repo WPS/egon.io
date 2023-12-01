@@ -119,7 +119,7 @@ export default function activityUpdateHandler(commandStack, eventBus) {
 
 // reverts the automatic changed done by the automatic number-generation at editing
 function revertAutomaticNumberGenerationChange(iDWithNumber, eventBus) {
-  let activities = canvasElementRegistry.getActivitesFromActors();
+  let activities = canvasElementRegistry?.getActivitesFromActors();
   for (let i = activities.length - 1; i >= 0; i--) {
     for (let j = iDWithNumber.length - 1; j >= 0; j--) {
       if (iDWithNumber[j].id.includes(activities[i].businessObject.id)) {
