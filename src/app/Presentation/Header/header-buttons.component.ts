@@ -142,13 +142,6 @@ export class HeaderButtonsComponent {
     }
   }
 
-  openHeaderDialog(): void {
-    const config = new MatDialogConfig();
-    config.disableClose = false;
-    config.autoFocus = true;
-    this.dialogService.openDialog(HeaderDialogComponent, config);
-  }
-
   openKeyboardShortcutsDialog(): void {
     const title = 'Keyboard shortcuts';
     const shortCutText =

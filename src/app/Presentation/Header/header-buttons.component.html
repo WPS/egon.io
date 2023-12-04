@@ -1,13 +1,6 @@
 <div *ngIf="!(isReplay$ | async)">
   <button
     class="headerButton"
-    title="Edit Title and Description"
-    (click)="openHeaderDialog()"
-  >
-    <span class="material-icons materialIconButton"> edit </span>
-  </button>
-  <button
-    class="headerButton"
     title="Label Dictionary"
     (click)="openLabelDictionary()"
   >

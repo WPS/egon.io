@@ -34,3 +34,11 @@
 .buttonSpacer {
   margin-right: 15px;
 }
+
+.headline:hover > .editIcon {
+  display: contents;
+}
+
+.headline > .editIcon {
+  display: none;
+}
