@@ -21,6 +21,8 @@
         formControlName="activityLabel"
         autofocus
         cdkFocusInitial
+        (keyup.enter)="save()"
+        (keyup.escape)="close()"
       ></textarea>
     </mat-form-field>
   </form>

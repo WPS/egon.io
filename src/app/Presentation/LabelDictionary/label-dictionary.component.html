@@ -20,12 +20,14 @@
       <mat-list-item
         *ngFor="let activityEntry of activityEntriesSubject | async"
       >
-        <input
-          matInput
-          class="inputText"
+        <textarea
+          class="inputText activity"
           [value]="activityEntry.name"
           (change)="updateActivityEntry($event, activityEntry)"
-        />
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="3">
+        ></textarea>
       </mat-list-item>
     </mat-list>
   </div>

@@ -27,9 +27,13 @@ h3 {
 }
 
 .inputText {
-  width: 99%;
-  white-space: pre-wrap;
+  width: 98%;
   resize: none;
+  font-family: sans-serif;
+  font-size: small;
+  padding-top: 1px ;
+  padding-bottom: 1px;
+  margin: 0;
 }
 
 .activityListHeader {
@@ -55,4 +59,8 @@ h3 {
   display: inline-grid;
   width: 100%;
   margin-top: 15px;
+}
+
+.activity {
+  max-height: 3rem;
 }
