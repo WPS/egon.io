@@ -258,7 +258,7 @@ export class InitializerService {
     const label = activityData.activityLabel;
     const hasNumber = activityData.multipleNumbers !== undefined;
     const activityNumber = activityData.activityNumber;
-    const multipleNumberAllowed = activityData.multipleNumbers;
+    const multipleNumberAllowed = activityData.multipleNumbers ?? false;
     const element = activityData.activity;
 
     const activitiesFromActors =
