@@ -256,7 +256,7 @@ export class InitializerService {
     commandStack: any
   ): void {
     const label = activityData.activityLabel;
-    const hasNumber = activityData.multipleNumbers !== undefined;
+    const hasNumber = activityData.activityNumber ?? false;
     const activityNumber = activityData.activityNumber;
     const multipleNumberAllowed = activityData.multipleNumbers ?? false;
     const element = activityData.activity;
