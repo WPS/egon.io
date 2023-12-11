@@ -106,6 +106,10 @@ export default function DSLabelEditingProvider(
     if (!is(element, elementTypes.ACTIVITY)) {
       activateDirectEdit(element);
     }
+    let editingBox = document.getElementsByClassName(
+      "djs-direct-editing-content"
+    );
+    editingBox.item(0).focus();
   });
 
   eventBus.on("autoPlace.end", 500, function (event) {
@@ -126,7 +130,7 @@ export default function DSLabelEditingProvider(
     let editingBox = document.getElementsByClassName(
       "djs-direct-editing-content"
     );
-    editingBox[0].focus();
+    editingBox.item(0).focus();
     autocomplete(
       editingBox[0],
       dictionaryService.getWorkObjectLabels(),
