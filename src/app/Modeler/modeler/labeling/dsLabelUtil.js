@@ -58,7 +58,6 @@ export function setLabel(element, text) {
   if (attr) {
     semantic[attr] = text;
   }
-
   return element;
 }
 
@@ -107,6 +106,8 @@ export function calculateTextWidth(text) {
  * copied from https://www.w3schools.com/howto/howto_js_autocomplete.asp on 18.09.2018
  */
 export function autocomplete(inp, arr, element) {
+  //TODO: fix autocomplete to work in Angular
+
   closeAllLists();
 
   /* the autocomplete function takes three arguments,
@@ -136,19 +137,20 @@ export function autocomplete(inp, arr, element) {
     this.parentNode.appendChild(autocompleteList);
 
     /* for each item in the array...*/
-    for (const name of arr) {
+    for (const item of arr) {
+      let name = item.name
       /* check if the item starts with the same letters as the text field value:*/
       if (val) {
-        if (name.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+        if (name.substring(0, val.length).toUpperCase() === val.toUpperCase()) {
           /* create a DIV element for each matching element:*/
           autocompleteItem = document.createElement("DIV");
 
           /* make the matching letters bold:*/
           autocompleteItem.innerHTML =
             "<strong>" +
-            name.substr(0, val.length) +
+            name.substring(0, val.length) +
             "</strong>" +
-            name.substr(val.length);
+            name.substring(val.length);
 
           /* insert an input field that will hold the current name:*/
           autocompleteItem.innerHTML +=
