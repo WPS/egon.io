@@ -23,6 +23,8 @@ export class HeaderComponent {
 
   mouseOver = false;
 
+  showDescription: Observable<boolean>;
+
   constructor(
     private titleService: TitleService,
     private replayService: ReplayService,
@@ -35,6 +37,8 @@ export class HeaderComponent {
       this.replayService.currentStep$,
       this.replayService.maxStepNumber$,
     ]).pipe(map(([step, count]) => `${step}/${count}`));
+
+    this.showDescription = this.titleService.showDescription$;
   }
 
   openHeaderDialog(): void {
@@ -42,4 +46,9 @@ export class HeaderComponent {
     config.disableClose = false;
     config.autoFocus = true;
     this.dialogService.openDialog(HeaderDialogComponent, config);
-  }}
+  }
+
+  setShowDescription(show: boolean): void {
+    this.titleService.setShowDescription(show);
+  }
+}

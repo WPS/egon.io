@@ -1,5 +1,21 @@
 <mat-toolbar color="primary" class="toolbar">
   <mat-toolbar-row>
+    <button
+      class="headerButton"
+      title="Hide Description"
+      *ngIf="showDescription | async"
+      (click)="setShowDescription(false)"
+    >
+      <span class="material-icons materialIconButton toggle"> expand_less </span>
+    </button>
+    <button
+      class="headerButton"
+      title="Show Description"
+      *ngIf="!(showDescription | async)"
+      (click)="setShowDescription(true)"
+    >
+      <span class="material-icons materialIconButton toggle"> expand_more</span>
+    </button>
     <span class="mr-10">
       <span
         class="headline"
@@ -9,6 +25,7 @@
        {{ title$ | async }} <span class="material-icons materialIconButton editIcon"> edit </span>
       </span>
     </span>
+
     <span title="Domain">{{ currentDomainName$ | async }} </span>
     <span class="domainNameSpacer"></span>
     <span title="Replay Step" *ngIf="isReplay$ | async">
