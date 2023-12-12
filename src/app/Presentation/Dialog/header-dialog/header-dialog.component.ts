@@ -44,4 +44,8 @@ export class HeaderDialogComponent implements OnInit {
   close(): void {
     this.dialogRef.close();
   }
+
+  preventDefault(event: Event) {
+    event.preventDefault();
+  }
 }

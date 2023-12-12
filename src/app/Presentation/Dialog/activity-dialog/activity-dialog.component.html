@@ -21,6 +21,7 @@
         formControlName="activityLabel"
         autofocus
         cdkFocusInitial
+        (keydown.enter)="preventDefault($event)"
         (keyup.enter)="save()"
         (keyup.escape)="close()"
       ></textarea>
