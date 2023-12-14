@@ -33,6 +33,16 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
+## Deployment
+
+1. In the package.json update the version-tag appropriately
+2. Run the command **ng build**
+   - This should create (or update the contents of) the folder **dist_build**
+3. Run the command **npm run zip**
+   - This should create (or update the contents of) the folder **dist** containing a zip.file named *egon-xxx*, where xxx is the name in the version-tag of the package.json
+4. If you haven't already, clone the project **egon.io-website**
+5. The next steps are documented in the README.md of egon.io-website
+
 ## License
 
 Egon - The Domain Story Modeler is licensed under GPLv3.0.
