@@ -138,7 +138,7 @@ export class HeaderButtonsComponent {
       'Undo:\t\t\t\t\tctrl + Z \n' +
       'Redo:\t\t\t\t\tctrl + Y    OR   ctrl + shift + Z\n' +
       'Select All:\t\t\t\tctrl + A\n' +
-      'Export as DST:\t\t\tctrl + S\n' +
+      'Export as EGN:\t\t\tctrl + S\n' +
       'Import Domain Story: \tctrl + L\n' +
       'Search for text:\t\t\tctrl + F\n' +
       'Direct editing:\t\t\tE\n' +

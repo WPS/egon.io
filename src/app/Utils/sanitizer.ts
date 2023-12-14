@@ -47,15 +47,15 @@ export function restoreTitleFromFileName(
 ): string {
   let title;
 
-  const dstRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(.dst|.egn)/;
+  const domainStoryRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(.dst|.egn)/;
   const svgRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(.dst|.egn).svg/;
 
-  const egnSuffix = '.dst';
+  const egnSuffix = '.egn';
   const dstSuffix = '.dst';
   const svgSuffix = '.svg';
 
   let filenameWithoutDateSuffix = filename.replace(
-    isSVG ? svgRegex : dstRegex,
+    isSVG ? svgRegex : domainStoryRegex,
     ''
   );
   if (filenameWithoutDateSuffix.includes(isSVG ? svgSuffix : dstSuffix)) {
