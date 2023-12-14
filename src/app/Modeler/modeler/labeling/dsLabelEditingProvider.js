@@ -133,7 +133,7 @@ export default function DSLabelEditingProvider(
     editingBox.item(0).focus();
     autocomplete(
       editingBox[0],
-      dictionaryService.getWorkObjectLabels(),
+      dictionaryService.getUniqueWorkObjectNames(),
       element
     );
   }

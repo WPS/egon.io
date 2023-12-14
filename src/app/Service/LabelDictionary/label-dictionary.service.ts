@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
-import { elementTypes } from 'src/app/Domain/Common/elementTypes';
-import { MassNamingService } from 'src/app/Service/LabelDictionary/mass-naming.service';
-import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.service';
-import { WorkObjectLabelEntry } from '../../Domain/LabelDictionary/workObjectLabelEntry';
-import { LabelEntry } from '../../Domain/LabelDictionary/labelEntry';
+import {Injectable} from '@angular/core';
+import {ElementRegistryService} from 'src/app/Service/ElementRegistry/element-registry.service';
+import {elementTypes} from 'src/app/Domain/Common/elementTypes';
+import {MassNamingService} from 'src/app/Service/LabelDictionary/mass-naming.service';
+import {IconDictionaryService} from '../DomainConfiguration/icon-dictionary.service';
+import {WorkObjectLabelEntry} from '../../Domain/LabelDictionary/workObjectLabelEntry';
+import {LabelEntry} from '../../Domain/LabelDictionary/labelEntry';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LabelDictionaryService {
+export class LabelDictionaryService{
   activityLabels: LabelEntry[] = [];
   workObjektLabels: WorkObjectLabelEntry[] = [];
 
@@ -72,6 +72,15 @@ export class LabelDictionaryService {
 
   getWorkObjectLabels(): WorkObjectLabelEntry[] {
     return this.workObjektLabels.slice();
+  }
+
+  getUniqueWorkObjectNames(): String[] {
+    const workObjects = this.elementRegistryService.getAllWorkobjects();
+    return [ ...new Set(workObjects
+    .filter((workObject) => {
+      return !!workObject.businessObject.name;
+    })
+    .map((workObject) => workObject.businessObject.name))];
   }
 
   massRenameLabels(

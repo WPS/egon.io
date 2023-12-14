@@ -189,7 +189,7 @@ export class ElementRegistryService {
     );
   }
 
-  private getAllWorkobjects() {
+  getAllWorkobjects() {
     return this.getAllCanvasObjects().filter((co) =>
       co.type.includes(elementTypes.WORKOBJECT)
     );

@@ -105,7 +105,7 @@ export function calculateTextWidth(text) {
 /**
  * copied from https://www.w3schools.com/howto/howto_js_autocomplete.asp on 18.09.2018
  */
-export function autocomplete(inp, arr, element) {
+export function autocomplete(input, workObjectNames, element) {
   //TODO: fix autocomplete to work in Angular
 
   closeAllLists();
@@ -115,7 +115,7 @@ export function autocomplete(inp, arr, element) {
   let currentFocus;
 
   /* execute a function when someone writes in the text field:*/
-  inp.addEventListener("input", function () {
+  input.addEventListener("input", function () {
     /* the direct editing field of actors and workobjects is a recycled html-element and has old values that need to be overridden*/
     if (element.type.includes(elementTypes.WORKOBJECT)) {
       this.value = this.innerHTML;
@@ -137,13 +137,14 @@ export function autocomplete(inp, arr, element) {
     this.parentNode.appendChild(autocompleteList);
 
     /* for each item in the array...*/
-    for (const item of arr) {
-      let name = item.name
+    for (const name of workObjectNames) {
       /* check if the item starts with the same letters as the text field value:*/
       if (val) {
         if (name.substring(0, val.length).toUpperCase() === val.toUpperCase()) {
           /* create a DIV element for each matching element:*/
           autocompleteItem = document.createElement("DIV");
+
+          autocompleteItem.className = "autocomplete-items"
 
           /* make the matching letters bold:*/
           autocompleteItem.innerHTML =
@@ -159,13 +160,19 @@ export function autocomplete(inp, arr, element) {
           /* execute a function when someone clicks on the item (DIV element):*/
           autocompleteItem.onclick = function () {
             /* insert the value for the autocomplete text field:*/
-            inp.value = this.getElementsByTagName("input")[0].value;
-            inp.innerHTML = this.getElementsByTagName("input")[0].value;
+            input.value = this.getElementsByTagName("input")[0].value;
+            input.innerHTML = this.getElementsByTagName("input")[0].value;
 
             /* close the list of autocompleted values,
               (or any other open lists of autocompleted values:*/
             closeAllLists();
           };
+
+          autocompleteItem.addEventListener('keydown', (event) => {
+              console.log(event.type)
+            }
+
+          )
           autocompleteList.appendChild(autocompleteItem);
         }
       }
@@ -178,7 +185,7 @@ export function autocomplete(inp, arr, element) {
   });
 
   /* execute a function presses a key on the keyboard:*/
-  inp.onkeydown = function (e) {
+  input.onkeydown = function (e) {
     let autocompleteList = document.getElementById("autocomplete-list");
     if (autocompleteList) {
       autocompleteList = autocompleteList.getElementsByTagName("div");
@@ -238,7 +245,7 @@ export function autocomplete(inp, arr, element) {
     let autocompleteList =
       document.getElementsByClassName("autocomplete-items");
     for (const item of autocompleteList) {
-      if (survivor != item && survivor != inp) {
+      if (survivor != item && survivor != input) {
         item.parentNode.removeChild(item);
       }
     }
