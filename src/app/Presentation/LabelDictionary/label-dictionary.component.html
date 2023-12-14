@@ -26,7 +26,11 @@
           (change)="updateActivityEntry($event, activityEntry)"
           cdkTextareaAutosize
           cdkAutosizeMinRows="1"
-          cdkAutosizeMaxRows="3">
+          cdkAutosizeMaxRows="3"
+          (keydown.enter)="preventDefault($event)"
+          (keyup.enter)="save()"
+          (keyup.escape)="close()"
+        >
         ></textarea>
       </mat-list-item>
     </mat-list>

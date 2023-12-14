@@ -57,4 +57,8 @@ export class ActivityDialogComponent {
   close(): void {
     this.dialogRef.close();
   }
+
+  preventDefault(event: Event) {
+    event.preventDefault();
+  }
 }

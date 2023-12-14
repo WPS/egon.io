@@ -65,23 +65,6 @@
       settings
     </span>
   </button>
-
-  <button
-    class="headerButton"
-    title="Hide Description"
-    *ngIf="showDescription | async"
-    (click)="setShowDescription(false)"
-  >
-    <span class="material-icons materialIconButton toggle"> expand_less </span>
-  </button>
-  <button
-    class="headerButton"
-    title="Show Description"
-    *ngIf="!(showDescription | async)"
-    (click)="setShowDescription(true)"
-  >
-    <span class="material-icons materialIconButton toggle"> expand_more</span>
-  </button>
 </div>
 <div *ngIf="isReplay$ | async">
   <button class="headerButton" title="Previous Step" (click)="previousStep()">
@@ -92,22 +75,5 @@
   </button>
   <button class="headerButton" title="Stop replay" (click)="stopReplay()">
     <span class="material-icons materialIconButton"> stop </span>
-  </button>
-
-  <button
-    class="headerButton"
-    title="Hide Description"
-    *ngIf="showDescription | async"
-    (click)="setShowDescription(false)"
-  >
-    <span class="material-icons materialIconButton toggle"> expand_less </span>
-  </button>
-  <button
-    class="headerButton"
-    title="Show Description"
-    *ngIf="!(showDescription | async)"
-    (click)="setShowDescription(true)"
-  >
-    <span class="material-icons materialIconButton toggle"> expand_more</span>
   </button>
 </div>

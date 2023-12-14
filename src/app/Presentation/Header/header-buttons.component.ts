@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { SettingsService } from '../../Service/Settings/settings.service';
-import { TitleService } from '../../Service/Title/title.service';
 import { ModelerService } from '../../Service/Modeler/modeler.service';
 import { Observable } from 'rxjs';
 import { ReplayStateService } from '../../Service/Replay/replay-state.service';
@@ -18,7 +17,6 @@ import { ReplayService } from '../../Service/Replay/replay.service';
 import { ExportService } from '../../Service/Export/export.service';
 import { ImportDomainStoryService } from '../../Service/Import/import-domain-story.service';
 import { LabelDictionaryDialogComponent } from '../Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
-import { HeaderDialogComponent } from '../Dialog/header-dialog/header-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
@@ -34,11 +32,8 @@ export class HeaderButtonsComponent {
   isReplay$: Observable<boolean>;
   isDirty$: Observable<boolean>;
 
-  showDescription: Observable<boolean>;
-
   constructor(
     private settingsService: SettingsService,
-    private titleService: TitleService,
     private modelerService: ModelerService,
     private replayStateService: ReplayStateService,
     private dirtyFlagService: DirtyFlagService,
@@ -50,7 +45,6 @@ export class HeaderButtonsComponent {
   ) {
     this.isReplay$ = this.replayStateService.replayOn$;
     this.isDirty$ = this.dirtyFlagService.dirty$;
-    this.showDescription = this.titleService.showDescription$;
   }
   import(): void {
     // @ts-ignore
@@ -85,10 +79,6 @@ export class HeaderButtonsComponent {
       );
     }
     this.modelerService.commandStackChanged();
-  }
-
-  setShowDescription(show: boolean): void {
-    this.titleService.setShowDescription(show);
   }
 
   openSettings(): void {

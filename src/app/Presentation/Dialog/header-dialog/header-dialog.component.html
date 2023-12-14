@@ -12,6 +12,9 @@
         matInput
         class="descriptionInput"
         formControlName="description"
+        (keydown.enter)="preventDefault($event)"
+        (keyup.enter)="save()"
+        (keyup.escape)="close()"
       ></textarea>
     </mat-form-field>
   </form>

@@ -100,4 +100,12 @@ export class LabelDictionaryComponent implements AfterViewInit {
     )[0].name = $event.target.value;
     this.workobjectEntriesSubject.next(entries);
   }
+
+  preventDefault(event: Event): void {
+    event.preventDefault();
+  }
+
+  close(): void {
+    this.closeEmitter.emit();
+  }
 }
