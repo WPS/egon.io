@@ -105,9 +105,7 @@ export function calculateTextWidth(text) {
 /**
  * copied from https://www.w3schools.com/howto/howto_js_autocomplete.asp on 18.09.2018
  */
-export function autocomplete(input, workObjectNames, element) {
-  //TODO: fix autocomplete to work in Angular
-
+export function autocomplete(input, workObjectNames, element, eventBus) {
   closeAllLists();
 
   /* the autocomplete function takes three arguments,
@@ -116,6 +114,10 @@ export function autocomplete(input, workObjectNames, element) {
 
   /* execute a function when someone writes in the text field:*/
   input.addEventListener("input", function () {
+    if (workObjectNames.length === 0) {
+      return;
+    }
+
     /* the direct editing field of actors and workobjects is a recycled html-element and has old values that need to be overridden*/
     if (element.type.includes(elementTypes.WORKOBJECT)) {
       this.value = this.innerHTML;
@@ -144,8 +146,6 @@ export function autocomplete(input, workObjectNames, element) {
           /* create a DIV element for each matching element:*/
           autocompleteItem = document.createElement("DIV");
 
-          autocompleteItem.className = "autocomplete-items"
-
           /* make the matching letters bold:*/
           autocompleteItem.innerHTML =
             "<strong>" +
@@ -156,23 +156,6 @@ export function autocomplete(input, workObjectNames, element) {
           /* insert an input field that will hold the current name:*/
           autocompleteItem.innerHTML +=
             "<input type='hidden' value='" + name + "'>";
-
-          /* execute a function when someone clicks on the item (DIV element):*/
-          autocompleteItem.onclick = function () {
-            /* insert the value for the autocomplete text field:*/
-            input.value = this.getElementsByTagName("input")[0].value;
-            input.innerHTML = this.getElementsByTagName("input")[0].value;
-
-            /* close the list of autocompleted values,
-              (or any other open lists of autocompleted values:*/
-            closeAllLists();
-          };
-
-          autocompleteItem.addEventListener('keydown', (event) => {
-              console.log(event.type)
-            }
-
-          )
           autocompleteList.appendChild(autocompleteItem);
         }
       }
@@ -206,13 +189,11 @@ export function autocomplete(input, workObjectNames, element) {
       /* and and make the current item more visible:*/
       addActive(autocompleteList);
     } else if (e.keyCode === 13) {
-      /* If the ENTER key is pressed, prevent the form from being submitted,*/
       e.preventDefault();
+      /* If the ENTER key is pressed, prevent the form from being submitted,*/
       if (currentFocus > -1) {
-        /* and simulate a click on the "active" item:*/
-        if (autocompleteList && autocompleteList[currentFocus]) {
-          autocompleteList[currentFocus].click();
-        }
+        element.businessObject.name = workObjectNames[currentFocus];
+        eventBus.fire("element.changed", { element });
       }
     }
   };
