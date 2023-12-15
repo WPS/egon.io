@@ -35,6 +35,13 @@ export function toggleStashUse(use) {
   stashUse = use;
 }
 
+export function focusElement(element) {
+  // Opening a Angular Dialog seems to mess with the focus logic somehow.
+  // My guess is that is makes the mousedown event passive, which prevents "preventDefault" from intercepting.
+  // I am not sure how to fix it, but this seems to be a workaround.
+  setTimeout(() => element.focus(), 0);
+}
+
 export default function DSLabelEditingProvider(
   eventBus,
   canvas,
@@ -109,7 +116,7 @@ export default function DSLabelEditingProvider(
     let editingBox = document.getElementsByClassName(
       "djs-direct-editing-content"
     );
-    editingBox.item(0).focus();
+    focusElement(editingBox.item(0));
   });
 
   eventBus.on("autoPlace.end", 500, function (event) {
@@ -130,7 +137,7 @@ export default function DSLabelEditingProvider(
     let editingBox = document.getElementsByClassName(
       "djs-direct-editing-content"
     );
-    editingBox.item(0).focus();
+    focusElement(editingBox.item(0));
     autocomplete(
       editingBox[0],
       dictionaryService.getUniqueWorkObjectNames(),
