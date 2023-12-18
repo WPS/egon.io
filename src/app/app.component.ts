@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { SettingsService } from 'src/app/Service/Settings/settings.service';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { DialogService } from './Service/Dialog/dialog.service';
-import { MatDialogConfig } from '@angular/material/dialog';
-import { InfoDialogData } from './Domain/Dialog/infoDialogData';
-import { InfoDialogComponent } from './Presentation/Dialog/info-dialog/info-dialog.component';
-import { TitleService } from './Service/Title/title.service';
-import { VERSION } from './Domain/Common/constants';
-import { ExportService } from './Service/Export/export.service';
-import { ReplayStateService } from './Service/Replay/replay-state.service';
-import { ReplayService } from './Service/Replay/replay.service';
+import {Component, OnInit} from '@angular/core';
+import {SettingsService} from 'src/app/Service/Settings/settings.service';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {DialogService} from './Service/Dialog/dialog.service';
+import {MatDialogConfig} from '@angular/material/dialog';
+import {InfoDialogData} from './Domain/Dialog/infoDialogData';
+import {InfoDialogComponent} from './Presentation/Dialog/info-dialog/info-dialog.component';
+import {TitleService} from './Service/Title/title.service';
+import {ExportService} from './Service/Export/export.service';
+import {ReplayStateService} from './Service/Replay/replay-state.service';
+import {ReplayService} from './Service/Replay/replay.service';
+import {environment} from "../environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,7 @@ import { ReplayService } from './Service/Replay/replay.service';
 export class AppComponent implements OnInit {
   showSettings$: Observable<boolean> | BehaviorSubject<boolean>;
   showDescription$: Observable<boolean>;
-  version: string = '';
+  version: string = environment.version;
 
   constructor(
     private settingsService: SettingsService,
@@ -27,11 +27,10 @@ export class AppComponent implements OnInit {
     private titleService: TitleService,
     private exportService: ExportService,
     private replayStateSerice: ReplayStateService,
-    private replayService: ReplayService
+    replayService: ReplayService
   ) {
     this.showSettings$ = new BehaviorSubject(false);
     this.showDescription$ = new BehaviorSubject(true);
-    this.version = VERSION;
 
     document.onkeydown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.key === 's') {

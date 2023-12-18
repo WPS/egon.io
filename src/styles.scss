@@ -115,6 +115,10 @@ app-root {
   height: 100%;
 }
 
+a {
+  color: map-get($egon-accent, 900);
+}
+
 /* Material Design */
 
 mat-dialog-actions.mdc-dialog__actions {

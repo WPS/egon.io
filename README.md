@@ -35,7 +35,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Deployment
 
-1. In the package.json update the version-tag appropriately
+1. In the package.json and environment.prod.ts update the version-tag appropriately
 2. Run the command **ng build**
    - This should create (or update the contents of) the folder **dist_build**
 3. Run the command **npm run zip**

@@ -1,16 +1,16 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { DomainConfigurationService } from 'src/app/Service/DomainConfiguration/domain-configuration.service';
-import { sanitizeForDesktop } from 'src/app/Utils/sanitizer';
-import { TitleService } from 'src/app/Service/Title/title.service';
-import { ConfigAndDST } from 'src/app/Domain/Export/configAndDst';
-import { DirtyFlagService } from 'src/app/Service/DirtyFlag/dirty-flag.service';
-import { PngService } from 'src/app/Service/Export/png.service';
-import { SvgService } from 'src/app/Service/Export/svg.service';
-import { Subscription } from 'rxjs';
-import { RendererService } from '../Renderer/renderer.service';
-import { HtmlPresentationService } from './html-presentation.service';
-import { VERSION } from '../../Domain/Common/constants';
-import { formatDate } from "@angular/common";
+import {Injectable, OnDestroy} from '@angular/core';
+import {DomainConfigurationService} from 'src/app/Service/DomainConfiguration/domain-configuration.service';
+import {sanitizeForDesktop} from 'src/app/Utils/sanitizer';
+import {TitleService} from 'src/app/Service/Title/title.service';
+import {ConfigAndDST} from 'src/app/Domain/Export/configAndDst';
+import {DirtyFlagService} from 'src/app/Service/DirtyFlag/dirty-flag.service';
+import {PngService} from 'src/app/Service/Export/png.service';
+import {SvgService} from 'src/app/Service/Export/svg.service';
+import {Subscription} from 'rxjs';
+import {RendererService} from '../Renderer/renderer.service';
+import {HtmlPresentationService} from './html-presentation.service';
+import {formatDate} from "@angular/common";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root',
@@ -165,9 +165,9 @@ export class ExportService implements OnDestroy {
         ele.setAttribute(
           'download',
           sanitizeForDesktop(this.title) +
-            '_' +
-            this.getCurrentDateString() +
-            '.png'
+          '_' +
+          this.getCurrentDateString() +
+          '.png'
         );
         ele.setAttribute('href', png64);
         document.body.appendChild(ele);
@@ -195,8 +195,8 @@ export class ExportService implements OnDestroy {
 
   private getStoryForDownload(): unknown[] {
     const story = this.rendererService.getStory() as unknown[];
-    story.push({ info: this.titleService.getDescription() });
-    story.push({ version: VERSION });
+    story.push({info: this.titleService.getDescription()});
+    story.push({version: environment.version});
     return story;
   }
 

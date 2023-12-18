@@ -33,18 +33,20 @@
 /* Logo Container */
 
 .logoContainer {
+  display: flex;
   position: absolute;
-  bottom: 45px;
-  right: 5px;
-}
+  bottom: 0;
+  right: 100px;
+  align-items: end;
 
-#imgWPS {
-  margin-left: 17px;
-}
+  img:hover {
+    cursor: pointer;
+  }
 
-#imgWPS:hover,
-#imgDST:hover {
-  cursor: pointer;
+  span {
+    margin-left: 16px;
+    margin-bottom: 14px;
+  }
 }
 
 .hidden {

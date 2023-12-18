@@ -1,6 +1,3 @@
-/** GLOBAL **/
-export const VERSION = '2.0.0-beta.1';
-
 /** DEFAULT VALUES **/
 export const INITIAL_TITLE = '< title >';
 export const INITIAL_DESCRIPTION = '< description >';
