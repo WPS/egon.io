@@ -11,12 +11,6 @@ A tool to visualize Domain Stories in your browser.
 
 Download the source code or clone the repository. Please note that we use the main branch for development. The main branch contains the latest features and bug fixes, but they might be undocumented and tested less thoroughly than a release. To be on the safe side, stick with the latest release branch.
 
-### Fetch dependencies:
-
-Run `yarn` to install the dependencies locally. If yarn is not installed, use `npm install -g yarn` to install it globally.
-
-We recommend using yarn, since the npm install can take up to 15 minutes, whereas yarn only takes about 2 minutes and for some reason the tests won't run using npm.
-
 ### Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
