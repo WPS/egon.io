@@ -1,4 +1,4 @@
-.labelDictionary {
+mat-dialog-content {
   display: grid;
   grid-template-columns: auto auto;
   top: 0;
@@ -53,12 +53,6 @@ h3 {
 
 .saveButtonSpan {
   margin-left: 2px;
-}
-
-.footer {
-  display: inline-grid;
-  width: 100%;
-  margin-top: 15px;
 }
 
 .activity {

@@ -1,16 +1,17 @@
-<div class="labelDictionary">
+<mat-dialog-content>
   <div class="workobjectList">
     <h3>Workobjects</h3>
     <mat-list>
       <mat-list-item
         *ngFor="let workobjectEntry of workobjectEntriesSubject | async"
       >
-        <input
-          matInput
-          class="inputText"
-          [value]="workobjectEntry.name"
-          (change)="updateWorkobjectEntry($event, workobjectEntry)"
-        />
+        <mat-form-field class="inputText">
+          <input matInput
+                 class="inputText"
+                 [value]="workobjectEntry.name"
+                 (change)="updateWorkobjectEntry($event, workobjectEntry)"
+          />
+        </mat-form-field>
       </mat-list-item>
     </mat-list>
   </div>
@@ -20,31 +21,25 @@
       <mat-list-item
         *ngFor="let activityEntry of activityEntriesSubject | async"
       >
-        <textarea
-          class="inputText activity"
-          [value]="activityEntry.name"
-          (change)="updateActivityEntry($event, activityEntry)"
-          cdkTextareaAutosize
-          cdkAutosizeMinRows="1"
-          cdkAutosizeMaxRows="3"
-          (keydown.enter)="preventDefault($event)"
-          (keyup.enter)="save()"
-          (keyup.escape)="close()"
-        >
-        ></textarea>
+        <mat-form-field class="inputText">
+          <textarea
+            matInput
+            class="inputText activity"
+            [value]="activityEntry.name"
+            (change)="updateActivityEntry($event, activityEntry)"
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="3"
+            (keydown.enter)="preventDefault($event)"
+            (keyup.enter)="save()"
+            (keyup.escape)="close()"
+          ></textarea>
+        </mat-form-field>
       </mat-list-item>
     </mat-list>
   </div>
-</div>
-<footer class="footer">
-  <button
-    class="saveButton"
-    mat-button
-    color="primary"
-    title="update dictionaries"
-    (click)="save()"
-  >
-    <span class="material-icons materialIconButton">library_books</span>
-    <span class="saveButtonSpan">update Dictionaries</span>
-  </button>
-</footer>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button (click)="close()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="save()">Update Dictionaries</button>
+</mat-dialog-actions>
