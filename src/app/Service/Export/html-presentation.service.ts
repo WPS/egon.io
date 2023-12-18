@@ -158,7 +158,7 @@ export class HtmlPresentationService {
   ) {
     return (
       'width="100%"' +
-      ' height="auto" ' +
+      ' height="100%" ' +
       ' preserveAspectRatio="xMidYMid meet"' +
       ' viewBox="' +
       xLeft +
