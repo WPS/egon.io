@@ -791,15 +791,6 @@ DomainStoryRenderer.prototype.drawConnection = function (p, element) {
   }
 };
 
-// TODO check if used
-DomainStoryRenderer.prototype.getConnectionPath = function (connection) {
-  let type = connection.type;
-
-  if (type === elementTypes.ACTIVITY || type === elementTypes.CONNECTION) {
-    return this.getActivityPath(connection);
-  }
-};
-
 // creates a SVG path that describes a rectangle which encloses the given shape.
 function getRectPath(shape) {
   let offset = 5;

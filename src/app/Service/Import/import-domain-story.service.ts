@@ -1,26 +1,27 @@
-import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
-import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
-import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
-import { elementTypes } from 'src/app/Domain/Common/elementTypes';
-import { TitleService } from 'src/app/Service/Title/title.service';
-import { ImportRepairService } from 'src/app/Service/Import/import-repair.service';
-import { Observable, Subscription } from 'rxjs';
-import { RendererService } from 'src/app/Service/Renderer/renderer.service';
-import { BusinessObject } from 'src/app/Domain/Common/businessObject';
+import {EventEmitter, Injectable, OnDestroy} from '@angular/core';
+import {IconDictionaryService} from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
+import {Dictionary} from 'src/app/Domain/Common/dictionary/dictionary';
+import {elementTypes} from 'src/app/Domain/Common/elementTypes';
+import {TitleService} from 'src/app/Service/Title/title.service';
+import {ImportRepairService} from 'src/app/Service/Import/import-repair.service';
+import {Observable, Subscription} from 'rxjs';
+import {RendererService} from 'src/app/Service/Renderer/renderer.service';
+import {BusinessObject} from 'src/app/Domain/Common/businessObject';
 import {
   DomainConfiguration,
   fromConfigurationFromFile,
 } from 'src/app/Domain/Common/domainConfiguration';
-import { DialogService } from '../Dialog/dialog.service';
-import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
-import { MatDialogConfig } from '@angular/material/dialog';
-import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
-import { restoreTitleFromFileName } from '../../Utils/sanitizer';
+import {DialogService} from '../Dialog/dialog.service';
+import {InfoDialogComponent} from '../../Presentation/Dialog/info-dialog/info-dialog.component';
+import {MatDialogConfig} from '@angular/material/dialog';
+import {InfoDialogData} from '../../Domain/Dialog/infoDialogData';
+import {restoreTitleFromFileName} from '../../Utils/sanitizer';
 import {
   INITIAL_DESCRIPTION,
-  INITIAL_TITLE,
+  INITIAL_TITLE, SNACKBAR_DURATION, SNACKBAR_ERROR, SNACKBAR_INFO,
 } from '../../Domain/Common/constants';
-import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
+import {DomainConfigurationService} from '../DomainConfiguration/domain-configuration.service';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +43,8 @@ export class ImportDomainStoryService implements OnDestroy {
     private titleService: TitleService,
     private rendererService: RendererService,
     private dialogService: DialogService,
-    private domainConfigurationService: DomainConfigurationService
+    private domainConfigurationService: DomainConfigurationService,
+    private snackbar: MatSnackBar
   ) {
     this.titleSubscription = this.titleService.title$.subscribe(
       (title: string) => {
@@ -171,7 +173,14 @@ export class ImportDomainStoryService implements OnDestroy {
           importVersionNumber = importVersionNumber.version as string;
         } else {
           importVersionNumber = '?';
-          // TODO show error for unreadable version number
+          this.snackbar.open(
+            `The version number is unreadable.`,
+            undefined,
+            {
+              duration: SNACKBAR_DURATION,
+              panelClass: SNACKBAR_ERROR,
+            }
+          );
         }
         elements = this.handleVersionNumber(importVersionNumber, elements);
       }
@@ -272,6 +281,7 @@ export class ImportDomainStoryService implements OnDestroy {
     }
     return changed;
   }
+
   private clearName(name: string): string {
     return name
       .replace(elementTypes.ACTOR, '')
@@ -327,8 +337,8 @@ export class ImportDomainStoryService implements OnDestroy {
     config.data = new InfoDialogData(
       'Error during import',
       'The uploaded ' +
-        type +
-        ' is not complete, there could be elements missing from the canvas.',
+      type +
+      ' is not complete, there could be elements missing from the canvas.',
       true,
       false
     );

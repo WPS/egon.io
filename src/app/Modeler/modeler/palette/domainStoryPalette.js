@@ -148,7 +148,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   );
 
   workObjectTypes?.keysArray().forEach((workObjectType) => {
-    addCanvasObjectTypes(workObjectType, createAction, actions, "actor"); // TODO is ClassName 'actor' correct?
+    addCanvasObjectTypes(workObjectType, createAction, actions, "actor");
   });
 
   assign(actions, {
