@@ -1,12 +1,11 @@
 <div *ngIf="!(isReplay$ | async)">
   <button
+    id="buttonStartReplay"
     class="headerButton"
-    title="Label Dictionary"
-    (click)="openLabelDictionary()"
+    title="Start replay"
+    (click)="startReplay()"
   >
-    <span class="material-icons materialIconButton" title="Label Dictionary">
-      spellcheck
-    </span>
+    <span class="material-icons materialIconButton"> play_arrow </span>
   </button>
   <button
     id="buttonImport"
@@ -42,21 +41,14 @@
     </span>
   </button>
   <button
-    id="buttonStartReplay"
     class="headerButton"
-    title="Start replay"
-    (click)="startReplay()"
+    title="Label Dictionary"
+    (click)="openLabelDictionary()"
   >
-    <span class="material-icons materialIconButton"> play_arrow </span>
+    <span class="material-icons materialIconButton" title="Label Dictionary">
+      spellcheck
+    </span>
   </button>
-  <button
-    class="headerButton"
-    title="Show keyboard shortcuts"
-    (click)="openKeyboardShortcutsDialog()"
-  >
-    <span class="material-icons materialIconButton"> info </span>
-  </button>
-
   <button class="headerButton" title="Settings" (click)="openSettings()">
     <span
       class="material-icons materialIconButton"
@@ -64,6 +56,13 @@
     >
       settings
     </span>
+  </button>
+  <button
+    class="headerButton"
+    title="Show keyboard shortcuts"
+    (click)="openKeyboardShortcutsDialog()"
+  >
+    <span class="material-icons materialIconButton"> info </span>
   </button>
 </div>
 <div *ngIf="isReplay$ | async">
