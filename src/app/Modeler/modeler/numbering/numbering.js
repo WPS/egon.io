@@ -1,6 +1,7 @@
 "use strict";
 
 import { labelPosition } from "../labeling/position";
+import { angleBetween } from "../../../Utils/mathExtensions";
 
 let numberRegistry = [];
 let multipleNumberRegistry = [false];
@@ -17,13 +18,47 @@ export function numberBoxDefinitions(element) {
   let boxWidth = 30;
   let boxHeight = 30;
   let position = labelPosition(element.waypoints);
+  let angle = 0;
+  if (element.waypoints.length > 1) {
+    angle = angleBetween(element.waypoints[0], element.waypoints[1]);
+  }
+  let x = position.x;
+  let y = position.y;
+
+  // TODO: Use trigonometric functions to make the positioning more consistent.
+  // This would require to touch the label code as well.
+  if (angle >= 0 && angle <= 45) {
+    y = y - 30 + angle / 2;
+    x = x - 25 - angle / 2;
+  } else if (angle <= 90) {
+    y = y - 10 + (angle - 45) / 4.5;
+    x = x - 35 - angle / 9;
+  } else if (angle <= 145) {
+    y = y + angle / 7.25;
+    x = x - 45 - angle / 14.5;
+  } else if (angle < 180) {
+    y = y + 20 + angle / 9;
+    x = x - 50 + angle / 4.5;
+  } else if (angle <= 225) {
+    y = y - 45 + angle / 12.25;
+    x = x + 10 - angle / 6.125;
+  } else if (angle <= 270) {
+    y = y - 80 + angle / 3.375;
+    x = x - 5 - angle / 6.125;
+  } else if (angle <= 315) {
+    y = y - 135 + angle / 2;
+    x = x - 50;
+  } else {
+    y = y + 22.5 + (angle - 315) / 6;
+    x = x - 50 + (angle - 315) / 1.8;
+  }
 
   return {
     textAlign: alignment,
     width: boxWidth,
     height: boxHeight,
-    x: position.x,
-    y: position.y,
+    x: x,
+    y: y,
   };
 }
 
