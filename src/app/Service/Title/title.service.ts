@@ -1,8 +1,12 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {INITIAL_DESCRIPTION, INITIAL_DOMAIN_NAME, INITIAL_TITLE,} from '../../Domain/Common/constants';
-import {CommandStackService} from '../CommandStack/command-stack.service';
-import {environment} from "../../../environments/environment";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import {
+  INITIAL_DESCRIPTION,
+  INITIAL_DOMAIN_NAME,
+  INITIAL_TITLE,
+} from '../../Domain/Common/constants';
+import { CommandStackService } from '../CommandStack/command-stack.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +22,7 @@ export class TitleService {
   showDescription$ = this.showDescriptionSubject.asObservable();
   domainName$ = this.domainNameSubject.asObservable();
 
-  constructor(private commandStackService: CommandStackService) {
-  }
+  constructor(private commandStackService: CommandStackService) {}
 
   updateTitleAndDescription(
     title: string | null,

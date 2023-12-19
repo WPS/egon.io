@@ -8,8 +8,9 @@ export const APPENDED_ICONS_TAG = 'appendedIcons';
 export const DOMAIN_CONFIGURATION_TAG = 'domainConfigurationTag';
 
 /** AUTOSAVE DEFAULTS **/
+export const DEFAULT_AUTOSAVES_ENABLED = true;
 export const DEFAULT_AUTOSAVES_AMOUNT = 5;
-export const DEFAULT_AUTOSAVES_INTERVAL = 5;
+export const DEFAULT_AUTOSAVES_INTERVAL = 30;
 
 /** SNACKBAR **/
 export const SNACKBAR_DURATION = 2000;

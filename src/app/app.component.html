@@ -9,7 +9,7 @@
     "
     [class.hidden]="showSettings$ | async"
   >
-    <input type="color" id="colorPicker" style="display: none"/>
+    <input type="color" id="colorPicker" style="display: none" />
 
     <app-header
       [class.header]="showDescription$ | async"
@@ -28,19 +28,23 @@
       width="74"
       alt=""
       (click)="
-          openLinkDialog(
-            'https://domainstorytelling.org/',
-            'Domain-Storytelling',
-            'Check us out at: '
-          )
-        "
+        openLinkDialog(
+          'https://domainstorytelling.org/',
+          'Domain-Storytelling',
+          'Check us out at: '
+        )
+      "
     />
     <span>
       <a href="https://egon.io" target="_blank">egon.io</a>
     </span>
     <span>
-      <a href="https://github.com/WPS/egon.io/releases/latest" target="_blank">{{version}}</a> by <a
-      href="https://www.wps.de/" target="_blank">WPS</a>
+      <a
+        href="https://github.com/WPS/egon.io/releases/latest"
+        target="_blank"
+        >{{ version }}</a
+      >
+      by <a href="https://www.wps.de/" target="_blank">WPS</a>
     </span>
   </div>
 </div>

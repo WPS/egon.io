@@ -4,8 +4,8 @@ import { TitleService } from 'src/app/Service/Title/title.service';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
-  VERSION,
 } from '../../Domain/Common/constants';
+import { environment } from '../../../environments/environment';
 
 describe('TitleService', () => {
   let service: TitleService;
@@ -20,7 +20,7 @@ describe('TitleService', () => {
   });
 
   it('should getVerision', () => {
-    expect(service.getVersion()).toEqual(VERSION);
+    expect(service.getVersion()).toEqual(environment.version);
   });
 
   it('should initialize title and Description', () => {

@@ -9,12 +9,14 @@ import { fromConfigurationFromFile } from '../../Domain/Common/domainConfigurati
 import { StorageService } from '../BrowserStorage/storage.service';
 import { TitleService } from '../Title/title.service';
 import { AutosaveConfiguration } from '../../Domain/Autosave/autosave-configuration';
+import { Subject } from 'rxjs';
 import {
+  INITIAL_DESCRIPTION,
+  INITIAL_TITLE,
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
-} from 'src/app/Domain/Common/constants';
+} from '../../Domain/Common/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject } from 'rxjs';
 
 export const DRAFTS_TAG = 'autosaveDrafts';
 
@@ -28,7 +30,7 @@ export class AutosaveService {
   constructor(
     private autosaveConfiguration: AutosaveConfigurationService,
     private exportService: ExportService,
-    private iconDistionaryService: IconDictionaryService,
+    private iconDictionaryService: IconDictionaryService,
     private rendererService: RendererService,
     private snackbar: MatSnackBar,
     private storageService: StorageService,
@@ -56,15 +58,15 @@ export class AutosaveService {
       false
     );
 
-    const actorIcons = this.iconDistionaryService.getElementsOfType(
+    const actorIcons = this.iconDictionaryService.getElementsOfType(
       story,
       elementTypes.ACTOR
     );
-    const workObjectIcons = this.iconDistionaryService.getElementsOfType(
+    const workObjectIcons = this.iconDictionaryService.getElementsOfType(
       story,
       elementTypes.WORKOBJECT
     );
-    this.iconDistionaryService.updateIconRegistries(
+    this.iconDictionaryService.updateIconRegistries(
       actorIcons,
       workObjectIcons,
       config
@@ -100,8 +102,8 @@ export class AutosaveService {
       if (drafts.length > 0) {
         isChanged = isChanged && !this.isSame(newDraft, drafts[0]);
       }
-      if (isChanged) {
-        drafts.unshift(this.createDraft());
+      if (isChanged && !this.isDraftEmpty(newDraft)) {
+        drafts.unshift(newDraft);
         while (drafts.length > amount) {
           drafts.pop();
         }
@@ -112,7 +114,15 @@ export class AutosaveService {
         });
         this.autosavedDraftsChanged$.next();
       }
-    }, interval * 60000);
+    }, interval * 1000);
+  }
+
+  private isDraftEmpty(draft: Draft) {
+    return (
+      draft.title === INITIAL_TITLE &&
+      draft.description === INITIAL_DESCRIPTION &&
+      JSON.parse(draft.configAndDST.dst).length === 0
+    );
   }
 
   private isSame(a: Draft, b: Draft) {

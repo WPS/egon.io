@@ -64,6 +64,14 @@
   >
     <span class="material-icons materialIconButton"> info </span>
   </button>
+  <button
+    class="headerButton"
+    title="Restore previous draft"
+    *ngIf="hasPreviousDraft()"
+    (click)="restorePreviousDraft()"
+  >
+    <span class="material-icons materialIconButton"> restore_page </span>
+  </button>
 </div>
 <div *ngIf="isReplay$ | async">
   <button class="headerButton" title="Previous Step" (click)="previousStep()">

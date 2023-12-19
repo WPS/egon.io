@@ -4,13 +4,14 @@ import { StorageService } from '../BrowserStorage/storage.service';
 import { AutosaveConfiguration } from '../../Domain/Autosave/autosave-configuration';
 import {
   DEFAULT_AUTOSAVES_AMOUNT,
+  DEFAULT_AUTOSAVES_ENABLED,
   DEFAULT_AUTOSAVES_INTERVAL,
 } from 'src/app/Domain/Common/constants';
 
 const AUTOSAVE_CONFIGURATION_TAG = 'autosaveConfiguration';
 
 const defaultConfiguration: AutosaveConfiguration = {
-  activated: false,
+  activated: DEFAULT_AUTOSAVES_ENABLED,
   interval: DEFAULT_AUTOSAVES_INTERVAL,
   amount: DEFAULT_AUTOSAVES_AMOUNT,
 };

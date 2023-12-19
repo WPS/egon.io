@@ -5,8 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "bundle": "ng build",
-    "formatter": "prettier --write .",
-    "formatter-check": "prettier --check .",
+    "format": "prettier --write ./src",
+    "format:check": "prettier --check .",
     "test": "ng test",
     "build": "ng build",
     "zip": "zip-build dist_build/ dist/ --template '%NAME%-%VERSION%.%EXT%'"
