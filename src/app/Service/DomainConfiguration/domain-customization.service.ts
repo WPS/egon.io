@@ -82,6 +82,7 @@ export class DomainCustomizationService {
     const actorKeys = customConfig.actors.keysArray();
     const workObjectKeys = customConfig.workObjects.keysArray();
 
+    this.changeName(customConfig.name);
     actorKeys.forEach((iconName) => {
       if (!this.allIconListItems.has(iconName)) {
         this.addIconToAllIconList(iconName);
