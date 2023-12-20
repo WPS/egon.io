@@ -1,0 +1,49 @@
+.noPointer {
+  cursor: default !important;
+}
+
+.description {
+  top: 0;
+  max-width: 100vw;
+  overflow-y: scroll;
+  display: grid;
+}
+
+.descriptionText {
+  position: relative;
+  font-size: 10pt;
+  overflow-wrap: anywhere;
+  word-wrap: anywhere;
+  white-space: pre-wrap;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  align-self: center;
+
+  line-height: 12pt;
+}
+
+.description:hover {
+  cursor: default;
+}
+
+.domainNameSpacer {
+  flex: 1 1 auto;
+}
+
+.buttonSpacer {
+  margin-right: 15px;
+}
+
+.headline:hover > .editIcon {
+  display: contents;
+}
+
+.headline > .editIcon {
+  display: none;
+}
+
+.headerButton:hover {
+  cursor: pointer;
+  color: white;
+}

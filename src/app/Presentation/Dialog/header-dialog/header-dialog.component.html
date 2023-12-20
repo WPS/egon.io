@@ -1,0 +1,26 @@
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field class="dialogWidth">
+      <mat-label>Title</mat-label>
+      <input matInput type="text" formControlName="title" />
+    </mat-form-field>
+    <br />
+    <mat-form-field class="dialogWidth">
+      <mat-label>Description</mat-label>
+      <textarea
+        maxlength="2000"
+        matInput
+        class="descriptionInput"
+        formControlName="description"
+        (keydown.enter)="preventDefault($event)"
+        (keyup.enter)="save()"
+        (keyup.escape)="close()"
+      ></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-flat-button (click)="close()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

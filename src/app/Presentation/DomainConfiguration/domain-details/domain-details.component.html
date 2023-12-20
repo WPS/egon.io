@@ -1,0 +1,49 @@
+<div class="details smallScrollbar">
+  <div class="domainDetails bottom-border">
+    <h3>Icon Set name</h3>
+    <form>
+      <mat-form-field class="inputWidth">
+        <input
+          matInput
+          type="text"
+          (input)="changeName($event)"
+          [value]="domainName | async"
+        />
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="actorList bottom-border">
+    <h3>Order of actors</h3>
+    <mat-list>
+      <mat-list-item
+        class="compactItem"
+        *ngFor="let iconName of selectedActors$ | async; let i = index"
+        draggable="true"
+        (dragover)="allowDrop($event, 'actorList')"
+        (dragstart)="onDragStart(i, 'actorList')"
+        (drop)="onDrop($event, iconName, true, i)"
+      >
+        <app-details-list-item
+          [icon]="getIconForName(iconName)"
+        ></app-details-list-item>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="workobjectList">
+    <h3>Order of work objects</h3>
+    <mat-list>
+      <mat-list-item
+        class="compactItem"
+        *ngFor="let iconName of selectedWorkobjects$ | async; let i = index"
+        draggable="true"
+        (dragover)="allowDrop($event, 'workobjectList')"
+        (dragstart)="onDragStart(i, 'workobjectList')"
+        (drop)="onDrop($event, iconName, false, i)"
+      >
+        <app-details-list-item
+          [icon]="getIconForName(iconName)"
+        ></app-details-list-item>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

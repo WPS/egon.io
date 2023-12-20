@@ -1,0 +1,39 @@
+<mat-card *ngIf="autosaveConfiguration.configuration$ | async as configuration">
+  <mat-card-header>
+    <mat-card-title>Autosave Options</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="cardContent">
+    <div class="alignSelfCenter">
+      <input #activated type="checkbox" [checked]="configuration.activated" />
+      <mat-label>Enabled</mat-label>
+    </div>
+    <div class="inputContainer">
+      <mat-label>Interval</mat-label>
+      <input
+        #interval
+        class="numberInput"
+        min="1"
+        type="number"
+        [value]="configuration.interval"
+      />
+    </div>
+    <div class="inputContainer">
+      <mat-label>Amount</mat-label>
+      <input
+        #amount
+        class="numberInput"
+        min="1"
+        type="number"
+        [value]="configuration.amount"
+      />
+    </div>
+    <button
+      class="saveButton"
+      mat-raised-button
+      color="primary"
+      (click)="save(activated.checked, +amount.value, +interval.value)"
+    >
+      Apply
+    </button>
+  </mat-card-content>
+</mat-card>

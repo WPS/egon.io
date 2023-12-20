@@ -1,0 +1,18 @@
+.icon {
+  width: 20px;
+  height: 20px;
+  padding-right: 3px;
+}
+
+.detailsListItem {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  width: 250px;
+}
+
+.iconName {
+  max-width: 225px;
+  word-wrap: anywhere;
+  white-space: pre-wrap !important;
+}

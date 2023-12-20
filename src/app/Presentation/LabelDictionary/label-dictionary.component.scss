@@ -1,0 +1,60 @@
+mat-dialog-content {
+  display: grid;
+  grid-template-columns: auto auto;
+  top: 0;
+  bottom: 0;
+  max-height: 75vh;
+  grid-column-gap: 5px;
+  width: 75vw;
+
+  mat-list-item {
+    height: unset !important;
+    //padding-bottom: 2px !important;
+  }
+
+  mat-list-item-content {
+    padding: 0 !important;
+  }
+}
+
+h3 {
+  font-weight: bold;
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+}
+
+.inputText {
+  width: 98%;
+  resize: none;
+  font-family: sans-serif;
+  font-size: small;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  margin: 0;
+}
+
+.activityListHeader {
+  display: inline-grid;
+  grid-template-columns: auto auto auto;
+  width: 100%;
+}
+
+.activityListTitle {
+  justify-self: left;
+}
+
+.saveButton {
+  justify-self: end;
+  padding-right: 0 !important;
+}
+
+.saveButtonSpan {
+  margin-left: 2px;
+}
+
+.activity {
+  max-height: 3rem;
+}

@@ -1,0 +1,111 @@
+.content {
+  display: grid;
+  grid-template-columns: auto 250px;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: max-content auto max-content;
+  border-bottom: #ccc 2px solid;
+  height: 46px;
+}
+
+.buttons {
+  align-self: center;
+  justify-self: left;
+
+  ::ng-deep.mat-button {
+    min-width: 36px;
+  }
+}
+
+.saveButtons {
+  align-self: center;
+  display: inline-flex;
+  justify-items: center;
+  padding-right: 5px;
+
+  ::ng-deep.mat-button {
+    min-width: 36px;
+  }
+}
+
+.button {
+  width: 36px;
+}
+
+.mat-button {
+  color: #666666;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.domainConfiguration {
+  padding-left: 10px;
+  padding-bottom: 5px;
+  margin-top: 15px;
+  height: 100%;
+}
+
+.icons {
+  display: grid;
+  grid-template-rows: 2rem auto;
+  height: 100%;
+  grid-row-gap: 1px;
+}
+
+.divider {
+  border-left: #ccc 2px solid;
+}
+
+.searchbar {
+  display: grid;
+  grid-template-columns: 5px 40px 65px 10px 65px 10px 100px 20px 300px;
+  margin-left: 15px;
+  margin-right: 10px;
+  align-self: center;
+  align-items: center;
+  justify-self: left;
+  border-left: #ccc 2px solid;
+  height: inherit;
+}
+
+.activeActor {
+  background-color: #42aebb;
+  color: white;
+}
+
+.activeNone {
+  background-color: #e0e0e0;
+  color: black;
+}
+
+.activeWorkObject {
+  background-color: #42aebb;
+  color: white;
+}
+
+.textInput {
+  width: 300px;
+  border: #666666 1px solid;
+}
+
+.iconList {
+  display: grid;
+  overflow-y: scroll;
+  height: calc(100vh - 130px);
+}
+
+.domainDetails {
+  overflow-y: scroll;
+  width: 250px;
+  height: calc(100vh - 65px);
+}
+
+::ng-deep.mat-grid-tile {
+  .mat-grid-tile-content {
+    justify-content: inherit;
+  }
+}

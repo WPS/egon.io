@@ -1,0 +1,126 @@
+<div class="content">
+  <div>
+    <div class="header">
+      <div class="buttons">
+        <button mat-button title="Upload Icon" (click)="startIconUpload()">
+          <span class="material-icons-outlined materialIconButton">upload</span>
+          <input
+            type="file"
+            multiple
+            accept=".svg, image/png, image/jpeg, image/gif, image/bpmn"
+            style="display: none"
+            id="importIcon"
+            name="file"
+            onclick="this.value=null"
+            (change)="importIcon()"
+          />
+        </button>
+        <button
+          mat-button
+          class="button"
+          title="Reset to default icon set"
+          (click)="loadMinimalIconConfigurationWithDefaultIcons()"
+        >
+          <span class="material-icons-outlined materialIconButton"> home </span>
+        </button>
+      </div>
+      <div class="searchbar">
+        <div></div>
+        <div>Filter:</div>
+        <button
+          mat-button
+          [class.activeNone]="(filter | async) === 'ICON_FILTER_UNASSIGNED'"
+          title="Unassigned Icons"
+          (click)="filterForUnassigned()"
+        >
+          <span>None</span>
+        </button>
+        <div></div>
+        <button
+          mat-button
+          [class.activeActor]="(filter | async) === 'ICON_FILTER_ACTOR'"
+          title="Actors"
+          (click)="filterForActors()"
+        >
+          <span>Actors</span>
+        </button>
+        <div></div>
+        <button
+          mat-button
+          [class.activeWorkObject]="
+            (filter | async) === 'ICON_FILTER_WORKOBJECT'
+          "
+          title="Workobjects"
+          (click)="filterForWorkobjects()"
+        >
+          <span>Workobjects</span>
+        </button>
+        <div></div>
+        <input
+          class="textInput"
+          matInput
+          type="text"
+          placeholder="Filter by name"
+          (input)="filterByNameAndType($event)"
+        />
+      </div>
+      <div class="saveButtons">
+        <button mat-button title="Export icon set" (click)="exportDomain()">
+          <span class="material-icons-outlined materialIconButton"
+            >archive</span
+          >
+        </button>
+        <button
+          mat-button
+          title="Import icon set"
+          (click)="startDomainImport()"
+        >
+          <span class="material-icons-outlined materialIconButton"
+            >unarchive</span
+          >
+          <input
+            type="file"
+            accept=".domain"
+            style="display: none"
+            id="importDomain"
+            name="file"
+            onclick="this.value=null"
+            (change)="importDomain()"
+          />
+        </button>
+        <div class="divider"></div>
+        <button
+          mat-button
+          title="Cancel changes"
+          (click)="loadInitialConfiguration()"
+        >
+          <span class="material-icons-outlined materialIconButton">close</span>
+        </button>
+        <button mat-button title="Save icon set" (click)="saveDomain()">
+          <span class="material-icons-outlined materialIconButton">save</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="domainConfiguration">
+      <div class="icons">
+        <div class="iconList smallScrollbar">
+          <mat-grid-list cols="8" rowHeight="170px">
+            <mat-grid-tile
+              *ngFor="let iconName of allFilteredIconNames | async"
+              [colspan]="1"
+              [rowspan]="1"
+            >
+              <app-icon-list-item
+                [iconName]="iconName"
+                class="iconListItem"
+              ></app-icon-list-item>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-domain-details class="domainDetails"></app-domain-details>
+</div>

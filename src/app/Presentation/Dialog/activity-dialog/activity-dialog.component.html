@@ -1,0 +1,35 @@
+<mat-dialog-content>
+  <h2>Edit Activity</h2>
+  <form [formGroup]="form">
+    <div [hidden]="!showNumberFields">
+      <mat-form-field class="shortWidth">
+        <mat-label>Number</mat-label>
+        <input matInput type="number" formControlName="activityNumber" />
+      </mat-form-field>
+      <input
+        type="checkbox"
+        formControlName="multipleNumbers"
+        (change)="onSubmit()"
+      />
+      multiple
+    </div>
+    <mat-form-field class="fullWidth">
+      <mat-label>Label</mat-label>
+      <textarea
+        matInput
+        type="text"
+        formControlName="activityLabel"
+        autofocus
+        cdkFocusInitial
+        (keydown.enter)="preventDefault($event)"
+        (keyup.enter)="save()"
+        (keyup.escape)="close()"
+      ></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-flat-button (click)="close()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

@@ -1,0 +1,18 @@
+span {
+  font-size: 15pt;
+  color: white;
+}
+
+#dictionaryButton {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.headerButton:hover {
+  cursor: pointer;
+  color: white;
+}
+
+.materialIconButton:hover {
+  color: lightgrey;
+}

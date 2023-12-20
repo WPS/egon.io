@@ -1,0 +1,38 @@
+.items {
+  ::ng-deep.mat-list-item-content {
+    padding: 0;
+  }
+  padding-top: 0 !important;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 8px 0;
+  width: 400px;
+}
+
+.border-bottom {
+  border-bottom: 1px solid darkgray;
+}
+
+.item-title {
+  font-weight: bold;
+  width: 270px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.item-date {
+  font-weight: normal;
+}
+
+.item-button {
+  margin-left: 1rem;
+}
+
+mat-list-item {
+  border-bottom: 1px solid darkgray;
+}

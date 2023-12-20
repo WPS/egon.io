@@ -1,0 +1,43 @@
+.IconContainer {
+  width: 170px;
+  height: 170px;
+}
+
+.content {
+  display: grid;
+  grid-template-rows: auto auto;
+  justify-items: center;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+}
+
+.name {
+  word-wrap: anywhere;
+  max-height: 75px;
+  overflow: hidden;
+  padding-bottom: 2px;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+
+  ::ng-deep.mat-button-toggle-label-content {
+    font-size: 10pt !important;
+    padding: 0 5px !important;
+    line-height: inherit !important;
+  }
+
+  ::ng-deep.activeMatButtonActor button {
+    background-color: #43acbf;
+    color: #ffffff;
+  }
+
+  ::ng-deep.activeMatButtonWorkObject button {
+    background-color: #0168b7;
+    color: #ffffff;
+  }
+}

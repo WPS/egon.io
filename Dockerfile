@@ -13,4 +13,4 @@ RUN npm run bundle
 
 # Runtime stage
 FROM nginx:1.22-alpine
-COPY --from=build-stage /app/build /usr/share/nginx/html
+COPY --from=build-stage /app/dist_build/egon /usr/share/nginx/html

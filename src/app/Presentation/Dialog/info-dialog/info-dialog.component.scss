@@ -1,0 +1,14 @@
+.readOnlyText {
+  display: block;
+  border: none;
+  resize: none;
+  width: 100%;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+.content {
+  height: fit-content;
+  width: 30vw;
+  overflow: hidden;
+}

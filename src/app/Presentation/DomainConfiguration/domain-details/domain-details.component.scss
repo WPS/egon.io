@@ -1,0 +1,54 @@
+.details {
+  display: grid;
+  grid-template-rows: 68px auto auto;
+  min-height: 100vh;
+  grid-row-gap: 1px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 250px;
+  border-left: solid 1px #ccc;
+}
+
+.domainDetails {
+  margin-top: 10px;
+
+  ::ng-deep.mat-mdc-form-field-infix {
+    border: none;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  ::ng-deep.mdc-text-field {
+    padding-left: 0 !important;
+  }
+}
+
+.compactItem {
+  height: 40px !important;
+}
+
+.fullWidth {
+  width: 100%;
+  padding-left: 15px;
+}
+
+.inputWidth {
+  width: 200px;
+  padding-left: 15px;
+  height: 46px;
+}
+
+h3 {
+  padding-left: 15px;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+mat-list {
+  overflow: auto;
+  padding-top: 0;
+}
+
+.bottom-border {
+  border-bottom: 2px solid #ccc;
+}

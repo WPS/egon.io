@@ -1,0 +1,86 @@
+<div *ngIf="!(isReplay$ | async)">
+  <button
+    id="buttonStartReplay"
+    class="headerButton"
+    title="Start replay"
+    (click)="startReplay()"
+  >
+    <span class="material-icons materialIconButton"> play_arrow </span>
+  </button>
+  <button
+    id="buttonImport"
+    class="headerButton"
+    title="Import story from file"
+    onclick="document.getElementById('import').click();"
+  >
+    <span class="material-icons materialIconButton"> unarchive </span>
+  </button>
+  <input
+    type="file"
+    accept=".dst, .dst.svg, .egn, .egn.svg"
+    style="display: none"
+    id="import"
+    onclick="this.value=null;"
+    (change)="import()"
+    name="file"
+  />
+  <button
+    class="headerButton"
+    id="export"
+    title="Export story as .egn, .svg or .png file"
+    (click)="openDownloadDialog()"
+  >
+    <span
+      class="material-icons-outlined materialIconButton"
+      *ngIf="!(isDirty$ | async)"
+    >
+      archive
+    </span>
+    <span class="material-icons materialIconButton" *ngIf="isDirty$ | async">
+      archive
+    </span>
+  </button>
+  <button
+    class="headerButton"
+    title="Label Dictionary"
+    (click)="openLabelDictionary()"
+  >
+    <span class="material-icons materialIconButton" title="Label Dictionary">
+      spellcheck
+    </span>
+  </button>
+  <button class="headerButton" title="Settings" (click)="openSettings()">
+    <span
+      class="material-icons materialIconButton"
+      title="Change Icons and Settings"
+    >
+      settings
+    </span>
+  </button>
+  <button
+    class="headerButton"
+    title="Show keyboard shortcuts"
+    (click)="openKeyboardShortcutsDialog()"
+  >
+    <span class="material-icons materialIconButton"> info </span>
+  </button>
+  <button
+    class="headerButton"
+    title="Restore previous draft"
+    *ngIf="hasPreviousDraft()"
+    (click)="restorePreviousDraft()"
+  >
+    <span class="material-icons materialIconButton"> restore_page </span>
+  </button>
+</div>
+<div *ngIf="isReplay$ | async">
+  <button class="headerButton" title="Previous Step" (click)="previousStep()">
+    <span class="material-icons materialIconButton"> skip_previous </span>
+  </button>
+  <button class="headerButton" title="NextStep" (click)="nextStep()">
+    <span class="material-icons materialIconButton"> skip_next </span>
+  </button>
+  <button class="headerButton" title="Stop replay" (click)="stopReplay()">
+    <span class="material-icons materialIconButton"> stop </span>
+  </button>
+</div>
