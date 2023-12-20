@@ -13,6 +13,7 @@ import { DomainConfiguration } from '../../Domain/Common/domainConfiguration';
 import { INITIAL_DOMAIN_NAME } from '../../Domain/Common/constants';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
 import { elementTypes } from '../../Domain/Common/elementTypes';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('ImportDomainStoryService', () => {
   let service: ImportDomainStoryService;
@@ -50,6 +51,10 @@ describe('ImportDomainStoryService', () => {
         {
           provide: DialogService,
           useValue: MockService(DialogService),
+        },
+        {
+          provide: MatSnackBar,
+          useValue: MockService(MatSnackBar),
         },
       ],
     });
