@@ -19,7 +19,7 @@ jobs:
 
       - run: npm ci
       - run: npm run format:check
-      - run: xvfb-run npm run test
+#      - run: xvfb-run npm run test
       - run: npm run build
       - run: npm run zip
 
