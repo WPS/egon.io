@@ -18,7 +18,10 @@ jobs:
           node-version: 16
 
       - run: npm ci
-      - run: xvfb-run npm run all
+      - run: npm run format:check
+      - run: xvfb-run npm run test
+      - run: npm run build
+      - run: npm run zip
 
       - uses: actions/upload-artifact@v3
         with:
