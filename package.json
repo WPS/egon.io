@@ -6,7 +6,7 @@
     "start": "ng serve",
     "bundle": "ng build",
     "format": "prettier --write ./src",
-    "format:check": "prettier --check .",
+    "format:check": "prettier --check ./src",
     "test": "ng test",
     "build": "ng build",
     "zip": "zip-build dist_build/ dist/ --template '%NAME%-%VERSION%.%EXT%'"
