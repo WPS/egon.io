@@ -37,6 +37,10 @@ export class TitleService {
     }
   }
 
+  reset(): void {
+    this.updateTitleAndDescription(INITIAL_TITLE, INITIAL_DESCRIPTION, false);
+  }
+
   private updateTitle(title: string | null): void {
     this.titleSubject.next(title ?? this.titleSubject.value);
     document.title = title ?? this.titleSubject.value + ' - egon.io';

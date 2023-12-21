@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatListModule } from '@angular/material/list';
 
 import { MockModule, MockService } from 'ng-mocks';
 import { MaterialModule } from 'src/app/material.module';

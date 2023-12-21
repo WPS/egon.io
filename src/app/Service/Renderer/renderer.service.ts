@@ -19,6 +19,10 @@ export class RendererService {
     this.modelerService.getModeler().importCustomElements(domainStory);
   }
 
+  reset(): void {
+    this.renderStory([]);
+  }
+
   importStory(
     domainStory: BusinessObject[],
     configurationChange: boolean,

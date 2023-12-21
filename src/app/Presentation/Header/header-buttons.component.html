@@ -66,11 +66,10 @@
   </button>
   <button
     class="headerButton"
-    title="Restore previous draft"
-    *ngIf="hasPreviousDraft()"
-    (click)="restorePreviousDraft()"
+    title="Create a new domain story"
+    (click)="createNewDomainStory()"
   >
-    <span class="material-icons materialIconButton"> restore_page </span>
+    <span class="material-icons materialIconButton"> delete </span>
   </button>
 </div>
 <div *ngIf="isReplay$ | async">

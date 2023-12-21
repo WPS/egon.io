@@ -79,6 +79,14 @@ export class AutosaveService {
     this.autosavedDraftsChanged$.next();
   }
 
+  loadLatestDraft() {
+    const drafts = this.readDrafts();
+    if (drafts.length === 0) {
+      return;
+    }
+    this.loadDraft(drafts[0]);
+  }
+
   private updateConfiguration(configuration: AutosaveConfiguration) {
     this.stopTimer();
 

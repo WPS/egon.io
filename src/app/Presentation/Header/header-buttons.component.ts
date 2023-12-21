@@ -23,6 +23,8 @@ import {
   SNACKBAR_INFO,
 } from '../../Domain/Common/constants';
 import { AutosaveService } from '../../Service/Autosave/autosave.service';
+import { TitleService } from '../../Service/Title/title.service';
+import { RendererService } from '../../Service/Renderer/renderer.service';
 
 @Component({
   selector: 'app-header-buttons',
@@ -42,7 +44,8 @@ export class HeaderButtonsComponent {
     private replayService: ReplayService,
     private exportService: ExportService,
     private importService: ImportDomainStoryService,
-    private autosaveService: AutosaveService,
+    private titleService: TitleService,
+    private renderService: RendererService,
     private snackbar: MatSnackBar
   ) {
     this.isReplay$ = this.replayStateService.replayOn$;
@@ -176,12 +179,9 @@ export class HeaderButtonsComponent {
     }
   }
 
-  hasPreviousDraft(): boolean {
-    return this.autosaveService.loadCurrentDrafts().length > 0;
-  }
-
-  restorePreviousDraft(): void {
-    this.autosaveService.loadDraft(this.autosaveService.loadCurrentDrafts()[0]);
+  createNewDomainStory(): void {
+    this.titleService.reset();
+    this.renderService.reset();
   }
 
   /** Replay functions **/
