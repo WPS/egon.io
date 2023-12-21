@@ -30,3 +30,26 @@ jobs:
             dist/*.zip
             README.md
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+
+#       Commented out until there is a functional user and a PAT configured.
+#      - name: Deploy website
+#        run: |
+#          sed -i -E "s/version:\s'[0-9]+\.[0-9]+\.[0-9]+'/version: '${{ github.sha }}'/" src/environments/environment.prod.ts
+#          sed -i -E "s/\"version\":\s\"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"${{ github.sha }}\"/" package.json
+#          npm run build
+#
+#          CLONE_DIR=$(mktemp -d)
+#
+#          git config --global user.email "egon_io_bot@wps.de"
+#          git config --global user.name "Egon.io Bot"
+#          git clone --single-branch --branch main "https://x-access-token:${{ secrets.EGON_IO_DEPLOYMENT_PAT }}@github.com/WPS/egon.io-website.git" "${CLONE_DIR}"
+#
+#          rm -r "${CLONE_DIR}/latest"
+#          mkdir "${CLONE_DIR}/latest"
+#          cp -r dist_build/egon/* "${CLONE_DIR}/latest"
+#
+#          cd "${CLONE_DIR}"
+#          git add .
+#          git commit -m "Deploy latest build"
+#          git push
+#
