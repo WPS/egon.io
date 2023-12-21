@@ -44,9 +44,9 @@ jobs:
 #          git config --global user.name "Egon.io Bot"
 #          git clone --single-branch --branch main "https://x-access-token:${{ secrets.EGON_IO_DEPLOYMENT_PAT }}@github.com/WPS/egon.io-website.git" "${CLONE_DIR}"
 #
-#          rm -r "${CLONE_DIR}/latest"
-#          mkdir "${CLONE_DIR}/latest"
-#          cp -r dist_build/egon/* "${CLONE_DIR}/latest"
+#          rm -r "${CLONE_DIR}/app-latest"
+#          mkdir "${CLONE_DIR}/app-latest"
+#          cp -r dist_build/egon/* "${CLONE_DIR}/app-latest"
 #
 #          cd "${CLONE_DIR}"
 #          git add .
