@@ -108,12 +108,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup_environment
-      - name: Load build cache
-        uses: actions/cache/restore@v3
-        with:
-          path: |
-            dist_build
-          key: build-${{ github.sha }}
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
