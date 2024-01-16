@@ -48,7 +48,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: |
-            dist
+            dist_build
           key: build-${{ github.sha }}
 
   upload-artifact:
@@ -61,7 +61,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: |
-            dist
+            dist_build
           key: build-${{ github.sha }}
       - run: npm run zip
       - uses: actions/upload-artifact@v3
@@ -85,12 +85,11 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: |
-            dist
+            dist_build
           key: build-${{ github.sha }}
       - run: |
           sed -i -E "s/version:\s'[0-9]+\.[0-9]+\.[0-9]+'/version: '${{ github.sha }}'/" src/environments/environment.prod.ts
           sed -i -E "s/\"version\":\s\"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"${{ github.sha }}\"/" package.json
-          npm run build
 
           CLONE_DIR=$(mktemp -d)
 
@@ -117,7 +116,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: |
-            dist
+            dist_build
           key: build-${{ github.sha }}
       - name: Log in to the Container registry
         uses: docker/login-action@v3
