@@ -2,11 +2,8 @@
 FROM node:16-alpine AS build-stage
 WORKDIR /app
 
-COPY package.json ./
-COPY package-lock.json ./
-RUN npm ci
-
 COPY . .
+RUN npm ci
 
 RUN npm run bundle
 
