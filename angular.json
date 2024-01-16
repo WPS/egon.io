@@ -27,7 +27,7 @@
               "path": "./polyfill-webpack.config.js",
               "replaceDuplicatePlugins": true
             },
-            "allowedCommonJsDependencies": ["util", "object-refs", "hammerjs"],
+            "allowedCommonJsDependencies": ["util", "object-refs", "hammerjs", "dot", "inherits", "path-intersection", "css.escape"],
             "outputPath": "dist_build/egon",
             "index": "src/index.html",
             "main": "src/main.ts",
