@@ -7,24 +7,24 @@
     <mat-button-toggle-group>
       <mat-button-toggle
         (change)="toggleNone()"
-        [value]="isNone | async"
-        [checked]="isNone | async"
+        [value]="isNone"
+        [checked]="isNone"
       >
         <span class="toggleButtonTitle">None</span>
       </mat-button-toggle>
       <mat-button-toggle
-        [class.activeMatButtonActor]="isActor | async"
+        [class.activeMatButtonActor]="isActor"
         (change)="toggleActor()"
-        [value]="isActor | async"
-        [checked]="isActor | async"
+        [value]="isActor"
+        [checked]="isActor"
       >
         <span class="toggleButtonTitle">Actor</span>
       </mat-button-toggle>
       <mat-button-toggle
-        [class.activeMatButtonWorkObject]="isWorkobject | async"
+        [class.activeMatButtonWorkObject]="isWorkobject"
         (change)="toggleWorkobject()"
-        [value]="isWorkobject | async"
-        [checked]="isWorkobject | async"
+        [value]="isWorkobject"
+        [checked]="isWorkobject"
       >
         <span class="toggleButtonTitle">Workobject</span>
       </mat-button-toggle>

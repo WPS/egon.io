@@ -17,9 +17,9 @@ export class IconListItemComponent implements OnInit, AfterViewChecked {
   // @ts-ignore
   icon = new BehaviorSubject<IconListItem>({});
 
-  isActor: BehaviorSubject<boolean>;
-  isWorkobject: BehaviorSubject<boolean>;
-  isNone: BehaviorSubject<boolean>;
+  isActor: boolean = false;
+  isWorkobject: boolean = false;
+  isNone: boolean = true;
 
   get name(): string {
     return this.iconName;
@@ -29,24 +29,22 @@ export class IconListItemComponent implements OnInit, AfterViewChecked {
     return 'domain-configuration-icon-' + this.iconName;
   }
 
-  constructor(private domainCustomizationService: DomainCustomizationService) {
-    this.isActor = new BehaviorSubject<boolean>(false);
-    this.isWorkobject = new BehaviorSubject<boolean>(false);
-    this.isNone = new BehaviorSubject<boolean>(true);
-  }
+  constructor(private domainCustomizationService: DomainCustomizationService) {}
 
   ngOnInit(): void {
     this.icon = this.domainCustomizationService.getIconForName(this.iconName);
+    if (!this.icon) {
+      return;
+    }
+
     this.icon.subscribe((value) => {
-      this.isActor.next(value.isActor);
-      this.isWorkobject.next(value.isWorkObject);
-      this.isNone.next(!(value.isActor || value.isWorkObject));
+      this.isActor = value.isActor;
+      this.isWorkobject = value.isWorkObject;
+      this.isNone = !(value.isActor || value.isWorkObject);
     });
-    this.isActor.next(this.icon.value.isActor);
-    this.isWorkobject.next(this.icon.value.isWorkObject);
-    this.isNone.next(
-      !(this.icon.value.isActor || this.icon.value.isWorkObject)
-    );
+    this.isActor = this.icon.value.isActor;
+    this.isWorkobject = this.icon.value.isWorkObject;
+    this.isNone = !(this.icon.value.isActor || this.icon.value.isWorkObject);
   }
 
   ngAfterViewChecked(): void {
