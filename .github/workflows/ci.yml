@@ -13,17 +13,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup_environment
-      - name: Setup hash env variable
-        run: echo "HASHED_PACKAGE_LOCK=${{ hashFiles('**/package-lock.json') }}" >> $GITHUB_ENV
       - name: Install latest updates
-        if: ${{ hashFiles(format('node_modules/dependencies-changed-{0}', env.HASHED_PACKAGE_LOCK)) == '' }}
+        if: ${{ hashFiles('node_modules/dependencies-changed') == '' }}
         run: |
           npm ci
           cd node_modules
-          touch "dependencies-changed-$HASHED_PACKAGE_LOCK"
+          echo "${{ hashFiles('**/package-lock.json') }}" > "dependencies-changed"
           cd ..
       - name: Save cache
-        if: ${{ hashFiles(format('node_modules/dependencies-changed-{0}', env.HASHED_PACKAGE_LOCK)) == '' }}
+        if: ${{ hashFiles('node_modules/dependencies-changed') == '' }}
         uses: actions/cache/save@v3
         with:
           path: |
