@@ -27,69 +27,108 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup_environment
-      - name: Run tests
-        run: npm run test
+      - run: npm run test
 
+  format:
+    runs-on: ubuntu-latest
+    needs: dependencies
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup_environment
+      - run: npm run format:check
 
-#  build:
-#
-#    runs-on: ubuntu-latest
-#
-#    permissions:
-#      contents: read
-#      packages: write
-#
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: actions/setup-node@v4
-#        with:
-#          node-version: 16
+  build:
+    runs-on: ubuntu-latest
+    needs: [ test, format ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup_environment
+      - run: npm run build
+      - name: Cache build
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            dist
+          key: build-${{ github.sha }}
 
-#      - run: npm ci
-#      - run: npm run format:check
-#      - run: npm run test
-#      - run: npm run build
-#      - run: npm run zip
-#
-#      - uses: actions/upload-artifact@v3
-#        with:
-#          name: domain-story-modeler
-#          path: |
-#            dist/*.zip
-#            README.md
-#          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
-#
-#      - name: Deploy website
-#        run: |
-#          sed -i -E "s/version:\s'[0-9]+\.[0-9]+\.[0-9]+'/version: '${{ github.sha }}'/" src/environments/environment.prod.ts
-#          sed -i -E "s/\"version\":\s\"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"${{ github.sha }}\"/" package.json
-#          npm run build
-#
-#          CLONE_DIR=$(mktemp -d)
-#
-#          git config --global user.email "egon_io_bot@wps.de"
-#          git config --global user.name "Egon.io Bot"
-#          git clone --single-branch --branch main "https://x-access-token:${{ secrets.EGON_IO_DEPLOYMENT_PAT }}@github.com/WPS/egon.io-website.git" "${CLONE_DIR}"
-#
-#          rm -r "${CLONE_DIR}/app-latest"
-#          mkdir "${CLONE_DIR}/app-latest"
-#          cp -r dist_build/egon/* "${CLONE_DIR}/app-latest"
-#
-#          cd "${CLONE_DIR}"
-#          git add .
-#          git commit -m "Deploy latest build"
-#          git push
-#
-#      - name: Log in to the Container registry
-#        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-#        with:
-#          registry: ghcr.io
-#          username: ${{ github.actor }}
-#          password: ${{ secrets.GITHUB_TOKEN }}
-#
-#      - name: Build and push Docker image
-#        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
-#        with:
-#          context: .
-#          push: true
-#          tags: latest
+  upload-artifact:
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup_environment
+      - name: Load build cache
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            dist
+          key: build-${{ github.sha }}
+      - run: npm run zip
+      - uses: actions/upload-artifact@v3
+        with:
+          name: domain-story-modeler
+          path: |
+            dist/*.zip
+            README.md
+          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+
+  deploy-website:
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup_environment
+      - name: Load build cache
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            dist
+          key: build-${{ github.sha }}
+      - run: |
+          sed -i -E "s/version:\s'[0-9]+\.[0-9]+\.[0-9]+'/version: '${{ github.sha }}'/" src/environments/environment.prod.ts
+          sed -i -E "s/\"version\":\s\"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"${{ github.sha }}\"/" package.json
+          npm run build
+
+          CLONE_DIR=$(mktemp -d)
+
+          git config --global user.email "egon_io_bot@wps.de"
+          git config --global user.name "Egon.io Bot"
+          git clone --single-branch --branch main "https://x-access-token:${{ secrets.EGON_IO_DEPLOYMENT_PAT }}@github.com/WPS/egon.io-website.git" "${CLONE_DIR}"
+
+          rm -r "${CLONE_DIR}/app-latest"
+          mkdir "${CLONE_DIR}/app-latest"
+          cp -r dist_build/egon/* "${CLONE_DIR}/app-latest"
+
+          cd "${CLONE_DIR}"
+          git add .
+          git commit -m "Deploy latest build"
+          git push
+
+  publish-image:
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup_environment
+      - name: Load build cache
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            dist
+          key: build-${{ github.sha }}
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: latest
