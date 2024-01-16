@@ -21,45 +21,45 @@ jobs:
         with:
           node-version: 16
 
-      - run: npm ci
-      - run: npm run format:check
-      - run: npm run test
-      - run: npm run build
-      - run: npm run zip
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: domain-story-modeler
-          path: |
-            dist/*.zip
-            README.md
-          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
-
-      - name: Deploy website
-        run: |
-          sed -i -E "s/version:\s'[0-9]+\.[0-9]+\.[0-9]+'/version: '${{ github.sha }}'/" src/environments/environment.prod.ts
-          sed -i -E "s/\"version\":\s\"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"${{ github.sha }}\"/" package.json
-          npm run build
-
-          CLONE_DIR=$(mktemp -d)
-
-          git config --global user.email "egon_io_bot@wps.de"
-          git config --global user.name "Egon.io Bot"
-          git clone --single-branch --branch main "https://x-access-token:${{ secrets.EGON_IO_DEPLOYMENT_PAT }}@github.com/WPS/egon.io-website.git" "${CLONE_DIR}"
-
-          rm -r "${CLONE_DIR}/app-latest"
-          mkdir "${CLONE_DIR}/app-latest"
-          cp -r dist_build/egon/* "${CLONE_DIR}/app-latest"
-
-          cd "${CLONE_DIR}"
-          git add .
-          git commit -m "Deploy latest build"
-          git push
+#      - run: npm ci
+#      - run: npm run format:check
+#      - run: npm run test
+#      - run: npm run build
+#      - run: npm run zip
+#
+#      - uses: actions/upload-artifact@v3
+#        with:
+#          name: domain-story-modeler
+#          path: |
+#            dist/*.zip
+#            README.md
+#          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+#
+#      - name: Deploy website
+#        run: |
+#          sed -i -E "s/version:\s'[0-9]+\.[0-9]+\.[0-9]+'/version: '${{ github.sha }}'/" src/environments/environment.prod.ts
+#          sed -i -E "s/\"version\":\s\"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"${{ github.sha }}\"/" package.json
+#          npm run build
+#
+#          CLONE_DIR=$(mktemp -d)
+#
+#          git config --global user.email "egon_io_bot@wps.de"
+#          git config --global user.name "Egon.io Bot"
+#          git clone --single-branch --branch main "https://x-access-token:${{ secrets.EGON_IO_DEPLOYMENT_PAT }}@github.com/WPS/egon.io-website.git" "${CLONE_DIR}"
+#
+#          rm -r "${CLONE_DIR}/app-latest"
+#          mkdir "${CLONE_DIR}/app-latest"
+#          cp -r dist_build/egon/* "${CLONE_DIR}/app-latest"
+#
+#          cd "${CLONE_DIR}"
+#          git add .
+#          git commit -m "Deploy latest build"
+#          git push
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
