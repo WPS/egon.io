@@ -16,13 +16,9 @@ export class HeaderComponent {
   title$ = this.titleService.title$;
   description$ = this.titleService.description$;
   showDescription$ = this.titleService.showDescription$;
-  currentDomainName$ = this.titleService.domainName$;
 
   isReplay$: Observable<boolean>;
   stepDescription$: Observable<string>;
-
-  mouseOver = false;
-
   showDescription: Observable<boolean>;
 
   constructor(
