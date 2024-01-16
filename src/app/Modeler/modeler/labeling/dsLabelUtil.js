@@ -110,7 +110,7 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
 
   /* the autocomplete function takes three arguments,
   the text field element and an array of possible autocompleted values and an optional element to which it is appended:*/
-  let currentFocus;
+  let currentFocus, filteredWorkObjectNames;
 
   /* execute a function when someone writes in the text field:*/
   input.addEventListener("input", function () {
@@ -139,6 +139,7 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
     this.parentNode.appendChild(autocompleteList);
 
     /* for each item in the array...*/
+    filteredWorkObjectNames = [];
     for (const name of workObjectNames) {
       /* check if the item starts with the same letters as the text field value:*/
       if (val) {
@@ -157,6 +158,8 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
           autocompleteItem.innerHTML +=
             "<input type='hidden' value='" + name + "'>";
           autocompleteList.appendChild(autocompleteItem);
+
+          filteredWorkObjectNames.push(name);
         }
       }
     }
@@ -192,7 +195,7 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
       e.preventDefault();
       /* If the ENTER key is pressed, prevent the form from being submitted,*/
       if (currentFocus > -1) {
-        element.businessObject.name = workObjectNames[currentFocus];
+        element.businessObject.name = filteredWorkObjectNames[currentFocus];
         eventBus.fire("element.changed", { element });
       }
     }
