@@ -94,7 +94,7 @@ jobs:
 
           CLONE_DIR=$(mktemp -d)
 
-          git config --global user.email "egon_io_bot@wps.de"
+          git config --global user.email "development@egon.io"
           git config --global user.name "Egon.io Bot"
           git clone --single-branch --branch main "https://x-access-token:${{ secrets.EGON_IO_DEPLOYMENT_PAT }}@github.com/WPS/egon.io-website.git" "${CLONE_DIR}"
 
@@ -131,4 +131,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: latest
+          tags: egon.io:latest
