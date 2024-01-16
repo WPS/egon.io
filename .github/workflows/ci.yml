@@ -14,14 +14,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup_environment
       - name: Install latest updates
-        if: ${{ hashFiles('node_modules/dependencies-changed') == '' }}
-        run: |
-          npm ci
-          cd node_modules
-          echo "${{ hashFiles('**/package-lock.json') }}" > "dependencies-changed"
-          cd ..
+        run: npm ci
       - name: Save cache
-        if: ${{ hashFiles('node_modules/dependencies-changed') == '' }}
         uses: actions/cache/save@v3
         with:
           path: |
