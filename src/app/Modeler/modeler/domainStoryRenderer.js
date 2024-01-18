@@ -231,21 +231,20 @@ export default function DomainStoryRenderer(
 
     svgAppend(parentGfx, text);
 
-    drawEllipse(parentGfx, options, number.length);
+    drawCircle(parentGfx, options, number.length);
 
     return text;
   }
 
-  function drawEllipse(parentGfx, options, textLength) {
-    const ellipse = svgCreate("ellipse");
-    svgAttr(ellipse, {
+  function drawCircle(parentGfx, options, textLength) {
+    const circle = svgCreate("circle");
+    svgAttr(circle, {
       cx: options.box.x + 15 + textLength * 3,
       cy: options.box.y - 4,
-      rx: "20",
-      ry: "12",
+      r: "10",
       style: "fill:transparent;stroke:black;stroke-width:1",
     });
-    svgAppend(parentGfx, ellipse);
+    svgAppend(parentGfx, circle);
   }
 
   // the coordinates of the activity label must be set directly and will not be taken from the box
