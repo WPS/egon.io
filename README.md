@@ -5,7 +5,7 @@ A tool to visualize Domain Stories in your browser.
 ## About
 
 - See http://domainstorytelling.org for more information on Domain Storytelling.
-- The [Egon.io Website](https://egon.io/) contains a user manual and instructions how to run Egon.
+- The [Egon.io Website](https://egon.io/) contains a user manual.
 
 ## Development
 
@@ -29,13 +29,26 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Deployment
 
+There are several deployment options:
+
+- Standalone version (Zip file): Best suited for offline use on a laptop, or if your organization already runs a web server (copy the zip file to the web server and extract it there to make Egon available to your organization).
+- Docker container: If you prefer to provide websites as Docker container, you can build your own.
+- If you don't want to build and deploy Egon.io yourself, than use one of the ready-to-use options provided by the Egon.io team:
+  - Run [Egon.io online](https://egon.io/)
+  - Use a ready-made Docker image: `docker pull ghcr.io/wps/egon.io:latest`
+
+### Deploy Standalone Version (Zip file)
 1. In the package.json and environment.prod.ts update the version-tag appropriately
 2. Run the command **ng build**
    - This should create (or update the contents of) the folder **dist_build**
 3. Run the command **npm run zip**
    - This should create (or update the contents of) the folder **dist** containing a zip.file named *egon-xxx*, where xxx is the name in the version-tag of the package.json
-4. If you haven't already, clone the project **egon.io-website**
-5. The next steps are documented in the README.md of egon.io-website
+
+### Deploy Docker Container
+1. In the root directory of your sourcode, run `docker build -t egon-dev .`
+2. To start the container, run `docker run -p 8080:80 egon-dev`
+
+Adapt container name and port as needed.
 
 ## License
 
