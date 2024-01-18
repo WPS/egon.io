@@ -76,9 +76,6 @@ jobs:
   deploy-website:
     runs-on: ubuntu-latest
     needs: [ build ]
-    permissions:
-      contents: read
-      packages: write
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup_environment
@@ -105,6 +102,9 @@ jobs:
   publish-image:
     runs-on: ubuntu-latest
     needs: [ build ]
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup_environment
