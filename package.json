@@ -9,6 +9,7 @@
     "format:check": "prettier --check ./src",
     "test": "ng test",
     "build": "ng build --configuration production",
+    "build:dev": "ng build",
     "zip": "zip-build dist_build/ dist/ --template '%NAME%-%VERSION%.%EXT%'"
   },
   "private": true,

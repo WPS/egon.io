@@ -82,7 +82,8 @@ jobs:
       - run: |
           sed -i -E "s/version:\s'[0-9]+\.[0-9]+\.[0-9]+'/version: '${{ github.sha }}'/" src/environments/environment.prod.ts
           sed -i -E "s/\"version\":\s\"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"${{ github.sha }}\"/" package.json
-          npm run build
+          # Looks the production build does not work
+          npm run build:dev
 
           CLONE_DIR=$(mktemp -d)
 
