@@ -45,7 +45,7 @@ There are several deployment options:
    - This should create (or update the contents of) the folder **dist** containing a zip.file named *egon-xxx*, where xxx is the name in the version-tag of the package.json
 
 ### Deploy Docker Container
-1. In the root directory of your sourcode, run `docker build -t egon-dev .`
+1. In the root directory of your sourcecode, run `docker build -t egon-dev .`
 2. To start the container, run `docker run -p 8080:80 egon-dev`
 
 Adapt container name and port as needed.
