@@ -21,7 +21,7 @@ describe('AutosaveService', () => {
   const autosaveConfigurationServiceMock = jasmine.createSpyObj(
     'AutosaveConfigurationService',
     ['setConfiguration'],
-    { configuration$: of({ activated: true, amount: 1, interval: 1 }) }
+    { configuration$: of({ activated: true, maxDrafts: 1, interval: 1 }) }
   );
 
   beforeEach(() => {

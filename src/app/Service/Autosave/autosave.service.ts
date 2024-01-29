@@ -91,7 +91,7 @@ export class AutosaveService {
     this.stopTimer();
 
     if (configuration.activated) {
-      this.startTimer(configuration.interval, configuration.amount);
+      this.startTimer(configuration.interval, configuration.maxDrafts);
     }
   }
 
@@ -102,20 +102,20 @@ export class AutosaveService {
     }
   }
 
-  private startTimer(interval: number, amount: number): void {
+  private startTimer(interval: number, maxDrafts: number): void {
     this.autosaveTimer = setInterval(() => {
-      const drafts = this.loadCurrentDrafts();
+      const savedDrafts = this.loadCurrentDrafts();
       const newDraft = this.createDraft();
-      let isChanged = amount > 0;
-      if (drafts.length > 0) {
-        isChanged = isChanged && !this.isSame(newDraft, drafts[0]);
+      let isChanged = maxDrafts > 0;
+      if (savedDrafts.length > 0) {
+        isChanged = isChanged && !this.isSame(newDraft, savedDrafts[0]);
       }
       if (isChanged && !this.isDraftEmpty(newDraft)) {
-        drafts.unshift(newDraft);
-        while (drafts.length > amount) {
-          drafts.pop();
+        savedDrafts.unshift(newDraft);
+        while (savedDrafts.length > maxDrafts) {
+          savedDrafts.pop();
         }
-        this.writeDrafts(drafts);
+        this.writeDrafts(savedDrafts);
         this.snackbar.open('Draft Saved', undefined, {
           panelClass: SNACKBAR_INFO,
           duration: SNACKBAR_DURATION,

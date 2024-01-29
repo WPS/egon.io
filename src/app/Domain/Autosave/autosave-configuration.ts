@@ -1,5 +1,5 @@
 export interface AutosaveConfiguration {
   activated: boolean;
-  amount: number;
+  maxDrafts: number;
   interval: number;
 }

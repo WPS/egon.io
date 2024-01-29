@@ -8,7 +8,7 @@
       <mat-label>Enabled</mat-label>
     </div>
     <div class="inputContainer">
-      <mat-label>Interval</mat-label>
+      <mat-label>Interval [sec]</mat-label>
       <input
         #interval
         class="numberInput"
@@ -18,20 +18,20 @@
       />
     </div>
     <div class="inputContainer">
-      <mat-label>Amount</mat-label>
+      <mat-label>Max. Drafts</mat-label>
       <input
-        #amount
+        #drafts
         class="numberInput"
         min="1"
         type="number"
-        [value]="configuration.amount"
+        [value]="configuration.maxDrafts"
       />
     </div>
     <button
       class="saveButton"
       mat-raised-button
       color="primary"
-      (click)="save(activated.checked, +amount.value, +interval.value)"
+      (click)="save(activated.checked, +drafts.value, +interval.value)"
     >
       Apply
     </button>

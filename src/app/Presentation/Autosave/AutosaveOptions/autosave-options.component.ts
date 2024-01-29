@@ -18,11 +18,11 @@ export class AutosaveOptionsComponent {
     private snackbar: MatSnackBar
   ) {}
 
-  save(activated: boolean, amount: number, interval: number) {
+  save(activated: boolean, maxDrafts: number, interval: number) {
     if (
       this.autosaveConfiguration.setConfiguration({
         activated,
-        amount,
+        maxDrafts,
         interval,
       })
     ) {
