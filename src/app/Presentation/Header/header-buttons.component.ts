@@ -138,13 +138,13 @@ export class HeaderButtonsComponent {
   }
 
   openKeyboardShortcutsDialog(): void {
-    const title = 'Keyboard shortcuts';
+    const title = 'Keyboard Shortcuts';
     const shortCutText =
       'Undo:\t\t\t\t\tctrl + Z \n' +
       'Redo:\t\t\t\t\tctrl + Y    OR   ctrl + shift + Z\n' +
       'Select All:\t\t\t\tctrl + A\n' +
       'Export as EGN:\t\t\tctrl + S\n' +
-      'Import Domain Story: \tctrl + L\n' +
+      'Import Domain Story: \t\tctrl + L\n' +
       'Search for text:\t\t\tctrl + F\n' +
       'Direct editing:\t\t\tE\n' +
       'Hand tool:\t\t\t\tH\n' +
