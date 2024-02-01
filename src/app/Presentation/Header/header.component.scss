@@ -15,11 +15,9 @@
   overflow-wrap: anywhere;
   word-wrap: anywhere;
   white-space: pre-wrap;
+  padding-top: 15px;
   padding-left: 15px;
   padding-right: 15px;
-
-  align-self: center;
-
   line-height: 12pt;
 }
 
@@ -43,7 +41,10 @@
   display: none;
 }
 
+.headerButton {
+  color: white;
+}
+
 .headerButton:hover {
   cursor: pointer;
-  color: white;
 }
