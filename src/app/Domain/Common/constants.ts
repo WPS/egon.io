@@ -1,7 +1,7 @@
 /** DEFAULT VALUES **/
 export const INITIAL_TITLE = '< title >';
-export const INITIAL_DESCRIPTION = '< description >';
-export const INITIAL_DOMAIN_NAME = '[icons: default]';
+export const INITIAL_DESCRIPTION = '';
+export const INITIAL_DOMAIN_NAME = 'default';
 
 /** LocalStorageTags **/
 export const APPENDED_ICONS_TAG = 'appendedIcons';
