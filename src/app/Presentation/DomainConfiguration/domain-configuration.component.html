@@ -1,6 +1,42 @@
 <div class="content">
   <div>
     <div class="header">
+      <div class="searchbar">
+        <div>Filter by assignment:</div>
+        <button
+          mat-button
+          [class.activeNone]="(filter | async) === 'ICON_FILTER_UNASSIGNED'"
+          title="Unassigned Icons"
+          (click)="filterForUnassigned()"
+        >
+          <span>None</span>
+        </button>
+        <button
+          mat-button
+          [class.activeActor]="(filter | async) === 'ICON_FILTER_ACTOR'"
+          title="Actors"
+          (click)="filterForActors()"
+        >
+          <span>Actors</span>
+        </button>
+        <button
+          mat-button
+          [class.activeWorkObject]="
+            (filter | async) === 'ICON_FILTER_WORKOBJECT'
+          "
+          title="Workobjects"
+          (click)="filterForWorkobjects()"
+        >
+          <span>Workobjects</span>
+        </button>
+        <input
+          class="textInput"
+          matInput
+          type="text"
+          placeholder="Filter by name"
+          (input)="filterByNameAndType($event)"
+        />
+      </div>
       <div class="buttons">
         <button mat-button title="Upload Icon" (click)="startIconUpload()">
           <span class="material-icons-outlined materialIconButton">upload</span>
@@ -23,53 +59,18 @@
         >
           <span class="material-icons-outlined materialIconButton"> home </span>
         </button>
-      </div>
-      <div class="searchbar">
-        <div></div>
-        <div>Filter:</div>
         <button
           mat-button
-          [class.activeNone]="(filter | async) === 'ICON_FILTER_UNASSIGNED'"
-          title="Unassigned Icons"
-          (click)="filterForUnassigned()"
+          title="Cancel changes"
+          (click)="loadInitialConfiguration()"
         >
-          <span>None</span>
+          <span class="material-icons-outlined materialIconButton">close</span>
         </button>
-        <div></div>
-        <button
-          mat-button
-          [class.activeActor]="(filter | async) === 'ICON_FILTER_ACTOR'"
-          title="Actors"
-          (click)="filterForActors()"
-        >
-          <span>Actors</span>
+        <div class="divider"></div>
+        <button mat-button title="Save icon set" (click)="saveDomain()">
+          <span class="material-icons-outlined materialIconButton">save</span>
         </button>
-        <div></div>
-        <button
-          mat-button
-          [class.activeWorkObject]="
-            (filter | async) === 'ICON_FILTER_WORKOBJECT'
-          "
-          title="Workobjects"
-          (click)="filterForWorkobjects()"
-        >
-          <span>Workobjects</span>
-        </button>
-        <div></div>
-        <input
-          class="textInput"
-          matInput
-          type="text"
-          placeholder="Filter by name"
-          (input)="filterByNameAndType($event)"
-        />
-      </div>
-      <div class="saveButtons">
-        <button mat-button title="Export icon set" (click)="exportDomain()">
-          <span class="material-icons-outlined materialIconButton"
-            >archive</span
-          >
-        </button>
+        <div class="divider"></div>
         <button
           mat-button
           title="Import icon set"
@@ -88,20 +89,13 @@
             (change)="importDomain()"
           />
         </button>
-        <div class="divider"></div>
-        <button
-          mat-button
-          title="Cancel changes"
-          (click)="loadInitialConfiguration()"
-        >
-          <span class="material-icons-outlined materialIconButton">close</span>
-        </button>
-        <button mat-button title="Save icon set" (click)="saveDomain()">
-          <span class="material-icons-outlined materialIconButton">save</span>
+        <button mat-button title="Export icon set" (click)="exportDomain()">
+          <span class="material-icons-outlined materialIconButton"
+            >archive</span
+          >
         </button>
       </div>
     </div>
-
     <div class="domainConfiguration">
       <div class="icons">
         <div class="iconList smallScrollbar">

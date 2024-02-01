@@ -5,29 +5,37 @@
 
 .header {
   display: grid;
-  grid-template-columns: max-content auto max-content;
-  border-bottom: #ccc 2px solid;
+  grid-template-columns: max-content auto;
   height: 46px;
+  border-bottom: #ccc 2px solid;
+}
+
+.searchbar {
+  display: inline-flex;
+  margin-left: 15px;
+  margin-right: 15px;
+  align-self: center;
+  align-items: center;
+  justify-self: left;
+  height: inherit;
+  border-right: #ccc 2px solid;
 }
 
 .buttons {
+  display: inline-flex;
   align-self: center;
-  justify-self: left;
+  align-items: center;
+  justify-self: right;
+  height: inherit;
 
   ::ng-deep.mat-button {
     min-width: 36px;
   }
 }
 
-.saveButtons {
-  align-self: center;
-  display: inline-flex;
-  justify-items: center;
-  padding-right: 5px;
-
-  ::ng-deep.mat-button {
-    min-width: 36px;
-  }
+.divider {
+  border-left: #ccc 2px solid;
+  height: inherit;
 }
 
 .button {
@@ -36,10 +44,6 @@
 
 .mat-button {
   color: #666666;
-}
-
-.spacer {
-  flex: 1 1 auto;
 }
 
 .domainConfiguration {
@@ -54,22 +58,6 @@
   grid-template-rows: 2rem auto;
   height: 100%;
   grid-row-gap: 1px;
-}
-
-.divider {
-  border-left: #ccc 2px solid;
-}
-
-.searchbar {
-  display: grid;
-  grid-template-columns: 5px 40px 65px 10px 65px 10px 100px 20px 300px;
-  margin-left: 15px;
-  margin-right: 10px;
-  align-self: center;
-  align-items: center;
-  justify-self: left;
-  border-left: #ccc 2px solid;
-  height: inherit;
 }
 
 .activeActor {
@@ -89,6 +77,8 @@
 
 .textInput {
   width: 300px;
+  margin-left: 15px;
+  margin-right: 5px;
   border: #666666 1px solid;
 }
 
