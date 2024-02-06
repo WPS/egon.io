@@ -138,10 +138,10 @@ export function saveIconConfiguration(elements) {
   }
 }
 
-export function loadConfiguration(customConfig) {
+export function loadConfiguration(customConfig, egnFile) {
   let actorDict = new Dict();
   let workObjectDict = new Dict();
-  let customConfigJSON = JSON.parse(customConfig);
+  let customConfigJSON = egnFile? customConfig:JSON.parse(customConfig);
 
   const configurationName = customConfigJSON.name;
   let actors = customConfigJSON.actors;

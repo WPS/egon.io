@@ -246,13 +246,13 @@ export function readerFunction(text, version, modeler, type, egnFile) {
     config = dstAndConfig.domain;
     configChanged = configHasChanged(config, egnFile);
     if (configChanged) {
-      const name = loadConfiguration(config);
+      const name = loadConfiguration(config, egnFile);
       if (domExists()) {
         const domainNameInput = document.getElementById('domainNameInput');
         domainNameInput.value = name;
       }
     }
-    elements = JSON.parse(dstAndConfig.dst);
+    elements = egnFile? dstAndConfig.dst: JSON.parse(dstAndConfig.dst);
   } else {
     if (dstAndConfig.config) {
       config = dstAndConfig.config;
