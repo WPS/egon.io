@@ -42,17 +42,13 @@ export class SvgService {
       width += 300;
     }
 
-    const { insertText, extraHeight } = createTitleAndDescriptionSVGElement(
+    const { insertText } = createTitleAndDescriptionSVGElement(
       title,
       description,
       xLeft,
       yUp,
       width
     );
-    if (withTitle) {
-      // to display the title and description in the SVG-file, we need to add a container for the text-elements
-      height += extraHeight + 80;
-    }
 
     const bounds = this.createBounds(
       width,
