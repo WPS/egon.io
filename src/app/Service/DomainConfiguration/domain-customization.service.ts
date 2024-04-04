@@ -34,7 +34,7 @@ export class DomainCustomizationService {
 
   selectedActors$ = new BehaviorSubject<string[]>([]);
   selectedWorkobjects$ = new BehaviorSubject<string[]>([]);
-  private changedDomainCofiguration: DomainConfiguration | undefined;
+  private changedDomainConfiguration: DomainConfiguration | undefined;
 
   constructor(
     private configurationService: DomainConfigurationService,
@@ -317,12 +317,12 @@ export class DomainCustomizationService {
       });
 
       if (!changedActors.length && !changedWorkobjects.length) {
-        this.changedDomainCofiguration = changedDomain;
+        this.changedDomainConfiguration = changedDomain;
 
         this.updateIcons(changedDomain);
 
         this.storageService.setStoredDomainConfiguration(
-          this.changedDomainCofiguration
+          this.changedDomainConfiguration
         );
         this.snackbar.open(
           imported
@@ -378,8 +378,8 @@ export class DomainCustomizationService {
   }
 
   getAndClearSavedConfiguration(): DomainConfiguration | undefined {
-    const temp = this.changedDomainCofiguration;
-    this.changedDomainCofiguration = undefined;
+    const temp = this.changedDomainConfiguration;
+    this.changedDomainConfiguration = undefined;
 
     return temp;
   }
@@ -436,11 +436,11 @@ export class DomainCustomizationService {
   }
 
   private updateAllIconBehaviourSubjects(): void {
-    const customDomainCofiguration = this.domainConfigurationTypes.value;
+    const customDomainConfiguration = this.domainConfigurationTypes.value;
     this.allIconListItems.keysArray().forEach((iconName) => {
-      if (customDomainCofiguration.actors.includes(iconName)) {
+      if (customDomainConfiguration.actors.includes(iconName)) {
         this.updateIcon(true, false, iconName);
-      } else if (customDomainCofiguration.workObjects.includes(iconName)) {
+      } else if (customDomainConfiguration.workObjects.includes(iconName)) {
         this.updateIcon(false, true, iconName);
       } else {
         this.updateIcon(false, false, iconName);
