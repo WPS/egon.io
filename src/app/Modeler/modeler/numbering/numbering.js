@@ -20,7 +20,7 @@ export function numberBoxDefinitions(element) {
   let position = labelPosition(element.waypoints);
   let angle = 0;
   if (element.waypoints.length > 1) {
-    angle = angleBetween(element.waypoints[0], element.waypoints[1]);
+    angle = angleBetween(element.waypoints[element.waypoints.length - 2], element.waypoints[element.waypoints.length - 1]);
   }
   let x = position.x;
   let y = position.y;
