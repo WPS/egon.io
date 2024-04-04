@@ -439,6 +439,7 @@ export class DomainCustomizationService {
   private getSrcForIcon(name: string): string {
     let iconName: string;
     if (name.includes(elementTypes.DOMAINSTORY)) {
+      // TODO: td: This returns empty every time!
       iconName = getNameFromType(name);
     } else {
       iconName = name;

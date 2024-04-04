@@ -1,19 +1,11 @@
 import { Injectable } from '@angular/core';
-import { interval } from 'rxjs';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import { Configuration } from 'src/app/Domain/Common/configuration';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
 import { elementTypes } from 'src/app/Domain/Common/elementTypes';
-import {
-  defaultConf,
-  IconConfiguration,
-} from 'src/app/Domain/Common/iconConfiguration';
-import {
-  allIcons,
-  appendedIcons,
-} from 'src/app/Domain/Domain-Configuration/allIcons';
-import { getNameFromType } from 'src/app/Utils/naming';
+import { defaultConf, IconConfiguration, } from 'src/app/Domain/Common/iconConfiguration';
+import { allIcons, appendedIcons, } from 'src/app/Domain/Domain-Configuration/allIcons';
 import { sanitizeIconName } from '../../Utils/sanitizer';
 
 export const ICON_PREFIX = 'icon-domain-story-';
@@ -63,10 +55,9 @@ export class IconDictionaryService {
       dictionary.add(allTypes.get(key), key);
     }
 
-    dictionary.keysArray().forEach((entry) => {
-      const name = getNameFromType(entry);
+    dictionary.keysArray().forEach((name) => {
       this.registerIconForBPMN(
-        entry,
+        name,
         ICON_PREFIX + sanitizeIconName(name.toLowerCase())
       );
     });
@@ -117,14 +108,13 @@ export class IconDictionaryService {
     allTypes.addEach(allIcons);
     allTypes.appendDict(appendedIcons);
 
-    iconTypes.forEach((type) => {
-      const name = getNameFromType(type);
+    iconTypes.forEach((name) => {
       if (!collection.has(name)) {
         const src = allTypes.get(name);
         if (src) {
           this.registerIconForType(dictionaryType, name, src);
           this.registerIconForBPMN(
-            type,
+            name,
             sanitizeIconName(ICON_PREFIX + name.toLowerCase())
           );
         }
