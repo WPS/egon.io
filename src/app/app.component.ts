@@ -32,18 +32,18 @@ export class AppComponent implements OnInit {
     this.showSettings$ = new BehaviorSubject(false);
     this.showDescription$ = new BehaviorSubject(true);
 
-    document.onkeydown = (e: KeyboardEvent) => {
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        e.stopPropagation();
         if (this.exportService.isDomainStoryExportable()) {
           this.exportService.downloadDST();
         }
-        e.preventDefault();
-        e.stopPropagation();
       }
       if (e.ctrlKey && e.key === 'l') {
-        document.getElementById('import')?.click();
         e.preventDefault();
         e.stopPropagation();
+        document.getElementById('import')?.click();
       }
       if (e.key === 'ArrowRight' && this.replayStateService.getReplayOn()) {
         e.preventDefault();
@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
         e.stopPropagation();
         replayService.previousStep();
       }
-    };
+    });
   }
 
   ngOnInit(): void {
