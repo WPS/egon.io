@@ -204,7 +204,7 @@ export class IconDictionaryService {
       this.registerIconForType(
         elementTypes.WORKOBJECT,
         key,
-        config.actors.get(key)
+        config.workObjects.get(key)
       );
     });
 
@@ -224,7 +224,7 @@ export class IconDictionaryService {
       ) {
         this.registerIconForBPMN(
           ICON_PREFIX + name.toLowerCase(),
-          element.type
+          element.type // TODO: td: Shouldnt this be some svg?
         );
       }
     });
