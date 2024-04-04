@@ -45,12 +45,18 @@ export class AppComponent implements OnInit {
         e.stopPropagation();
         document.getElementById('import')?.click();
       }
-      if (e.key === 'ArrowRight' && this.replayStateService.getReplayOn()) {
+      if (
+        (e.key === 'ArrowRight' || e.key === 'ArrowUp') &&
+        this.replayStateService.getReplayOn()
+      ) {
         e.preventDefault();
         e.stopPropagation();
         replayService.nextStep();
       }
-      if (e.key === 'ArrowLeft' && this.replayStateService.getReplayOn()) {
+      if (
+        (e.key === 'ArrowLeft' || e.key === 'ArrowDown') &&
+        this.replayStateService.getReplayOn()
+      ) {
         e.preventDefault();
         e.stopPropagation();
         replayService.previousStep();
