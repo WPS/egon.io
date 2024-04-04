@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
     private dialogService: DialogService,
     private titleService: TitleService,
     private exportService: ExportService,
-    private replayStateSerice: ReplayStateService,
+    private replayStateService: ReplayStateService,
     replayService: ReplayService
   ) {
     this.showSettings$ = new BehaviorSubject(false);
@@ -45,12 +45,12 @@ export class AppComponent implements OnInit {
         e.preventDefault();
         e.stopPropagation();
       }
-      if (e.key === 'ArrowRight' && this.replayStateSerice.getReplayOn()) {
+      if (e.key === 'ArrowRight' && this.replayStateService.getReplayOn()) {
         e.preventDefault();
         e.stopPropagation();
         replayService.nextStep();
       }
-      if (e.key === 'ArrowLeft' && this.replayStateSerice.getReplayOn()) {
+      if (e.key === 'ArrowLeft' && this.replayStateService.getReplayOn()) {
         e.preventDefault();
         e.stopPropagation();
         replayService.previousStep();
