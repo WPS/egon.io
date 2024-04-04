@@ -166,7 +166,7 @@ export class PngService {
     const { insertText, extraHeight } = createTitleAndDescriptionSVGElement(
       title,
       description,
-      box.xLeft,
+      box.xLeft + 10,
       box.yUp + 20,
       this.width
     );
