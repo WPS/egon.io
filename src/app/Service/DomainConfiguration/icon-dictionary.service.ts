@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
+import { interval } from 'rxjs';
+import { BusinessObject } from 'src/app/Domain/Common/businessObject';
+import { Configuration } from 'src/app/Domain/Common/configuration';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
+import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
 import { elementTypes } from 'src/app/Domain/Common/elementTypes';
-import { getNameFromType } from 'src/app/Utils/naming';
-import {
-  allIcons,
-  appendedIcons,
-} from 'src/app/Domain/Domain-Configuration/allIcons';
 import {
   defaultConf,
   IconConfiguration,
 } from 'src/app/Domain/Common/iconConfiguration';
-import { Configuration } from 'src/app/Domain/Common/configuration';
-import { BusinessObject } from 'src/app/Domain/Common/businessObject';
-import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
+import {
+  allIcons,
+  appendedIcons,
+} from 'src/app/Domain/Domain-Configuration/allIcons';
+import { getNameFromType } from 'src/app/Utils/naming';
 import { sanitizeIconName } from '../../Utils/sanitizer';
 
 export const ICON_PREFIX = 'icon-domain-story-';
@@ -48,30 +49,18 @@ export class IconDictionaryService {
     allTypes.addEach(allIcons);
     allTypes.appendDict(this.getAppendedIconDictionary());
 
-    this.initDictionary(
-      actors,
-      allTypes,
-      this.actorIconDictionary,
-      elementTypes.ACTOR
-    );
-    this.initDictionary(
-      workObjects,
-      allTypes,
-      this.workObjectDictionary,
-      elementTypes.WORKOBJECT
-    );
+    this.initDictionary(actors, allTypes, this.actorIconDictionary);
+    this.initDictionary(workObjects, allTypes, this.workObjectDictionary);
   }
 
   private initDictionary(
     keys: string[],
     allTypes: Dictionary,
-    dictionary: Dictionary,
-    namePrefix: elementTypes
+    dictionary: Dictionary
   ) {
     dictionary.clear();
     for (const key of keys) {
-      const name = namePrefix + key;
-      dictionary.add(allTypes.get(key), name);
+      dictionary.add(allTypes.get(key), key);
     }
 
     dictionary.keysArray().forEach((entry) => {
@@ -129,11 +118,11 @@ export class IconDictionaryService {
     allTypes.appendDict(appendedIcons);
 
     iconTypes.forEach((type) => {
-      if (!collection.has(type)) {
-        const name = getNameFromType(type);
+      const name = getNameFromType(type);
+      if (!collection.has(name)) {
         const src = allTypes.get(name);
         if (src) {
-          this.registerIconForType(dictionaryType, type, src);
+          this.registerIconForType(dictionaryType, name, src);
           this.registerIconForBPMN(
             type,
             sanitizeIconName(ICON_PREFIX + name.toLowerCase())
@@ -167,8 +156,8 @@ export class IconDictionaryService {
   }
 
   registerIconForType(type: elementTypes, name: string, src: string): void {
-    if (!name.includes(type)) {
-      name = type + name;
+    if (name.includes(type)) {
+      throw new Error('Name should not include type!');
     }
 
     let collection = new Dictionary();
@@ -177,7 +166,21 @@ export class IconDictionaryService {
     } else if (type === elementTypes.WORKOBJECT) {
       collection = this.workObjectDictionary;
     }
-    collection.set(name, src);
+    collection.add(src, name);
+  }
+
+  unregisterIconForType(type: elementTypes, name: string): void {
+    if (name.includes(type)) {
+      throw new Error('Name should not include type!');
+    }
+
+    let collection = new Dictionary();
+    if (type === elementTypes.ACTOR) {
+      collection = this.actorIconDictionary;
+    } else if (type === elementTypes.WORKOBJECT) {
+      collection = this.workObjectDictionary;
+    }
+    collection.delete(name);
   }
 
   updateIconRegistries(
@@ -195,10 +198,14 @@ export class IconDictionaryService {
     const actorsDict = new Dictionary();
     const workObjectsDict = new Dictionary();
     config.actors.keysArray().forEach((key) => {
-      actorsDict.add(config.actors.get(key), key);
+      this.registerIconForType(elementTypes.ACTOR, key, config.actors.get(key));
     });
     config.workObjects.keysArray().forEach((key) => {
-      workObjectsDict.add(config.workObjects.get(key), key);
+      this.registerIconForType(
+        elementTypes.WORKOBJECT,
+        key,
+        config.actors.get(key)
+      );
     });
 
     this.extractCustomIconsFromDictionary(actorsDict, customIcons);

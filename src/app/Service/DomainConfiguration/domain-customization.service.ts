@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
-import {
-  CustomDomainConfiguration,
-  DomainConfiguration,
-} from '../../Domain/Common/domainConfiguration';
-import { BehaviorSubject } from 'rxjs';
-import { DomainConfigurationService } from './domain-configuration.service';
-import { IconDictionaryService } from './icon-dictionary.service';
-import { getNameFromType } from '../../Utils/naming';
-import { elementTypes } from '../../Domain/Common/elementTypes';
-import { IconListItem } from '../../Domain/Domain-Configuration/iconListItem';
-import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
-import { ImportDomainStoryService } from '../Import/import-domain-story.service';
-import { TitleService } from '../Title/title.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BehaviorSubject } from 'rxjs';
+import { UsedIconList } from 'src/app/Domain/Domain-Configuration/UsedIconList';
+import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
   SNACKBAR_SUCCESS,
 } from '../../Domain/Common/constants';
+import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
+import {
+  CustomDomainConfiguration,
+  DomainConfiguration,
+} from '../../Domain/Common/domainConfiguration';
+import { elementTypes } from '../../Domain/Common/elementTypes';
+import { IconListItem } from '../../Domain/Domain-Configuration/iconListItem';
+import { getNameFromType } from '../../Utils/naming';
 import { StorageService } from '../BrowserStorage/storage.service';
-import { UsedIconList } from 'src/app/Domain/Domain-Configuration/UsedIconList';
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
+import { ImportDomainStoryService } from '../Import/import-domain-story.service';
+import { TitleService } from '../Title/title.service';
+import { DomainConfigurationService } from './domain-configuration.service';
+import { IconDictionaryService } from './icon-dictionary.service';
 
 @Injectable({
   providedIn: 'root',
@@ -138,7 +138,7 @@ export class DomainCustomizationService {
     this.domainConfigurationTypes.next(changedDomain);
   }
 
-  /** Seleted Icons **/
+  /** Selected Icons **/
   setAsUnassigned(iconName: string, isActor: boolean): void {
     if (isActor) {
       this.deselectActor(iconName);
@@ -153,13 +153,9 @@ export class DomainCustomizationService {
       this.updateIcon(true, false, actor);
       this.selectActor(actor);
       this.deselectWorkobject(actor);
-
-      const icon = this.iconDictionaryService.getFullDictionary().get(actor);
-      this.iconDictionaryService.getActorsDictionary().add(icon, actor);
     } else {
       this.deselectActor(actor);
       this.updateIcon(false, false, actor);
-      this.iconDictionaryService.getActorsDictionary().delete(actor);
     }
   }
 
@@ -168,17 +164,9 @@ export class DomainCustomizationService {
       this.updateIcon(false, true, workobject);
       this.selectWorkObject(workobject);
       this.deselectActor(workobject);
-
-      const icon = this.iconDictionaryService
-        .getFullDictionary()
-        .get(workobject);
-      this.iconDictionaryService
-        .getWorkObjectsDictionary()
-        .add(icon, workobject);
     } else {
       this.deselectWorkobject(workobject);
       this.updateIcon(false, false, workobject);
-      this.iconDictionaryService.getWorkObjectsDictionary().delete(workobject);
     }
   }
 
@@ -327,7 +315,7 @@ export class DomainCustomizationService {
         this.snackbar.open(
           imported
             ? 'Configuration imported successfully'
-            : 'Configuration saved sucessfully',
+            : 'Configuration saved successfully',
           undefined,
           {
             duration: SNACKBAR_DURATION,
@@ -388,11 +376,11 @@ export class DomainCustomizationService {
     const actors = new Dictionary();
     const workObjects = new Dictionary();
 
-    this.domainConfigurationTypes.value.actors.forEach((type: string) => {
-      actors.add(this.iconDictionaryService.getIconSource(type), type);
+    this.domainConfigurationTypes.value.actors.forEach((name: string) => {
+      actors.add(this.iconDictionaryService.getIconSource(name), name);
     });
-    this.domainConfigurationTypes.value.workObjects.forEach((type: string) => {
-      workObjects.add(this.iconDictionaryService.getIconSource(type), type);
+    this.domainConfigurationTypes.value.workObjects.forEach((name: string) => {
+      workObjects.add(this.iconDictionaryService.getIconSource(name), name);
     });
 
     return {
@@ -472,11 +460,29 @@ export class DomainCustomizationService {
     this.allIconListItems
       .keysArray()
       .forEach((item) => this.setAsUnassigned(item, this.isIconActor(item)));
-    changedDomain.actors
-      .keysArray()
-      .forEach((actor) => this.setAsActor(true, actor));
-    changedDomain.workObjects
-      .keysArray()
-      .forEach((workObject) => this.setAsWorkobject(true, workObject));
+    changedDomain.actors.keysArray().forEach((actor) => {
+      this.iconDictionaryService.registerIconForType(
+        elementTypes.ACTOR,
+        actor,
+        this.iconDictionaryService.getFullDictionary().get(actor)
+      );
+      this.iconDictionaryService.unregisterIconForType(
+        elementTypes.WORKOBJECT,
+        actor
+      );
+      this.setAsActor(true, actor);
+    });
+    changedDomain.workObjects.keysArray().forEach((workObject) => {
+      this.iconDictionaryService.registerIconForType(
+        elementTypes.WORKOBJECT,
+        workObject,
+        this.iconDictionaryService.getFullDictionary().get(workObject)
+      );
+      this.iconDictionaryService.unregisterIconForType(
+        elementTypes.ACTOR,
+        workObject
+      );
+      this.setAsWorkobject(true, workObject);
+    });
   }
 }
