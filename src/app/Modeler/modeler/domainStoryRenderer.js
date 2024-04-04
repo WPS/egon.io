@@ -24,6 +24,7 @@ import { calculateTextWidth } from "./labeling/dsLabelUtil";
 import { countLines, labelPosition } from "./labeling/position";
 import { elementTypes } from "src/app/Domain/Common/elementTypes";
 import { angleBetween } from "../../Utils/mathExtensions";
+import { getNameFromType } from "../../Utils/naming";
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
@@ -375,7 +376,7 @@ export default function DomainStoryRenderer(
       actor;
     let iconSRC = iconDictionary.getTypeIconSRC(
       elementTypes.ACTOR,
-      element.type
+      getNameFromType(element.type)
     );
     iconSRC = getIconSrc(iconSRC, element);
     actor = svgCreate(iconSRC);
@@ -397,7 +398,7 @@ export default function DomainStoryRenderer(
       workObject;
     let iconSRC = iconDictionary.getTypeIconSRC(
       elementTypes.WORKOBJECT,
-      element.type
+      getNameFromType(element.type)
     );
     iconSRC = getIconSrc(iconSRC, element);
     workObject = svgCreate(iconSRC);

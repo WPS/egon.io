@@ -133,7 +133,12 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   let actorTypes = iconDictionary?.getTypeDictionary(elementTypes.ACTOR);
 
   actorTypes?.keysArray().forEach((actorType) => {
-    addCanvasObjectTypes(actorType, createAction, actions, "actor");
+    addCanvasObjectTypes(
+      `${elementTypes.ACTOR}${actorType}`,
+      createAction,
+      actions,
+      "actor"
+    );
   });
 
   assign(actions, {
@@ -148,7 +153,12 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   );
 
   workObjectTypes?.keysArray().forEach((workObjectType) => {
-    addCanvasObjectTypes(workObjectType, createAction, actions, "actor");
+    addCanvasObjectTypes(
+      `${elementTypes.WORKOBJECT}${workObjectType}`,
+      createAction,
+      actions,
+      "actor"
+    );
   });
 
   assign(actions, {

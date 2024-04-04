@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import {
   CustomDomainConfiguration,
   fromConfigurationFromFile,
 } from 'src/app/Domain/Common/domainConfiguration';
 import { DomainConfigurationService } from 'src/app/Service/DomainConfiguration/domain-configuration.service';
 import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
-import { BehaviorSubject } from 'rxjs';
-import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
+import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { sanitizeIconName } from 'src/app/Utils/sanitizer';
+import { elementTypes } from '../../Domain/Common/elementTypes';
 import { IconFilterEnum } from '../../Domain/Domain-Configuration/iconFilterEnum';
 import { DomainCustomizationService } from '../../Service/DomainConfiguration/domain-customization.service';
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 
 @Component({
   selector: 'app-domain-configuration',
@@ -109,7 +110,12 @@ export class DomainConfigurationComponent implements OnInit {
         if (e.target) {
           const src: string = e.target.result as unknown as string;
           this.iconDictionaryService.addIMGToIconDictionary(src, iconName);
-          this.iconDictionaryService.registerIconForBPMN(iconName, src);
+          // TODO: td: What kind of type is it here?
+          this.iconDictionaryService.registerIconForBPMN(
+            iconName,
+            src,
+            elementTypes.ACTOR
+          );
 
           this.allIcons.next(this.iconDictionaryService.getFullDictionary());
           this.filter.next(this.filter.value);
