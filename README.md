@@ -31,11 +31,11 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 There are several deployment options:
 
-- Standalone version (Zip file): Best suited for offline use on a laptop, or if your organization already runs a web server (copy the zip file to the web server and extract it there to make Egon available to your organization).
+- Standalone version (Zip file): If your organization already runs a web server, you can copy the zip file to the web server and extract it there to make Egon available to your organization.
 - Docker container: If you prefer to provide websites as Docker container, you can build your own.
 - If you don't want to build and deploy Egon.io yourself, than use one of the ready-to-use options provided by the Egon.io team:
   - Run [Egon.io online](https://egon.io/)
-  - Use a ready-made Docker image: `docker pull ghcr.io/wps/egon.io:latest`
+  - TODO: In the future, we will provide a ready-made Docker image: `docker pull ghcr.io/wps/egon.io:latest`
 
 ### Deploy Standalone Version (Zip file)
 1. In the package.json and environment.prod.ts update the version-tag appropriately
