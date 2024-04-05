@@ -105,7 +105,9 @@ export class IconSetConfigurationService {
     return iconSetConfiguration;
   }
 
-  getCurrentConfigurationForExport(): IconSetConfigurationForExport | undefined {
+  getCurrentConfigurationForExport():
+    | IconSetConfigurationForExport
+    | undefined {
     const currentConfiguration = this.getCurrentConfiguration();
 
     if (currentConfiguration) {

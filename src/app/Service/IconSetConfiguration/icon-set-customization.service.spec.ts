@@ -157,7 +157,9 @@ describe(IconSetCustomizationService.name, () => {
       expect(selectedWorkObjects).toContain('Document');
       expect(selectedWorkObjects).toContain('TestWorkObject');
 
-      expect(storageServiceSpy.setStoredIconSetConfiguration).toHaveBeenCalled();
+      expect(
+        storageServiceSpy.setStoredIconSetConfiguration,
+      ).toHaveBeenCalled();
 
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('Person');
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('TestActor');

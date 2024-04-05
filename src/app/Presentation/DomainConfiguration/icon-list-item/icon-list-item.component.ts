@@ -29,7 +29,9 @@ export class IconListItemComponent implements OnInit, AfterViewChecked {
     return 'domain-configuration-icon-' + this.iconName;
   }
 
-  constructor(private domainCustomizationService: IconSetCustomizationService) {}
+  constructor(
+    private domainCustomizationService: IconSetCustomizationService,
+  ) {}
 
   ngOnInit(): void {
     this.icon = this.domainCustomizationService.getIconForName(this.iconName);

@@ -14,7 +14,9 @@ import { CommandStackService } from '../CommandStack/command-stack.service';
 export class TitleService {
   private titleSubject = new BehaviorSubject<string>(INITIAL_TITLE);
   private descriptionSubject = new BehaviorSubject<string>(INITIAL_DESCRIPTION);
-  private iconSetNameSubject = new BehaviorSubject<string>(INITIAL_ICON_SET_NAME);
+  private iconSetNameSubject = new BehaviorSubject<string>(
+    INITIAL_ICON_SET_NAME,
+  );
   private showDescriptionSubject = new BehaviorSubject<boolean>(true);
 
   title$ = this.titleSubject.asObservable();
