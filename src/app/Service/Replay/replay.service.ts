@@ -28,6 +28,10 @@ export class ReplayService {
     private snackbar: MatSnackBar
   ) {}
 
+  isReplayable(): boolean {
+    return this.storyCreatorService.traceActivitiesAndCreateStory().length > 0;
+  }
+
   initializeReplay(): void {
     this.currentStep.next(1);
     this.story = this.storyCreatorService.traceActivitiesAndCreateStory();

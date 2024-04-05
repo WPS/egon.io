@@ -10,7 +10,16 @@ span {
 
 .headerButton:hover {
   cursor: pointer;
-  color: white;
+
+  span {
+    color: white;
+  }
+}
+
+.disabled span,
+.disabled:hover span {
+  cursor: initial;
+  color: gray;
 }
 
 .materialIconButton:hover {

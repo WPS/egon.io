@@ -1,5 +1,7 @@
 <div *ngIf="!(isReplay$ | async)">
   <button
+    [disabled]="!replayService.isReplayable()"
+    [class.disabled]="!replayService.isReplayable()"
     id="buttonStartReplay"
     class="headerButton"
     title="Start replay"
@@ -25,6 +27,8 @@
     name="file"
   />
   <button
+    [disabled]="!isExportable()"
+    [class.disabled]="!isExportable()"
     class="headerButton"
     id="export"
     title="Export story as .egn, .svg or .png file"
@@ -41,6 +45,8 @@
     </span>
   </button>
   <button
+    [disabled]="!exportService.isDomainStoryExportable()"
+    [class.disabled]="!exportService.isDomainStoryExportable()"
     class="headerButton"
     title="Label Dictionary"
     (click)="openLabelDictionary()"

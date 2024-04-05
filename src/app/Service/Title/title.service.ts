@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_DOMAIN_NAME,
   INITIAL_TITLE,
 } from '../../Domain/Common/constants';
 import { CommandStackService } from '../CommandStack/command-stack.service';
-import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -72,6 +72,15 @@ export class TitleService {
 
   getVersion(): string {
     return environment.version;
+  }
+
+  hasTitleOrDescription(): boolean {
+    return (
+      (this.getTitle().trim().length > 0 &&
+        this.getTitle() !== INITIAL_TITLE) ||
+      (this.getDescription().trim().length > 0 &&
+        this.getDescription() !== INITIAL_DESCRIPTION)
+    );
   }
 
   private fireTitleAndDescriptionUpdate(

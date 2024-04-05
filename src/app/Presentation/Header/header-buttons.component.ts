@@ -41,8 +41,8 @@ export class HeaderButtonsComponent {
     private replayStateService: ReplayStateService,
     private dirtyFlagService: DirtyFlagService,
     private dialogService: DialogService,
-    private replayService: ReplayService,
-    private exportService: ExportService,
+    protected replayService: ReplayService,
+    protected exportService: ExportService,
     private importService: ImportDomainStoryService,
     private titleService: TitleService,
     private renderService: RendererService,
@@ -199,5 +199,12 @@ export class HeaderButtonsComponent {
 
   nextStep(): void {
     this.replayService.nextStep();
+  }
+
+  isExportable(): boolean {
+    return (
+      this.titleService.hasTitleOrDescription() ||
+      this.exportService.isDomainStoryExportable()
+    );
   }
 }
