@@ -8,7 +8,7 @@ export function degrees(radians: number): number {
 // calculate the angle between two points in 2D
 export function angleBetween(
   startPoint: Point,
-  endPoint: Point
+  endPoint: Point,
 ): number | undefined {
   let quadrant;
 
@@ -55,7 +55,7 @@ export function positionsMatch(
   elementX: number,
   elementY: number,
   clickX: number,
-  clickY: number
+  clickY: number,
 ): boolean {
   if (clickX > elementX && clickX < elementX + width) {
     if (clickY > elementY && clickY < elementY + height) {

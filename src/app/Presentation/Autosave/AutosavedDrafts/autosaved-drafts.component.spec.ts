@@ -16,13 +16,13 @@ describe('AutosavedDraftsComponent', () => {
   const autosaveConfigurationServiceMock = jasmine.createSpyObj(
     'AutosaveConfigurationService',
     ['setConfiguration'],
-    { configuration$: of({ activated: true, maxDrafts: 1, interval: 1 }) }
+    { configuration$: of({ activated: true, maxDrafts: 1, interval: 1 }) },
   );
 
   const autosaveServiceMock = jasmine.createSpyObj(
     'AutosaveService',
     ['loadCurrentDrafts', 'loadDraft', 'removeAllDrafts'],
-    { autosavedDraftsChanged$: of() }
+    { autosavedDraftsChanged$: of() },
   );
 
   beforeEach(async () => {
@@ -43,7 +43,7 @@ describe('AutosavedDraftsComponent', () => {
     }).compileComponents();
 
     autosaveServiceSpy = TestBed.inject(
-      AutosaveService
+      AutosaveService,
     ) as jasmine.SpyObj<AutosaveService>;
     autosaveServiceSpy.loadCurrentDrafts.and.returnValue([]);
   });

@@ -29,7 +29,7 @@ export default function DomainStoryContextPadProvider(
   replaceMenuProvider,
   commandStack,
   eventBus,
-  modeling
+  modeling,
 ) {
   let startConnect;
   let selectedElement;
@@ -65,7 +65,7 @@ export default function DomainStoryContextPadProvider(
     if (element.type.includes(elementTypes.WORKOBJECT)) {
       if (
         allStandardIconKeys.includes(
-          element.type.replace(elementTypes.WORKOBJECT, "")
+          element.type.replace(elementTypes.WORKOBJECT, ""),
         )
       ) {
         addColorChange(actions);
@@ -78,7 +78,7 @@ export default function DomainStoryContextPadProvider(
     } else if (element.type.includes(elementTypes.ACTOR)) {
       if (
         allStandardIconKeys.includes(
-          element.type.replace(elementTypes.ACTOR, "")
+          element.type.replace(elementTypes.ACTOR, ""),
         )
       ) {
         addColorChange(actions);
@@ -185,7 +185,7 @@ export default function DomainStoryContextPadProvider(
         elementTypes.TEXTANNOTATION,
         "bpmn-icon-text-annotation",
         "textannotation",
-        "connect"
+        "connect",
       ),
     });
   }
@@ -206,20 +206,20 @@ export default function DomainStoryContextPadProvider(
 
   function addWorkObjects(appendAction, actions) {
     let workObjectTypes = iconDictionaryService.getTypeDictionary(
-      elementTypes.WORKOBJECT
+      elementTypes.WORKOBJECT,
     );
     workObjectTypes.keysArray().forEach((workObjectType) => {
       let name = workObjectType;
       let icon = iconDictionaryService.getIconForBPMN(
         elementTypes.WORKOBJECT,
-        workObjectType
+        workObjectType,
       );
       let action = [];
       action["append.workObject" + name] = appendAction(
         `${elementTypes.WORKOBJECT}${workObjectType}`,
         icon,
         name,
-        "workObjects"
+        "workObjects",
       );
       assign(actions, action);
     });
@@ -227,20 +227,20 @@ export default function DomainStoryContextPadProvider(
 
   function addActors(appendAction, actions) {
     let actorTypes = iconDictionaryService.getTypeDictionary(
-      elementTypes.ACTOR
+      elementTypes.ACTOR,
     );
     actorTypes.keysArray().forEach((actorType) => {
       let name = actorType;
       let icon = iconDictionaryService.getIconForBPMN(
         elementTypes.ACTOR,
-        actorType
+        actorType,
       );
       let action = [];
       action["append.actor" + name] = appendAction(
         `${elementTypes.ACTOR}${actorType}`,
         icon,
         name,
-        "actors"
+        "actors",
       );
       assign(actions, action);
     });

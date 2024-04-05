@@ -15,7 +15,7 @@ import {
 export class AutosaveOptionsComponent {
   constructor(
     protected autosaveConfiguration: AutosaveConfigurationService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
   ) {}
 
   save(activated: boolean, maxDrafts: number, interval: number) {
@@ -37,7 +37,7 @@ export class AutosaveOptionsComponent {
         {
           duration: 2 * SNACKBAR_DURATION,
           panelClass: SNACKBAR_ERROR,
-        }
+        },
       );
     }
   }

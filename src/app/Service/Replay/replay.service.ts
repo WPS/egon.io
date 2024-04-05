@@ -25,7 +25,7 @@ export class ReplayService {
     private replayStateService: ReplayStateService,
     private domManipulationService: DomManipulationService,
     private storyCreatorService: StoryCreatorService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
   ) {}
 
   isReplayable(): boolean {
@@ -65,7 +65,7 @@ export class ReplayService {
       this.story[this.currentStep.value - 1],
       this.currentStep.value > 1
         ? this.story[this.currentStep.value - 2]
-        : undefined
+        : undefined,
     );
   }
 
@@ -76,7 +76,7 @@ export class ReplayService {
       if (missingSteps.length === 0) {
         this.replayStateService.setReplayState(true);
         this.domManipulationService.showStep(
-          this.story[this.currentStep.getValue() - 1]
+          this.story[this.currentStep.getValue() - 1],
         );
       } else {
         const steps = missingSteps.join(', ');
@@ -88,7 +88,7 @@ export class ReplayService {
           {
             duration: SNACKBAR_DURATION * 2,
             panelClass: SNACKBAR_INFO,
-          }
+          },
         );
       }
     } else {

@@ -14,7 +14,7 @@ export function initializeActivityUpdateHandler(canvasElementRegistryService) {
 export default function activityUpdateHandler(commandStack, eventBus) {
   commandStack.registerHandler(
     "activity.directionChange",
-    activity_directionChange
+    activity_directionChange,
   );
   commandStack.registerHandler("activity.changed", activity_changed);
 
@@ -54,7 +54,7 @@ export default function activityUpdateHandler(commandStack, eventBus) {
 
       revertAutomaticNumberGenerationChange(
         context.oldNumbersWithIDs,
-        eventBus
+        eventBus,
       );
 
       eventBus.fire("element.changed", { element });

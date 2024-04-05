@@ -19,10 +19,10 @@ export class AutosavedDraftsComponent implements OnInit {
 
   constructor(
     private autosaveService: AutosaveService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
   ) {
     this.subscription = this.autosaveService.autosavedDraftsChanged$.subscribe(
-      () => this.initDrafts()
+      () => this.initDrafts(),
     );
   }
 

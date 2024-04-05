@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
     private titleService: TitleService,
     private exportService: ExportService,
     private replayStateService: ReplayStateService,
-    replayService: ReplayService
+    replayService: ReplayService,
   ) {
     this.showSettings$ = new BehaviorSubject(false);
     this.showDescription$ = new BehaviorSubject(true);

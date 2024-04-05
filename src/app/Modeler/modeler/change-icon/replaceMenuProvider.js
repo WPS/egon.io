@@ -45,7 +45,7 @@ ReplaceMenuProvider.prototype.getEntries = function (element) {
  */
 ReplaceMenuProvider.prototype._createEntries = function (
   element,
-  replaceOptions
+  replaceOptions,
 ) {
   let menuEntries = [];
 
@@ -73,7 +73,7 @@ ReplaceMenuProvider.prototype._createEntries = function (
 ReplaceMenuProvider.prototype._createMenuEntry = function (
   definition,
   element,
-  action
+  action,
 ) {
   let replaceElement = this._dsReplace.replaceElement;
   let modeling = this._modeling;

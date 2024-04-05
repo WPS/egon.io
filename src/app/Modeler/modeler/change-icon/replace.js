@@ -34,10 +34,10 @@ function replaceElement(oldElement, newElementData, modeling) {
 
 function setCenterOfElement(newElementData, oldElement, modeling) {
   newElementData.x = Math.ceil(
-    oldElement.x + (newElementData.width || oldElement.width) / 2
+    oldElement.x + (newElementData.width || oldElement.width) / 2,
   );
   newElementData.y = Math.ceil(
-    oldElement.y + (newElementData.height || oldElement.height) / 2
+    oldElement.y + (newElementData.height || oldElement.height) / 2,
   );
 
   assign(newElementData, { name: oldElement.businessObject.name });

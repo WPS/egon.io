@@ -19,7 +19,7 @@ describe('StoryCreatorService', () => {
   beforeEach(() => {
     const elementRegistryServiceMock = jasmine.createSpyObj(
       'ElementRegistryService',
-      ['getActivitiesFromActors', 'getAllGroups']
+      ['getActivitiesFromActors', 'getAllGroups'],
     );
     TestBed.configureTestingModule({
       providers: [
@@ -31,7 +31,7 @@ describe('StoryCreatorService', () => {
     });
     service = TestBed.inject(StoryCreatorService);
     elementRegistryServiceSpy = TestBed.inject(
-      ElementRegistryService
+      ElementRegistryService,
     ) as jasmine.SpyObj<ElementRegistryService>;
   });
 
@@ -66,16 +66,17 @@ describe('StoryCreatorService', () => {
         i++;
       }
 
-      group.children.push(objects[2]);
+      group.children!.push(objects[2]);
 
       elementRegistryServiceSpy.getActivitiesFromActors.and.returnValue(
         (
           objects.filter(
-            (o) => o.type === elementTypes.ACTIVITY
+            (o) => o.type === elementTypes.ACTIVITY,
           ) as ActivityCanvasObject[]
-        ).filter((o) => o.businessObject.number != null)
+        ).filter((o) => o.businessObject.number != null),
       );
-      elementRegistryServiceSpy.getAllGroups.and.returnValue(group);
+      // No Idea why this works!
+      elementRegistryServiceSpy.getAllGroups.and.returnValue(group as any);
     });
 
     it('should trace activities and create Story', () => {

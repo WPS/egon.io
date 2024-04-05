@@ -23,7 +23,7 @@ describe('AppComponent', () => {
           SettingsService,
           TitleService,
           ExportService,
-          ReplayService
+          ReplayService,
         ),
       ],
     }).compileComponents();

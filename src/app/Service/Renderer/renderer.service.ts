@@ -12,7 +12,7 @@ export class RendererService {
   constructor(
     private modelerService: ModelerService,
     private elementRegistryService: ElementRegistryService,
-    private dirtyFlagService: DirtyFlagService
+    private dirtyFlagService: DirtyFlagService,
   ) {}
 
   renderStory(domainStory: BusinessObject[]): void {
@@ -27,7 +27,7 @@ export class RendererService {
     domainStory: BusinessObject[],
     configurationChange: boolean,
     config?: DomainConfiguration,
-    makeClean = true
+    makeClean = true,
   ): void {
     this.modelerService.restart(config, domainStory);
     this.renderStory(domainStory);

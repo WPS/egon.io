@@ -52,13 +52,13 @@ export class IconDictionaryService {
       actors,
       allTypes,
       this.actorIconDictionary,
-      elementTypes.ACTOR
+      elementTypes.ACTOR,
     );
     this.initDictionary(
       workObjects,
       allTypes,
       this.workObjectDictionary,
-      elementTypes.WORKOBJECT
+      elementTypes.WORKOBJECT,
     );
   }
 
@@ -66,7 +66,7 @@ export class IconDictionaryService {
     keys: string[],
     allTypes: Dictionary,
     dictionary: Dictionary,
-    elementType: elementTypes
+    elementType: elementTypes,
   ) {
     dictionary.clear();
     for (const key of keys) {
@@ -77,7 +77,7 @@ export class IconDictionaryService {
       this.registerIconForBPMN(
         name,
         ICON_PREFIX + sanitizeIconName(name.toLowerCase()),
-        elementType
+        elementType,
       );
     });
   }
@@ -114,7 +114,7 @@ export class IconDictionaryService {
 
   addIconsFromDomainConfiguration(
     dictionaryType: elementTypes,
-    iconTypes: string[]
+    iconTypes: string[],
   ): void {
     let collection: Dictionary;
     if (dictionaryType === elementTypes.ACTOR) {
@@ -135,7 +135,7 @@ export class IconDictionaryService {
           this.registerIconForBPMN(
             name,
             sanitizeIconName(ICON_PREFIX + name.toLowerCase()),
-            dictionaryType
+            dictionaryType,
           );
         }
       }
@@ -146,7 +146,7 @@ export class IconDictionaryService {
   registerIconForBPMN(
     name: string,
     src: string,
-    elementType: elementTypes
+    elementType: elementTypes,
   ): void {
     if (name.includes(elementType)) {
       throw new Error('Should not include elementType');
@@ -157,18 +157,18 @@ export class IconDictionaryService {
 
   addIconsToTypeDictionary(
     actorIcons: BusinessObject[],
-    workObjectIcons: BusinessObject[]
+    workObjectIcons: BusinessObject[],
   ) {
     if (!this.allInTypeDictionary(elementTypes.ACTOR, actorIcons)) {
       this.addIconsFromDomainConfiguration(
         elementTypes.ACTOR,
-        actorIcons.map((element) => getNameFromType(element.type))
+        actorIcons.map((element) => getNameFromType(element.type)),
       );
     }
     if (!this.allInTypeDictionary(elementTypes.WORKOBJECT, workObjectIcons)) {
       this.addIconsFromDomainConfiguration(
         elementTypes.WORKOBJECT,
-        workObjectIcons.map((element) => getNameFromType(element.type))
+        workObjectIcons.map((element) => getNameFromType(element.type)),
       );
     }
   }
@@ -204,7 +204,7 @@ export class IconDictionaryService {
   updateIconRegistries(
     actors: BusinessObject[],
     workObjects: BusinessObject[],
-    config: DomainConfiguration
+    config: DomainConfiguration,
   ): void {
     const elements: BusinessObject[] = [];
 
@@ -229,7 +229,7 @@ export class IconDictionaryService {
       const name = sanitizeIconName(
         element.type
           .replace(elementTypes.ACTOR, '')
-          .replace(elementTypes.WORKOBJECT, '')
+          .replace(elementTypes.WORKOBJECT, ''),
       );
       if (
         (element.type.includes(elementTypes.ACTOR) ||
@@ -245,7 +245,7 @@ export class IconDictionaryService {
         this.registerIconForBPMN(
           ICON_PREFIX + name.toLowerCase(),
           getNameFromType(element.type),
-          elementType
+          elementType,
         );
       }
     });
@@ -256,7 +256,7 @@ export class IconDictionaryService {
 
   private extractCustomIconsFromDictionary(
     elementDictionary: Dictionary,
-    customIcons: Dictionary
+    customIcons: Dictionary,
   ) {
     elementDictionary.keysArray().forEach((name) => {
       const sanitizedName = sanitizeIconName(name);
@@ -360,7 +360,7 @@ export class IconDictionaryService {
 
   getElementsOfType(
     elements: BusinessObject[],
-    type: elementTypes
+    type: elementTypes,
   ): BusinessObject[] {
     const elementOfType: any = [];
     elements.forEach((element) => {

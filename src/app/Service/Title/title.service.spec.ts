@@ -39,7 +39,7 @@ describe('TitleService', () => {
 
       service.title$.subscribe((value) => expect(value).toEqual('title'));
       service.description$.subscribe((value) =>
-        expect(value).toEqual(INITIAL_DESCRIPTION)
+        expect(value).toEqual(INITIAL_DESCRIPTION),
       );
     });
 
@@ -51,7 +51,7 @@ describe('TitleService', () => {
 
       service.title$.subscribe((value) => expect(value).toEqual(INITIAL_TITLE));
       service.description$.subscribe((value) =>
-        expect(value).toEqual('description')
+        expect(value).toEqual('description'),
       );
     });
 
@@ -63,7 +63,7 @@ describe('TitleService', () => {
 
       service.title$.subscribe((value) => expect(value).toEqual('title'));
       service.description$.subscribe((value) =>
-        expect(value).toEqual('description')
+        expect(value).toEqual('description'),
       );
     });
   });

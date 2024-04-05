@@ -19,12 +19,12 @@ export class DomainConfigurationService {
   constructor(
     private iconDictionaryService: IconDictionaryService,
     private elementRegistryService: ElementRegistryService,
-    private titleService: TitleService
+    private titleService: TitleService,
   ) {}
 
   setDomainName(domainName: string): void {
     this.titleService.setDomainName(
-      domainName ? domainName : INITIAL_DOMAIN_NAME
+      domainName ? domainName : INITIAL_DOMAIN_NAME,
     );
   }
 
@@ -40,7 +40,7 @@ export class DomainConfigurationService {
 
     element.setAttribute(
       'href',
-      'data:text/plain;charset=utf-8,' + encodeURIComponent(configJSONString)
+      'data:text/plain;charset=utf-8,' + encodeURIComponent(configJSONString),
     );
     element.setAttribute('download', filename + '.domain');
     element.style.display = 'none';
@@ -53,7 +53,7 @@ export class DomainConfigurationService {
 
   loadConfiguration(
     customConfig: DomainConfiguration,
-    updateDomainName = true
+    updateDomainName = true,
   ): void {
     let actorDict = new Dictionary();
     let workObjectDict = new Dictionary();
@@ -77,11 +77,11 @@ export class DomainConfigurationService {
 
     this.iconDictionaryService.addIconsFromDomainConfiguration(
       elementTypes.ACTOR,
-      actorKeys.map((a) => elementTypes.ACTOR + a)
+      actorKeys.map((a) => elementTypes.ACTOR + a),
     );
     this.iconDictionaryService.addIconsFromDomainConfiguration(
       elementTypes.WORKOBJECT,
-      workObjectKeys.map((w) => elementTypes.WORKOBJECT + w)
+      workObjectKeys.map((w) => elementTypes.WORKOBJECT + w),
     );
 
     if (updateDomainName) {
@@ -99,7 +99,7 @@ export class DomainConfigurationService {
     if (actors.size() > 0 && workObjects.size() > 0) {
       domainConfiguration = this.createConfigFromDictionaries(
         actors,
-        workObjects
+        workObjects,
       );
     }
     return domainConfiguration;
@@ -148,13 +148,13 @@ export class DomainConfigurationService {
     defaultConf.actors.forEach((iconName) => {
       minimalConfig.actors.add(
         this.iconDictionaryService.getIconSource(iconName),
-        iconName
+        iconName,
       );
     });
     defaultConf.workObjects.forEach((iconName) => {
       minimalConfig.workObjects.add(
         this.iconDictionaryService.getIconSource(iconName),
-        iconName
+        iconName,
       );
     });
 
@@ -163,7 +163,7 @@ export class DomainConfigurationService {
 
   private createConfigFromDictionaries(
     actorsDict: Dictionary,
-    workObjectsDict: Dictionary
+    workObjectsDict: Dictionary,
   ): DomainConfiguration {
     const actorNames = actorsDict.keysArray();
     const workobjectNames = workObjectsDict.keysArray();
@@ -174,13 +174,13 @@ export class DomainConfigurationService {
     actorNames.forEach((actor) => {
       newActors.add(
         actorsDict.get(actor),
-        actor.replace(elementTypes.ACTOR, '')
+        actor.replace(elementTypes.ACTOR, ''),
       );
     });
     workobjectNames.forEach((workObject) => {
       newWorkobjects.add(
         workObjectsDict.get(workObject),
-        workObject.replace(elementTypes.WORKOBJECT, '')
+        workObject.replace(elementTypes.WORKOBJECT, ''),
       );
     });
 

@@ -33,7 +33,7 @@ describe('HeaderButtonsComponent', () => {
           ReplayService,
           ExportService,
           ImportDomainStoryService,
-          MatSnackBar
+          MatSnackBar,
         ),
       ],
     }).compileComponents();

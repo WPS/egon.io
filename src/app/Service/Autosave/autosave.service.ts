@@ -34,10 +34,10 @@ export class AutosaveService {
     private rendererService: RendererService,
     private snackbar: MatSnackBar,
     private storageService: StorageService,
-    private titleService: TitleService
+    private titleService: TitleService,
   ) {
     this.autosaveConfiguration.configuration$.subscribe((configuration) =>
-      this.updateConfiguration(configuration)
+      this.updateConfiguration(configuration),
     );
   }
 
@@ -55,21 +55,21 @@ export class AutosaveService {
     this.titleService.updateTitleAndDescription(
       draft.title,
       draft.description,
-      false
+      false,
     );
 
     const actorIcons = this.iconDictionaryService.getElementsOfType(
       story,
-      elementTypes.ACTOR
+      elementTypes.ACTOR,
     );
     const workObjectIcons = this.iconDictionaryService.getElementsOfType(
       story,
-      elementTypes.WORKOBJECT
+      elementTypes.WORKOBJECT,
     );
     this.iconDictionaryService.updateIconRegistries(
       actorIcons,
       workObjectIcons,
-      config
+      config,
     );
     this.rendererService.importStory(story, true, config, false);
   }

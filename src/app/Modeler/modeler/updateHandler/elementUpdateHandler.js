@@ -6,7 +6,7 @@ export default function elementUpdateHandler(commandStack, eventBus) {
   commandStack.registerHandler("element.colorChange", element_colorChange);
   commandStack.registerHandler(
     "shape.removeGroupWithoutChildren",
-    removeGroupWithoutChildren
+    removeGroupWithoutChildren,
   );
 
   function element_colorChange() {

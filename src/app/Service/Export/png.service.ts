@@ -20,7 +20,7 @@ export class PngService {
     let tem;
     let M =
       ua.match(
-        /(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i
+        /(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i,
       ) || [];
     if (/trident/i.test(M[1])) {
       tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
@@ -156,7 +156,7 @@ export class PngService {
     layerBase: any,
     description: string,
     title: string,
-    withTitle: boolean
+    withTitle: boolean,
   ): string {
     const box = this.findMostOuterElements(layerBase);
     let viewBoxIndex = svg.indexOf('width="');
@@ -168,7 +168,7 @@ export class PngService {
       description,
       box.xLeft + 10,
       box.yUp + 20,
-      this.width
+      this.width,
     );
     if (withTitle) {
       this.height += extraHeight;

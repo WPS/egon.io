@@ -20,7 +20,7 @@ export class ExportDialogComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<ExportDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: ExportDialogData
+    @Inject(MAT_DIALOG_DATA) data: ExportDialogData,
   ) {
     this.withTitle = new BehaviorSubject<boolean>(true);
     this.useWhiteBackground = new BehaviorSubject<boolean>(true);

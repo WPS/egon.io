@@ -31,10 +31,10 @@ export class LabelDictionaryComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.labelDictionaryService.createLabelDictionaries();
     this.workobjectEntriesSubject.next(
-      this.labelDictionaryService.getWorkObjectLabels()
+      this.labelDictionaryService.getWorkObjectLabels(),
     );
     this.activityEntriesSubject.next(
-      this.labelDictionaryService.getActivityLabels()
+      this.labelDictionaryService.getActivityLabels(),
     );
   }
 
@@ -66,7 +66,7 @@ export class LabelDictionaryComponent implements AfterViewInit {
       activityNames,
       originalActivityNames,
       workObjectNames,
-      originalWorkObjectNames
+      originalWorkObjectNames,
     );
     this.closeEmitter.emit();
   }
@@ -86,7 +86,7 @@ export class LabelDictionaryComponent implements AfterViewInit {
   updateActivityEntry($event: Event, activityEntry: LabelEntry) {
     let entries = this.activityEntriesSubject.value;
     entries.filter(
-      (e) => e.originalName === activityEntry.originalName
+      (e) => e.originalName === activityEntry.originalName,
       // @ts-ignore
     )[0].name = $event.target.value;
     this.activityEntriesSubject.next(entries);
@@ -95,7 +95,7 @@ export class LabelDictionaryComponent implements AfterViewInit {
   updateWorkobjectEntry($event: Event, workobjectEntry: LabelEntry) {
     let entries = this.workobjectEntriesSubject.value;
     entries.filter(
-      (e) => e.originalName === workobjectEntry.originalName
+      (e) => e.originalName === workobjectEntry.originalName,
       // @ts-ignore
     )[0].name = $event.target.value;
     this.workobjectEntriesSubject.next(entries);

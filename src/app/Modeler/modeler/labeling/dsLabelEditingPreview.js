@@ -85,7 +85,7 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
 
       let newElementHeight = Math.max(
         (element.height / absoluteElementBBox.height) * (height + dy),
-        0
+        0,
       );
       annotationBoxHeight = newElementHeight;
 
@@ -114,7 +114,7 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
       if (activeProvider) {
         canvas.removeMarker(
           activeProvider.element.label || activeProvider.element,
-          MARKER_HIDDEN
+          MARKER_HIDDEN,
         );
         canvas.removeMarker(element, MARKER_LABEL_HIDDEN);
       }
@@ -127,7 +127,7 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
 
         gfx = undefined;
       }
-    }
+    },
   );
 }
 

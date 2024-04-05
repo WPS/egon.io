@@ -34,13 +34,13 @@ export class DomainConfigurationComponent implements OnInit {
     private configurationService: DomainConfigurationService,
     private iconDictionaryService: IconDictionaryService,
     private domainCustomizationService: DomainCustomizationService,
-    private elementRegistryService: ElementRegistryService
+    private elementRegistryService: ElementRegistryService,
   ) {
     this.domainConfigurationTypes =
       this.domainCustomizationService.getDomainConfiguration().value;
 
     this.allIcons = new BehaviorSubject(
-      this.iconDictionaryService.getFullDictionary()
+      this.iconDictionaryService.getFullDictionary(),
     );
     this.allIcons.subscribe((allIcons) => {
       this.allIconNames.next(allIcons.keysArray().sort(this.sortByName));
@@ -85,7 +85,7 @@ export class DomainConfigurationComponent implements OnInit {
   /** Persist Domain **/
   saveDomain(): void {
     this.domainCustomizationService.saveDomain(
-      this.elementRegistryService.getUsedIcons()
+      this.elementRegistryService.getUsedIcons(),
     );
   }
 
@@ -114,7 +114,7 @@ export class DomainConfigurationComponent implements OnInit {
           this.iconDictionaryService.registerIconForBPMN(
             iconName,
             src,
-            elementTypes.ACTOR
+            elementTypes.ACTOR,
           );
 
           this.allIcons.next(this.iconDictionaryService.getFullDictionary());
@@ -139,7 +139,7 @@ export class DomainConfigurationComponent implements OnInit {
 
     reader.onloadend = (e: ProgressEvent<FileReader>) => {
       const configFromFile = JSON.parse(
-        e.target?.result as unknown as string
+        e.target?.result as unknown as string,
       ) as {
         name: string;
         actors: { [key: string]: any };
@@ -181,9 +181,9 @@ export class DomainConfigurationComponent implements OnInit {
 
   filterByNameAndType($event: any) {
     const filteredByNameAndType = this.getFilteredNamesForType(
-      this.filter.value
+      this.filter.value,
     ).filter((name) =>
-      name.toLowerCase().includes($event.target.value.toLowerCase())
+      name.toLowerCase().includes($event.target.value.toLowerCase()),
     );
     this.allFilteredIconNames.next(filteredByNameAndType.sort(this.sortByName));
   }
@@ -196,19 +196,19 @@ export class DomainConfigurationComponent implements OnInit {
         break;
       case IconFilterEnum.ICON_FILTER_ACTOR:
         allFiltered = this.allIconNames.value.filter((name) =>
-          this.domainCustomizationService.isIconActor(name)
+          this.domainCustomizationService.isIconActor(name),
         );
         break;
       case IconFilterEnum.ICON_FILTER_WORKOBJECT:
         allFiltered = this.allIconNames.value.filter((name) =>
-          this.domainCustomizationService.isIconWorkObject(name)
+          this.domainCustomizationService.isIconWorkObject(name),
         );
         break;
       case IconFilterEnum.ICON_FILTER_UNASSIGNED:
         allFiltered = this.allIconNames.value.filter(
           (name) =>
             !this.domainCustomizationService.isIconActor(name) &&
-            !this.domainCustomizationService.isIconWorkObject(name)
+            !this.domainCustomizationService.isIconWorkObject(name),
         );
         break;
     }

@@ -52,7 +52,7 @@ export class ElementRegistryService {
   private fillListOfCanvasObjects(
     allObjectsFromCanvas: CanvasObject[],
     objectList: CanvasObject[],
-    groups: GroupCanvasObject[]
+    groups: GroupCanvasObject[],
   ): void {
     allObjectsFromCanvas.forEach((canvasElement) => {
       if (canvasElement.type === elementTypes.ACTIVITY) {
@@ -141,7 +141,7 @@ export class ElementRegistryService {
 
   private checkChildForGroup(
     groupObjects: GroupCanvasObject[],
-    allObjects: CanvasObject[]
+    allObjects: CanvasObject[],
   ): void {
     const registryElementNames = Object.keys(this.registry);
     for (let name of registryElementNames) {
@@ -178,20 +178,20 @@ export class ElementRegistryService {
     return {
       actors: actors.map((a) => a.type.replace(elementTypes.ACTOR, '')),
       workobjects: workobjects.map((w) =>
-        w.type.replace(elementTypes.WORKOBJECT, '')
+        w.type.replace(elementTypes.WORKOBJECT, ''),
       ),
     };
   }
 
   private getAllActors() {
     return this.getAllCanvasObjects().filter((co) =>
-      co.type.includes(elementTypes.ACTOR)
+      co.type.includes(elementTypes.ACTOR),
     );
   }
 
   getAllWorkobjects() {
     return this.getAllCanvasObjects().filter((co) =>
-      co.type.includes(elementTypes.WORKOBJECT)
+      co.type.includes(elementTypes.WORKOBJECT),
     );
   }
 }

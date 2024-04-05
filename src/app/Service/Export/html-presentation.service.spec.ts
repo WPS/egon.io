@@ -19,7 +19,7 @@ describe('HtmlPresentationService', () => {
           DialogService,
           StoryCreatorService,
           ReplayService,
-          TitleService
+          TitleService,
         ),
       ],
     });

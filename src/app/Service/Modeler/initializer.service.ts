@@ -53,13 +53,13 @@ export class InitializerService {
     private dialogService: DialogService,
     private commandStackService: CommandStackService,
     private titleService: TitleService,
-    private htmlPresentationService: HtmlPresentationService
+    private htmlPresentationService: HtmlPresentationService,
   ) {}
 
   initializeDomainStoryModelerClasses(): void {
     initializeContextPadProvider(
       this.dirtyFlagService,
-      this.iconDictionaryService
+      this.iconDictionaryService,
     );
     /** The Palette and the Context Menu need the Icons present in the Domain,
      * so the IconDictionaryService and the DomainConfigurationService needs to be given to the Palette **/
@@ -67,7 +67,7 @@ export class InitializerService {
     initializeRenderer(
       this.iconDictionaryService,
       this.elementRegistryService,
-      this.dirtyFlagService
+      this.dirtyFlagService,
     );
     initializeLabelEditingProvider(this.labelDictionaryService);
     initializeReplaceOptions(this.iconDictionaryService);
@@ -80,7 +80,7 @@ export class InitializerService {
     elementRegistry: any,
     canvas: any,
     selection: any,
-    modeler: any
+    modeler: any,
   ): void {
     this.commandStackService.setCommandStack(commandStack);
     this.elementRegistryService.setElementRegistry(elementRegistry);
@@ -89,7 +89,7 @@ export class InitializerService {
 
   initializeDomainStoryModelerEventHandlers(
     commandStack: any,
-    eventBus: any
+    eventBus: any,
   ): void {
     activityUpdateHandler(commandStack, eventBus);
     massRenameHandler(commandStack, eventBus);
@@ -155,10 +155,10 @@ export class InitializerService {
                     const tNumber = parseInt(tspan.innerHTML, undefined);
 
                     const elementX = Math.floor(
-                      tx * zoomX + (transformX - 11 * zoomX)
+                      tx * zoomX + (transformX - 11 * zoomX),
                     );
                     const elementY = Math.floor(
-                      ty * zoomY + (transformY - 15 * zoomY)
+                      ty * zoomY + (transformY - 15 * zoomY),
                     );
 
                     allActivities.forEach((activity: ActivityCanvasObject) => {
@@ -171,13 +171,13 @@ export class InitializerService {
                             elementX,
                             elementY,
                             clickX,
-                            clickY
+                            clickY,
                           )
                         ) {
                           this.activityDoubleClick(
                             activity,
                             eventBus,
-                            commandStack
+                            commandStack,
                           );
                         }
                       }
@@ -208,7 +208,7 @@ export class InitializerService {
           event.stopPropagation();
           event.preventDefault();
         }
-      }
+      },
     );
   }
 
@@ -216,7 +216,7 @@ export class InitializerService {
   private activityDoubleClick(
     activity: ActivityCanvasObject,
     eventBus: any,
-    commandStack: any
+    commandStack: any,
   ): void {
     const source = activity.source;
 
@@ -236,7 +236,8 @@ export class InitializerService {
         activity,
         getMultipleNumberRegistry()[activity.businessObject.number],
         true,
-        (data: any) => this.saveActivityInputLabel(data, eventBus, commandStack)
+        (data: any) =>
+          this.saveActivityInputLabel(data, eventBus, commandStack),
       );
     } else if (source && source.type.includes(elementTypes.WORKOBJECT)) {
       config.data = new ActivityDialogData(
@@ -244,7 +245,7 @@ export class InitializerService {
         false,
         false,
         (activityData: any) =>
-          this.saveActivityInputLabel(activityData, eventBus, commandStack)
+          this.saveActivityInputLabel(activityData, eventBus, commandStack),
       );
     }
     this.dialogService.openDialog(ActivityDialogComponent, config);
@@ -253,7 +254,7 @@ export class InitializerService {
   private saveActivityInputLabel(
     activityData: any,
     eventBus: any,
-    commandStack: any
+    commandStack: any,
   ): void {
     const label = activityData.activityLabel;
     const hasNumber = activityData.activityNumber ?? false;
@@ -293,14 +294,14 @@ export class InitializerService {
         updateExistingNumbersAtEditing(
           activitiesFromActors,
           activityNumber,
-          eventBus
+          eventBus,
         );
       }
     } else if (element.businessObject.multipleNumberAllowed === false) {
       updateExistingNumbersAtEditing(
         activitiesFromActors,
         activityNumber,
-        eventBus
+        eventBus,
       );
     }
   }

@@ -40,7 +40,7 @@ let dirtyFlag;
 export function initializeRenderer(
   iconDictionaryService,
   elementRegistryService,
-  dirtyFlagService
+  dirtyFlagService,
 ) {
   iconDictionary = iconDictionaryService;
   elementRegistry = elementRegistryService;
@@ -53,7 +53,7 @@ export default function DomainStoryRenderer(
   canvas,
   textRenderer,
   pathMap,
-  commandStack
+  commandStack,
 ) {
   BaseRenderer.call(this, eventBus, 2000);
 
@@ -80,7 +80,7 @@ export default function DomainStoryRenderer(
       parentGfx,
       semantic.number,
       numberStyle(box),
-      element.type
+      element.type,
     );
     addNumberToRegistry(newRenderedNumber, semantic.number);
   }
@@ -138,7 +138,7 @@ export default function DomainStoryRenderer(
           fill: "#000000",
         },
       },
-      element.type
+      element.type,
     );
   }
 
@@ -187,7 +187,7 @@ export default function DomainStoryRenderer(
               hyphens: "auto",
             }),
           },
-          element.type
+          element.type,
         );
       }
     }
@@ -254,12 +254,12 @@ export default function DomainStoryRenderer(
       text.innerHTML = manipulateInnerHTMLXLabel(
         text.children,
         options.box.x,
-        0
+        0,
       );
       text.innerHTML = manipulateInnerHTMLYLabel(
         text.children,
         options.box.y,
-        0
+        0,
       );
     } else if (/:actor/.test(type)) {
       height = parentGfx.firstChild.attributes.height.nodeValue;
@@ -289,7 +289,7 @@ export default function DomainStoryRenderer(
       for (let i = 0; i < children.length; i++) {
         result += children[i].outerHTML.replace(
           /y="-?\d*.\d*"/,
-          'y="' + (Number(y) + offset + 14 * i) + '"'
+          'y="' + (Number(y) + offset + 14 * i) + '"',
         );
       }
       return result;
@@ -303,7 +303,7 @@ export default function DomainStoryRenderer(
       for (let i = 0; i < children.length; i++) {
         result += children[i].outerHTML.replace(
           /x="-?\d*.\d*"/,
-          'x="' + (Number(x) + offset + 14) + '"'
+          'x="' + (Number(x) + offset + 14) + '"',
         );
       }
       return result;
@@ -325,8 +325,8 @@ export default function DomainStoryRenderer(
           fill: "none",
           stroke: element.businessObject.pickedColor,
         },
-        element.attrs
-      )
+        element.attrs,
+      ),
     );
     renderEmbeddedLabel(parentGfx, element, "left-top", 8);
 
@@ -341,7 +341,7 @@ export default function DomainStoryRenderer(
     if (match && match.length > 1) {
       return iconSRC.replace(
         /fill=".*?"/,
-        'fill="' + element.businessObject.pickedColor + '"'
+        'fill="' + element.businessObject.pickedColor + '"',
       );
     } else {
       const index = iconSRC.indexOf("<svg ") + 5;
@@ -376,7 +376,7 @@ export default function DomainStoryRenderer(
       actor;
     let iconSRC = iconDictionary.getTypeIconSRC(
       elementTypes.ACTOR,
-      getNameFromType(element.type)
+      getNameFromType(element.type),
     );
     iconSRC = getIconSrc(iconSRC, element);
     actor = svgCreate(iconSRC);
@@ -398,7 +398,7 @@ export default function DomainStoryRenderer(
       workObject;
     let iconSRC = iconDictionary.getTypeIconSRC(
       elementTypes.WORKOBJECT,
-      getNameFromType(element.type)
+      getNameFromType(element.type),
     );
     iconSRC = getIconSrc(iconSRC, element);
     workObject = svgCreate(iconSRC);
@@ -423,7 +423,7 @@ export default function DomainStoryRenderer(
       markerEnd: marker(
         "activity",
         "black",
-        element.businessObject.pickedColor
+        element.businessObject.pickedColor,
       ),
     });
   }
@@ -497,7 +497,7 @@ export default function DomainStoryRenderer(
       if (polylines.length > 1) {
         polylines[1].setAttribute(
           "points",
-          polylines[0].getAttribute("points")
+          polylines[0].getAttribute("points"),
         );
       }
     }
@@ -545,7 +545,7 @@ export default function DomainStoryRenderer(
       element.height,
       0,
       0,
-      style
+      style,
     );
     let textPathData = pathMap.getScaledPath("TEXT_ANNOTATION", {
       xScaleFactor: 1,
@@ -656,7 +656,7 @@ export default function DomainStoryRenderer(
         strokeLinecap: "round",
         strokeDasharray: "none",
       },
-      options.attrs
+      options.attrs,
     );
 
     let ref = options.ref || { x: 0, y: 0 };

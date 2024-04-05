@@ -16,7 +16,7 @@ export class InfoDialogComponent implements AfterViewInit {
 
   constructor(
     private dialogRef: MatDialogRef<InfoDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: InfoDialogData
+    @Inject(MAT_DIALOG_DATA) data: InfoDialogData,
   ) {
     this.title = data.title;
     this.infoText = data.infoText;
@@ -27,7 +27,7 @@ export class InfoDialogComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     const span = document.getElementsByClassName(
-      'readOnlyText'
+      'readOnlyText',
     )[0] as HTMLTextAreaElement;
     span.style.height = span.scrollHeight + 'px';
   }

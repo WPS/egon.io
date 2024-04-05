@@ -8,7 +8,7 @@ export function initializeReplaceOptions(iconDictionary) {
 
 export function actorReplaceOptions(name) {
   const actorTypes = iconDictionaryService.getTypeDictionary(
-    elementTypes.ACTOR
+    elementTypes.ACTOR,
   );
 
   let replaceOption = {};
@@ -22,7 +22,7 @@ export function actorReplaceOptions(name) {
         actionName: "replace-with-actor-" + typeName.toLowerCase(),
         className: iconDictionaryService.getIconForBPMN(
           elementTypes.ACTOR,
-          actorType
+          actorType,
         ),
         target: {
           type: `${elementTypes.ACTOR}${actorType}`,
@@ -36,7 +36,7 @@ export function actorReplaceOptions(name) {
 
 export function workObjectReplaceOptions(name) {
   const workObjectTypes = iconDictionaryService.getTypeDictionary(
-    elementTypes.WORKOBJECT
+    elementTypes.WORKOBJECT,
   );
 
   let replaceOption = {};
@@ -50,7 +50,7 @@ export function workObjectReplaceOptions(name) {
         actionName: "replace-with-actor-" + typeName,
         className: iconDictionaryService.getIconForBPMN(
           elementTypes.WORKOBJECT,
-          workObjectType
+          workObjectType,
         ),
         target: {
           type: `${elementTypes.WORKOBJECT}${workObjectType}`,

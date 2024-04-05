@@ -22,7 +22,7 @@ export function numberBoxDefinitions(element) {
   if (element.waypoints.length > 1) {
     angle = angleBetween(
       element.waypoints[element.waypoints.length - 2],
-      element.waypoints[element.waypoints.length - 1]
+      element.waypoints[element.waypoints.length - 1],
     );
   }
   let x = position.x;
@@ -93,7 +93,7 @@ export function generateAutomaticNumber(elementActivity, commandStack) {
   updateExistingNumbersAtGeneration(
     activitiesFromActors,
     wantedNumber,
-    commandStack
+    commandStack,
   );
   semantic.number = wantedNumber;
   return wantedNumber;
@@ -103,7 +103,7 @@ export function generateAutomaticNumber(elementActivity, commandStack) {
 export function updateExistingNumbersAtGeneration(
   activitiesFromActors,
   wantedNumber,
-  commandStack
+  commandStack,
 ) {
   activitiesFromActors.forEach((element) => {
     let number = +element.businessObject.number;
@@ -126,7 +126,7 @@ export function updateExistingNumbersAtGeneration(
 export function updateExistingNumbersAtEditing(
   activitiesFromActors,
   wantedNumber,
-  eventBus
+  eventBus,
 ) {
   // get a sorted list of all activities that could need changing
   let sortedActivities = [[]];
@@ -149,7 +149,7 @@ export function updateExistingNumbersAtEditing(
       setNumberOfActivity(
         sortedActivities[currentNumber],
         wantedNumber,
-        eventBus
+        eventBus,
       );
     }
   }

@@ -13,7 +13,7 @@ import { ActivityBusinessObject } from '../../Domain/Common/activityBusinessObje
 })
 export class ImportRepairService {
   checkForUnreferencedElementsInActivitiesAndRepair(
-    elements: BusinessObject[]
+    elements: BusinessObject[],
   ): boolean {
     const activities: ActivityBusinessObject[] = [];
     const objectIDs: string[] = [];
@@ -47,7 +47,7 @@ export class ImportRepairService {
    * Bubble was renamed to Conversation
    */
   updateCustomElementsPreviousV050(
-    elements: BusinessObject[]
+    elements: BusinessObject[],
   ): BusinessObject[] {
     for (const element of elements) {
       if (element.type === elementTypes.WORKOBJECT) {
@@ -75,7 +75,7 @@ export class ImportRepairService {
       yUp -= 50;
 
       elements.forEach((element) =>
-        this.adjustElementPosition(element, xLeft, yUp)
+        this.adjustElementPosition(element, xLeft, yUp),
       );
     }
   }
@@ -83,7 +83,7 @@ export class ImportRepairService {
   private adjustElementPosition(
     element: BusinessObject,
     xLeft: number,
-    yUp: number
+    yUp: number,
   ): void {
     if (
       element.type === elementTypes.ACTIVITY ||
@@ -109,7 +109,7 @@ export class ImportRepairService {
     elements: BusinessObject[],
     isFirst: boolean,
     xLeft: number,
-    yUp: number
+    yUp: number,
   ) {
     elements.forEach((element) => {
       let elXLeft;

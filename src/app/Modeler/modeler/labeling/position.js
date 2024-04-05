@@ -25,12 +25,12 @@ export function labelPosition(waypoints, lines = 1) {
 
     xPos = labelPositionX(
       waypoints[selectedActivity],
-      waypoints[selectedActivity + 1]
+      waypoints[selectedActivity + 1],
     );
     yPos = labelPositionY(
       waypoints[selectedActivity],
       waypoints[selectedActivity + 1],
-      lines
+      lines,
     );
 
     determinedPosition = {

@@ -22,7 +22,7 @@ export class ActivityDialogComponent {
   constructor(
     private fb: UntypedFormBuilder,
     private dialogRef: MatDialogRef<ActivityDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: ActivityDialogData
+    @Inject(MAT_DIALOG_DATA) data: ActivityDialogData,
   ) {
     this.activity = data.activity;
     this.activityLabel = data.activity.businessObject.name;

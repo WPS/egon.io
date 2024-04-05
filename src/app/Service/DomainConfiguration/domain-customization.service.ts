@@ -43,14 +43,14 @@ export class DomainCustomizationService {
     private titleService: TitleService,
     private storageService: StorageService,
     private elementRegistryService: ElementRegistryService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
   ) {
     this.domainConfigurationTypes = new BehaviorSubject(
-      this.configurationService.getCurrentConfigurationNamesWithoutPrefix()
+      this.configurationService.getCurrentConfigurationNamesWithoutPrefix(),
     );
 
     this.selectedWorkobjects$.next(
-      this.domainConfigurationTypes.value.workObjects
+      this.domainConfigurationTypes.value.workObjects,
     );
     this.selectedActors$.next(this.domainConfigurationTypes.value.actors);
 
@@ -77,7 +77,7 @@ export class DomainCustomizationService {
 
   importConfiguration(
     customConfig: DomainConfiguration,
-    saveDomain = true
+    saveDomain = true,
   ): void {
     const actorKeys = customConfig.actors.keysArray();
     const workObjectKeys = customConfig.workObjects.keysArray();
@@ -118,7 +118,7 @@ export class DomainCustomizationService {
   isIconActor(iconName: string): boolean {
     return (
       this.domainConfigurationTypes.value.actors.filter(
-        (actor: string) => actor === iconName
+        (actor: string) => actor === iconName,
       ).length > 0
     );
   }
@@ -126,7 +126,7 @@ export class DomainCustomizationService {
   isIconWorkObject(iconName: string): boolean {
     return (
       this.domainConfigurationTypes.value.workObjects.filter(
-        (workObject: string) => workObject === iconName
+        (workObject: string) => workObject === iconName,
       ).length > 0
     );
   }
@@ -193,7 +193,7 @@ export class DomainCustomizationService {
       this.domainConfigurationTypes.next({
         name: this.domainConfigurationTypes.value.name,
         actors: this.domainConfigurationTypes.value.actors.filter(
-          (a: string) => !a.includes(actor)
+          (a: string) => !a.includes(actor),
         ),
         workObjects: this.domainConfigurationTypes.value.workObjects,
       });
@@ -207,7 +207,7 @@ export class DomainCustomizationService {
         name: this.domainConfigurationTypes.value.name,
         actors: this.domainConfigurationTypes.value.actors,
         workObjects: this.domainConfigurationTypes.value.workObjects.filter(
-          (w: string) => !w.includes(workobject)
+          (w: string) => !w.includes(workobject),
         ),
       });
     }
@@ -235,7 +235,7 @@ export class DomainCustomizationService {
 
   private updateWorkObjectSubject(): void {
     this.selectedWorkobjects$.next(
-      this.domainConfigurationTypes.value.workObjects
+      this.domainConfigurationTypes.value.workObjects,
     );
     this.configurationHasChanged = true;
   }
@@ -267,7 +267,7 @@ export class DomainCustomizationService {
 
   cancel(): void {
     this.domainConfigurationTypes.next(
-      this.configurationService.getCurrentConfigurationNamesWithoutPrefix()
+      this.configurationService.getCurrentConfigurationNamesWithoutPrefix(),
     );
     this.updateAllIconBehaviourSubjects();
     this.resetToInitialConfiguration();
@@ -310,7 +310,7 @@ export class DomainCustomizationService {
         this.updateIcons(changedDomain);
 
         this.storageService.setStoredDomainConfiguration(
-          this.changedDomainConfiguration
+          this.changedDomainConfiguration,
         );
         this.snackbar.open(
           imported
@@ -320,7 +320,7 @@ export class DomainCustomizationService {
           {
             duration: SNACKBAR_DURATION,
             panelClass: SNACKBAR_SUCCESS,
-          }
+          },
         );
       }
     } else {
@@ -332,7 +332,7 @@ export class DomainCustomizationService {
         {
           duration: SNACKBAR_DURATION,
           panelClass: SNACKBAR_INFO,
-        }
+        },
       );
     }
     if (changedActors.length || changedWorkobjects.length) {
@@ -344,7 +344,7 @@ export class DomainCustomizationService {
           {
             duration: SNACKBAR_DURATION * 3,
             panelClass: SNACKBAR_INFO,
-          }
+          },
         );
       }
       if (changedWorkobjects.length) {
@@ -355,7 +355,7 @@ export class DomainCustomizationService {
           {
             duration: SNACKBAR_DURATION * 3,
             panelClass: SNACKBAR_INFO,
-          }
+          },
         );
       }
     }
@@ -406,14 +406,14 @@ export class DomainCustomizationService {
         isActor: this.isIconActor(iconName),
         isWorkObject: this.isIconWorkObject(iconName),
       }),
-      iconName
+      iconName,
     );
   }
 
   private updateIcon(
     isActor: boolean,
     isWorkobject: boolean,
-    iconName: string
+    iconName: string,
   ) {
     const iconBehaviourSubject = this.getIconForName(iconName);
     const icon = iconBehaviourSubject.value;
@@ -465,11 +465,11 @@ export class DomainCustomizationService {
       this.iconDictionaryService.registerIconForType(
         elementTypes.ACTOR,
         actor,
-        this.iconDictionaryService.getFullDictionary().get(actor)
+        this.iconDictionaryService.getFullDictionary().get(actor),
       );
       this.iconDictionaryService.unregisterIconForType(
         elementTypes.WORKOBJECT,
-        actor
+        actor,
       );
       this.setAsActor(true, actor);
     });
@@ -477,11 +477,11 @@ export class DomainCustomizationService {
       this.iconDictionaryService.registerIconForType(
         elementTypes.WORKOBJECT,
         workObject,
-        this.iconDictionaryService.getFullDictionary().get(workObject)
+        this.iconDictionaryService.getFullDictionary().get(workObject),
       );
       this.iconDictionaryService.unregisterIconForType(
         elementTypes.ACTOR,
-        workObject
+        workObject,
       );
       this.setAsWorkobject(true, workObject);
     });

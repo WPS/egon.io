@@ -3,11 +3,11 @@
  */
 export default function headlineAndDescriptionUpdateHandler(
   commandStack,
-  titleService
+  titleService,
 ) {
   commandStack.registerHandler(
     "story.updateHeadlineAndDescription",
-    handlerFunction
+    handlerFunction,
   );
 
   function handlerFunction() {
@@ -18,7 +18,7 @@ export default function headlineAndDescriptionUpdateHandler(
       titleService.updateTitleAndDescription(
         ctx.newTitle,
         ctx.newDescription,
-        false
+        false,
       );
     };
 
@@ -26,7 +26,7 @@ export default function headlineAndDescriptionUpdateHandler(
       titleService.updateTitleAndDescription(
         ctx.oldTitle,
         ctx.oldDescription,
-        false
+        false,
       );
     };
   }

@@ -61,7 +61,7 @@ describe('mathExtendsions', () => {
       const clickY = 50;
 
       expect(
-        positionsMatch(width, height, elementX, elementY, clickX, clickY)
+        positionsMatch(width, height, elementX, elementY, clickX, clickY),
       ).toBeTruthy();
     });
 
@@ -74,7 +74,7 @@ describe('mathExtendsions', () => {
       const clickY = 50;
 
       expect(
-        positionsMatch(width, height, elementX, elementY, clickX, clickY)
+        positionsMatch(width, height, elementX, elementY, clickX, clickY),
       ).toBeFalsy();
     });
 
@@ -87,7 +87,7 @@ describe('mathExtendsions', () => {
       const clickY = 300;
 
       expect(
-        positionsMatch(width, height, elementX, elementY, clickX, clickY)
+        positionsMatch(width, height, elementX, elementY, clickX, clickY),
       ).toBeFalsy();
     });
   });

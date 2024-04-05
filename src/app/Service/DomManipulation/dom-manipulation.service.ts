@@ -31,7 +31,7 @@ export class DomManipulationService {
       .map((e) => e.businessObject)
       .forEach((element) => {
         const domObject = document.querySelector(
-          '[data-element-id=' + element.id + ']'
+          '[data-element-id=' + element.id + ']',
         );
         // @ts-ignore
         domObject.style.display = 'block';
@@ -44,7 +44,7 @@ export class DomManipulationService {
 
     notShown.forEach((element) => {
       const domObject = document.querySelector(
-        '[data-element-id=' + element.id + ']'
+        '[data-element-id=' + element.id + ']',
       );
       if (domObject) {
         // @ts-ignore
@@ -55,12 +55,12 @@ export class DomManipulationService {
     this.hightlightStep(
       previousStep
         ? replayStep.objects.filter((o) => !previousStep.objects.includes(o))
-        : replayStep.objects
+        : replayStep.objects,
     );
 
     replayStep.objects.forEach((element) => {
       const domObject = document.querySelector(
-        '[data-element-id=' + element.id + ']'
+        '[data-element-id=' + element.id + ']',
       );
       if (domObject) {
         // @ts-ignore
@@ -71,7 +71,7 @@ export class DomManipulationService {
 
   getNumberDomForActivity(activity: SVGPolylineElement): any {
     const numberDOMS = activity.parentElement?.getElementsByClassName(
-      'djs-labelNumber'
+      'djs-labelNumber',
     ) || ['', ''];
     return {
       numberBackgroundDom: numberDOMS[0],
@@ -85,7 +85,7 @@ export class DomManipulationService {
 
     allActivities.forEach((activity) => {
       const querySelector = document.querySelector(
-        '[data-element-id=' + activity.id + ']'
+        '[data-element-id=' + activity.id + ']',
       );
       if (querySelector) {
         const activityDomObject =
@@ -121,7 +121,7 @@ export class DomManipulationService {
       .filter((e) => e.type === elementTypes.ACTIVITY)
       .forEach((activity) => {
         const querySelector = document.querySelector(
-          '[data-element-id=' + activity.id + ']'
+          '[data-element-id=' + activity.id + ']',
         );
         if (querySelector) {
           const activityDomObject =

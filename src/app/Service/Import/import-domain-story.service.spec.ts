@@ -59,7 +59,7 @@ describe('ImportDomainStoryService', () => {
       ],
     });
     iconDictionarySpy = TestBed.inject(
-      IconDictionaryService
+      IconDictionaryService,
     ) as jasmine.SpyObj<IconDictionaryService>;
     service = TestBed.inject(ImportDomainStoryService);
   });
@@ -90,7 +90,7 @@ describe('ImportDomainStoryService', () => {
         .and.returnValue(['workObject']);
 
       expect(
-        service.checkConfigForChanges(testDomainCofiguration)
+        service.checkConfigForChanges(testDomainCofiguration),
       ).toBeTruthy();
     });
 
@@ -103,7 +103,7 @@ describe('ImportDomainStoryService', () => {
         .and.returnValue(['workObject']);
 
       expect(
-        service.checkConfigForChanges(testDomainCofiguration)
+        service.checkConfigForChanges(testDomainCofiguration),
       ).toBeTruthy();
     });
 
@@ -116,7 +116,7 @@ describe('ImportDomainStoryService', () => {
         .and.returnValue(['workObject', 'test']);
 
       expect(
-        service.checkConfigForChanges(testDomainCofiguration)
+        service.checkConfigForChanges(testDomainCofiguration),
       ).toBeTruthy();
     });
 
@@ -129,7 +129,7 @@ describe('ImportDomainStoryService', () => {
         .and.returnValue(['test']);
 
       expect(
-        service.checkConfigForChanges(testDomainCofiguration)
+        service.checkConfigForChanges(testDomainCofiguration),
       ).toBeTruthy();
     });
 

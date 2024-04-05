@@ -16,7 +16,7 @@ export class HeaderDialogComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
     private dialogRef: MatDialogRef<HeaderDialogComponent>,
-    private titleService: TitleService
+    private titleService: TitleService,
   ) {
     this.title =
       this.titleService.getTitle() === '< name of this Domain Story >'
@@ -36,7 +36,7 @@ export class HeaderDialogComponent implements OnInit {
     this.titleService.updateTitleAndDescription(
       this.form.get('title')?.value,
       this.form.get('description')?.value,
-      true
+      true,
     );
     this.dialogRef.close();
   }

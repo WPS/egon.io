@@ -41,10 +41,10 @@ export class StoryCreatorService {
   private createStep(
     tracedActivityMap: Dictionary,
     i: number,
-    story: StoryStep[]
+    story: StoryStep[],
   ): void {
     const stepObjects = this.getStepObjects(
-      tracedActivityMap.get(`${i}`) || []
+      tracedActivityMap.get(`${i}`) || [],
     );
     const highlightedElements = stepObjects.map((t) => t.id);
     if (i > 0) {
@@ -72,7 +72,7 @@ export class StoryCreatorService {
         !(story[i].objects.length > 0) ||
         story[i].highlightedObjects.length === 0 ||
         story[i].objects.filter(
-          (element) => element.type === elementTypes.ACTIVITY
+          (element) => element.type === elementTypes.ACTIVITY,
         ).length <= 0
       ) {
         missingSteps.push(i + 1);
@@ -82,7 +82,7 @@ export class StoryCreatorService {
   }
 
   private getStepObjects(
-    tracedActivity: ActivityCanvasObject[]
+    tracedActivity: ActivityCanvasObject[],
   ): BusinessObject[] {
     const initialSource: CanvasObject[] = [];
     const activities = tracedActivity;

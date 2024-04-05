@@ -1,7 +1,7 @@
-import { StoryStep } from '../Domain/Replay/storyStep';
-import { CanvasObject, testCanvasObject } from '../Domain/Common/canvasObject';
 import { testActivityCanvasObject } from '../Domain/Common/activityCanvasObject';
+import { CanvasObject, testCanvasObject } from '../Domain/Common/canvasObject';
 import { elementTypes } from '../Domain/Common/elementTypes';
+import { StoryStep } from '../Domain/Replay/storyStep';
 
 export function preBuildTestStory(stepAmount: number): StoryStep[] {
   const story: StoryStep[] = [];
@@ -47,7 +47,7 @@ export function createTestCanvasObjects(stepAmount: number): CanvasObject[] {
 
 export function createReplayStepObjects(
   stepNumber: number,
-  previousStep?: StoryStep
+  previousStep?: StoryStep,
 ): CanvasObject[] {
   const activityFromActor = structuredClone(testActivityCanvasObject);
 
@@ -55,11 +55,14 @@ export function createReplayStepObjects(
   activityFromActor.businessObject.id = activityFromActor.id;
   activityFromActor.businessObject.number = stepNumber;
 
-  const source = previousStep
-    ? previousStep.objects.filter(
-        (o) => o.id === previousStep.highlightedObjects[4]
-      )
-    : structuredClone(testCanvasObject);
+  // No idea why this works!
+  const source = (
+    previousStep
+      ? previousStep.objects.filter(
+          (o) => o.id === previousStep.highlightedObjects[4],
+        )
+      : structuredClone(testCanvasObject)
+  ) as CanvasObject;
   source.type = elementTypes.ACTOR;
   if (!previousStep) {
     source.id = 'source-' + stepNumber;
@@ -77,11 +80,13 @@ export function createReplayStepObjects(
   workObject.id = 'target-' + stepNumber;
   workObject.businessObject.id = workObject.id;
   workObject.businessObject.type = elementTypes.WORKOBJECT;
-  workObject.incoming.push(activityFromActor);
+  workObject.incoming!.push(activityFromActor);
 
   activityFromActor.source = source;
   activityFromActor.target = workObject;
+  // @ts-ignore
   activityFromActor.businessObject.source = source.businessObject;
+  // @ts-ignore
   activityFromActor.businessObject.target = workObject.businessObject;
 
   const activityFromWorkObject = structuredClone(testActivityCanvasObject);
@@ -94,14 +99,16 @@ export function createReplayStepObjects(
   endActor.id = 'source-' + stepNumber;
   endActor.businessObject.id = source.id;
   endActor.businessObject.type = elementTypes.ACTOR;
-  endActor.incoming.push(activityFromWorkObject);
+  endActor.incoming!.push(activityFromWorkObject);
 
   activityFromWorkObject.source = workObject;
   activityFromWorkObject.target = endActor;
+  // @ts-ignore
   activityFromWorkObject.businessObject.source = workObject.businessObject;
+  // @ts-ignore
   activityFromWorkObject.businessObject.target = endActor.businessObject;
 
-  workObject.outgoing.push(activityFromWorkObject);
+  workObject.outgoing!.push(activityFromWorkObject);
 
   return [
     source,

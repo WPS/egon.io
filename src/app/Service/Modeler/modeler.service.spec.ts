@@ -25,7 +25,7 @@ describe('ModelerService', () => {
   let initializerSpy: jasmine.SpyObj<InitializerService>;
 
   let testDomainStory: BusinessObject[] = createTestCanvasObjects(1).map(
-    (e) => e.businessObject
+    (e) => e.businessObject,
   );
   const actorsDict = new Dictionary();
   actorsDict.add('', elementTypes.ACTOR);
@@ -51,7 +51,7 @@ describe('ModelerService', () => {
     ]);
     const domainConfigurationMock = jasmine.createSpyObj(
       'DomainConfigurationService',
-      ['loadConfiguration']
+      ['loadConfiguration'],
     );
     const initializerMock = jasmine.createSpyObj('InitializerService', [
       'initializeDomainStoryModelerClasses',
@@ -82,21 +82,21 @@ describe('ModelerService', () => {
       ],
     });
     elementRegistrySpy = TestBed.inject(
-      ElementRegistryService
+      ElementRegistryService,
     ) as jasmine.SpyObj<ElementRegistryService>;
 
     elementRegistrySpy.createObjectListForDSTDownload.and.returnValue(
-      createTestCanvasObjects(1)
+      createTestCanvasObjects(1),
     );
 
     iconDictionarySpy = TestBed.inject(
-      IconDictionaryService
+      IconDictionaryService,
     ) as jasmine.SpyObj<IconDictionaryService>;
     domainConfigurationSpy = TestBed.inject(
-      DomainConfigurationService
+      DomainConfigurationService,
     ) as jasmine.SpyObj<DomainConfigurationService>;
     initializerSpy = TestBed.inject(
-      InitializerService
+      InitializerService,
     ) as jasmine.SpyObj<InitializerService>;
     service = TestBed.inject(ModelerService);
 
@@ -119,13 +119,13 @@ describe('ModelerService', () => {
       service.postInit();
 
       expect(
-        initializerSpy.initializeDomainStoryModelerClasses
+        initializerSpy.initializeDomainStoryModelerClasses,
       ).toHaveBeenCalled();
       expect(
-        initializerSpy.initializeDomainStoryModelerEventHandlers
+        initializerSpy.initializeDomainStoryModelerEventHandlers,
       ).toHaveBeenCalled();
       expect(
-        initializerSpy.propagateDomainStoryModelerClassesToServices
+        initializerSpy.propagateDomainStoryModelerClassesToServices,
       ).toHaveBeenCalled();
       expect(initializerSpy.initiateEventBusListeners).toHaveBeenCalled();
     });
@@ -136,20 +136,20 @@ describe('ModelerService', () => {
       service.restart(undefined, testDomainStory);
 
       expect(
-        elementRegistrySpy.createObjectListForDSTDownload
+        elementRegistrySpy.createObjectListForDSTDownload,
       ).toHaveBeenCalledTimes(0);
       expect(iconDictionarySpy.setCustomConfiguration).toHaveBeenCalledTimes(0);
       expect(domainConfigurationSpy.loadConfiguration).toHaveBeenCalledTimes(0);
       expect(elementRegistrySpy.clear).toHaveBeenCalled();
 
       expect(
-        initializerSpy.initializeDomainStoryModelerClasses
+        initializerSpy.initializeDomainStoryModelerClasses,
       ).toHaveBeenCalled();
       expect(
-        initializerSpy.initializeDomainStoryModelerEventHandlers
+        initializerSpy.initializeDomainStoryModelerEventHandlers,
       ).toHaveBeenCalled();
       expect(
-        initializerSpy.propagateDomainStoryModelerClassesToServices
+        initializerSpy.propagateDomainStoryModelerClassesToServices,
       ).toHaveBeenCalled();
       expect(initializerSpy.initiateEventBusListeners).toHaveBeenCalled();
     });
@@ -158,24 +158,24 @@ describe('ModelerService', () => {
       service.restart(testConfiguration);
 
       expect(
-        elementRegistrySpy.createObjectListForDSTDownload
+        elementRegistrySpy.createObjectListForDSTDownload,
       ).toHaveBeenCalled();
       expect(iconDictionarySpy.setCustomConfiguration).toHaveBeenCalledWith(
-        testConfiguration
+        testConfiguration,
       );
       expect(domainConfigurationSpy.loadConfiguration).toHaveBeenCalledWith(
-        testConfiguration
+        testConfiguration,
       );
       expect(elementRegistrySpy.clear).toHaveBeenCalled();
 
       expect(
-        initializerSpy.initializeDomainStoryModelerClasses
+        initializerSpy.initializeDomainStoryModelerClasses,
       ).toHaveBeenCalled();
       expect(
-        initializerSpy.initializeDomainStoryModelerEventHandlers
+        initializerSpy.initializeDomainStoryModelerEventHandlers,
       ).toHaveBeenCalled();
       expect(
-        initializerSpy.propagateDomainStoryModelerClassesToServices
+        initializerSpy.propagateDomainStoryModelerClassesToServices,
       ).toHaveBeenCalled();
       expect(initializerSpy.initiateEventBusListeners).toHaveBeenCalled();
     });
@@ -184,20 +184,20 @@ describe('ModelerService', () => {
       service.restart();
 
       expect(
-        elementRegistrySpy.createObjectListForDSTDownload
+        elementRegistrySpy.createObjectListForDSTDownload,
       ).toHaveBeenCalled();
       expect(iconDictionarySpy.setCustomConfiguration).toHaveBeenCalledTimes(0);
       expect(domainConfigurationSpy.loadConfiguration).toHaveBeenCalledTimes(0);
       expect(elementRegistrySpy.clear).toHaveBeenCalled();
 
       expect(
-        initializerSpy.initializeDomainStoryModelerClasses
+        initializerSpy.initializeDomainStoryModelerClasses,
       ).toHaveBeenCalled();
       expect(
-        initializerSpy.initializeDomainStoryModelerEventHandlers
+        initializerSpy.initializeDomainStoryModelerEventHandlers,
       ).toHaveBeenCalled();
       expect(
-        initializerSpy.propagateDomainStoryModelerClassesToServices
+        initializerSpy.propagateDomainStoryModelerClassesToServices,
       ).toHaveBeenCalled();
       expect(initializerSpy.initiateEventBusListeners).toHaveBeenCalled();
     });

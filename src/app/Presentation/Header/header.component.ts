@@ -25,7 +25,7 @@ export class HeaderComponent {
     private titleService: TitleService,
     private replayService: ReplayService,
     private replayStateService: ReplayStateService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
   ) {
     this.isReplay$ = this.replayStateService.replayOn$;
 

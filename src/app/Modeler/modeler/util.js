@@ -40,7 +40,7 @@ export function undoGroupRework(parent, shape) {
   shape.parent = superParent;
 
   const svgShape = document.querySelector(
-    "[data-element-id=" + shape.id + "]"
+    "[data-element-id=" + shape.id + "]",
   ).parentElement;
   const svgGroup = svgShape.parentElement;
   const svgGroupParent = svgGroup.parentElement.parentElement;

@@ -20,7 +20,7 @@ export class DomainDetailsComponent implements OnInit {
 
   constructor(
     private customizationService: DomainCustomizationService,
-    titleService: TitleService
+    titleService: TitleService,
   ) {
     this.domainName = titleService.domainName$;
   }

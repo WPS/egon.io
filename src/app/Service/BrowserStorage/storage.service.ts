@@ -45,7 +45,7 @@ export class StorageService {
       return;
     } else {
       const configuratioFromFile = fromConfigurationFromFile(
-        JSON.parse(domainString)
+        JSON.parse(domainString),
       );
       if (this.checkValidityOfConfiguration(configuratioFromFile)) {
         return configuratioFromFile;
@@ -76,7 +76,7 @@ export class StorageService {
 
     localStorage.setItem(
       DOMAIN_CONFIGURATION_TAG,
-      JSON.stringify(configForStorage, null, 2)
+      JSON.stringify(configForStorage, null, 2),
     );
   }
 }

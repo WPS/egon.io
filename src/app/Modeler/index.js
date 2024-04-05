@@ -20,7 +20,7 @@ inherits(DomainStoryModeler, Modeler);
 DomainStoryModeler.prototype._modules = [].concat(
   DomainStoryModeler.prototype._modules,
   [DomainStoryModule, LabelEditingModule, ModelingModule],
-  [ResizeModule]
+  [ResizeModule],
 );
 
 /**
@@ -69,7 +69,7 @@ DomainStoryModeler.prototype._addCustomConnection = function (customElement) {
       source: elementRegistry.get(customElement.source),
       target: elementRegistry.get(customElement.target),
     }),
-    elementRegistry.get(customElement.source).parent
+    elementRegistry.get(customElement.source).parent,
   );
 
   return canvas.addConnection(connection);

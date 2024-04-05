@@ -29,17 +29,17 @@ export class ExportService implements OnDestroy {
     private pngService: PngService,
     private svgService: SvgService,
     private htmlPresentationService: HtmlPresentationService,
-    private rendererService: RendererService
+    private rendererService: RendererService,
   ) {
     this.titleSubscription = this.titleService.title$.subscribe(
       (title: string) => {
         this.title = title;
-      }
+      },
     );
     this.descriptionSubscription = this.titleService.description$.subscribe(
       (description: string) => {
         this.description = description;
-      }
+      },
     );
   }
 
@@ -55,7 +55,7 @@ export class ExportService implements OnDestroy {
   createConfigAndDST(DomainStory: any): ConfigAndDST {
     return new ConfigAndDST(
       this.configurationService.getCurrentConfigurationForExport(),
-      DomainStory
+      DomainStory,
     );
   }
 
@@ -65,7 +65,7 @@ export class ExportService implements OnDestroy {
     const json = JSON.stringify(configAndDST, null, 2);
 
     const filename = sanitizeForDesktop(
-      this.title + '_' + this.getCurrentDateString()
+      this.title + '_' + this.getCurrentDateString(),
     );
 
     this.downloadFile(
@@ -73,7 +73,7 @@ export class ExportService implements OnDestroy {
       'data:text/plain;charset=utf-8,',
       filename,
       '.egn',
-      true
+      true,
     );
   }
 
@@ -82,7 +82,7 @@ export class ExportService implements OnDestroy {
     datatype: string,
     filename: string,
     fileEnding: string,
-    makeClean: boolean
+    makeClean: boolean,
   ) {
     const element = document.createElement('a');
     element.setAttribute('href', datatype + encodeURIComponent(data));
@@ -109,7 +109,7 @@ export class ExportService implements OnDestroy {
       this.description,
       dst,
       withTitle,
-      useWhiteBackground
+      useWhiteBackground,
     );
 
     this.downloadFile(
@@ -117,7 +117,7 @@ export class ExportService implements OnDestroy {
       'data:application/bpmn20-xml;charset=UTF-8,',
       sanitizeForDesktop(this.title + '_' + this.getCurrentDateString()),
       '.egn.svg',
-      true
+      true,
     );
   }
 
@@ -140,7 +140,7 @@ export class ExportService implements OnDestroy {
         layerBase,
         this.description,
         this.title,
-        withTitle
+        withTitle,
       );
 
       image.onload = () => {
@@ -167,7 +167,7 @@ export class ExportService implements OnDestroy {
           sanitizeForDesktop(this.title) +
             '_' +
             this.getCurrentDateString() +
-            '.png'
+            '.png',
         );
         ele.setAttribute('href', png64);
         document.body.appendChild(ele);
@@ -188,7 +188,7 @@ export class ExportService implements OnDestroy {
 
   downloadHTMLPresentation(): void {
     const filename = sanitizeForDesktop(
-      this.title + '_' + this.getCurrentDateString()
+      this.title + '_' + this.getCurrentDateString(),
     );
     this.htmlPresentationService.downloadHTMLPresentation(filename).then();
   }

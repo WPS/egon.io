@@ -23,14 +23,14 @@ describe('RendererService', () => {
     ]);
     const elementRegistryServiceMock = jasmine.createSpyObj(
       'ElementRegistryService',
-      ['correctInitialize', 'createObjectListForDSTDownload']
+      ['correctInitialize', 'createObjectListForDSTDownload'],
     );
     const dirtyFlagServiceMock = jasmine.createSpyObj('DirtyFlagService', [
       'makeClean',
     ]);
     const domainConfigurationServiceMock = jasmine.createSpyObj(
       'DomainConfigurationService',
-      ['getNewIconConfiguration']
+      ['getNewIconConfiguration'],
     );
 
     TestBed.configureTestingModule({
@@ -50,13 +50,13 @@ describe('RendererService', () => {
       ],
     });
     modelerServiceSpy = TestBed.inject(
-      ModelerService
+      ModelerService,
     ) as jasmine.SpyObj<ModelerService>;
     elementRegistryServiceSpy = TestBed.inject(
-      ElementRegistryService
+      ElementRegistryService,
     ) as jasmine.SpyObj<ElementRegistryService>;
     dirtyFlagServiceSpy = TestBed.inject(
-      DirtyFlagService
+      DirtyFlagService,
     ) as jasmine.SpyObj<DirtyFlagService>;
     service = TestBed.inject(RendererService);
   });
@@ -101,7 +101,7 @@ describe('RendererService', () => {
 
       expect(modelerServiceSpy.restart).toHaveBeenCalled();
       expect(elementRegistryServiceSpy.correctInitialize).toHaveBeenCalledTimes(
-        1
+        1,
       );
       expect(modelerServiceSpy.commandStackChanged).toHaveBeenCalledTimes(1);
       expect(modelerServiceSpy.startDebounce).toHaveBeenCalledTimes(1);
@@ -113,7 +113,7 @@ describe('RendererService', () => {
 
       expect(modelerServiceSpy.restart).toHaveBeenCalled();
       expect(elementRegistryServiceSpy.correctInitialize).toHaveBeenCalledTimes(
-        1
+        1,
       );
       expect(modelerServiceSpy.commandStackChanged).toHaveBeenCalledTimes(1);
       expect(modelerServiceSpy.startDebounce).toHaveBeenCalledTimes(1);
@@ -135,11 +135,11 @@ describe('RendererService', () => {
   describe('getStory', () => {
     it('should call createObjectListForDSTDownload', () => {
       elementRegistryServiceSpy.createObjectListForDSTDownload.and.returnValue(
-        []
+        [],
       );
       service.getStory();
       expect(
-        elementRegistryServiceSpy.createObjectListForDSTDownload
+        elementRegistryServiceSpy.createObjectListForDSTDownload,
       ).toHaveBeenCalled();
     });
   });

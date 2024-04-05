@@ -37,12 +37,12 @@ describe('IconDictionaryService', () => {
       expect(
         actorsDictionary
           .keysArray()
-          .map((e) => e.replace(elementTypes.ACTOR, ''))
+          .map((e) => e.replace(elementTypes.ACTOR, '')),
       ).toEqual(defaultConf.actors);
       expect(
         workObjectsDictionary
           .keysArray()
-          .map((e) => e.replace(elementTypes.WORKOBJECT, ''))
+          .map((e) => e.replace(elementTypes.WORKOBJECT, '')),
       ).toEqual(defaultConf.workObjects);
     });
 
@@ -55,12 +55,12 @@ describe('IconDictionaryService', () => {
       expect(
         actorsDictionary
           .keysArray()
-          .map((e) => e.replace(elementTypes.ACTOR, ''))
+          .map((e) => e.replace(elementTypes.ACTOR, '')),
       ).toEqual(actors);
       expect(
         workObjectsDictionary
           .keysArray()
-          .map((e) => e.replace(elementTypes.WORKOBJECT, ''))
+          .map((e) => e.replace(elementTypes.WORKOBJECT, '')),
       ).toEqual(workObjects);
     });
   });
@@ -129,7 +129,7 @@ describe('IconDictionaryService', () => {
       service.registerIconForType(
         elementTypes.WORKOBJECT,
         'Hotel',
-        allIcons['Hotel']
+        allIcons['Hotel'],
       );
 
       expect(service.getWorkObjectsDictionary().has('Hotel')).toBeTruthy();
@@ -139,7 +139,7 @@ describe('IconDictionaryService', () => {
       service.registerIconForType(
         elementTypes.ACTOR,
         'Hotel',
-        allIcons['Hotel']
+        allIcons['Hotel'],
       );
 
       expect(service.getActorsDictionary().has('Hotel')).toBeTruthy();
@@ -173,14 +173,14 @@ describe('IconDictionaryService', () => {
 
       expect(service.getActorsDictionary().keysArray()).toContain('Person');
       expect(service.getAppendedIconDictionary().keysArray()).toContain(
-        'TestCustomActor'
+        'TestCustomActor',
       );
 
       expect(service.getWorkObjectsDictionary().keysArray()).toContain(
-        'Document'
+        'Document',
       );
       expect(service.getAppendedIconDictionary().keysArray()).toContain(
-        'TestCustomWorkObject'
+        'TestCustomWorkObject',
       );
     });
   });

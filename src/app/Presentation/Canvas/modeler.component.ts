@@ -10,7 +10,7 @@ import { AutosaveService } from '../../Service/Autosave/autosave.service';
 export class ModelerComponent implements OnInit {
   constructor(
     private modelerService: ModelerService,
-    private autosaveService: AutosaveService
+    private autosaveService: AutosaveService,
   ) {}
 
   ngOnInit(): void {

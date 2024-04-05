@@ -16,7 +16,7 @@ export class SvgService {
     description: string,
     dst: ConfigAndDST,
     withTitle: boolean,
-    useWhiteBackground: boolean
+    useWhiteBackground: boolean,
   ): string {
     this.cacheData = this.modelerService.getEncoded();
 
@@ -47,7 +47,7 @@ export class SvgService {
       description,
       xLeft,
       yUp,
-      width
+      width,
     );
 
     const bounds = this.createBounds(
@@ -57,7 +57,7 @@ export class SvgService {
       yUp,
       xRight,
       yDown,
-      withTitle
+      withTitle,
     );
 
     const dataStart = data.substring(0, viewBoxIndex);
@@ -101,7 +101,7 @@ export class SvgService {
     yUp: number,
     xRight: number,
     yDown: number,
-    withTitle: boolean
+    withTitle: boolean,
   ): string {
     return (
       'width="' +

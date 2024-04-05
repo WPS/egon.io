@@ -10,13 +10,13 @@ import { CommandStackService } from '../CommandStack/command-stack.service';
 export class MassNamingService {
   constructor(
     private elementRegistryService: ElementRegistryService,
-    private commandStackService: CommandStackService
+    private commandStackService: CommandStackService,
   ) {}
 
   massChangeNames(
     oldValue: string,
     newValue: string,
-    type: elementTypes
+    type: elementTypes,
   ): void {
     const allRelevantObjects: CanvasObject[] = [];
 

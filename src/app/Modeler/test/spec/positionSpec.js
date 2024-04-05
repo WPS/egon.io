@@ -33,11 +33,11 @@ describe("position", function () {
 
     const xPos = labelPositionX(
       waypoints[selectedActivity],
-      waypoints[selectedActivity + 1]
+      waypoints[selectedActivity + 1],
     );
     const yPos = labelPositionY(
       waypoints[selectedActivity],
-      waypoints[selectedActivity + 1]
+      waypoints[selectedActivity + 1],
     );
 
     const supposed = {
@@ -78,11 +78,11 @@ describe("position", function () {
 
     const xPos = labelPositionX(
       waypoints[selectedActivity],
-      waypoints[selectedActivity + 1]
+      waypoints[selectedActivity + 1],
     );
     const yPos = labelPositionY(
       waypoints[selectedActivity],
-      waypoints[selectedActivity + 1]
+      waypoints[selectedActivity + 1],
     );
 
     const supposed = {
@@ -123,11 +123,11 @@ describe("position", function () {
 
     const xPos = labelPositionX(
       waypoints[selectedActivity],
-      waypoints[selectedActivity + 1]
+      waypoints[selectedActivity + 1],
     );
     const yPos = labelPositionY(
       waypoints[selectedActivity],
-      waypoints[selectedActivity + 1]
+      waypoints[selectedActivity + 1],
     );
 
     const supposed = {

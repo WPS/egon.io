@@ -247,7 +247,7 @@ DomainStoryRules.prototype.init = function () {
 
         return canCreate(s, target);
       },
-      undefined
+      undefined,
     );
   });
 

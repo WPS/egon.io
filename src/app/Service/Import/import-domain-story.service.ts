@@ -47,17 +47,17 @@ export class ImportDomainStoryService implements OnDestroy {
     private rendererService: RendererService,
     private dialogService: DialogService,
     private domainConfigurationService: DomainConfigurationService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
   ) {
     this.titleSubscription = this.titleService.title$.subscribe(
       (title: string) => {
         this.title = title;
-      }
+      },
     );
     this.descriptionSubscription = this.titleService.description$.subscribe(
       (description: string) => {
         this.description = description;
-      }
+      },
     );
   }
 
@@ -115,7 +115,7 @@ export class ImportDomainStoryService implements OnDestroy {
   private fileReaderFunction(
     text: string | ArrayBuffer | null,
     isSVG: boolean,
-    isEGN: boolean
+    isEGN: boolean,
   ): void {
     let dstText;
     if (typeof text === 'string') {
@@ -186,7 +186,7 @@ export class ImportDomainStoryService implements OnDestroy {
 
       if (
         !this.importRepairService.checkForUnreferencedElementsInActivitiesAndRepair(
-          elements
+          elements,
         )
       ) {
         this.showBrokenImportDialog(isSVG ? 'SVG' : 'DST');
@@ -195,7 +195,7 @@ export class ImportDomainStoryService implements OnDestroy {
       this.titleService.updateTitleAndDescription(
         null,
         lastElement.info,
-        false
+        false,
       );
 
       this.importRepairService.adjustPositions(elements);
@@ -207,11 +207,11 @@ export class ImportDomainStoryService implements OnDestroy {
 
   private handleVersionNumber(
     importVersionNumber: string,
-    elements: BusinessObject[]
+    elements: BusinessObject[],
   ): BusinessObject[] {
     const versionPrefix = +importVersionNumber.substring(
       0,
-      importVersionNumber.lastIndexOf('.')
+      importVersionNumber.lastIndexOf('.'),
     );
     if (versionPrefix <= 0.5) {
       elements =
@@ -246,7 +246,7 @@ export class ImportDomainStoryService implements OnDestroy {
     const newWorkObjectKeys = domainConfiguration.workObjects.keysArray();
 
     const currentActorKeys = this.iconDictionaryService.getTypeDictionaryKeys(
-      elementTypes.ACTOR
+      elementTypes.ACTOR,
     );
     const currentWorkobjectKeys =
       this.iconDictionaryService.getTypeDictionaryKeys(elementTypes.WORKOBJECT);
@@ -289,20 +289,20 @@ export class ImportDomainStoryService implements OnDestroy {
 
   private updateIconRegistries(
     elements: BusinessObject[],
-    config: DomainConfiguration
+    config: DomainConfiguration,
   ): void {
     const actorIcons = this.iconDictionaryService.getElementsOfType(
       elements,
-      elementTypes.ACTOR
+      elementTypes.ACTOR,
     );
     const workObjectIcons = this.iconDictionaryService.getElementsOfType(
       elements,
-      elementTypes.WORKOBJECT
+      elementTypes.WORKOBJECT,
     );
     this.iconDictionaryService.updateIconRegistries(
       actorIcons,
       workObjectIcons,
-      config
+      config,
     );
 
     this.setImportedConfigurationAndEmit(config);
@@ -339,7 +339,7 @@ export class ImportDomainStoryService implements OnDestroy {
         type +
         ' is not complete, there could be elements missing from the canvas.',
       true,
-      false
+      false,
     );
 
     this.dialogService.openDialog(InfoDialogComponent, config);

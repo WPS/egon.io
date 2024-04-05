@@ -46,7 +46,7 @@ describe('DomainCustomizationService', () => {
       [
         'createMinimalConfigurationWithDefaultIcons',
         'getCurrentConfigurationNamesWithoutPrefix',
-      ]
+      ],
     );
     const storageServiceMock = jasmine.createSpyObj('StorageService', [
       'setStoredDomainConfiguration',
@@ -54,7 +54,7 @@ describe('DomainCustomizationService', () => {
     ]);
     const elementRegistryServiceMock = jasmine.createSpyObj(
       'ElementRegistryService',
-      ['getUsedIcons']
+      ['getUsedIcons'],
     );
 
     TestBed.configureTestingModule({
@@ -94,30 +94,30 @@ describe('DomainCustomizationService', () => {
     });
     matSnackbarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;
     iconDictionarySpy = TestBed.inject(
-      IconDictionaryService
+      IconDictionaryService,
     ) as jasmine.SpyObj<IconDictionaryService>;
     configurationServiceSpy = TestBed.inject(
-      DomainConfigurationService
+      DomainConfigurationService,
     ) as jasmine.SpyObj<DomainConfigurationService>;
     storageServiceSpy = TestBed.inject(
-      StorageService
+      StorageService,
     ) as jasmine.SpyObj<StorageService>;
 
     iconDictionarySpy.getAllIconDictionary.and.returnValue(new Dictionary());
     iconDictionarySpy.getFullDictionary.and.returnValue(new Dictionary());
     iconDictionarySpy.getActorsDictionary.and.returnValue(new Dictionary());
     iconDictionarySpy.getWorkObjectsDictionary.and.returnValue(
-      new Dictionary()
+      new Dictionary(),
     );
     configurationServiceSpy.getCurrentConfigurationNamesWithoutPrefix.and.returnValue(
-      structuredClone(testCustomDomainConfiguration)
+      structuredClone(testCustomDomainConfiguration),
     );
     configurationServiceSpy.createMinimalConfigurationWithDefaultIcons.and.returnValue(
       {
         name: INITIAL_DOMAIN_NAME,
         actors: new Dictionary(),
         workObjects: new Dictionary(),
-      }
+      },
     );
 
     service = TestBed.inject(DomainCustomizationService);
@@ -163,7 +163,7 @@ describe('DomainCustomizationService', () => {
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('TestActor');
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('Document');
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith(
-        'TestWorkObject'
+        'TestWorkObject',
       );
 
       expect(matSnackbarSpy.open).toHaveBeenCalledWith(
@@ -172,7 +172,7 @@ describe('DomainCustomizationService', () => {
         {
           duration: SNACKBAR_DURATION,
           panelClass: SNACKBAR_SUCCESS,
-        }
+        },
       );
     });
 
@@ -193,7 +193,7 @@ describe('DomainCustomizationService', () => {
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('TestActor');
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('Document');
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith(
-        'TestWorkObject'
+        'TestWorkObject',
       );
       expect(matSnackbarSpy.open).not.toHaveBeenCalled();
     });
@@ -204,7 +204,7 @@ describe('DomainCustomizationService', () => {
       service.resetDomain();
 
       expect(
-        configurationServiceSpy.createMinimalConfigurationWithDefaultIcons
+        configurationServiceSpy.createMinimalConfigurationWithDefaultIcons,
       ).toHaveBeenCalled();
     });
   });

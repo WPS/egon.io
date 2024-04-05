@@ -18,7 +18,7 @@ export class ModelerService {
     private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService,
     private domainConfigurationService: DomainConfigurationService,
-    private storageService: StorageService
+    private storageService: StorageService,
   ) {}
 
   private modeler: any;
@@ -35,10 +35,10 @@ export class ModelerService {
       this.storageService.getStoredDomainConfiguration();
     if (storedDomainConfiguration) {
       this.iconDictionaryService.setCustomConfiguration(
-        storedDomainConfiguration
+        storedDomainConfiguration,
       );
       this.domainConfigurationService.loadConfiguration(
-        storedDomainConfiguration
+        storedDomainConfiguration,
       );
     }
     this.initializerService.initializeDomainStoryModelerClasses();
@@ -66,14 +66,14 @@ export class ModelerService {
 
     this.initializerService.initializeDomainStoryModelerEventHandlers(
       this.commandStack,
-      this.eventBus
+      this.eventBus,
     );
     this.initializerService.propagateDomainStoryModelerClassesToServices(
       this.commandStack,
       this.elementRegistry,
       this.canvas,
       this.selection,
-      this.modeler
+      this.modeler,
     );
 
     const exportArtifacts = this.debounce(this.saveSVG, 500);
@@ -83,7 +83,7 @@ export class ModelerService {
 
     this.initializerService.initiateEventBusListeners(
       this.eventBus,
-      this.commandStack
+      this.commandStack,
     );
 
     this.modeler.createDiagram();
@@ -95,7 +95,7 @@ export class ModelerService {
 
   restart(
     domainConfiguration?: DomainConfiguration,
-    domainStory?: BusinessObject[]
+    domainStory?: BusinessObject[],
   ): void {
     const currentStory =
       domainStory != undefined
@@ -129,7 +129,7 @@ export class ModelerService {
     // to update the title of the svg, we need to tell the command stack, that a value has changed
     this.eventBus.fire(
       'commandStack.changed',
-      this.debounce(this.saveSVG, 500)
+      this.debounce(this.saveSVG, 500),
     );
   }
 

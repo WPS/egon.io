@@ -17,7 +17,7 @@ describe('DomManipulationService', () => {
         'getAllGroups',
         'getAllActivities',
         'getAllConnections',
-      ]
+      ],
     );
 
     TestBed.configureTestingModule({
@@ -30,7 +30,7 @@ describe('DomManipulationService', () => {
     });
     domManipulationService = TestBed.inject(DomManipulationService);
     elementRegistryServiceSpy = TestBed.inject(
-      ElementRegistryService
+      ElementRegistryService,
     ) as jasmine.SpyObj<ElementRegistryService>;
     spyOn(document, 'querySelector').and.returnValue(null);
   });

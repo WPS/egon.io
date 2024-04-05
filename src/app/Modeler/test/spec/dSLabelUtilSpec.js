@@ -114,7 +114,7 @@ describe("calculateTextWidth", function () {
 
   it("distinguishes casing", function () {
     expect(calculateTextWidth("abcdefghi")).toEqual(
-      calculateTextWidth("ABCDEFGHI")
+      calculateTextWidth("ABCDEFGHI"),
     );
   });
 });

@@ -30,7 +30,7 @@ describe("domainStory modeling", function () {
     it("should export custom element", inject(function (
       bpmnjs,
       elementRegistry,
-      modeling
+      modeling,
     ) {
       // type has to be registered for test
       // initTypeDictionaries(test_conf.actors);
@@ -68,7 +68,7 @@ describe("domainStory modeling", function () {
 
     it("should not resize custom shape", inject(function (
       elementRegistry,
-      rules
+      rules,
     ) {
       // given
       const customElement = elementRegistry.get("CustomTriangle_1");
@@ -82,7 +82,7 @@ describe("domainStory modeling", function () {
 
     it("should update custom element", inject(function (
       elementRegistry,
-      modeling
+      modeling,
     ) {
       // given
       const customElement = elementRegistry.get("CustomTriangle_1");
@@ -91,7 +91,7 @@ describe("domainStory modeling", function () {
       modeling.moveShape(
         customElement,
         { x: 200, y: 50 },
-        customElement.parent
+        customElement.parent,
       );
 
       // then
@@ -115,7 +115,7 @@ describe("domainStory modeling", function () {
     it("should export custom connection", inject(function (
       bpmnjs,
       elementRegistry,
-      modeling
+      modeling,
     ) {
       // given
       const customShape = elementRegistry.get("CustomTriangle_1"),
@@ -139,7 +139,7 @@ describe("domainStory modeling", function () {
 
     it("should not connect custom shape to start event", inject(function (
       elementRegistry,
-      rules
+      rules,
     ) {
       // given
       const customShape = elementRegistry.get("CustomTriangle_1"),
@@ -158,7 +158,7 @@ describe("domainStory modeling", function () {
     it("should reconnect start", inject(function (
       bpmnjs,
       elementRegistry,
-      modeling
+      modeling,
     ) {
       // given
       const customShape = elementRegistry.get("CustomTriangle_1"),
@@ -193,7 +193,7 @@ describe("domainStory modeling", function () {
     it("should reconnect end", inject(function (
       bpmnjs,
       elementRegistry,
-      modeling
+      modeling,
     ) {
       // given
       const customShape = elementRegistry.get("CustomTriangle_1"),
@@ -217,7 +217,7 @@ describe("domainStory modeling", function () {
 
     it("should update custom connection", inject(function (
       elementRegistry,
-      modeling
+      modeling,
     ) {
       // given
       const customElement = elementRegistry.get("CustomTriangle_1"),
@@ -231,7 +231,7 @@ describe("domainStory modeling", function () {
       modeling.moveShape(
         customElement,
         { x: 200, y: 50 },
-        customElement.parent
+        customElement.parent,
       );
 
       // then
@@ -248,7 +248,7 @@ describe("domainStory modeling", function () {
     it("should remove deleted connection from _customElements", inject(function (
       bpmnjs,
       elementRegistry,
-      modeling
+      modeling,
     ) {
       // given
       const customShape = elementRegistry.get("CustomTriangle_1"),

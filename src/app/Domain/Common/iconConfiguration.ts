@@ -28,7 +28,7 @@ export class IconConfiguration {
     actors: string[],
     actorsDict: Dictionary,
     workObjects: string[],
-    workObjectsDict: Dictionary
+    workObjectsDict: Dictionary,
   ): void {
     const newAppendedIcons: { [key: string]: any } = {};
 
@@ -61,7 +61,7 @@ export class IconConfiguration {
       actors.keysArray(),
       actors,
       workObjects.keysArray(),
-      workObjects
+      workObjects,
     );
 
     return new Configuration(actors.keysArray(), workObjects.keysArray());

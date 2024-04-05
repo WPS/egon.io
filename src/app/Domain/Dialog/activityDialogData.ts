@@ -11,7 +11,7 @@ export class ActivityDialogData {
     activity: ActivityCanvasObject,
     numberIsAllowedMultipleTimes: boolean,
     showNumberFields: boolean,
-    saveFN: any
+    saveFN: any,
   ) {
     this.activity = activity;
     this.numberIsAllowedMultipleTimes = numberIsAllowedMultipleTimes;

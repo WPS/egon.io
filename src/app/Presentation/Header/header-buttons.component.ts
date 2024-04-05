@@ -45,7 +45,7 @@ export class HeaderButtonsComponent {
     private importService: ImportDomainStoryService,
     private titleService: TitleService,
     private renderService: RendererService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
   ) {
     this.isReplay$ = this.replayStateService.replayOn$;
     this.isDirty$ = this.dirtyFlagService.dirty$;
@@ -58,28 +58,28 @@ export class HeaderButtonsComponent {
         // @ts-ignore
         document.getElementById('import').files[0],
         filename,
-        false
+        false,
       );
     } else if (filename.endsWith('.dst.svg')) {
       this.importService.importDST(
         // @ts-ignore
         document.getElementById('import').files[0],
         filename,
-        true
+        true,
       );
     } else if (filename.endsWith('.egn')) {
       this.importService.importEGN(
         // @ts-ignore
         document.getElementById('import').files[0],
         filename,
-        false
+        false,
       );
     } else if (filename.endsWith('.egn.svg')) {
       this.importService.importEGN(
         // @ts-ignore
         document.getElementById('import').files[0],
         filename,
-        true
+        true,
       );
     }
     this.modelerService.commandStackChanged();
@@ -96,22 +96,22 @@ export class HeaderButtonsComponent {
         'SVG',
         'Download an SVG-Image with the Domain-Story embedded. Can be used to save and share your Domain-Story.',
         (withTitle: boolean, useWhiteBackground: boolean) =>
-          this.exportService.downloadSVG(withTitle, useWhiteBackground)
+          this.exportService.downloadSVG(withTitle, useWhiteBackground),
       );
       const EGNDownloadOption = new ExportOption(
         'EGN',
         'Download an EGN-File with the Domain-Story. Can be used to save and share your Domain-Story.',
-        () => this.exportService.downloadDST()
+        () => this.exportService.downloadDST(),
       );
       const PNGDownloadOption = new ExportOption(
         'PNG',
         'Download a PNG-Image of the Domain-Story. This does not include the Domain-Story!',
-        (withTitle: boolean) => this.exportService.downloadPNG(withTitle)
+        (withTitle: boolean) => this.exportService.downloadPNG(withTitle),
       );
       const HTMLDownloadOption = new ExportOption(
         'HTML-Presentation',
         'Download an HTML-Presentation. This does not include the Domain-Story!',
-        () => this.exportService.downloadHTMLPresentation()
+        () => this.exportService.downloadHTMLPresentation(),
       );
 
       const config = new MatDialogConfig();
@@ -170,7 +170,7 @@ export class HeaderButtonsComponent {
         {
           duration: SNACKBAR_DURATION,
           panelClass: SNACKBAR_INFO,
-        }
+        },
       );
     }
   }

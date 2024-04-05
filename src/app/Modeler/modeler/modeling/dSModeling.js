@@ -8,7 +8,7 @@ export default function DSModeling(
   eventBus,
   elementFactory,
   commandStack,
-  domainStoryRules
+  domainStoryRules,
 ) {
   Modeling.call(this, eventBus, elementFactory, commandStack, domainStoryRules);
 }

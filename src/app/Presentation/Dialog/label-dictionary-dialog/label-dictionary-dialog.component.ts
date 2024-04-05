@@ -8,7 +8,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class LabelDictionaryDialogComponent {
   constructor(
-    private dialogRef: MatDialogRef<LabelDictionaryDialogComponent>
+    private dialogRef: MatDialogRef<LabelDictionaryDialogComponent>,
   ) {}
 
   close(): void {

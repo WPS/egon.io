@@ -16,7 +16,7 @@ export class LabelDictionaryService {
   constructor(
     private massNamingService: MassNamingService,
     private elementRegistryService: ElementRegistryService,
-    private iconDictionaryService: IconDictionaryService
+    private iconDictionaryService: IconDictionaryService,
   ) {}
 
   createLabelDictionaries(): void {
@@ -82,7 +82,7 @@ export class LabelDictionaryService {
           .filter((workObject) => {
             return !!workObject.businessObject.name;
           })
-          .map((workObject) => workObject.businessObject.name)
+          .map((workObject) => workObject.businessObject.name),
       ),
     ];
   }
@@ -91,7 +91,7 @@ export class LabelDictionaryService {
     activityNames: string[],
     originalActivityNames: string[],
     workObjectNames: string[],
-    originalWorkObjectNames: string[]
+    originalWorkObjectNames: string[],
   ): void {
     for (let i = 0; i < originalActivityNames.length; i++) {
       if (!activityNames[i]) {
@@ -101,7 +101,7 @@ export class LabelDictionaryService {
         this.massNamingService.massChangeNames(
           originalActivityNames[i],
           activityNames[i],
-          elementTypes.ACTIVITY
+          elementTypes.ACTIVITY,
         );
       }
     }
@@ -113,7 +113,7 @@ export class LabelDictionaryService {
         this.massNamingService.massChangeNames(
           originalWorkObjectNames[i],
           workObjectNames[i],
-          elementTypes.WORKOBJECT
+          elementTypes.WORKOBJECT,
         );
       }
     }

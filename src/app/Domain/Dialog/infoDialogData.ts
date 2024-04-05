@@ -10,7 +10,7 @@ export class InfoDialogData {
     infoText: string,
     isInfo: boolean,
     isLink: boolean = false,
-    linkText?: string
+    linkText?: string,
   ) {
     this.title = title;
     this.infoText = infoText;

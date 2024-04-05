@@ -25,7 +25,7 @@ describe('SettingsComponent', () => {
           SettingsService,
           ModelerService,
           AutosaveConfigurationService,
-          DomainCustomizationService
+          DomainCustomizationService,
         ),
       ],
     }).compileComponents();

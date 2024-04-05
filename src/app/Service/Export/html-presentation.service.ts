@@ -14,7 +14,7 @@ import { TitleService } from '../Title/title.service';
 export class HtmlPresentationService {
   constructor(
     private replayService: ReplayService,
-    private titleService: TitleService
+    private titleService: TitleService,
   ) {}
 
   private multiplexSecret: any;
@@ -47,7 +47,7 @@ export class HtmlPresentationService {
       const result = await this.modeler.saveSVG({});
       this.fixActivityMarkersForEachStep(
         result,
-        this.replayService.getCurrentStepNumber()
+        this.replayService.getCurrentStepNumber(),
       );
       svgData.push({
         content: HtmlPresentationService.createSVGData(result.svg),
@@ -65,7 +65,7 @@ export class HtmlPresentationService {
         const result = await this.modeler.saveSVG({});
         this.fixActivityMarkersForEachStep(
           result,
-          this.replayService.getCurrentStepNumber()
+          this.replayService.getCurrentStepNumber(),
         );
         svgData.push({
           content: HtmlPresentationService.createSVGData(result.svg),
@@ -92,7 +92,7 @@ export class HtmlPresentationService {
     element.setAttribute(
       'href',
       'data:text/html;charset=UTF-8,' +
-        this.fixMalformedHtmlScript(dots, revealjsData)
+        this.fixMalformedHtmlScript(dots, revealjsData),
     );
     element.setAttribute('download', sanitizeForDesktop(filename) + '.html');
     element.style.display = 'none';
@@ -110,7 +110,7 @@ export class HtmlPresentationService {
       description: string;
       title: string;
       script: string;
-    }
+    },
   ) {
     return dots(revealjsData).replace('</ script', '</script');
   }
@@ -154,7 +154,7 @@ export class HtmlPresentationService {
     xLeft: number,
     yUp: number,
     width: number,
-    height: number
+    height: number,
   ) {
     return (
       'width="100%"' +
@@ -180,11 +180,11 @@ export class HtmlPresentationService {
    */
   private fixActivityMarkersForEachStep(
     result: { svg: string },
-    sectionIndex: number
+    sectionIndex: number,
   ): void {
     const defs = result.svg.substring(
       result.svg.indexOf('<defs>'),
-      result.svg.indexOf('</defs>') + 7
+      result.svg.indexOf('</defs>') + 7,
     );
     const split = defs.split('<marker ');
 

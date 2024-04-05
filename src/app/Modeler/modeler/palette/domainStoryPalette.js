@@ -23,7 +23,7 @@ export default function PaletteProvider(
   create,
   elementFactory,
   spaceTool,
-  lassoTool
+  lassoTool,
 ) {
   this._create = create;
   this._elementFactory = elementFactory;
@@ -137,7 +137,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
       createAction,
       actions,
       "actor",
-      elementTypes.ACTOR
+      elementTypes.ACTOR,
     );
   });
 
@@ -149,7 +149,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   });
 
   let workObjectTypes = iconDictionary?.getTypeDictionary(
-    elementTypes.WORKOBJECT
+    elementTypes.WORKOBJECT,
   );
 
   workObjectTypes?.keysArray().forEach((name) => {
@@ -158,7 +158,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
       createAction,
       actions,
       "actor",
-      elementTypes.WORKOBJECT
+      elementTypes.WORKOBJECT,
     );
   });
 
@@ -171,7 +171,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
       elementTypes.GROUP,
       "group",
       "icon-domain-story-tool-group",
-      "group"
+      "group",
     ),
     "group-separator": {
       group: "group",
@@ -207,7 +207,7 @@ function addCanvasObjectTypes(
   createAction,
   actions,
   className,
-  elementType
+  elementType,
 ) {
   let icon = iconDictionary.getIconForBPMN(elementType, name);
 
@@ -216,7 +216,7 @@ function addCanvasObjectTypes(
     `${elementType}${name}`,
     className,
     icon,
-    name
+    name,
   );
   assign(actions, action);
 }

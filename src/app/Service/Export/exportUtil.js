@@ -13,7 +13,7 @@ export function createTitleAndDescriptionSVGElement(
   description,
   xLeft,
   yUp,
-  width
+  width,
 ) {
   title = title.replace("&lt;", "").replace("&gt;", "");
 
@@ -56,7 +56,7 @@ function createDescription(text, width) {
       ctx,
       0,
       TEXTSPAN_DESCRIPTION_HEIGHT,
-      12
+      12,
     );
   }
   return description;

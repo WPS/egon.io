@@ -28,7 +28,7 @@ const NULL_DIMENSIONS = {
 export default function UpdateLabelHandler(
   modeling,
   textRenderer,
-  commandStack
+  commandStack,
 ) {
   commandStack.registerHandler("element.updateCustomLabel", handlerFunction);
 

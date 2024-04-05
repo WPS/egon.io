@@ -43,7 +43,7 @@ export function sanitizeIconName(name: string): string {
 
 export function restoreTitleFromFileName(
   filename: string,
-  isSVG: boolean
+  isSVG: boolean,
 ): string {
   let title;
 
@@ -56,7 +56,7 @@ export function restoreTitleFromFileName(
 
   let filenameWithoutDateSuffix = filename.replace(
     isSVG ? svgRegex : domainStoryRegex,
-    ''
+    '',
   );
   if (filenameWithoutDateSuffix.includes(isSVG ? svgSuffix : dstSuffix)) {
     filenameWithoutDateSuffix = filenameWithoutDateSuffix

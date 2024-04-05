@@ -22,11 +22,11 @@ describe('ReplayService', () => {
   beforeEach(() => {
     const storyCreatorServiceMock = jasmine.createSpyObj(
       'StoryCreatorService',
-      ['traceActivitiesAndCreateStory', 'getMissingSteps']
+      ['traceActivitiesAndCreateStory', 'getMissingSteps'],
     );
     const domManipulationServiceMock = jasmine.createSpyObj(
       'DomManipulationService',
-      ['showStep', 'showAll']
+      ['showStep', 'showAll'],
     );
     const dialogServiceMock = jasmine.createSpyObj('dialogService', [
       'openDialog',
@@ -63,16 +63,16 @@ describe('ReplayService', () => {
     service = TestBed.inject(ReplayService);
 
     storyCreatorServiceSpy = TestBed.inject(
-      StoryCreatorService
+      StoryCreatorService,
     ) as jasmine.SpyObj<StoryCreatorService>;
     domManipulationServiceSpy = TestBed.inject(
-      DomManipulationService
+      DomManipulationService,
     ) as jasmine.SpyObj<DomManipulationService>;
     dialogServiceSpy = TestBed.inject(
-      DialogService
+      DialogService,
     ) as jasmine.SpyObj<DialogService>;
     replayStateServiceSpy = TestBed.inject(
-      ReplayStateService
+      ReplayStateService,
     ) as jasmine.SpyObj<ReplayStateService>;
     snackBarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;
   });
@@ -92,7 +92,7 @@ describe('ReplayService', () => {
   describe('initializeReplay', () => {
     beforeEach(() => {
       storyCreatorServiceSpy.traceActivitiesAndCreateStory.and.returnValue(
-        preBuildTestStory(1)
+        preBuildTestStory(1),
       );
     });
 
@@ -102,7 +102,7 @@ describe('ReplayService', () => {
       service.currentStep$.subscribe((value) => expect(value).toEqual(1));
       service.maxStepNumber$.subscribe((value) => expect(value).toEqual(1));
       expect(
-        storyCreatorServiceSpy.traceActivitiesAndCreateStory
+        storyCreatorServiceSpy.traceActivitiesAndCreateStory,
       ).toHaveBeenCalled();
     });
   });
@@ -110,7 +110,7 @@ describe('ReplayService', () => {
   describe('should step through', () => {
     beforeEach(() => {
       storyCreatorServiceSpy.traceActivitiesAndCreateStory.and.returnValue(
-        preBuildTestStory(2)
+        preBuildTestStory(2),
       );
       domManipulationServiceSpy.showStep.and.returnValue();
     });
@@ -178,7 +178,7 @@ describe('ReplayService', () => {
     describe('startReplay', () => {
       beforeEach(() => {
         storyCreatorServiceSpy.traceActivitiesAndCreateStory.and.returnValue(
-          preBuildTestStory(1)
+          preBuildTestStory(1),
         );
         domManipulationServiceSpy.showStep.and.returnValue();
         dialogServiceSpy.openDialog.and.returnValue();
@@ -201,7 +201,7 @@ describe('ReplayService', () => {
 
         expect(storyCreatorServiceSpy.getMissingSteps).toHaveBeenCalled();
         expect(replayStateServiceSpy.setReplayState).toHaveBeenCalledOnceWith(
-          true
+          true,
         );
         expect(domManipulationServiceSpy.showStep).toHaveBeenCalled();
       });
@@ -212,7 +212,7 @@ describe('ReplayService', () => {
         dialogServiceSpy.openDialog.and.returnValue();
         replayStateServiceSpy.setReplayState.and.returnValue();
         storyCreatorServiceSpy.traceActivitiesAndCreateStory.and.returnValue(
-          preBuildTestStory(1)
+          preBuildTestStory(1),
         );
         domManipulationServiceSpy.showStep.and.returnValue();
         replayStateServiceSpy.setReplayState.and.returnValue();
@@ -229,7 +229,7 @@ describe('ReplayService', () => {
 
         expect(replayStateServiceSpy.setReplayState).toHaveBeenCalledWith(true);
         expect(replayStateServiceSpy.setReplayState).toHaveBeenCalledWith(
-          false
+          false,
         );
         expect(domManipulationServiceSpy.showAll).toHaveBeenCalled();
       });

@@ -62,7 +62,7 @@ export class IconListItemComponent implements OnInit, AfterViewChecked {
   toggleNone() {
     this.domainCustomizationService.setAsUnassigned(
       this.iconName,
-      this.icon.value.isActor
+      this.icon.value.isActor,
     );
   }
 

@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatLineModule } from '@angular/material/core';
+import { MatLabel } from '@angular/material/form-field';
+import { MockComponent } from 'ng-mocks';
 
 import { DetailsListItemComponent } from './details-list-item.component';
 import { IconListItem } from '../../../Domain/Domain-Configuration/iconListItem';

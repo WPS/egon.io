@@ -21,7 +21,7 @@ describe('AutosaveService', () => {
   const autosaveConfigurationServiceMock = jasmine.createSpyObj(
     'AutosaveConfigurationService',
     ['setConfiguration'],
-    { configuration$: of({ activated: true, maxDrafts: 1, interval: 1 }) }
+    { configuration$: of({ activated: true, maxDrafts: 1, interval: 1 }) },
   );
 
   beforeEach(() => {
@@ -52,13 +52,13 @@ describe('AutosaveService', () => {
       ],
     });
     rendererServiceSpy = TestBed.inject(
-      RendererService
+      RendererService,
     ) as jasmine.SpyObj<RendererService>;
     autosaveStateSpy = TestBed.inject(
-      AutosaveConfigurationService
+      AutosaveConfigurationService,
     ) as jasmine.SpyObj<AutosaveConfigurationService>;
     storageServiceSpy = TestBed.inject(
-      StorageService
+      StorageService,
     ) as jasmine.SpyObj<StorageService>;
 
     service = TestBed.inject(AutosaveService);
@@ -75,7 +75,7 @@ describe('AutosaveService', () => {
 
     it('should call rendererService.importStory', () => {
       service.loadDraft(
-        createEmptyAutosave(Date.now().toString().slice(0, 25))
+        createEmptyAutosave(Date.now().toString().slice(0, 25)),
       );
       expect(rendererServiceSpy.importStory).toHaveBeenCalled();
     });
@@ -87,7 +87,7 @@ describe('AutosaveService', () => {
     beforeEach(() => {
       autosaves = [
         createEmptyAutosave(
-          Date.UTC(2000, 1, 1, 1, 1, 1).toString().slice(0, 25)
+          Date.UTC(2000, 1, 1, 1, 1, 1).toString().slice(0, 25),
         ),
         createEmptyAutosave(Date.now().toString().slice(0, 25)),
       ];

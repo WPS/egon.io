@@ -19,7 +19,7 @@ export class SettingsComponent {
   constructor(
     private settingsService: SettingsService,
     private modelerService: ModelerService,
-    private domainCustomizationService: DomainCustomizationService
+    private domainCustomizationService: DomainCustomizationService,
   ) {}
 
   close(): void {

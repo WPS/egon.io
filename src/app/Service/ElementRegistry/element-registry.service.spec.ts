@@ -27,7 +27,7 @@ function resetRegistry(
   testActor: CanvasObject,
   testWorkobject: CanvasObject,
   testGroup: GroupCanvasObject,
-  testConnection: ActivityCanvasObject
+  testConnection: ActivityCanvasObject,
 ) {
   registry._elements = [];
   registry._elements[testActivity.name] = {
@@ -99,7 +99,7 @@ describe('ElementRegistryService', () => {
         testActor,
         testWorkobject,
         testGroup,
-        testConnection
+        testConnection,
       );
     });
 
@@ -130,7 +130,7 @@ describe('ElementRegistryService', () => {
         testActor,
         testWorkobject,
         testGroup,
-        testConnection
+        testConnection,
       );
       service.setElementRegistry(registry);
     });

@@ -27,7 +27,7 @@ export class TitleService {
   updateTitleAndDescription(
     title: string | null,
     description: string | null,
-    allowUndo: boolean
+    allowUndo: boolean,
   ): void {
     if (allowUndo) {
       this.fireTitleAndDescriptionUpdate(title, description);
@@ -90,7 +90,7 @@ export class TitleService {
 
   private fireTitleAndDescriptionUpdate(
     newTitle: string | null,
-    newDescription: string | null
+    newDescription: string | null,
   ): void {
     const context = {
       newTitle,
@@ -98,7 +98,7 @@ export class TitleService {
     };
     this.commandStackService.execute(
       'story.updateHeadlineAndDescription',
-      context
+      context,
     );
   }
 }

@@ -49,7 +49,7 @@ export default function DSLabelEditingProvider(
   modeling,
   resizeHandles,
   textRenderer,
-  updateLabelHandler
+  updateLabelHandler,
 ) {
   this._canvas = canvas;
   this._modeling = modeling;
@@ -82,7 +82,7 @@ export default function DSLabelEditingProvider(
       if (directEditing.isActive()) {
         directEditing.complete();
       }
-    }
+    },
   );
 
   // cancel on command stack changes
@@ -114,7 +114,7 @@ export default function DSLabelEditingProvider(
       activateDirectEdit(element);
     }
     let editingBox = document.getElementsByClassName(
-      "djs-direct-editing-content"
+      "djs-direct-editing-content",
     );
     focusElement(editingBox.item(0));
   });
@@ -135,14 +135,14 @@ export default function DSLabelEditingProvider(
 
   function createAutocomplete(element) {
     let editingBox = document.getElementsByClassName(
-      "djs-direct-editing-content"
+      "djs-direct-editing-content",
     );
     focusElement(editingBox.item(0));
     autocomplete(
       editingBox[0],
       dictionaryService.getUniqueWorkObjectNames(),
       element,
-      eventBus
+      eventBus,
     );
   }
 }
@@ -372,7 +372,7 @@ DSLabelEditingProvider.prototype.update = function (
   element,
   newLabel,
   activeContextText,
-  bounds
+  bounds,
 ) {
   let newBounds, bbox;
 
