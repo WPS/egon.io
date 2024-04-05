@@ -1751,14 +1751,14 @@
                     <Node>/Common/egon_angular/src/app/common/util/testHelpers.ts</Node>
                     <OtherNodes>
                       <ARRAY>
-                        <ELEMENT>/Replay/egon_angular/src/app/replay/domain/replayStep.ts</ELEMENT>
+                        <ELEMENT>/Replay/egon_angular/src/app/replay/domain/replaySentence.ts</ELEMENT>
                       </ARRAY>
                     </OtherNodes>
                     <GraphCommandKind>eTemporarilyPermitOutgoing</GraphCommandKind>
                     <Anchors>
                       <ARRAY>
                         <ELEMENT>ULCCCCCF/Common/egon_angular/src/app/common/util/testHelpers.ts</ELEMENT>
-                        <ELEMENT>ULCCCCCF/Replay/egon_angular/src/app/replay/domain/replayStep.ts</ELEMENT>
+                        <ELEMENT>ULCCCCCF/Replay/egon_angular/src/app/replay/domain/replaySentence.ts</ELEMENT>
                       </ARRAY>
                     </Anchors>
                   </OBJECT>
@@ -1911,14 +1911,14 @@
                     <Node>/StoryCreator/egon_angular/src/app/storyCreator/service/story-creator.service.ts</Node>
                     <OtherNodes>
                       <ARRAY>
-                        <ELEMENT>/Replay/egon_angular/src/app/replay/domain/replayStep.ts</ELEMENT>
+                        <ELEMENT>/Replay/egon_angular/src/app/replay/domain/replaySentence.ts</ELEMENT>
                       </ARRAY>
                     </OtherNodes>
                     <GraphCommandKind>eTemporarilyPermitOutgoing</GraphCommandKind>
                     <Anchors>
                       <ARRAY>
                         <ELEMENT>ULCCCCCF/StoryCreator/egon_angular/src/app/storyCreator/service/story-creator.service.ts</ELEMENT>
-                        <ELEMENT>ULCCCCCF/Replay/egon_angular/src/app/replay/domain/replayStep.ts</ELEMENT>
+                        <ELEMENT>ULCCCCCF/Replay/egon_angular/src/app/replay/domain/replaySentence.ts</ELEMENT>
                       </ARRAY>
                     </Anchors>
                   </OBJECT>

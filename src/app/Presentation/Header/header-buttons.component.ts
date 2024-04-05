@@ -190,12 +190,12 @@ export class HeaderButtonsComponent {
     this.replayService.stopReplay();
   }
 
-  previousStep(): void {
-    this.replayService.previousStep();
+  previousSentence(): void {
+    this.replayService.previousSentence();
   }
 
-  nextStep(): void {
-    this.replayService.nextStep();
+  nextSentence(): void {
+    this.replayService.nextSentence();
   }
 
   isExportable(): boolean {

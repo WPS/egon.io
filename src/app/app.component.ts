@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
       ) {
         e.preventDefault();
         e.stopPropagation();
-        replayService.nextStep();
+        replayService.nextSentence();
       }
       if (
         (e.key === 'ArrowLeft' || e.key === 'ArrowDown') &&
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
       ) {
         e.preventDefault();
         e.stopPropagation();
-        replayService.previousStep();
+        replayService.previousSentence();
       }
     });
   }

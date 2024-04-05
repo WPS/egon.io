@@ -45,9 +45,9 @@ export class HtmlPresentationService {
     this.replayService.startReplay();
     try {
       const result = await this.modeler.saveSVG({});
-      this.fixActivityMarkersForEachStep(
+      this.fixActivityMarkersForEachSentence(
         result,
-        this.replayService.getCurrentStepNumber(),
+        this.replayService.getCurrentSentenceNumber(),
       );
       svgData.push({
         content: HtmlPresentationService.createSVGData(result.svg),
@@ -57,15 +57,15 @@ export class HtmlPresentationService {
       alert('There was an error exporting the SVG.\n' + err);
     }
     while (
-      this.replayService.getCurrentStepNumber() <
-      this.replayService.getMaxStepNumber()
+      this.replayService.getCurrentSentenceNumber() <
+      this.replayService.getMaxSentenceNumber()
     ) {
-      this.replayService.nextStep();
+      this.replayService.nextSentence();
       try {
         const result = await this.modeler.saveSVG({});
-        this.fixActivityMarkersForEachStep(
+        this.fixActivityMarkersForEachSentence(
           result,
-          this.replayService.getCurrentStepNumber(),
+          this.replayService.getCurrentSentenceNumber(),
         );
         svgData.push({
           content: HtmlPresentationService.createSVGData(result.svg),
@@ -172,13 +172,13 @@ export class HtmlPresentationService {
   }
 
   /**
-   * There is a Problem in the HTML-Presentation, where the Arrow-Heads of the Activities are not shown after the 4th Step
-   * This is due to the fact, that the marker for the Arrow-Head is defined in each Step with the same ID
-   * When the 5th step is reached, the first marker is set to display none, which propagates to all other markers
+   * There is a Problem in the HTML-Presentation, where the Arrow-Heads of the Activities are not shown after the 4th sentence
+   * This is due to the fact, that the marker for the Arrow-Head is defined in each sentence with the same ID
+   * When the 5th sentence is reached, the first marker is set to display none, which propagates to all other markers
    *
-   * To fix this, for each Step the marker and its references are renamed
+   * To fix this, for each sentence the marker and its references are renamed
    */
-  private fixActivityMarkersForEachStep(
+  private fixActivityMarkersForEachSentence(
     result: { svg: string },
     sectionIndex: number,
   ): void {

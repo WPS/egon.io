@@ -1,71 +1,76 @@
 import { testActivityCanvasObject } from '../Domain/Common/activityCanvasObject';
 import { CanvasObject, testCanvasObject } from '../Domain/Common/canvasObject';
 import { elementTypes } from '../Domain/Common/elementTypes';
-import { StoryStep } from '../Domain/Replay/storyStep';
+import { StorySentence } from '../Domain/Replay/storySentence';
 
-export function preBuildTestStory(stepAmount: number): StoryStep[] {
-  const story: StoryStep[] = [];
+export function preBuildTestStory(sentenceAmount: number): StorySentence[] {
+  const story: StorySentence[] = [];
   let i = 0;
-  while (i < stepAmount) {
-    const previousStep = i > 0 ? story[i] : undefined;
-    const stepObjects = createReplayStepObjects(i + 1, previousStep);
-    const storyObjects = stepObjects.map((o) => o.businessObject);
-    if (previousStep) {
-      storyObjects.concat(previousStep.objects);
+  while (i < sentenceAmount) {
+    const previousSentence = i > 0 ? story[i] : undefined;
+    const sentenceObjects = createReplaySentenceObjects(
+      i + 1,
+      previousSentence,
+    );
+    const storyObjects = sentenceObjects.map((o) => o.businessObject);
+    if (previousSentence) {
+      storyObjects.concat(previousSentence.objects);
     }
     story.push({
       objects: storyObjects,
-      highlightedObjects: stepObjects.map((o) => o.id),
+      highlightedObjects: sentenceObjects.map((o) => o.id),
     });
     i++;
   }
   return story;
 }
 
-export function createTestCanvasObjects(stepAmount: number): CanvasObject[] {
-  const steps = [createReplayStepObjects(1)];
+export function createTestCanvasObjects(
+  sentenceAmount: number,
+): CanvasObject[] {
+  const sentences = [createReplaySentenceObjects(1)];
 
-  if (stepAmount === 1) {
-    return steps[0];
+  if (sentenceAmount === 1) {
+    return sentences[0];
   }
   let i = 1;
-  while (i < stepAmount) {
-    steps[i] = createReplayStepObjects(i + 1, {
-      objects: steps[i - 1].map((o) => o.businessObject),
+  while (i < sentenceAmount) {
+    sentences[i] = createReplaySentenceObjects(i + 1, {
+      objects: sentences[i - 1].map((o) => o.businessObject),
       highlightedObjects: [],
     });
 
     i++;
   }
   let allObjects: CanvasObject[] = [];
-  for (const step of steps) {
-    allObjects = allObjects.concat(step);
+  for (const sentence of sentences) {
+    allObjects = allObjects.concat(sentence);
   }
 
   return allObjects;
 }
 
-export function createReplayStepObjects(
-  stepNumber: number,
-  previousStep?: StoryStep,
+export function createReplaySentenceObjects(
+  sentenceNumber: number,
+  previousSentence?: StorySentence,
 ): CanvasObject[] {
   const activityFromActor = structuredClone(testActivityCanvasObject);
 
-  activityFromActor.id = 'activity-' + stepNumber;
+  activityFromActor.id = 'activity-' + sentenceNumber;
   activityFromActor.businessObject.id = activityFromActor.id;
-  activityFromActor.businessObject.number = stepNumber;
+  activityFromActor.businessObject.number = sentenceNumber;
 
   // No idea why this works!
   const source = (
-    previousStep
-      ? previousStep.objects.filter(
-          (o) => o.id === previousStep.highlightedObjects[4],
+    previousSentence
+      ? previousSentence.objects.filter(
+          (o) => o.id === previousSentence.highlightedObjects[4],
         )
       : structuredClone(testCanvasObject)
   ) as CanvasObject;
   source.type = elementTypes.ACTOR;
-  if (!previousStep) {
-    source.id = 'source-' + stepNumber;
+  if (!previousSentence) {
+    source.id = 'source-' + sentenceNumber;
     source.type = elementTypes.ACTOR;
     source.businessObject.id = source.id;
     source.businessObject.type = elementTypes.ACTOR;
@@ -77,7 +82,7 @@ export function createReplayStepObjects(
 
   const workObject = structuredClone(testCanvasObject);
   workObject.type = elementTypes.WORKOBJECT;
-  workObject.id = 'target-' + stepNumber;
+  workObject.id = 'target-' + sentenceNumber;
   workObject.businessObject.id = workObject.id;
   workObject.businessObject.type = elementTypes.WORKOBJECT;
   workObject.incoming!.push(activityFromActor);
@@ -91,12 +96,12 @@ export function createReplayStepObjects(
 
   const activityFromWorkObject = structuredClone(testActivityCanvasObject);
 
-  activityFromWorkObject.id = 'activity2-' + stepNumber;
+  activityFromWorkObject.id = 'activity2-' + sentenceNumber;
   activityFromWorkObject.businessObject.id = activityFromWorkObject.id;
 
   const endActor = structuredClone(testCanvasObject);
   endActor.type = elementTypes.ACTOR;
-  endActor.id = 'source-' + stepNumber;
+  endActor.id = 'source-' + sentenceNumber;
   endActor.businessObject.id = source.id;
   endActor.businessObject.type = elementTypes.ACTOR;
   endActor.incoming!.push(activityFromWorkObject);

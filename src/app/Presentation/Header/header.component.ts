@@ -18,7 +18,7 @@ export class HeaderComponent {
   showDescription$ = this.titleService.showDescription$;
 
   isReplay$: Observable<boolean>;
-  stepDescription$: Observable<string>;
+  sentenceDescription$: Observable<string>;
   showDescription: Observable<boolean>;
 
   constructor(
@@ -29,10 +29,10 @@ export class HeaderComponent {
   ) {
     this.isReplay$ = this.replayStateService.replayOn$;
 
-    this.stepDescription$ = combineLatest([
-      this.replayService.currentStep$,
-      this.replayService.maxStepNumber$,
-    ]).pipe(map(([step, count]) => `${step}/${count}`));
+    this.sentenceDescription$ = combineLatest([
+      this.replayService.currentSentence$,
+      this.replayService.maxSentenceNumber$,
+    ]).pipe(map(([sentence, count]) => `${sentence}/${count}`));
 
     this.showDescription = this.titleService.showDescription$;
   }

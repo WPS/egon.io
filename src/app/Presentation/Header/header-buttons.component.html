@@ -79,10 +79,14 @@
   </button>
 </div>
 <div *ngIf="isReplay$ | async">
-  <button class="headerButton" title="Previous Step" (click)="previousStep()">
+  <button
+    class="headerButton"
+    title="Previous sentence"
+    (click)="previousSentence()"
+  >
     <span class="material-icons materialIconButton"> skip_previous </span>
   </button>
-  <button class="headerButton" title="NextStep" (click)="nextStep()">
+  <button class="headerButton" title="Next sentence" (click)="nextSentence()">
     <span class="material-icons materialIconButton"> skip_next </span>
   </button>
   <button class="headerButton" title="Stop replay" (click)="stopReplay()">

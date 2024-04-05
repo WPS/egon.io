@@ -22,11 +22,11 @@ describe('ReplayService', () => {
   beforeEach(() => {
     const storyCreatorServiceMock = jasmine.createSpyObj(
       'StoryCreatorService',
-      ['traceActivitiesAndCreateStory', 'getMissingSteps'],
+      ['traceActivitiesAndCreateStory', 'getMissingSentences'],
     );
     const domManipulationServiceMock = jasmine.createSpyObj(
       'DomManipulationService',
-      ['showStep', 'showAll'],
+      ['showSentence', 'showAll'],
     );
     const dialogServiceMock = jasmine.createSpyObj('dialogService', [
       'openDialog',
@@ -81,12 +81,12 @@ describe('ReplayService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return initial currentStepNumber', () => {
-    service.currentStep$.subscribe((value) => expect(value).toEqual(-1));
+  it('should return initial currentSentenceNumber', () => {
+    service.currentSentence$.subscribe((value) => expect(value).toEqual(-1));
   });
 
-  it('should return initial maxStepNumber', () => {
-    service.maxStepNumber$.subscribe((value) => expect(value).toEqual(0));
+  it('should return initial maxSentenceNumber', () => {
+    service.maxSentenceNumber$.subscribe((value) => expect(value).toEqual(0));
   });
 
   describe('initializeReplay', () => {
@@ -99,79 +99,79 @@ describe('ReplayService', () => {
     it('should initialize Replay', () => {
       service.initializeReplay();
 
-      service.currentStep$.subscribe((value) => expect(value).toEqual(1));
-      service.maxStepNumber$.subscribe((value) => expect(value).toEqual(1));
+      service.currentSentence$.subscribe((value) => expect(value).toEqual(1));
+      service.maxSentenceNumber$.subscribe((value) => expect(value).toEqual(1));
       expect(
         storyCreatorServiceSpy.traceActivitiesAndCreateStory,
       ).toHaveBeenCalled();
     });
   });
 
-  describe('should step through', () => {
+  describe('should sentence through', () => {
     beforeEach(() => {
       storyCreatorServiceSpy.traceActivitiesAndCreateStory.and.returnValue(
         preBuildTestStory(2),
       );
-      domManipulationServiceSpy.showStep.and.returnValue();
+      domManipulationServiceSpy.showSentence.and.returnValue();
     });
 
-    describe('nextStep ', () => {
-      it('should select next step', () => {
+    describe('nextSentence ', () => {
+      it('should select next sentence', () => {
         service.initializeReplay();
-        service.nextStep();
+        service.nextSentence();
 
-        service.currentStep$.subscribe((value) => {
+        service.currentSentence$.subscribe((value) => {
           expect(value).toEqual(2);
         });
-        expect(domManipulationServiceSpy.showStep).toHaveBeenCalled();
+        expect(domManipulationServiceSpy.showSentence).toHaveBeenCalled();
       });
 
-      it('should not select next step when last step', () => {
+      it('should not select next sentence when last sentence', () => {
         service.initializeReplay();
-        service.nextStep();
+        service.nextSentence();
 
-        service.currentStep$.subscribe((value) => {
+        service.currentSentence$.subscribe((value) => {
           expect(value).toEqual(2);
         });
-        service.nextStep();
+        service.nextSentence();
 
-        service.currentStep$.subscribe((value) => {
+        service.currentSentence$.subscribe((value) => {
           expect(value).toEqual(2);
         });
-        expect(domManipulationServiceSpy.showStep).toHaveBeenCalledTimes(1);
+        expect(domManipulationServiceSpy.showSentence).toHaveBeenCalledTimes(1);
       });
     });
 
-    describe('previousStep', () => {
-      it('should not select previous step when no story', () => {
-        service.previousStep();
+    describe('previousSentence', () => {
+      it('should not select previous sentence when no story', () => {
+        service.previousSentence();
 
-        service.currentStep$.subscribe((value) => {
+        service.currentSentence$.subscribe((value) => {
           expect(value).toEqual(-1);
         });
-        expect(domManipulationServiceSpy.showStep).toHaveBeenCalledTimes(0);
+        expect(domManipulationServiceSpy.showSentence).toHaveBeenCalledTimes(0);
       });
 
-      it('should select previous step', () => {
+      it('should select previous sentence', () => {
         service.initializeReplay();
-        service.nextStep();
+        service.nextSentence();
 
-        service.previousStep();
+        service.previousSentence();
 
-        service.currentStep$.subscribe((value) => {
+        service.currentSentence$.subscribe((value) => {
           expect(value).toEqual(1);
         });
-        expect(domManipulationServiceSpy.showStep).toHaveBeenCalled();
+        expect(domManipulationServiceSpy.showSentence).toHaveBeenCalled();
       });
 
-      it('should not select previous step when first step', () => {
+      it('should not select previous sentence when first sentence', () => {
         service.initializeReplay();
-        service.previousStep();
+        service.previousSentence();
 
-        service.currentStep$.subscribe((value) => {
+        service.currentSentence$.subscribe((value) => {
           expect(value).toEqual(1);
         });
-        expect(domManipulationServiceSpy.showStep).toHaveBeenCalledTimes(0);
+        expect(domManipulationServiceSpy.showSentence).toHaveBeenCalledTimes(0);
       });
     });
 
@@ -180,30 +180,30 @@ describe('ReplayService', () => {
         storyCreatorServiceSpy.traceActivitiesAndCreateStory.and.returnValue(
           preBuildTestStory(1),
         );
-        domManipulationServiceSpy.showStep.and.returnValue();
+        domManipulationServiceSpy.showSentence.and.returnValue();
         dialogServiceSpy.openDialog.and.returnValue();
         replayStateServiceSpy.setReplayState.and.returnValue();
       });
 
       it('should show dialog if not consecutively numbered', () => {
-        storyCreatorServiceSpy.getMissingSteps.and.returnValue([1]);
+        storyCreatorServiceSpy.getMissingSentences.and.returnValue([1]);
 
         service.startReplay();
 
-        expect(storyCreatorServiceSpy.getMissingSteps).toHaveBeenCalled();
+        expect(storyCreatorServiceSpy.getMissingSentences).toHaveBeenCalled();
         expect(snackBarSpy.open).toHaveBeenCalled();
       });
 
       it(' should start replay if consecutively numbered', () => {
-        storyCreatorServiceSpy.getMissingSteps.and.returnValue([]);
+        storyCreatorServiceSpy.getMissingSentences.and.returnValue([]);
 
         service.startReplay();
 
-        expect(storyCreatorServiceSpy.getMissingSteps).toHaveBeenCalled();
+        expect(storyCreatorServiceSpy.getMissingSentences).toHaveBeenCalled();
         expect(replayStateServiceSpy.setReplayState).toHaveBeenCalledOnceWith(
           true,
         );
-        expect(domManipulationServiceSpy.showStep).toHaveBeenCalled();
+        expect(domManipulationServiceSpy.showSentence).toHaveBeenCalled();
       });
     });
 
@@ -214,9 +214,9 @@ describe('ReplayService', () => {
         storyCreatorServiceSpy.traceActivitiesAndCreateStory.and.returnValue(
           preBuildTestStory(1),
         );
-        domManipulationServiceSpy.showStep.and.returnValue();
+        domManipulationServiceSpy.showSentence.and.returnValue();
         replayStateServiceSpy.setReplayState.and.returnValue();
-        storyCreatorServiceSpy.getMissingSteps.and.returnValue([]);
+        storyCreatorServiceSpy.getMissingSentences.and.returnValue([]);
 
         service.startReplay();
       });
@@ -224,8 +224,12 @@ describe('ReplayService', () => {
       it('should call methods', () => {
         service.stopReplay();
 
-        service.currentStep$.subscribe((value) => expect(value).toEqual(-1));
-        service.maxStepNumber$.subscribe((value) => expect(value).toEqual(0));
+        service.currentSentence$.subscribe((value) =>
+          expect(value).toEqual(-1),
+        );
+        service.maxSentenceNumber$.subscribe((value) =>
+          expect(value).toEqual(0),
+        );
 
         expect(replayStateServiceSpy.setReplayState).toHaveBeenCalledWith(true);
         expect(replayStateServiceSpy.setReplayState).toHaveBeenCalledWith(

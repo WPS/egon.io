@@ -2,13 +2,13 @@ import { TestBed } from '@angular/core/testing';
 
 import { StoryCreatorService } from './story-creator.service';
 import { ElementRegistryService } from '../../ElementRegistry/element-registry.service';
-import { StoryStep } from '../../../Domain/Replay/storyStep';
+import { StorySentence } from '../../../Domain/Replay/storySentence';
 import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
 import { CanvasObject } from '../../../Domain/Common/canvasObject';
 import { elementTypes } from '../../../Domain/Common/elementTypes';
 import { testGroupCanvasObject } from '../../../Domain/Common/groupCanvasObject';
 import {
-  createReplayStepObjects,
+  createReplaySentenceObjects,
   preBuildTestStory,
 } from '../../../Utils/testHelpers.spec';
 
@@ -40,7 +40,7 @@ describe('StoryCreatorService', () => {
   });
 
   describe('traceActivitiesAndCreateStory', () => {
-    const story: StoryStep[] = [];
+    const story: StorySentence[] = [];
 
     beforeEach(() => {
       let objects: CanvasObject[] = [];
@@ -48,20 +48,23 @@ describe('StoryCreatorService', () => {
 
       let i = 1;
       while (i <= 3) {
-        const previousStep = i > 1 ? story[i - 1] : undefined;
-        const stepObjects = createReplayStepObjects(i, previousStep);
+        const previousSentence = i > 1 ? story[i - 1] : undefined;
+        const sentenceObjects = createReplaySentenceObjects(
+          i,
+          previousSentence,
+        );
 
         objects
-          ? (objects = objects.concat(stepObjects))
-          : (objects = stepObjects);
+          ? (objects = objects.concat(sentenceObjects))
+          : (objects = sentenceObjects);
 
-        let storyObjects = stepObjects.map((o) => o.businessObject);
-        if (previousStep) {
-          storyObjects = storyObjects.concat(previousStep.objects);
+        let storyObjects = sentenceObjects.map((o) => o.businessObject);
+        if (previousSentence) {
+          storyObjects = storyObjects.concat(previousSentence.objects);
         }
         story.push({
           objects: storyObjects,
-          highlightedObjects: stepObjects.map((o) => o.id),
+          highlightedObjects: sentenceObjects.map((o) => o.id),
         });
         i++;
       }
@@ -83,11 +86,11 @@ describe('StoryCreatorService', () => {
       const tracedStory = service.traceActivitiesAndCreateStory();
 
       for (let i = 0; i < tracedStory.length; i++) {
-        const step = tracedStory[i];
-        const refStep = story[i];
+        const sentence = tracedStory[i];
+        const refSentence = story[i];
 
-        const ids = step.highlightedObjects.sort();
-        const refIds = refStep.highlightedObjects.sort();
+        const ids = sentence.highlightedObjects.sort();
+        const refIds = refSentence.highlightedObjects.sort();
 
         expect(ids).toEqual(refIds);
       }
@@ -95,19 +98,19 @@ describe('StoryCreatorService', () => {
   });
 
   describe('isStoryConsecutivelyNumbered', () => {
-    let story: StoryStep[];
+    let story: StorySentence[];
 
     beforeEach(() => {
       story = preBuildTestStory(3);
     });
 
     it('should be true', () => {
-      expect(service.getMissingSteps(story).length).toBe(0);
+      expect(service.getMissingSentences(story).length).toBe(0);
     });
 
     it(' should be false', () => {
       story[1].objects = [];
-      expect(service.getMissingSteps(story).length > 0).toBeTrue();
+      expect(service.getMissingSentences(story).length > 0).toBeTrue();
     });
   });
 });

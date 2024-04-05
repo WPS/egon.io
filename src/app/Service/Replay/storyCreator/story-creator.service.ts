@@ -4,7 +4,7 @@ import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObjec
 import { BusinessObject } from '../../../Domain/Common/businessObject';
 import { CanvasObject } from '../../../Domain/Common/canvasObject';
 import { ElementRegistryService } from '../../ElementRegistry/element-registry.service';
-import { StoryStep } from '../../../Domain/Replay/storyStep';
+import { StorySentence } from '../../../Domain/Replay/storySentence';
 import { Dictionary } from '../../../Domain/Common/dictionary/dictionary';
 
 @Injectable({
@@ -13,9 +13,9 @@ import { Dictionary } from '../../../Domain/Common/dictionary/dictionary';
 export class StoryCreatorService {
   constructor(private elementRegistryService: ElementRegistryService) {}
 
-  traceActivitiesAndCreateStory(): StoryStep[] {
+  traceActivitiesAndCreateStory(): StorySentence[] {
     const tracedActivityMap = new Dictionary();
-    const story: StoryStep[] = [];
+    const story: StorySentence[] = [];
     const activities = this.elementRegistryService.getActivitiesFromActors();
 
     activities.forEach((activity) => {
@@ -32,40 +32,40 @@ export class StoryCreatorService {
       i <= Math.max(...tracedActivityMap.keysArray().map((it) => Number(it)));
       i++
     ) {
-      this.createStep(tracedActivityMap, i, story);
+      this.createSentence(tracedActivityMap, i, story);
     }
-    this.addGroupStep(story);
+    this.addGroupSentence(story);
     return story;
   }
 
-  private createStep(
+  private createSentence(
     tracedActivityMap: Dictionary,
     i: number,
-    story: StoryStep[],
+    story: StorySentence[],
   ): void {
-    const stepObjects = this.getStepObjects(
+    const sentenceObjects = this.getSentenceObjects(
       tracedActivityMap.get(`${i}`) || [],
     );
-    const highlightedElements = stepObjects.map((t) => t.id);
+    const highlightedElements = sentenceObjects.map((t) => t.id);
     if (i > 0) {
       story[i - 1].objects.forEach((object) => {
-        if (!stepObjects.includes(object)) {
-          stepObjects.push(object);
+        if (!sentenceObjects.includes(object)) {
+          sentenceObjects.push(object);
         }
       });
     }
     story[i] = {
       highlightedObjects: highlightedElements,
-      objects: stepObjects,
+      objects: sentenceObjects,
     };
   }
 
-  getMissingSteps(story: StoryStep[]): number[] {
+  getMissingSentences(story: StorySentence[]): number[] {
     if (!story || story.length === 0) {
       return [];
     }
 
-    const missingSteps: number[] = [];
+    const missingSentences: number[] = [];
     for (let i = 0; i < story.length; i++) {
       if (
         !story[i] ||
@@ -75,23 +75,23 @@ export class StoryCreatorService {
           (element) => element.type === elementTypes.ACTIVITY,
         ).length <= 0
       ) {
-        missingSteps.push(i + 1);
+        missingSentences.push(i + 1);
       }
     }
-    return missingSteps;
+    return missingSentences;
   }
 
-  private getStepObjects(
+  private getSentenceObjects(
     tracedActivity: ActivityCanvasObject[],
   ): BusinessObject[] {
     const initialSource: CanvasObject[] = [];
     const activities = tracedActivity;
     const targetObjects: CanvasObject[] = [];
 
-    tracedActivity.forEach((parallelStep: ActivityCanvasObject) => {
-      initialSource.push(parallelStep.source);
+    tracedActivity.forEach((parallelSentence: ActivityCanvasObject) => {
+      initialSource.push(parallelSentence.source);
 
-      const firstTarget = parallelStep.target;
+      const firstTarget = parallelSentence.target;
       targetObjects.push(firstTarget);
 
       // check the outgoing activities for each target
@@ -119,7 +119,7 @@ export class StoryCreatorService {
   }
 
   /** Groups should be shown at the End of the Story **/
-  private addGroupStep(story: StoryStep[]): void {
+  private addGroupSentence(story: StorySentence[]): void {
     const groups = this.elementRegistryService.getAllGroups() as CanvasObject[];
     if (groups.length > 0) {
       story.push({

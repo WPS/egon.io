@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ReplayStateService } from 'src/app/Service/Replay/replay-state.service';
 import { DomManipulationService } from 'src/app/Service/DomManipulation/dom-manipulation.service';
-import { StoryStep } from 'src/app/Domain/Replay/storyStep';
+import { StorySentence } from 'src/app/Domain/Replay/storySentence';
 import { StoryCreatorService } from './storyCreator/story-creator.service';
 import { BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,12 +14,12 @@ import {
   providedIn: 'root',
 })
 export class ReplayService {
-  private story: StoryStep[] = [];
-  private currentStep = new BehaviorSubject(-1);
-  private maxStepNumber = new BehaviorSubject(0);
+  private story: StorySentence[] = [];
+  private currentSentence = new BehaviorSubject(-1);
+  private maxSentenceNumber = new BehaviorSubject(0);
 
-  currentStep$ = this.currentStep.asObservable();
-  maxStepNumber$ = this.maxStepNumber.asObservable();
+  currentSentence$ = this.currentSentence.asObservable();
+  maxSentenceNumber$ = this.maxSentenceNumber.asObservable();
 
   constructor(
     private replayStateService: ReplayStateService,
@@ -33,38 +33,38 @@ export class ReplayService {
   }
 
   initializeReplay(): void {
-    this.currentStep.next(1);
+    this.currentSentence.next(1);
     this.story = this.storyCreatorService.traceActivitiesAndCreateStory();
-    this.maxStepNumber.next(this.story.length);
+    this.maxSentenceNumber.next(this.story.length);
   }
 
-  getCurrentStepNumber(): number {
-    return this.currentStep.value;
+  getCurrentSentenceNumber(): number {
+    return this.currentSentence.value;
   }
 
-  getMaxStepNumber(): number {
-    return this.maxStepNumber.value;
+  getMaxSentenceNumber(): number {
+    return this.maxSentenceNumber.value;
   }
 
-  nextStep(): void {
-    if (this.currentStep.value < this.story.length) {
-      this.currentStep.next(this.currentStep.value + 1);
-      this.showCurrentStep();
+  nextSentence(): void {
+    if (this.currentSentence.value < this.story.length) {
+      this.currentSentence.next(this.currentSentence.value + 1);
+      this.showCurrentSentence();
     }
   }
 
-  previousStep(): void {
-    if (this.currentStep.value > 1) {
-      this.currentStep.next(this.currentStep.value - 1);
-      this.showCurrentStep();
+  previousSentence(): void {
+    if (this.currentSentence.value > 1) {
+      this.currentSentence.next(this.currentSentence.value - 1);
+      this.showCurrentSentence();
     }
   }
 
-  private showCurrentStep() {
-    this.domManipulationService.showStep(
-      this.story[this.currentStep.value - 1],
-      this.currentStep.value > 1
-        ? this.story[this.currentStep.value - 2]
+  private showCurrentSentence() {
+    this.domManipulationService.showSentence(
+      this.story[this.currentSentence.value - 1],
+      this.currentSentence.value > 1
+        ? this.story[this.currentSentence.value - 2]
         : undefined,
     );
   }
@@ -72,18 +72,20 @@ export class ReplayService {
   startReplay(): void {
     this.initializeReplay();
     if (this.story?.length) {
-      const missingSteps = this.storyCreatorService.getMissingSteps(this.story);
-      if (missingSteps.length === 0) {
+      const missingSentences = this.storyCreatorService.getMissingSentences(
+        this.story,
+      );
+      if (missingSentences.length === 0) {
         this.replayStateService.setReplayState(true);
-        this.domManipulationService.showStep(
-          this.story[this.currentStep.getValue() - 1],
+        this.domManipulationService.showSentence(
+          this.story[this.currentSentence.getValue() - 1],
         );
       } else {
-        const steps = missingSteps.join(', ');
+        const sentence = missingSentences.join(', ');
         this.snackbar.open(
-          steps.length === 1
-            ? `The Domain Story is not complete. Step ${steps} is missing.`
-            : `The Domain Story is not complete. Steps ${steps} are missing.`,
+          sentence.length === 1
+            ? `The Domain Story is not complete. Sentence ${sentence} is missing.`
+            : `The Domain Story is not complete. Sentences ${sentence} are missing.`,
           undefined,
           {
             duration: SNACKBAR_DURATION * 2,
@@ -100,8 +102,8 @@ export class ReplayService {
   }
 
   stopReplay(): void {
-    this.currentStep.next(-1);
-    this.maxStepNumber.next(0);
+    this.currentSentence.next(-1);
+    this.maxSentenceNumber.next(0);
     this.replayStateService.setReplayState(false);
     this.domManipulationService.showAll();
   }

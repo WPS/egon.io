@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { elementTypes } from 'src/app/Domain/Common/elementTypes';
-import { StoryStep } from 'src/app/Domain/Replay/storyStep';
+import { StorySentence } from 'src/app/Domain/Replay/storySentence';
 import {
   HIGHLIGHT_COLOR,
   HIGHLIGHT_NUMBER_BACKGROUNG_COLOR,
@@ -17,7 +17,7 @@ import {
   providedIn: 'root',
 })
 /**
- * Manipulates the DOM during replay to only show the elements of the current Step
+ * Manipulates the DOM during replay to only show the elements of the current Sentence
  */
 export class DomManipulationService {
   constructor(private elementRegistryService: ElementRegistryService) {}
@@ -38,9 +38,12 @@ export class DomManipulationService {
       });
   }
 
-  showStep(replayStep: StoryStep, previousStep?: StoryStep): void {
+  showSentence(
+    replaySentence: StorySentence,
+    previousSentence?: StorySentence,
+  ): void {
     this.removeHighlights();
-    const notShown = this.getAllNotShown(replayStep.objects);
+    const notShown = this.getAllNotShown(replaySentence.objects);
 
     notShown.forEach((element) => {
       const domObject = document.querySelector(
@@ -52,13 +55,15 @@ export class DomManipulationService {
       }
     });
 
-    this.hightlightStep(
-      previousStep
-        ? replayStep.objects.filter((o) => !previousStep.objects.includes(o))
-        : replayStep.objects,
+    this.highlightSentence(
+      previousSentence
+        ? replaySentence.objects.filter(
+            (o) => !previousSentence.objects.includes(o),
+          )
+        : replaySentence.objects,
     );
 
-    replayStep.objects.forEach((element) => {
+    replaySentence.objects.forEach((element) => {
       const domObject = document.querySelector(
         '[data-element-id=' + element.id + ']',
       );
@@ -116,8 +121,8 @@ export class DomManipulationService {
     });
   }
 
-  private hightlightStep(stepObjects: BusinessObject[]): void {
-    stepObjects
+  private highlightSentence(sentenceObjects: BusinessObject[]): void {
+    sentenceObjects
       .filter((e) => e.type === elementTypes.ACTIVITY)
       .forEach((activity) => {
         const querySelector = document.querySelector(

@@ -55,8 +55,8 @@ describe('DomManipulationService', () => {
     expect(elementRegistryServiceSpy.getAllConnections).toHaveBeenCalled();
   });
 
-  it('showStep', () => {
-    domManipulationService.showStep(preBuildTestStory(2)[1]);
+  it('showSentence', () => {
+    domManipulationService.showSentence(preBuildTestStory(2)[1]);
 
     expect(elementRegistryServiceSpy.getAllCanvasObjects).toHaveBeenCalled();
     expect(elementRegistryServiceSpy.getAllActivities).toHaveBeenCalled();
