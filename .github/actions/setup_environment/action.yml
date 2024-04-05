@@ -11,4 +11,4 @@ runs:
       with:
         path: |
           node_modules
-        key: node_modules
+        key: node_modules-${{ github.sha }}
