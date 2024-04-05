@@ -8,7 +8,6 @@ import { assign, bind } from "min-dash";
 import { generateAutomaticNumber } from "../numbering/numbering";
 import { elementTypes } from "src/app/Domain/Common/elementTypes";
 import { getAllStandardIconKeys } from "src/app/Domain/Domain-Configuration/allIcons";
-import { getNameFromType } from "src/app/Utils/naming";
 
 let dirtyFlagService;
 let iconDictionaryService;
@@ -212,7 +211,8 @@ export default function DomainStoryContextPadProvider(
     workObjectTypes.keysArray().forEach((workObjectType) => {
       let name = workObjectType;
       let icon = iconDictionaryService.getIconForBPMN(
-        `${elementTypes.WORKOBJECT}${workObjectType}`
+        elementTypes.WORKOBJECT,
+        workObjectType
       );
       let action = [];
       action["append.workObject" + name] = appendAction(
@@ -232,7 +232,8 @@ export default function DomainStoryContextPadProvider(
     actorTypes.keysArray().forEach((actorType) => {
       let name = actorType;
       let icon = iconDictionaryService.getIconForBPMN(
-        `${elementTypes.ACTOR}${actorType}`
+        elementTypes.ACTOR,
+        actorType
       );
       let action = [];
       action["append.actor" + name] = appendAction(

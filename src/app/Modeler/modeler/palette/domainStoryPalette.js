@@ -4,7 +4,6 @@ import { assign } from "min-dash";
 import { overrideAppendedIcons } from "src/app/Domain/Domain-Configuration/allIcons";
 import { Dictionary } from "src/app/Domain/Common/dictionary/dictionary";
 import { elementTypes } from "src/app/Domain/Common/elementTypes";
-import { getNameFromType } from "src/app/Utils/naming";
 import { APPENDED_ICONS_TAG } from "../../../Domain/Common/constants";
 
 /**
@@ -132,12 +131,13 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
 
   let actorTypes = iconDictionary?.getTypeDictionary(elementTypes.ACTOR);
 
-  actorTypes?.keysArray().forEach((actorType) => {
+  actorTypes?.keysArray().forEach((name) => {
     addCanvasObjectTypes(
-      `${elementTypes.ACTOR}${actorType}`,
+      name,
       createAction,
       actions,
-      "actor"
+      "actor",
+      elementTypes.ACTOR
     );
   });
 
@@ -152,12 +152,13 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     elementTypes.WORKOBJECT
   );
 
-  workObjectTypes?.keysArray().forEach((workObjectType) => {
+  workObjectTypes?.keysArray().forEach((name) => {
     addCanvasObjectTypes(
-      `${elementTypes.WORKOBJECT}${workObjectType}`,
+      name,
       createAction,
       actions,
-      "actor"
+      "actor",
+      elementTypes.WORKOBJECT
     );
   });
 
@@ -201,13 +202,18 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   return actions;
 }
 
-function addCanvasObjectTypes(actorType, createAction, actions, className) {
-  let name = getNameFromType(actorType);
-  let icon = iconDictionary.getIconForBPMN(actorType);
+function addCanvasObjectTypes(
+  name,
+  createAction,
+  actions,
+  className,
+  elementType
+) {
+  let icon = iconDictionary.getIconForBPMN(elementType, name);
 
   let action = [];
   action["domainStory-" + className + name] = createAction(
-    actorType,
+    `${elementType}${name}`,
     className,
     icon,
     name

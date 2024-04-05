@@ -21,7 +21,8 @@ export function actorReplaceOptions(name) {
         label: "Change to " + typeName,
         actionName: "replace-with-actor-" + typeName.toLowerCase(),
         className: iconDictionaryService.getIconForBPMN(
-          `${elementTypes.ACTOR}${actorType}`
+          elementTypes.ACTOR,
+          actorType
         ),
         target: {
           type: `${elementTypes.ACTOR}${actorType}`,
@@ -48,7 +49,8 @@ export function workObjectReplaceOptions(name) {
         label: "Change to " + typeName,
         actionName: "replace-with-actor-" + typeName,
         className: iconDictionaryService.getIconForBPMN(
-          `${elementTypes.WORKOBJECT}${workObjectType}`
+          elementTypes.WORKOBJECT,
+          workObjectType
         ),
         target: {
           type: `${elementTypes.WORKOBJECT}${workObjectType}`,

@@ -12,7 +12,6 @@ import {
   allIcons,
   appendedIcons,
 } from 'src/app/Domain/Domain-Configuration/allIcons';
-import { getNameFromType } from '../../Utils/naming';
 import { sanitizeIconName } from '../../Utils/sanitizer';
 
 export const ICON_PREFIX = 'icon-domain-story-';
@@ -349,8 +348,8 @@ export class IconDictionaryService {
     return null;
   }
 
-  getIconForBPMN(type: elementTypes): string | null {
-    return this.iconDictionaryForBPMN.get(type);
+  getIconForBPMN(elementType: elementTypes, name: string): string | null {
+    return this.iconDictionaryForBPMN.get(`${elementType}${name}`);
   }
 
   getIconSource(name: string): string | null {
