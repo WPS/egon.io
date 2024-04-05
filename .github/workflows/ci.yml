@@ -103,8 +103,8 @@ jobs:
 
           cd "${CLONE_DIR}"
           git add .
-          git commit -m "Deploy latest build"
-          git push
+          git commit -m "Deploy latest build" || true
+          git push || true
 
   deploy-website-prod:
     if: inputs.deploy_prod == true
@@ -118,7 +118,7 @@ jobs:
         with:
           path: |
             dist_build
-          key: build-${{ github.sha }}
+          key: build-${{ github.sha }}-${{ github.run_id }}
       - run: |
           CLONE_DIR=$(mktemp -d)
 
@@ -132,8 +132,8 @@ jobs:
 
           cd "${CLONE_DIR}"
           git add .
-          git commit -m "Deploy production build"
-          git push
+          git commit -m "Deploy production build" || true
+          git push || true
 
   publish-image:
     runs-on: ubuntu-latest
