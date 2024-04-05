@@ -22,7 +22,6 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
 } from '../../Domain/Common/constants';
-import { AutosaveService } from '../../Service/Autosave/autosave.service';
 import { TitleService } from '../../Service/Title/title.service';
 import { RendererService } from '../../Service/Renderer/renderer.service';
 
@@ -182,6 +181,7 @@ export class HeaderButtonsComponent {
   createNewDomainStory(): void {
     this.titleService.reset();
     this.renderService.reset();
+    this.dirtyFlagService.makeClean();
   }
 
   /** Replay functions **/
