@@ -34,7 +34,7 @@ export class ModelerService {
     const storedDomainConfiguration =
       this.storageService.getStoredDomainConfiguration();
     if (storedDomainConfiguration) {
-      this.iconDictionaryService.setCusomtConfiguration(
+      this.iconDictionaryService.setCustomConfiguration(
         storedDomainConfiguration
       );
       this.domainConfigurationService.loadConfiguration(
@@ -108,7 +108,7 @@ export class ModelerService {
     }
     if (domainConfiguration) {
       this.storageService.setStoredDomainConfiguration(domainConfiguration);
-      this.iconDictionaryService.setCusomtConfiguration(domainConfiguration);
+      this.iconDictionaryService.setCustomConfiguration(domainConfiguration);
       this.domainConfigurationService.loadConfiguration(domainConfiguration);
     }
 

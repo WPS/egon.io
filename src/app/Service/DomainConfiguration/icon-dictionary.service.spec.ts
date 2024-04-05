@@ -83,7 +83,7 @@ describe('IconDictionaryService', () => {
         actors,
         workObjects,
       };
-      service.setCusomtConfiguration(customConfig);
+      service.setCustomConfiguration(customConfig);
 
       const configuration = service.getCurrentIconConfigurationForBPMN();
       expect(configuration.actors).toEqual(['Dollar']);
@@ -93,7 +93,7 @@ describe('IconDictionaryService', () => {
 
   describe('addIconsFromDomainConfiguration', () => {
     it('add icons to ActorDictionary', () => {
-      const type = elementTypes.ACTOR + 'Hotel';
+      const type = 'Hotel';
       expect(service.getActorsDictionary().has(type)).toBeFalsy();
       service.addIconsFromDomainConfiguration(elementTypes.ACTOR, [type]);
 
@@ -101,7 +101,7 @@ describe('IconDictionaryService', () => {
     });
 
     it('add icons to WorkObjectDictionary', () => {
-      const type = elementTypes.WORKOBJECT + 'Hotel';
+      const type = 'Hotel';
       expect(service.getWorkObjectsDictionary().has(type)).toBeFalsy();
       service.addIconsFromDomainConfiguration(elementTypes.WORKOBJECT, [type]);
 
@@ -119,10 +119,8 @@ describe('IconDictionaryService', () => {
 
       service.addIconsToTypeDictionary([actor], [workObject]);
 
-      expect(service.getActorsDictionary().has(actor.type)).toBeTruthy();
-      expect(
-        service.getWorkObjectsDictionary().has(workObject.type)
-      ).toBeTruthy();
+      expect(service.getActorsDictionary().has('Hotel')).toBeTruthy();
+      expect(service.getWorkObjectsDictionary().has('Dining')).toBeTruthy();
     });
   });
 
@@ -134,11 +132,7 @@ describe('IconDictionaryService', () => {
         allIcons['Hotel']
       );
 
-      expect(
-        service
-          .getWorkObjectsDictionary()
-          .has(elementTypes.WORKOBJECT + 'Hotel')
-      ).toBeTruthy();
+      expect(service.getWorkObjectsDictionary().has('Hotel')).toBeTruthy();
     });
 
     it('register Icon for Actors', () => {
@@ -148,9 +142,7 @@ describe('IconDictionaryService', () => {
         allIcons['Hotel']
       );
 
-      expect(
-        service.getActorsDictionary().has(elementTypes.ACTOR + 'Hotel')
-      ).toBeTruthy();
+      expect(service.getActorsDictionary().has('Hotel')).toBeTruthy();
     });
   });
 
@@ -179,15 +171,13 @@ describe('IconDictionaryService', () => {
     it('With elements and Config', () => {
       service.updateIconRegistries(actors, workObjects, config);
 
-      expect(service.getActorsDictionary().keysArray()).toContain(
-        elementTypes.ACTOR + 'Person'
-      );
+      expect(service.getActorsDictionary().keysArray()).toContain('Person');
       expect(service.getAppendedIconDictionary().keysArray()).toContain(
         'TestCustomActor'
       );
 
       expect(service.getWorkObjectsDictionary().keysArray()).toContain(
-        elementTypes.WORKOBJECT + 'Document'
+        'Document'
       );
       expect(service.getAppendedIconDictionary().keysArray()).toContain(
         'TestCustomWorkObject'

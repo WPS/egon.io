@@ -12,6 +12,7 @@ import {
   allIcons,
   appendedIcons,
 } from 'src/app/Domain/Domain-Configuration/allIcons';
+import { getNameFromType } from '../../Utils/naming';
 import { sanitizeIconName } from '../../Utils/sanitizer';
 
 export const ICON_PREFIX = 'icon-domain-story-';
@@ -99,7 +100,7 @@ export class IconDictionaryService {
     let allIn = true;
     if (elements) {
       elements.forEach((element) => {
-        if (!collection.has(element.type)) {
+        if (!collection.has(getNameFromType(element.type))) {
           allIn = false;
         }
       });
@@ -161,13 +162,13 @@ export class IconDictionaryService {
     if (!this.allInTypeDictionary(elementTypes.ACTOR, actorIcons)) {
       this.addIconsFromDomainConfiguration(
         elementTypes.ACTOR,
-        actorIcons.map((element) => element.type)
+        actorIcons.map((element) => getNameFromType(element.type))
       );
     }
     if (!this.allInTypeDictionary(elementTypes.WORKOBJECT, workObjectIcons)) {
       this.addIconsFromDomainConfiguration(
         elementTypes.WORKOBJECT,
-        workObjectIcons.map((element) => element.type)
+        workObjectIcons.map((element) => getNameFromType(element.type))
       );
     }
   }
@@ -215,14 +216,10 @@ export class IconDictionaryService {
     const actorsDict = new Dictionary();
     const workObjectsDict = new Dictionary();
     config.actors.keysArray().forEach((key) => {
-      this.registerIconForType(elementTypes.ACTOR, key, config.actors.get(key));
+      actorsDict.set(key, config.actors.get(key));
     });
     config.workObjects.keysArray().forEach((key) => {
-      this.registerIconForType(
-        elementTypes.WORKOBJECT,
-        key,
-        config.workObjects.get(key)
-      );
+      workObjectsDict.set(key, config.workObjects.get(key));
     });
 
     this.extractCustomIconsFromDictionary(actorsDict, customIcons);
@@ -247,7 +244,7 @@ export class IconDictionaryService {
         }
         this.registerIconForBPMN(
           ICON_PREFIX + name.toLowerCase(),
-          element.type, // TODO: td: Shouldnt this be some svg?
+          getNameFromType(element.type),
           elementType
         );
       }
@@ -390,7 +387,7 @@ export class IconDictionaryService {
     return this.iconConfig;
   }
 
-  setCusomtConfiguration(customConfiguration: DomainConfiguration): void {
+  setCustomConfiguration(customConfiguration: DomainConfiguration): void {
     this.customConfiguration = customConfiguration;
   }
 }

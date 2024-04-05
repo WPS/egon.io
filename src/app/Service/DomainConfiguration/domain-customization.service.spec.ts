@@ -31,13 +31,15 @@ describe('DomainCustomizationService', () => {
 
   beforeEach(() => {
     const matSnackbarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
-    const iconDictionaryMock = jasmine.createSpyObj('IconDictionarySService', [
+    const iconDictionaryMock = jasmine.createSpyObj('IconDictionaryService', [
       'getAllIconDictionary',
       'getFullDictionary',
       'getActorsDictionary',
       'getWorkObjectsDictionary',
       'getIconSource',
       'addIconsToCss',
+      'registerIconForType',
+      'unregisterIconForType',
     ]);
     const configurationServiceMock = jasmine.createSpyObj(
       'ConfigurationService',
