@@ -8,24 +8,9 @@ A tool to visualize Domain Stories in your browser.
 - The [Egon.io Website](https://egon.io/) contains a user manual.
 
 ## Development
-
-Download the source code or clone the repository. Please note that we use the main branch for development. The main branch contains the latest features and bug fixes, but they might be undocumented and tested less thoroughly than a release. To be on the safe side, stick with the latest release branch.
-
-### Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-### Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-### Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-### Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Install the dependencies via `npm ci`
+2. Run the local development server via `npm run start`. Egon.io is accessible at http://localhost:4200.
+3. Run tests via `npm run test`
 
 ## Deployment
 
