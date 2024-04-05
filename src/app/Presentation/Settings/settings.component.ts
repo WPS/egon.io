@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { SettingsService } from 'src/app/Service/Settings/settings.service';
 import { ModelerService } from 'src/app/Service/Modeler/modeler.service';
-import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
+import { IconSetConfiguration } from 'src/app/Domain/Common/iconSetConfiguration';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AutosaveConfigurationService } from '../../Service/Autosave/autosave-configuration.service';
-import { DomainCustomizationService } from '../../Service/DomainConfiguration/domain-customization.service';
+import { IconSetCustomizationService } from '../../Service/IconSetConfiguration/icon-set-customization.service';
 
 @Component({
   selector: 'app-settings',
@@ -12,14 +12,14 @@ import { DomainCustomizationService } from '../../Service/DomainConfiguration/do
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-  domainConfiguration: DomainConfiguration | undefined;
+  domainConfiguration: IconSetConfiguration | undefined;
   showGeneralSettings = new BehaviorSubject<boolean>(false);
   showDomainCustomization = new BehaviorSubject<boolean>(true);
 
   constructor(
     private settingsService: SettingsService,
     private modelerService: ModelerService,
-    private domainCustomizationService: DomainCustomizationService,
+    private domainCustomizationService: IconSetCustomizationService,
   ) {}
 
   close(): void {

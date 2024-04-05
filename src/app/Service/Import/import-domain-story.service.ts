@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
-import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
+import { IconDictionaryService } from 'src/app/Service/IconSetConfiguration/icon-dictionary.service';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { elementTypes } from 'src/app/Domain/Common/elementTypes';
 import { TitleService } from 'src/app/Service/Title/title.service';
@@ -8,9 +8,9 @@ import { Observable, Subscription } from 'rxjs';
 import { RendererService } from 'src/app/Service/Renderer/renderer.service';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import {
-  DomainConfiguration,
+  IconSetConfiguration,
   fromConfigurationFromFile,
-} from 'src/app/Domain/Common/domainConfiguration';
+} from 'src/app/Domain/Common/iconSetConfiguration';
 import { DialogService } from '../Dialog/dialog.service';
 import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
@@ -23,7 +23,7 @@ import {
   SNACKBAR_ERROR,
   SNACKBAR_INFO,
 } from '../../Domain/Common/constants';
-import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
+import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
@@ -35,10 +35,10 @@ export class ImportDomainStoryService implements OnDestroy {
 
   title = INITIAL_TITLE;
   description = INITIAL_DESCRIPTION;
-  private importedConfiguration: DomainConfiguration | null = null;
+  private importedConfiguration: IconSetConfiguration | null = null;
 
   private importedConfigurationEmitter =
-    new EventEmitter<DomainConfiguration>();
+    new EventEmitter<IconSetConfiguration>();
 
   constructor(
     private iconDictionaryService: IconDictionaryService,
@@ -46,7 +46,7 @@ export class ImportDomainStoryService implements OnDestroy {
     private titleService: TitleService,
     private rendererService: RendererService,
     private dialogService: DialogService,
-    private domainConfigurationService: DomainConfigurationService,
+    private domainConfigurationService: IconSetConfigurationService,
     private snackbar: MatSnackBar,
   ) {
     this.titleSubscription = this.titleService.title$.subscribe(
@@ -66,12 +66,12 @@ export class ImportDomainStoryService implements OnDestroy {
     this.descriptionSubscription.unsubscribe();
   }
 
-  get importedConfigurationEvent(): Observable<DomainConfiguration> {
+  get importedConfigurationEvent(): Observable<IconSetConfiguration> {
     return this.importedConfigurationEmitter.asObservable();
   }
 
-  getImportedConfiguration(): DomainConfiguration {
-    const config: DomainConfiguration = {
+  getImportedConfiguration(): IconSetConfiguration {
+    const config: IconSetConfiguration = {
       name: this.importedConfiguration?.name || '',
       actors: this.importedConfiguration?.actors || new Dictionary(),
       workObjects: this.importedConfiguration?.workObjects || new Dictionary(),
@@ -126,7 +126,7 @@ export class ImportDomainStoryService implements OnDestroy {
       }
 
       let elements: any[];
-      let config: DomainConfiguration;
+      let config: IconSetConfiguration;
       let configFromFile: {
         name: string;
         actors: { [key: string]: any };
@@ -241,7 +241,7 @@ export class ImportDomainStoryService implements OnDestroy {
     return xmlText;
   }
 
-  checkConfigForChanges(domainConfiguration: DomainConfiguration): boolean {
+  checkConfigForChanges(domainConfiguration: IconSetConfiguration): boolean {
     const newActorKeys = domainConfiguration.actors.keysArray();
     const newWorkObjectKeys = domainConfiguration.workObjects.keysArray();
 
@@ -289,7 +289,7 @@ export class ImportDomainStoryService implements OnDestroy {
 
   private updateIconRegistries(
     elements: BusinessObject[],
-    config: DomainConfiguration,
+    config: IconSetConfiguration,
   ): void {
     const actorIcons = this.iconDictionaryService.getElementsOfType(
       elements,
@@ -324,7 +324,7 @@ export class ImportDomainStoryService implements OnDestroy {
     this.dialogService.openDialog(InfoDialogComponent, config);
   }
 
-  private setImportedConfigurationAndEmit(config: DomainConfiguration) {
+  private setImportedConfigurationAndEmit(config: IconSetConfiguration) {
     this.importedConfiguration = config;
     this.importedConfigurationEmitter.emit(config);
   }

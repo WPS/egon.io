@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject } from 'rxjs';
-import { UsedIconList } from 'src/app/Domain/Domain-Configuration/UsedIconList';
+import { UsedIconList } from 'src/app/Domain/Icon-Set-Configuration/UsedIconList';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import {
   SNACKBAR_DURATION,
@@ -10,23 +10,23 @@ import {
 } from '../../Domain/Common/constants';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
 import {
-  CustomDomainConfiguration,
-  DomainConfiguration,
-} from '../../Domain/Common/domainConfiguration';
+  CustomIconSetConfiguration,
+  IconSetConfiguration,
+} from '../../Domain/Common/iconSetConfiguration';
 import { elementTypes } from '../../Domain/Common/elementTypes';
-import { IconListItem } from '../../Domain/Domain-Configuration/iconListItem';
+import { IconListItem } from '../../Domain/Icon-Set-Configuration/iconListItem';
 import { getNameFromType } from '../../Utils/naming';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { ImportDomainStoryService } from '../Import/import-domain-story.service';
 import { TitleService } from '../Title/title.service';
-import { DomainConfigurationService } from './domain-configuration.service';
+import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DomainCustomizationService {
-  private readonly domainConfigurationTypes: BehaviorSubject<CustomDomainConfiguration>;
+export class IconSetCustomizationService {
+  private readonly iconSetConfigurationTypes: BehaviorSubject<CustomIconSetConfiguration>;
 
   private allIconListItems = new Dictionary();
 
@@ -34,10 +34,10 @@ export class DomainCustomizationService {
 
   selectedActors$ = new BehaviorSubject<string[]>([]);
   selectedWorkobjects$ = new BehaviorSubject<string[]>([]);
-  private changedDomainConfiguration: DomainConfiguration | undefined;
+  private changedIconSetConfiguration: IconSetConfiguration | undefined;
 
   constructor(
-    private configurationService: DomainConfigurationService,
+    private configurationService: IconSetConfigurationService,
     private iconDictionaryService: IconDictionaryService,
     private importService: ImportDomainStoryService,
     private titleService: TitleService,
@@ -45,14 +45,14 @@ export class DomainCustomizationService {
     private elementRegistryService: ElementRegistryService,
     private snackbar: MatSnackBar,
   ) {
-    this.domainConfigurationTypes = new BehaviorSubject(
+    this.iconSetConfigurationTypes = new BehaviorSubject(
       this.configurationService.getCurrentConfigurationNamesWithoutPrefix(),
     );
 
     this.selectedWorkobjects$.next(
-      this.domainConfigurationTypes.value.workObjects,
+      this.iconSetConfigurationTypes.value.workObjects,
     );
-    this.selectedActors$.next(this.domainConfigurationTypes.value.actors);
+    this.selectedActors$.next(this.iconSetConfigurationTypes.value.actors);
 
     iconDictionaryService
       .getAllIconDictionary()
@@ -64,10 +64,10 @@ export class DomainCustomizationService {
     importService.importedConfigurationEvent.subscribe((config) => {
       this.importConfiguration(config);
     });
-    const storedDomainConfiguration =
-      this.storageService.getStoredDomainConfiguration();
-    if (storedDomainConfiguration) {
-      this.importConfiguration(storedDomainConfiguration, false);
+    const storedIconSetConfiguration =
+      this.storageService.getStoredIconSetConfiguration();
+    if (storedIconSetConfiguration) {
+      this.importConfiguration(storedIconSetConfiguration, false);
     }
     const importedConfiguration = this.importService.getImportedConfiguration();
     if (importedConfiguration) {
@@ -76,8 +76,8 @@ export class DomainCustomizationService {
   }
 
   importConfiguration(
-    customConfig: DomainConfiguration,
-    saveDomain = true,
+    customConfig: IconSetConfiguration,
+    saveIconSet = true,
   ): void {
     const actorKeys = customConfig.actors.keysArray();
     const workObjectKeys = customConfig.workObjects.keysArray();
@@ -101,14 +101,14 @@ export class DomainCustomizationService {
         this.selectWorkObject(iconName);
       }
     });
-    if (saveDomain) {
-      this.saveDomain(this.elementRegistryService.getUsedIcons(), true);
+    if (saveIconSet) {
+      this.saveIconSet(this.elementRegistryService.getUsedIcons(), true);
     }
   }
 
   /** Getter & Setter **/
-  getDomainConfiguration(): BehaviorSubject<CustomDomainConfiguration> {
-    return this.domainConfigurationTypes;
+  getIconSetConfiguration(): BehaviorSubject<CustomIconSetConfiguration> {
+    return this.iconSetConfigurationTypes;
   }
 
   getIconForName(iconName: string): BehaviorSubject<IconListItem> {
@@ -117,7 +117,7 @@ export class DomainCustomizationService {
 
   isIconActor(iconName: string): boolean {
     return (
-      this.domainConfigurationTypes.value.actors.filter(
+      this.iconSetConfigurationTypes.value.actors.filter(
         (actor: string) => actor === iconName,
       ).length > 0
     );
@@ -125,17 +125,17 @@ export class DomainCustomizationService {
 
   isIconWorkObject(iconName: string): boolean {
     return (
-      this.domainConfigurationTypes.value.workObjects.filter(
+      this.iconSetConfigurationTypes.value.workObjects.filter(
         (workObject: string) => workObject === iconName,
       ).length > 0
     );
   }
 
-  changeName(domainName: string): void {
-    this.titleService.setDomainName(domainName);
-    const changedDomain = this.domainConfigurationTypes.value;
-    changedDomain.name = domainName;
-    this.domainConfigurationTypes.next(changedDomain);
+  changeName(iconSetName: string): void {
+    this.titleService.setIconSetName(iconSetName);
+    const changedIconSet = this.iconSetConfigurationTypes.value;
+    changedIconSet.name = iconSetName;
+    this.iconSetConfigurationTypes.next(changedIconSet);
   }
 
   /** Selected Icons **/
@@ -171,42 +171,42 @@ export class DomainCustomizationService {
   }
 
   selectActor(actor: string): void {
-    const value = this.domainConfigurationTypes.value;
+    const value = this.iconSetConfigurationTypes.value;
     if (!value.actors.includes(actor)) {
       value.actors.push(actor);
-      this.domainConfigurationTypes.next(value);
+      this.iconSetConfigurationTypes.next(value);
       this.updateActorSubject();
     }
   }
 
   selectWorkObject(workObject: string): void {
-    const value = this.domainConfigurationTypes.value;
+    const value = this.iconSetConfigurationTypes.value;
     if (!value.workObjects.includes(workObject)) {
       value.workObjects.push(workObject);
-      this.domainConfigurationTypes.next(value);
+      this.iconSetConfigurationTypes.next(value);
       this.updateWorkObjectSubject();
     }
   }
 
   deselectActor(actor: string): void {
-    if (this.domainConfigurationTypes) {
-      this.domainConfigurationTypes.next({
-        name: this.domainConfigurationTypes.value.name,
-        actors: this.domainConfigurationTypes.value.actors.filter(
+    if (this.iconSetConfigurationTypes) {
+      this.iconSetConfigurationTypes.next({
+        name: this.iconSetConfigurationTypes.value.name,
+        actors: this.iconSetConfigurationTypes.value.actors.filter(
           (a: string) => !a.includes(actor),
         ),
-        workObjects: this.domainConfigurationTypes.value.workObjects,
+        workObjects: this.iconSetConfigurationTypes.value.workObjects,
       });
     }
     this.updateActorSubject();
   }
 
   deselectWorkobject(workobject: string): void {
-    if (this.domainConfigurationTypes) {
-      this.domainConfigurationTypes.next({
-        name: this.domainConfigurationTypes.value.name,
-        actors: this.domainConfigurationTypes.value.actors,
-        workObjects: this.domainConfigurationTypes.value.workObjects.filter(
+    if (this.iconSetConfigurationTypes) {
+      this.iconSetConfigurationTypes.next({
+        name: this.iconSetConfigurationTypes.value.name,
+        actors: this.iconSetConfigurationTypes.value.actors,
+        workObjects: this.iconSetConfigurationTypes.value.workObjects.filter(
           (w: string) => !w.includes(workobject),
         ),
       });
@@ -215,33 +215,33 @@ export class DomainCustomizationService {
   }
 
   setSelectedWorkObject(sortedList: string[]): void {
-    const value = this.domainConfigurationTypes.value;
+    const value = this.iconSetConfigurationTypes.value;
     value.workObjects = sortedList;
-    this.domainConfigurationTypes.next(value);
+    this.iconSetConfigurationTypes.next(value);
     this.updateWorkObjectSubject();
   }
 
   setSelectedActors(sortedList: string[]): void {
-    const value = this.domainConfigurationTypes.value;
+    const value = this.iconSetConfigurationTypes.value;
     value.actors = sortedList;
-    this.domainConfigurationTypes.next(value);
+    this.iconSetConfigurationTypes.next(value);
     this.updateActorSubject();
   }
 
   private updateActorSubject(): void {
-    this.selectedActors$.next(this.domainConfigurationTypes.value.actors);
+    this.selectedActors$.next(this.iconSetConfigurationTypes.value.actors);
     this.configurationHasChanged = true;
   }
 
   private updateWorkObjectSubject(): void {
     this.selectedWorkobjects$.next(
-      this.domainConfigurationTypes.value.workObjects,
+      this.iconSetConfigurationTypes.value.workObjects,
     );
     this.configurationHasChanged = true;
   }
 
-  /** Revert Domain **/
-  resetDomain(): void {
+  /** Revert Icon Set **/
+  resetIconSet(): void {
     const defaultConfig =
       this.configurationService.createMinimalConfigurationWithDefaultIcons();
 
@@ -256,17 +256,17 @@ export class DomainCustomizationService {
       }
     });
 
-    this.domainConfigurationTypes.next({
+    this.iconSetConfigurationTypes.next({
       name: defaultConfig.name,
       actors: defaultConfig.actors.keysArray(),
       workObjects: defaultConfig.workObjects.keysArray(),
-    } as CustomDomainConfiguration);
+    } as CustomIconSetConfiguration);
 
     this.updateAllIconBehaviourSubjects();
   }
 
   cancel(): void {
-    this.domainConfigurationTypes.next(
+    this.iconSetConfigurationTypes.next(
       this.configurationService.getCurrentConfigurationNamesWithoutPrefix(),
     );
     this.updateAllIconBehaviourSubjects();
@@ -278,14 +278,14 @@ export class DomainCustomizationService {
     this.updateWorkObjectSubject();
   }
 
-  /** Persist Domain **/
-  saveDomain(usedIcons: UsedIconList, imported = false): void {
+  /** Persist Icon Set **/
+  saveIconSet(usedIcons: UsedIconList, imported = false): void {
     const changedActors: string[] = [];
     const changedWorkobjects: string[] = [];
     if (this.configurationHasChanged) {
-      const changedDomain = this.createDomainConfiguration();
+      const changedIconSet = this.createIconSetConfiguration();
 
-      const configurationActors = changedDomain.actors.keysArray();
+      const configurationActors = changedIconSet.actors.keysArray();
       usedIcons?.actors.forEach((actor) => {
         if (
           !configurationActors?.includes(actor) &&
@@ -294,7 +294,7 @@ export class DomainCustomizationService {
           changedActors.push(actor);
         }
       });
-      const configurationWorkobjects = changedDomain.workObjects.keysArray();
+      const configurationWorkobjects = changedIconSet.workObjects.keysArray();
       usedIcons?.workobjects.forEach((workobject) => {
         if (
           !configurationWorkobjects?.includes(workobject) &&
@@ -305,12 +305,12 @@ export class DomainCustomizationService {
       });
 
       if (!changedActors.length && !changedWorkobjects.length) {
-        this.changedDomainConfiguration = changedDomain;
+        this.changedIconSetConfiguration = changedIconSet;
 
-        this.updateIcons(changedDomain);
+        this.updateIcons(changedIconSet);
 
-        this.storageService.setStoredDomainConfiguration(
-          this.changedDomainConfiguration,
+        this.storageService.setStoredIconSetConfiguration(
+          this.changedIconSetConfiguration,
         );
         this.snackbar.open(
           imported
@@ -361,30 +361,30 @@ export class DomainCustomizationService {
     }
   }
 
-  exportDomain(): void {
+  exportIconSet(): void {
     this.configurationService.exportConfiguration();
   }
 
-  getAndClearSavedConfiguration(): DomainConfiguration | undefined {
-    const temp = this.changedDomainConfiguration;
-    this.changedDomainConfiguration = undefined;
+  getAndClearSavedConfiguration(): IconSetConfiguration | undefined {
+    const temp = this.changedIconSetConfiguration;
+    this.changedIconSetConfiguration = undefined;
 
     return temp;
   }
 
-  private createDomainConfiguration(): DomainConfiguration {
+  private createIconSetConfiguration(): IconSetConfiguration {
     const actors = new Dictionary();
     const workObjects = new Dictionary();
 
-    this.domainConfigurationTypes.value.actors.forEach((name: string) => {
+    this.iconSetConfigurationTypes.value.actors.forEach((name: string) => {
       actors.add(this.iconDictionaryService.getIconSource(name), name);
     });
-    this.domainConfigurationTypes.value.workObjects.forEach((name: string) => {
+    this.iconSetConfigurationTypes.value.workObjects.forEach((name: string) => {
       workObjects.add(this.iconDictionaryService.getIconSource(name), name);
     });
 
     return {
-      name: this.domainConfigurationTypes.value.name || '',
+      name: this.iconSetConfigurationTypes.value.name || '',
       actors,
       workObjects,
     };
@@ -424,11 +424,11 @@ export class DomainCustomizationService {
   }
 
   private updateAllIconBehaviourSubjects(): void {
-    const customDomainConfiguration = this.domainConfigurationTypes.value;
+    const customIconSetConfiguration = this.iconSetConfigurationTypes.value;
     this.allIconListItems.keysArray().forEach((iconName) => {
-      if (customDomainConfiguration.actors.includes(iconName)) {
+      if (customIconSetConfiguration.actors.includes(iconName)) {
         this.updateIcon(true, false, iconName);
-      } else if (customDomainConfiguration.workObjects.includes(iconName)) {
+      } else if (customIconSetConfiguration.workObjects.includes(iconName)) {
         this.updateIcon(false, true, iconName);
       } else {
         this.updateIcon(false, false, iconName);
@@ -457,11 +457,11 @@ export class DomainCustomizationService {
     }
   }
 
-  private updateIcons(changedDomain: DomainConfiguration) {
+  private updateIcons(changedIconSet: IconSetConfiguration) {
     this.allIconListItems
       .keysArray()
       .forEach((item) => this.setAsUnassigned(item, this.isIconActor(item)));
-    changedDomain.actors.keysArray().forEach((actor) => {
+    changedIconSet.actors.keysArray().forEach((actor) => {
       this.iconDictionaryService.registerIconForType(
         elementTypes.ACTOR,
         actor,
@@ -473,7 +473,7 @@ export class DomainCustomizationService {
       );
       this.setAsActor(true, actor);
     });
-    changedDomain.workObjects.keysArray().forEach((workObject) => {
+    changedIconSet.workObjects.keysArray().forEach((workObject) => {
       this.iconDictionaryService.registerIconForType(
         elementTypes.WORKOBJECT,
         workObject,

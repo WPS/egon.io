@@ -1,48 +1,48 @@
 import { Injectable } from '@angular/core';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
-import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
+import { IconDictionaryService } from 'src/app/Service/IconSetConfiguration/icon-dictionary.service';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { elementTypes } from 'src/app/Domain/Common/elementTypes';
 import {
-  CustomDomainConfiguration,
-  DomainConfiguration,
-  DomainConfigurationForExport,
-} from 'src/app/Domain/Common/domainConfiguration';
+  CustomIconSetConfiguration,
+  IconSetConfiguration,
+  IconSetConfigurationForExport,
+} from 'src/app/Domain/Common/iconSetConfiguration';
 import { defaultConf } from '../../Domain/Common/iconConfiguration';
 import { TitleService } from '../Title/title.service';
-import { INITIAL_DOMAIN_NAME } from '../../Domain/Common/constants';
+import { INITIAL_ICON_SET_NAME } from '../../Domain/Common/constants';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DomainConfigurationService {
+export class IconSetConfigurationService {
   constructor(
     private iconDictionaryService: IconDictionaryService,
     private elementRegistryService: ElementRegistryService,
     private titleService: TitleService,
   ) {}
 
-  setDomainName(domainName: string): void {
-    this.titleService.setDomainName(
-      domainName ? domainName : INITIAL_DOMAIN_NAME,
+  setIconSetName(iconSetName: string): void {
+    this.titleService.setIconSetName(
+      iconSetName ? iconSetName : INITIAL_ICON_SET_NAME,
     );
   }
 
   exportConfiguration(): void {
-    const domainConfiguration = this.getCurrentConfigurationForExport();
-    if (!domainConfiguration) {
+    const iconSetConfiguration = this.getCurrentConfigurationForExport();
+    if (!iconSetConfiguration) {
       return;
     }
 
-    const configJSONString = JSON.stringify(domainConfiguration, null, 2);
-    const filename = this.titleService.getDomainName();
+    const configJSONString = JSON.stringify(iconSetConfiguration, null, 2);
+    const filename = this.titleService.getIconSetName();
     const element = document.createElement('a');
 
     element.setAttribute(
       'href',
       'data:text/plain;charset=utf-8,' + encodeURIComponent(configJSONString),
     );
-    element.setAttribute('download', filename + '.domain');
+    element.setAttribute('download', filename + '.iconset');
     element.style.display = 'none';
     document.body.appendChild(element);
 
@@ -52,8 +52,8 @@ export class DomainConfigurationService {
   }
 
   loadConfiguration(
-    customConfig: DomainConfiguration,
-    updateDomainName = true,
+    customConfig: IconSetConfiguration,
+    updateIconSetName = true,
   ): void {
     let actorDict = new Dictionary();
     let workObjectDict = new Dictionary();
@@ -75,37 +75,37 @@ export class DomainConfigurationService {
       .getIconConfiguration()
       .appendSRCFile(actorKeys, actorDict, workObjectKeys, workObjectDict);
 
-    this.iconDictionaryService.addIconsFromDomainConfiguration(
+    this.iconDictionaryService.addIconsFromIconSetConfiguration(
       elementTypes.ACTOR,
       actorKeys.map((a) => elementTypes.ACTOR + a),
     );
-    this.iconDictionaryService.addIconsFromDomainConfiguration(
+    this.iconDictionaryService.addIconsFromIconSetConfiguration(
       elementTypes.WORKOBJECT,
       workObjectKeys.map((w) => elementTypes.WORKOBJECT + w),
     );
 
-    if (updateDomainName) {
+    if (updateIconSetName) {
       const configurationName = customConfig.name;
-      this.setDomainName(configurationName);
+      this.setIconSetName(configurationName);
     }
   }
 
-  getCurrentConfiguration(): DomainConfiguration | undefined {
+  getCurrentConfiguration(): IconSetConfiguration | undefined {
     const actors = this.iconDictionaryService.getActorsDictionary();
     const workObjects = this.iconDictionaryService.getWorkObjectsDictionary();
 
-    let domainConfiguration;
+    let iconSetConfiguration;
 
     if (actors.size() > 0 && workObjects.size() > 0) {
-      domainConfiguration = this.createConfigFromDictionaries(
+      iconSetConfiguration = this.createConfigFromDictionaries(
         actors,
         workObjects,
       );
     }
-    return domainConfiguration;
+    return iconSetConfiguration;
   }
 
-  getCurrentConfigurationForExport(): DomainConfigurationForExport | undefined {
+  getCurrentConfigurationForExport(): IconSetConfigurationForExport | undefined {
     const currentConfiguration = this.getCurrentConfiguration();
 
     if (currentConfiguration) {
@@ -128,9 +128,9 @@ export class DomainConfigurationService {
     return;
   }
 
-  getCurrentConfigurationNamesWithoutPrefix(): CustomDomainConfiguration {
+  getCurrentConfigurationNamesWithoutPrefix(): CustomIconSetConfiguration {
     return {
-      name: this.titleService.getDomainName() || INITIAL_DOMAIN_NAME,
+      name: this.titleService.getIconSetName() || INITIAL_ICON_SET_NAME,
       actors: this.iconDictionaryService
         .getActorsDictionary()
         .keysArray()
@@ -142,7 +142,7 @@ export class DomainConfigurationService {
     };
   }
 
-  createMinimalConfigurationWithDefaultIcons(): DomainConfiguration {
+  createMinimalConfigurationWithDefaultIcons(): IconSetConfiguration {
     const minimalConfig = this.createConfigFromCanvas();
 
     defaultConf.actors.forEach((iconName) => {
@@ -164,7 +164,7 @@ export class DomainConfigurationService {
   private createConfigFromDictionaries(
     actorsDict: Dictionary,
     workObjectsDict: Dictionary,
-  ): DomainConfiguration {
+  ): IconSetConfiguration {
     const actorNames = actorsDict.keysArray();
     const workobjectNames = workObjectsDict.keysArray();
     const newActors = new Dictionary();
@@ -185,15 +185,15 @@ export class DomainConfigurationService {
     });
 
     return {
-      name: this.titleService.getDomainName(),
+      name: this.titleService.getIconSetName(),
       actors: newActors,
       workObjects: newWorkobjects,
     };
   }
 
-  private createConfigFromCanvas(): DomainConfiguration {
+  private createConfigFromCanvas(): IconSetConfiguration {
     const config = {
-      name: INITIAL_DOMAIN_NAME,
+      name: INITIAL_ICON_SET_NAME,
       actors: new Dictionary(),
       workObjects: new Dictionary(),
     };

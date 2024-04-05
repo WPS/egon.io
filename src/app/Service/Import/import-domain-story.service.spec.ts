@@ -2,15 +2,15 @@ import { TestBed } from '@angular/core/testing';
 
 import { ImportDomainStoryService } from 'src/app/Service/Import/import-domain-story.service';
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
-import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.service';
+import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
 import { DirtyFlagService } from '../DirtyFlag/dirty-flag.service';
 import { ImportRepairService } from './import-repair.service';
 import { TitleService } from '../Title/title.service';
 import { RendererService } from '../Renderer/renderer.service';
 import { MockService } from 'ng-mocks';
 import { DialogService } from '../Dialog/dialog.service';
-import { DomainConfiguration } from '../../Domain/Common/domainConfiguration';
-import { INITIAL_DOMAIN_NAME } from '../../Domain/Common/constants';
+import { IconSetConfiguration } from '../../Domain/Common/iconSetConfiguration';
+import { INITIAL_ICON_SET_NAME } from '../../Domain/Common/constants';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
 import { elementTypes } from '../../Domain/Common/elementTypes';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -75,8 +75,8 @@ describe('ImportDomainStoryService', () => {
     actorsDict.add('', 'actor');
     workObjectsDict.add('', 'workObject');
 
-    const testDomainCofiguration: DomainConfiguration = {
-      name: INITIAL_DOMAIN_NAME,
+    const testDomainCofiguration: IconSetConfiguration = {
+      name: INITIAL_ICON_SET_NAME,
       actors: actorsDict,
       workObjects: workObjectsDict,
     };

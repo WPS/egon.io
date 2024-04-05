@@ -1,11 +1,12 @@
 /** DEFAULT VALUES **/
 export const INITIAL_TITLE = '< title >';
 export const INITIAL_DESCRIPTION = '';
-export const INITIAL_DOMAIN_NAME = 'default';
+export const INITIAL_ICON_SET_NAME = 'default';
 
 /** LocalStorageTags **/
 export const APPENDED_ICONS_TAG = 'appendedIcons';
-export const DOMAIN_CONFIGURATION_TAG = 'domainConfigurationTag';
+// String value of tag should not be renamed, because existing configurations would not load
+export const ICON_SET_CONFIGURATION_TAG = 'domainConfigurationTag';
 
 /** AUTOSAVE DEFAULTS **/
 export const DEFAULT_AUTOSAVES_ENABLED = true;

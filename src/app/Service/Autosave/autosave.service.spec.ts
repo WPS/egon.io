@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { AutosaveService, DRAFTS_TAG } from './autosave.service';
 import { MockProviders } from 'ng-mocks';
 import { RendererService } from '../Renderer/renderer.service';
-import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
+import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
 import { ExportService } from '../Export/export.service';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { Draft } from '../../Domain/Autosave/draft';
@@ -48,7 +48,7 @@ describe('AutosaveService', () => {
           provide: StorageService,
           useValue: storageServiceMock,
         },
-        MockProviders(DomainConfigurationService, ExportService, MatSnackBar),
+        MockProviders(IconSetConfigurationService, ExportService, MatSnackBar),
       ],
     });
     rendererServiceSpy = TestBed.inject(

@@ -3,12 +3,12 @@ import { TestBed } from '@angular/core/testing';
 import { ModelerService } from 'src/app/Service/Modeler/modeler.service';
 import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
-import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.service';
-import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
-import { DomainConfiguration } from '../../Domain/Common/domainConfiguration';
+import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
+import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
+import { IconSetConfiguration } from '../../Domain/Common/iconSetConfiguration';
 import { createTestCanvasObjects } from '../../Utils/testHelpers.spec';
 import { BusinessObject } from '../../Domain/Common/businessObject';
-import { INITIAL_DOMAIN_NAME } from '../../Domain/Common/constants';
+import { INITIAL_ICON_SET_NAME } from '../../Domain/Common/constants';
 import { elementTypes } from '../../Domain/Common/elementTypes';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 // @ts-ignore
@@ -21,7 +21,7 @@ describe('ModelerService', () => {
 
   let elementRegistrySpy: jasmine.SpyObj<ElementRegistryService>;
   let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
-  let domainConfigurationSpy: jasmine.SpyObj<DomainConfigurationService>;
+  let domainConfigurationSpy: jasmine.SpyObj<IconSetConfigurationService>;
   let initializerSpy: jasmine.SpyObj<InitializerService>;
 
   let testDomainStory: BusinessObject[] = createTestCanvasObjects(1).map(
@@ -33,8 +33,8 @@ describe('ModelerService', () => {
   const workObjectsDict = new Dictionary();
   workObjectsDict.add('', elementTypes.WORKOBJECT);
 
-  let testConfiguration: DomainConfiguration = {
-    name: INITIAL_DOMAIN_NAME,
+  let testConfiguration: IconSetConfiguration = {
+    name: INITIAL_ICON_SET_NAME,
     actors: actorsDict,
     workObjects: workObjectsDict,
   };
@@ -75,7 +75,7 @@ describe('ModelerService', () => {
           useValue: iconDictionaryMock,
         },
         {
-          provide: DomainConfigurationService,
+          provide: IconSetConfigurationService,
           useValue: domainConfigurationMock,
         },
         MockProvider(StorageService),
@@ -93,8 +93,8 @@ describe('ModelerService', () => {
       IconDictionaryService,
     ) as jasmine.SpyObj<IconDictionaryService>;
     domainConfigurationSpy = TestBed.inject(
-      DomainConfigurationService,
-    ) as jasmine.SpyObj<DomainConfigurationService>;
+      IconSetConfigurationService,
+    ) as jasmine.SpyObj<IconSetConfigurationService>;
     initializerSpy = TestBed.inject(
       InitializerService,
     ) as jasmine.SpyObj<InitializerService>;

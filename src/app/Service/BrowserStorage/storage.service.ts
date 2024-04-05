@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { DOMAIN_CONFIGURATION_TAG } from '../../Domain/Common/constants';
+import { ICON_SET_CONFIGURATION_TAG } from '../../Domain/Common/constants';
 import {
-  DomainConfiguration,
+  IconSetConfiguration,
   fromConfigurationFromFile,
-} from '../../Domain/Common/domainConfiguration';
+} from '../../Domain/Common/iconSetConfiguration';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,7 @@ export class StorageService {
     localStorage.removeItem(key);
   }
 
-  checkValidityOfConfiguration(configuratioFromFile: DomainConfiguration) {
+  checkValidityOfConfiguration(configuratioFromFile: IconSetConfiguration) {
     return (
       configuratioFromFile.actors.keysArray().length > 1 &&
       configuratioFromFile.workObjects.keysArray().length > 1 &&
@@ -38,23 +38,23 @@ export class StorageService {
     );
   }
 
-  getStoredDomainConfiguration(): DomainConfiguration | undefined {
-    const domainString = localStorage.getItem(DOMAIN_CONFIGURATION_TAG);
+  getStoredIconSetConfiguration(): IconSetConfiguration | undefined {
+    const iconSetString = localStorage.getItem(ICON_SET_CONFIGURATION_TAG);
 
-    if (!domainString) {
+    if (!iconSetString) {
       return;
     } else {
-      const configuratioFromFile = fromConfigurationFromFile(
-        JSON.parse(domainString),
+      const configurationFromFile = fromConfigurationFromFile(
+        JSON.parse(iconSetString),
       );
-      if (this.checkValidityOfConfiguration(configuratioFromFile)) {
-        return configuratioFromFile;
+      if (this.checkValidityOfConfiguration(configurationFromFile)) {
+        return configurationFromFile;
       }
     }
     return;
   }
 
-  setStoredDomainConfiguration(config: DomainConfiguration): void {
+  setStoredIconSetConfiguration(config: IconSetConfiguration): void {
     const actors: {
       [p: string]: any;
     } = {};
@@ -75,7 +75,7 @@ export class StorageService {
     };
 
     localStorage.setItem(
-      DOMAIN_CONFIGURATION_TAG,
+      ICON_SET_CONFIGURATION_TAG,
       JSON.stringify(configForStorage, null, 2),
     );
   }

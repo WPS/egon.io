@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { InitializerService } from './initializer.service';
 import { DirtyFlagService } from '../DirtyFlag/dirty-flag.service';
-import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.service';
+import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
-import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
+import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
 import { LabelDictionaryService } from '../LabelDictionary/label-dictionary.service';
 import { ReplayStateService } from '../Replay/replay-state.service';
 import { DialogService } from '../Dialog/dialog.service';
@@ -31,8 +31,8 @@ describe('InitializerService', () => {
           useValue: MockService(ElementRegistryService),
         },
         {
-          provide: DomainConfigurationService,
-          useValue: MockService(DomainConfigurationService),
+          provide: IconSetConfigurationService,
+          useValue: MockService(IconSetConfigurationService),
         },
         {
           provide: LabelDictionaryService,

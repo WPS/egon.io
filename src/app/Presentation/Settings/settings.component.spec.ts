@@ -5,8 +5,8 @@ import { SettingsService } from '../../Service/Settings/settings.service';
 import { MockComponent, MockProviders } from 'ng-mocks';
 import { ModelerService } from '../../Service/Modeler/modeler.service';
 import { AutosaveConfigurationService } from '../../Service/Autosave/autosave-configuration.service';
-import { DomainCustomizationService } from '../../Service/DomainConfiguration/domain-customization.service';
-import { DomainConfigurationComponent } from '../DomainConfiguration/domain-configuration.component';
+import { IconSetCustomizationService } from '../../Service/IconSetConfiguration/icon-set-customization.service';
+import { IconSetConfigurationComponent } from '../DomainConfiguration/icon-set-configuration.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 describe('SettingsComponent', () => {
@@ -18,14 +18,14 @@ describe('SettingsComponent', () => {
       imports: [MatToolbarModule],
       declarations: [
         SettingsComponent,
-        MockComponent(DomainConfigurationComponent),
+        MockComponent(IconSetConfigurationComponent),
       ],
       providers: [
         MockProviders(
           SettingsService,
           ModelerService,
           AutosaveConfigurationService,
-          DomainCustomizationService,
+          IconSetCustomizationService,
         ),
       ],
     }).compileComponents();

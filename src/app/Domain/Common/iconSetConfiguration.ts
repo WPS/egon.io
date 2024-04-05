@@ -1,21 +1,21 @@
-import { INITIAL_DOMAIN_NAME } from './constants';
+import { INITIAL_ICON_SET_NAME } from './constants';
 import { testBusinessObject } from './businessObject';
 import { elementTypes } from './elementTypes';
 import { Dictionary } from './dictionary/dictionary';
 
-export interface DomainConfiguration {
+export interface IconSetConfiguration {
   name: string;
   actors: Dictionary;
   workObjects: Dictionary;
 }
 
-export interface DomainConfigurationForExport {
+export interface IconSetConfigurationForExport {
   name: string;
   actors: any;
   workObjects: any;
 }
 
-export interface CustomDomainConfiguration {
+export interface CustomIconSetConfiguration {
   name: string;
   actors: string[];
   workObjects: string[];
@@ -23,8 +23,8 @@ export interface CustomDomainConfiguration {
 const actor = structuredClone(testBusinessObject);
 actor.type = elementTypes.ACTOR;
 
-export const testCustomDomainConfiguration: CustomDomainConfiguration = {
-  name: INITIAL_DOMAIN_NAME,
+export const testCustomIconSetConfiguration: CustomIconSetConfiguration = {
+  name: INITIAL_ICON_SET_NAME,
   actors: ['Person'],
   workObjects: ['Document'],
 };

@@ -17,9 +17,9 @@ import {
 import { initializeReplaceOptions } from '../../Modeler/modeler/change-icon/replaceOptions';
 
 import { DirtyFlagService } from '../DirtyFlag/dirty-flag.service';
-import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.service';
+import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
-import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
+import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
 import { LabelDictionaryService } from '../LabelDictionary/label-dictionary.service';
 import { elementTypes } from '../../Domain/Common/elementTypes';
 import { ReplayStateService } from '../Replay/replay-state.service';
@@ -47,7 +47,7 @@ export class InitializerService {
     private dirtyFlagService: DirtyFlagService,
     private iconDictionaryService: IconDictionaryService,
     private elementRegistryService: ElementRegistryService,
-    private configurationService: DomainConfigurationService,
+    private configurationService: IconSetConfigurationService,
     private labelDictionaryService: LabelDictionaryService,
     private replayStateService: ReplayStateService,
     private dialogService: DialogService,

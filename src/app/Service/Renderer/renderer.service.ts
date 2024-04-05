@@ -3,7 +3,7 @@ import { ModelerService } from 'src/app/Service/Modeler/modeler.service';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { DirtyFlagService } from 'src/app/Service/DirtyFlag/dirty-flag.service';
-import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
+import { IconSetConfiguration } from 'src/app/Domain/Common/iconSetConfiguration';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +26,7 @@ export class RendererService {
   importStory(
     domainStory: BusinessObject[],
     configurationChange: boolean,
-    config?: DomainConfiguration,
+    config?: IconSetConfiguration,
     makeClean = true,
   ): void {
     this.modelerService.restart(config, domainStory);

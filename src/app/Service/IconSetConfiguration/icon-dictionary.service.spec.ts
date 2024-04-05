@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
-import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
+import { IconDictionaryService } from 'src/app/Service/IconSetConfiguration/icon-dictionary.service';
 import { defaultConf } from '../../Domain/Common/iconConfiguration';
 import { elementTypes } from '../../Domain/Common/elementTypes';
-import { DomainConfiguration } from '../../Domain/Common/domainConfiguration';
-import { INITIAL_DOMAIN_NAME } from '../../Domain/Common/constants';
+import { IconSetConfiguration } from '../../Domain/Common/iconSetConfiguration';
+import { INITIAL_ICON_SET_NAME } from '../../Domain/Common/constants';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
 import {
   BusinessObject,
   testBusinessObject,
 } from '../../Domain/Common/businessObject';
-import { allIcons } from '../../Domain/Domain-Configuration/allIcons';
+import { allIcons } from '../../Domain/Icon-Set-Configuration/allIcons';
 
 describe('IconDictionaryService', () => {
   let service: IconDictionaryService;
@@ -78,8 +78,8 @@ describe('IconDictionaryService', () => {
       const workObjects = new Dictionary();
       workObjects.add('', 'Gavel');
 
-      const customConfig: DomainConfiguration = {
-        name: INITIAL_DOMAIN_NAME,
+      const customConfig: IconSetConfiguration = {
+        name: INITIAL_ICON_SET_NAME,
         actors,
         workObjects,
       };
@@ -95,7 +95,7 @@ describe('IconDictionaryService', () => {
     it('add icons to ActorDictionary', () => {
       const type = 'Hotel';
       expect(service.getActorsDictionary().has(type)).toBeFalsy();
-      service.addIconsFromDomainConfiguration(elementTypes.ACTOR, [type]);
+      service.addIconsFromIconSetConfiguration(elementTypes.ACTOR, [type]);
 
       expect(service.getActorsDictionary().has(type)).toBeTruthy();
     });
@@ -103,7 +103,7 @@ describe('IconDictionaryService', () => {
     it('add icons to WorkObjectDictionary', () => {
       const type = 'Hotel';
       expect(service.getWorkObjectsDictionary().has(type)).toBeFalsy();
-      service.addIconsFromDomainConfiguration(elementTypes.WORKOBJECT, [type]);
+      service.addIconsFromIconSetConfiguration(elementTypes.WORKOBJECT, [type]);
 
       expect(service.getWorkObjectsDictionary().has(type)).toBeTruthy();
     });
@@ -162,8 +162,8 @@ describe('IconDictionaryService', () => {
     actorsDict.add(actor, 'TestCustomActor');
     workObjectsDict.add(workObject, 'TestCustomWorkObject');
 
-    const config: DomainConfiguration = {
-      name: INITIAL_DOMAIN_NAME,
+    const config: IconSetConfiguration = {
+      name: INITIAL_ICON_SET_NAME,
       actors: actorsDict,
       workObjects: workObjectsDict,
     };

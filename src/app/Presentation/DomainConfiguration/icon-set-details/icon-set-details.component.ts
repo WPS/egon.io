@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DomainCustomizationService } from 'src/app/Service/DomainConfiguration/domain-customization.service';
-import { IconListItem } from 'src/app/Domain/Domain-Configuration/iconListItem';
+import { IconSetCustomizationService } from 'src/app/Service/IconSetConfiguration/icon-set-customization.service';
+import { IconListItem } from 'src/app/Domain/Icon-Set-Configuration/iconListItem';
 import { TitleService } from 'src/app/Service/Title/title.service';
 
 @Component({
-  selector: 'app-domain-details',
-  templateUrl: './domain-details.component.html',
-  styleUrls: ['./domain-details.component.scss'],
+  selector: 'app-icon-set-details',
+  templateUrl: './icon-set-details.component.html',
+  styleUrls: ['./icon-set-details.component.scss'],
 })
-export class DomainDetailsComponent implements OnInit {
-  domainName: Observable<string>;
+export class IconSetDetailsComponent implements OnInit {
+  iconSetName: Observable<string>;
 
   private draggedList: string = '';
   private draggedIndex = 0;
@@ -19,10 +19,10 @@ export class DomainDetailsComponent implements OnInit {
   selectedWorkobjects$ = this.customizationService.selectedWorkobjects$;
 
   constructor(
-    private customizationService: DomainCustomizationService,
+    private customizationService: IconSetCustomizationService,
     titleService: TitleService,
   ) {
-    this.domainName = titleService.domainName$;
+    this.iconSetName = titleService.iconSetName$;
   }
 
   ngOnInit(): void {}

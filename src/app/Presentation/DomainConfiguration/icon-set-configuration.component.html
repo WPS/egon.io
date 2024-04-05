@@ -67,14 +67,14 @@
           <span class="material-icons-outlined materialIconButton">close</span>
         </button>
         <div class="divider"></div>
-        <button mat-button title="Save icon set" (click)="saveDomain()">
+        <button mat-button title="Save icon set" (click)="saveIconSet()">
           <span class="material-icons-outlined materialIconButton">save</span>
         </button>
         <div class="divider"></div>
         <button
           mat-button
           title="Import icon set"
-          (click)="startDomainImport()"
+          (click)="startIconSetImport()"
         >
           <span class="material-icons-outlined materialIconButton"
             >unarchive</span
@@ -86,17 +86,17 @@
             id="importDomain"
             name="file"
             onclick="this.value=null"
-            (change)="importDomain()"
+            (change)="importIconSet()"
           />
         </button>
-        <button mat-button title="Export icon set" (click)="exportDomain()">
+        <button mat-button title="Export icon set" (click)="exportIconSet()">
           <span class="material-icons-outlined materialIconButton"
             >archive</span
           >
         </button>
       </div>
     </div>
-    <div class="domainConfiguration">
+    <div class="iconSetConfiguration">
       <div class="icons">
         <div class="iconList smallScrollbar">
           <mat-grid-list cols="8" rowHeight="170px">
@@ -116,5 +116,5 @@
     </div>
   </div>
 
-  <app-domain-details class="domainDetails"></app-domain-details>
+  <app-icon-set-details class="iconSetDetails"></app-icon-set-details>
 </div>

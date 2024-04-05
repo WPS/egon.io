@@ -1,19 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DomainCustomizationService } from './domain-customization.service';
+import { IconSetCustomizationService } from './icon-set-customization.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { MockProvider, MockProviders } from 'ng-mocks';
 import { TitleService } from '../Title/title.service';
-import { DomainConfigurationService } from './domain-configuration.service';
+import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { ImportDomainStoryService } from '../Import/import-domain-story.service';
 import {
-  DomainConfiguration,
-  testCustomDomainConfiguration,
-} from '../../Domain/Common/domainConfiguration';
+  IconSetConfiguration,
+  testCustomIconSetConfiguration,
+} from '../../Domain/Common/iconSetConfiguration';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
 import { Observable, of } from 'rxjs';
 import {
-  INITIAL_DOMAIN_NAME,
+  INITIAL_ICON_SET_NAME,
   SNACKBAR_DURATION,
   SNACKBAR_SUCCESS,
 } from '../../Domain/Common/constants';
@@ -21,12 +21,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 
-describe('DomainCustomizationService', () => {
-  let service: DomainCustomizationService;
+describe(IconSetCustomizationService.name, () => {
+  let service: IconSetCustomizationService;
 
   let matSnackbarSpy: jasmine.SpyObj<MatSnackBar>;
   let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
-  let configurationServiceSpy: jasmine.SpyObj<DomainConfigurationService>;
+  let configurationServiceSpy: jasmine.SpyObj<IconSetConfigurationService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
 
   beforeEach(() => {
@@ -69,9 +69,9 @@ describe('DomainCustomizationService', () => {
           useValue: matSnackbarMock,
         },
         MockProvider(ImportDomainStoryService, {
-          get importedConfigurationEvent(): Observable<DomainConfiguration> {
-            const domainConfiguration: DomainConfiguration = {
-              name: INITIAL_DOMAIN_NAME,
+          get importedConfigurationEvent(): Observable<IconSetConfiguration> {
+            const domainConfiguration: IconSetConfiguration = {
+              name: INITIAL_ICON_SET_NAME,
               actors: new Dictionary(),
               workObjects: new Dictionary(),
             };
@@ -83,7 +83,7 @@ describe('DomainCustomizationService', () => {
           useValue: iconDictionaryMock,
         },
         {
-          provide: DomainConfigurationService,
+          provide: IconSetConfigurationService,
           useValue: configurationServiceMock,
         },
         {
@@ -97,8 +97,8 @@ describe('DomainCustomizationService', () => {
       IconDictionaryService,
     ) as jasmine.SpyObj<IconDictionaryService>;
     configurationServiceSpy = TestBed.inject(
-      DomainConfigurationService,
-    ) as jasmine.SpyObj<DomainConfigurationService>;
+      IconSetConfigurationService,
+    ) as jasmine.SpyObj<IconSetConfigurationService>;
     storageServiceSpy = TestBed.inject(
       StorageService,
     ) as jasmine.SpyObj<StorageService>;
@@ -110,17 +110,17 @@ describe('DomainCustomizationService', () => {
       new Dictionary(),
     );
     configurationServiceSpy.getCurrentConfigurationNamesWithoutPrefix.and.returnValue(
-      structuredClone(testCustomDomainConfiguration),
+      structuredClone(testCustomIconSetConfiguration),
     );
     configurationServiceSpy.createMinimalConfigurationWithDefaultIcons.and.returnValue(
       {
-        name: INITIAL_DOMAIN_NAME,
+        name: INITIAL_ICON_SET_NAME,
         actors: new Dictionary(),
         workObjects: new Dictionary(),
       },
     );
 
-    service = TestBed.inject(DomainCustomizationService);
+    service = TestBed.inject(IconSetCustomizationService);
   });
 
   it('should be created', () => {
@@ -137,8 +137,8 @@ describe('DomainCustomizationService', () => {
     workobjects.add('', 'Document');
     workobjects.add('TestValue2 - The Testening', 'TestWorkObject');
 
-    const customConfig: DomainConfiguration = {
-      name: INITIAL_DOMAIN_NAME,
+    const customConfig: IconSetConfiguration = {
+      name: INITIAL_ICON_SET_NAME,
       actors: actors,
       workObjects: workobjects,
     };
@@ -157,7 +157,7 @@ describe('DomainCustomizationService', () => {
       expect(selectedWorkObjects).toContain('Document');
       expect(selectedWorkObjects).toContain('TestWorkObject');
 
-      expect(storageServiceSpy.setStoredDomainConfiguration).toHaveBeenCalled();
+      expect(storageServiceSpy.setStoredIconSetConfiguration).toHaveBeenCalled();
 
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('Person');
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('TestActor');
@@ -201,7 +201,7 @@ describe('DomainCustomizationService', () => {
 
   describe('reset Domain', () => {
     it('should call correct function', () => {
-      service.resetDomain();
+      service.resetIconSet();
 
       expect(
         configurationServiceSpy.createMinimalConfigurationWithDefaultIcons,

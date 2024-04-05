@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import { Configuration } from 'src/app/Domain/Common/configuration';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
-import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
+import { IconSetConfiguration } from 'src/app/Domain/Common/iconSetConfiguration';
 import { elementTypes } from 'src/app/Domain/Common/elementTypes';
 import {
   defaultConf,
@@ -11,7 +11,7 @@ import {
 import {
   allIcons,
   appendedIcons,
-} from 'src/app/Domain/Domain-Configuration/allIcons';
+} from 'src/app/Domain/Icon-Set-Configuration/allIcons';
 import { getNameFromType } from '../../Utils/naming';
 import { sanitizeIconName } from '../../Utils/sanitizer';
 
@@ -27,7 +27,7 @@ export class IconDictionaryService {
   private allIconDictionary = new Dictionary();
   private iconDictionaryForBPMN = new Dictionary();
 
-  private customConfiguration?: DomainConfiguration;
+  private customConfiguration?: IconSetConfiguration;
 
   private readonly iconConfig: IconConfiguration;
 
@@ -111,8 +111,7 @@ export class IconDictionaryService {
   }
 
   /** Load Icons from Configuration **/
-
-  addIconsFromDomainConfiguration(
+  addIconsFromIconSetConfiguration(
     dictionaryType: elementTypes,
     iconTypes: string[],
   ): void {
@@ -160,13 +159,13 @@ export class IconDictionaryService {
     workObjectIcons: BusinessObject[],
   ) {
     if (!this.allInTypeDictionary(elementTypes.ACTOR, actorIcons)) {
-      this.addIconsFromDomainConfiguration(
+      this.addIconsFromIconSetConfiguration(
         elementTypes.ACTOR,
         actorIcons.map((element) => getNameFromType(element.type)),
       );
     }
     if (!this.allInTypeDictionary(elementTypes.WORKOBJECT, workObjectIcons)) {
-      this.addIconsFromDomainConfiguration(
+      this.addIconsFromIconSetConfiguration(
         elementTypes.WORKOBJECT,
         workObjectIcons.map((element) => getNameFromType(element.type)),
       );
@@ -204,7 +203,7 @@ export class IconDictionaryService {
   updateIconRegistries(
     actors: BusinessObject[],
     workObjects: BusinessObject[],
-    config: DomainConfiguration,
+    config: IconSetConfiguration,
   ): void {
     const elements: BusinessObject[] = [];
 
@@ -387,7 +386,7 @@ export class IconDictionaryService {
     return this.iconConfig;
   }
 
-  setCustomConfiguration(customConfiguration: DomainConfiguration): void {
+  setCustomConfiguration(customConfiguration: IconSetConfiguration): void {
     this.customConfiguration = customConfiguration;
   }
 }

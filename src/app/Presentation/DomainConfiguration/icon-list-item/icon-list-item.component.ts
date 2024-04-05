@@ -1,7 +1,7 @@
 import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
-import { IconListItem } from '../../../Domain/Domain-Configuration/iconListItem';
+import { IconListItem } from '../../../Domain/Icon-Set-Configuration/iconListItem';
 import { BehaviorSubject } from 'rxjs';
-import { DomainCustomizationService } from '../../../Service/DomainConfiguration/domain-customization.service';
+import { IconSetCustomizationService } from '../../../Service/IconSetConfiguration/icon-set-customization.service';
 
 @Component({
   selector: 'app-icon-list-item',
@@ -29,7 +29,7 @@ export class IconListItemComponent implements OnInit, AfterViewChecked {
     return 'domain-configuration-icon-' + this.iconName;
   }
 
-  constructor(private domainCustomizationService: DomainCustomizationService) {}
+  constructor(private domainCustomizationService: IconSetCustomizationService) {}
 
   ngOnInit(): void {
     this.icon = this.domainCustomizationService.getIconForName(this.iconName);

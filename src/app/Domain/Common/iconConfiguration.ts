@@ -1,11 +1,11 @@
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
-import { overrideAppendedIcons } from 'src/app/Domain/Domain-Configuration/allIcons';
+import { overrideAppendedIcons } from 'src/app/Domain/Icon-Set-Configuration/allIcons';
 import { Configuration } from 'src/app/Domain/Common/configuration';
-import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
-import { INITIAL_DOMAIN_NAME } from './constants';
+import { IconSetConfiguration } from 'src/app/Domain/Common/iconSetConfiguration';
+import { INITIAL_ICON_SET_NAME } from './constants';
 
 export class IconConfiguration {
-  domainName = INITIAL_DOMAIN_NAME;
+  domainName = INITIAL_ICON_SET_NAME;
 
   private allIconDictionary: Dictionary;
 
@@ -51,7 +51,7 @@ export class IconConfiguration {
     overrideAppendedIcons(appen);
   }
 
-  createCustomConf(domainConfiguration: DomainConfiguration): Configuration {
+  createCustomConf(domainConfiguration: IconSetConfiguration): Configuration {
     this.domainName = domainConfiguration.name;
 
     let actors = domainConfiguration.actors;

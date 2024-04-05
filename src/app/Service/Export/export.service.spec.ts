@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ExportService } from 'src/app/Service/Export/export.service';
 import { HtmlPresentationService } from './html-presentation.service';
 import { MockService } from 'ng-mocks';
-import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
+import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
 import { PngService } from './png.service';
 import { SvgService } from './svg.service';
 import { RendererService } from '../Renderer/renderer.service';
@@ -19,8 +19,8 @@ describe('ExportService', () => {
           useValue: MockService(HtmlPresentationService),
         },
         {
-          provide: DomainConfigurationService,
-          useValue: MockService(DomainConfigurationService),
+          provide: IconSetConfigurationService,
+          useValue: MockService(IconSetConfigurationService),
         },
         {
           provide: PngService,

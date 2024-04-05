@@ -7,7 +7,7 @@ import {
 } from '../../Domain/Common/constants';
 import { environment } from '../../../environments/environment';
 
-describe('TitleService', () => {
+describe(TitleService.name, () => {
   let service: TitleService;
 
   beforeEach(() => {
@@ -28,7 +28,7 @@ describe('TitleService', () => {
     expect(service.getTitle()).toEqual(INITIAL_TITLE);
   });
 
-  // allowUndo is untestable due to it's interaction with the commandStack
+  // allowUndo is untestable due to it is interaction with the commandStack
   // implicitly tests updateTitle & updateDescription
   describe('updateTitleAndDescription', () => {
     it('should update title', () => {

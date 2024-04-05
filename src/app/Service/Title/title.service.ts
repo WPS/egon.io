@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
   INITIAL_DESCRIPTION,
-  INITIAL_DOMAIN_NAME,
+  INITIAL_ICON_SET_NAME,
   INITIAL_TITLE,
 } from '../../Domain/Common/constants';
 import { CommandStackService } from '../CommandStack/command-stack.service';
@@ -14,13 +14,13 @@ import { CommandStackService } from '../CommandStack/command-stack.service';
 export class TitleService {
   private titleSubject = new BehaviorSubject<string>(INITIAL_TITLE);
   private descriptionSubject = new BehaviorSubject<string>(INITIAL_DESCRIPTION);
-  private domainNameSubject = new BehaviorSubject<string>(INITIAL_DOMAIN_NAME);
+  private iconSetNameSubject = new BehaviorSubject<string>(INITIAL_ICON_SET_NAME);
   private showDescriptionSubject = new BehaviorSubject<boolean>(true);
 
   title$ = this.titleSubject.asObservable();
   description$ = this.descriptionSubject.asObservable();
   showDescription$ = this.showDescriptionSubject.asObservable();
-  domainName$ = this.domainNameSubject.asObservable();
+  iconSetName$ = this.iconSetNameSubject.asObservable();
 
   constructor(private commandStackService: CommandStackService) {}
 
@@ -59,8 +59,8 @@ export class TitleService {
     this.showDescriptionSubject.next(show);
   }
 
-  setDomainName(name: string): void {
-    this.domainNameSubject.next(name);
+  setIconSetName(name: string): void {
+    this.iconSetNameSubject.next(name);
   }
 
   getTitle(): string {
@@ -71,8 +71,8 @@ export class TitleService {
     return this.descriptionSubject.value;
   }
 
-  getDomainName(): string {
-    return this.domainNameSubject.value;
+  getIconSetName(): string {
+    return this.iconSetNameSubject.value;
   }
 
   getVersion(): string {

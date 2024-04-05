@@ -17,14 +17,14 @@ import { TitleService } from 'src/app/Service/Title/title.service';
 import { LabelDictionaryService } from 'src/app/Service/LabelDictionary/label-dictionary.service';
 import { ReplayService } from 'src/app/Service/Replay/replay.service';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
-import { DomainConfigurationService } from 'src/app/Service/DomainConfiguration/domain-configuration.service';
+import { IconSetConfigurationService } from 'src/app/Service/IconSetConfiguration/icon-set-configuration.service';
 import { MassNamingService } from 'src/app/Service/LabelDictionary/mass-naming.service';
 import { InfoDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/info-dialog.component';
 import { ExportDialogComponent } from 'src/app/Presentation/Dialog/export-dialog/export-dialog.component';
 import { ActivityDialogComponent } from 'src/app/Presentation/Dialog/activity-dialog/activity-dialog.component';
 import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HeaderDialogComponent } from 'src/app/Presentation/Dialog/header-dialog/header-dialog.component';
-import { IconDictionaryService } from 'src/app/Service/DomainConfiguration/icon-dictionary.service';
+import { IconDictionaryService } from 'src/app/Service/IconSetConfiguration/icon-dictionary.service';
 import { ModelerComponent } from 'src/app/Presentation/Canvas/modeler.component';
 import { SettingsModule } from 'src/app/Modules/settings.module';
 import { AutosaveService } from './Service/Autosave/autosave.service';
@@ -62,7 +62,7 @@ import { MaterialModule } from './material.module';
     LabelDictionaryService,
     ReplayService,
     ElementRegistryService,
-    DomainConfigurationService,
+    IconSetConfigurationService,
     ModelerService,
     MassNamingService,
     UntypedFormBuilder,

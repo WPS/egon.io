@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { RendererService } from './renderer.service';
 import { ModelerService } from '../Modeler/modeler.service';
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
-import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
+import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
 import { DirtyFlagService } from '../DirtyFlag/dirty-flag.service';
-import { DomainConfiguration } from '../../Domain/Common/domainConfiguration';
+import { IconSetConfiguration } from '../../Domain/Common/iconSetConfiguration';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 
 describe('RendererService', () => {
@@ -79,7 +79,7 @@ describe('RendererService', () => {
   });
 
   describe('importStory', () => {
-    const domainConfig: DomainConfiguration = {
+    const domainConfig: IconSetConfiguration = {
       name: 'test',
       actors: new Dictionary(),
       workObjects: new Dictionary(),

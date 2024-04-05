@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { assign } from 'min-dash';
 import DomainStoryModeler from 'src/app/Modeler';
-import { DomainConfiguration } from 'src/app/Domain/Common/domainConfiguration';
+import { IconSetConfiguration } from 'src/app/Domain/Common/iconSetConfiguration';
 import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
-import { IconDictionaryService } from '../DomainConfiguration/icon-dictionary.service';
-import { DomainConfigurationService } from '../DomainConfiguration/domain-configuration.service';
+import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
+import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
 import { BusinessObject } from '../../Domain/Common/businessObject';
 import { StorageService } from '../BrowserStorage/storage.service';
 
@@ -17,7 +17,7 @@ export class ModelerService {
     private initializerService: InitializerService,
     private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService,
-    private domainConfigurationService: DomainConfigurationService,
+    private domainConfigurationService: IconSetConfigurationService,
     private storageService: StorageService,
   ) {}
 
@@ -32,7 +32,7 @@ export class ModelerService {
 
   postInit(): void {
     const storedDomainConfiguration =
-      this.storageService.getStoredDomainConfiguration();
+      this.storageService.getStoredIconSetConfiguration();
     if (storedDomainConfiguration) {
       this.iconDictionaryService.setCustomConfiguration(
         storedDomainConfiguration,
@@ -94,7 +94,7 @@ export class ModelerService {
   }
 
   restart(
-    domainConfiguration?: DomainConfiguration,
+    domainConfiguration?: IconSetConfiguration,
     domainStory?: BusinessObject[],
   ): void {
     const currentStory =
@@ -104,10 +104,10 @@ export class ModelerService {
             .createObjectListForDSTDownload()
             .map((e) => e.businessObject);
     if (!domainConfiguration) {
-      domainConfiguration = this.storageService.getStoredDomainConfiguration();
+      domainConfiguration = this.storageService.getStoredIconSetConfiguration();
     }
     if (domainConfiguration) {
-      this.storageService.setStoredDomainConfiguration(domainConfiguration);
+      this.storageService.setStoredIconSetConfiguration(domainConfiguration);
       this.iconDictionaryService.setCustomConfiguration(domainConfiguration);
       this.domainConfigurationService.loadConfiguration(domainConfiguration);
     }

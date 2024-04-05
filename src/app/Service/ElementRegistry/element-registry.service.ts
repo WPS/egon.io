@@ -4,7 +4,7 @@ import { elementTypes } from 'src/app/Domain/Common/elementTypes';
 import { CanvasObject } from 'src/app/Domain/Common/canvasObject';
 import { GroupCanvasObject } from '../../Domain/Common/groupCanvasObject';
 import { ActivityCanvasObject } from '../../Domain/Common/activityCanvasObject';
-import { UsedIconList } from 'src/app/Domain/Domain-Configuration/UsedIconList';
+import { UsedIconList } from 'src/app/Domain/Icon-Set-Configuration/UsedIconList';
 
 @Injectable({
   providedIn: 'root',
