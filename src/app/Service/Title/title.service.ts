@@ -41,9 +41,14 @@ export class TitleService {
     this.updateTitleAndDescription(INITIAL_TITLE, INITIAL_DESCRIPTION, false);
   }
 
-  private updateTitle(title: string | null): void {
-    this.titleSubject.next(title ?? this.titleSubject.value);
-    document.title = title ?? this.titleSubject.value + ' - egon.io';
+  private updateTitle(inputTitle: string | null): void {
+    const title =
+      !inputTitle || inputTitle.trim().length === 0
+        ? INITIAL_TITLE
+        : inputTitle;
+
+    this.titleSubject.next(title);
+    document.title = title === INITIAL_TITLE ? 'egon.io' : title;
   }
 
   private updateDescription(description: string | null): void {
