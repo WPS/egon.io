@@ -101,20 +101,17 @@ export class HeaderButtonsComponent {
       const EGNDownloadOption = new ExportOption(
         'EGN',
         'Download an EGN-File with the Domain-Story. Can be used to save and share your Domain-Story.',
-        (withTitle: boolean, useWhiteBackground: boolean) =>
-          this.exportService.downloadDST()
+        () => this.exportService.downloadDST()
       );
       const PNGDownloadOption = new ExportOption(
         'PNG',
-        'Donwload a PNG-Image of the DOmain-Story. This does not include the Domain-Story!',
-        (withTitle: boolean, useWhiteBackground: boolean) =>
-          this.exportService.downloadPNG(withTitle)
+        'Download a PNG-Image of the Domain-Story. This does not include the Domain-Story!',
+        (withTitle: boolean) => this.exportService.downloadPNG(withTitle)
       );
       const HTMLDownloadOption = new ExportOption(
         'HTML-Presentation',
         'Download an HTML-Presentation. This does not include the Domain-Story!',
-        (withTitle: boolean, useWhiteBackground: boolean) =>
-          this.exportService.downloadHTMLPresentation()
+        () => this.exportService.downloadHTMLPresentation()
       );
 
       const config = new MatDialogConfig();
