@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      deploy_prod:
+        description: "Deploy v2 prod"
+        required: true
+        type: boolean
 
 jobs:
   dependencies:
@@ -73,7 +78,8 @@ jobs:
             README.md
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
 
-  deploy-website:
+  deploy-website-latest:
+    if: inputs.deploy_prod == false
     runs-on: ubuntu-latest
     needs: [ build ]
     steps:
@@ -82,8 +88,8 @@ jobs:
       - run: |
           sed -i -E "s/version:\s'[0-9]+\.[0-9]+\.[0-9]+'/version: '${{ github.sha }}'/" src/environments/environment.prod.ts
           sed -i -E "s/\"version\":\s\"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"${{ github.sha }}\"/" package.json
-          # Looks the production build does not work
-          npm run build:dev
+          # Rebuilding with new config
+          npm run build
 
           CLONE_DIR=$(mktemp -d)
 
@@ -98,6 +104,35 @@ jobs:
           cd "${CLONE_DIR}"
           git add .
           git commit -m "Deploy latest build"
+          git push
+
+  deploy-website-prod:
+    if: inputs.deploy_prod == true
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup_environment
+      - name: Load cache build
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            dist_build
+          key: build-${{ github.sha }}
+      - run: |
+          CLONE_DIR=$(mktemp -d)
+
+          git config --global user.email "development@egon.io"
+          git config --global user.name "Egon.io Bot"
+          git clone --single-branch --branch main "https://x-access-token:${{ secrets.EGON_IO_DEPLOYMENT_PAT }}@github.com/WPS/egon.io-website.git" "${CLONE_DIR}"
+
+          rm -r "${CLONE_DIR}/app-v2"
+          mkdir "${CLONE_DIR}/app-v2"
+          cp -r dist_build/egon/* "${CLONE_DIR}/app-v2"
+
+          cd "${CLONE_DIR}"
+          git add .
+          git commit -m "Deploy production build"
           git push
 
   publish-image:
