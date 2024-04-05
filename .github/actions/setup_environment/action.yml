@@ -5,7 +5,7 @@ runs:
   steps:
     - uses: actions/setup-node@v4
       with:
-        node-version: 16
+        node-version: 18
     - name: Load cache
       uses: actions/cache/restore@v3
       with:
