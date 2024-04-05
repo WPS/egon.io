@@ -80,11 +80,11 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "egon:build"
+            "buildTarget": "egon:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "egon:build:production"
+              "buildTarget": "egon:build:production"
             }
           }
         },
