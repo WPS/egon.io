@@ -7,8 +7,8 @@ runs:
       with:
         node-version: 18
     - name: Load cache
-      uses: actions/cache/restore@v3
+      uses: actions/cache/restore@v4
       with:
         path: |
           node_modules
-        key: node_modules-${{ github.sha }}
+        key: node_modules

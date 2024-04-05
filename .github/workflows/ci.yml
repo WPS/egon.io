@@ -21,11 +21,11 @@ jobs:
       - name: Install latest updates
         run: npm ci
       - name: Save cache
-        uses: actions/cache/save@v3
+        uses: actions/cache/save@v4
         with:
           path: |
             node_modules
-          key: node_modules-${{ github.sha }}
+          key: node_modules
 
   test:
     runs-on: ubuntu-latest
@@ -51,7 +51,7 @@ jobs:
       - uses: ./.github/actions/setup_environment
       - run: npm run build
       - name: Cache build
-        uses: actions/cache/save@v3
+        uses: actions/cache/save@v4
         with:
           path: |
             dist_build
@@ -64,7 +64,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup_environment
       - name: Load build cache
-        uses: actions/cache/restore@v3
+        uses: actions/cache/restore@v4
         with:
           path: |
             dist_build
