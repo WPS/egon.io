@@ -25,7 +25,7 @@ jobs:
         with:
           path: |
             node_modules
-          key: node_modules
+          key: node_modules-${{ github.run_id }}
 
   test:
     runs-on: ubuntu-latest
