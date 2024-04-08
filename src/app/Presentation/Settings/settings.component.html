@@ -9,9 +9,9 @@
       <div class="paddedButton">
         <button
           class="headerButton mr-10"
-          [class.highlight]="showDomainCustomization | async"
+          [class.highlight]="showIconSetCustomization | async"
           mat-button
-          (click)="openDomainCustomization()"
+          (click)="openIconSetCustomization()"
         >
           <span class="headline">Customize Icons for Your Domain</span>
         </button>
@@ -31,7 +31,7 @@
     *ngIf="showGeneralSettings | async"
   ></app-general-settings>
   <app-icon-set-configuration
-    *ngIf="showDomainCustomization | async"
+    *ngIf="showIconSetCustomization | async"
     class="tab"
   ></app-icon-set-configuration>
 </div>

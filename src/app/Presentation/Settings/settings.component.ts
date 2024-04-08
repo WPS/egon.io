@@ -14,17 +14,17 @@ import { IconSetCustomizationService } from '../../Service/IconSetConfiguration/
 export class SettingsComponent {
   iconSetConfiguration: IconSetConfiguration | undefined;
   showGeneralSettings = new BehaviorSubject<boolean>(false);
-  showDomainCustomization = new BehaviorSubject<boolean>(true);
+  showIconSetCustomization = new BehaviorSubject<boolean>(true);
 
   constructor(
     private settingsService: SettingsService,
     private modelerService: ModelerService,
-    private domainCustomizationService: IconSetCustomizationService,
+    private iconSetCustomizationService: IconSetCustomizationService,
   ) {}
 
   close(): void {
     const savedConfiguration =
-      this.domainCustomizationService.getAndClearSavedConfiguration();
+      this.iconSetCustomizationService.getAndClearSavedConfiguration();
     if (savedConfiguration) {
       this.modelerService.restart(savedConfiguration);
     }
@@ -33,11 +33,11 @@ export class SettingsComponent {
 
   openGeneralSettings() {
     this.showGeneralSettings.next(true);
-    this.showDomainCustomization.next(false);
+    this.showIconSetCustomization.next(false);
   }
 
-  openDomainCustomization() {
+  openIconSetCustomization() {
     this.showGeneralSettings.next(false);
-    this.showDomainCustomization.next(true);
+    this.showIconSetCustomization.next(true);
   }
 }

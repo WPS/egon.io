@@ -30,11 +30,11 @@ export class IconListItemComponent implements OnInit, AfterViewChecked {
   }
 
   constructor(
-    private domainCustomizationService: IconSetCustomizationService,
+    private iconSetCustomizationService: IconSetCustomizationService,
   ) {}
 
   ngOnInit(): void {
-    this.icon = this.domainCustomizationService.getIconForName(this.iconName);
+    this.icon = this.iconSetCustomizationService.getIconForName(this.iconName);
     if (!this.icon) {
       return;
     }
@@ -62,17 +62,17 @@ export class IconListItemComponent implements OnInit, AfterViewChecked {
   }
 
   toggleNone() {
-    this.domainCustomizationService.setAsUnassigned(
+    this.iconSetCustomizationService.setAsUnassigned(
       this.iconName,
       this.icon.value.isActor,
     );
   }
 
   toggleActor(): void {
-    this.domainCustomizationService.setAsActor(true, this.iconName);
+    this.iconSetCustomizationService.setAsActor(true, this.iconName);
   }
 
   toggleWorkobject(): void {
-    this.domainCustomizationService.setAsWorkobject(true, this.iconName);
+    this.iconSetCustomizationService.setAsWorkobject(true, this.iconName);
   }
 }
