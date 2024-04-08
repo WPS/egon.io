@@ -48,9 +48,9 @@ describe(IconSetCustomizationService.name, () => {
         'getCurrentConfigurationNamesWithoutPrefix',
       ],
     );
-    const storageServiceMock = jasmine.createSpyObj('StorageService', [
-      'setStoredDomainConfiguration',
-      'getStoredDomainConfiguration',
+    const storageServiceMock = jasmine.createSpyObj(StorageService.name, [
+      'setStoredIconSetConfiguration',
+      'getStoredIconSetConfiguration',
     ]);
     const elementRegistryServiceMock = jasmine.createSpyObj(
       'ElementRegistryService',
