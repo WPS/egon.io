@@ -51,11 +51,11 @@ export class IconConfiguration {
     overrideAppendedIcons(appen);
   }
 
-  createCustomConf(domainConfiguration: IconSetConfiguration): Configuration {
-    this.domainName = domainConfiguration.name;
+  createCustomConf(iconSetConfiguration: IconSetConfiguration): Configuration {
+    this.domainName = iconSetConfiguration.name;
 
-    let actors = domainConfiguration.actors;
-    let workObjects = domainConfiguration.workObjects;
+    let actors = iconSetConfiguration.actors;
+    let workObjects = iconSetConfiguration.workObjects;
 
     this.appendSRCFile(
       actors.keysArray(),

@@ -17,7 +17,7 @@ export class ModelerService {
     private initializerService: InitializerService,
     private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService,
-    private domainConfigurationService: IconSetConfigurationService,
+    private iconSetConfigurationService: IconSetConfigurationService,
     private storageService: StorageService,
   ) {}
 
@@ -31,14 +31,14 @@ export class ModelerService {
   private encoded: string | undefined;
 
   postInit(): void {
-    const storedDomainConfiguration =
+    const storedIconSetConfiguration =
       this.storageService.getStoredIconSetConfiguration();
-    if (storedDomainConfiguration) {
+    if (storedIconSetConfiguration) {
       this.iconDictionaryService.setCustomConfiguration(
-        storedDomainConfiguration,
+        storedIconSetConfiguration,
       );
-      this.domainConfigurationService.loadConfiguration(
-        storedDomainConfiguration,
+      this.iconSetConfigurationService.loadConfiguration(
+        storedIconSetConfiguration,
       );
     }
     this.initializerService.initializeDomainStoryModelerClasses();
@@ -94,7 +94,7 @@ export class ModelerService {
   }
 
   restart(
-    domainConfiguration?: IconSetConfiguration,
+    iconSetConfiguration?: IconSetConfiguration,
     domainStory?: BusinessObject[],
   ): void {
     const currentStory =
@@ -103,13 +103,14 @@ export class ModelerService {
         : this.elementRegistryService
             .createObjectListForDSTDownload()
             .map((e) => e.businessObject);
-    if (!domainConfiguration) {
-      domainConfiguration = this.storageService.getStoredIconSetConfiguration();
+    if (!iconSetConfiguration) {
+      iconSetConfiguration =
+        this.storageService.getStoredIconSetConfiguration();
     }
-    if (domainConfiguration) {
-      this.storageService.setStoredIconSetConfiguration(domainConfiguration);
-      this.iconDictionaryService.setCustomConfiguration(domainConfiguration);
-      this.domainConfigurationService.loadConfiguration(domainConfiguration);
+    if (iconSetConfiguration) {
+      this.storageService.setStoredIconSetConfiguration(iconSetConfiguration);
+      this.iconDictionaryService.setCustomConfiguration(iconSetConfiguration);
+      this.iconSetConfigurationService.loadConfiguration(iconSetConfiguration);
     }
 
     this.elementRegistryService.clear();

@@ -62,7 +62,7 @@ export class InitializerService {
       this.iconDictionaryService,
     );
     /** The Palette and the Context Menu need the Icons present in the Domain,
-     * so the IconDictionaryService and the DomainConfigurationService needs to be given to the Palette **/
+     * so the IconDictionaryService and the IconSetConfigurationService needs to be given to the Palette **/
     initializePalette(this.iconDictionaryService, this.configurationService);
     initializeRenderer(
       this.iconDictionaryService,

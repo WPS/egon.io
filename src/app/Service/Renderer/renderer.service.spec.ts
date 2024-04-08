@@ -28,8 +28,8 @@ describe('RendererService', () => {
     const dirtyFlagServiceMock = jasmine.createSpyObj('DirtyFlagService', [
       'makeClean',
     ]);
-    const domainConfigurationServiceMock = jasmine.createSpyObj(
-      'DomainConfigurationService',
+    const iconSetConfigurationServiceMock = jasmine.createSpyObj(
+      IconSetConfigurationService.name,
       ['getNewIconConfiguration'],
     );
 
@@ -79,7 +79,7 @@ describe('RendererService', () => {
   });
 
   describe('importStory', () => {
-    const domainConfig: IconSetConfiguration = {
+    const iconSetConfig: IconSetConfiguration = {
       name: 'test',
       actors: new Dictionary(),
       workObjects: new Dictionary(),
@@ -97,7 +97,7 @@ describe('RendererService', () => {
     });
 
     it('should call correct functions - configHasChanged and makeClean', () => {
-      service.importStory([], true, domainConfig);
+      service.importStory([], true, iconSetConfig);
 
       expect(modelerServiceSpy.restart).toHaveBeenCalled();
       expect(elementRegistryServiceSpy.correctInitialize).toHaveBeenCalledTimes(
@@ -109,7 +109,7 @@ describe('RendererService', () => {
     });
 
     it('should call correct functions - configHasChanged and not makeClean', () => {
-      service.importStory([], true, domainConfig, false);
+      service.importStory([], true, iconSetConfig, false);
 
       expect(modelerServiceSpy.restart).toHaveBeenCalled();
       expect(elementRegistryServiceSpy.correctInitialize).toHaveBeenCalledTimes(

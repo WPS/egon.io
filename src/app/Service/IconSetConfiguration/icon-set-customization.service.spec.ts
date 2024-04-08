@@ -70,12 +70,12 @@ describe(IconSetCustomizationService.name, () => {
         },
         MockProvider(ImportDomainStoryService, {
           get importedConfigurationEvent(): Observable<IconSetConfiguration> {
-            const domainConfiguration: IconSetConfiguration = {
+            const iconSetConfiguration: IconSetConfiguration = {
               name: INITIAL_ICON_SET_NAME,
               actors: new Dictionary(),
               workObjects: new Dictionary(),
             };
-            return of(domainConfiguration);
+            return of(iconSetConfiguration);
           },
         }),
         {

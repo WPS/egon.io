@@ -12,7 +12,7 @@ import { IconSetCustomizationService } from '../../Service/IconSetConfiguration/
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-  domainConfiguration: IconSetConfiguration | undefined;
+  iconSetConfiguration: IconSetConfiguration | undefined;
   showGeneralSettings = new BehaviorSubject<boolean>(false);
   showDomainCustomization = new BehaviorSubject<boolean>(true);
 

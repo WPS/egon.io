@@ -91,7 +91,7 @@ describe('IconDictionaryService', () => {
     });
   });
 
-  describe('addIconsFromDomainConfiguration', () => {
+  describe('addIconsFromIconSetConfiguration', () => {
     it('add icons to ActorDictionary', () => {
       const type = 'Hotel';
       expect(service.getActorsDictionary().has(type)).toBeFalsy();

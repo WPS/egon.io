@@ -46,7 +46,7 @@ export class ImportDomainStoryService implements OnDestroy {
     private titleService: TitleService,
     private rendererService: RendererService,
     private dialogService: DialogService,
-    private domainConfigurationService: IconSetConfigurationService,
+    private iconSetConfigurationService: IconSetConfigurationService,
     private snackbar: MatSnackBar,
   ) {
     this.titleSubscription = this.titleService.title$.subscribe(
@@ -155,7 +155,7 @@ export class ImportDomainStoryService implements OnDestroy {
           // implementation prior to configuration
           elements = JSON.parse(dstText);
           config =
-            this.domainConfigurationService.createMinimalConfigurationWithDefaultIcons();
+            this.iconSetConfigurationService.createMinimalConfigurationWithDefaultIcons();
         }
       }
 
@@ -241,9 +241,9 @@ export class ImportDomainStoryService implements OnDestroy {
     return xmlText;
   }
 
-  checkConfigForChanges(domainConfiguration: IconSetConfiguration): boolean {
-    const newActorKeys = domainConfiguration.actors.keysArray();
-    const newWorkObjectKeys = domainConfiguration.workObjects.keysArray();
+  checkConfigForChanges(iconSetConfiguration: IconSetConfiguration): boolean {
+    const newActorKeys = iconSetConfiguration.actors.keysArray();
+    const newWorkObjectKeys = iconSetConfiguration.workObjects.keysArray();
 
     const currentActorKeys = this.iconDictionaryService.getTypeDictionaryKeys(
       elementTypes.ACTOR,
