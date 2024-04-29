@@ -193,7 +193,7 @@ export class ImportDomainStoryService implements OnDestroy {
       }
 
       this.titleService.updateTitleAndDescription(
-        null,
+        this.title,
         lastElement.info,
         false,
       );
