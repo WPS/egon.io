@@ -74,7 +74,25 @@ export default function DomainStoryRenderer(
       semantic.number = numberStash.number;
     }
 
+    // !IMPORTANT!
+    // When converting svg-files via Inkscape or Photoshop the svg-circle is converted to a black dot that obscures the number.
+    // To circumvent this, we draw a . as the white background and an o as the circle around the number.
+    // There is a minor Bug, that in some Programs the used Font is not supported, which defaults to Arial, where the o is not round but oval.
+    // Unit 3rd Party Tools update their svg-version to 1.2 we should keep this workaround.
+    box.x -= 65;
+    box.y -= 12;
+    renderNumber(parentGfx, ".", backgroundDotStyle(box), element.type);
+    box.x += 30;
+    box.y += 3;
+    renderNumber(parentGfx, "o", backgroundBoxStyle(box), element.type);
+
     numbers[semantic.number] = true;
+    box.x += 9;
+    box.y -= 7;
+
+    if (semantic.number < 10) {
+      box.x += 3;
+    }
 
     let newRenderedNumber = renderNumber(
       parentGfx,
@@ -232,20 +250,7 @@ export default function DomainStoryRenderer(
 
     svgAppend(parentGfx, text);
 
-    drawCircle(parentGfx, options, number.length);
-
     return text;
-  }
-
-  function drawCircle(parentGfx, options, textLength) {
-    const circle = svgCreate("circle");
-    svgAttr(circle, {
-      cx: options.box.x + 15 + textLength * 3,
-      cy: options.box.y - 4,
-      r: "10",
-      style: "fill:transparent;stroke:black;stroke-width:1",
-    });
-    svgAppend(parentGfx, circle);
   }
 
   // the coordinates of the activity label must be set directly and will not be taken from the box
