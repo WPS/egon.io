@@ -34,7 +34,7 @@ export class StoryCreatorService {
     ) {
       this.createSentence(tracedActivityMap, i, story);
     }
-    this.addGroupSentence(story);
+    this.addGroupsToLastSentence(story);
     return story;
   }
 
@@ -118,16 +118,12 @@ export class StoryCreatorService {
       .concat(targetObjects.map((t) => t.businessObject));
   }
 
-  /** Groups should be shown at the End of the Story **/
-  private addGroupSentence(story: StorySentence[]): void {
+  private addGroupsToLastSentence(story: StorySentence[]): void {
     const groups = this.elementRegistryService.getAllGroups() as CanvasObject[];
     if (groups.length > 0) {
-      story.push({
-        highlightedObjects: [],
-        objects: groups
-          .map((g) => g.businessObject)
-          .concat(story[story.length - 1].objects),
-      });
+      story[story.length - 1].objects = story[story.length - 1].objects.concat(
+        groups.map((g) => g.businessObject),
+      );
     }
   }
 }
