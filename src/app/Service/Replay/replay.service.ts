@@ -83,7 +83,7 @@ export class ReplayService {
       } else {
         const sentence = missingSentences.join(', ');
         this.snackbar.open(
-          sentence.length === 1
+          missingSentences.length === 1
             ? `The Domain Story is not complete. Sentence ${sentence} is missing.`
             : `The Domain Story is not complete. Sentences ${sentence} are missing.`,
           undefined,
