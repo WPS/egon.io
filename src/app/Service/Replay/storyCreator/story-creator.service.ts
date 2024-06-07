@@ -69,7 +69,7 @@ export class StoryCreatorService {
     for (let i = 0; i < story.length; i++) {
       if (
         !story[i] ||
-        !(story[i].objects.length > 0) ||
+        story[i].objects.length <= 0 ||
         story[i].highlightedObjects.length === 0 ||
         story[i].objects.filter(
           (element) => element.type === elementTypes.ACTIVITY,
