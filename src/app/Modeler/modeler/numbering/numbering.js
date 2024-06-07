@@ -1,6 +1,5 @@
 "use strict";
 
-import { labelPosition } from "../labeling/position";
 import { angleBetween } from "../../../Utils/mathExtensions";
 
 let numberRegistry = [];
@@ -17,44 +16,56 @@ export function numberBoxDefinitions(element) {
   let alignment = "center";
   let boxWidth = 30;
   let boxHeight = 30;
-  let position = labelPosition(element.waypoints);
   let angle = 0;
   if (element.waypoints.length > 1) {
     angle = angleBetween(
-      element.waypoints[element.waypoints.length - 2],
-      element.waypoints[element.waypoints.length - 1],
+        // Start of first arrow segment
+      element.waypoints[0],
+        // End of first arrow segment
+      element.waypoints[1],
     );
   }
-  let x = position.x;
-  let y = position.y;
+  let x = element.waypoints[0].x;
+  let y = element.waypoints[0].y;
 
-  // TODO: Use trigonometric functions to make the positioning more consistent.
-  // This would require to touch the label code as well.
+  let fixedOffsetX = 0
+  let fixedOffsetY = 0
+  let angleDependantOffsetX = 0
+  let angleDependantOffsetY = 0
+
+  // Fine tune positioning of sequence number above beginning of first arrow segment
   if (angle >= 0 && angle <= 45) {
-    y = y - 30 + angle / 2;
-    x = x - 25 - angle / 2;
+    fixedOffsetX = 25
+    angleDependantOffsetY = 20 * (1 - angle / 45)
   } else if (angle <= 90) {
-    y = y - 10 + (angle - 45) / 4.5;
-    x = x - 35 - angle / 9;
-  } else if (angle <= 145) {
-    y = y + angle / 7.25;
-    x = x - 45 - angle / 14.5;
-  } else if (angle < 180) {
-    y = y + 20 + angle / 9;
-    x = x - 50 + angle / 4.5;
+    fixedOffsetX = 5
+    angleDependantOffsetX = 15 * (1 - (angle - 45) / 45)
+  } else if (angle <= 135) {
+    fixedOffsetX = 5
+    angleDependantOffsetX = -20 * ((angle - 90) / 45)
+  } else if (angle <= 180) {
+    fixedOffsetX = -15
+    angleDependantOffsetY = 20 * ((angle - 135) / 45)
   } else if (angle <= 225) {
-    y = y - 45 + angle / 12.25;
-    x = x + 10 - angle / 6.125;
+    fixedOffsetX = -15
+    fixedOffsetY = 15
+    angleDependantOffsetY = 25 * ((angle - 180) / 45)
   } else if (angle <= 270) {
-    y = y - 80 + angle / 3.375;
-    x = x - 5 - angle / 6.125;
+    fixedOffsetX = 5
+    angleDependantOffsetX = -20 * (1 - (angle - 225) / 45)
+    fixedOffsetY = 40
   } else if (angle <= 315) {
-    y = y - 135 + angle / 2;
-    x = x - 50;
+    fixedOffsetX = 5
+    angleDependantOffsetX = 25 * ((angle - 270) / 45)
+    fixedOffsetY = 40
   } else {
-    y = y + 22.5 + (angle - 315) / 6;
-    x = x - 50 + (angle - 315) / 1.8;
+    fixedOffsetX = 25
+    fixedOffsetY = 20
+    angleDependantOffsetY = 15 * (1 - (angle - 315) / 45)
   }
+
+  x = x + fixedOffsetX + angleDependantOffsetX
+  y = y + fixedOffsetY + angleDependantOffsetY
 
   return {
     textAlign: alignment,
