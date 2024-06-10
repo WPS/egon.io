@@ -24,7 +24,7 @@ There are several deployment options:
 
 ### Deploy Standalone Version (Zip file)
 1. In the package.json and environment.prod.ts update the version-tag appropriately
-2. Run the command **ng build**
+2. Run the command **ng build --configuration production**
    - This should create (or update the contents of) the folder **dist_build**
 3. Run the command **npm run zip**
    - This should create (or update the contents of) the folder **dist** containing a zip.file named *egon-xxx*, where xxx is the name in the version-tag of the package.json
