@@ -37,10 +37,18 @@ export function fromConfigurationFromFile(configFromFile: {
   const actorsDict = new Dictionary();
   const workObjectsDict = new Dictionary();
   Object.keys(configFromFile.actors).forEach((key) => {
-    actorsDict.add(configFromFile.actors[key], key);
+    let icon = configFromFile.actors[key];
+    if (icon) {
+      // make sure the actor has an icon
+      actorsDict.add(icon, key);
+    }
   });
   Object.keys(configFromFile.workObjects).forEach((key) => {
-    workObjectsDict.add(configFromFile.workObjects[key], key);
+    let icon = configFromFile.workObjects[key];
+    if (icon) {
+      // make sure the work object has an icon
+      workObjectsDict.add(icon, key);
+    }
   });
 
   return {

@@ -267,13 +267,10 @@ export class IconDictionaryService {
 
   /** Add new Icon(s) **/
 
-  addNewIconsToDictionary(customIcons: Dictionary) {
+  private addNewIconsToDictionary(customIcons: Dictionary) {
     customIcons.keysArray().forEach((key) => {
       const custom = customIcons.get(key);
-      if (custom != null) {
-        // ignore broken custom icons
-        this.addIMGToIconDictionary(custom.src, key);
-      }
+      this.addIMGToIconDictionary(custom.src, key);
     });
     this.addIconsToCss(customIcons);
   }
