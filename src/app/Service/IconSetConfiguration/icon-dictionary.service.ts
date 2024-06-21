@@ -270,7 +270,10 @@ export class IconDictionaryService {
   addNewIconsToDictionary(customIcons: Dictionary) {
     customIcons.keysArray().forEach((key) => {
       const custom = customIcons.get(key);
-      this.addIMGToIconDictionary(custom.src, key);
+      if (custom != null) {
+        // ignore broken custom icons
+        this.addIMGToIconDictionary(custom.src, key);
+      }
     });
     this.addIconsToCss(customIcons);
   }
