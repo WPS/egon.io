@@ -163,7 +163,8 @@ export class PngService {
 
     this.calculateWidthAndHeight(box);
 
-    const { insertText, extraHeight } = createTitleAndDescriptionSVGElement(
+    const { insertText, dynamicHeightOffset } = createTitleAndDescriptionSVGElement(
+      0,
       title,
       description,
       box.xLeft + 10,
@@ -171,10 +172,10 @@ export class PngService {
       this.width,
     );
     if (withTitle) {
-      this.height += extraHeight;
+      this.height += dynamicHeightOffset;
     }
 
-    const bounds = this.createBounds(box, extraHeight);
+    const bounds = this.createBounds(box, dynamicHeightOffset);
 
     const dataStart = svg.substring(0, viewBoxIndex);
     viewBoxIndex = svg.indexOf('style="');

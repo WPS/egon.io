@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ConfigAndDST } from 'src/app/Domain/Export/configAndDst';
 import { createTitleAndDescriptionSVGElement } from 'src/app/Service/Export/exportUtil';
 import { ModelerService } from '../Modeler/modeler.service';
+import {DEFAULT_PADDING, TEXTSPAN_TITLE_HEIGHT} from "../../Domain/Export/exportConstants";
 
 @Injectable({
   providedIn: 'root',
@@ -20,68 +21,79 @@ export class SvgService {
   ): string {
     this.cacheData = this.modelerService.getEncoded();
 
-    let data = structuredClone(this.cacheData);
+    let domainStorySvg = structuredClone(this.cacheData);
 
-    let viewBoxIndex = data.indexOf('width="');
+    let viewBoxIndex = domainStorySvg.indexOf('width="');
 
-    let { width, height, viewBox } = this.viewBoxCoordinates(data);
 
-    let xLeft: number;
-    let xRight: number;
-    let yUp: number;
-    let yDown: number;
+    let { width, height, viewBox } = this.viewBoxCoordinates(domainStorySvg);
+
+    // The value of the viewBox attribute is a list of four numbers separated by whitespace
+    // and/or a comma: min-x, min-y, width, and height. min-x and min-y represent the smallest
+    // X and Y coordinates that the viewBox may have (the origin coordinates of the viewBox)
+    // and the width and height specify the viewBox size. The resulting viewBox is a
+    // rectangle in user space mapped to the bounds of the viewport of an SVG element.
+    // https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/viewBox
+
+    let min_x: number;
+    let viewBoxWidth: number;
+    let min_y: number;
+    let viewBoxHeight: number;
     const splitViewBox = viewBox.split(/\s/);
 
-    xLeft = +splitViewBox[0];
-    yUp = +splitViewBox[1];
-    xRight = +splitViewBox[2];
-    yDown = +splitViewBox[3];
+    min_x = +splitViewBox[0];
+    min_y = +splitViewBox[1];
+    viewBoxWidth = +splitViewBox[2];
+    viewBoxHeight = +splitViewBox[3];
 
-    if (xRight < 300) {
-      xRight += 300;
+    // Set minimum width to ensure title and description are displayed reasonably
+    if (viewBoxWidth < 300) {
+      viewBoxWidth += 300;
       width += 300;
     }
 
-    const { insertText } = createTitleAndDescriptionSVGElement(
+    const { insertText, dynamicHeightOffset } = createTitleAndDescriptionSVGElement(
+      0,
       title,
       description,
-      xLeft,
-      yUp,
+      min_x,
+      min_y,
       width,
     );
 
     const bounds = this.createBounds(
       width,
       height,
-      xLeft,
-      yUp,
-      xRight,
-      yDown,
+      min_x,
+      min_y,
+      viewBoxWidth,
+      viewBoxHeight,
       withTitle,
+      dynamicHeightOffset
     );
 
-    const dataStart = data.substring(0, viewBoxIndex);
-    viewBoxIndex = data.indexOf('" version');
+    const dataStart = domainStorySvg.substring(0, viewBoxIndex);
+    viewBoxIndex = domainStorySvg.indexOf('" version');
 
-    const dataEnd = data.substring(viewBoxIndex);
+    const dataEnd = domainStorySvg.substring(viewBoxIndex);
     dataEnd.substring(viewBoxIndex);
 
-    data = dataStart + bounds + dataEnd;
+    domainStorySvg = dataStart + bounds + dataEnd;
 
-    const insertIndex = this.findIndexToInsertData(data);
+    const insertIndex = this.findIndexToInsertData(domainStorySvg);
 
     if (withTitle) {
-      data = data.slice(0, insertIndex) + insertText + data.slice(insertIndex);
+      domainStorySvg = domainStorySvg.slice(0, insertIndex) + insertText + domainStorySvg.slice(insertIndex);
     }
 
     if (useWhiteBackground) {
-      const svgIndex = data.indexOf('width="');
+      const svgIndex = domainStorySvg.indexOf('width="');
       const backgroundColorWhite = 'style="background-color:white" ';
-      data =
-        data.slice(0, svgIndex) + backgroundColorWhite + data.slice(svgIndex);
+      domainStorySvg =
+        domainStorySvg.slice(0, svgIndex) + backgroundColorWhite + domainStorySvg.slice(svgIndex);
     }
 
-    return this.appendDST(data, dst);
+    return this.appendDST(domainStorySvg, dst);
   }
 
   private findIndexToInsertData(data: string) {
@@ -97,26 +109,20 @@ export class SvgService {
   private createBounds(
     width: number,
     height: number,
-    xLeft: number,
-    yUp: number,
-    xRight: number,
-    yDown: number,
+    min_x: number,
+    min_y: number,
+    viewBoxWidth: number,
+    viewBoxHeight: number,
     withTitle: boolean,
+    dynamicHeightOffset: number
   ): string {
-    return (
-      'width="' +
-      width +
-      '" height=" ' +
-      height +
-      '" viewBox="' +
-      xLeft +
-      ' ' +
-      (withTitle ? yUp - 80 : yUp) +
-      ' ' +
-      xRight +
-      ' ' +
-      (yDown + 30)
-    );
+
+    height = withTitle ? height + dynamicHeightOffset + TEXTSPAN_TITLE_HEIGHT: height;
+    min_x = min_x - DEFAULT_PADDING;
+    min_y = withTitle ? min_y - dynamicHeightOffset - TEXTSPAN_TITLE_HEIGHT : min_y;
+    viewBoxHeight = withTitle ? viewBoxHeight + dynamicHeightOffset + TEXTSPAN_TITLE_HEIGHT + DEFAULT_PADDING: viewBoxHeight;
+
+    return `width="${width}" height="${height}" viewBox="${min_x} ${min_y} ${viewBoxWidth} ${viewBoxHeight}`;
   }
 
   private viewBoxCoordinates(svg: string): {

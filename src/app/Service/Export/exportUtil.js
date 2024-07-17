@@ -5,32 +5,38 @@ import {
   X_OFFSET_UTIL,
 } from "../../Domain/Export/exportConstants";
 
-let extraHeight = 0;
+let dynamicHeightOffset = 0;
 
 // Has to be js File so we can access te correct non-standard HTML-Properties without excessive usage of ts-ignore
 export function createTitleAndDescriptionSVGElement(
+  initDynamicHeightOffset,
   title,
   description,
   xLeft,
   yUp,
   width,
 ) {
+
+  dynamicHeightOffset = initDynamicHeightOffset
+
   title = title.replace("&lt;", "").replace("&gt;", "");
 
   let titleElement = createTitle(title, width);
+
   let descriptionElement = createDescription(description, width);
 
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
+
   let insertText =
     '<g class="djs-group"><g class="djs-element djs-shape" style = "display:block" transform="translate(' +
     (xLeft - 10) +
     " " +
-    (yUp - extraHeight) +
+    (yUp - dynamicHeightOffset) +
     ')"><g class="djs-visual">' +
     titleElement +
     descriptionElement +
     "</g></g></g>";
-  return { insertText, extraHeight };
+  return { insertText, dynamicHeightOffset: dynamicHeightOffset };
 }
 
 function createTitle(text, width) {
@@ -75,7 +81,7 @@ function createTextSpans(text, width, ctx, yOffset, heightOffset, fontSize) {
   let textNode = document.createTextNode(words[0]);
 
   textSpan.setAttribute("x", X_OFFSET_UTIL);
-  textSpan.setAttribute("y", yOffset + extraHeight);
+  textSpan.setAttribute("y", yOffset + dynamicHeightOffset);
   textSpan.setAttribute("font-size", fontSize);
   textSpan.appendChild(textNode);
 
@@ -85,7 +91,7 @@ function createTextSpans(text, width, ctx, yOffset, heightOffset, fontSize) {
       textNode.data += " " + words[j];
 
       if (ctx.measureText(textNode.data).width > width - 16) {
-        extraHeight += heightOffset;
+        dynamicHeightOffset += heightOffset;
         textSpan.firstChild.data = textSpan.firstChild.data.slice(0, len); // remove overflow word
 
         textSpans += textTag + textSpan.outerHTML + "</text>"; // append line
@@ -94,12 +100,12 @@ function createTextSpans(text, width, ctx, yOffset, heightOffset, fontSize) {
         textSpan = document.createElementNS(SVG_LINK, "tspan");
         textNode = document.createTextNode(words[j]);
         textSpan.setAttribute("x", X_OFFSET_UTIL);
-        textSpan.setAttribute("y", yOffset + extraHeight);
+        textSpan.setAttribute("y", yOffset + dynamicHeightOffset);
         textSpan.appendChild(textNode);
       }
     }
   }
-  extraHeight += heightOffset;
+  dynamicHeightOffset += heightOffset;
 
   textSpans += textTag + textSpan.outerHTML + "</text>";
   return textSpans;
