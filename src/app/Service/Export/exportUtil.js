@@ -16,8 +16,7 @@ export function createTitleAndDescriptionSVGElement(
   yUp,
   width,
 ) {
-
-  dynamicHeightOffset = initDynamicHeightOffset
+  dynamicHeightOffset = initDynamicHeightOffset;
 
   title = title.replace("&lt;", "").replace("&gt;", "");
 

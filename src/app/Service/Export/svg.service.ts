@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { ConfigAndDST } from 'src/app/Domain/Export/configAndDst';
 import { createTitleAndDescriptionSVGElement } from 'src/app/Service/Export/exportUtil';
 import { ModelerService } from '../Modeler/modeler.service';
-import {DEFAULT_PADDING, TEXTSPAN_TITLE_HEIGHT} from "../../Domain/Export/exportConstants";
+import {
+  DEFAULT_PADDING,
+  TEXTSPAN_TITLE_HEIGHT,
+} from '../../Domain/Export/exportConstants';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +27,6 @@ export class SvgService {
     let domainStorySvg = structuredClone(this.cacheData);
 
     let viewBoxIndex = domainStorySvg.indexOf('width="');
-
 
     let { width, height, viewBox } = this.viewBoxCoordinates(domainStorySvg);
 
@@ -52,14 +54,15 @@ export class SvgService {
       width += 300;
     }
 
-    const { insertText, dynamicHeightOffset } = createTitleAndDescriptionSVGElement(
-      0,
-      title,
-      description,
-      min_x,
-      min_y,
-      width,
-    );
+    const { insertText, dynamicHeightOffset } =
+      createTitleAndDescriptionSVGElement(
+        0,
+        title,
+        description,
+        min_x,
+        min_y,
+        width,
+      );
 
     const bounds = this.createBounds(
       width,
@@ -69,7 +72,7 @@ export class SvgService {
       viewBoxWidth,
       viewBoxHeight,
       withTitle,
-      dynamicHeightOffset
+      dynamicHeightOffset,
     );
 
     const dataStart = domainStorySvg.substring(0, viewBoxIndex);
@@ -83,14 +86,19 @@ export class SvgService {
     const insertIndex = this.findIndexToInsertData(domainStorySvg);
 
     if (withTitle) {
-      domainStorySvg = domainStorySvg.slice(0, insertIndex) + insertText + domainStorySvg.slice(insertIndex);
+      domainStorySvg =
+        domainStorySvg.slice(0, insertIndex) +
+        insertText +
+        domainStorySvg.slice(insertIndex);
     }
 
     if (useWhiteBackground) {
       const svgIndex = domainStorySvg.indexOf('width="');
       const backgroundColorWhite = 'style="background-color:white" ';
       domainStorySvg =
-        domainStorySvg.slice(0, svgIndex) + backgroundColorWhite + domainStorySvg.slice(svgIndex);
+        domainStorySvg.slice(0, svgIndex) +
+        backgroundColorWhite +
+        domainStorySvg.slice(svgIndex);
     }
 
     return this.appendDST(domainStorySvg, dst);
@@ -114,13 +122,21 @@ export class SvgService {
     viewBoxWidth: number,
     viewBoxHeight: number,
     withTitle: boolean,
-    dynamicHeightOffset: number
+    dynamicHeightOffset: number,
   ): string {
-
-    height = withTitle ? height + dynamicHeightOffset + TEXTSPAN_TITLE_HEIGHT: height;
+    height = withTitle
+      ? height + dynamicHeightOffset + TEXTSPAN_TITLE_HEIGHT
+      : height;
     min_x = min_x - DEFAULT_PADDING;
-    min_y = withTitle ? min_y - dynamicHeightOffset - TEXTSPAN_TITLE_HEIGHT : min_y;
-    viewBoxHeight = withTitle ? viewBoxHeight + dynamicHeightOffset + TEXTSPAN_TITLE_HEIGHT + DEFAULT_PADDING: viewBoxHeight;
+    min_y = withTitle
+      ? min_y - dynamicHeightOffset - TEXTSPAN_TITLE_HEIGHT
+      : min_y;
+    viewBoxHeight = withTitle
+      ? viewBoxHeight +
+        dynamicHeightOffset +
+        TEXTSPAN_TITLE_HEIGHT +
+        DEFAULT_PADDING
+      : viewBoxHeight;
 
     return `width="${width}" height="${height}" viewBox="${min_x} ${min_y} ${viewBoxWidth} ${viewBoxHeight}`;
   }

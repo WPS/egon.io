@@ -163,14 +163,15 @@ export class PngService {
 
     this.calculateWidthAndHeight(box);
 
-    const { insertText, dynamicHeightOffset } = createTitleAndDescriptionSVGElement(
-      0,
-      title,
-      description,
-      box.xLeft + 10,
-      box.yUp + 20,
-      this.width,
-    );
+    const { insertText, dynamicHeightOffset } =
+      createTitleAndDescriptionSVGElement(
+        0,
+        title,
+        description,
+        box.xLeft + 10,
+        box.yUp + 20,
+        this.width,
+      );
     if (withTitle) {
       this.height += dynamicHeightOffset;
     }
