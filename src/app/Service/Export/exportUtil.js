@@ -73,7 +73,7 @@ function createTextSpans(text, width, ctx, yOffset, heightOffset, fontSize) {
 
   // every leading empty strings in the array must be removed, otherwise the text elements
   // will not be filled with text
-  words = removeLeadingEmptyStrings(words)
+  words = removeLeadingEmptyStrings(words);
 
   let textTag =
     '<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: ' +
@@ -115,6 +115,8 @@ function createTextSpans(text, width, ctx, yOffset, heightOffset, fontSize) {
 }
 
 function removeLeadingEmptyStrings(stringArray) {
-  const firstNonEmptyIndex = stringArray.findIndex(string => string !== "");
-  return stringArray.slice(firstNonEmptyIndex === -1 ? stringArray.length : firstNonEmptyIndex);
+  const firstNonEmptyIndex = stringArray.findIndex((string) => string !== "");
+  return stringArray.slice(
+    firstNonEmptyIndex === -1 ? stringArray.length : firstNonEmptyIndex,
+  );
 }
