@@ -1,8 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ActivityDialogData } from 'src/app/Domain/Dialog/activityDialogData';
 import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
+import { ActivityDialogForm } from '../dialog-forms/activity-dialog-form';
 
 @Component({
   selector: 'app-activity-dialog',
@@ -10,9 +11,9 @@ import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObjec
   styleUrls: ['./activity-dialog.component.scss'],
 })
 export class ActivityDialogComponent {
-  form: UntypedFormGroup;
+  form: FormGroup<ActivityDialogForm>;
   activityLabel: string;
-  activityNumber: number | undefined;
+  activityNumber: number | null;
   numberIsAllowedMultipleTimes: boolean;
   showNumberFields: boolean;
   activity: ActivityCanvasObject;
@@ -20,23 +21,32 @@ export class ActivityDialogComponent {
   saveFN: any;
 
   constructor(
-    private fb: UntypedFormBuilder,
     private dialogRef: MatDialogRef<ActivityDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: ActivityDialogData,
   ) {
     this.activity = data.activity;
     this.activityLabel = data.activity.businessObject.name;
     this.numberIsAllowedMultipleTimes = data.numberIsAllowedMultipleTimes;
-    this.activityNumber = data.activity.businessObject.number;
+    this.activityNumber = data.activity.businessObject.number ?? null;
     this.showNumberFields = data.showNumberFields;
 
     this.saveFN = data.saveFN;
 
-    this.form = this.fb.group({
-      activityLabel: [this.activityLabel, []],
-      activityNumber: [this.activityNumber, []],
-      multipleNumbers: [this.numberIsAllowedMultipleTimes, []],
-    });
+    this.form = ActivityDialogForm.create(
+      this.activityLabel,
+      this.activityNumber,
+      this.numberIsAllowedMultipleTimes,
+    );
+
+    this.form.controls.activityNumber.valueChanges.subscribe(
+      (activityNumber) => {
+        if (activityNumber !== null) {
+          if (activityNumber < 1) {
+            this.form.controls.activityNumber.setValue(1);
+          }
+        }
+      },
+    );
   }
 
   onSubmit(): void {
