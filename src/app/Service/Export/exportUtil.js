@@ -12,8 +12,8 @@ export function createTitleAndDescriptionSVGElement(
   initDynamicHeightOffset,
   title,
   description,
-  xLeft,
-  yUp,
+  min_x,
+  min_y,
   width,
 ) {
   dynamicHeightOffset = initDynamicHeightOffset;
@@ -28,9 +28,9 @@ export function createTitleAndDescriptionSVGElement(
 
   let insertText =
     '<g class="djs-group"><g class="djs-element djs-shape" style = "display:block" transform="translate(' +
-    (xLeft - 10) +
+    (min_x - 10) +
     " " +
-    (yUp - dynamicHeightOffset) +
+    (min_y - dynamicHeightOffset) +
     ')"><g class="djs-visual">' +
     titleElement +
     descriptionElement +
@@ -71,6 +71,10 @@ function createTextSpans(text, width, ctx, yOffset, heightOffset, fontSize) {
   let textSpans = "";
   let words = text.split(" ");
 
+  // every leading empty strings in the array must be removed, otherwise the text elements
+  // will not be filled with text
+  words = removeLeadingEmptyStrings(words)
+
   let textTag =
     '<text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: ' +
     fontSize +
@@ -108,4 +112,9 @@ function createTextSpans(text, width, ctx, yOffset, heightOffset, fontSize) {
 
   textSpans += textTag + textSpan.outerHTML + "</text>";
   return textSpans;
+}
+
+function removeLeadingEmptyStrings(stringArray) {
+  const firstNonEmptyIndex = stringArray.findIndex(string => string !== "");
+  return stringArray.slice(firstNonEmptyIndex === -1 ? stringArray.length : firstNonEmptyIndex);
 }
