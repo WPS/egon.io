@@ -1,21 +1,4 @@
 import { Injectable } from '@angular/core';
-
-import { initializeContextPadProvider } from '../../Modeler/modeler/context-pad/domainStoryContextPadProvider';
-import {
-  getMultipleNumberRegistry,
-  getNumberRegistry,
-  initializeNumbering,
-  setNumberIsMultiple,
-  updateExistingNumbersAtEditing,
-} from '../../Modeler/modeler/numbering/numbering';
-import { initializePalette } from '../../Modeler/modeler/palette/domainStoryPalette';
-import { initializeRenderer } from '../../Modeler/modeler/domainStoryRenderer';
-import {
-  initializeLabelEditingProvider,
-  toggleStashUse,
-} from '../../Modeler/modeler/labeling/dsLabelEditingProvider';
-import { initializeReplaceOptions } from '../../Modeler/modeler/change-icon/replaceOptions';
-
 import { DirtyFlagService } from '../DirtyFlag/dirty-flag.service';
 import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
@@ -27,17 +10,33 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { ActivityDialogData } from '../../Domain/Dialog/activityDialogData';
 import { ActivityDialogComponent } from '../../Presentation/Dialog/activity-dialog/activity-dialog.component';
 import { DialogService } from '../Dialog/dialog.service';
-import massRenameHandler from '../../Modeler/modeler/updateHandler/massRenameHandler';
-import headlineAndDescriptionUpdateHandler from '../../Modeler/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
 import { TitleService } from '../Title/title.service';
 import { ActivityCanvasObject } from '../../Domain/Common/activityCanvasObject';
 import { HtmlPresentationService } from '../Export/html-presentation.service';
 import { positionsMatch } from '../../Utils/mathExtensions';
+import { initializeContextPadProvider } from '../../BPMN-JS/modeler/context-pad/domainStoryContextPadProvider';
+import { CommandStackService } from '../CommandStack/command-stack.service';
 import activityUpdateHandler, {
   initializeActivityUpdateHandler,
-} from '../../Modeler/modeler/updateHandler/activityUpdateHandlers';
-import elementUpdateHandler from '../../Modeler/modeler/updateHandler/elementUpdateHandler';
-import { CommandStackService } from '../CommandStack/command-stack.service';
+} from '../../BPMN-JS/modeler/updateHandler/activityUpdateHandlers';
+import elementUpdateHandler from '../../BPMN-JS/modeler/updateHandler/elementUpdateHandler';
+import headlineAndDescriptionUpdateHandler from '../../BPMN-JS/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
+import { initializePalette } from '../../BPMN-JS/modeler/palette/domainStoryPalette';
+import { initializeRenderer } from '../../BPMN-JS/modeler/domainStoryRenderer';
+import {
+  initializeLabelEditingProvider,
+  toggleStashUse,
+} from '../../BPMN-JS/modeler/labeling/dsLabelEditingProvider';
+import { initializeReplaceOptions } from '../../BPMN-JS/modeler/change-icon/replaceOptions';
+import {
+  getMultipleNumberRegistry,
+  getNumberRegistry,
+  initializeNumbering,
+  setNumberIsMultiple,
+  updateExistingNumbersAtEditing,
+} from '../../BPMN-JS/modeler/numbering/numbering';
+
+import massRenameHandler from '../../BPMN-JS/modeler/updateHandler/massRenameHandler';
 
 @Injectable({
   providedIn: 'root',

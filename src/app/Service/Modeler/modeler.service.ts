@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { assign } from 'min-dash';
-import DomainStoryModeler from 'src/app/Modeler';
+import DomainStoryModeler from 'src/app/BPMN-JS';
 import { IconSetConfiguration } from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
