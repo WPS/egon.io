@@ -4,12 +4,12 @@ import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import {
   CustomIconSetConfiguration,
   fromConfigurationFromFile,
-} from 'src/app/Domain/Common/iconSetConfiguration';
+} from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { IconSetConfigurationService } from 'src/app/Service/IconSetConfiguration/icon-set-configuration.service';
 import { IconDictionaryService } from 'src/app/Service/IconSetConfiguration/icon-dictionary.service';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { sanitizeIconName } from 'src/app/Utils/sanitizer';
-import { elementTypes } from '../../Domain/Common/elementTypes';
+import { ElementTypes } from '../../Domain/Common/elementTypes';
 import { IconFilterEnum } from '../../Domain/Icon-Set-Configuration/iconFilterEnum';
 import { IconSetCustomizationService } from '../../Service/IconSetConfiguration/icon-set-customization.service';
 
@@ -114,7 +114,7 @@ export class IconSetConfigurationComponent implements OnInit {
           this.iconDictionaryService.registerIconForBPMN(
             iconName,
             src,
-            elementTypes.ACTOR,
+            ElementTypes.ACTOR,
           );
 
           this.allIcons.next(this.iconDictionaryService.getFullDictionary());

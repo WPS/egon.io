@@ -1,8 +1,8 @@
 import { testActivityCanvasObject } from '../Domain/Common/activityCanvasObject';
 import { angleBetween, degrees, positionsMatch } from './mathExtensions';
-import { elementTypes } from '../Domain/Common/elementTypes';
-import { getNameFromType } from './naming';
+import { ElementTypes } from '../Domain/Common/elementTypes';
 import { sanitizeForDesktop, sanitizeIconName } from './sanitizer';
+import getNameFromType = ElementTypes.getNameFromType;
 
 describe('mathExtendsions', () => {
   beforeEach(() => {
@@ -110,19 +110,19 @@ describe('naming', () => {
   describe('getNameForType', () => {
     it('should get type for Actor', () => {
       const testType = '_test';
-      const type = elementTypes.ACTOR + testType;
+      const type = ElementTypes.ACTOR + testType;
 
       expect(getNameFromType(type)).toEqual(testType);
     });
     it('should get type for WorkObject', () => {
       const testType = '_test';
-      const type = elementTypes.WORKOBJECT + testType;
+      const type = ElementTypes.WORKOBJECT + testType;
 
       expect(getNameFromType(type)).toEqual(testType);
     });
     it('should get clear string for Unknown input', () => {
       const testType = '_test';
-      const type = elementTypes.DOMAINSTORY + testType;
+      const type = ElementTypes.DOMAINSTORY + testType;
 
       expect(getNameFromType(type)).toEqual('');
     });

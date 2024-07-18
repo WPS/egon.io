@@ -9,10 +9,10 @@ import { TitleService } from '../Title/title.service';
 import { RendererService } from '../Renderer/renderer.service';
 import { MockService } from 'ng-mocks';
 import { DialogService } from '../Dialog/dialog.service';
-import { IconSetConfiguration } from '../../Domain/Common/iconSetConfiguration';
+import { IconSetConfiguration } from '../../Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { INITIAL_ICON_SET_NAME } from '../../Domain/Common/constants';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
-import { elementTypes } from '../../Domain/Common/elementTypes';
+import { ElementTypes } from '../../Domain/Common/elementTypes';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('ImportDomainStoryService', () => {
@@ -83,10 +83,10 @@ describe('ImportDomainStoryService', () => {
 
     it('should find changes, more actors', () => {
       iconDictionarySpy.getTypeDictionaryKeys
-        .withArgs(elementTypes.ACTOR)
+        .withArgs(ElementTypes.ACTOR)
         .and.returnValue(['test']);
       iconDictionarySpy.getTypeDictionaryKeys
-        .withArgs(elementTypes.WORKOBJECT)
+        .withArgs(ElementTypes.WORKOBJECT)
         .and.returnValue(['workObject']);
 
       expect(
@@ -96,10 +96,10 @@ describe('ImportDomainStoryService', () => {
 
     it('should find changes, different actors', () => {
       iconDictionarySpy.getTypeDictionaryKeys
-        .withArgs(elementTypes.ACTOR)
+        .withArgs(ElementTypes.ACTOR)
         .and.returnValue(['actor', 'test']);
       iconDictionarySpy.getTypeDictionaryKeys
-        .withArgs(elementTypes.WORKOBJECT)
+        .withArgs(ElementTypes.WORKOBJECT)
         .and.returnValue(['workObject']);
 
       expect(
@@ -109,10 +109,10 @@ describe('ImportDomainStoryService', () => {
 
     it('should find changes, different workobjects', () => {
       iconDictionarySpy.getTypeDictionaryKeys
-        .withArgs(elementTypes.ACTOR)
+        .withArgs(ElementTypes.ACTOR)
         .and.returnValue(['actor']);
       iconDictionarySpy.getTypeDictionaryKeys
-        .withArgs(elementTypes.WORKOBJECT)
+        .withArgs(ElementTypes.WORKOBJECT)
         .and.returnValue(['workObject', 'test']);
 
       expect(
@@ -122,10 +122,10 @@ describe('ImportDomainStoryService', () => {
 
     it('should find changes, different workobjects', () => {
       iconDictionarySpy.getTypeDictionaryKeys
-        .withArgs(elementTypes.ACTOR)
+        .withArgs(ElementTypes.ACTOR)
         .and.returnValue(['actor']);
       iconDictionarySpy.getTypeDictionaryKeys
-        .withArgs(elementTypes.WORKOBJECT)
+        .withArgs(ElementTypes.WORKOBJECT)
         .and.returnValue(['test']);
 
       expect(
@@ -135,10 +135,10 @@ describe('ImportDomainStoryService', () => {
 
     it('should not find changes', () => {
       iconDictionarySpy.getTypeDictionaryKeys
-        .withArgs(elementTypes.ACTOR)
+        .withArgs(ElementTypes.ACTOR)
         .and.returnValue(['actor']);
       iconDictionarySpy.getTypeDictionaryKeys
-        .withArgs(elementTypes.WORKOBJECT)
+        .withArgs(ElementTypes.WORKOBJECT)
         .and.returnValue(['workObject']);
 
       expect(service.checkConfigForChanges(testDomainCofiguration)).toBeFalsy();

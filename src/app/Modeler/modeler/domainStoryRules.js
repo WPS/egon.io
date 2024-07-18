@@ -5,7 +5,7 @@ import { assign, every, reduce } from "min-dash";
 import inherits from "inherits";
 
 import RuleProvider from "diagram-js/lib/features/rules/RuleProvider";
-import { elementTypes } from "src/app/Domain/Common/elementTypes";
+import { ElementTypes } from "src/app/Domain/Common/elementTypes";
 import { is } from "./util";
 
 const HIGH_PRIORITY = 1500;
@@ -75,14 +75,14 @@ function canConnect(source, target) {
   // do not allow a connection to a connection(the special type of connection between an element and a comment box)
   // when the target is an annotation, the connection type is an annotation connection instead of an activity
   if (isAnnotation(target)) {
-    return { type: elementTypes.CONNECTION };
+    return { type: ElementTypes.CONNECTION };
   }
 
-  return { type: elementTypes.ACTIVITY };
+  return { type: ElementTypes.ACTIVITY };
 }
 
 function canResize(shape, newBounds) {
-  if (is(shape, elementTypes.GROUP)) {
+  if (is(shape, ElementTypes.GROUP)) {
     if (newBounds) {
       let lowerLeft = { x: shape.x, y: shape.y + shape.height };
       let lowerRight = { x: shape.x + shape.width, y: shape.y + shape.height };

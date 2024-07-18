@@ -1,25 +1,25 @@
 "use strict";
 
-import { elementTypes } from "src/app/Domain/Common/elementTypes";
+import { ElementTypes } from "src/app/Domain/Common/elementTypes";
 import { is } from "../util";
 
 function getLabelAttr(semantic) {
   if (
-    semantic.type.includes(elementTypes.ACTOR) ||
-    semantic.type.includes(elementTypes.WORKOBJECT) ||
-    semantic.type.includes(elementTypes.ACTIVITY) ||
-    semantic.type.includes(elementTypes.GROUP)
+    semantic.type.includes(ElementTypes.ACTOR) ||
+    semantic.type.includes(ElementTypes.WORKOBJECT) ||
+    semantic.type.includes(ElementTypes.ACTIVITY) ||
+    semantic.type.includes(ElementTypes.GROUP)
   ) {
     return "name";
   }
 
-  if (is(semantic, elementTypes.TEXTANNOTATION)) {
+  if (is(semantic, ElementTypes.TEXTANNOTATION)) {
     return "text";
   }
 }
 
 function getNumberAttr(semantic) {
-  if (is(semantic, elementTypes.ACTIVITY)) {
+  if (is(semantic, ElementTypes.ACTIVITY)) {
     return "number";
   }
 }
@@ -119,7 +119,7 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
     }
 
     /* the direct editing field of actors and workobjects is a recycled html-element and has old values that need to be overridden*/
-    if (element.type.includes(elementTypes.WORKOBJECT)) {
+    if (element.type.includes(ElementTypes.WORKOBJECT)) {
       this.value = this.innerHTML;
     }
     let autocompleteList,
@@ -165,7 +165,7 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
     }
 
     // if we edit an actor, we do not want auto-complete, since actors generally are unique
-    if (element.type.includes(elementTypes.ACTOR)) {
+    if (element.type.includes(ElementTypes.ACTOR)) {
       autocompleteList.style.visibility = "hidden";
     }
   });

@@ -8,7 +8,7 @@ import {
 } from "tiny-svg";
 
 import { translate } from "diagram-js/lib/util/SvgTransformUtil";
-import { elementTypes } from "../../../Domain/Common/elementTypes";
+import { ElementTypes } from "../../../Domain/Common/elementTypes";
 import { is } from "../util";
 
 const MARKER_HIDDEN = "djs-element-hidden",
@@ -32,7 +32,7 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
     element = activeProvider.element.label || activeProvider.element;
 
     // text annotation
-    if (is(element, elementTypes.TEXTANNOTATION)) {
+    if (is(element, ElementTypes.TEXTANNOTATION)) {
       absoluteElementBBox = canvas.getAbsoluteBBox(element);
 
       gfx = svgCreate("g");
@@ -65,13 +65,13 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
       translate(gfx, element.x, element.y);
     }
 
-    if (is(element, elementTypes.TEXTANNOTATION) || element.labelTarget) {
+    if (is(element, ElementTypes.TEXTANNOTATION) || element.labelTarget) {
       canvas.addMarker(element, MARKER_HIDDEN);
     } else if (
-      element.type.includes(elementTypes.ACTOR) ||
-      element.type.includes(elementTypes.WORKOBJECT) ||
-      element.type.includes(elementTypes.ACTIVITY) ||
-      element.type.includes(elementTypes.GROUP)
+      element.type.includes(ElementTypes.ACTOR) ||
+      element.type.includes(ElementTypes.WORKOBJECT) ||
+      element.type.includes(ElementTypes.ACTIVITY) ||
+      element.type.includes(ElementTypes.GROUP)
     ) {
       canvas.addMarker(element, MARKER_LABEL_HIDDEN);
     }
@@ -79,7 +79,7 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
 
   eventBus.on("directEditing.resize", function (context) {
     // text annotation
-    if (is(element, elementTypes.TEXTANNOTATION)) {
+    if (is(element, ElementTypes.TEXTANNOTATION)) {
       let height = context.height,
         dy = context.dy;
 

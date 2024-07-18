@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import { Configuration } from 'src/app/Domain/Common/configuration';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
-import { IconSetConfiguration } from 'src/app/Domain/Common/iconSetConfiguration';
-import { elementTypes } from 'src/app/Domain/Common/elementTypes';
+import { IconSetConfiguration } from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
+import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
 import {
   defaultConf,
   IconConfiguration,
-} from 'src/app/Domain/Common/iconConfiguration';
+} from 'src/app/Domain/Icon-Set-Configuration/iconConfiguration';
 import {
   allIcons,
   appendedIcons,
 } from 'src/app/Domain/Icon-Set-Configuration/allIcons';
-import { getNameFromType } from '../../Utils/naming';
 import { sanitizeIconName } from '../../Utils/sanitizer';
+import getNameFromType = ElementTypes.getNameFromType;
 
 export const ICON_PREFIX = 'icon-domain-story-';
 
@@ -52,13 +52,13 @@ export class IconDictionaryService {
       actors,
       allTypes,
       this.actorIconDictionary,
-      elementTypes.ACTOR,
+      ElementTypes.ACTOR,
     );
     this.initDictionary(
       workObjects,
       allTypes,
       this.workObjectDictionary,
-      elementTypes.WORKOBJECT,
+      ElementTypes.WORKOBJECT,
     );
   }
 
@@ -66,7 +66,7 @@ export class IconDictionaryService {
     keys: string[],
     allTypes: Dictionary,
     dictionary: Dictionary,
-    elementType: elementTypes,
+    elementType: ElementTypes,
   ) {
     dictionary.clear();
     for (const key of keys) {
@@ -89,11 +89,11 @@ export class IconDictionaryService {
     return this.iconConfig.getDefaultConf();
   }
 
-  allInTypeDictionary(type: elementTypes, elements: BusinessObject[]): boolean {
+  allInTypeDictionary(type: ElementTypes, elements: BusinessObject[]): boolean {
     let collection: Dictionary;
-    if (type === elementTypes.ACTOR) {
+    if (type === ElementTypes.ACTOR) {
       collection = this.actorIconDictionary;
-    } else if (type === elementTypes.WORKOBJECT) {
+    } else if (type === ElementTypes.WORKOBJECT) {
       collection = this.workObjectDictionary;
     }
 
@@ -112,13 +112,13 @@ export class IconDictionaryService {
 
   /** Load Icons from Configuration **/
   addIconsFromIconSetConfiguration(
-    dictionaryType: elementTypes,
+    dictionaryType: ElementTypes,
     iconTypes: string[],
   ): void {
     let collection: Dictionary;
-    if (dictionaryType === elementTypes.ACTOR) {
+    if (dictionaryType === ElementTypes.ACTOR) {
       collection = this.actorIconDictionary;
-    } else if (dictionaryType === elementTypes.WORKOBJECT) {
+    } else if (dictionaryType === ElementTypes.WORKOBJECT) {
       collection = this.workObjectDictionary;
     }
 
@@ -145,7 +145,7 @@ export class IconDictionaryService {
   registerIconForBPMN(
     name: string,
     src: string,
-    elementType: elementTypes,
+    elementType: ElementTypes,
   ): void {
     if (name.includes(elementType)) {
       throw new Error('Should not include elementType');
@@ -158,43 +158,43 @@ export class IconDictionaryService {
     actorIcons: BusinessObject[],
     workObjectIcons: BusinessObject[],
   ) {
-    if (!this.allInTypeDictionary(elementTypes.ACTOR, actorIcons)) {
+    if (!this.allInTypeDictionary(ElementTypes.ACTOR, actorIcons)) {
       this.addIconsFromIconSetConfiguration(
-        elementTypes.ACTOR,
+        ElementTypes.ACTOR,
         actorIcons.map((element) => getNameFromType(element.type)),
       );
     }
-    if (!this.allInTypeDictionary(elementTypes.WORKOBJECT, workObjectIcons)) {
+    if (!this.allInTypeDictionary(ElementTypes.WORKOBJECT, workObjectIcons)) {
       this.addIconsFromIconSetConfiguration(
-        elementTypes.WORKOBJECT,
+        ElementTypes.WORKOBJECT,
         workObjectIcons.map((element) => getNameFromType(element.type)),
       );
     }
   }
 
-  registerIconForType(type: elementTypes, name: string, src: string): void {
+  registerIconForType(type: ElementTypes, name: string, src: string): void {
     if (name.includes(type)) {
       throw new Error('Name should not include type!');
     }
 
     let collection = new Dictionary();
-    if (type === elementTypes.ACTOR) {
+    if (type === ElementTypes.ACTOR) {
       collection = this.actorIconDictionary;
-    } else if (type === elementTypes.WORKOBJECT) {
+    } else if (type === ElementTypes.WORKOBJECT) {
       collection = this.workObjectDictionary;
     }
     collection.add(src, name);
   }
 
-  unregisterIconForType(type: elementTypes, name: string): void {
+  unregisterIconForType(type: ElementTypes, name: string): void {
     if (name.includes(type)) {
       throw new Error('Name should not include type!');
     }
 
     let collection = new Dictionary();
-    if (type === elementTypes.ACTOR) {
+    if (type === ElementTypes.ACTOR) {
       collection = this.actorIconDictionary;
-    } else if (type === elementTypes.WORKOBJECT) {
+    } else if (type === ElementTypes.WORKOBJECT) {
       collection = this.workObjectDictionary;
     }
     collection.delete(name);
@@ -227,19 +227,19 @@ export class IconDictionaryService {
     elements.forEach((element) => {
       const name = sanitizeIconName(
         element.type
-          .replace(elementTypes.ACTOR, '')
-          .replace(elementTypes.WORKOBJECT, ''),
+          .replace(ElementTypes.ACTOR, '')
+          .replace(ElementTypes.WORKOBJECT, ''),
       );
       if (
-        (element.type.includes(elementTypes.ACTOR) ||
-          element.type.includes(elementTypes.WORKOBJECT)) &&
+        (element.type.includes(ElementTypes.ACTOR) ||
+          element.type.includes(ElementTypes.WORKOBJECT)) &&
         !this.getFullDictionary().has(name)
       ) {
         let elementType;
-        if (element.type.includes(elementTypes.ACTOR)) {
-          elementType = elementTypes.ACTOR;
+        if (element.type.includes(ElementTypes.ACTOR)) {
+          elementType = ElementTypes.ACTOR;
         } else {
-          elementType = elementTypes.WORKOBJECT;
+          elementType = ElementTypes.WORKOBJECT;
         }
         this.registerIconForBPMN(
           ICON_PREFIX + name.toLowerCase(),
@@ -322,29 +322,29 @@ export class IconDictionaryService {
     return appendedDict;
   }
 
-  getTypeDictionary(type: elementTypes): Dictionary {
-    if (type === elementTypes.ACTOR) {
+  getTypeDictionary(type: ElementTypes): Dictionary {
+    if (type === ElementTypes.ACTOR) {
       return this.actorIconDictionary;
-    } else if (type === elementTypes.WORKOBJECT) {
+    } else if (type === ElementTypes.WORKOBJECT) {
       return this.workObjectDictionary;
     }
     return new Dictionary();
   }
 
-  getTypeDictionaryKeys(type: elementTypes): string[] {
+  getTypeDictionaryKeys(type: ElementTypes): string[] {
     return this.getTypeDictionary(type).keysArray();
   }
 
-  getTypeIconSRC(type: elementTypes, name: string): string | null {
-    if (type === elementTypes.ACTOR) {
+  getTypeIconSRC(type: ElementTypes, name: string): string | null {
+    if (type === ElementTypes.ACTOR) {
       return this.actorIconDictionary.get(name);
-    } else if (type === elementTypes.WORKOBJECT) {
+    } else if (type === ElementTypes.WORKOBJECT) {
       return this.workObjectDictionary.get(name);
     }
     return null;
   }
 
-  getIconForBPMN(elementType: elementTypes, name: string): string | null {
+  getIconForBPMN(elementType: ElementTypes, name: string): string | null {
     return this.iconDictionaryForBPMN.get(`${elementType}${name}`);
   }
 
@@ -359,7 +359,7 @@ export class IconDictionaryService {
 
   getElementsOfType(
     elements: BusinessObject[],
-    type: elementTypes,
+    type: ElementTypes,
   ): BusinessObject[] {
     const elementOfType: any = [];
     elements.forEach((element) => {

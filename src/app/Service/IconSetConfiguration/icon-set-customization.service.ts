@@ -12,15 +12,15 @@ import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
 import {
   CustomIconSetConfiguration,
   IconSetConfiguration,
-} from '../../Domain/Common/iconSetConfiguration';
-import { elementTypes } from '../../Domain/Common/elementTypes';
+} from '../../Domain/Icon-Set-Configuration/iconSetConfiguration';
+import { ElementTypes } from '../../Domain/Common/elementTypes';
 import { IconListItem } from '../../Domain/Icon-Set-Configuration/iconListItem';
-import { getNameFromType } from '../../Utils/naming';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { ImportDomainStoryService } from '../Import/import-domain-story.service';
 import { TitleService } from '../Title/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
+import getNameFromType = ElementTypes.getNameFromType;
 
 @Injectable({
   providedIn: 'root',
@@ -438,7 +438,7 @@ export class IconSetCustomizationService {
 
   private getSrcForIcon(name: string): string {
     let iconName: string;
-    if (name.includes(elementTypes.DOMAINSTORY)) {
+    if (name.includes(ElementTypes.DOMAINSTORY)) {
       // TODO: td: This returns empty every time!
       iconName = getNameFromType(name);
     } else {
@@ -463,24 +463,24 @@ export class IconSetCustomizationService {
       .forEach((item) => this.setAsUnassigned(item, this.isIconActor(item)));
     changedIconSet.actors.keysArray().forEach((actor) => {
       this.iconDictionaryService.registerIconForType(
-        elementTypes.ACTOR,
+        ElementTypes.ACTOR,
         actor,
         this.iconDictionaryService.getFullDictionary().get(actor),
       );
       this.iconDictionaryService.unregisterIconForType(
-        elementTypes.WORKOBJECT,
+        ElementTypes.WORKOBJECT,
         actor,
       );
       this.setAsActor(true, actor);
     });
     changedIconSet.workObjects.keysArray().forEach((workObject) => {
       this.iconDictionaryService.registerIconForType(
-        elementTypes.WORKOBJECT,
+        ElementTypes.WORKOBJECT,
         workObject,
         this.iconDictionaryService.getFullDictionary().get(workObject),
       );
       this.iconDictionaryService.unregisterIconForType(
-        elementTypes.ACTOR,
+        ElementTypes.ACTOR,
         workObject,
       );
       this.setAsWorkobject(true, workObject);

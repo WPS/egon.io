@@ -21,7 +21,7 @@ import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.s
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
 import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
 import { LabelDictionaryService } from '../LabelDictionary/label-dictionary.service';
-import { elementTypes } from '../../Domain/Common/elementTypes';
+import { ElementTypes } from '../../Domain/Common/elementTypes';
 import { ReplayStateService } from '../Replay/replay-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ActivityDialogData } from '../../Domain/Dialog/activityDialogData';
@@ -101,7 +101,7 @@ export class InitializerService {
     eventBus.on('element.dblclick', (e: any) => {
       if (!this.replayStateService.getReplayOn()) {
         const element = e.element;
-        if (element.type === elementTypes.ACTIVITY) {
+        if (element.type === ElementTypes.ACTIVITY) {
           // override the doubleClickListener on activities
           this.activityDoubleClick(element, eventBus, commandStack);
         } else {
@@ -230,7 +230,7 @@ export class InitializerService {
     if (
       activity.businessObject.number &&
       source &&
-      source.type.includes(elementTypes.ACTOR)
+      source.type.includes(ElementTypes.ACTOR)
     ) {
       config.data = new ActivityDialogData(
         activity,
@@ -239,7 +239,7 @@ export class InitializerService {
         (data: any) =>
           this.saveActivityInputLabel(data, eventBus, commandStack),
       );
-    } else if (source && source.type.includes(elementTypes.WORKOBJECT)) {
+    } else if (source && source.type.includes(ElementTypes.WORKOBJECT)) {
       config.data = new ActivityDialogData(
         activity,
         false,

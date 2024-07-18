@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
-import { elementTypes } from 'src/app/Domain/Common/elementTypes';
+import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
 import { StorySentence } from 'src/app/Domain/Replay/storySentence';
 import {
   HIGHLIGHT_COLOR,
@@ -123,7 +123,7 @@ export class DomManipulationService {
 
   private highlightSentence(sentenceObjects: BusinessObject[]): void {
     sentenceObjects
-      .filter((e) => e.type === elementTypes.ACTIVITY)
+      .filter((e) => e.type === ElementTypes.ACTIVITY)
       .forEach((activity) => {
         const querySelector = document.querySelector(
           '[data-element-id=' + activity.id + ']',
@@ -153,9 +153,9 @@ export class DomManipulationService {
 
     allObjects.forEach((element) => {
       if (!shownElements.includes(element.businessObject)) {
-        if (element.type.includes(elementTypes.CONNECTION)) {
+        if (element.type.includes(ElementTypes.CONNECTION)) {
           // @ts-ignore
-          if (!element.source.type.includes(elementTypes.GROUP)) {
+          if (!element.source.type.includes(ElementTypes.GROUP)) {
             notShownElements.push(element.businessObject);
           } else {
             // @ts-ignore

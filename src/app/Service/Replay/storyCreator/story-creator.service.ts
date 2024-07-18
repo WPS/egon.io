@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { elementTypes } from '../../../Domain/Common/elementTypes';
+import { ElementTypes } from '../../../Domain/Common/elementTypes';
 import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
 import { BusinessObject } from '../../../Domain/Common/businessObject';
 import { CanvasObject } from '../../../Domain/Common/canvasObject';
@@ -72,7 +72,7 @@ export class StoryCreatorService {
         story[i].objects.length <= 0 ||
         story[i].highlightedObjects.length === 0 ||
         story[i].objects.filter(
-          (element) => element.type === elementTypes.ACTIVITY,
+          (element) => element.type === ElementTypes.ACTIVITY,
         ).length <= 0
       ) {
         missingSentences.push(i + 1);

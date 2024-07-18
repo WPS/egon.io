@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
 import { IconDictionaryService } from 'src/app/Service/IconSetConfiguration/icon-dictionary.service';
-import { defaultConf } from '../../Domain/Common/iconConfiguration';
-import { elementTypes } from '../../Domain/Common/elementTypes';
-import { IconSetConfiguration } from '../../Domain/Common/iconSetConfiguration';
+import { defaultConf } from '../../Domain/Icon-Set-Configuration/iconConfiguration';
+import { ElementTypes } from '../../Domain/Common/elementTypes';
+import { IconSetConfiguration } from '../../Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { INITIAL_ICON_SET_NAME } from '../../Domain/Common/constants';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
 import {
@@ -37,12 +37,12 @@ describe('IconDictionaryService', () => {
       expect(
         actorsDictionary
           .keysArray()
-          .map((e) => e.replace(elementTypes.ACTOR, '')),
+          .map((e) => e.replace(ElementTypes.ACTOR, '')),
       ).toEqual(defaultConf.actors);
       expect(
         workObjectsDictionary
           .keysArray()
-          .map((e) => e.replace(elementTypes.WORKOBJECT, '')),
+          .map((e) => e.replace(ElementTypes.WORKOBJECT, '')),
       ).toEqual(defaultConf.workObjects);
     });
 
@@ -55,12 +55,12 @@ describe('IconDictionaryService', () => {
       expect(
         actorsDictionary
           .keysArray()
-          .map((e) => e.replace(elementTypes.ACTOR, '')),
+          .map((e) => e.replace(ElementTypes.ACTOR, '')),
       ).toEqual(actors);
       expect(
         workObjectsDictionary
           .keysArray()
-          .map((e) => e.replace(elementTypes.WORKOBJECT, '')),
+          .map((e) => e.replace(ElementTypes.WORKOBJECT, '')),
       ).toEqual(workObjects);
     });
   });
@@ -95,7 +95,7 @@ describe('IconDictionaryService', () => {
     it('add icons to ActorDictionary', () => {
       const type = 'Hotel';
       expect(service.getActorsDictionary().has(type)).toBeFalsy();
-      service.addIconsFromIconSetConfiguration(elementTypes.ACTOR, [type]);
+      service.addIconsFromIconSetConfiguration(ElementTypes.ACTOR, [type]);
 
       expect(service.getActorsDictionary().has(type)).toBeTruthy();
     });
@@ -103,7 +103,7 @@ describe('IconDictionaryService', () => {
     it('add icons to WorkObjectDictionary', () => {
       const type = 'Hotel';
       expect(service.getWorkObjectsDictionary().has(type)).toBeFalsy();
-      service.addIconsFromIconSetConfiguration(elementTypes.WORKOBJECT, [type]);
+      service.addIconsFromIconSetConfiguration(ElementTypes.WORKOBJECT, [type]);
 
       expect(service.getWorkObjectsDictionary().has(type)).toBeTruthy();
     });
@@ -112,10 +112,10 @@ describe('IconDictionaryService', () => {
   describe('addIconsToTypeDictionary', () => {
     it('', () => {
       const actor = structuredClone(testBusinessObject);
-      actor.type = elementTypes.ACTOR + 'Hotel';
+      actor.type = ElementTypes.ACTOR + 'Hotel';
 
       const workObject = structuredClone(testBusinessObject);
-      workObject.type = elementTypes.WORKOBJECT + 'Dining';
+      workObject.type = ElementTypes.WORKOBJECT + 'Dining';
 
       service.addIconsToTypeDictionary([actor], [workObject]);
 
@@ -127,7 +127,7 @@ describe('IconDictionaryService', () => {
   describe('registerIconForType', () => {
     it('register Icon for WorkObjects', () => {
       service.registerIconForType(
-        elementTypes.WORKOBJECT,
+        ElementTypes.WORKOBJECT,
         'Hotel',
         allIcons['Hotel'],
       );
@@ -137,7 +137,7 @@ describe('IconDictionaryService', () => {
 
     it('register Icon for Actors', () => {
       service.registerIconForType(
-        elementTypes.ACTOR,
+        ElementTypes.ACTOR,
         'Hotel',
         allIcons['Hotel'],
       );
@@ -148,10 +148,10 @@ describe('IconDictionaryService', () => {
 
   describe('updateIconRegistries', () => {
     const actor = structuredClone(testBusinessObject);
-    actor.type = elementTypes.ACTOR + 'Person';
+    actor.type = ElementTypes.ACTOR + 'Person';
 
     const workObject = structuredClone(testBusinessObject);
-    workObject.type = elementTypes.WORKOBJECT + 'Document';
+    workObject.type = ElementTypes.WORKOBJECT + 'Document';
 
     const actors: BusinessObject[] = [actor];
     const workObjects: BusinessObject[] = [workObject];

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { elementTypes } from 'src/app/Domain/Common/elementTypes';
+import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
 import { CanvasObject } from 'src/app/Domain/Common/canvasObject';
 import { GroupCanvasObject } from '../../Domain/Common/groupCanvasObject';
 import { ActivityCanvasObject } from '../../Domain/Common/activityCanvasObject';
@@ -55,13 +55,13 @@ export class ElementRegistryService {
     groups: GroupCanvasObject[],
   ): void {
     allObjectsFromCanvas.forEach((canvasElement) => {
-      if (canvasElement.type === elementTypes.ACTIVITY) {
+      if (canvasElement.type === ElementTypes.ACTIVITY) {
         objectList.push(canvasElement);
       }
 
       // ensure that Activities are always after Actors, Workobjects and Groups in .dst files
       else {
-        if (canvasElement.type === elementTypes.TEXTANNOTATION) {
+        if (canvasElement.type === ElementTypes.TEXTANNOTATION) {
           canvasElement.businessObject.width = canvasElement.width;
           canvasElement.businessObject.height = canvasElement.height;
         }
@@ -80,7 +80,7 @@ export class ElementRegistryService {
     const activities: ActivityCanvasObject[] = [];
 
     this.getAllCanvasObjects().forEach((element) => {
-      if (element.type.includes(elementTypes.ACTIVITY)) {
+      if (element.type.includes(ElementTypes.ACTIVITY)) {
         activities.push(element as ActivityCanvasObject);
       }
     });
@@ -91,7 +91,7 @@ export class ElementRegistryService {
     const connections: ActivityCanvasObject[] = [];
     this.getAllCanvasObjects().forEach((element) => {
       const type = element.type;
-      if (type === elementTypes.CONNECTION) {
+      if (type === ElementTypes.CONNECTION) {
         connections.push(element as ActivityCanvasObject);
       }
     });
@@ -113,7 +113,7 @@ export class ElementRegistryService {
       // @ts-ignore
       currentGroup.children.forEach((child: CanvasObject) => {
         const type = child.type;
-        if (type.includes(elementTypes.GROUP)) {
+        if (type.includes(ElementTypes.GROUP)) {
           groupObjects.push(child as GroupCanvasObject);
         }
       });
@@ -131,7 +131,7 @@ export class ElementRegistryService {
 
     for (const group of groupObjects) {
       group.children?.forEach((child: CanvasObject) => {
-        if (child.type.includes(elementTypes.GROUP)) {
+        if (child.type.includes(ElementTypes.GROUP)) {
           groupObjects.push(child as GroupCanvasObject);
         }
       });
@@ -148,7 +148,7 @@ export class ElementRegistryService {
       const entry = this.registry[name].element;
       if (entry.businessObject) {
         const type = entry.type;
-        if (type && type.includes(elementTypes.GROUP)) {
+        if (type && type.includes(ElementTypes.GROUP)) {
           // if it is a group, memorize this for later
           groupObjects.push(entry);
         } else if (type) {
@@ -164,7 +164,7 @@ export class ElementRegistryService {
     const activities = this.getAllActivities();
 
     activities.forEach((activity: ActivityCanvasObject) => {
-      if (activity.source?.type.includes(elementTypes.ACTOR)) {
+      if (activity.source?.type.includes(ElementTypes.ACTOR)) {
         activitiesFromActors.push(activity);
       }
     });
@@ -176,22 +176,22 @@ export class ElementRegistryService {
     const workobjects = this.getAllWorkobjects();
 
     return {
-      actors: actors.map((a) => a.type.replace(elementTypes.ACTOR, '')),
+      actors: actors.map((a) => a.type.replace(ElementTypes.ACTOR, '')),
       workobjects: workobjects.map((w) =>
-        w.type.replace(elementTypes.WORKOBJECT, ''),
+        w.type.replace(ElementTypes.WORKOBJECT, ''),
       ),
     };
   }
 
   private getAllActors() {
     return this.getAllCanvasObjects().filter((co) =>
-      co.type.includes(elementTypes.ACTOR),
+      co.type.includes(ElementTypes.ACTOR),
     );
   }
 
   getAllWorkobjects() {
     return this.getAllCanvasObjects().filter((co) =>
-      co.type.includes(elementTypes.WORKOBJECT),
+      co.type.includes(ElementTypes.WORKOBJECT),
     );
   }
 }

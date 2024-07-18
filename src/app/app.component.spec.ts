@@ -19,7 +19,6 @@ describe('AppComponent', () => {
       ],
       providers: [
         MockProviders(
-          DialogService,
           SettingsService,
           TitleService,
           ExportService,

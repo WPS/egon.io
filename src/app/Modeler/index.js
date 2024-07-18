@@ -6,7 +6,7 @@ import inherits from "inherits";
 import DomainStoryModule from "./modeler";
 import LabelEditingModule from "./modeler/labeling";
 import ModelingModule from "./modeler/modeling";
-import { elementTypes } from "../Domain/Common/elementTypes";
+import { ElementTypes } from "../Domain/Common/elementTypes";
 
 export default function DomainStoryModeler(options) {
   Modeler.call(this, options);
@@ -129,11 +129,11 @@ DomainStoryModeler.prototype.createDiagram = function (done) {};
 
 function isConnection(element) {
   return (
-    element.type === elementTypes.ACTIVITY ||
-    element.type === elementTypes.CONNECTION
+    element.type === ElementTypes.ACTIVITY ||
+    element.type === ElementTypes.CONNECTION
   );
 }
 
 function isGroup(element) {
-  return element && element.type === elementTypes.GROUP;
+  return element && element.type === ElementTypes.GROUP;
 }

@@ -13,7 +13,7 @@ import {
   GroupCanvasObject,
   testGroupCanvasObject,
 } from '../../Domain/Common/groupCanvasObject';
-import { elementTypes } from '../../Domain/Common/elementTypes';
+import { ElementTypes } from '../../Domain/Common/elementTypes';
 import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
 import {
   MatButtonToggle,
@@ -71,8 +71,8 @@ describe('ElementRegistryService', () => {
 
   beforeEach(() => {
     testActor = structuredClone(testCanvasObject);
-    testActor.type = elementTypes.ACTOR;
-    testActor.businessObject.type = elementTypes.ACTOR;
+    testActor.type = ElementTypes.ACTOR;
+    testActor.businessObject.type = ElementTypes.ACTOR;
     testActor.name = 'actor';
 
     testActivity = structuredClone(testActivityCanvasObject);
@@ -87,8 +87,8 @@ describe('ElementRegistryService', () => {
 
     testConnection = structuredClone(testActivityCanvasObject);
     testConnection.name = 'conntection';
-    testConnection.type = elementTypes.CONNECTION;
-    testConnection.businessObject.type = elementTypes.CONNECTION;
+    testConnection.type = ElementTypes.CONNECTION;
+    testConnection.businessObject.type = ElementTypes.CONNECTION;
   });
 
   describe('createObjectListForDSTDownload', () => {

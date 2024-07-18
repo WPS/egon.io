@@ -2,13 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DetailsListItemComponent } from './details-list-item.component';
 import { IconListItem } from '../../../Domain/Icon-Set-Configuration/iconListItem';
-import { elementTypes } from '../../../Domain/Common/elementTypes';
+import { ElementTypes } from '../../../Domain/Common/elementTypes';
 
 const icon: IconListItem = {
   svg: '',
   isWorkObject: false,
   isActor: false,
-  name: elementTypes.ACTOR + 'testName',
+  name: ElementTypes.ACTOR + 'testName',
 };
 
 describe('DetailsListItemComponent', () => {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { elementTypes } from 'src/app/Domain/Common/elementTypes';
+import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import { Waypoint } from 'src/app/Domain/Common/waypoint';
 import { ActivityBusinessObject } from '../../Domain/Common/activityBusinessObject';
@@ -22,7 +22,7 @@ export class ImportRepairService {
 
     elements.forEach((element) => {
       const type = element.type;
-      if (type === elementTypes.ACTIVITY || type === elementTypes.CONNECTION) {
+      if (type === ElementTypes.ACTIVITY || type === ElementTypes.CONNECTION) {
         activities.push(element as ActivityBusinessObject);
       } else {
         objectIDs.push(element.id);
@@ -50,10 +50,10 @@ export class ImportRepairService {
     elements: BusinessObject[],
   ): BusinessObject[] {
     for (const element of elements) {
-      if (element.type === elementTypes.WORKOBJECT) {
-        element.type = elementTypes.WORKOBJECT + 'Document';
-      } else if (element.type === elementTypes.WORKOBJECT + 'Bubble') {
-        element.type = elementTypes.WORKOBJECT + 'Conversation';
+      if (element.type === ElementTypes.WORKOBJECT) {
+        element.type = ElementTypes.WORKOBJECT + 'Document';
+      } else if (element.type === ElementTypes.WORKOBJECT + 'Bubble') {
+        element.type = ElementTypes.WORKOBJECT + 'Conversation';
       }
     }
     return elements;
@@ -86,8 +86,8 @@ export class ImportRepairService {
     yUp: number,
   ): void {
     if (
-      element.type === elementTypes.ACTIVITY ||
-      element.type === elementTypes.CONNECTION
+      element.type === ElementTypes.ACTIVITY ||
+      element.type === ElementTypes.CONNECTION
     ) {
       const waypoints = (element as ActivityBusinessObject).waypoints;
       waypoints.forEach((point: Waypoint) => {
@@ -115,8 +115,8 @@ export class ImportRepairService {
       let elXLeft;
       let elYUp;
       if (
-        element.type !== elementTypes.ACTIVITY &&
-        element.type !== elementTypes.CONNECTION
+        element.type !== ElementTypes.ACTIVITY &&
+        element.type !== ElementTypes.CONNECTION
       ) {
         if (isFirst) {
           xLeft = element.x;

@@ -9,7 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 import {
   CustomIconSetConfiguration,
   testCustomIconSetConfiguration,
-} from '../../Domain/Common/iconSetConfiguration';
+} from '../../Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
 import { IconSetDetailsComponent } from './icon-set-details/icon-set-details.component';
 import { MaterialModule } from 'src/app/material.module';

@@ -3,7 +3,7 @@ import {
   GroupBusinessObject,
   testGroupBusinessObject,
 } from './groupBusinessObject';
-import { elementTypes } from './elementTypes';
+import { ElementTypes } from './elementTypes';
 
 export interface GroupCanvasObject extends CanvasObject {
   businessObject: GroupBusinessObject;
@@ -12,7 +12,7 @@ export interface GroupCanvasObject extends CanvasObject {
 
 export const testGroupCanvasObject: GroupCanvasObject = {
   ...testCanvasObject,
-  type: elementTypes.GROUP,
+  type: ElementTypes.GROUP,
 
   businessObject: testGroupBusinessObject,
   children: [],

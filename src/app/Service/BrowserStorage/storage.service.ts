@@ -3,7 +3,7 @@ import { ICON_SET_CONFIGURATION_TAG } from '../../Domain/Common/constants';
 import {
   IconSetConfiguration,
   fromConfigurationFromFile,
-} from '../../Domain/Common/iconSetConfiguration';
+} from '../../Domain/Icon-Set-Configuration/iconSetConfiguration';
 
 @Injectable({
   providedIn: 'root',

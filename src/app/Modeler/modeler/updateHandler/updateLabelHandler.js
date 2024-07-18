@@ -14,7 +14,7 @@ import {
   isLabel,
 } from "bpmn-js/lib/util/LabelUtil";
 
-import { elementTypes } from "src/app/Domain/Common/elementTypes";
+import { ElementTypes } from "src/app/Domain/Common/elementTypes";
 import { getBusinessObject, is } from "../util";
 
 const NULL_DIMENSIONS = {
@@ -96,7 +96,7 @@ export default function UpdateLabelHandler(
       // ignore internal labels for elements except text annotations
       if (
         !isLabelExternal(element) &&
-        !is(element, elementTypes.TEXTANNOTATION)
+        !is(element, ElementTypes.TEXTANNOTATION)
       ) {
         return;
       }

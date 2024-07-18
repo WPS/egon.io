@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { IconDictionaryService } from 'src/app/Service/IconSetConfiguration/icon-dictionary.service';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
-import { elementTypes } from 'src/app/Domain/Common/elementTypes';
+import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
 import {
   CustomIconSetConfiguration,
   IconSetConfiguration,
   IconSetConfigurationForExport,
-} from 'src/app/Domain/Common/iconSetConfiguration';
-import { defaultConf } from '../../Domain/Common/iconConfiguration';
+} from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
+import { defaultConf } from '../../Domain/Icon-Set-Configuration/iconConfiguration';
 import { TitleService } from '../Title/title.service';
 import { INITIAL_ICON_SET_NAME } from '../../Domain/Common/constants';
 
@@ -76,12 +76,12 @@ export class IconSetConfigurationService {
       .appendSRCFile(actorKeys, actorDict, workObjectKeys, workObjectDict);
 
     this.iconDictionaryService.addIconsFromIconSetConfiguration(
-      elementTypes.ACTOR,
-      actorKeys.map((a) => elementTypes.ACTOR + a),
+      ElementTypes.ACTOR,
+      actorKeys.map((a) => ElementTypes.ACTOR + a),
     );
     this.iconDictionaryService.addIconsFromIconSetConfiguration(
-      elementTypes.WORKOBJECT,
-      workObjectKeys.map((w) => elementTypes.WORKOBJECT + w),
+      ElementTypes.WORKOBJECT,
+      workObjectKeys.map((w) => ElementTypes.WORKOBJECT + w),
     );
 
     if (updateIconSetName) {
@@ -136,11 +136,11 @@ export class IconSetConfigurationService {
       actors: this.iconDictionaryService
         .getActorsDictionary()
         .keysArray()
-        .map((a) => a.replace(elementTypes.ACTOR, '')),
+        .map((a) => a.replace(ElementTypes.ACTOR, '')),
       workObjects: this.iconDictionaryService
         .getWorkObjectsDictionary()
         .keysArray()
-        .map((w) => w.replace(elementTypes.WORKOBJECT, '')),
+        .map((w) => w.replace(ElementTypes.WORKOBJECT, '')),
     };
   }
 
@@ -176,13 +176,13 @@ export class IconSetConfigurationService {
     actorNames.forEach((actor) => {
       newActors.add(
         actorsDict.get(actor),
-        actor.replace(elementTypes.ACTOR, ''),
+        actor.replace(ElementTypes.ACTOR, ''),
       );
     });
     workobjectNames.forEach((workObject) => {
       newWorkobjects.add(
         workObjectsDict.get(workObject),
-        workObject.replace(elementTypes.WORKOBJECT, ''),
+        workObject.replace(ElementTypes.WORKOBJECT, ''),
       );
     });
 
@@ -206,12 +206,12 @@ export class IconSetConfigurationService {
       .map((e) => e.businessObject)
       .forEach((element) => {
         const type = element.type
-          .replace(elementTypes.ACTOR, '')
-          .replace(elementTypes.WORKOBJECT, '');
-        if (element.type.includes(elementTypes.ACTOR)) {
+          .replace(ElementTypes.ACTOR, '')
+          .replace(ElementTypes.WORKOBJECT, '');
+        if (element.type.includes(ElementTypes.ACTOR)) {
           let src = this.iconDictionaryService.getIconSource(type) || '';
           config.actors.add(src, type);
-        } else if (element.type.includes(elementTypes.WORKOBJECT)) {
+        } else if (element.type.includes(ElementTypes.WORKOBJECT)) {
           let src = this.iconDictionaryService.getIconSource(type) || '';
           config.workObjects.add(src, type);
         }

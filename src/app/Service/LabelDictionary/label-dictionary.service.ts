@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
-import { elementTypes } from 'src/app/Domain/Common/elementTypes';
+import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
 import { MassNamingService } from 'src/app/Service/LabelDictionary/mass-naming.service';
 import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
 import { WorkObjectLabelEntry } from '../../Domain/LabelDictionary/workObjectLabelEntry';
@@ -30,7 +30,7 @@ export class LabelDictionaryService {
       if (
         name &&
         name.length > 0 &&
-        element.type.includes(elementTypes.ACTIVITY) &&
+        element.type.includes(ElementTypes.ACTIVITY) &&
         !this.activityLabels.map((a) => a.name).includes(name)
       ) {
         this.activityLabels.push({
@@ -40,10 +40,10 @@ export class LabelDictionaryService {
       } else if (
         name &&
         name.length > 0 &&
-        element.type.includes(elementTypes.WORKOBJECT) &&
+        element.type.includes(ElementTypes.WORKOBJECT) &&
         !this.workObjektLabels.map((e) => e.name).includes(name)
       ) {
-        const iconName = element.type.replace(elementTypes.WORKOBJECT, '');
+        const iconName = element.type.replace(ElementTypes.WORKOBJECT, '');
         let icon = this.iconDictionaryService.getIconSource(iconName);
         if (!icon) {
           return;
@@ -101,7 +101,7 @@ export class LabelDictionaryService {
         this.massNamingService.massChangeNames(
           originalActivityNames[i],
           activityNames[i],
-          elementTypes.ACTIVITY,
+          ElementTypes.ACTIVITY,
         );
       }
     }
@@ -113,7 +113,7 @@ export class LabelDictionaryService {
         this.massNamingService.massChangeNames(
           originalWorkObjectNames[i],
           workObjectNames[i],
-          elementTypes.WORKOBJECT,
+          ElementTypes.WORKOBJECT,
         );
       }
     }

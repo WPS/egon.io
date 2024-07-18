@@ -1,4 +1,4 @@
-import { elementTypes } from "src/app/Domain/Common/elementTypes";
+import { ElementTypes } from "src/app/Domain/Common/elementTypes";
 
 let iconDictionaryService;
 
@@ -8,7 +8,7 @@ export function initializeReplaceOptions(iconDictionary) {
 
 export function actorReplaceOptions(name) {
   const actorTypes = iconDictionaryService.getTypeDictionary(
-    elementTypes.ACTOR,
+    ElementTypes.ACTOR,
   );
 
   let replaceOption = {};
@@ -21,11 +21,11 @@ export function actorReplaceOptions(name) {
         label: "Change to " + typeName,
         actionName: "replace-with-actor-" + typeName.toLowerCase(),
         className: iconDictionaryService.getIconForBPMN(
-          elementTypes.ACTOR,
+          ElementTypes.ACTOR,
           actorType,
         ),
         target: {
-          type: `${elementTypes.ACTOR}${actorType}`,
+          type: `${ElementTypes.ACTOR}${actorType}`,
         },
       };
       i++;
@@ -36,7 +36,7 @@ export function actorReplaceOptions(name) {
 
 export function workObjectReplaceOptions(name) {
   const workObjectTypes = iconDictionaryService.getTypeDictionary(
-    elementTypes.WORKOBJECT,
+    ElementTypes.WORKOBJECT,
   );
 
   let replaceOption = {};
@@ -49,11 +49,11 @@ export function workObjectReplaceOptions(name) {
         label: "Change to " + typeName,
         actionName: "replace-with-actor-" + typeName,
         className: iconDictionaryService.getIconForBPMN(
-          elementTypes.WORKOBJECT,
+          ElementTypes.WORKOBJECT,
           workObjectType,
         ),
         target: {
-          type: `${elementTypes.WORKOBJECT}${workObjectType}`,
+          type: `${ElementTypes.WORKOBJECT}${workObjectType}`,
         },
       };
     }

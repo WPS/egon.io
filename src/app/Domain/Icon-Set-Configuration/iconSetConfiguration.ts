@@ -1,7 +1,7 @@
-import { INITIAL_ICON_SET_NAME } from './constants';
-import { testBusinessObject } from './businessObject';
-import { elementTypes } from './elementTypes';
-import { Dictionary } from './dictionary/dictionary';
+import { INITIAL_ICON_SET_NAME } from '../Common/constants';
+import { testBusinessObject } from '../Common/businessObject';
+import { ElementTypes } from '../Common/elementTypes';
+import { Dictionary } from '../Common/dictionary/dictionary';
 
 export interface IconSetConfiguration {
   name: string;
@@ -21,7 +21,7 @@ export interface CustomIconSetConfiguration {
   workObjects: string[];
 }
 const actor = structuredClone(testBusinessObject);
-actor.type = elementTypes.ACTOR;
+actor.type = ElementTypes.ACTOR;
 
 export const testCustomIconSetConfiguration: CustomIconSetConfiguration = {
   name: INITIAL_ICON_SET_NAME,

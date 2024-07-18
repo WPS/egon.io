@@ -4,7 +4,7 @@ import { ModelerService } from '../Modeler/modeler.service';
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
 import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
 import { DirtyFlagService } from '../DirtyFlag/dirty-flag.service';
-import { IconSetConfiguration } from '../../Domain/Common/iconSetConfiguration';
+import { IconSetConfiguration } from '../../Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 
 describe('RendererService', () => {

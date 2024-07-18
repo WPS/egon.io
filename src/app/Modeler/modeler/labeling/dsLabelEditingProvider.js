@@ -13,7 +13,7 @@ import {
   isLabelExternal,
 } from "bpmn-js/lib/util/LabelUtil";
 
-import { elementTypes } from "../../../Domain/Common/elementTypes";
+import { ElementTypes } from "../../../Domain/Common/elementTypes";
 import { is } from "../util";
 
 let dictionaryService;
@@ -61,7 +61,7 @@ export default function DSLabelEditingProvider(
   // listen to dblclick on non-root elements
   eventBus.on("element.dblclick", function (event) {
     activateDirectEdit(event.element, true);
-    if (is(event.element, elementTypes.ACTIVITY)) {
+    if (is(event.element, ElementTypes.ACTIVITY)) {
       // if we edit an activity, we do not want the standard editing box
       numberStash = event.element.businessObject.number;
       stashUse = true;
@@ -110,7 +110,7 @@ export default function DSLabelEditingProvider(
     if (!canExecute) {
       return;
     }
-    if (!is(element, elementTypes.ACTIVITY)) {
+    if (!is(element, ElementTypes.ACTIVITY)) {
       activateDirectEdit(element);
     }
     let editingBox = document.getElementsByClassName(
@@ -126,8 +126,8 @@ export default function DSLabelEditingProvider(
   function activateDirectEdit(element, force) {
     if (
       force ||
-      isAny(element, [elementTypes.TEXTANNOTATION]) ||
-      element.businessObject.type.includes(elementTypes.DOMAINSTORY)
+      isAny(element, [ElementTypes.TEXTANNOTATION]) ||
+      element.businessObject.type.includes(ElementTypes.DOMAINSTORY)
     ) {
       directEditing.activate(element);
     }
@@ -194,7 +194,7 @@ DSLabelEditingProvider.prototype.activate = function (element) {
   }
 
   // text annotations
-  if (is(element, elementTypes.TEXTANNOTATION)) {
+  if (is(element, ElementTypes.TEXTANNOTATION)) {
     assign(options, {
       resizable: true,
       autoResize: true,
@@ -249,7 +249,7 @@ DSLabelEditingProvider.prototype.getEditingBBox = function (element) {
   };
 
   // adjust for groups
-  if (is(element, elementTypes.GROUP)) {
+  if (is(element, ElementTypes.GROUP)) {
     assign(bounds, {
       minWidth: bbox.width / 2.5 > 125 ? bbox.width / 2.5 : 125,
       maxWidth: bbox.width,
@@ -346,7 +346,7 @@ DSLabelEditingProvider.prototype.getEditingBBox = function (element) {
   }
 
   // text annotations
-  if (is(element, elementTypes.TEXTANNOTATION)) {
+  if (is(element, ElementTypes.TEXTANNOTATION)) {
     assign(bounds, {
       width: bbox.width,
       height: bbox.height,
@@ -376,7 +376,7 @@ DSLabelEditingProvider.prototype.update = function (
 ) {
   let newBounds, bbox;
 
-  if (is(element, elementTypes.TEXTANNOTATION)) {
+  if (is(element, ElementTypes.TEXTANNOTATION)) {
     bbox = this._canvas.getAbsoluteBBox(element);
 
     newBounds = {

@@ -12,7 +12,7 @@ import {
 } from "diagram-js/lib/util/Collections";
 
 import { reworkGroupElements } from "./util";
-import { elementTypes } from "../../Domain/Common/elementTypes";
+import { ElementTypes } from "../../Domain/Common/elementTypes";
 
 /**
  * a handler responsible for updating the custom element's businessObject
@@ -26,7 +26,7 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
       shape = context.shape,
       businessObject = shape.businessObject;
 
-    if (!shape || !shape.type.includes(elementTypes.DOMAINSTORY)) {
+    if (!shape || !shape.type.includes(ElementTypes.DOMAINSTORY)) {
       return;
     }
 
@@ -44,7 +44,7 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
     assign(businessObject, pick(shape, ["x", "y"]));
 
     // save custom element size if resizable
-    if (shape.type === elementTypes.GROUP) {
+    if (shape.type === ElementTypes.GROUP) {
       assign(businessObject, pick(shape, ["height", "width"]));
 
       // rework the child-parent relations if a group was moved, such that all Objects that are visually in the group are also associated with it
@@ -57,7 +57,7 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
       shape &&
       shape.parent &&
       "type" in shape.parent &&
-      shape.parent.type === elementTypes.GROUP
+      shape.parent.type === ElementTypes.GROUP
     ) {
       assign(businessObject, {
         parent: shape.parent.id,

@@ -1,6 +1,6 @@
 import { testActivityCanvasObject } from '../Domain/Common/activityCanvasObject';
 import { CanvasObject, testCanvasObject } from '../Domain/Common/canvasObject';
-import { elementTypes } from '../Domain/Common/elementTypes';
+import { ElementTypes } from '../Domain/Common/elementTypes';
 import { StorySentence } from '../Domain/Replay/storySentence';
 
 export function preBuildTestStory(sentenceAmount: number): StorySentence[] {
@@ -68,12 +68,12 @@ export function createReplaySentenceObjects(
         )
       : structuredClone(testCanvasObject)
   ) as CanvasObject;
-  source.type = elementTypes.ACTOR;
+  source.type = ElementTypes.ACTOR;
   if (!previousSentence) {
     source.id = 'source-' + sentenceNumber;
-    source.type = elementTypes.ACTOR;
+    source.type = ElementTypes.ACTOR;
     source.businessObject.id = source.id;
-    source.businessObject.type = elementTypes.ACTOR;
+    source.businessObject.type = ElementTypes.ACTOR;
   }
   if (!source.outgoing) {
     source.outgoing = [];
@@ -81,10 +81,10 @@ export function createReplaySentenceObjects(
   source.outgoing.push(activityFromActor);
 
   const workObject = structuredClone(testCanvasObject);
-  workObject.type = elementTypes.WORKOBJECT;
+  workObject.type = ElementTypes.WORKOBJECT;
   workObject.id = 'target-' + sentenceNumber;
   workObject.businessObject.id = workObject.id;
-  workObject.businessObject.type = elementTypes.WORKOBJECT;
+  workObject.businessObject.type = ElementTypes.WORKOBJECT;
   workObject.incoming!.push(activityFromActor);
 
   activityFromActor.source = source;
@@ -100,10 +100,10 @@ export function createReplaySentenceObjects(
   activityFromWorkObject.businessObject.id = activityFromWorkObject.id;
 
   const endActor = structuredClone(testCanvasObject);
-  endActor.type = elementTypes.ACTOR;
+  endActor.type = ElementTypes.ACTOR;
   endActor.id = 'source-' + sentenceNumber;
   endActor.businessObject.id = source.id;
-  endActor.businessObject.type = elementTypes.ACTOR;
+  endActor.businessObject.type = ElementTypes.ACTOR;
   endActor.incoming!.push(activityFromWorkObject);
 
   activityFromWorkObject.source = workObject;

@@ -6,7 +6,7 @@ import ContextPadProvider from "bpmn-js/lib/features/context-pad/ContextPadProvi
 
 import { assign, bind } from "min-dash";
 import { generateAutomaticNumber } from "../numbering/numbering";
-import { elementTypes } from "src/app/Domain/Common/elementTypes";
+import { ElementTypes } from "src/app/Domain/Common/elementTypes";
 import { getAllStandardIconKeys } from "src/app/Domain/Icon-Set-Configuration/allIcons";
 
 let dirtyFlagService;
@@ -62,10 +62,10 @@ export default function DomainStoryContextPadProvider(
       connect.start(event, element, autoActivate);
     };
 
-    if (element.type.includes(elementTypes.WORKOBJECT)) {
+    if (element.type.includes(ElementTypes.WORKOBJECT)) {
       if (
         allStandardIconKeys.includes(
-          element.type.replace(elementTypes.WORKOBJECT, ""),
+          element.type.replace(ElementTypes.WORKOBJECT, ""),
         )
       ) {
         addColorChange(actions);
@@ -75,10 +75,10 @@ export default function DomainStoryContextPadProvider(
       addActors(appendAction, actions);
       addWorkObjects(appendAction, actions);
       addChangeWorkObjectTypeMenu(actions);
-    } else if (element.type.includes(elementTypes.ACTOR)) {
+    } else if (element.type.includes(ElementTypes.ACTOR)) {
       if (
         allStandardIconKeys.includes(
-          element.type.replace(elementTypes.ACTOR, ""),
+          element.type.replace(ElementTypes.ACTOR, ""),
         )
       ) {
         addColorChange(actions);
@@ -87,7 +87,7 @@ export default function DomainStoryContextPadProvider(
       addTextAnnotation(actions);
       addWorkObjects(appendAction, actions);
       addChangeActorTypeMenu(actions);
-    } else if (element.type.includes(elementTypes.GROUP)) {
+    } else if (element.type.includes(ElementTypes.GROUP)) {
       delete actions.delete;
       addTextAnnotation(actions);
       assign(actions, {
@@ -104,7 +104,7 @@ export default function DomainStoryContextPadProvider(
         },
       });
       addColorChange(actions);
-    } else if (element.type.includes(elementTypes.ACTIVITY)) {
+    } else if (element.type.includes(ElementTypes.ACTIVITY)) {
       moveDeleteActionToEndOfArray(actions);
 
       addColorChange(actions);
@@ -182,7 +182,7 @@ export default function DomainStoryContextPadProvider(
   function addTextAnnotation(actions) {
     assign(actions, {
       "append.text-annotation": appendAction(
-        elementTypes.TEXTANNOTATION,
+        ElementTypes.TEXTANNOTATION,
         "bpmn-icon-text-annotation",
         "textannotation",
         "connect",
@@ -206,17 +206,17 @@ export default function DomainStoryContextPadProvider(
 
   function addWorkObjects(appendAction, actions) {
     let workObjectTypes = iconDictionaryService.getTypeDictionary(
-      elementTypes.WORKOBJECT,
+      ElementTypes.WORKOBJECT,
     );
     workObjectTypes.keysArray().forEach((workObjectType) => {
       let name = workObjectType;
       let icon = iconDictionaryService.getIconForBPMN(
-        elementTypes.WORKOBJECT,
+        ElementTypes.WORKOBJECT,
         workObjectType,
       );
       let action = [];
       action["append.workObject" + name] = appendAction(
-        `${elementTypes.WORKOBJECT}${workObjectType}`,
+        `${ElementTypes.WORKOBJECT}${workObjectType}`,
         icon,
         name,
         "workObjects",
@@ -227,17 +227,17 @@ export default function DomainStoryContextPadProvider(
 
   function addActors(appendAction, actions) {
     let actorTypes = iconDictionaryService.getTypeDictionary(
-      elementTypes.ACTOR,
+      ElementTypes.ACTOR,
     );
     actorTypes.keysArray().forEach((actorType) => {
       let name = actorType;
       let icon = iconDictionaryService.getIconForBPMN(
-        elementTypes.ACTOR,
+        ElementTypes.ACTOR,
         actorType,
       );
       let action = [];
       action["append.actor" + name] = appendAction(
-        `${elementTypes.ACTOR}${actorType}`,
+        `${ElementTypes.ACTOR}${actorType}`,
         icon,
         name,
         "actors",
@@ -269,7 +269,7 @@ export default function DomainStoryContextPadProvider(
     let businessObject = element.businessObject;
     let newNumber;
 
-    if (element.source.type.includes(elementTypes.ACTOR)) {
+    if (element.source.type.includes(ElementTypes.ACTOR)) {
       newNumber = 0;
     } else {
       newNumber = generateAutomaticNumber(element, commandStack);

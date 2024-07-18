@@ -9,7 +9,7 @@ import { ImportDomainStoryService } from '../Import/import-domain-story.service'
 import {
   IconSetConfiguration,
   testCustomIconSetConfiguration,
-} from '../../Domain/Common/iconSetConfiguration';
+} from '../../Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
 import { Observable, of } from 'rxjs';
 import {

@@ -4,7 +4,7 @@ import {
 } from 'src/app/Domain/Common/businessObject';
 import { RootObject, testRoot } from 'src/app/Domain/Common/rootObject';
 import { ActivityCanvasObject } from './activityCanvasObject';
-import { elementTypes } from './elementTypes';
+import { ElementTypes } from './elementTypes';
 
 export interface CanvasObject {
   attachers: any;
@@ -36,7 +36,7 @@ export const testCanvasObject: CanvasObject = {
   incoming: [],
   outgoing: [],
   id: 'test',
-  type: elementTypes.WORKOBJECT,
+  type: ElementTypes.WORKOBJECT,
   height: 38,
   width: 38,
   x: 0,

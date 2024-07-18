@@ -1,6 +1,6 @@
 import { BusinessObject, testBusinessObject } from './businessObject';
 import { Waypoint } from './waypoint';
-import { elementTypes } from './elementTypes';
+import { ElementTypes } from './elementTypes';
 
 export interface ActivityBusinessObject extends BusinessObject {
   number: number | undefined;
@@ -17,7 +17,7 @@ export const testActivityBusinessObject: ActivityBusinessObject = {
   number: undefined,
   waypoints: [],
 
-  type: elementTypes.ACTIVITY,
+  type: ElementTypes.ACTIVITY,
 
   source: '1',
   target: '2',

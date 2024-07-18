@@ -1,4 +1,4 @@
-import { elementTypes } from './elementTypes';
+import { ElementTypes } from './elementTypes';
 
 export interface BusinessObject {
   $descriptor: any;
@@ -29,7 +29,7 @@ export const testBusinessObject: BusinessObject = {
   id: 'test',
   name: 'test',
 
-  type: elementTypes.WORKOBJECT,
+  type: ElementTypes.WORKOBJECT,
 
   x: 0,
   y: 0,

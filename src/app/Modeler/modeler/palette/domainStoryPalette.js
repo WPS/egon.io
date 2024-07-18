@@ -3,7 +3,7 @@
 import { assign } from "min-dash";
 import { overrideAppendedIcons } from "src/app/Domain/Icon-Set-Configuration/allIcons";
 import { Dictionary } from "src/app/Domain/Common/dictionary/dictionary";
-import { elementTypes } from "src/app/Domain/Common/elementTypes";
+import { ElementTypes } from "src/app/Domain/Common/elementTypes";
 import { APPENDED_ICONS_TAG } from "../../../Domain/Common/constants";
 
 /**
@@ -129,7 +129,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
 
   iconDictionary?.initTypeDictionaries(config.actors, config.workObjects);
 
-  let actorTypes = iconDictionary?.getTypeDictionary(elementTypes.ACTOR);
+  let actorTypes = iconDictionary?.getTypeDictionary(ElementTypes.ACTOR);
 
   actorTypes?.keysArray().forEach((name) => {
     addCanvasObjectTypes(
@@ -137,7 +137,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
       createAction,
       actions,
       "actor",
-      elementTypes.ACTOR,
+      ElementTypes.ACTOR,
     );
   });
 
@@ -149,7 +149,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
   });
 
   let workObjectTypes = iconDictionary?.getTypeDictionary(
-    elementTypes.WORKOBJECT,
+    ElementTypes.WORKOBJECT,
   );
 
   workObjectTypes?.keysArray().forEach((name) => {
@@ -158,7 +158,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
       createAction,
       actions,
       "actor",
-      elementTypes.WORKOBJECT,
+      ElementTypes.WORKOBJECT,
     );
   });
 
@@ -168,7 +168,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
       separator: true,
     },
     "domainStory-group": createAction(
-      elementTypes.GROUP,
+      ElementTypes.GROUP,
       "group",
       "icon-domain-story-tool-group",
       "group",

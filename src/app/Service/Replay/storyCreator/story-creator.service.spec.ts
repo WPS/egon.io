@@ -5,7 +5,7 @@ import { ElementRegistryService } from '../../ElementRegistry/element-registry.s
 import { StorySentence } from '../../../Domain/Replay/storySentence';
 import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
 import { CanvasObject } from '../../../Domain/Common/canvasObject';
-import { elementTypes } from '../../../Domain/Common/elementTypes';
+import { ElementTypes } from '../../../Domain/Common/elementTypes';
 import { testGroupCanvasObject } from '../../../Domain/Common/groupCanvasObject';
 import {
   createReplaySentenceObjects,
@@ -74,7 +74,7 @@ describe('StoryCreatorService', () => {
       elementRegistryServiceSpy.getActivitiesFromActors.and.returnValue(
         (
           objects.filter(
-            (o) => o.type === elementTypes.ACTIVITY,
+            (o) => o.type === ElementTypes.ACTIVITY,
           ) as ActivityCanvasObject[]
         ).filter((o) => o.businessObject.number != null),
       );

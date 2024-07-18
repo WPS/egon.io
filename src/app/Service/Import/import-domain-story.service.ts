@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { IconDictionaryService } from 'src/app/Service/IconSetConfiguration/icon-dictionary.service';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
-import { elementTypes } from 'src/app/Domain/Common/elementTypes';
+import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
 import { TitleService } from 'src/app/Service/Title/title.service';
 import { ImportRepairService } from 'src/app/Service/Import/import-repair.service';
 import { Observable, Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import {
   IconSetConfiguration,
   fromConfigurationFromFile,
-} from 'src/app/Domain/Common/iconSetConfiguration';
+} from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { DialogService } from '../Dialog/dialog.service';
 import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
@@ -246,10 +246,10 @@ export class ImportDomainStoryService implements OnDestroy {
     const newWorkObjectKeys = iconSetConfiguration.workObjects.keysArray();
 
     const currentActorKeys = this.iconDictionaryService.getTypeDictionaryKeys(
-      elementTypes.ACTOR,
+      ElementTypes.ACTOR,
     );
     const currentWorkobjectKeys =
-      this.iconDictionaryService.getTypeDictionaryKeys(elementTypes.WORKOBJECT);
+      this.iconDictionaryService.getTypeDictionaryKeys(ElementTypes.WORKOBJECT);
 
     let changed = false;
 
@@ -283,8 +283,8 @@ export class ImportDomainStoryService implements OnDestroy {
 
   private clearName(name: string): string {
     return name
-      .replace(elementTypes.ACTOR, '')
-      .replace(elementTypes.WORKOBJECT, '');
+      .replace(ElementTypes.ACTOR, '')
+      .replace(ElementTypes.WORKOBJECT, '');
   }
 
   private updateIconRegistries(
@@ -293,11 +293,11 @@ export class ImportDomainStoryService implements OnDestroy {
   ): void {
     const actorIcons = this.iconDictionaryService.getElementsOfType(
       elements,
-      elementTypes.ACTOR,
+      ElementTypes.ACTOR,
     );
     const workObjectIcons = this.iconDictionaryService.getElementsOfType(
       elements,
-      elementTypes.WORKOBJECT,
+      ElementTypes.WORKOBJECT,
     );
     this.iconDictionaryService.updateIconRegistries(
       actorIcons,

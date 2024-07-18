@@ -22,9 +22,8 @@ import {
 
 import { calculateTextWidth } from "./labeling/dsLabelUtil";
 import { countLines, labelPosition } from "./labeling/position";
-import { elementTypes } from "src/app/Domain/Common/elementTypes";
+import { ElementTypes } from "src/app/Domain/Common/elementTypes";
 import { angleBetween } from "../../Utils/mathExtensions";
-import { getNameFromType } from "../../Utils/naming";
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
@@ -221,13 +220,13 @@ export default function DomainStoryRenderer(
       if (
         semantic.number == null &&
         element.source.type &&
-        element.source.type.includes(elementTypes.ACTOR)
+        element.source.type.includes(ElementTypes.ACTOR)
       ) {
         generateAutomaticNumber(element, commandStack);
       }
 
       // render the background for the number
-      if (semantic.number && element.source.type.includes(elementTypes.ACTOR)) {
+      if (semantic.number && element.source.type.includes(ElementTypes.ACTOR)) {
         generateActivityNumber(parentGfx, element, box);
       } else {
         semantic.number = null;
@@ -380,8 +379,8 @@ export default function DomainStoryRenderer(
       },
       actor;
     let iconSRC = iconDictionary.getTypeIconSRC(
-      elementTypes.ACTOR,
-      getNameFromType(element.type),
+      ElementTypes.ACTOR,
+      ElementTypes.getNameFromType(element.type),
     );
     iconSRC = getIconSrc(iconSRC, element);
     actor = svgCreate(iconSRC);
@@ -402,8 +401,8 @@ export default function DomainStoryRenderer(
       },
       workObject;
     let iconSRC = iconDictionary.getTypeIconSRC(
-      elementTypes.WORKOBJECT,
-      getNameFromType(element.type),
+      ElementTypes.WORKOBJECT,
+      ElementTypes.getNameFromType(element.type),
     );
     iconSRC = getIconSrc(iconSRC, element);
     workObject = svgCreate(iconSRC);
@@ -759,13 +758,13 @@ DomainStoryRenderer.prototype.drawShape = function (p, element) {
   elementRegistry.correctInitialize();
   dirtyFlag.makeDirty();
 
-  if (type.includes(elementTypes.ACTOR)) {
+  if (type.includes(ElementTypes.ACTOR)) {
     return this.drawActor(p, element);
-  } else if (type.includes(elementTypes.WORKOBJECT)) {
+  } else if (type.includes(ElementTypes.WORKOBJECT)) {
     return this.drawWorkObject(p, element);
-  } else if (type.includes(elementTypes.TEXTANNOTATION)) {
+  } else if (type.includes(ElementTypes.TEXTANNOTATION)) {
     return this.drawAnnotation(p, element);
-  } else if (type.includes(elementTypes.GROUP)) {
+  } else if (type.includes(ElementTypes.GROUP)) {
     return this.drawGroup(p, element);
   }
 };
@@ -773,11 +772,11 @@ DomainStoryRenderer.prototype.drawShape = function (p, element) {
 DomainStoryRenderer.prototype.getShapePath = function (shape) {
   let type = shape.type;
 
-  if (type.includes(elementTypes.ACTOR)) {
+  if (type.includes(ElementTypes.ACTOR)) {
     return this.getActorPath(shape);
-  } else if (type.includes(elementTypes.WORKOBJECT)) {
+  } else if (type.includes(ElementTypes.WORKOBJECT)) {
     return this.getWorkObjectPath(shape);
-  } else if (type.includes(elementTypes.GROUP)) {
+  } else if (type.includes(ElementTypes.GROUP)) {
     return this.getGroupPath(shape);
   }
 };
@@ -791,9 +790,9 @@ DomainStoryRenderer.prototype.drawConnection = function (p, element) {
   if (!element.businessObject.type) {
     element.businessObject.type = type;
   }
-  if (type === elementTypes.ACTIVITY) {
+  if (type === ElementTypes.ACTIVITY) {
     return this.drawActivity(p, element);
-  } else if (type === elementTypes.CONNECTION) {
+  } else if (type === ElementTypes.CONNECTION) {
     return this.drawDSConnection(p, element);
   }
 };

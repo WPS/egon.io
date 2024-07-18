@@ -2,7 +2,7 @@ import { bootstrapBpmnJS, inject } from "./testHelper";
 
 import { assign } from "min-dash";
 import DomainStoryModeler from "../../index";
-import { elementTypes } from "../../../Domain/Common/elementTypes";
+import { ElementTypes } from "../../../Domain/Common/elementTypes";
 
 describe("domainStory modeling", function () {
   const xml = require("./language/diagram.bpmn");
@@ -165,7 +165,7 @@ describe("domainStory modeling", function () {
         taskShape = elementRegistry.get("Task_1");
 
       const customConnection = modeling.connect(customShape, taskShape, {
-        type: elementTypes.CONNECTION,
+        type: ElementTypes.CONNECTION,
       });
 
       bpmnjs.addCustomElements([
@@ -201,7 +201,7 @@ describe("domainStory modeling", function () {
         taskShape2 = elementRegistry.get("Task_2");
 
       const customConnection = modeling.connect(customShape, taskShape1, {
-        type: elementTypes.CONNECTION,
+        type: ElementTypes.CONNECTION,
       });
 
       // when
@@ -224,7 +224,7 @@ describe("domainStory modeling", function () {
         taskShape = elementRegistry.get("Task_1");
 
       const customConnection = modeling.connect(customElement, taskShape, {
-        type: elementTypes.CONNECTION,
+        type: ElementTypes.CONNECTION,
       });
 
       // when
@@ -256,7 +256,7 @@ describe("domainStory modeling", function () {
         customElements = bpmnjs.getCustomElements();
 
       const customConnection = modeling.connect(customShape, taskShape, {
-        type: elementTypes.CONNECTION,
+        type: ElementTypes.CONNECTION,
       });
 
       // when

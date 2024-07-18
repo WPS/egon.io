@@ -4,8 +4,8 @@ import { ExportService } from '../Export/export.service';
 import { Draft } from '../../Domain/Autosave/draft';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
-import { elementTypes } from '../../Domain/Common/elementTypes';
-import { fromConfigurationFromFile } from '../../Domain/Common/iconSetConfiguration';
+import { ElementTypes } from '../../Domain/Common/elementTypes';
+import { fromConfigurationFromFile } from '../../Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { TitleService } from '../Title/title.service';
 import { AutosaveConfiguration } from '../../Domain/Autosave/autosave-configuration';
@@ -60,11 +60,11 @@ export class AutosaveService {
 
     const actorIcons = this.iconDictionaryService.getElementsOfType(
       story,
-      elementTypes.ACTOR,
+      ElementTypes.ACTOR,
     );
     const workObjectIcons = this.iconDictionaryService.getElementsOfType(
       story,
-      elementTypes.WORKOBJECT,
+      ElementTypes.WORKOBJECT,
     );
     this.iconDictionaryService.updateIconRegistries(
       actorIcons,

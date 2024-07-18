@@ -4,7 +4,7 @@ import {
   ActivityBusinessObject,
   testActivityBusinessObject,
 } from './activityBusinessObject';
-import { elementTypes } from './elementTypes';
+import { ElementTypes } from './elementTypes';
 
 export interface ActivityCanvasObject extends CanvasObject {
   source: CanvasObject;
@@ -20,7 +20,7 @@ export const testActivityCanvasObject: ActivityCanvasObject = {
   source: testCanvasObject,
   target: testCanvasObject,
 
-  type: elementTypes.ACTIVITY,
+  type: ElementTypes.ACTIVITY,
 
   waypoints: [],
 

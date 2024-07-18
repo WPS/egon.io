@@ -5,11 +5,11 @@ import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
 import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
 import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
-import { IconSetConfiguration } from '../../Domain/Common/iconSetConfiguration';
+import { IconSetConfiguration } from '../../Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { createTestCanvasObjects } from '../../Utils/testHelpers.spec';
 import { BusinessObject } from '../../Domain/Common/businessObject';
 import { INITIAL_ICON_SET_NAME } from '../../Domain/Common/constants';
-import { elementTypes } from '../../Domain/Common/elementTypes';
+import { ElementTypes } from '../../Domain/Common/elementTypes';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 // @ts-ignore
 import Modeler from 'bpmn-js/lib/Modeler';
@@ -28,10 +28,10 @@ describe('ModelerService', () => {
     (e) => e.businessObject,
   );
   const actorsDict = new Dictionary();
-  actorsDict.add('', elementTypes.ACTOR);
+  actorsDict.add('', ElementTypes.ACTOR);
 
   const workObjectsDict = new Dictionary();
-  workObjectsDict.add('', elementTypes.WORKOBJECT);
+  workObjectsDict.add('', ElementTypes.WORKOBJECT);
 
   let testConfiguration: IconSetConfiguration = {
     name: INITIAL_ICON_SET_NAME,

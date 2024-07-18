@@ -1,8 +1,8 @@
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { overrideAppendedIcons } from 'src/app/Domain/Icon-Set-Configuration/allIcons';
 import { Configuration } from 'src/app/Domain/Common/configuration';
-import { IconSetConfiguration } from 'src/app/Domain/Common/iconSetConfiguration';
-import { INITIAL_ICON_SET_NAME } from './constants';
+import { IconSetConfiguration } from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
+import { INITIAL_ICON_SET_NAME } from '../Common/constants';
 
 export class IconConfiguration {
   domainName = INITIAL_ICON_SET_NAME;
