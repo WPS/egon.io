@@ -137,6 +137,7 @@ export class SvgService {
         TEXTSPAN_TITLE_HEIGHT +
         DEFAULT_PADDING
       : viewBoxHeight;
+    viewBoxWidth = viewBoxWidth + DEFAULT_PADDING;
 
     return `width="${width}" height="${height}" viewBox="${min_x} ${min_y} ${viewBoxWidth} ${viewBoxHeight}`;
   }
