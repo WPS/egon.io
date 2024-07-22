@@ -2,29 +2,42 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderDialogComponent } from 'src/app/Presentation/Dialog/header-dialog/header-dialog.component';
 import { MockModule, MockProviders, MockService } from 'ng-mocks';
-import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
-import { ReplayService } from '../../../Service/Replay/replay.service';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
+import { TitleService } from '../../../Service/Title/title.service';
+import { DirtyFlagService } from '../../../Service/DirtyFlag/dirty-flag.service';
+import {
+  INITIAL_DESCRIPTION,
+  INITIAL_TITLE,
+} from '../../../Domain/Common/constants';
 
 describe('HeaderDialogComponent', () => {
   let component: HeaderDialogComponent;
   let fixture: ComponentFixture<HeaderDialogComponent>;
 
+  let titleService: TitleService;
+  let dirtyFlagService: DirtyFlagService;
+  let dialogRef: MatDialogRef<HeaderDialogComponent>;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HeaderDialogComponent],
-      imports: [MockModule(MaterialModule), ReactiveFormsModule],
+      imports: [MockModule(MaterialModule), MockModule(ReactiveFormsModule)],
       providers: [
         {
-          provide: ReplayService,
-          useValue: MockService(ReplayService),
+          provide: TitleService,
+          useValue: MockService(TitleService),
         },
         {
-          provide: UntypedFormBuilder,
+          provide: DirtyFlagService,
+          useValue: MockService(DirtyFlagService),
         },
-        MockProviders(MatDialog, MatDialogRef),
-        UntypedFormBuilder,
+        {
+          provide: MatDialogRef,
+          useValue: MockService(MatDialogRef),
+        },
+        MockProviders(MatDialog),
       ],
     }).compileComponents();
   });
@@ -32,10 +45,74 @@ describe('HeaderDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderDialogComponent);
     component = fixture.componentInstance;
+    titleService = TestBed.inject(TitleService);
+    dirtyFlagService = TestBed.inject(DirtyFlagService);
+    dialogRef = TestBed.inject(MatDialogRef);
+
+    spyOn(titleService, 'updateTitleAndDescription');
+    spyOn(dirtyFlagService, 'makeDirty');
+    spyOn(titleService, 'getTitle').and.returnValue(INITIAL_TITLE);
+    spyOn(titleService, 'getDescription').and.returnValue(INITIAL_DESCRIPTION);
+    spyOn(dialogRef, 'close');
+
+    component.ngOnInit();
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should initialize component with correct form', () => {
+    expect(component.form.getRawValue().title).toBe('< title >');
+    expect(component.form.getRawValue().description).toBe('');
+    expect(component.form.dirty).toBe(false);
+  });
+
+  describe('apply save with form marks as DIRTY', () => {
+    beforeEach(() => {
+      component.form.markAsDirty();
+      component.save();
+    });
+
+    it('should call updateTitleAndDescription', () => {
+      expect(titleService.updateTitleAndDescription).toHaveBeenCalled();
+    });
+
+    it('should call markDirty', () => {
+      expect(dirtyFlagService.makeDirty).toHaveBeenCalled();
+    });
+
+    it('should close the dialog', () => {
+      expect(dialogRef.close).toHaveBeenCalled();
+    });
+  });
+
+  describe('apply save with form NOT TO BE marks as DIRTY', () => {
+    beforeEach(() => {
+      component.save();
+    });
+
+    it('should NOT call updateTitleAndDescription', () => {
+      expect(titleService.updateTitleAndDescription).not.toHaveBeenCalled();
+    });
+    it('should NOT call markDirty', () => {
+      expect(dirtyFlagService.makeDirty).not.toHaveBeenCalled();
+    });
+    //
+    it('should close the dialog', () => {
+      expect(dialogRef.close).toHaveBeenCalled();
+    });
+  });
+
+  it('apply close, should close the dialog', () => {
+    component.close();
+
+    expect(dialogRef.close).toHaveBeenCalled();
+  });
+
+  it('', () => {
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    spyOn(event, 'preventDefault');
+
+    component.preventDefault(event);
+
+    expect(event.preventDefault).toHaveBeenCalled();
   });
 });

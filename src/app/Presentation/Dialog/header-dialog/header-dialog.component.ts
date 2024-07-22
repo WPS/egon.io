@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { TitleService } from 'src/app/Service/Title/title.service';
+import { HeaderDialogForm } from '../dialog-forms/header-dialog-form';
+import { DirtyFlagService } from '../../../Service/DirtyFlag/dirty-flag.service';
 
 @Component({
   selector: 'app-header-dialog',
@@ -9,35 +11,31 @@ import { TitleService } from 'src/app/Service/Title/title.service';
   styleUrls: ['./header-dialog.component.scss'],
 })
 export class HeaderDialogComponent implements OnInit {
-  form: UntypedFormGroup;
-  title: string;
-  description: string;
+  form!: FormGroup<HeaderDialogForm>;
 
   constructor(
-    private fb: UntypedFormBuilder,
     private dialogRef: MatDialogRef<HeaderDialogComponent>,
     private titleService: TitleService,
-  ) {
-    this.title =
-      this.titleService.getTitle() === '< name of this Domain Story >'
-        ? ''
-        : this.titleService.getTitle();
-    this.description = this.titleService.getDescription();
+    private dirtyFlagService: DirtyFlagService,
+  ) {}
 
-    this.form = this.fb.group({
-      title: [this.title, []],
-      description: [this.description, []],
-    });
+  ngOnInit(): void {
+    const title = this.titleService.getTitle();
+    const description = this.titleService.getDescription();
+
+    this.form = HeaderDialogForm.create(title, description);
   }
 
-  ngOnInit(): void {}
-
   save(): void {
-    this.titleService.updateTitleAndDescription(
-      this.form.get('title')?.value,
-      this.form.get('description')?.value,
-      true,
-    );
+    if (this.form.dirty) {
+      this.dirtyFlagService.makeDirty();
+
+      this.titleService.updateTitleAndDescription(
+        this.form.getRawValue().title,
+        this.form.getRawValue().description,
+        true,
+      );
+    }
     this.dialogRef.close();
   }
 
