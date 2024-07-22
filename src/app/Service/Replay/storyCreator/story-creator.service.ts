@@ -17,44 +17,43 @@ export class StoryCreatorService {
     const tracedActivityMap = new Dictionary();
     const story: StorySentence[] = [];
     const activities = this.elementRegistryService.getActivitiesFromActors();
+    const tracedActivityMapKeys: number[] = [];
 
     activities.forEach((activity) => {
       const activityNumber = Number(activity.businessObject.number); // Sometimes the activityNumber is a string for some reason
-      const tracedItem = tracedActivityMap.get(`${activityNumber - 1}`)
-        ? tracedActivityMap.get(`${activityNumber - 1}`)
-        : [];
+      const tracedItem = tracedActivityMap.get(`${activityNumber - 1}`) ?? [];
       tracedItem.push(activity);
+      tracedActivityMapKeys.push(activityNumber - 1);
       tracedActivityMap.set(`${activityNumber - 1}`, tracedItem);
     });
 
-    for (
-      let i = 0;
-      i <= Math.max(...tracedActivityMap.keysArray().map((it) => Number(it)));
-      i++
-    ) {
-      this.createSentence(tracedActivityMap, i, story);
-    }
+    let stroyIndex = 0;
+    tracedActivityMapKeys.forEach((key) => {
+      this.createSentence(tracedActivityMap, key, story, stroyIndex);
+      stroyIndex++;
+    });
+
     this.addGroupsToLastSentence(story);
     return story;
   }
 
   private createSentence(
     tracedActivityMap: Dictionary,
-    i: number,
+    tracedActivityMapKey: number,
     story: StorySentence[],
+    storyIndex: number,
   ): void {
-    const sentenceObjects = this.getSentenceObjects(
-      tracedActivityMap.get(`${i}`) || [],
-    );
+    let tracedActivity = tracedActivityMap.get(`${tracedActivityMapKey}`) ?? [];
+    const sentenceObjects = this.getSentenceObjects(tracedActivity);
     const highlightedElements = sentenceObjects.map((t) => t.id);
-    if (i > 0) {
-      story[i - 1].objects.forEach((object) => {
+    if (storyIndex > 0) {
+      story[storyIndex - 1].objects.forEach((object) => {
         if (!sentenceObjects.includes(object)) {
           sentenceObjects.push(object);
         }
       });
     }
-    story[i] = {
+    story[storyIndex] = {
       highlightedObjects: highlightedElements,
       objects: sentenceObjects,
     };
