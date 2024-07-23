@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="toolbar">
+<mat-toolbar color="primary">
   <mat-toolbar-row>
     <button
       class="headerButton"
@@ -18,7 +18,7 @@
     >
       <span class="material-icons materialIconButton toggle"> expand_more</span>
     </button>
-    <span class="mr-10">
+    <div class="mr-10 titel-scrollbar">
       <span
         class="headline"
         (click)="openHeaderDialog()"
@@ -27,16 +27,16 @@
         {{ title$ | async }}
         <span class="material-icons materialIconButton editIcon"> edit </span>
       </span>
-    </span>
+    </div>
 
     <span class="titleSpacer"></span>
+
     <span title="Replay Sentence" *ngIf="isReplay$ | async">
       Sentence: {{ sentenceDescription$ | async }}</span
     >
 
     <span class="buttonSpacer"></span>
-
-    <app-header-buttons />
+    <app-header-buttons class="nowrap" />
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-card class="smallScrollbar description" *ngIf="showDescription$ | async">

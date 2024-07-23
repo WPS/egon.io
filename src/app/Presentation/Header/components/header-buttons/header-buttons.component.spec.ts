@@ -2,16 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderButtonsComponent } from './header-buttons.component';
 import { MockProviders } from 'ng-mocks';
-import { SettingsService } from '../../Service/Settings/settings.service';
-import { TitleService } from '../../Service/Title/title.service';
-import { ModelerService } from '../../Service/Modeler/modeler.service';
-import { ReplayStateService } from '../../Service/Replay/replay-state.service';
-import { DirtyFlagService } from '../../Service/DirtyFlag/dirty-flag.service';
-import { ElementRegistryService } from '../../Service/ElementRegistry/element-registry.service';
-import { DialogService } from '../../Service/Dialog/dialog.service';
-import { ReplayService } from '../../Service/Replay/replay.service';
-import { ExportService } from '../../Service/Export/export.service';
-import { ImportDomainStoryService } from '../../Service/Import/import-domain-story.service';
+import { SettingsService } from '../../../../Service/Settings/settings.service';
+import { TitleService } from '../../../../Service/Title/title.service';
+import { ModelerService } from '../../../../Service/Modeler/modeler.service';
+import { ReplayStateService } from '../../../../Service/Replay/replay-state.service';
+import { DirtyFlagService } from '../../../../Service/DirtyFlag/dirty-flag.service';
+import { ElementRegistryService } from '../../../../Service/ElementRegistry/element-registry.service';
+import { DialogService } from '../../../../Service/Dialog/dialog.service';
+import { ReplayService } from '../../../../Service/Replay/replay.service';
+import { ExportService } from '../../../../Service/Export/export.service';
+import { ImportDomainStoryService } from '../../../../Service/Import/import-domain-story.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('HeaderButtonsComponent', () => {

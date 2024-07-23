@@ -1,7 +1,3 @@
-.noPointer {
-  cursor: default !important;
-}
-
 .description {
   top: 0;
   max-width: 100vw;
@@ -47,4 +43,21 @@
 
 .headerButton:hover {
   cursor: pointer;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.mat-toolbar-row {
+  white-space: normal;
+  height: min-content;
+  min-height: 5rem;
+}
+
+.titel-scrollbar {
+  max-height: 10rem;
+  overflow: auto;
+  scrollbar-width: none;
+  max-width: 100rem;
 }

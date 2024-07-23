@@ -1,29 +1,29 @@
 import { Component } from '@angular/core';
-import { SettingsService } from '../../Service/Settings/settings.service';
-import { ModelerService } from '../../Service/Modeler/modeler.service';
+import { SettingsService } from '../../../../Service/Settings/settings.service';
+import { ModelerService } from '../../../../Service/Modeler/modeler.service';
 import { Observable } from 'rxjs';
-import { ReplayStateService } from '../../Service/Replay/replay-state.service';
-import { DirtyFlagService } from '../../Service/DirtyFlag/dirty-flag.service';
+import { ReplayStateService } from '../../../../Service/Replay/replay-state.service';
+import { DirtyFlagService } from '../../../../Service/DirtyFlag/dirty-flag.service';
 import {
   ExportDialogData,
   ExportOption,
-} from '../../Domain/Dialog/exportDialogData';
+} from '../../../../Domain/Dialog/exportDialogData';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { ExportDialogComponent } from '../Dialog/export-dialog/export-dialog.component';
-import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
-import { InfoDialogComponent } from '../Dialog/info-dialog/info-dialog.component';
-import { DialogService } from '../../Service/Dialog/dialog.service';
-import { ReplayService } from '../../Service/Replay/replay.service';
-import { ExportService } from '../../Service/Export/export.service';
-import { ImportDomainStoryService } from '../../Service/Import/import-domain-story.service';
-import { LabelDictionaryDialogComponent } from '../Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
+import { ExportDialogComponent } from '../../../Dialog/export-dialog/export-dialog.component';
+import { InfoDialogData } from '../../../../Domain/Dialog/infoDialogData';
+import { InfoDialogComponent } from '../../../Dialog/info-dialog/info-dialog.component';
+import { DialogService } from '../../../../Service/Dialog/dialog.service';
+import { ReplayService } from '../../../../Service/Replay/replay.service';
+import { ExportService } from '../../../../Service/Export/export.service';
+import { ImportDomainStoryService } from '../../../../Service/Import/import-domain-story.service';
+import { LabelDictionaryDialogComponent } from '../../../Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
-} from '../../Domain/Common/constants';
-import { TitleService } from '../../Service/Title/title.service';
-import { RendererService } from '../../Service/Renderer/renderer.service';
+} from '../../../../Domain/Common/constants';
+import { TitleService } from '../../../../Service/Title/title.service';
+import { RendererService } from '../../../../Service/Renderer/renderer.service';
 
 @Component({
   selector: 'app-header-buttons',
