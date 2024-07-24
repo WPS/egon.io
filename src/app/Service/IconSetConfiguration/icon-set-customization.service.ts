@@ -20,7 +20,7 @@ import { ImportDomainStoryService } from '../Import/import-domain-story.service'
 import { TitleService } from '../Title/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
-import getNameFromType = ElementTypes.getNameFromType;
+import getIconId = ElementTypes.getIconId;
 
 @Injectable({
   providedIn: 'root',
@@ -440,7 +440,7 @@ export class IconSetCustomizationService {
     let iconName: string;
     if (name.includes(ElementTypes.DOMAINSTORY)) {
       // TODO: td: This returns empty every time!
-      iconName = getNameFromType(name);
+      iconName = getIconId(name);
     } else {
       iconName = name;
     }

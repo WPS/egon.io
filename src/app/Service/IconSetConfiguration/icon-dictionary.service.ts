@@ -13,7 +13,7 @@ import {
   appendedIcons,
 } from 'src/app/Domain/Icon-Set-Configuration/allIcons';
 import { sanitizeIconName } from '../../Utils/sanitizer';
-import getNameFromType = ElementTypes.getNameFromType;
+import getIconId = ElementTypes.getIconId;
 
 export const ICON_PREFIX = 'icon-domain-story-';
 
@@ -100,7 +100,7 @@ export class IconDictionaryService {
     let allIn = true;
     if (elements) {
       elements.forEach((element) => {
-        if (!collection.has(getNameFromType(element.type))) {
+        if (!collection.has(getIconId(element.type))) {
           allIn = false;
         }
       });
@@ -161,13 +161,13 @@ export class IconDictionaryService {
     if (!this.allInTypeDictionary(ElementTypes.ACTOR, actorIcons)) {
       this.addIconsFromIconSetConfiguration(
         ElementTypes.ACTOR,
-        actorIcons.map((element) => getNameFromType(element.type)),
+        actorIcons.map((element) => getIconId(element.type)),
       );
     }
     if (!this.allInTypeDictionary(ElementTypes.WORKOBJECT, workObjectIcons)) {
       this.addIconsFromIconSetConfiguration(
         ElementTypes.WORKOBJECT,
-        workObjectIcons.map((element) => getNameFromType(element.type)),
+        workObjectIcons.map((element) => getIconId(element.type)),
       );
     }
   }
@@ -243,7 +243,7 @@ export class IconDictionaryService {
         }
         this.registerIconForBPMN(
           ICON_PREFIX + name.toLowerCase(),
-          getNameFromType(element.type),
+          getIconId(element.type),
           elementType,
         );
       }

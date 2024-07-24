@@ -380,7 +380,7 @@ export default function DomainStoryRenderer(
       actor;
     let iconSRC = iconDictionary.getTypeIconSRC(
       ElementTypes.ACTOR,
-      ElementTypes.getNameFromType(element.type),
+      ElementTypes.getIconId(element.type),
     );
     iconSRC = getIconSrc(iconSRC, element);
     actor = svgCreate(iconSRC);
@@ -402,7 +402,7 @@ export default function DomainStoryRenderer(
       workObject;
     let iconSRC = iconDictionary.getTypeIconSRC(
       ElementTypes.WORKOBJECT,
-      ElementTypes.getNameFromType(element.type),
+      ElementTypes.getIconId(element.type),
     );
     iconSRC = getIconSrc(iconSRC, element);
     workObject = svgCreate(iconSRC);

@@ -2,7 +2,7 @@ import { testActivityCanvasObject } from '../Domain/Common/activityCanvasObject'
 import { angleBetween, degrees, positionsMatch } from './mathExtensions';
 import { ElementTypes } from '../Domain/Common/elementTypes';
 import { sanitizeForDesktop, sanitizeIconName } from './sanitizer';
-import getNameFromType = ElementTypes.getNameFromType;
+import getIconId = ElementTypes.getIconId;
 
 describe('mathExtendsions', () => {
   beforeEach(() => {
@@ -112,19 +112,19 @@ describe('naming', () => {
       const testType = '_test';
       const type = ElementTypes.ACTOR + testType;
 
-      expect(getNameFromType(type)).toEqual(testType);
+      expect(getIconId(type)).toEqual(testType);
     });
     it('should get type for WorkObject', () => {
       const testType = '_test';
       const type = ElementTypes.WORKOBJECT + testType;
 
-      expect(getNameFromType(type)).toEqual(testType);
+      expect(getIconId(type)).toEqual(testType);
     });
     it('should get clear string for Unknown input', () => {
       const testType = '_test';
       const type = ElementTypes.DOMAINSTORY + testType;
 
-      expect(getNameFromType(type)).toEqual('');
+      expect(getIconId(type)).toEqual('');
     });
   });
 });

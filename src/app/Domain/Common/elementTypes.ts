@@ -9,10 +9,10 @@ export enum ElementTypes {
 }
 
 export namespace ElementTypes {
-  export function getNameFromType(type: string): string {
-    if (type.includes(ElementTypes.ACTOR)) {
+  export function getIconId(type: string): string {
+    if (type.startsWith(ElementTypes.ACTOR)) {
       return type.replace(ElementTypes.ACTOR, '');
-    } else if (type.includes(ElementTypes.WORKOBJECT)) {
+    } else if (type.startsWith(ElementTypes.WORKOBJECT)) {
       return type.replace(ElementTypes.WORKOBJECT, '');
     }
     return '';
