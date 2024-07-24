@@ -6,6 +6,7 @@ export enum ElementTypes {
   GROUP = 'domainStory:group',
   TEXTANNOTATION = 'domainStory:textAnnotation',
   DOMAINSTORY = 'domainStory:',
+  CUSTOM = '-custom',
 }
 
 export namespace ElementTypes {
@@ -16,5 +17,9 @@ export namespace ElementTypes {
       return type.replace(ElementTypes.WORKOBJECT, '');
     }
     return '';
+  }
+
+  export function isCustomType(type: string): boolean {
+    return type.endsWith(ElementTypes.CUSTOM);
   }
 }

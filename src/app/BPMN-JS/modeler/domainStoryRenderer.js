@@ -32,18 +32,18 @@ const DEFAULT_COLOR = "black";
 /**
  * a renderer that knows how to render custom elements.
  */
-let iconDictionary;
-let elementRegistry;
-let dirtyFlag;
+let _iconDictionaryService;
+let _elementRegistryService;
+let _dirtyFlagService;
 
 export function initializeRenderer(
   iconDictionaryService,
   elementRegistryService,
   dirtyFlagService,
 ) {
-  iconDictionary = iconDictionaryService;
-  elementRegistry = elementRegistryService;
-  dirtyFlag = dirtyFlagService;
+  _iconDictionaryService = iconDictionaryService;
+  _elementRegistryService = elementRegistryService;
+  _dirtyFlagService = dirtyFlagService;
 }
 
 export default function DomainStoryRenderer(
@@ -337,38 +337,37 @@ export default function DomainStoryRenderer(
     return rect;
   };
 
-  function useColorForElement(element, iconSRC) {
-    if (!element.businessObject.pickedColor) {
-      element.businessObject.pickedColor = DEFAULT_COLOR;
+  function applyColorToIcon(pickedColor, iconSvg) {
+    if (!pickedColor) {
+      pickedColor = DEFAULT_COLOR;
     }
-    const match = iconSRC.match(/fill=".*?"/);
+    const match = iconSvg.match(/fill=".*?"/);
     if (match && match.length > 1) {
-      return iconSRC.replace(
-        /fill=".*?"/,
-        'fill="' + element.businessObject.pickedColor + '"',
-      );
+      return iconSvg.replace(/fill=".*?"/, 'fill="' + pickedColor + '"');
     } else {
-      const index = iconSRC.indexOf("<svg ") + 5;
+      const index = iconSvg.indexOf("<svg ") + 5;
       return (
-        iconSRC.substring(0, index) +
+        iconSvg.substring(0, index) +
         ' fill=" ' +
-        element.businessObject.pickedColor +
+        pickedColor +
         '" ' +
-        iconSRC.substring(index)
+        iconSvg.substring(index)
       );
     }
   }
 
-  function getIconSrc(iconSRC, element) {
-    if (iconSRC.startsWith("data")) {
+  function getIconSvg(iconSvg, element) {
+    let isCustomIcon =
+      iconSvg.startsWith("data") && ElementTypes.isCustomType(element);
+    if (isCustomIcon) {
       return (
         '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
         '<image width="24" height="24" xlink:href="' +
-        iconSRC +
+        iconSvg +
         '"/></svg>'
       );
     } else {
-      return useColorForElement(element, iconSRC);
+      return applyColorToIcon(element.businessObject.pickedColor, iconSvg);
     }
   }
 
@@ -378,11 +377,11 @@ export default function DomainStoryRenderer(
         height: element.height,
       },
       actor;
-    let iconSRC = iconDictionary.getTypeIconSRC(
+    let iconSRC = _iconDictionaryService.getTypeIconSRC(
       ElementTypes.ACTOR,
       ElementTypes.getIconId(element.type),
     );
-    iconSRC = getIconSrc(iconSRC, element);
+    iconSRC = getIconSvg(iconSRC, element);
     actor = svgCreate(iconSRC);
 
     svgAttr(actor, svgDynamicSizeAttributes);
@@ -400,11 +399,11 @@ export default function DomainStoryRenderer(
         y: element.height / 2 - 25,
       },
       workObject;
-    let iconSRC = iconDictionary.getTypeIconSRC(
+    let iconSRC = _iconDictionaryService.getTypeIconSRC(
       ElementTypes.WORKOBJECT,
       ElementTypes.getIconId(element.type),
     );
-    iconSRC = getIconSrc(iconSRC, element);
+    iconSRC = getIconSvg(iconSRC, element);
     workObject = svgCreate(iconSRC);
 
     svgAttr(workObject, svgDynamicSizeAttributes);
@@ -755,8 +754,8 @@ DomainStoryRenderer.prototype.drawShape = function (p, element) {
   let type = element.type;
   element.businessObject.type = type;
 
-  elementRegistry.correctInitialize();
-  dirtyFlag.makeDirty();
+  _elementRegistryService.correctInitialize();
+  _dirtyFlagService.makeDirty();
 
   if (type.includes(ElementTypes.ACTOR)) {
     return this.drawActor(p, element);
@@ -784,7 +783,7 @@ DomainStoryRenderer.prototype.getShapePath = function (shape) {
 DomainStoryRenderer.prototype.drawConnection = function (p, element) {
   let type = element.type;
 
-  dirtyFlag.makeDirty();
+  _dirtyFlagService.makeDirty();
 
   // fixes activities that were copy-pasted
   if (!element.businessObject.type) {
