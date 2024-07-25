@@ -40,7 +40,9 @@ export default function DomainStoryContextPadProvider(
   let cached = bind(this.getContextPadEntries, this);
 
   const colorPicker = document.getElementById("colorPicker");
+
   colorPicker.onchange = (ev) => {
+
     const context = {
       businessObject: selectedElement.businessObject,
       newColor: ev.target.value,
@@ -172,7 +174,9 @@ export default function DomainStoryContextPadProvider(
         action: {
           click: function (event, element) {
             selectedElement = element;
+
             colorPicker.click();
+            console.log('colorPicker: ', colorPicker)
           },
         },
       },
