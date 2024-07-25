@@ -3,7 +3,7 @@ import { ReplayStateService } from 'src/app/Service/Replay/replay-state.service'
 import { DomManipulationService } from 'src/app/Service/DomManipulation/dom-manipulation.service';
 import { StorySentence } from 'src/app/Domain/Replay/storySentence';
 import { StoryCreatorService } from './storyCreator/story-creator.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
@@ -15,11 +15,12 @@ import {
 })
 export class ReplayService {
   private story: StorySentence[] = [];
-  private currentSentence = new BehaviorSubject(-1);
-  private maxSentenceNumber = new BehaviorSubject(0);
+  private currentSentence = new BehaviorSubject<number>(-1);
+  private maxSentenceNumber = new BehaviorSubject<number>(0);
 
-  currentSentence$ = this.currentSentence.asObservable();
-  maxSentenceNumber$ = this.maxSentenceNumber.asObservable();
+  currentSentence$: Observable<number> = this.currentSentence.asObservable();
+  maxSentenceNumber$: Observable<number> =
+    this.maxSentenceNumber.asObservable();
 
   constructor(
     private replayStateService: ReplayStateService,
@@ -71,7 +72,7 @@ export class ReplayService {
 
   startReplay(): void {
     this.initializeReplay();
-    if (this.story?.length) {
+    if (this.story) {
       const missingSentences = this.storyCreatorService.getMissingSentences(
         this.story,
       );

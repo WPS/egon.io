@@ -168,6 +168,20 @@ export class ElementRegistryService {
         activitiesFromActors.push(activity);
       }
     });
+
+    // sort by activityBusinessObject number
+    activitiesFromActors.sort(
+      (
+        activityCanvasA: ActivityCanvasObject,
+        activityCanvasB: ActivityCanvasObject,
+      ) => {
+        const activityNumberA = Number(activityCanvasA.businessObject.number);
+        const activityNumberB = Number(activityCanvasB.businessObject.number);
+
+        return activityNumberA - activityNumberB;
+      },
+    );
+
     return activitiesFromActors;
   }
 

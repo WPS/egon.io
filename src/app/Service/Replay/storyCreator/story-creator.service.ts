@@ -27,10 +27,10 @@ export class StoryCreatorService {
       tracedActivityMap.set(`${activityNumber - 1}`, tracedItem);
     });
 
-    let stroyIndex = 0;
+    let storyIndex = 0;
     tracedActivityMapKeys.forEach((key) => {
-      this.createSentence(tracedActivityMap, key, story, stroyIndex);
-      stroyIndex++;
+      this.createSentence(tracedActivityMap, key, story, storyIndex);
+      storyIndex++;
     });
 
     this.addGroupsToLastSentence(story);
