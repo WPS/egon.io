@@ -73,21 +73,9 @@ export default function DomainStoryRenderer(
       semantic.number = numberStash.number;
     }
 
-    // !IMPORTANT!
-    // When converting svg-files via Inkscape or Photoshop the svg-circle is converted to a black dot that obscures the number.
-    // To circumvent this, we draw a . as the white background and an o as the circle around the number.
-    // There is a minor Bug, that in some Programs the used Font is not supported, which defaults to Arial, where the o is not round but oval.
-    // Unit 3rd Party Tools update their svg-version to 1.2 we should keep this workaround.
-    box.x -= 65;
-    box.y -= 12;
-    renderNumber(parentGfx, ".", backgroundDotStyle(box), element.type);
-    box.x += 30;
-    box.y += 3;
-    renderNumber(parentGfx, "o", backgroundBoxStyle(box), element.type);
-
     numbers[semantic.number] = true;
-    box.x += 9;
-    box.y -= 7;
+    box.x -= 26;
+    box.y -= 16;
 
     if (semantic.number < 10) {
       box.x += 3;
@@ -247,6 +235,20 @@ export default function DomainStoryRenderer(
 
     setCoordinates(type, text, options, height, parentGfx);
 
+    // !IMPORTANT!
+    // When converting svg-files via Inkscape or Photoshop the svg-circle is converted to a black dot that obscures the number.
+    // To circumvent this, we draw an arc.
+    let circle = svgCreate("path");
+    let radius = 11;
+    let x = options.box.x + 17 + (number > 9 ? 3 : 0);
+    let y = options.box.y - radius - 4;
+    svgAttr(circle, {
+      d: `M ${x} ${y} a ${radius} ${radius} 0 1 0 0.0001 0 z`,
+      fill: "white",
+      stroke: "black",
+    });
+
+    svgAppend(parentGfx, circle);
     svgAppend(parentGfx, text);
 
     return text;
