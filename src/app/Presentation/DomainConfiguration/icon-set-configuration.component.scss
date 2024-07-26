@@ -83,15 +83,23 @@
 }
 
 .iconList {
-  display: grid;
+  display: flex;
   overflow-y: scroll;
   height: calc(100vh - 130px);
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: baseline;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  gap: 1rem;
+
+  :nth-last-child(1) {
+    margin-bottom: 1rem;
+  }
 }
 
 .iconSetDetails {
-  overflow-y: scroll;
   width: 250px;
-  height: calc(100vh - 65px);
 }
 
 ::ng-deep.mat-grid-tile {

@@ -1,11 +1,12 @@
 <div class="details smallScrollbar">
   <div class="iconSetDetails bottom-border">
-    <h3>Icon Set Name</h3>
-    <form>
-      <mat-form-field class="inputWidth">
+    <form class="inputWidth inputHeight">
+      <div class="alignment"></div>
+      <mat-form-field class="inputHeight">
         <input
           matInput
           type="text"
+          placeholder="Icon Set Name"
           (input)="changeName($event)"
           [value]="iconSetName | async"
         />
