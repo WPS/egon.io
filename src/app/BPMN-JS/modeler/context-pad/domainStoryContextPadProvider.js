@@ -42,7 +42,6 @@ export default function DomainStoryContextPadProvider(
   const colorPicker = document.getElementById("colorPicker");
 
   colorPicker.onchange = (ev) => {
-
     const context = {
       businessObject: selectedElement.businessObject,
       newColor: ev.target.value,
@@ -174,9 +173,24 @@ export default function DomainStoryContextPadProvider(
         action: {
           click: function (event, element) {
             selectedElement = element;
-
+            Coloris({
+              swatches: [
+                "#264653",
+                "#2a9d8f",
+                "#e9c46a",
+                "rgb(244,162,97)",
+                "#e76f51",
+                "#d62828",
+                "navy",
+                "#07b",
+                "#0096c7",
+                "#08de21",
+              ],
+            });
             colorPicker.click();
-            console.log('colorPicker: ', colorPicker)
+            console.log(event);
+            // Falls man den Picker mal umpositionieren will
+            //document.getElementById("clr-picker").setAttribute("style", `top: ${event.clientY}px; left: ${event.clientX}px;`)
           },
         },
       },

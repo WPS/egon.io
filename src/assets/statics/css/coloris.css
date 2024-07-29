@@ -8,7 +8,9 @@
   background-color: #fff;
   justify-content: flex-end;
   direction: ltr;
-  box-shadow: 0 0 5px rgba(0,0,0,.05), 0 5px 20px rgba(0,0,0,.1);
+  box-shadow:
+    0 0 5px rgba(0, 0, 0, 0.05),
+    0 5px 20px rgba(0, 0, 0, 0.1);
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
@@ -29,7 +31,8 @@
   height: 100px;
   margin-bottom: 15px;
   border-radius: 3px 3px 0 0;
-  background-image: linear-gradient(rgba(0,0,0,0), #000), linear-gradient(90deg, #fff, currentColor);
+  background-image: linear-gradient(rgba(0, 0, 0, 0), #000),
+    linear-gradient(90deg, #fff, currentColor);
   cursor: pointer;
 }
 
@@ -68,7 +71,16 @@
 }
 
 .clr-hue {
-  background-image: linear-gradient(to right, #f00 0%, #ff0 16.66%, #0f0 33.33%, #0ff 50%, #00f 66.66%, #f0f 83.33%, #f00 100%);
+  background-image: linear-gradient(
+    to right,
+    #f00 0%,
+    #ff0 16.66%,
+    #0f0 33.33%,
+    #0ff 50%,
+    #00f 66.66%,
+    #f0f 83.33%,
+    #f00 100%
+  );
 }
 
 .clr-hue,
@@ -85,7 +97,7 @@
   height: 100%;
   width: 100%;
   border-radius: inherit;
-  background-image: linear-gradient(90deg, rgba(0,0,0,0), currentColor);
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0), currentColor);
 }
 
 .clr-hue input[type="range"],
@@ -120,7 +132,7 @@
 }
 
 .clr-alpha div:before {
-  content: '';
+  content: "";
   position: absolute;
   height: 100%;
   width: 100%;
@@ -217,7 +229,7 @@
 }
 
 .clr-swatches button:after {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   width: 100%;
@@ -226,7 +238,7 @@
   top: 0;
   border-radius: inherit;
   background-color: currentColor;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
 input.clr-color {
@@ -283,7 +295,7 @@ input.clr-color:focus {
 
 .clr-preview:before,
 .clr-preview:after {
-  content: '';
+  content: "";
   position: absolute;
   height: 100%;
   width: 100%;
@@ -296,7 +308,7 @@ input.clr-color:focus {
 .clr-preview:after {
   border: 0;
   background-color: currentColor;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
 .clr-preview button {
@@ -323,7 +335,6 @@ input.clr-color:focus {
 }
 
 .clr-field {
-  display: inline-block;
   position: relative;
   color: transparent;
 }
@@ -360,7 +371,7 @@ input.clr-color:focus {
 }
 
 .clr-field button:after {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   width: 100%;
@@ -369,7 +380,7 @@ input.clr-color:focus {
   top: 0;
   border-radius: inherit;
   background-color: currentColor;
-  box-shadow: inset 0 0 1px rgba(0,0,0,.5);
+  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5);
 }
 
 .clr-alpha,
@@ -377,8 +388,25 @@ input.clr-color:focus {
 .clr-swatches button,
 .clr-preview:before,
 .clr-field button {
-  background-image: repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa), repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);
-  background-position: 0 0, 4px 4px;
+  background-image: repeating-linear-gradient(
+      45deg,
+      #aaa 25%,
+      transparent 25%,
+      transparent 75%,
+      #aaa 75%,
+      #aaa
+    ),
+    repeating-linear-gradient(
+      45deg,
+      #aaa 25%,
+      #fff 25%,
+      #fff 75%,
+      #aaa 75%,
+      #aaa
+    );
+  background-position:
+    0 0,
+    4px 4px;
   background-size: 8px 8px;
 }
 
@@ -391,7 +419,9 @@ input.clr-color:focus {
 .clr-keyboard-nav .clr-alpha input:focus + div,
 .clr-keyboard-nav .clr-segmented input:focus + label {
   outline: none;
-  box-shadow: 0 0 0 2px #1e90ff, 0 0 2px 2px #fff;
+  box-shadow:
+    0 0 0 2px #1e90ff,
+    0 0 2px 2px #fff;
 }
 
 .clr-picker[data-alpha="false"] .clr-alpha {
@@ -421,7 +451,7 @@ input.clr-color:focus {
 }
 
 .clr-dark .clr-swatches button:after {
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.3);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
 }
 
 .clr-dark input.clr-color {
@@ -435,25 +465,42 @@ input.clr-color:focus {
 }
 
 .clr-dark .clr-preview:after {
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.5);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 .clr-dark .clr-alpha,
 .clr-dark .clr-alpha div,
 .clr-dark .clr-swatches button,
 .clr-dark .clr-preview:before {
-  background-image: repeating-linear-gradient(45deg, #666 25%, transparent 25%, transparent 75%, #888 75%, #888), repeating-linear-gradient(45deg, #888 25%, #444 25%, #444 75%, #888 75%, #888);
+  background-image: repeating-linear-gradient(
+      45deg,
+      #666 25%,
+      transparent 25%,
+      transparent 75%,
+      #888 75%,
+      #888
+    ),
+    repeating-linear-gradient(
+      45deg,
+      #888 25%,
+      #444 25%,
+      #444 75%,
+      #888 75%,
+      #888
+    );
 }
 
 /** Polaroid theme **/
 
 .clr-picker.clr-polaroid {
   border-radius: 6px;
-  box-shadow: 0 0 5px rgba(0,0,0,.1), 0 5px 30px rgba(0,0,0,.2);
+  box-shadow:
+    0 0 5px rgba(0, 0, 0, 0.1),
+    0 5px 30px rgba(0, 0, 0, 0.2);
 }
 
 .clr-picker.clr-polaroid:before {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   width: 16px;
@@ -465,7 +512,7 @@ input.clr-color:focus {
   border-bottom-color: currentColor;
   box-sizing: border-box;
   color: #fff;
-  filter: drop-shadow(0 -4px 3px rgba(0,0,0,.1));
+  filter: drop-shadow(0 -4px 3px rgba(0, 0, 0, 0.1));
   pointer-events: none;
 }
 
@@ -501,7 +548,7 @@ input.clr-color:focus {
 
 .clr-polaroid .clr-hue div,
 .clr-polaroid .clr-alpha div {
-  box-shadow: 0 0 5px rgba(0,0,0,.2);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .clr-polaroid .clr-format {

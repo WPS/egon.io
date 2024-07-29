@@ -1,4 +1,10 @@
 <div class="content" role="main">
+  <input
+    type="text"
+    data-coloris
+    id="colorPicker"
+    style="display: none; height: 0"
+  />
   <app-settings *ngIf="showSettings$ | async"></app-settings>
   <div
     [class.headerAndCanvas]="
@@ -9,8 +15,6 @@
     "
     [class.hidden]="showSettings$ | async"
   >
-    <input type="text" data-coloris id="colorPicker" style="display: none" />
-
     <app-header
       [class.header]="showDescription$ | async"
       [class.headerCollapsed]="!(showDescription$ | async)"
