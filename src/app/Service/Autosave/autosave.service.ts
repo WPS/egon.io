@@ -126,10 +126,11 @@ export class AutosaveService {
   }
 
   private isDraftEmpty(draft: Draft) {
+    const configAndDST = draft.configAndDST ?? { dst: '[]' };
     return (
       draft.title === INITIAL_TITLE &&
       draft.description === INITIAL_DESCRIPTION &&
-      JSON.parse(draft.configAndDST.dst).length === 0
+      JSON.parse(configAndDST.dst).length === 0
     );
   }
 
