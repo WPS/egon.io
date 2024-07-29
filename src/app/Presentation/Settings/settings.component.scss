@@ -27,13 +27,6 @@ app-general-settings {
   border: 2px solid white;
 }
 
-.tab {
-  display: inline-block;
-  height: calc(100% - 10px);
-  width: 100%;
-  overflow: hidden;
-}
-
 ::ng-deep.mat-tab-label,
 ::ng-deep.mat-tab-label-active {
   height: 30px !important;

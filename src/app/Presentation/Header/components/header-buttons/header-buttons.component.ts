@@ -52,35 +52,20 @@ export class HeaderButtonsComponent {
   }
   import(): void {
     // @ts-ignore
-    const filename = document.getElementById('import').files[0].name;
+    const file = document.getElementById('import').files[0];
+    const filename = file.name;
+
+    const dstSvgPattern = /.*(.dst)(\s*\(\d+\)){0,1}\.svg/;
+    const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
+
     if (filename.endsWith('.dst')) {
-      this.importService.importDST(
-        // @ts-ignore
-        document.getElementById('import').files[0],
-        filename,
-        false,
-      );
-    } else if (filename.endsWith('.dst.svg')) {
-      this.importService.importDST(
-        // @ts-ignore
-        document.getElementById('import').files[0],
-        filename,
-        true,
-      );
+      this.importService.importDST(file, filename, false);
+    } else if (filename.match(dstSvgPattern)) {
+      this.importService.importDST(file, filename, true);
     } else if (filename.endsWith('.egn')) {
-      this.importService.importEGN(
-        // @ts-ignore
-        document.getElementById('import').files[0],
-        filename,
-        false,
-      );
-    } else if (filename.endsWith('.egn.svg')) {
-      this.importService.importEGN(
-        // @ts-ignore
-        document.getElementById('import').files[0],
-        filename,
-        true,
-      );
+      this.importService.importEGN(file, filename, false);
+    } else if (filename.match(egnSvgPattern)) {
+      this.importService.importEGN(file, filename, true);
     }
     this.modelerService.commandStackChanged();
   }

@@ -4,7 +4,6 @@ import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-
 import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
 import { StorySentence } from 'src/app/Domain/Replay/storySentence';
 import {
-  HIGHLIGHT_COLOR,
   HIGHLIGHT_NUMBER_BACKGROUNG_COLOR,
   HIGHLIGHT_NUMBER_COLOR,
   HIGHLIGHT_STROKE_WIDTH,
@@ -132,7 +131,6 @@ export class DomManipulationService {
           const activityDomObject =
             querySelector.getElementsByTagName('polyline')[0];
 
-          activityDomObject.style.stroke = HIGHLIGHT_COLOR;
           activityDomObject.style.strokeWidth = HIGHLIGHT_STROKE_WIDTH;
 
           const { numberBackgroundDom, numberTextDom } =

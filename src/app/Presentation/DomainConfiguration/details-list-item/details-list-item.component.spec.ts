@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DetailsListItemComponent } from './details-list-item.component';
 import { IconListItem } from '../../../Domain/Icon-Set-Configuration/iconListItem';
 import { ElementTypes } from '../../../Domain/Common/elementTypes';
+import { MaterialModule } from '../../../material.module';
+import { MockModule } from 'ng-mocks';
 
 const icon: IconListItem = {
   svg: '',
@@ -18,6 +20,7 @@ describe('DetailsListItemComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DetailsListItemComponent],
+      imports: [MockModule(MaterialModule)],
     }).compileComponents();
   });
 

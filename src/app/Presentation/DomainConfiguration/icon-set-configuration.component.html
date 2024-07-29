@@ -96,25 +96,11 @@
         </button>
       </div>
     </div>
-    <div class="iconSetConfiguration">
-      <div class="icons">
-        <div class="iconList smallScrollbar">
-          <mat-grid-list cols="8" rowHeight="170px">
-            <mat-grid-tile
-              *ngFor="let iconName of allFilteredIconNames | async"
-              [colspan]="1"
-              [rowspan]="1"
-            >
-              <app-icon-list-item
-                [iconName]="iconName"
-                class="iconListItem"
-              ></app-icon-list-item>
-            </mat-grid-tile>
-          </mat-grid-list>
-        </div>
-      </div>
+    <div class="iconList smallScrollbar">
+      @for (iconName of allFilteredIconNames | async; track iconName) {
+        <app-icon-list-item [iconName]="iconName"></app-icon-list-item>
+      }
     </div>
   </div>
-
   <app-icon-set-details class="iconSetDetails"></app-icon-set-details>
 </div>
