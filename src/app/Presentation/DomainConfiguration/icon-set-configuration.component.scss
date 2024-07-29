@@ -46,20 +46,6 @@
   color: #666666;
 }
 
-.iconSetConfiguration {
-  padding-left: 10px;
-  padding-bottom: 5px;
-  margin-top: 15px;
-  height: 100%;
-}
-
-.icons {
-  display: grid;
-  grid-template-rows: 2rem auto;
-  height: 100%;
-  grid-row-gap: 1px;
-}
-
 .activeActor {
   background-color: #42aebb;
   color: white;
@@ -83,15 +69,23 @@
 }
 
 .iconList {
-  display: grid;
+  display: flex;
   overflow-y: scroll;
   height: calc(100vh - 130px);
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: baseline;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  gap: 1rem;
+
+  :nth-last-child(1) {
+    margin-bottom: 1rem;
+  }
 }
 
 .iconSetDetails {
-  overflow-y: scroll;
   width: 250px;
-  height: calc(100vh - 65px);
 }
 
 ::ng-deep.mat-grid-tile {
