@@ -360,7 +360,7 @@ export default function DomainStoryRenderer(
 
   function getIconSvg(iconSvg, element) {
     let isCustomIcon =
-      iconSvg.startsWith("data") && ElementTypes.isCustomType(element);
+      iconSvg.startsWith("data") && ElementTypes.isCustomType(element.type);
     if (isCustomIcon) {
       return (
         '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
