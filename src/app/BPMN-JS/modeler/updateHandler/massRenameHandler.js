@@ -1,7 +1,7 @@
 "use strict";
 
 export default function DSMassRenameHandler(commandStack, eventBus) {
-  commandStack.register("domainStoryObjects.massRename", massRename);
+  commandStack.registerHandler("domainStoryObjects.massRename", massRename);
 
   function massRename(modeling) {
     this.preExecute = function (context) {
