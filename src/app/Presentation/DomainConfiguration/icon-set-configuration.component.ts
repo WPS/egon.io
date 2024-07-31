@@ -104,7 +104,7 @@ export class IconSetConfigurationComponent implements OnInit {
     for (let iconInputFile of files) {
       const reader = new FileReader();
       const name = sanitizeIconName(iconInputFile.name);
-      const iconName = name + '_custom';
+      const iconName = name + ElementTypes.CUSTOM;
 
       reader.onloadend = (e: ProgressEvent<FileReader>) => {
         if (e.target) {

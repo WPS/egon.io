@@ -22,4 +22,8 @@ export namespace ElementTypes {
   export function isCustomType(type: string): boolean {
     return type.endsWith(ElementTypes.CUSTOM);
   }
+
+  export function isCustomSvgType(type: string) {
+    return type.endsWith('_svg' + ElementTypes.CUSTOM);
+  }
 }

@@ -339,13 +339,24 @@ export default function DomainStoryRenderer(
     return rect;
   };
 
+  function applyColorToCustomSvgIcon(pickedColor, iconSvg) {
+    if (!pickedColor) {
+      return iconSvg;
+    }
+    const [rest, base64Svg] = iconSvg.split("base64,");
+    const svg = atob(base64Svg);
+    const coloredSvg = applyColorToIcon(pickedColor, svg);
+    const encodedColoredSvg = btoa(coloredSvg);
+    return rest + "base64," + encodedColoredSvg;
+  }
+
   function applyColorToIcon(pickedColor, iconSvg) {
     if (!pickedColor) {
       pickedColor = DEFAULT_COLOR;
     }
     const match = iconSvg.match(/fill=".*?"/);
-    if (match && match.length > 1) {
-      return iconSvg.replace(/fill=".*?"/, 'fill="' + pickedColor + '"');
+    if (match && match.length > 0) {
+      return iconSvg.replaceAll(/fill=".*?"/g, 'fill="' + pickedColor + '"');
     } else {
       const index = iconSvg.indexOf("<svg ") + 5;
       return (
@@ -359,32 +370,35 @@ export default function DomainStoryRenderer(
   }
 
   function getIconSvg(iconSvg, element) {
+    const pickedColor = element.businessObject.pickedColor;
     let isCustomIcon =
       iconSvg.startsWith("data") && ElementTypes.isCustomType(element.type);
     if (isCustomIcon) {
+      const svg = ElementTypes.isCustomSvgType(element.type)
+        ? applyColorToCustomSvgIcon(pickedColor, iconSvg)
+        : iconSvg;
       return (
         '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
         '<image width="24" height="24" xlink:href="' +
-        iconSvg +
+        svg +
         '"/></svg>'
       );
     } else {
-      return applyColorToIcon(element.businessObject.pickedColor, iconSvg);
+      return applyColorToIcon(pickedColor, iconSvg);
     }
   }
 
   this.drawActor = function (parent, element) {
     let svgDynamicSizeAttributes = {
-        width: element.width,
-        height: element.height,
-      },
-      actor;
+      width: element.width,
+      height: element.height,
+    };
     let iconSRC = _iconDictionaryService.getTypeIconSRC(
       ElementTypes.ACTOR,
       ElementTypes.getIconId(element.type),
     );
     iconSRC = getIconSvg(iconSRC, element);
-    actor = svgCreate(iconSRC);
+    let actor = svgCreate(iconSRC);
 
     svgAttr(actor, svgDynamicSizeAttributes);
     svgAppend(parent, actor);

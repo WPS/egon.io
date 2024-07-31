@@ -64,9 +64,8 @@ export default function DomainStoryContextPadProvider(
 
     if (element.type.includes(ElementTypes.WORKOBJECT)) {
       if (
-        allStandardIconKeys.includes(
-          element.type.replace(ElementTypes.WORKOBJECT, ""),
-        )
+        !ElementTypes.isCustomType(element.type) ||
+        ElementTypes.isCustomSvgType(element.type)
       ) {
         addColorChange(actions);
       }
@@ -77,9 +76,8 @@ export default function DomainStoryContextPadProvider(
       addChangeWorkObjectTypeMenu(actions);
     } else if (element.type.includes(ElementTypes.ACTOR)) {
       if (
-        allStandardIconKeys.includes(
-          element.type.replace(ElementTypes.ACTOR, ""),
-        )
+        !ElementTypes.isCustomType(element.type) ||
+        ElementTypes.isCustomSvgType(element.type)
       ) {
         addColorChange(actions);
       }
