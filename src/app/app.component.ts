@@ -18,6 +18,22 @@ export class AppComponent implements OnInit {
   version: string = environment.version;
   color: string = '#000000';
 
+  // event storming colors for color picker
+  colorBox: string[] = [
+    '#ff9d48', // orange
+    '#a6ccf5', // blue
+    '#9ea9ff', // dark blue/purple
+    '#fff9b1', // yellow
+    '#f5d128', // sonny yellow
+    '#ea94bb', // pink
+    '#d5f692', // green
+    '#c9df56', // darker green
+    '#c6a2d2', // purple
+    '#eb7c88', // red
+    '#9e9e9e', // grey
+    '#000000', // black
+  ];
+
   constructor(
     private settingsService: SettingsService,
     private titleService: TitleService,
