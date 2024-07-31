@@ -132,6 +132,7 @@ jobs:
           git push || true
 
   publish-image:
+    if: inputs.deploy_prod == true
     runs-on: ubuntu-latest
     needs: [ build ]
     permissions:
