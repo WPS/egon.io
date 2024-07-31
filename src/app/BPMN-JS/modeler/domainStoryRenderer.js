@@ -345,17 +345,17 @@ export default function DomainStoryRenderer(
     }
     const [rest, base64Svg] = iconSvg.split("base64,");
     const svg = atob(base64Svg);
-    const coloredSvg = applyColorToIcon(pickedColor, svg);
+    const coloredSvg = applyColorToIcon(pickedColor, svg, 0);
     const encodedColoredSvg = btoa(coloredSvg);
     return rest + "base64," + encodedColoredSvg;
   }
 
-  function applyColorToIcon(pickedColor, iconSvg) {
+  function applyColorToIcon(pickedColor, iconSvg, matchLength = 1) {
     if (!pickedColor) {
       pickedColor = DEFAULT_COLOR;
     }
     const match = iconSvg.match(/fill=".*?"/);
-    if (match && match.length > 0) {
+    if (match && match.length > matchLength) {
       return iconSvg.replaceAll(/fill=".*?"/g, 'fill="' + pickedColor + '"');
     } else {
       const index = iconSvg.indexOf("<svg ") + 5;
