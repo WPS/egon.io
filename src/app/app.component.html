@@ -1,10 +1,20 @@
 <div class="content" role="main">
   <input
-    type="text"
-    data-coloris
     id="colorPicker"
+    [style.background]="color"
+    [cpPresetColors]="[
+      '#fff',
+      '#000',
+      '#2889e9',
+      '#e920e9',
+      '#fff500',
+      'rgb(236,64,64)'
+    ]"
+    [(colorPicker)]="color"
+    (colorPickerClose)="onColorChanged($event)"
     style="display: none; height: 0"
   />
+
   <app-settings *ngIf="showSettings$ | async"></app-settings>
   <div
     [class.headerAndCanvas]="

@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   showSettings$: Observable<boolean> | BehaviorSubject<boolean>;
   showDescription$: Observable<boolean>;
   version: string = environment.version;
+  color: string = '#000000';
 
   constructor(
     private settingsService: SettingsService,
@@ -62,5 +63,18 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.showDescription$ = this.titleService.showDescription$;
     this.showSettings$ = this.settingsService.showSettings$;
+
+    document.addEventListener('defaultColor', (event: Event) => {
+      const customEvent = event as CustomEvent;
+      setTimeout(() => {
+        this.color = customEvent.detail.color;
+      }, 10);
+    });
+  }
+
+  onColorChanged(color: string) {
+    document.dispatchEvent(
+      new CustomEvent('pickedColor', { detail: { color: color } }),
+    );
   }
 }

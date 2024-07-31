@@ -41,21 +41,20 @@ export default function DomainStoryContextPadProvider(
 
   const colorPicker = document.getElementById("colorPicker");
 
-  colorPicker.onchange = (ev) => {
-    const context = {
-      businessObject: selectedElement.businessObject,
-      newColor: ev.target.value,
-      element: selectedElement,
-    };
+  document.addEventListener("pickedColor", (event) => {
+    if (selectedElement) {
+      executeCommandStack(event);
+    }
+  });
 
-    commandStack.execute("element.colorChange", context);
-    dirtyFlagService.makeDirty();
-  };
+  colorPicker.onchange = (event) => {};
 
   popupMenu.registerProvider("ds-replace", replaceMenuProvider);
   popupMenu.registerProvider("bpmn-replace", replaceMenuProvider);
 
   this.getContextPadEntries = function (element) {
+    selectedElement = element;
+
     const allStandardIconKeys = getAllStandardIconKeys();
     let actions = cached(element);
 
@@ -173,24 +172,12 @@ export default function DomainStoryContextPadProvider(
         action: {
           click: function (event, element) {
             selectedElement = element;
-            Coloris({
-              swatches: [
-                "#264653",
-                "#2a9d8f",
-                "#e9c46a",
-                "rgb(244,162,97)",
-                "#e76f51",
-                "#d62828",
-                "navy",
-                "#07b",
-                "#0096c7",
-                "#08de21",
-              ],
-            });
             colorPicker.click();
-            console.log(event);
-            // Falls man den Picker mal umpositionieren will
-            //document.getElementById("clr-picker").setAttribute("style", `top: ${event.clientY}px; left: ${event.clientX}px;`)
+            document.dispatchEvent(
+              new CustomEvent("defaultColor", {
+                detail: { color: selectedElement.businessObject.pickedColor },
+              }),
+            );
           },
         },
       },
@@ -354,6 +341,21 @@ export default function DomainStoryContextPadProvider(
         click: appendStart,
       },
     };
+  }
+
+  function getSelectedBusinessObject(event) {
+    return {
+      businessObject: selectedElement.businessObject,
+      newColor: event.detail.color,
+      element: selectedElement,
+    };
+  }
+
+  function executeCommandStack(event) {
+    const selectedBusinessObject = getSelectedBusinessObject(event);
+
+    commandStack.execute("element.colorChange", selectedBusinessObject);
+    dirtyFlagService.makeDirty();
   }
 }
 

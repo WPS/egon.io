@@ -31,6 +31,7 @@ import { AutosaveService } from './Service/Autosave/autosave.service';
 import { DomainStoryModelerModuleModule } from './Modules/domain-story-modeler-module.module';
 import { LabelDictionaryDialogComponent } from './Presentation/Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
 import { MaterialModule } from './material.module';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { MaterialModule } from './material.module';
     SettingsModule,
     DomainStoryModelerModuleModule,
     MaterialModule,
+    ColorPickerModule,
   ],
   providers: [
     AutosaveService,
