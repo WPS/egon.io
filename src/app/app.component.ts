@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     '#ff9d48', // orange
     '#a6ccf5', // blue
     '#9ea9ff', // dark blue/purple
-    '#fff9b1', // yellow
+    '#fff57e', // yellow
     '#f5d128', // sonny yellow
     '#ea94bb', // pink
     '#d5f692', // green
