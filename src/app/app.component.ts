@@ -20,17 +20,17 @@ export class AppComponent implements OnInit {
 
   // event storming colors for color picker
   colorBox: string[] = [
-    '#ff9d48', // orange
-    '#a6ccf5', // blue
-    '#9ea9ff', // dark blue/purple
-    '#fff57e', // yellow
-    '#f5d128', // sonny yellow
-    '#ea94bb', // pink
-    '#d5f692', // green
-    '#c9df56', // darker green
-    '#c6a2d2', // purple
-    '#eb7c88', // red
-    '#9e9e9e', // grey
+    '#FFEB3B', // yellow
+    '#FF9800', // orange
+    '#F44336', // red
+    '#F48FB1', // pink
+    '#9C27B0', // purple
+    '#2196F3', // dark blue/purple
+    '#00BCD4', // blue
+    '#4CAF50', // darker green
+    '#CDDC39', // green
+    '#9E9E9E', // grey
+    '#607D8B', // darker grey
     '#000000', // black
   ];
 
