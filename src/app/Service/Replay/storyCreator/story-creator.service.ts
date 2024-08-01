@@ -6,6 +6,7 @@ import { CanvasObject } from '../../../Domain/Common/canvasObject';
 import { ElementRegistryService } from '../../ElementRegistry/element-registry.service';
 import { StorySentence } from '../../../Domain/Replay/storySentence';
 import { Dictionary } from '../../../Domain/Common/dictionary/dictionary';
+import { ActivityBusinessObject } from '../../../Domain/Common/activityBusinessObject';
 
 @Injectable({
   providedIn: 'root',
@@ -21,10 +22,10 @@ export class StoryCreatorService {
 
     activities.forEach((activity) => {
       const activityNumber = Number(activity.businessObject.number); // Sometimes the activityNumber is a string for some reason
-      const tracedItem = tracedActivityMap.get(`${activityNumber - 1}`) ?? [];
+      const tracedItem = tracedActivityMap.get(`${activityNumber}`) ?? [];
       tracedItem.push(activity);
-      tracedActivityMapKeys.push(activityNumber - 1);
-      tracedActivityMap.set(`${activityNumber - 1}`, tracedItem);
+      tracedActivityMapKeys.push(activityNumber);
+      tracedActivityMap.set(`${activityNumber}`, tracedItem);
     });
 
     let storyIndex = 0;
@@ -60,21 +61,36 @@ export class StoryCreatorService {
   }
 
   getMissingSentences(story: StorySentence[]): number[] {
+    // if the story is empty, no sequence number is missing
     if (!story || story.length === 0) {
       return [];
     }
 
+    // collect all sequence numbers of the story
+    const allActivityNumbersFromActors: number[] = story.map((sentence) => {
+      // find all activity numbers of the ActivityBusinessObject
+      // and returned the highest one
+      const allActivityNumbers = sentence.objects.map((businessObject) => {
+        if (businessObject.hasOwnProperty('number')) {
+          const activity = businessObject as ActivityBusinessObject;
+          return activity.number ?? 0;
+        } else {
+          return 0;
+        }
+      });
+      return Math.max(...allActivityNumbers);
+    });
+
+    const highestSequenceNumber: number = Math.max(
+      ...allActivityNumbersFromActors,
+    );
+
     const missingSentences: number[] = [];
-    for (let i = 0; i < story.length; i++) {
-      if (
-        !story[i] ||
-        story[i].objects.length <= 0 ||
-        story[i].highlightedObjects.length === 0 ||
-        story[i].objects.filter(
-          (element) => element.type === ElementTypes.ACTIVITY,
-        ).length <= 0
-      ) {
-        missingSentences.push(i + 1);
+    // with a high sequence number like 1_000_000, this could be led
+    // to long calculation or completely stop from Egon.io
+    for (let i = 1; i <= highestSequenceNumber; i++) {
+      if (!allActivityNumbersFromActors.includes(i)) {
+        missingSentences.push(i);
       }
     }
     return missingSentences;

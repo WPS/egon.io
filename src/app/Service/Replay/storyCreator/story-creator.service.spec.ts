@@ -101,7 +101,20 @@ describe('StoryCreatorService', () => {
     let story: StorySentence[];
 
     beforeEach(() => {
-      story = preBuildTestStory(3);
+      story = preBuildTestStory(7);
+    });
+
+    it('should be missing sequence number 2, 4 und 6 in sorting order', () => {
+      story[1].objects = [];
+      story[3].objects = [];
+      story[5].objects = [];
+
+      const missingSequenceNumbers = service.getMissingSentences(story);
+
+      expect(missingSequenceNumbers.length).toBe(3);
+      expect(missingSequenceNumbers[0]).toBe(2);
+      expect(missingSequenceNumbers[1]).toBe(4);
+      expect(missingSequenceNumbers[2]).toBe(6);
     });
 
     it('should be true', () => {
