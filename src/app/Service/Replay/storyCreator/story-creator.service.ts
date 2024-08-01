@@ -19,12 +19,13 @@ export class StoryCreatorService {
     const story: StorySentence[] = [];
     const activities = this.elementRegistryService.getActivitiesFromActors();
     const tracedActivityMapKeys: number[] = [];
-
     activities.forEach((activity) => {
       const activityNumber = Number(activity.businessObject.number); // Sometimes the activityNumber is a string for some reason
       const tracedItem = tracedActivityMap.get(`${activityNumber}`) ?? [];
+      if (!tracedActivityMapKeys.includes(activityNumber)) {
+        tracedActivityMapKeys.push(activityNumber);
+      }
       tracedItem.push(activity);
-      tracedActivityMapKeys.push(activityNumber);
       tracedActivityMap.set(`${activityNumber}`, tracedItem);
     });
 
@@ -71,7 +72,7 @@ export class StoryCreatorService {
       // find all activity numbers of the ActivityBusinessObject
       // and returned the highest one
       const allActivityNumbers = sentence.objects.map((businessObject) => {
-        if (businessObject.hasOwnProperty('number')) {
+        if (businessObject.type.includes('activity')) {
           const activity = businessObject as ActivityBusinessObject;
           return activity.number ?? 0;
         } else {

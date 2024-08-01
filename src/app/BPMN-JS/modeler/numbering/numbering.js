@@ -11,6 +11,14 @@ export function initializeNumbering(canvasElementRegistryService) {
   canvasElementRegistry = canvasElementRegistryService;
 }
 
+export function updateMultipleNumberRegistry(activityBusinessObjects) {
+  activityBusinessObjects.forEach(
+    (activity) =>
+      (multipleNumberRegistry[activity.number] =
+        activity.multipleNumberAllowed),
+  );
+}
+
 // defines the box for activity numbers
 export function numberBoxDefinitions(element) {
   let alignment = "center";
@@ -149,6 +157,7 @@ export function updateExistingNumbersAtEditing(
   });
 
   // set the number of each activity to the next highest number, starting from the number, we overrode
+  let oldMultipleNumberRegistry = [...multipleNumberRegistry];
   let currentNumber = wantedNumber;
   for (
     currentNumber;
@@ -157,6 +166,8 @@ export function updateExistingNumbersAtEditing(
   ) {
     if (sortedActivities[currentNumber]) {
       wantedNumber++;
+      multipleNumberRegistry[wantedNumber] =
+        oldMultipleNumberRegistry[currentNumber];
       setNumberOfActivity(
         sortedActivities[currentNumber],
         wantedNumber,

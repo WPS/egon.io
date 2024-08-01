@@ -8,6 +8,8 @@ import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.s
 import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
 import { BusinessObject } from '../../Domain/Common/businessObject';
 import { StorageService } from '../BrowserStorage/storage.service';
+import { ActivityBusinessObject } from '../../Domain/Common/activityBusinessObject';
+import { updateMultipleNumberRegistry } from '../../BPMN-JS/modeler/numbering/numbering';
 
 @Injectable({
   providedIn: 'root',
@@ -116,6 +118,12 @@ export class ModelerService {
     this.elementRegistryService.clear();
     this.modeler?.destroy();
     this.postInit();
+    updateMultipleNumberRegistry(
+      currentStory
+        .filter((bo) => bo.type === 'domainStory:activity')
+        .map((bo) => <ActivityBusinessObject>bo)
+        .filter((bo) => bo.number !== null),
+    );
     if (currentStory && this.modeler.get) {
       this.modeler.importCustomElements(currentStory);
     }
