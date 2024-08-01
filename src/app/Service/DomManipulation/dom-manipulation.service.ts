@@ -74,12 +74,13 @@ export class DomManipulationService {
   }
 
   getNumberDomForActivity(activity: SVGPolylineElement): any {
-    const numberDOMS = activity.parentElement?.getElementsByClassName(
-      'djs-labelNumber',
-    ) || ['', ''];
+    const numberText =
+      activity.parentElement?.getElementsByClassName('djs-labelNumber')[0] ??
+      '';
+    const circle = (numberText as HTMLElement)?.previousSibling ?? '';
     return {
-      numberBackgroundDom: numberDOMS[0],
-      numberTextDom: numberDOMS[1],
+      numberBackgroundDom: circle,
+      numberTextDom: numberText,
     };
   }
 
