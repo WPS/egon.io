@@ -72,7 +72,7 @@ export class ReplayService {
 
   startReplay(): void {
     this.initializeReplay();
-    if (this.story?.length) {
+    if (this.story.length > 0) {
       const missingSentences = this.storyCreatorService.getMissingSentences(
         this.story,
       );
