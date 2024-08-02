@@ -6,7 +6,7 @@ import { IconSetCustomizationService } from '../../service/icon-set-customizatio
 import { IconListItem } from '../../domain/iconListItem';
 import { BehaviorSubject } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
-import { MaterialModule } from 'src/app/workbench/material.module';
+import { MaterialModule } from 'src/app/material.module';
 
 describe('IconListItemComponent', () => {
   let component: IconListItemComponent;

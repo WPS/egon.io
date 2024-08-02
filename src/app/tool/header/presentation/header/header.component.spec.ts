@@ -11,7 +11,7 @@ import { ElementRegistryService } from '../../../../domain/service/element-regis
 import { DialogService } from '../../../../domain/service/dialog.service';
 import { SettingsService } from '../../../../workbench/service/settings/settings.service';
 import { HeaderButtonsComponent } from '../../../../workbench/presentation/header/header-buttons/header-buttons.component';
-import { MaterialModule } from 'src/app/workbench/material.module';
+import { MaterialModule } from 'src/app/material.module';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;

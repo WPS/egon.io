@@ -4,7 +4,7 @@ import { HeaderDialogComponent } from 'src/app/tool/header/presentation/dialog/h
 import { MockModule, MockProviders, MockService } from 'ng-mocks';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MaterialModule } from 'src/app/workbench/material.module';
+import { MaterialModule } from 'src/app/material.module';
 import { TitleService } from '../../../service/title.service';
 import { DirtyFlagService } from '../../../../../domain/service/dirty-flag.service';
 import {

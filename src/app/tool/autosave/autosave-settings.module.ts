@@ -4,7 +4,7 @@ import { AutosaveSettingsComponent } from './presentation/AutosaveSettings/autos
 import { AutosaveOptionsComponent } from './presentation/AutosaveOptions/autosave-options.component';
 import { AutosavedDraftsComponent } from './presentation/AutosavedDrafts/autosaved-drafts.component';
 import { FormsModule } from '@angular/forms';
-import { MaterialModule } from '../../workbench/material.module';
+import { MaterialModule } from '../../material.module';
 
 @NgModule({
   declarations: [

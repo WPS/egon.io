@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DetailsListItemComponent } from './details-list-item.component';
 import { IconListItem } from '../../domain/iconListItem';
 import { ElementTypes } from '../../../../domain/entity/common/elementTypes';
-import { MaterialModule } from '../../../../workbench/material.module';
+import { MaterialModule } from '../../../../material.module';
 import { MockModule } from 'ng-mocks';
 
 const icon: IconListItem = {

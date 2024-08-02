@@ -4,7 +4,7 @@ import { ExportDialogComponent } from 'src/app/tool/export/presentation/export-d
 import { MockModule, MockProvider } from 'ng-mocks';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ExportDialogData } from '../../domain/dialog/exportDialogData';
-import { MaterialModule } from 'src/app/workbench/material.module';
+import { MaterialModule } from 'src/app/material.module';
 
 describe('ExportDialogComponent', () => {
   let component: ExportDialogComponent;

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MockModule, MockService } from 'ng-mocks';
-import { MaterialModule } from 'src/app/workbench/material.module';
+import { MaterialModule } from 'src/app/material.module';
 import { LabelDictionaryService } from '../../service/label-dictionary.service';
 import { LabelDictionaryComponent } from './label-dictionary.component';
 

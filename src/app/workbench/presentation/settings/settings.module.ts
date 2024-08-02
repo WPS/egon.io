@@ -7,7 +7,7 @@ import { IconSetDetailsComponent } from '../../../tool/icon-set-config/presentat
 import { GeneralSettingsComponent } from './general/general-settings.component';
 import { LabelDictionaryComponent } from '../../../tool/label-dictionary/presentation/label-dictionary/label-dictionary.component';
 import { FormsModule } from '@angular/forms';
-import { MaterialModule } from '../../material.module';
+import { MaterialModule } from '../../../material.module';
 import { AutosaveSettingsModule } from '../../../tool/autosave/autosave-settings.module';
 
 @NgModule({

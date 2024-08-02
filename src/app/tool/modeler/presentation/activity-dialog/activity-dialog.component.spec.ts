@@ -10,7 +10,7 @@ import {
 } from '@angular/material/dialog';
 import { ActivityDialogData } from '../../domain/activityDialogData';
 import { testActivityCanvasObject } from '../../../../domain/entity/common/activityCanvasObject';
-import { MaterialModule } from 'src/app/workbench/material.module';
+import { MaterialModule } from 'src/app/material.module';
 
 describe('ActivityDialogComponent', () => {
   let component: ActivityDialogComponent;
