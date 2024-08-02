@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { RendererService } from '../../../Service/Renderer/renderer.service';
 import { ExportService } from '../../../Service/Export/export.service';
-import { Draft } from '../../../Domain/Autosave/draft';
+import { Draft } from '../domain/draft';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { IconDictionaryService } from '../../../Service/IconSetConfiguration/icon-dictionary.service';
 import { ElementTypes } from '../../../Domain/Common/elementTypes';
 import { fromConfigurationFromFile } from '../../../Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { StorageService } from '../../../Service/BrowserStorage/storage.service';
 import { TitleService } from '../../../Service/Title/title.service';
-import { AutosaveConfiguration } from '../../../Domain/Autosave/autosave-configuration';
+import { AutosaveConfiguration } from '../domain/autosave-configuration';
 import { Subject } from 'rxjs';
 import {
   INITIAL_DESCRIPTION,

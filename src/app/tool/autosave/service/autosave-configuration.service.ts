@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { StorageService } from '../../../Service/BrowserStorage/storage.service';
-import { AutosaveConfiguration } from '../../../Domain/Autosave/autosave-configuration';
+import { AutosaveConfiguration } from '../domain/autosave-configuration';
 import {
   DEFAULT_AUTOSAVES_MAX_DRAFTS,
   DEFAULT_AUTOSAVES_ENABLED,

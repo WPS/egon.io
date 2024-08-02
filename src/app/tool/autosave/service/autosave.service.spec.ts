@@ -6,7 +6,7 @@ import { RendererService } from '../../../Service/Renderer/renderer.service';
 import { IconSetConfigurationService } from '../../../Service/IconSetConfiguration/icon-set-configuration.service';
 import { ExportService } from '../../../Service/Export/export.service';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
-import { Draft } from '../../../Domain/Autosave/draft';
+import { Draft } from '../domain/draft';
 import { testConfigAndDst } from '../../../Domain/Export/configAndDst';
 import { StorageService } from '../../../Service/BrowserStorage/storage.service';
 import { of } from 'rxjs';
