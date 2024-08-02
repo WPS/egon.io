@@ -1,5 +1,8 @@
 import { testActivityCanvasObject } from '../domain/entity/common/activityCanvasObject';
-import { CanvasObject, testCanvasObject } from '../domain/entity/common/canvasObject';
+import {
+  CanvasObject,
+  testCanvasObject,
+} from '../domain/entity/common/canvasObject';
 import { ElementTypes } from '../domain/entity/common/elementTypes';
 import { StorySentence } from '../tool/replay/domain/storySentence';
 
