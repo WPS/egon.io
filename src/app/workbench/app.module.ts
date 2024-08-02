@@ -29,7 +29,7 @@ import { ModelerComponent } from 'src/app/Presentation/Canvas/modeler.component'
 import { SettingsModule } from 'src/app/Modules/settings.module';
 import { AutosaveService } from '../tool/autosave/service/autosave.service';
 import { DomainStoryModelerModuleModule } from '../Modules/domain-story-modeler-module.module';
-import { LabelDictionaryDialogComponent } from '../Presentation/Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
+import { LabelDictionaryDialogComponent } from '../tool/label-dictionary/presentation/label-dictionary-dialog/label-dictionary-dialog.component';
 import { MaterialModule } from '../material.module';
 import { ColorPickerModule } from 'ngx-color-picker';
 

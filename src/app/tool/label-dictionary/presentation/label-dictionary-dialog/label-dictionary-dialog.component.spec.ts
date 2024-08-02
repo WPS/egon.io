@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LabelDictionaryDialogComponent } from './label-dictionary-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MockComponent, MockModule, MockProvider } from 'ng-mocks';
-import { LabelDictionaryComponent } from '../../LabelDictionary/label-dictionary.component';
+import { LabelDictionaryComponent } from '../../../../Presentation/LabelDictionary/label-dictionary.component';
 import { MaterialModule } from 'src/app/material.module';
 
 describe('LabelDictionaryDialogComponent', () => {
