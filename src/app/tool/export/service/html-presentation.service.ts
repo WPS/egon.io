@@ -3,7 +3,7 @@ import { sanitizeForDesktop } from '../../../Utils/sanitizer';
 import { ReplayService } from '../../../Service/Replay/replay.service';
 // @ts-ignore
 import doT from 'dot';
-import { TitleService } from '../../../Service/Title/title.service';
+import { TitleService } from '../../header/service/title.service';
 
 @Injectable({
   providedIn: 'root',

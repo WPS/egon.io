@@ -9,7 +9,7 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog';
 import { UntypedFormBuilder } from '@angular/forms';
-import { InfoDialogData } from '../../../../../Domain/Dialog/infoDialogData';
+import { InfoDialogData } from '../../../domain/infoDialogData';
 
 describe('InfoDialogComponent', () => {
   let component: TitleAndDescriptionDialogComponent;

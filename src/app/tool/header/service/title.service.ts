@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_ICON_SET_NAME,
   INITIAL_TITLE,
-} from '../../Domain/Common/constants';
-import { CommandStackService } from '../CommandStack/command-stack.service';
+} from '../../../Domain/Common/constants';
+import { CommandStackService } from '../../../Service/CommandStack/command-stack.service';
 
 @Injectable({
   providedIn: 'root',

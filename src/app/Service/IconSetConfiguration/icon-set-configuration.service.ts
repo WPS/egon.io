@@ -9,7 +9,7 @@ import {
   IconSetConfigurationForExport,
 } from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { defaultConf } from '../../Domain/Icon-Set-Configuration/iconConfiguration';
-import { TitleService } from '../Title/title.service';
+import { TitleService } from '../../tool/header/service/title.service';
 import { INITIAL_ICON_SET_NAME } from '../../Domain/Common/constants';
 
 @Injectable({

@@ -10,7 +10,7 @@ import {
 } from '../../../../tool/export/domain/dialog/exportDialogData';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ExportDialogComponent } from '../../../../tool/export/presentation/export-dialog/export-dialog.component';
-import { InfoDialogData } from '../../../../Domain/Dialog/infoDialogData';
+import { InfoDialogData } from '../../../../tool/header/domain/infoDialogData';
 import { TitleAndDescriptionDialogComponent } from '../../../../tool/header/presentation/dialog/info-dialog/title-and-description-dialog.component';
 import { DialogService } from '../../../../Service/Dialog/dialog.service';
 import { ReplayService } from '../../../../Service/Replay/replay.service';
@@ -22,7 +22,7 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
 } from '../../../../Domain/Common/constants';
-import { TitleService } from '../../../../Service/Title/title.service';
+import { TitleService } from '../../../../tool/header/service/title.service';
 import { RendererService } from '../../../../Service/Renderer/renderer.service';
 
 @Component({

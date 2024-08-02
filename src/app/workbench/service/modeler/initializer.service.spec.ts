@@ -8,7 +8,7 @@ import { IconSetConfigurationService } from '../../../Service/IconSetConfigurati
 import { LabelDictionaryService } from '../../../Service/LabelDictionary/label-dictionary.service';
 import { ReplayStateService } from '../../../Service/Replay/replay-state.service';
 import { DialogService } from '../../../Service/Dialog/dialog.service';
-import { TitleService } from '../../../Service/Title/title.service';
+import { TitleService } from '../../../tool/header/service/title.service';
 import { MassNamingService } from '../../../Service/LabelDictionary/mass-naming.service';
 import { HtmlPresentationService } from '../../../tool/export/service/html-presentation.service';
 import { MockService } from 'ng-mocks';

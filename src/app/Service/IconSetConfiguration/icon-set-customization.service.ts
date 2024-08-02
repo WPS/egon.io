@@ -17,7 +17,7 @@ import { ElementTypes } from '../../Domain/Common/elementTypes';
 import { IconListItem } from '../../Domain/Icon-Set-Configuration/iconListItem';
 import { StorageService } from '../BrowserStorage/storage.service';
 import { ImportDomainStoryService } from '../../tool/import/service/import-domain-story.service';
-import { TitleService } from '../Title/title.service';
+import { TitleService } from '../../tool/header/service/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import getIconId = ElementTypes.getIconId;

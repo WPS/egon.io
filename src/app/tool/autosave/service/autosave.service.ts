@@ -7,7 +7,7 @@ import { IconDictionaryService } from '../../../Service/IconSetConfiguration/ico
 import { ElementTypes } from '../../../Domain/Common/elementTypes';
 import { fromConfigurationFromFile } from '../../../Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { StorageService } from '../../../Service/BrowserStorage/storage.service';
-import { TitleService } from '../../../Service/Title/title.service';
+import { TitleService } from '../../header/service/title.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
 import { Subject } from 'rxjs';
 import {

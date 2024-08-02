@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from 'src/app/workbench/app.component';
 import { MockComponent, MockProviders } from 'ng-mocks';
 import { SettingsService } from './service/settings/settings.service';
-import { TitleService } from '../Service/Title/title.service';
+import { TitleService } from '../tool/header/service/title.service';
 import { ExportService } from '../tool/export/service/export.service';
 import { ModelerComponent } from '../Presentation/Canvas/modeler.component';
 import { HeaderComponent } from '../tool/header/presentation/header/header.component';

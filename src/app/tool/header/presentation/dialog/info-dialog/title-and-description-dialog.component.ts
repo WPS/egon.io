@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { InfoDialogData } from 'src/app/Domain/Dialog/infoDialogData';
+import { InfoDialogData } from 'src/app/tool/header/domain/infoDialogData';
 
 @Component({
   selector: 'app-title-and-description-dialog',

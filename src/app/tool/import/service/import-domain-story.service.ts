@@ -2,7 +2,7 @@ import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { IconDictionaryService } from 'src/app/Service/IconSetConfiguration/icon-dictionary.service';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
-import { TitleService } from 'src/app/Service/Title/title.service';
+import { TitleService } from 'src/app/tool/header/service/title.service';
 import { ImportRepairService } from 'src/app/tool/import/service/import-repair.service';
 import { Observable, Subscription } from 'rxjs';
 import { RendererService } from 'src/app/Service/Renderer/renderer.service';
@@ -14,7 +14,7 @@ import {
 import { DialogService } from '../../../Service/Dialog/dialog.service';
 import { TitleAndDescriptionDialogComponent } from '../../header/presentation/dialog/info-dialog/title-and-description-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { InfoDialogData } from '../../../Domain/Dialog/infoDialogData';
+import { InfoDialogData } from '../../header/domain/infoDialogData';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,

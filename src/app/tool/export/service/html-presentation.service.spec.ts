@@ -6,7 +6,7 @@ import { ElementRegistryService } from '../../../Service/ElementRegistry/element
 import { DialogService } from '../../../Service/Dialog/dialog.service';
 import { StoryCreatorService } from '../../../Service/Replay/storyCreator/story-creator.service';
 import { ReplayService } from '../../../Service/Replay/replay.service';
-import { TitleService } from '../../../Service/Title/title.service';
+import { TitleService } from '../../header/service/title.service';
 
 describe('HtmlPresentationService', () => {
   let service: HtmlPresentationService;

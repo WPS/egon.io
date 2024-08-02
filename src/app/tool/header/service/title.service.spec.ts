@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TitleService } from 'src/app/Service/Title/title.service';
+import { TitleService } from 'src/app/tool/header/service/title.service';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
-} from '../../Domain/Common/constants';
-import { environment } from '../../../environments/environment';
+} from '../../../Domain/Common/constants';
+import { environment } from '../../../../environments/environment';
 
 describe(TitleService.name, () => {
   let service: TitleService;

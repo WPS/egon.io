@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from 'src/app/tool/header/presentation/header/header.component';
-import { TitleService } from '../../../../Service/Title/title.service';
+import { TitleService } from '../../service/title.service';
 import { MockComponent, MockModule, MockService } from 'ng-mocks';
 import { ReplayService } from '../../../../Service/Replay/replay.service';
 import { ImportDomainStoryService } from '../../../import/service/import-domain-story.service';

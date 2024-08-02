@@ -10,7 +10,7 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { ActivityDialogData } from '../../../Domain/Dialog/activityDialogData';
 import { ActivityDialogComponent } from '../../../Presentation/Dialog/activity-dialog/activity-dialog.component';
 import { DialogService } from '../../../Service/Dialog/dialog.service';
-import { TitleService } from '../../../Service/Title/title.service';
+import { TitleService } from '../../../tool/header/service/title.service';
 import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
 import { HtmlPresentationService } from '../../../tool/export/service/html-presentation.service';
 import { positionsMatch } from '../../../Utils/mathExtensions';

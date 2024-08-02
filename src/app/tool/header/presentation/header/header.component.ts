@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
-import { TitleService } from '../../../../Service/Title/title.service';
+import { TitleService } from '../../service/title.service';
 import { ReplayService } from '../../../../Service/Replay/replay.service';
 import { ReplayStateService } from '../../../../Service/Replay/replay-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';

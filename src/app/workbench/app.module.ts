@@ -13,7 +13,7 @@ import { ExportService } from 'src/app/tool/export/service/export.service';
 import { ImportDomainStoryService } from 'src/app/tool/import/service/import-domain-story.service';
 import { ImportRepairService } from 'src/app/tool/import/service/import-repair.service';
 import { ModelerService } from 'src/app/Service/Modeler/modeler.service';
-import { TitleService } from 'src/app/Service/Title/title.service';
+import { TitleService } from 'src/app/tool/header/service/title.service';
 import { LabelDictionaryService } from 'src/app/Service/LabelDictionary/label-dictionary.service';
 import { ReplayService } from 'src/app/Service/Replay/replay.service';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';

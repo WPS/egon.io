@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { IconSetCustomizationService } from './icon-set-customization.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { MockProvider, MockProviders } from 'ng-mocks';
-import { TitleService } from '../Title/title.service';
+import { TitleService } from '../../tool/header/service/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { ImportDomainStoryService } from '../../tool/import/service/import-domain-story.service';
 import {
