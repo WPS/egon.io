@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { SvgService } from 'src/app/tool/export/service/svg.service';
 import { ModelerService } from '../../../Service/Modeler/modeler.service';
-import { testConfigAndDst } from '../../../Domain/Export/configAndDst';
+import { testConfigAndDst } from '../domain/export/configAndDst';
 import { TEST_SVG } from './spec/testSVG';
 
 describe('SvgService', () => {

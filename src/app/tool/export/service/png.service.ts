@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createTitleAndDescriptionSVGElement } from 'src/app/tool/export/service/exportUtil';
-import { BrowserSpecs } from 'src/app/Domain/Export/browserSpecs';
-import { Box } from 'src/app/Domain/Export/box';
+import { BrowserSpecs } from 'src/app/tool/export/domain/export/browserSpecs';
+import { Box } from 'src/app/tool/export/domain/export/box';
 
 @Injectable({
   providedIn: 'root',

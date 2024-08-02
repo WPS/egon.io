@@ -7,7 +7,7 @@ import { IconSetConfigurationService } from '../../../Service/IconSetConfigurati
 import { ExportService } from '../../export/service/export.service';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { Draft } from '../domain/draft';
-import { testConfigAndDst } from '../../../Domain/Export/configAndDst';
+import { testConfigAndDst } from '../../export/domain/export/configAndDst';
 import { StorageService } from '../../../Service/BrowserStorage/storage.service';
 import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';

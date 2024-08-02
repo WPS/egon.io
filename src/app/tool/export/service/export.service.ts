@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { IconSetConfigurationService } from 'src/app/Service/IconSetConfiguration/icon-set-configuration.service';
 import { sanitizeForDesktop } from 'src/app/Utils/sanitizer';
 import { TitleService } from 'src/app/Service/Title/title.service';
-import { ConfigAndDST } from 'src/app/Domain/Export/configAndDst';
+import { ConfigAndDST } from 'src/app/tool/export/domain/export/configAndDst';
 import { DirtyFlagService } from 'src/app/Service/DirtyFlag/dirty-flag.service';
 import { PngService } from 'src/app/tool/export/service/png.service';
 import { SvgService } from 'src/app/tool/export/service/svg.service';

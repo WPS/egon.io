@@ -1,4 +1,4 @@
-import { ConfigAndDST } from '../../../Domain/Export/configAndDst';
+import { ConfigAndDST } from '../../export/domain/export/configAndDst';
 
 export interface Draft {
   title: string;

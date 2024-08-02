@@ -7,7 +7,7 @@ import { DirtyFlagService } from '../../../../Service/DirtyFlag/dirty-flag.servi
 import {
   ExportDialogData,
   ExportOption,
-} from '../../../../Domain/Dialog/exportDialogData';
+} from '../../../../tool/export/domain/dialog/exportDialogData';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ExportDialogComponent } from '../../../../tool/export/presentation/export-dialog/export-dialog.component';
 import { InfoDialogData } from '../../../../Domain/Dialog/infoDialogData';
