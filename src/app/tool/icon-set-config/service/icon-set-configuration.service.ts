@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { ElementRegistryService } from 'src/app/_domain/service/element-registry.service';
+import { ElementRegistryService } from 'src/app/domain/service/element-registry.service';
 import { IconDictionaryService } from 'src/app/tool/icon-set-config/service/icon-dictionary.service';
-import { Dictionary } from 'src/app/_domain/entity/common/dictionary';
-import { ElementTypes } from 'src/app/_domain/entity/common/elementTypes';
+import { Dictionary } from 'src/app/domain/entity/common/dictionary';
+import { ElementTypes } from 'src/app/domain/entity/common/elementTypes';
 import {
   CustomIconSetConfiguration,
   IconSetConfiguration,
   IconSetConfigurationForExport,
-} from 'src/app/_domain/entity/iconSetConfiguration';
+} from 'src/app/domain/entity/iconSetConfiguration';
 import { defaultConf } from '../domain/iconConfiguration';
 import { TitleService } from '../../header/service/title.service';
-import { INITIAL_ICON_SET_NAME } from '../../../_domain/entity/common/constants';
+import { INITIAL_ICON_SET_NAME } from '../../../domain/entity/common/constants';
 
 @Injectable({
   providedIn: 'root',

@@ -13,7 +13,7 @@ import {
   isLabelExternal,
 } from "bpmn-js/lib/util/LabelUtil";
 
-import { ElementTypes } from "src/app/_domain/entity/common/elementTypes";
+import { ElementTypes } from "src/app/domain/entity/common/elementTypes";
 import { is } from "../util";
 
 let dictionaryService;

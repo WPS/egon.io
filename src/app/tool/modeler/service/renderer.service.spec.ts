@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { RendererService } from './renderer.service';
 import { ModelerService } from './modeler.service';
-import { ElementRegistryService } from '../../../_domain/service/element-registry.service';
+import { ElementRegistryService } from '../../../domain/service/element-registry.service';
 import { IconSetConfigurationService } from '../../icon-set-config/service/icon-set-configuration.service';
-import { DirtyFlagService } from '../../../_domain/service/dirty-flag.service';
-import { IconSetConfiguration } from '../../../_domain/entity/iconSetConfiguration';
-import { Dictionary } from 'src/app/_domain/entity/common/dictionary';
+import { DirtyFlagService } from '../../../domain/service/dirty-flag.service';
+import { IconSetConfiguration } from '../../../domain/entity/iconSetConfiguration';
+import { Dictionary } from 'src/app/domain/entity/common/dictionary';
 
 describe('RendererService', () => {
   let service: RendererService;

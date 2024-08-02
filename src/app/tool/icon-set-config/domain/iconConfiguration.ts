@@ -1,8 +1,8 @@
-import { Dictionary } from 'src/app/_domain/entity/common/dictionary';
+import { Dictionary } from 'src/app/domain/entity/common/dictionary';
 import { overrideAppendedIcons } from 'src/app/tool/icon-set-config/domain/allIcons';
-import { Configuration } from 'src/app/_domain/entity/common/configuration';
-import { IconSetConfiguration } from 'src/app/_domain/entity/iconSetConfiguration';
-import { INITIAL_ICON_SET_NAME } from '../../../_domain/entity/common/constants';
+import { Configuration } from 'src/app/domain/entity/common/configuration';
+import { IconSetConfiguration } from 'src/app/domain/entity/iconSetConfiguration';
+import { INITIAL_ICON_SET_NAME } from '../../../domain/entity/common/constants';
 
 export class IconConfiguration {
   domainName = INITIAL_ICON_SET_NAME;

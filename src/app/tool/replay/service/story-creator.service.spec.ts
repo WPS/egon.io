@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
 import { StoryCreatorService } from './story-creator.service';
-import { ElementRegistryService } from '../../../_domain/service/element-registry.service';
+import { ElementRegistryService } from '../../../domain/service/element-registry.service';
 import { StorySentence } from '../domain/storySentence';
-import { ActivityCanvasObject } from '../../../_domain/entity/common/activityCanvasObject';
-import { CanvasObject } from '../../../_domain/entity/common/canvasObject';
-import { ElementTypes } from '../../../_domain/entity/common/elementTypes';
-import { testGroupCanvasObject } from '../../../_domain/entity/common/groupCanvasObject';
+import { ActivityCanvasObject } from '../../../domain/entity/common/activityCanvasObject';
+import { CanvasObject } from '../../../domain/entity/common/canvasObject';
+import { ElementTypes } from '../../../domain/entity/common/elementTypes';
+import { testGroupCanvasObject } from '../../../domain/entity/common/groupCanvasObject';
 import {
   createReplaySentenceObjects,
   preBuildTestStory,

@@ -5,7 +5,7 @@ import { ReplayService } from '../../../replay/service/replay.service';
 import { ReplayStateService } from '../../../replay/service/replay-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { HeaderDialogComponent } from '../dialog/header-dialog/header-dialog.component';
-import { DialogService } from '../../../../_domain/service/dialog.service';
+import { DialogService } from '../../../../domain/service/dialog.service';
 
 @Component({
   selector: 'app-header',

@@ -1,6 +1,6 @@
-import { testActivityCanvasObject } from '../_domain/entity/common/activityCanvasObject';
-import { CanvasObject, testCanvasObject } from '../_domain/entity/common/canvasObject';
-import { ElementTypes } from '../_domain/entity/common/elementTypes';
+import { testActivityCanvasObject } from '../domain/entity/common/activityCanvasObject';
+import { CanvasObject, testCanvasObject } from '../domain/entity/common/canvasObject';
+import { ElementTypes } from '../domain/entity/common/elementTypes';
 import { StorySentence } from '../tool/replay/domain/storySentence';
 
 export function preBuildTestStory(sentenceAmount: number): StorySentence[] {

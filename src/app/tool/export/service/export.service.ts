@@ -3,7 +3,7 @@ import { IconSetConfigurationService } from 'src/app/tool/icon-set-config/servic
 import { sanitizeForDesktop } from 'src/app/utils/sanitizer';
 import { TitleService } from 'src/app/tool/header/service/title.service';
 import { ConfigAndDST } from 'src/app/tool/export/domain/export/configAndDst';
-import { DirtyFlagService } from 'src/app/_domain/service/dirty-flag.service';
+import { DirtyFlagService } from 'src/app/domain/service/dirty-flag.service';
 import { PngService } from 'src/app/tool/export/service/png.service';
 import { SvgService } from 'src/app/tool/export/service/svg.service';
 import { Subscription } from 'rxjs';

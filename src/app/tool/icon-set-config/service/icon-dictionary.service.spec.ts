@@ -2,14 +2,14 @@ import { TestBed } from '@angular/core/testing';
 
 import { IconDictionaryService } from 'src/app/tool/icon-set-config/service/icon-dictionary.service';
 import { defaultConf } from '../domain/iconConfiguration';
-import { ElementTypes } from '../../../_domain/entity/common/elementTypes';
-import { IconSetConfiguration } from '../../../_domain/entity/iconSetConfiguration';
-import { INITIAL_ICON_SET_NAME } from '../../../_domain/entity/common/constants';
-import { Dictionary } from '../../../_domain/entity/common/dictionary';
+import { ElementTypes } from '../../../domain/entity/common/elementTypes';
+import { IconSetConfiguration } from '../../../domain/entity/iconSetConfiguration';
+import { INITIAL_ICON_SET_NAME } from '../../../domain/entity/common/constants';
+import { Dictionary } from '../../../domain/entity/common/dictionary';
 import {
   BusinessObject,
   testBusinessObject,
-} from '../../../_domain/entity/common/businessObject';
+} from '../../../domain/entity/common/businessObject';
 import { allIcons } from '../domain/allIcons';
 
 describe('IconDictionaryService', () => {

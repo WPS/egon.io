@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { DomManipulationService } from 'src/app/tool/replay/service/dom-manipulation.service';
-import { ElementRegistryService } from '../../../_domain/service/element-registry.service';
+import { ElementRegistryService } from '../../../domain/service/element-registry.service';
 import { preBuildTestStory } from '../../../utils/testHelpers.spec';
 
 describe('DomManipulationService', () => {

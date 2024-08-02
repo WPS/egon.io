@@ -3,7 +3,7 @@ import { SettingsService } from '../../../service/settings/settings.service';
 import { ModelerService } from '../../../../tool/modeler/service/modeler.service';
 import { Observable } from 'rxjs';
 import { ReplayStateService } from '../../../../tool/replay/service/replay-state.service';
-import { DirtyFlagService } from '../../../../_domain/service/dirty-flag.service';
+import { DirtyFlagService } from '../../../../domain/service/dirty-flag.service';
 import {
   ExportDialogData,
   ExportOption,
@@ -12,7 +12,7 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { ExportDialogComponent } from '../../../../tool/export/presentation/export-dialog/export-dialog.component';
 import { InfoDialogData } from '../../../../tool/header/domain/infoDialogData';
 import { TitleAndDescriptionDialogComponent } from '../../../../tool/header/presentation/dialog/info-dialog/title-and-description-dialog.component';
-import { DialogService } from '../../../../_domain/service/dialog.service';
+import { DialogService } from '../../../../domain/service/dialog.service';
 import { ReplayService } from '../../../../tool/replay/service/replay.service';
 import { ExportService } from '../../../../tool/export/service/export.service';
 import { ImportDomainStoryService } from '../../../../tool/import/service/import-domain-story.service';
@@ -21,7 +21,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
-} from '../../../../_domain/entity/common/constants';
+} from '../../../../domain/entity/common/constants';
 import { TitleService } from '../../../../tool/header/service/title.service';
 import { RendererService } from '../../../../tool/modeler/service/renderer.service';
 

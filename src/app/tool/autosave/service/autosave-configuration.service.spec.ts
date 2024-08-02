@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AutosaveConfigurationService } from './autosave-configuration.service';
-import { StorageService } from '../../../_domain/service/storage.service';
+import { StorageService } from '../../../domain/service/storage.service';
 import { MockProvider } from 'ng-mocks';
 
 describe('AutosaveConfigurationService', () => {

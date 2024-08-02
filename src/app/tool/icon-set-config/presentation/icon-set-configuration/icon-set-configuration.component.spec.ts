@@ -9,8 +9,8 @@ import { BehaviorSubject } from 'rxjs';
 import {
   CustomIconSetConfiguration,
   testCustomIconSetConfiguration,
-} from '../../../../_domain/entity/iconSetConfiguration';
-import { Dictionary } from '../../../../_domain/entity/common/dictionary';
+} from '../../../../domain/entity/iconSetConfiguration';
+import { Dictionary } from '../../../../domain/entity/common/dictionary';
 import { IconSetDetailsComponent } from '../icon-set-details/icon-set-details.component';
 import { MaterialModule } from 'src/app/material.module';
 

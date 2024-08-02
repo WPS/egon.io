@@ -1,17 +1,17 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tool/icon-set-config/service/icon-dictionary.service';
-import { Dictionary } from 'src/app/_domain/entity/common/dictionary';
-import { ElementTypes } from 'src/app/_domain/entity/common/elementTypes';
+import { Dictionary } from 'src/app/domain/entity/common/dictionary';
+import { ElementTypes } from 'src/app/domain/entity/common/elementTypes';
 import { TitleService } from 'src/app/tool/header/service/title.service';
 import { ImportRepairService } from 'src/app/tool/import/service/import-repair.service';
 import { Observable, Subscription } from 'rxjs';
 import { RendererService } from 'src/app/tool/modeler/service/renderer.service';
-import { BusinessObject } from 'src/app/_domain/entity/common/businessObject';
+import { BusinessObject } from 'src/app/domain/entity/common/businessObject';
 import {
   IconSetConfiguration,
   fromConfigurationFromFile,
-} from 'src/app/_domain/entity/iconSetConfiguration';
-import { DialogService } from '../../../_domain/service/dialog.service';
+} from 'src/app/domain/entity/iconSetConfiguration';
+import { DialogService } from '../../../domain/service/dialog.service';
 import { TitleAndDescriptionDialogComponent } from '../../header/presentation/dialog/info-dialog/title-and-description-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../../header/domain/infoDialogData';
@@ -21,7 +21,7 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_ERROR,
   SNACKBAR_INFO,
-} from '../../../_domain/entity/common/constants';
+} from '../../../domain/entity/common/constants';
 import { IconSetConfigurationService } from '../../icon-set-config/service/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

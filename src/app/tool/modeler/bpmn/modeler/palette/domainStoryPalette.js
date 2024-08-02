@@ -2,9 +2,9 @@
 
 import { assign } from "min-dash";
 import { overrideAppendedIcons } from "src/app/tool/icon-set-config/domain/allIcons";
-import { Dictionary } from "src/app/_domain/entity/common/dictionary";
-import { ElementTypes } from "src/app/_domain/entity/common/elementTypes";
-import { APPENDED_ICONS_TAG } from "src/app/_domain/entity/common/constants";
+import { Dictionary } from "src/app/domain/entity/common/dictionary";
+import { ElementTypes } from "src/app/domain/entity/common/elementTypes";
+import { APPENDED_ICONS_TAG } from "src/app/domain/entity/common/constants";
 
 /**
  * A palette that allows you to create BPMN _and_ custom elements.

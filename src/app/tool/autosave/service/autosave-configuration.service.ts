@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
-import { StorageService } from '../../../_domain/service/storage.service';
+import { StorageService } from '../../../domain/service/storage.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
 import {
   DEFAULT_AUTOSAVES_MAX_DRAFTS,
   DEFAULT_AUTOSAVES_ENABLED,
   DEFAULT_AUTOSAVES_INTERVAL,
-} from 'src/app/_domain/entity/common/constants';
+} from 'src/app/domain/entity/common/constants';
 
 const AUTOSAVE_CONFIGURATION_TAG = 'autosaveConfiguration';
 

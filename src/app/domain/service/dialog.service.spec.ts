@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DialogService } from 'src/app/_domain/service/dialog.service';
+import { DialogService } from 'src/app/domain/service/dialog.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../../tool/header/domain/infoDialogData';
 import { TitleAndDescriptionDialogComponent } from '../../tool/header/presentation/dialog/info-dialog/title-and-description-dialog.component';

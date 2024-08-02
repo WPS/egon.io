@@ -1,6 +1,6 @@
-import { testActivityCanvasObject } from '../_domain/entity/common/activityCanvasObject';
+import { testActivityCanvasObject } from '../domain/entity/common/activityCanvasObject';
 import { angleBetween, degrees, positionsMatch } from './mathExtensions';
-import { ElementTypes } from '../_domain/entity/common/elementTypes';
+import { ElementTypes } from '../domain/entity/common/elementTypes';
 import { sanitizeForDesktop, sanitizeIconName } from './sanitizer';
 import getIconId = ElementTypes.getIconId;
 

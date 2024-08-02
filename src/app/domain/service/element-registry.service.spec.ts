@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ElementRegistryService } from 'src/app/_domain/service/element-registry.service';
+import { ElementRegistryService } from 'src/app/domain/service/element-registry.service';
 import {
   ActivityCanvasObject,
   testActivityCanvasObject,

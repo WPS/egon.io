@@ -8,7 +8,7 @@ import { ExportService } from '../../export/service/export.service';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { Draft } from '../domain/draft';
 import { testConfigAndDst } from '../../export/domain/export/configAndDst';
-import { StorageService } from '../../../_domain/service/storage.service';
+import { StorageService } from '../../../domain/service/storage.service';
 import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

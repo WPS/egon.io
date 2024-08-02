@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject } from 'rxjs';
-import { UsedIconList } from 'src/app/_domain/entity/UsedIconList';
-import { ElementRegistryService } from 'src/app/_domain/service/element-registry.service';
+import { UsedIconList } from 'src/app/domain/entity/UsedIconList';
+import { ElementRegistryService } from 'src/app/domain/service/element-registry.service';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
   SNACKBAR_SUCCESS,
-} from '../../../_domain/entity/common/constants';
-import { Dictionary } from '../../../_domain/entity/common/dictionary';
+} from '../../../domain/entity/common/constants';
+import { Dictionary } from '../../../domain/entity/common/dictionary';
 import {
   CustomIconSetConfiguration,
   IconSetConfiguration,
-} from '../../../_domain/entity/iconSetConfiguration';
-import { ElementTypes } from '../../../_domain/entity/common/elementTypes';
+} from '../../../domain/entity/iconSetConfiguration';
+import { ElementTypes } from '../../../domain/entity/common/elementTypes';
 import { IconListItem } from '../domain/iconListItem';
-import { StorageService } from '../../../_domain/service/storage.service';
+import { StorageService } from '../../../domain/service/storage.service';
 import { ImportDomainStoryService } from '../../import/service/import-domain-story.service';
 import { TitleService } from '../../header/service/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
