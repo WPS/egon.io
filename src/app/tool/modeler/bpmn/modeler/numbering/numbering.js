@@ -1,6 +1,6 @@
 "use strict";
 
-import { angleBetween } from "src/app/Utils/mathExtensions";
+import { angleBetween } from "src/app/utils/mathExtensions";
 
 let numberRegistry = [];
 let multipleNumberRegistry = [false];

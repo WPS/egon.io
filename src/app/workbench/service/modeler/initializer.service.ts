@@ -13,7 +13,7 @@ import { DialogService } from '../../../_domain/service/dialog.service';
 import { TitleService } from '../../../tool/header/service/title.service';
 import { ActivityCanvasObject } from '../../../_domain/entity/common/activityCanvasObject';
 import { HtmlPresentationService } from '../../../tool/export/service/html-presentation.service';
-import { positionsMatch } from '../../../Utils/mathExtensions';
+import { positionsMatch } from '../../../utils/mathExtensions';
 import { CommandStackService } from '../../../tool/modeler/service/command-stack.service';
 
 import { initializeRenderer } from '../../../tool/modeler/bpmn/modeler/domainStoryRenderer';

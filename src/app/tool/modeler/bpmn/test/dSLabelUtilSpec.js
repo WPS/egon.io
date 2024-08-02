@@ -3,7 +3,7 @@ import {
   calculateTextWidth,
   selectPartOfActivity,
 } from "../../modeler/labeling/dsLabelUtil";
-import { angleBetween } from "../../../../Utils/mathExtensions";
+import { angleBetween } from "../../../../utils/mathExtensions";
 
 describe("DSLabelUtil", function () {
   // will only be used for three or more waypoints

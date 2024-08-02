@@ -6,7 +6,7 @@ import { ElementRegistryService } from '../../../_domain/service/element-registr
 import { IconDictionaryService } from '../../icon-set-config/service/icon-dictionary.service';
 import { IconSetConfigurationService } from '../../icon-set-config/service/icon-set-configuration.service';
 import { IconSetConfiguration } from '../../../_domain/entity/iconSetConfiguration';
-import { createTestCanvasObjects } from '../../../Utils/testHelpers.spec';
+import { createTestCanvasObjects } from '../../../utils/testHelpers.spec';
 import { BusinessObject } from '../../../_domain/entity/common/businessObject';
 import { INITIAL_ICON_SET_NAME } from '../../../_domain/entity/common/constants';
 import { ElementTypes } from '../../../_domain/entity/common/elementTypes';

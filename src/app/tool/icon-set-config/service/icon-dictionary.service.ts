@@ -12,7 +12,7 @@ import {
   allIcons,
   appendedIcons,
 } from 'src/app/tool/icon-set-config/domain/allIcons';
-import { sanitizeIconName } from '../../../Utils/sanitizer';
+import { sanitizeIconName } from '../../../utils/sanitizer';
 import getIconId = ElementTypes.getIconId;
 
 export const ICON_PREFIX = 'icon-domain-story-';

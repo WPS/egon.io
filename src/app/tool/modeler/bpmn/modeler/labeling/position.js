@@ -1,7 +1,7 @@
 "use strict";
 
 import { selectPartOfActivity } from "./dsLabelUtil";
-import { angleBetween } from "src/app/Utils/mathExtensions";
+import { angleBetween } from "src/app/utils/mathExtensions";
 
 export function countLines(str) {
   return str.split(/\r\n|\r|\n/).length;

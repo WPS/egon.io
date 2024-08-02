@@ -26,7 +26,7 @@ import {
   labelPosition,
 } from "src/app/tool/modeler/bpmn/modeler/labeling/position";
 import { ElementTypes } from "src/app/_domain/entity/common/elementTypes";
-import { angleBetween } from "../../../../Utils/mathExtensions";
+import { angleBetween } from "../../../../utils/mathExtensions";
 
 let RENDERER_IDS = new Ids();
 let numbers = [];

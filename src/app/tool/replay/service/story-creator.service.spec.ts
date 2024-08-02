@@ -10,7 +10,7 @@ import { testGroupCanvasObject } from '../../../_domain/entity/common/groupCanva
 import {
   createReplaySentenceObjects,
   preBuildTestStory,
-} from '../../../Utils/testHelpers.spec';
+} from '../../../utils/testHelpers.spec';
 
 describe('StoryCreatorService', () => {
   let service: StoryCreatorService;

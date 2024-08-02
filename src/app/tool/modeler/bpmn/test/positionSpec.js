@@ -4,7 +4,7 @@ import {
   labelPositionX,
   labelPositionY,
 } from "../../modeler/labeling/position";
-import { angleBetween } from "../../../../Utils/mathExtensions";
+import { angleBetween } from "../../../../utils/mathExtensions";
 
 describe("position", function () {
   it("labelPosition test", function () {

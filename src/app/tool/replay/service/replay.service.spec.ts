@@ -5,7 +5,7 @@ import { ReplayStateService } from './replay-state.service';
 import { DomManipulationService } from './dom-manipulation.service';
 import { DialogService } from '../../../_domain/service/dialog.service';
 import { StoryCreatorService } from './story-creator.service';
-import { preBuildTestStory } from '../../../Utils/testHelpers.spec';
+import { preBuildTestStory } from '../../../utils/testHelpers.spec';
 import { MockProvider } from 'ng-mocks';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
