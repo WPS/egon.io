@@ -15,7 +15,6 @@ import { DialogService } from '../Dialog/dialog.service';
 import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
-import { restoreTitleFromFileName } from '../../Utils/sanitizer';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
@@ -82,7 +81,7 @@ export class ImportDomainStoryService implements OnDestroy {
 
   importDST(input: Blob, filename: string, isSVG: boolean): void {
     const fileReader = new FileReader();
-    const titleText = restoreTitleFromFileName(filename, isSVG);
+    const titleText = this.restoreTitleFromFileName(filename, isSVG);
 
     // no need to put this on the commandStack
     this.titleService.updateTitleAndDescription(titleText, null, false);
@@ -98,7 +97,7 @@ export class ImportDomainStoryService implements OnDestroy {
 
   importEGN(input: Blob, filename: string, isSVG: boolean): void {
     const fileReader = new FileReader();
-    const titleText = restoreTitleFromFileName(filename, isSVG);
+    const titleText = this.restoreTitleFromFileName(filename, isSVG);
 
     // no need to put this on the commandStack
     this.titleService.updateTitleAndDescription(titleText, null, false);
@@ -343,5 +342,32 @@ export class ImportDomainStoryService implements OnDestroy {
     );
 
     this.dialogService.openDialog(InfoDialogComponent, config);
+  }
+
+  private restoreTitleFromFileName(
+    filename: string,
+    isSVG: boolean,
+  ): string {
+    let title;
+
+    const domainStoryRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(.dst|.egn)/;
+    const svgRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(.dst|.egn).svg/;
+
+    const egnSuffix = '.egn';
+    const dstSuffix = '.dst';
+    const svgSuffix = '.svg';
+
+    let filenameWithoutDateSuffix = filename.replace(
+      isSVG ? svgRegex : domainStoryRegex,
+      '',
+    );
+    if (filenameWithoutDateSuffix.includes(isSVG ? svgSuffix : dstSuffix)) {
+      filenameWithoutDateSuffix = filenameWithoutDateSuffix
+        .replace(svgSuffix, '')
+        .replace(dstSuffix, '')
+        .replace(egnSuffix, '');
+    }
+    title = filenameWithoutDateSuffix;
+    return title;
   }
 }
