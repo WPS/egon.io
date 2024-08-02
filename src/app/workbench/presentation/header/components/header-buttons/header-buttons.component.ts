@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SettingsService } from '../../../../../Service/Settings/settings.service';
+import { SettingsService } from '../../../../service/settings/settings.service';
 import { ModelerService } from '../../../../../Service/Modeler/modeler.service';
 import { Observable } from 'rxjs';
 import { ReplayStateService } from '../../../../../Service/Replay/replay-state.service';

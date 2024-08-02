@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SettingsService } from 'src/app/Service/Settings/settings.service';
+import { SettingsService } from 'src/app/workbench/service/settings/settings.service';
 import { ModelerService } from 'src/app/Service/Modeler/modeler.service';
 import { IconSetConfiguration } from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { BehaviorSubject, Observable } from 'rxjs';
