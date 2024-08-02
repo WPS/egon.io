@@ -6,7 +6,7 @@ import {
 } from '@angular/material/checkbox';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from 'src/app/Presentation/Header/header.component';
+import { HeaderComponent } from 'src/app/tool/header/presentation/header/header.component';
 import { SettingsComponent } from 'src/app/Presentation/Settings/settings.component';
 import { AppComponent } from 'src/app/workbench/app.component';
 import { ExportService } from 'src/app/tool/export/service/export.service';

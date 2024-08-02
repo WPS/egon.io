@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderComponent } from 'src/app/Presentation/Header/header.component';
-import { TitleService } from '../../Service/Title/title.service';
+import { HeaderComponent } from 'src/app/tool/header/presentation/header/header.component';
+import { TitleService } from '../../../../Service/Title/title.service';
 import { MockComponent, MockModule, MockService } from 'ng-mocks';
-import { ReplayService } from '../../Service/Replay/replay.service';
-import { ImportDomainStoryService } from '../../tool/import/service/import-domain-story.service';
-import { ExportService } from '../../tool/export/service/export.service';
-import { ModelerService } from '../../Service/Modeler/modeler.service';
-import { ElementRegistryService } from '../../Service/ElementRegistry/element-registry.service';
-import { DialogService } from '../../Service/Dialog/dialog.service';
-import { SettingsService } from '../../workbench/service/settings/settings.service';
-import { HeaderButtonsComponent } from '../../workbench/presentation/header/header-buttons/header-buttons.component';
+import { ReplayService } from '../../../../Service/Replay/replay.service';
+import { ImportDomainStoryService } from '../../../import/service/import-domain-story.service';
+import { ExportService } from '../../../export/service/export.service';
+import { ModelerService } from '../../../../Service/Modeler/modeler.service';
+import { ElementRegistryService } from '../../../../Service/ElementRegistry/element-registry.service';
+import { DialogService } from '../../../../Service/Dialog/dialog.service';
+import { SettingsService } from '../../../../workbench/service/settings/settings.service';
+import { HeaderButtonsComponent } from '../../../../workbench/presentation/header/header-buttons/header-buttons.component';
 import { MaterialModule } from 'src/app/material.module';
 
 describe('HeaderComponent', () => {

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
-import { TitleService } from '../../Service/Title/title.service';
-import { ReplayService } from '../../Service/Replay/replay.service';
-import { ReplayStateService } from '../../Service/Replay/replay-state.service';
+import { TitleService } from '../../../../Service/Title/title.service';
+import { ReplayService } from '../../../../Service/Replay/replay.service';
+import { ReplayStateService } from '../../../../Service/Replay/replay-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { HeaderDialogComponent } from '../Dialog/header-dialog/header-dialog.component';
-import { DialogService } from '../../Service/Dialog/dialog.service';
+import { HeaderDialogComponent } from '../../../../Presentation/Dialog/header-dialog/header-dialog.component';
+import { DialogService } from '../../../../Service/Dialog/dialog.service';
 
 @Component({
   selector: 'app-header',
