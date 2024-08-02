@@ -39,21 +39,25 @@ export default function DomainStoryContextPadProvider(
 
   let cached = bind(this.getContextPadEntries, this);
 
-  const colorPicker = document.getElementById("colorPicker");
-
   document.addEventListener("pickedColor", (event) => {
     if (selectedElement) {
       executeCommandStack(event);
     }
   });
 
-  colorPicker.onchange = (event) => {};
-
   popupMenu.registerProvider("ds-replace", replaceMenuProvider);
   popupMenu.registerProvider("bpmn-replace", replaceMenuProvider);
 
   this.getContextPadEntries = function (element) {
     selectedElement = element;
+
+    document.dispatchEvent(
+      new CustomEvent("defaultColor", {
+        detail: {
+          color: selectedElement.businessObject.pickedColor ?? "#000000",
+        },
+      }),
+    );
 
     const allStandardIconKeys = getAllStandardIconKeys();
     let actions = cached(element);
@@ -169,13 +173,7 @@ export default function DomainStoryContextPadProvider(
         title: translate("Change color"),
         action: {
           click: function (event, element) {
-            selectedElement = element;
-            colorPicker.click();
-            document.dispatchEvent(
-              new CustomEvent("defaultColor", {
-                detail: { color: selectedElement.businessObject.pickedColor },
-              }),
-            );
+            document.dispatchEvent(new CustomEvent("openColorPicker"));
           },
         },
       },

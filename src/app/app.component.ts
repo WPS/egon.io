@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SettingsService } from 'src/app/Service/Settings/settings.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TitleService } from './Service/Title/title.service';
@@ -6,6 +6,7 @@ import { ExportService } from './Service/Export/export.service';
 import { ReplayStateService } from './Service/Replay/replay-state.service';
 import { ReplayService } from './Service/Replay/replay.service';
 import { environment } from '../environments/environment';
+import { ColorPickerDirective } from 'ngx-color-picker';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,9 @@ export class AppComponent implements OnInit {
   showDescription$: Observable<boolean>;
   version: string = environment.version;
   color: string = '#000000';
+
+  @ViewChild(ColorPickerDirective, { static: false })
+  colorPicker!: ColorPickerDirective;
 
   // event storming colors for color picker
   colorBox: string[] = [
@@ -82,9 +86,11 @@ export class AppComponent implements OnInit {
 
     document.addEventListener('defaultColor', (event: Event) => {
       const customEvent = event as CustomEvent;
-      setTimeout(() => {
-        this.color = customEvent.detail.color;
-      }, 10);
+      this.color = customEvent.detail.color;
+    });
+
+    document.addEventListener('openColorPicker', () => {
+      this.colorPicker.openDialog();
     });
   }
 
