@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExportDialogComponent } from 'src/app/Presentation/Dialog/export-dialog/export-dialog.component';
+import { ExportDialogComponent } from 'src/app/tool/export/presentation/export-dialog/export-dialog.component';
 import { MockModule, MockProvider } from 'ng-mocks';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ExportDialogData } from '../../../Domain/Dialog/exportDialogData';
+import { ExportDialogData } from '../../../../Domain/Dialog/exportDialogData';
 import { MaterialModule } from 'src/app/material.module';
 
 describe('ExportDialogComponent', () => {

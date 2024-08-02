@@ -20,7 +20,7 @@ import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-
 import { IconSetConfigurationService } from 'src/app/Service/IconSetConfiguration/icon-set-configuration.service';
 import { MassNamingService } from 'src/app/Service/LabelDictionary/mass-naming.service';
 import { TitleAndDescriptionDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/title-and-description-dialog.component';
-import { ExportDialogComponent } from 'src/app/Presentation/Dialog/export-dialog/export-dialog.component';
+import { ExportDialogComponent } from 'src/app/tool/export/presentation/export-dialog/export-dialog.component';
 import { ActivityDialogComponent } from 'src/app/Presentation/Dialog/activity-dialog/activity-dialog.component';
 import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HeaderDialogComponent } from 'src/app/Presentation/Dialog/header-dialog/header-dialog.component';

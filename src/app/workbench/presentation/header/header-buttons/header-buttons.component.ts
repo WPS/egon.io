@@ -9,7 +9,7 @@ import {
   ExportOption,
 } from '../../../../Domain/Dialog/exportDialogData';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { ExportDialogComponent } from '../../../../Presentation/Dialog/export-dialog/export-dialog.component';
+import { ExportDialogComponent } from '../../../../tool/export/presentation/export-dialog/export-dialog.component';
 import { InfoDialogData } from '../../../../Domain/Dialog/infoDialogData';
 import { TitleAndDescriptionDialogComponent } from '../../../../Presentation/Dialog/info-dialog/title-and-description-dialog.component';
 import { DialogService } from '../../../../Service/Dialog/dialog.service';
