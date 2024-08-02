@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingsComponent } from 'src/app/Presentation/Settings/settings.component';
-import { SettingsService } from '../../workbench/service/settings/settings.service';
+import { SettingsComponent } from 'src/app/workbench/presentation/settings/settings.component';
+import { SettingsService } from '../../service/settings/settings.service';
 import { MockComponent, MockProviders } from 'ng-mocks';
-import { ModelerService } from '../../tool/modeler/service/modeler.service';
-import { AutosaveConfigurationService } from '../../tool/autosave/service/autosave-configuration.service';
-import { IconSetCustomizationService } from '../../tool/icon-set-config/service/icon-set-customization.service';
-import { IconSetConfigurationComponent } from '../../tool/icon-set-config/presentation/icon-set-configuration/icon-set-configuration.component';
+import { ModelerService } from '../../../tool/modeler/service/modeler.service';
+import { AutosaveConfigurationService } from '../../../tool/autosave/service/autosave-configuration.service';
+import { IconSetCustomizationService } from '../../../tool/icon-set-config/service/icon-set-customization.service';
+import { IconSetConfigurationComponent } from '../../../tool/icon-set-config/presentation/icon-set-configuration/icon-set-configuration.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 describe('SettingsComponent', () => {

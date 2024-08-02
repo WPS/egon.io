@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderButtonsComponent } from '../workbench/presentation/header/header-buttons/header-buttons.component';
+import { HeaderButtonsComponent } from './header-buttons/header-buttons.component';
 
 @NgModule({
   declarations: [HeaderButtonsComponent],

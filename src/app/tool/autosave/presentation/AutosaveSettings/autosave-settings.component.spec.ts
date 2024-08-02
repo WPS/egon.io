@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AutosaveSettingsComponent } from './autosave-settings.component';
 import { MockModule } from 'ng-mocks';
-import { SettingsModule } from 'src/app/Modules/settings.module';
+import { SettingsModule } from 'src/app/workbench/presentation/settings/settings.module';
 
 describe('AutosaveSettingsComponent', () => {
   let component: AutosaveSettingsComponent;

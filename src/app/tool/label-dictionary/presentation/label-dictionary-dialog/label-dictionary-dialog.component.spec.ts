@@ -4,7 +4,7 @@ import { LabelDictionaryDialogComponent } from './label-dictionary-dialog.compon
 import { MatDialogRef } from '@angular/material/dialog';
 import { MockComponent, MockModule, MockProvider } from 'ng-mocks';
 import { LabelDictionaryComponent } from '../label-dictionary/label-dictionary.component';
-import { MaterialModule } from 'src/app/material.module';
+import { MaterialModule } from 'src/app/workbench/material.module';
 
 describe('LabelDictionaryDialogComponent', () => {
   let component: LabelDictionaryDialogComponent;

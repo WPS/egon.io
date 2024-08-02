@@ -7,7 +7,7 @@ import {
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from 'src/app/tool/header/presentation/header/header.component';
-import { SettingsComponent } from 'src/app/Presentation/Settings/settings.component';
+import { SettingsComponent } from 'src/app/workbench/presentation/settings/settings.component';
 import { AppComponent } from 'src/app/workbench/app.component';
 import { ExportService } from 'src/app/tool/export/service/export.service';
 import { ImportDomainStoryService } from 'src/app/tool/import/service/import-domain-story.service';
@@ -26,11 +26,11 @@ import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HeaderDialogComponent } from 'src/app/tool/header/presentation/dialog/header-dialog/header-dialog.component';
 import { IconDictionaryService } from 'src/app/tool/icon-set-config/service/icon-dictionary.service';
 import { ModelerComponent } from 'src/app/tool/modeler/presentation/modeler/modeler.component';
-import { SettingsModule } from 'src/app/Modules/settings.module';
+import { SettingsModule } from 'src/app/workbench/presentation/settings/settings.module';
 import { AutosaveService } from '../tool/autosave/service/autosave.service';
-import { DomainStoryModelerModuleModule } from '../Modules/domain-story-modeler-module.module';
+import { DomainStoryModelerModuleModule } from './presentation/header/domain-story-modeler-module.module';
 import { LabelDictionaryDialogComponent } from '../tool/label-dictionary/presentation/label-dictionary-dialog/label-dictionary-dialog.component';
-import { MaterialModule } from '../material.module';
+import { MaterialModule } from './material.module';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({

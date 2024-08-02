@@ -3,8 +3,8 @@ import { SettingsService } from 'src/app/workbench/service/settings/settings.ser
 import { ModelerService } from 'src/app/tool/modeler/service/modeler.service';
 import { IconSetConfiguration } from 'src/app/domain/entity/iconSetConfiguration';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AutosaveConfigurationService } from '../../tool/autosave/service/autosave-configuration.service';
-import { IconSetCustomizationService } from '../../tool/icon-set-config/service/icon-set-customization.service';
+import { AutosaveConfigurationService } from '../../../tool/autosave/service/autosave-configuration.service';
+import { IconSetCustomizationService } from '../../../tool/icon-set-config/service/icon-set-customization.service';
 
 @Component({
   selector: 'app-settings',
