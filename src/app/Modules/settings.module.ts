@@ -5,7 +5,7 @@ import { IconListItemComponent } from '../Presentation/IconSetConfiguration/icon
 import { DetailsListItemComponent } from '../Presentation/IconSetConfiguration/details-list-item/details-list-item.component';
 import { IconSetDetailsComponent } from '../Presentation/IconSetConfiguration/icon-set-details/icon-set-details.component';
 import { GeneralSettingsComponent } from '../Presentation/Settings/General/general-settings.component';
-import { LabelDictionaryComponent } from '../Presentation/LabelDictionary/label-dictionary.component';
+import { LabelDictionaryComponent } from '../tool/label-dictionary/presentation/label-dictionary/label-dictionary.component';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
 import { AutosaveSettingsModule } from './autosave-settings.module';
