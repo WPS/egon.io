@@ -11,7 +11,7 @@ import {
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ExportDialogComponent } from '../../../Dialog/export-dialog/export-dialog.component';
 import { InfoDialogData } from '../../../../Domain/Dialog/infoDialogData';
-import { InfoDialogComponent } from '../../../Dialog/info-dialog/info-dialog.component';
+import { TitleAndDescriptionDialogComponent } from '../../../Dialog/info-dialog/title-and-description-dialog.component';
 import { DialogService } from '../../../../Service/Dialog/dialog.service';
 import { ReplayService } from '../../../../Service/Replay/replay.service';
 import { ExportService } from '../../../../Service/Export/export.service';
@@ -138,7 +138,7 @@ export class HeaderButtonsComponent {
 
     config.data = new InfoDialogData(title, shortCutText, true);
 
-    this.dialogService.openDialog(InfoDialogComponent, config);
+    this.dialogService.openDialog(TitleAndDescriptionDialogComponent, config);
   }
 
   openLabelDictionary(): void {

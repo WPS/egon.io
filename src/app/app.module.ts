@@ -19,7 +19,7 @@ import { ReplayService } from 'src/app/Service/Replay/replay.service';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { IconSetConfigurationService } from 'src/app/Service/IconSetConfiguration/icon-set-configuration.service';
 import { MassNamingService } from 'src/app/Service/LabelDictionary/mass-naming.service';
-import { InfoDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/info-dialog.component';
+import { TitleAndDescriptionDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/title-and-description-dialog.component';
 import { ExportDialogComponent } from 'src/app/Presentation/Dialog/export-dialog/export-dialog.component';
 import { ActivityDialogComponent } from 'src/app/Presentation/Dialog/activity-dialog/activity-dialog.component';
 import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -38,7 +38,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
     HeaderComponent,
     SettingsComponent,
     AppComponent,
-    InfoDialogComponent,
+    TitleAndDescriptionDialogComponent,
     ExportDialogComponent,
     ActivityDialogComponent,
     HeaderDialogComponent,

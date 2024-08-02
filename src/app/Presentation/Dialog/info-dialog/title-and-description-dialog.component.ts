@@ -3,11 +3,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { InfoDialogData } from 'src/app/Domain/Dialog/infoDialogData';
 
 @Component({
-  selector: 'app-info-dialog',
-  templateUrl: './info-dialog.component.html',
-  styleUrls: ['./info-dialog.component.scss'],
+  selector: 'app-title-and-description-dialog',
+  templateUrl: './title-and-description-dialog.component.html',
+  styleUrls: ['./title-and-description-dialog.component.scss'],
 })
-export class InfoDialogComponent implements AfterViewInit {
+export class TitleAndDescriptionDialogComponent implements AfterViewInit {
   title: string;
   infoText: string;
   showConfirmButton: boolean;
@@ -15,7 +15,7 @@ export class InfoDialogComponent implements AfterViewInit {
   linkText: string;
 
   constructor(
-    private dialogRef: MatDialogRef<InfoDialogComponent>,
+    private dialogRef: MatDialogRef<TitleAndDescriptionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: InfoDialogData,
   ) {
     this.title = data.title;

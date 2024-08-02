@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InfoDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/info-dialog.component';
+import { TitleAndDescriptionDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/title-and-description-dialog.component';
 import { MockProviders } from 'ng-mocks';
 import {
   MAT_DIALOG_DATA,
@@ -12,8 +12,8 @@ import { UntypedFormBuilder } from '@angular/forms';
 import { InfoDialogData } from '../../../Domain/Dialog/infoDialogData';
 
 describe('InfoDialogComponent', () => {
-  let component: InfoDialogComponent;
-  let fixture: ComponentFixture<InfoDialogComponent>;
+  let component: TitleAndDescriptionDialogComponent;
+  let fixture: ComponentFixture<TitleAndDescriptionDialogComponent>;
 
   const infoData: InfoDialogData = {
     isInfo: true,
@@ -26,7 +26,7 @@ describe('InfoDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatDialogModule],
-      declarations: [InfoDialogComponent],
+      declarations: [TitleAndDescriptionDialogComponent],
       providers: [
         MockProviders(MatDialog, MatDialogRef),
         {
@@ -39,7 +39,7 @@ describe('InfoDialogComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InfoDialogComponent);
+    fixture = TestBed.createComponent(TitleAndDescriptionDialogComponent);
     component = fixture.componentInstance;
 
     spyOn(document, 'getElementsByClassName').and.returnValue([

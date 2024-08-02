@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { DialogService } from 'src/app/Service/Dialog/dialog.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
-import { InfoDialogComponent } from '../../Presentation/Dialog/info-dialog/info-dialog.component';
+import { TitleAndDescriptionDialogComponent } from '../../Presentation/Dialog/info-dialog/title-and-description-dialog.component';
 import { MockProvider, MockProviders } from 'ng-mocks';
 import { of } from 'rxjs';
 
@@ -38,7 +38,7 @@ describe('DialogService', () => {
     const title = 'Test';
     const text = 'Test.';
     config.data = new InfoDialogData(title, text, true);
-    service.openDialog(InfoDialogComponent, config);
+    service.openDialog(TitleAndDescriptionDialogComponent, config);
 
     expect(matDialogSpy).toHaveBeenCalled();
   });
