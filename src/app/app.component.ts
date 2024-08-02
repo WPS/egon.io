@@ -24,19 +24,19 @@ export class AppComponent implements OnInit {
 
   skipNextColorUpdate = false;
 
-  // event storming colors for color picker
+  // define preset colors that have good contrast on white background and are compatible to EventStorming notation
   colorBox: string[] = [
-    '#FFEB3B', // yellow
-    '#FF9800', // orange
-    '#F44336', // red
-    '#F48FB1', // pink
-    '#9C27B0', // purple
-    '#2196F3', // dark blue/purple
-    '#00BCD4', // blue
-    '#4CAF50', // darker green
-    '#CDDC39', // green
+    '#FDD835', // yellow
+    '#FB8C00', // orange
+    '#D32F2F', // red
+    '#F48FB1', // light pink
+    '#EC407A', // dark pink
+    '#8E24AA', // purple
+    '#1E88E5', // blue
+    '#00ACC1', // cyan
+    '#43A047', // green
+    '#C0CA33', // lime
     '#9E9E9E', // grey
-    '#607D8B', // darker grey
     '#000000', // black
   ];
 
