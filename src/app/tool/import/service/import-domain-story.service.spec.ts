@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ImportDomainStoryService } from 'src/app/tool/import/service/import-domain-story.service';
 import { ElementRegistryService } from '../../../Service/ElementRegistry/element-registry.service';
-import { IconDictionaryService } from '../../../Service/IconSetConfiguration/icon-dictionary.service';
+import { IconDictionaryService } from '../../icon-set-config/service/icon-dictionary.service';
 import { DirtyFlagService } from '../../../Service/DirtyFlag/dirty-flag.service';
 import { ImportRepairService } from './import-repair.service';
 import { TitleService } from '../../header/service/title.service';

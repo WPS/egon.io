@@ -7,7 +7,7 @@ import ContextPadProvider from "bpmn-js/lib/features/context-pad/ContextPadProvi
 import { assign, bind } from "min-dash";
 import { generateAutomaticNumber } from "../numbering/numbering";
 import { ElementTypes } from "src/app/Domain/Common/elementTypes";
-import { getAllStandardIconKeys } from "src/app/Domain/Icon-Set-Configuration/allIcons";
+import { getAllStandardIconKeys } from "src/app/tool/icon-set-config/domain/allIcons";
 
 let dirtyFlagService;
 let iconDictionaryService;

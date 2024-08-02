@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { IconSetConfigurationService } from 'src/app/Service/IconSetConfiguration/icon-set-configuration.service';
+import { IconSetConfigurationService } from 'src/app/tool/icon-set-config/service/icon-set-configuration.service';
 import { sanitizeForDesktop } from 'src/app/Utils/sanitizer';
 import { TitleService } from 'src/app/tool/header/service/title.service';
 import { ConfigAndDST } from 'src/app/tool/export/domain/export/configAndDst';

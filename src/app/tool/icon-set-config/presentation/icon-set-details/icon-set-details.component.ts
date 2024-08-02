@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IconSetCustomizationService } from 'src/app/Service/IconSetConfiguration/icon-set-customization.service';
-import { IconListItem } from 'src/app/Domain/Icon-Set-Configuration/iconListItem';
+import { IconSetCustomizationService } from 'src/app/tool/icon-set-config/service/icon-set-customization.service';
+import { IconListItem } from 'src/app/tool/icon-set-config/domain/iconListItem';
 import { TitleService } from 'src/app/tool/header/service/title.service';
 
 @Component({

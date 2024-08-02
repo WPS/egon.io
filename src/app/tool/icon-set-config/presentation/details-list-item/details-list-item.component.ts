@@ -1,5 +1,5 @@
 import { AfterViewChecked, Component, Input } from '@angular/core';
-import { IconListItem } from '../../../Domain/Icon-Set-Configuration/iconListItem';
+import { IconListItem } from '../../domain/iconListItem';
 
 @Component({
   selector: 'app-details-list-item',

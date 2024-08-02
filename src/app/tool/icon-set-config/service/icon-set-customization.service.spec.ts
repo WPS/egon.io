@@ -3,22 +3,22 @@ import { TestBed } from '@angular/core/testing';
 import { IconSetCustomizationService } from './icon-set-customization.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { MockProvider, MockProviders } from 'ng-mocks';
-import { TitleService } from '../../tool/header/service/title.service';
+import { TitleService } from '../../header/service/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
-import { ImportDomainStoryService } from '../../tool/import/service/import-domain-story.service';
+import { ImportDomainStoryService } from '../../import/service/import-domain-story.service';
 import {
   IconSetConfiguration,
   testCustomIconSetConfiguration,
-} from '../../Domain/Icon-Set-Configuration/iconSetConfiguration';
-import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
+} from '../../../Domain/Icon-Set-Configuration/iconSetConfiguration';
+import { Dictionary } from '../../../Domain/Common/dictionary/dictionary';
 import { Observable, of } from 'rxjs';
 import {
   INITIAL_ICON_SET_NAME,
   SNACKBAR_DURATION,
   SNACKBAR_SUCCESS,
-} from '../../Domain/Common/constants';
+} from '../../../Domain/Common/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { StorageService } from '../BrowserStorage/storage.service';
+import { StorageService } from '../../../Service/BrowserStorage/storage.service';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 
 describe(IconSetCustomizationService.name, () => {

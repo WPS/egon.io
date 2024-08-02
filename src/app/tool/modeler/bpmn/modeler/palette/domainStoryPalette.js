@@ -1,7 +1,7 @@
 "use strict";
 
 import { assign } from "min-dash";
-import { overrideAppendedIcons } from "src/app/Domain/Icon-Set-Configuration/allIcons";
+import { overrideAppendedIcons } from "src/app/tool/icon-set-config/domain/allIcons";
 import { Dictionary } from "src/app/Domain/Common/dictionary/dictionary";
 import { ElementTypes } from "src/app/Domain/Common/elementTypes";
 import { APPENDED_ICONS_TAG } from "src/app/Domain/Common/constants";

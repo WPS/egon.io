@@ -7,12 +7,12 @@ import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
 import {
   defaultConf,
   IconConfiguration,
-} from 'src/app/Domain/Icon-Set-Configuration/iconConfiguration';
+} from 'src/app/tool/icon-set-config/domain/iconConfiguration';
 import {
   allIcons,
   appendedIcons,
-} from 'src/app/Domain/Icon-Set-Configuration/allIcons';
-import { sanitizeIconName } from '../../Utils/sanitizer';
+} from 'src/app/tool/icon-set-config/domain/allIcons';
+import { sanitizeIconName } from '../../../Utils/sanitizer';
 import getIconId = ElementTypes.getIconId;
 
 export const ICON_PREFIX = 'icon-domain-story-';

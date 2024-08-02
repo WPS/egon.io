@@ -4,7 +4,7 @@ import { ModelerService } from 'src/app/tool/modeler/service/modeler.service';
 import { IconSetConfiguration } from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AutosaveConfigurationService } from '../../tool/autosave/service/autosave-configuration.service';
-import { IconSetCustomizationService } from '../../Service/IconSetConfiguration/icon-set-customization.service';
+import { IconSetCustomizationService } from '../../tool/icon-set-config/service/icon-set-customization.service';
 
 @Component({
   selector: 'app-settings',

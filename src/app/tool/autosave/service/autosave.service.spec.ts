@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { AutosaveService, DRAFTS_TAG } from './autosave.service';
 import { MockProviders } from 'ng-mocks';
 import { RendererService } from '../../modeler/service/renderer.service';
-import { IconSetConfigurationService } from '../../../Service/IconSetConfiguration/icon-set-configuration.service';
+import { IconSetConfigurationService } from '../../icon-set-config/service/icon-set-configuration.service';
 import { ExportService } from '../../export/service/export.service';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { Draft } from '../domain/draft';

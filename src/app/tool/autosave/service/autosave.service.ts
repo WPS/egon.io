@@ -3,7 +3,7 @@ import { RendererService } from '../../modeler/service/renderer.service';
 import { ExportService } from '../../export/service/export.service';
 import { Draft } from '../domain/draft';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
-import { IconDictionaryService } from '../../../Service/IconSetConfiguration/icon-dictionary.service';
+import { IconDictionaryService } from '../../icon-set-config/service/icon-dictionary.service';
 import { ElementTypes } from '../../../Domain/Common/elementTypes';
 import { fromConfigurationFromFile } from '../../../Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { StorageService } from '../../../Service/BrowserStorage/storage.service';

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RendererService } from './renderer.service';
 import { ModelerService } from './modeler.service';
 import { ElementRegistryService } from '../../../Service/ElementRegistry/element-registry.service';
-import { IconSetConfigurationService } from '../../../Service/IconSetConfiguration/icon-set-configuration.service';
+import { IconSetConfigurationService } from '../../icon-set-config/service/icon-set-configuration.service';
 import { DirtyFlagService } from '../../../Service/DirtyFlag/dirty-flag.service';
 import { IconSetConfiguration } from '../../../Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';

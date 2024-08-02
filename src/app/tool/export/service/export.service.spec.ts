@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ExportService } from 'src/app/tool/export/service/export.service';
 import { HtmlPresentationService } from './html-presentation.service';
 import { MockService } from 'ng-mocks';
-import { IconSetConfigurationService } from '../../../Service/IconSetConfiguration/icon-set-configuration.service';
+import { IconSetConfigurationService } from '../../icon-set-config/service/icon-set-configuration.service';
 import { PngService } from './png.service';
 import { SvgService } from './svg.service';
 import { RendererService } from '../../modeler/service/renderer.service';

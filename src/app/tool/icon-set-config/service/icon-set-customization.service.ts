@@ -7,17 +7,17 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
   SNACKBAR_SUCCESS,
-} from '../../Domain/Common/constants';
-import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
+} from '../../../Domain/Common/constants';
+import { Dictionary } from '../../../Domain/Common/dictionary/dictionary';
 import {
   CustomIconSetConfiguration,
   IconSetConfiguration,
-} from '../../Domain/Icon-Set-Configuration/iconSetConfiguration';
-import { ElementTypes } from '../../Domain/Common/elementTypes';
-import { IconListItem } from '../../Domain/Icon-Set-Configuration/iconListItem';
-import { StorageService } from '../BrowserStorage/storage.service';
-import { ImportDomainStoryService } from '../../tool/import/service/import-domain-story.service';
-import { TitleService } from '../../tool/header/service/title.service';
+} from '../../../Domain/Icon-Set-Configuration/iconSetConfiguration';
+import { ElementTypes } from '../../../Domain/Common/elementTypes';
+import { IconListItem } from '../domain/iconListItem';
+import { StorageService } from '../../../Service/BrowserStorage/storage.service';
+import { ImportDomainStoryService } from '../../import/service/import-domain-story.service';
+import { TitleService } from '../../header/service/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import getIconId = ElementTypes.getIconId;

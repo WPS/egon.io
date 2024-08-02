@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
-import { IconDictionaryService } from 'src/app/Service/IconSetConfiguration/icon-dictionary.service';
+import { IconDictionaryService } from 'src/app/tool/icon-set-config/service/icon-dictionary.service';
 import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
 import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
 import { TitleService } from 'src/app/tool/header/service/title.service';
@@ -22,7 +22,7 @@ import {
   SNACKBAR_ERROR,
   SNACKBAR_INFO,
 } from '../../../Domain/Common/constants';
-import { IconSetConfigurationService } from '../../../Service/IconSetConfiguration/icon-set-configuration.service';
+import { IconSetConfigurationService } from '../../icon-set-config/service/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
