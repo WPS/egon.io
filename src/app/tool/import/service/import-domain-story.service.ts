@@ -12,7 +12,7 @@ import {
   fromConfigurationFromFile,
 } from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { DialogService } from '../../../Service/Dialog/dialog.service';
-import { TitleAndDescriptionDialogComponent } from '../../../Presentation/Dialog/info-dialog/title-and-description-dialog.component';
+import { TitleAndDescriptionDialogComponent } from '../../header/presentation/dialog/info-dialog/title-and-description-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../../../Domain/Dialog/infoDialogData';
 import {

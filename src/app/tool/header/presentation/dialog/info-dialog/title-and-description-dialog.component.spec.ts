@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TitleAndDescriptionDialogComponent } from 'src/app/Presentation/Dialog/info-dialog/title-and-description-dialog.component';
+import { TitleAndDescriptionDialogComponent } from 'src/app/tool/header/presentation/dialog/info-dialog/title-and-description-dialog.component';
 import { MockProviders } from 'ng-mocks';
 import {
   MAT_DIALOG_DATA,
@@ -9,7 +9,7 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog';
 import { UntypedFormBuilder } from '@angular/forms';
-import { InfoDialogData } from '../../../Domain/Dialog/infoDialogData';
+import { InfoDialogData } from '../../../../../Domain/Dialog/infoDialogData';
 
 describe('InfoDialogComponent', () => {
   let component: TitleAndDescriptionDialogComponent;

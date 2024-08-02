@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { DialogService } from 'src/app/Service/Dialog/dialog.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../../Domain/Dialog/infoDialogData';
-import { TitleAndDescriptionDialogComponent } from '../../Presentation/Dialog/info-dialog/title-and-description-dialog.component';
+import { TitleAndDescriptionDialogComponent } from '../../tool/header/presentation/dialog/info-dialog/title-and-description-dialog.component';
 import { MockProvider, MockProviders } from 'ng-mocks';
 import { of } from 'rxjs';
 
