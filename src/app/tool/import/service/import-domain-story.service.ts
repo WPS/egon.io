@@ -344,10 +344,7 @@ export class ImportDomainStoryService implements OnDestroy {
     this.dialogService.openDialog(TitleAndDescriptionDialogComponent, config);
   }
 
-  private restoreTitleFromFileName(
-    filename: string,
-    isSVG: boolean,
-  ): string {
+  private restoreTitleFromFileName(filename: string, isSVG: boolean): string {
     let title;
 
     const domainStoryRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(.dst|.egn)/;
