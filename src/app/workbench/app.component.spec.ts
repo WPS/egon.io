@@ -6,7 +6,7 @@ import { TitleService } from '../tool/header/service/title.service';
 import { ExportService } from '../tool/export/service/export.service';
 import { ModelerComponent } from '../Presentation/Canvas/modeler.component';
 import { HeaderComponent } from '../tool/header/presentation/header/header.component';
-import { ReplayService } from 'src/app/tool/replay/service/replay/replay.service';
+import { ReplayService } from 'src/app/tool/replay/service/replay.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {

@@ -4,8 +4,8 @@ import { HtmlPresentationService } from './html-presentation.service';
 import { MockProviders } from 'ng-mocks';
 import { ElementRegistryService } from '../../../Service/ElementRegistry/element-registry.service';
 import { DialogService } from '../../../Service/Dialog/dialog.service';
-import { StoryCreatorService } from '../../replay/service/replay/story-creator.service';
-import { ReplayService } from '../../replay/service/replay/replay.service';
+import { StoryCreatorService } from '../../replay/service/story-creator.service';
+import { ReplayService } from '../../replay/service/replay.service';
 import { TitleService } from '../../header/service/title.service';
 
 describe('HtmlPresentationService', () => {

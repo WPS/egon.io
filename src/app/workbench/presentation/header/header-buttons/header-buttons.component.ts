@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { SettingsService } from '../../../service/settings/settings.service';
 import { ModelerService } from '../../../../Service/Modeler/modeler.service';
 import { Observable } from 'rxjs';
-import { ReplayStateService } from '../../../../tool/replay/service/replay/replay-state.service';
+import { ReplayStateService } from '../../../../tool/replay/service/replay-state.service';
 import { DirtyFlagService } from '../../../../Service/DirtyFlag/dirty-flag.service';
 import {
   ExportDialogData,
@@ -13,7 +13,7 @@ import { ExportDialogComponent } from '../../../../tool/export/presentation/expo
 import { InfoDialogData } from '../../../../tool/header/domain/infoDialogData';
 import { TitleAndDescriptionDialogComponent } from '../../../../tool/header/presentation/dialog/info-dialog/title-and-description-dialog.component';
 import { DialogService } from '../../../../Service/Dialog/dialog.service';
-import { ReplayService } from '../../../../tool/replay/service/replay/replay.service';
+import { ReplayService } from '../../../../tool/replay/service/replay.service';
 import { ExportService } from '../../../../tool/export/service/export.service';
 import { ImportDomainStoryService } from '../../../../tool/import/service/import-domain-story.service';
 import { LabelDictionaryDialogComponent } from '../../../../Presentation/Dialog/label-dictionary-dialog/label-dictionary-dialog.component';

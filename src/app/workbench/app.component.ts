@@ -3,8 +3,8 @@ import { SettingsService } from 'src/app/workbench/service/settings/settings.ser
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TitleService } from '../tool/header/service/title.service';
 import { ExportService } from '../tool/export/service/export.service';
-import { ReplayStateService } from '../tool/replay/service/replay/replay-state.service';
-import { ReplayService } from '../tool/replay/service/replay/replay.service';
+import { ReplayStateService } from '../tool/replay/service/replay-state.service';
+import { ReplayService } from '../tool/replay/service/replay.service';
 import { environment } from '../../environments/environment';
 import { ColorPickerDirective } from 'ngx-color-picker';
 

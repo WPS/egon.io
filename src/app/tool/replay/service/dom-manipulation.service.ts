@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
-import { StorySentence } from 'src/app/Domain/Replay/storySentence';
+import { StorySentence } from 'src/app/tool/replay/domain/storySentence';
 import {
   HIGHLIGHT_NUMBER_BACKGROUNG_COLOR,
   HIGHLIGHT_NUMBER_COLOR,
@@ -10,7 +10,7 @@ import {
   NUMBER_BACKGROUND_COLOR,
   NUMBER_COLOR,
   STROKE_WIDTH,
-} from '../../../../Domain/DomManipulation/replayConstants';
+} from '../domain/replayConstants';
 
 @Injectable({
   providedIn: 'root',

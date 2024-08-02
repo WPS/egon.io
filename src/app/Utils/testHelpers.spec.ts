@@ -1,7 +1,7 @@
 import { testActivityCanvasObject } from '../Domain/Common/activityCanvasObject';
 import { CanvasObject, testCanvasObject } from '../Domain/Common/canvasObject';
 import { ElementTypes } from '../Domain/Common/elementTypes';
-import { StorySentence } from '../Domain/Replay/storySentence';
+import { StorySentence } from '../tool/replay/domain/storySentence';
 
 export function preBuildTestStory(sentenceAmount: number): StorySentence[] {
   const story: StorySentence[] = [];

@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ReplayService } from 'src/app/tool/replay/service/replay/replay.service';
+import { ReplayService } from 'src/app/tool/replay/service/replay.service';
 import { ReplayStateService } from './replay-state.service';
-import { DomManipulationService } from '../dom-manipulation/dom-manipulation.service';
-import { DialogService } from '../../../../Service/Dialog/dialog.service';
+import { DomManipulationService } from './dom-manipulation.service';
+import { DialogService } from '../../../Service/Dialog/dialog.service';
 import { StoryCreatorService } from './story-creator.service';
-import { preBuildTestStory } from '../../../../Utils/testHelpers.spec';
+import { preBuildTestStory } from '../../../Utils/testHelpers.spec';
 import { MockProvider } from 'ng-mocks';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';

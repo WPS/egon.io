@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ReplayStateService } from 'src/app/tool/replay/service/replay/replay-state.service';
+import { ReplayStateService } from 'src/app/tool/replay/service/replay-state.service';
 
 describe('ReplayStateService', () => {
   let service: ReplayStateService;

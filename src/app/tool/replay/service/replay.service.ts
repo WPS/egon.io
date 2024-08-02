@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ReplayStateService } from 'src/app/tool/replay/service/replay/replay-state.service';
-import { DomManipulationService } from 'src/app/tool/replay/service/dom-manipulation/dom-manipulation.service';
-import { StorySentence } from 'src/app/Domain/Replay/storySentence';
+import { ReplayStateService } from 'src/app/tool/replay/service/replay-state.service';
+import { DomManipulationService } from 'src/app/tool/replay/service/dom-manipulation.service';
+import { StorySentence } from 'src/app/tool/replay/domain/storySentence';
 import { StoryCreatorService } from './story-creator.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
-} from '../../../../Domain/Common/constants';
+} from '../../../Domain/Common/constants';
 
 @Injectable({
   providedIn: 'root',
