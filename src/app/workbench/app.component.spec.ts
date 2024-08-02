@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { AppComponent } from 'src/app/app.component';
+import { AppComponent } from 'src/app/workbench/app.component';
 import { MockComponent, MockProviders } from 'ng-mocks';
-import { SettingsService } from './Service/Settings/settings.service';
-import { TitleService } from './Service/Title/title.service';
-import { ExportService } from './Service/Export/export.service';
-import { ModelerComponent } from './Presentation/Canvas/modeler.component';
-import { HeaderComponent } from './Presentation/Header/header.component';
+import { SettingsService } from '../Service/Settings/settings.service';
+import { TitleService } from '../Service/Title/title.service';
+import { ExportService } from '../Service/Export/export.service';
+import { ModelerComponent } from '../Presentation/Canvas/modeler.component';
+import { HeaderComponent } from '../Presentation/Header/header.component';
 import { ReplayService } from 'src/app/Service/Replay/replay.service';
 
 describe('AppComponent', () => {

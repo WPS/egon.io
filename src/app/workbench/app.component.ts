@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SettingsService } from 'src/app/Service/Settings/settings.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { TitleService } from './Service/Title/title.service';
-import { ExportService } from './Service/Export/export.service';
-import { ReplayStateService } from './Service/Replay/replay-state.service';
-import { ReplayService } from './Service/Replay/replay.service';
-import { environment } from '../environments/environment';
+import { TitleService } from '../Service/Title/title.service';
+import { ExportService } from '../Service/Export/export.service';
+import { ReplayStateService } from '../Service/Replay/replay-state.service';
+import { ReplayService } from '../Service/Replay/replay.service';
+import { environment } from '../../environments/environment';
 import { ColorPickerDirective } from 'ngx-color-picker';
 
 @Component({

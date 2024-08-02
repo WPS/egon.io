@@ -8,7 +8,7 @@ import {
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from 'src/app/Presentation/Header/header.component';
 import { SettingsComponent } from 'src/app/Presentation/Settings/settings.component';
-import { AppComponent } from 'src/app/app.component';
+import { AppComponent } from 'src/app/workbench/app.component';
 import { ExportService } from 'src/app/Service/Export/export.service';
 import { ImportDomainStoryService } from 'src/app/Service/Import/import-domain-story.service';
 import { ImportRepairService } from 'src/app/Service/Import/import-repair.service';
@@ -27,10 +27,10 @@ import { HeaderDialogComponent } from 'src/app/Presentation/Dialog/header-dialog
 import { IconDictionaryService } from 'src/app/Service/IconSetConfiguration/icon-dictionary.service';
 import { ModelerComponent } from 'src/app/Presentation/Canvas/modeler.component';
 import { SettingsModule } from 'src/app/Modules/settings.module';
-import { AutosaveService } from './Service/Autosave/autosave.service';
-import { DomainStoryModelerModuleModule } from './Modules/domain-story-modeler-module.module';
-import { LabelDictionaryDialogComponent } from './Presentation/Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
-import { MaterialModule } from './material.module';
+import { AutosaveService } from '../Service/Autosave/autosave.service';
+import { DomainStoryModelerModuleModule } from '../Modules/domain-story-modeler-module.module';
+import { LabelDictionaryDialogComponent } from '../Presentation/Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
+import { MaterialModule } from '../material.module';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
