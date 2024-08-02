@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MassNamingService } from 'src/app/Service/LabelDictionary/mass-naming.service';
+import { MassNamingService } from 'src/app/tool/label-dictionary/service/mass-naming.service';
 
 describe('MassNamingService', () => {
   let service: MassNamingService;

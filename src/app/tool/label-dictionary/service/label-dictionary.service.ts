@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
-import { MassNamingService } from 'src/app/Service/LabelDictionary/mass-naming.service';
-import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
-import { WorkObjectLabelEntry } from '../../Domain/LabelDictionary/workObjectLabelEntry';
-import { LabelEntry } from '../../Domain/LabelDictionary/labelEntry';
+import { MassNamingService } from 'src/app/tool/label-dictionary/service/mass-naming.service';
+import { IconDictionaryService } from '../../../Service/IconSetConfiguration/icon-dictionary.service';
+import { WorkObjectLabelEntry } from '../../../Domain/LabelDictionary/workObjectLabelEntry';
+import { LabelEntry } from '../../../Domain/LabelDictionary/labelEntry';
 
 @Injectable({
   providedIn: 'root',

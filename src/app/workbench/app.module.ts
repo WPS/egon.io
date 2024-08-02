@@ -14,11 +14,11 @@ import { ImportDomainStoryService } from 'src/app/tool/import/service/import-dom
 import { ImportRepairService } from 'src/app/tool/import/service/import-repair.service';
 import { ModelerService } from 'src/app/Service/Modeler/modeler.service';
 import { TitleService } from 'src/app/tool/header/service/title.service';
-import { LabelDictionaryService } from 'src/app/Service/LabelDictionary/label-dictionary.service';
+import { LabelDictionaryService } from 'src/app/tool/label-dictionary/service/label-dictionary.service';
 import { ReplayService } from 'src/app/tool/replay/service/replay.service';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { IconSetConfigurationService } from 'src/app/Service/IconSetConfiguration/icon-set-configuration.service';
-import { MassNamingService } from 'src/app/Service/LabelDictionary/mass-naming.service';
+import { MassNamingService } from 'src/app/tool/label-dictionary/service/mass-naming.service';
 import { TitleAndDescriptionDialogComponent } from 'src/app/tool/header/presentation/dialog/info-dialog/title-and-description-dialog.component';
 import { ExportDialogComponent } from 'src/app/tool/export/presentation/export-dialog/export-dialog.component';
 import { ActivityDialogComponent } from 'src/app/Presentation/Dialog/activity-dialog/activity-dialog.component';

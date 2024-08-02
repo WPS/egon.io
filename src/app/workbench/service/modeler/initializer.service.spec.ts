@@ -5,11 +5,11 @@ import { DirtyFlagService } from '../../../Service/DirtyFlag/dirty-flag.service'
 import { IconDictionaryService } from '../../../Service/IconSetConfiguration/icon-dictionary.service';
 import { ElementRegistryService } from '../../../Service/ElementRegistry/element-registry.service';
 import { IconSetConfigurationService } from '../../../Service/IconSetConfiguration/icon-set-configuration.service';
-import { LabelDictionaryService } from '../../../Service/LabelDictionary/label-dictionary.service';
+import { LabelDictionaryService } from '../../../tool/label-dictionary/service/label-dictionary.service';
 import { ReplayStateService } from '../../../tool/replay/service/replay-state.service';
 import { DialogService } from '../../../Service/Dialog/dialog.service';
 import { TitleService } from '../../../tool/header/service/title.service';
-import { MassNamingService } from '../../../Service/LabelDictionary/mass-naming.service';
+import { MassNamingService } from '../../../tool/label-dictionary/service/mass-naming.service';
 import { HtmlPresentationService } from '../../../tool/export/service/html-presentation.service';
 import { MockService } from 'ng-mocks';
 

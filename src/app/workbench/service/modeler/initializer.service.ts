@@ -3,7 +3,7 @@ import { DirtyFlagService } from '../../../Service/DirtyFlag/dirty-flag.service'
 import { IconDictionaryService } from '../../../Service/IconSetConfiguration/icon-dictionary.service';
 import { ElementRegistryService } from '../../../Service/ElementRegistry/element-registry.service';
 import { IconSetConfigurationService } from '../../../Service/IconSetConfiguration/icon-set-configuration.service';
-import { LabelDictionaryService } from '../../../Service/LabelDictionary/label-dictionary.service';
+import { LabelDictionaryService } from '../../../tool/label-dictionary/service/label-dictionary.service';
 import { ElementTypes } from '../../../Domain/Common/elementTypes';
 import { ReplayStateService } from '../../../tool/replay/service/replay-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { CanvasObject } from 'src/app/Domain/Common/canvasObject';
-import { ElementTypes } from '../../Domain/Common/elementTypes';
-import { CommandStackService } from '../CommandStack/command-stack.service';
+import { ElementTypes } from '../../../Domain/Common/elementTypes';
+import { CommandStackService } from '../../../Service/CommandStack/command-stack.service';
 
 @Injectable({
   providedIn: 'root',
