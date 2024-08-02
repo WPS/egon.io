@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
 import { TitleService } from 'src/app/Service/Title/title.service';
-import { HeaderDialogForm } from '../dialog-forms/header-dialog-form';
-import { DirtyFlagService } from '../../../Service/DirtyFlag/dirty-flag.service';
+import { HeaderDialogForm } from '../../../../Presentation/Dialog/dialog-forms/header-dialog-form';
+import { DirtyFlagService } from '../../../../Service/DirtyFlag/dirty-flag.service';
 
 @Component({
   selector: 'app-header-dialog',

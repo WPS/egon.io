@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderDialogComponent } from 'src/app/Presentation/Dialog/header-dialog/header-dialog.component';
+import { HeaderDialogComponent } from 'src/app/tool/header/presentation/dialog/header-dialog.component';
 import { MockModule, MockProviders, MockService } from 'ng-mocks';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
-import { TitleService } from '../../../Service/Title/title.service';
-import { DirtyFlagService } from '../../../Service/DirtyFlag/dirty-flag.service';
+import { TitleService } from '../../../../Service/Title/title.service';
+import { DirtyFlagService } from '../../../../Service/DirtyFlag/dirty-flag.service';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
-} from '../../../Domain/Common/constants';
+} from '../../../../Domain/Common/constants';
 
 describe('HeaderDialogComponent', () => {
   let component: HeaderDialogComponent;

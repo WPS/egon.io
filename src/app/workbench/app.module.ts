@@ -23,7 +23,7 @@ import { TitleAndDescriptionDialogComponent } from 'src/app/Presentation/Dialog/
 import { ExportDialogComponent } from 'src/app/tool/export/presentation/export-dialog/export-dialog.component';
 import { ActivityDialogComponent } from 'src/app/Presentation/Dialog/activity-dialog/activity-dialog.component';
 import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { HeaderDialogComponent } from 'src/app/Presentation/Dialog/header-dialog/header-dialog.component';
+import { HeaderDialogComponent } from 'src/app/tool/header/presentation/dialog/header-dialog.component';
 import { IconDictionaryService } from 'src/app/Service/IconSetConfiguration/icon-dictionary.service';
 import { ModelerComponent } from 'src/app/Presentation/Canvas/modeler.component';
 import { SettingsModule } from 'src/app/Modules/settings.module';
