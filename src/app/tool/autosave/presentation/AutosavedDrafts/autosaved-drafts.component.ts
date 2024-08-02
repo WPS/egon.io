@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AutosaveService } from '../../../Service/Autosave/autosave.service';
-import { Draft } from '../../../Domain/Autosave/draft';
+import { AutosaveService } from '../../../../Service/Autosave/autosave.service';
+import { Draft } from '../../../../Domain/Autosave/draft';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,

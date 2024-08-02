@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GeneralSettingsComponent } from './general-settings.component';
-import { AutosaveSettingsComponent } from '../../Autosave/AutosaveSettings/autosave-settings.component';
+import { AutosaveSettingsComponent } from '../../../tool/autosave/presentation/AutosaveSettings/autosave-settings.component';
 import { MockComponent } from 'ng-mocks';
 
 describe('GeneralSettingsComponent', () => {
