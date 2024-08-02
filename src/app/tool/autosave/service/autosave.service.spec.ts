@@ -4,7 +4,7 @@ import { AutosaveService, DRAFTS_TAG } from './autosave.service';
 import { MockProviders } from 'ng-mocks';
 import { RendererService } from '../../../Service/Renderer/renderer.service';
 import { IconSetConfigurationService } from '../../../Service/IconSetConfiguration/icon-set-configuration.service';
-import { ExportService } from '../../../Service/Export/export.service';
+import { ExportService } from '../../export/service/export.service';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { Draft } from '../domain/draft';
 import { testConfigAndDst } from '../../../Domain/Export/configAndDst';

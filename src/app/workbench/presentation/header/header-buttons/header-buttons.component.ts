@@ -14,7 +14,7 @@ import { InfoDialogData } from '../../../../Domain/Dialog/infoDialogData';
 import { TitleAndDescriptionDialogComponent } from '../../../../Presentation/Dialog/info-dialog/title-and-description-dialog.component';
 import { DialogService } from '../../../../Service/Dialog/dialog.service';
 import { ReplayService } from '../../../../Service/Replay/replay.service';
-import { ExportService } from '../../../../Service/Export/export.service';
+import { ExportService } from '../../../../tool/export/service/export.service';
 import { ImportDomainStoryService } from '../../../../tool/import/service/import-domain-story.service';
 import { LabelDictionaryDialogComponent } from '../../../../Presentation/Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';

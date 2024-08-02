@@ -3,7 +3,7 @@ import {
   TEXTSPAN_DESCRIPTION_HEIGHT,
   TEXTSPAN_TITLE_HEIGHT,
   X_OFFSET_UTIL,
-} from "../../Domain/Export/exportConstants";
+} from "../../../Domain/Export/exportConstants";
 
 let dynamicHeightOffset = 0;
 

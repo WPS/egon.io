@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ConfigAndDST } from 'src/app/Domain/Export/configAndDst';
-import { createTitleAndDescriptionSVGElement } from 'src/app/Service/Export/exportUtil';
-import { ModelerService } from '../Modeler/modeler.service';
+import { createTitleAndDescriptionSVGElement } from 'src/app/tool/export/service/exportUtil';
+import { ModelerService } from '../../../Service/Modeler/modeler.service';
 import {
   DEFAULT_PADDING,
   TEXTSPAN_TITLE_HEIGHT,
-} from '../../Domain/Export/exportConstants';
+} from '../../../Domain/Export/exportConstants';
 
 @Injectable({
   providedIn: 'root',

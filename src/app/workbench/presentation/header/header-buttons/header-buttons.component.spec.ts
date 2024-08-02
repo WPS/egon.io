@@ -10,7 +10,7 @@ import { DirtyFlagService } from '../../../../Service/DirtyFlag/dirty-flag.servi
 import { ElementRegistryService } from '../../../../Service/ElementRegistry/element-registry.service';
 import { DialogService } from '../../../../Service/Dialog/dialog.service';
 import { ReplayService } from '../../../../Service/Replay/replay.service';
-import { ExportService } from '../../../../Service/Export/export.service';
+import { ExportService } from '../../../../tool/export/service/export.service';
 import { ImportDomainStoryService } from '../../../../tool/import/service/import-domain-story.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

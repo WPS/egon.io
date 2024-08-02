@@ -4,13 +4,13 @@ import { sanitizeForDesktop } from 'src/app/Utils/sanitizer';
 import { TitleService } from 'src/app/Service/Title/title.service';
 import { ConfigAndDST } from 'src/app/Domain/Export/configAndDst';
 import { DirtyFlagService } from 'src/app/Service/DirtyFlag/dirty-flag.service';
-import { PngService } from 'src/app/Service/Export/png.service';
-import { SvgService } from 'src/app/Service/Export/svg.service';
+import { PngService } from 'src/app/tool/export/service/png.service';
+import { SvgService } from 'src/app/tool/export/service/svg.service';
 import { Subscription } from 'rxjs';
-import { RendererService } from '../Renderer/renderer.service';
+import { RendererService } from '../../../Service/Renderer/renderer.service';
 import { HtmlPresentationService } from './html-presentation.service';
 import { formatDate } from '@angular/common';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

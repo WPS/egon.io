@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { sanitizeForDesktop } from '../../Utils/sanitizer';
-import { ReplayService } from '../Replay/replay.service';
+import { sanitizeForDesktop } from '../../../Utils/sanitizer';
+import { ReplayService } from '../../../Service/Replay/replay.service';
 // @ts-ignore
 import doT from 'dot';
-import { TitleService } from '../Title/title.service';
+import { TitleService } from '../../../Service/Title/title.service';
 
 @Injectable({
   providedIn: 'root',

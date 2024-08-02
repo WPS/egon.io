@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SettingsService } from 'src/app/workbench/service/settings/settings.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TitleService } from '../Service/Title/title.service';
-import { ExportService } from '../Service/Export/export.service';
+import { ExportService } from '../tool/export/service/export.service';
 import { ReplayStateService } from '../Service/Replay/replay-state.service';
 import { ReplayService } from '../Service/Replay/replay.service';
 import { environment } from '../../environments/environment';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RendererService } from '../../../Service/Renderer/renderer.service';
-import { ExportService } from '../../../Service/Export/export.service';
+import { ExportService } from '../../export/service/export.service';
 import { Draft } from '../domain/draft';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { IconDictionaryService } from '../../../Service/IconSetConfiguration/icon-dictionary.service';

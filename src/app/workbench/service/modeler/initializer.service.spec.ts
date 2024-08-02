@@ -10,7 +10,7 @@ import { ReplayStateService } from '../../../Service/Replay/replay-state.service
 import { DialogService } from '../../../Service/Dialog/dialog.service';
 import { TitleService } from '../../../Service/Title/title.service';
 import { MassNamingService } from '../../../Service/LabelDictionary/mass-naming.service';
-import { HtmlPresentationService } from '../../../Service/Export/html-presentation.service';
+import { HtmlPresentationService } from '../../../tool/export/service/html-presentation.service';
 import { MockService } from 'ng-mocks';
 
 describe('InitializerService', () => {

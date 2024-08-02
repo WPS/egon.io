@@ -2,11 +2,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { HtmlPresentationService } from './html-presentation.service';
 import { MockProviders } from 'ng-mocks';
-import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
-import { DialogService } from '../Dialog/dialog.service';
-import { StoryCreatorService } from '../Replay/storyCreator/story-creator.service';
-import { ReplayService } from '../Replay/replay.service';
-import { TitleService } from '../Title/title.service';
+import { ElementRegistryService } from '../../../Service/ElementRegistry/element-registry.service';
+import { DialogService } from '../../../Service/Dialog/dialog.service';
+import { StoryCreatorService } from '../../../Service/Replay/storyCreator/story-creator.service';
+import { ReplayService } from '../../../Service/Replay/replay.service';
+import { TitleService } from '../../../Service/Title/title.service';
 
 describe('HtmlPresentationService', () => {
   let service: HtmlPresentationService;

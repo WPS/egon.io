@@ -12,7 +12,7 @@ import { ActivityDialogComponent } from '../../../Presentation/Dialog/activity-d
 import { DialogService } from '../../../Service/Dialog/dialog.service';
 import { TitleService } from '../../../Service/Title/title.service';
 import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
-import { HtmlPresentationService } from '../../../Service/Export/html-presentation.service';
+import { HtmlPresentationService } from '../../../tool/export/service/html-presentation.service';
 import { positionsMatch } from '../../../Utils/mathExtensions';
 import { initializeContextPadProvider } from '../../../BPMN-JS/modeler/context-pad/domainStoryContextPadProvider';
 import { CommandStackService } from '../../../Service/CommandStack/command-stack.service';

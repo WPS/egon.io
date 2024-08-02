@@ -9,7 +9,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from 'src/app/Presentation/Header/header.component';
 import { SettingsComponent } from 'src/app/Presentation/Settings/settings.component';
 import { AppComponent } from 'src/app/workbench/app.component';
-import { ExportService } from 'src/app/Service/Export/export.service';
+import { ExportService } from 'src/app/tool/export/service/export.service';
 import { ImportDomainStoryService } from 'src/app/tool/import/service/import-domain-story.service';
 import { ImportRepairService } from 'src/app/tool/import/service/import-repair.service';
 import { ModelerService } from 'src/app/Service/Modeler/modeler.service';
