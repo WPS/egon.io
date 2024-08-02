@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
 import { StoryCreatorService } from './story-creator.service';
-import { ElementRegistryService } from '../../ElementRegistry/element-registry.service';
-import { StorySentence } from '../../../Domain/Replay/storySentence';
-import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
-import { CanvasObject } from '../../../Domain/Common/canvasObject';
-import { ElementTypes } from '../../../Domain/Common/elementTypes';
-import { testGroupCanvasObject } from '../../../Domain/Common/groupCanvasObject';
+import { ElementRegistryService } from '../../../../Service/ElementRegistry/element-registry.service';
+import { StorySentence } from '../../../../Domain/Replay/storySentence';
+import { ActivityCanvasObject } from '../../../../Domain/Common/activityCanvasObject';
+import { CanvasObject } from '../../../../Domain/Common/canvasObject';
+import { ElementTypes } from '../../../../Domain/Common/elementTypes';
+import { testGroupCanvasObject } from '../../../../Domain/Common/groupCanvasObject';
 import {
   createReplaySentenceObjects,
   preBuildTestStory,
-} from '../../../Utils/testHelpers.spec';
+} from '../../../../Utils/testHelpers.spec';
 
 describe('StoryCreatorService', () => {
   let service: StoryCreatorService;

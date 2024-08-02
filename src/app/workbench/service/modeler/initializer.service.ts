@@ -5,7 +5,7 @@ import { ElementRegistryService } from '../../../Service/ElementRegistry/element
 import { IconSetConfigurationService } from '../../../Service/IconSetConfiguration/icon-set-configuration.service';
 import { LabelDictionaryService } from '../../../Service/LabelDictionary/label-dictionary.service';
 import { ElementTypes } from '../../../Domain/Common/elementTypes';
-import { ReplayStateService } from '../../../Service/Replay/replay-state.service';
+import { ReplayStateService } from '../../../tool/replay/service/replay/replay-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ActivityDialogData } from '../../../Domain/Dialog/activityDialogData';
 import { ActivityDialogComponent } from '../../../Presentation/Dialog/activity-dialog/activity-dialog.component';

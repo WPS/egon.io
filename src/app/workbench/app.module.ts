@@ -15,7 +15,7 @@ import { ImportRepairService } from 'src/app/tool/import/service/import-repair.s
 import { ModelerService } from 'src/app/Service/Modeler/modeler.service';
 import { TitleService } from 'src/app/tool/header/service/title.service';
 import { LabelDictionaryService } from 'src/app/Service/LabelDictionary/label-dictionary.service';
-import { ReplayService } from 'src/app/Service/Replay/replay.service';
+import { ReplayService } from 'src/app/tool/replay/service/replay/replay.service';
 import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
 import { IconSetConfigurationService } from 'src/app/Service/IconSetConfiguration/icon-set-configuration.service';
 import { MassNamingService } from 'src/app/Service/LabelDictionary/mass-naming.service';

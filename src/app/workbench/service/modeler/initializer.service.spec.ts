@@ -6,7 +6,7 @@ import { IconDictionaryService } from '../../../Service/IconSetConfiguration/ico
 import { ElementRegistryService } from '../../../Service/ElementRegistry/element-registry.service';
 import { IconSetConfigurationService } from '../../../Service/IconSetConfiguration/icon-set-configuration.service';
 import { LabelDictionaryService } from '../../../Service/LabelDictionary/label-dictionary.service';
-import { ReplayStateService } from '../../../Service/Replay/replay-state.service';
+import { ReplayStateService } from '../../../tool/replay/service/replay/replay-state.service';
 import { DialogService } from '../../../Service/Dialog/dialog.service';
 import { TitleService } from '../../../tool/header/service/title.service';
 import { MassNamingService } from '../../../Service/LabelDictionary/mass-naming.service';

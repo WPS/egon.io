@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ElementTypes } from '../../../Domain/Common/elementTypes';
-import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
-import { BusinessObject } from '../../../Domain/Common/businessObject';
-import { CanvasObject } from '../../../Domain/Common/canvasObject';
-import { ElementRegistryService } from '../../ElementRegistry/element-registry.service';
-import { StorySentence } from '../../../Domain/Replay/storySentence';
-import { Dictionary } from '../../../Domain/Common/dictionary/dictionary';
-import { ActivityBusinessObject } from '../../../Domain/Common/activityBusinessObject';
+import { ElementTypes } from '../../../../Domain/Common/elementTypes';
+import { ActivityCanvasObject } from '../../../../Domain/Common/activityCanvasObject';
+import { BusinessObject } from '../../../../Domain/Common/businessObject';
+import { CanvasObject } from '../../../../Domain/Common/canvasObject';
+import { ElementRegistryService } from '../../../../Service/ElementRegistry/element-registry.service';
+import { StorySentence } from '../../../../Domain/Replay/storySentence';
+import { Dictionary } from '../../../../Domain/Common/dictionary/dictionary';
+import { ActivityBusinessObject } from '../../../../Domain/Common/activityBusinessObject';
 
 @Injectable({
   providedIn: 'root',

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { sanitizeForDesktop } from '../../../Utils/sanitizer';
-import { ReplayService } from '../../../Service/Replay/replay.service';
+import { ReplayService } from '../../replay/service/replay/replay.service';
 // @ts-ignore
 import doT from 'dot';
 import { TitleService } from '../../header/service/title.service';
