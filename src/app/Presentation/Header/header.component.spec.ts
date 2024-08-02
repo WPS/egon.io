@@ -10,7 +10,7 @@ import { ModelerService } from '../../Service/Modeler/modeler.service';
 import { ElementRegistryService } from '../../Service/ElementRegistry/element-registry.service';
 import { DialogService } from '../../Service/Dialog/dialog.service';
 import { SettingsService } from '../../workbench/service/settings/settings.service';
-import { HeaderButtonsComponent } from '../../workbench/presentation/header/components/header-buttons/header-buttons.component';
+import { HeaderButtonsComponent } from '../../workbench/presentation/header/header-buttons/header-buttons.component';
 import { MaterialModule } from 'src/app/material.module';
 
 describe('HeaderComponent', () => {
