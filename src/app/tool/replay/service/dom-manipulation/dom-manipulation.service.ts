@@ -10,7 +10,7 @@ import {
   NUMBER_BACKGROUND_COLOR,
   NUMBER_COLOR,
   STROKE_WIDTH,
-} from '../../Domain/DomManipulation/replayConstants';
+} from '../../../../Domain/DomManipulation/replayConstants';
 
 @Injectable({
   providedIn: 'root',
