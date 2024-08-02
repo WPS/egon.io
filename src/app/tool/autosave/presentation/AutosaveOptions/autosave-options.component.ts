@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AutosaveConfigurationService } from '../../../../Service/Autosave/autosave-configuration.service';
+import { AutosaveConfigurationService } from '../../service/autosave-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,

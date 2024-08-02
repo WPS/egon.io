@@ -3,7 +3,7 @@ import { SettingsService } from 'src/app/workbench/service/settings/settings.ser
 import { ModelerService } from 'src/app/Service/Modeler/modeler.service';
 import { IconSetConfiguration } from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AutosaveConfigurationService } from '../../Service/Autosave/autosave-configuration.service';
+import { AutosaveConfigurationService } from '../../tool/autosave/service/autosave-configuration.service';
 import { IconSetCustomizationService } from '../../Service/IconSetConfiguration/icon-set-customization.service';
 
 @Component({

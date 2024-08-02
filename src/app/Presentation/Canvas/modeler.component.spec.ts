@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModelerComponent } from 'src/app/Presentation/Canvas/modeler.component';
 import { MockProviders } from 'ng-mocks';
 import { ModelerService } from '../../Service/Modeler/modeler.service';
-import { AutosaveService } from '../../Service/Autosave/autosave.service';
+import { AutosaveService } from '../../tool/autosave/service/autosave.service';
 
 describe('ModelerComponent', () => {
   let component: ModelerComponent;

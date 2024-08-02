@@ -4,7 +4,7 @@ import { SettingsComponent } from 'src/app/Presentation/Settings/settings.compon
 import { SettingsService } from '../../workbench/service/settings/settings.service';
 import { MockComponent, MockProviders } from 'ng-mocks';
 import { ModelerService } from '../../Service/Modeler/modeler.service';
-import { AutosaveConfigurationService } from '../../Service/Autosave/autosave-configuration.service';
+import { AutosaveConfigurationService } from '../../tool/autosave/service/autosave-configuration.service';
 import { IconSetCustomizationService } from '../../Service/IconSetConfiguration/icon-set-customization.service';
 import { IconSetConfigurationComponent } from '../IconSetConfiguration/icon-set-configuration.component';
 import { MatToolbarModule } from '@angular/material/toolbar';

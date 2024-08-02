@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AutosaveService } from '../../../../Service/Autosave/autosave.service';
+import { AutosaveService } from '../../service/autosave.service';
 import { Draft } from '../../../../Domain/Autosave/draft';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {

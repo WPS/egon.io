@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModelerService } from '../../Service/Modeler/modeler.service';
-import { AutosaveService } from '../../Service/Autosave/autosave.service';
+import { AutosaveService } from '../../tool/autosave/service/autosave.service';
 
 @Component({
   selector: 'app-modeler',

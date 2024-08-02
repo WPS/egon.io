@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
-import { RendererService } from '../Renderer/renderer.service';
-import { ExportService } from '../Export/export.service';
-import { Draft } from '../../Domain/Autosave/draft';
+import { RendererService } from '../../../Service/Renderer/renderer.service';
+import { ExportService } from '../../../Service/Export/export.service';
+import { Draft } from '../../../Domain/Autosave/draft';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
-import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
-import { ElementTypes } from '../../Domain/Common/elementTypes';
-import { fromConfigurationFromFile } from '../../Domain/Icon-Set-Configuration/iconSetConfiguration';
-import { StorageService } from '../BrowserStorage/storage.service';
-import { TitleService } from '../Title/title.service';
-import { AutosaveConfiguration } from '../../Domain/Autosave/autosave-configuration';
+import { IconDictionaryService } from '../../../Service/IconSetConfiguration/icon-dictionary.service';
+import { ElementTypes } from '../../../Domain/Common/elementTypes';
+import { fromConfigurationFromFile } from '../../../Domain/Icon-Set-Configuration/iconSetConfiguration';
+import { StorageService } from '../../../Service/BrowserStorage/storage.service';
+import { TitleService } from '../../../Service/Title/title.service';
+import { AutosaveConfiguration } from '../../../Domain/Autosave/autosave-configuration';
 import { Subject } from 'rxjs';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
-} from '../../Domain/Common/constants';
+} from '../../../Domain/Common/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 export const DRAFTS_TAG = 'autosaveDrafts';

@@ -27,7 +27,7 @@ import { HeaderDialogComponent } from 'src/app/Presentation/Dialog/header-dialog
 import { IconDictionaryService } from 'src/app/Service/IconSetConfiguration/icon-dictionary.service';
 import { ModelerComponent } from 'src/app/Presentation/Canvas/modeler.component';
 import { SettingsModule } from 'src/app/Modules/settings.module';
-import { AutosaveService } from '../Service/Autosave/autosave.service';
+import { AutosaveService } from '../tool/autosave/service/autosave.service';
 import { DomainStoryModelerModuleModule } from '../Modules/domain-story-modeler-module.module';
 import { LabelDictionaryDialogComponent } from '../Presentation/Dialog/label-dictionary-dialog/label-dictionary-dialog.component';
 import { MaterialModule } from '../material.module';
