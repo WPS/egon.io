@@ -2,19 +2,19 @@ import { TestBed } from '@angular/core/testing';
 
 import { ModelerService } from 'src/app/tool/modeler/service/modeler.service';
 import { InitializerService } from '../../../workbench/service/modeler/initializer.service';
-import { ElementRegistryService } from '../../../Service/ElementRegistry/element-registry.service';
+import { ElementRegistryService } from '../../../_domain/service/element-registry.service';
 import { IconDictionaryService } from '../../icon-set-config/service/icon-dictionary.service';
 import { IconSetConfigurationService } from '../../icon-set-config/service/icon-set-configuration.service';
-import { IconSetConfiguration } from '../../../Domain/Icon-Set-Configuration/iconSetConfiguration';
+import { IconSetConfiguration } from '../../../_domain/entity/iconSetConfiguration';
 import { createTestCanvasObjects } from '../../../Utils/testHelpers.spec';
-import { BusinessObject } from '../../../Domain/Common/businessObject';
-import { INITIAL_ICON_SET_NAME } from '../../../Domain/Common/constants';
-import { ElementTypes } from '../../../Domain/Common/elementTypes';
-import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
+import { BusinessObject } from '../../../_domain/entity/common/businessObject';
+import { INITIAL_ICON_SET_NAME } from '../../../_domain/entity/common/constants';
+import { ElementTypes } from '../../../_domain/entity/common/elementTypes';
+import { Dictionary } from 'src/app/_domain/entity/common/dictionary';
 // @ts-ignore
 import Modeler from 'bpmn-js/lib/Modeler';
 import { MockProvider } from 'ng-mocks';
-import { StorageService } from '../../../Service/BrowserStorage/storage.service';
+import { StorageService } from '../../../_domain/service/storage.service';
 
 describe('ModelerService', () => {
   let service: ModelerService;

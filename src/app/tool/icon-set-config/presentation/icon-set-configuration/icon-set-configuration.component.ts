@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Dictionary } from 'src/app/Domain/Common/dictionary/dictionary';
+import { Dictionary } from 'src/app/_domain/entity/common/dictionary';
 import {
   CustomIconSetConfiguration,
   fromConfigurationFromFile,
-} from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
+} from 'src/app/_domain/entity/iconSetConfiguration';
 import { IconSetConfigurationService } from 'src/app/tool/icon-set-config/service/icon-set-configuration.service';
 import { IconDictionaryService } from 'src/app/tool/icon-set-config/service/icon-dictionary.service';
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
+import { ElementRegistryService } from 'src/app/_domain/service/element-registry.service';
 import { sanitizeIconName } from 'src/app/Utils/sanitizer';
-import { ElementTypes } from '../../../../Domain/Common/elementTypes';
+import { ElementTypes } from '../../../../_domain/entity/common/elementTypes';
 import { IconFilterEnum } from '../../domain/iconFilterEnum';
 import { IconSetCustomizationService } from '../../service/icon-set-customization.service';
 

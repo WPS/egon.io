@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
-import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
+import { ElementRegistryService } from 'src/app/_domain/service/element-registry.service';
+import { ElementTypes } from 'src/app/_domain/entity/common/elementTypes';
 import { MassNamingService } from 'src/app/tool/label-dictionary/service/mass-naming.service';
 import { IconDictionaryService } from '../../icon-set-config/service/icon-dictionary.service';
 import { WorkObjectLabelEntry } from '../domain/workObjectLabelEntry';

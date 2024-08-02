@@ -1,8 +1,8 @@
 import {
   BusinessObject,
   testBusinessObject,
-} from 'src/app/Domain/Common/businessObject';
-import { RootObject, testRoot } from 'src/app/Domain/Common/rootObject';
+} from 'src/app/_domain/entity/common/businessObject';
+import { RootObject, testRoot } from 'src/app/_domain/entity/common/rootObject';
 import { ActivityCanvasObject } from './activityCanvasObject';
 import { ElementTypes } from './elementTypes';
 

@@ -16,7 +16,7 @@ import { ModelerService } from 'src/app/tool/modeler/service/modeler.service';
 import { TitleService } from 'src/app/tool/header/service/title.service';
 import { LabelDictionaryService } from 'src/app/tool/label-dictionary/service/label-dictionary.service';
 import { ReplayService } from 'src/app/tool/replay/service/replay.service';
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
+import { ElementRegistryService } from 'src/app/_domain/service/element-registry.service';
 import { IconSetConfigurationService } from 'src/app/tool/icon-set-config/service/icon-set-configuration.service';
 import { MassNamingService } from 'src/app/tool/label-dictionary/service/mass-naming.service';
 import { TitleAndDescriptionDialogComponent } from 'src/app/tool/header/presentation/dialog/info-dialog/title-and-description-dialog.component';

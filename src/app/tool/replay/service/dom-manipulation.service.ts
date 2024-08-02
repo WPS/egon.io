@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BusinessObject } from 'src/app/Domain/Common/businessObject';
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
-import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
+import { BusinessObject } from 'src/app/_domain/entity/common/businessObject';
+import { ElementRegistryService } from 'src/app/_domain/service/element-registry.service';
+import { ElementTypes } from 'src/app/_domain/entity/common/elementTypes';
 import { StorySentence } from 'src/app/tool/replay/domain/storySentence';
 import {
   HIGHLIGHT_NUMBER_BACKGROUNG_COLOR,

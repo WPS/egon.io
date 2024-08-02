@@ -1,7 +1,7 @@
-import { INITIAL_ICON_SET_NAME } from '../Common/constants';
-import { testBusinessObject } from '../Common/businessObject';
-import { ElementTypes } from '../Common/elementTypes';
-import { Dictionary } from '../Common/dictionary/dictionary';
+import { INITIAL_ICON_SET_NAME } from './common/constants';
+import { testBusinessObject } from './common/businessObject';
+import { ElementTypes } from './common/elementTypes';
+import { Dictionary } from './common/dictionary';
 
 export interface IconSetConfiguration {
   name: string;

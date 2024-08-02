@@ -9,17 +9,17 @@ import { ImportDomainStoryService } from '../../import/service/import-domain-sto
 import {
   IconSetConfiguration,
   testCustomIconSetConfiguration,
-} from '../../../Domain/Icon-Set-Configuration/iconSetConfiguration';
-import { Dictionary } from '../../../Domain/Common/dictionary/dictionary';
+} from '../../../_domain/entity/iconSetConfiguration';
+import { Dictionary } from '../../../_domain/entity/common/dictionary';
 import { Observable, of } from 'rxjs';
 import {
   INITIAL_ICON_SET_NAME,
   SNACKBAR_DURATION,
   SNACKBAR_SUCCESS,
-} from '../../../Domain/Common/constants';
+} from '../../../_domain/entity/common/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { StorageService } from '../../../Service/BrowserStorage/storage.service';
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
+import { StorageService } from '../../../_domain/service/storage.service';
+import { ElementRegistryService } from 'src/app/_domain/service/element-registry.service';
 
 describe(IconSetCustomizationService.name, () => {
   let service: IconSetCustomizationService;

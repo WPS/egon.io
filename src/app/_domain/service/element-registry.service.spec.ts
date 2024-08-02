@@ -1,19 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ElementRegistryService } from 'src/app/Service/ElementRegistry/element-registry.service';
+import { ElementRegistryService } from 'src/app/_domain/service/element-registry.service';
 import {
   ActivityCanvasObject,
   testActivityCanvasObject,
-} from '../../Domain/Common/activityCanvasObject';
+} from '../entity/common/activityCanvasObject';
 import {
   CanvasObject,
   testCanvasObject,
-} from '../../Domain/Common/canvasObject';
+} from '../entity/common/canvasObject';
 import {
   GroupCanvasObject,
   testGroupCanvasObject,
-} from '../../Domain/Common/groupCanvasObject';
-import { ElementTypes } from '../../Domain/Common/elementTypes';
+} from '../entity/common/groupCanvasObject';
+import { ElementTypes } from '../entity/common/elementTypes';
 import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
 import {
   MatButtonToggle,

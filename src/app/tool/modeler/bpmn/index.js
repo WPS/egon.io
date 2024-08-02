@@ -6,7 +6,7 @@ import inherits from "inherits";
 import DomainStoryModule from "./modeler";
 import LabelEditingModule from "./modeler/labeling";
 import ModelingModule from "./modeler/modeling";
-import { ElementTypes } from "../../../Domain/Common/elementTypes";
+import { ElementTypes } from "../../../_domain/entity/common/elementTypes";
 
 export default function DomainStoryModeler(options) {
   Modeler.call(this, options);

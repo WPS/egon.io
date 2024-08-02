@@ -4,9 +4,9 @@ import { ExportService } from '../../export/service/export.service';
 import { Draft } from '../domain/draft';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { IconDictionaryService } from '../../icon-set-config/service/icon-dictionary.service';
-import { ElementTypes } from '../../../Domain/Common/elementTypes';
-import { fromConfigurationFromFile } from '../../../Domain/Icon-Set-Configuration/iconSetConfiguration';
-import { StorageService } from '../../../Service/BrowserStorage/storage.service';
+import { ElementTypes } from '../../../_domain/entity/common/elementTypes';
+import { fromConfigurationFromFile } from '../../../_domain/entity/iconSetConfiguration';
+import { StorageService } from '../../../_domain/service/storage.service';
 import { TitleService } from '../../header/service/title.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
 import { Subject } from 'rxjs';
@@ -15,7 +15,7 @@ import {
   INITIAL_TITLE,
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
-} from '../../../Domain/Common/constants';
+} from '../../../_domain/entity/common/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 export const DRAFTS_TAG = 'autosaveDrafts';

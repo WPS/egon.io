@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
-import { CanvasObject } from 'src/app/Domain/Common/canvasObject';
-import { GroupCanvasObject } from '../../Domain/Common/groupCanvasObject';
-import { ActivityCanvasObject } from '../../Domain/Common/activityCanvasObject';
-import { UsedIconList } from 'src/app/Domain/Icon-Set-Configuration/UsedIconList';
+import { ElementTypes } from 'src/app/_domain/entity/common/elementTypes';
+import { CanvasObject } from 'src/app/_domain/entity/common/canvasObject';
+import { GroupCanvasObject } from '../entity/common/groupCanvasObject';
+import { ActivityCanvasObject } from '../entity/common/activityCanvasObject';
+import { UsedIconList } from 'src/app/_domain/entity/UsedIconList';
 
 @Injectable({
   providedIn: 'root',

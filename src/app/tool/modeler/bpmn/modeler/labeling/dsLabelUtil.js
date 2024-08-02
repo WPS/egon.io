@@ -1,6 +1,6 @@
 "use strict";
 
-import { ElementTypes } from "src/app/Domain/Common/elementTypes";
+import { ElementTypes } from "src/app/_domain/entity/common/elementTypes";
 import { is } from "../util";
 
 function getLabelAttr(semantic) {

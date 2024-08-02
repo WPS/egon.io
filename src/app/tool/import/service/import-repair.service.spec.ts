@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ImportRepairService } from 'src/app/tool/import/service/import-repair.service';
-import { ElementRegistryService } from '../../../Service/ElementRegistry/element-registry.service';
+import { ElementRegistryService } from '../../../_domain/service/element-registry.service';
 
 describe('ImportRepairService', () => {
   let service: ImportRepairService;

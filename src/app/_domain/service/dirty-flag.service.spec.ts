@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DirtyFlagService } from 'src/app/Service/DirtyFlag/dirty-flag.service';
+import { DirtyFlagService } from 'src/app/_domain/service/dirty-flag.service';
 
 describe('DirtyFlagService', () => {
   let service: DirtyFlagService;

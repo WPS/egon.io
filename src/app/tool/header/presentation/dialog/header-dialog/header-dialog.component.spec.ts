@@ -6,11 +6,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
 import { TitleService } from '../../../service/title.service';
-import { DirtyFlagService } from '../../../../../Service/DirtyFlag/dirty-flag.service';
+import { DirtyFlagService } from '../../../../../_domain/service/dirty-flag.service';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
-} from '../../../../../Domain/Common/constants';
+} from '../../../../../_domain/entity/common/constants';
 
 describe('HeaderDialogComponent', () => {
   let component: HeaderDialogComponent;
