@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RendererService } from '../../../Service/Renderer/renderer.service';
+import { RendererService } from '../../modeler/service/renderer.service';
 import { ExportService } from '../../export/service/export.service';
 import { Draft } from '../domain/draft';
 import { AutosaveConfigurationService } from './autosave-configuration.service';

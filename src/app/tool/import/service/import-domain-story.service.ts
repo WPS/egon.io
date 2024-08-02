@@ -5,7 +5,7 @@ import { ElementTypes } from 'src/app/Domain/Common/elementTypes';
 import { TitleService } from 'src/app/tool/header/service/title.service';
 import { ImportRepairService } from 'src/app/tool/import/service/import-repair.service';
 import { Observable, Subscription } from 'rxjs';
-import { RendererService } from 'src/app/Service/Renderer/renderer.service';
+import { RendererService } from 'src/app/tool/modeler/service/renderer.service';
 import { BusinessObject } from 'src/app/Domain/Common/businessObject';
 import {
   IconSetConfiguration,

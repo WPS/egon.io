@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SettingsComponent } from 'src/app/Presentation/Settings/settings.component';
 import { SettingsService } from '../../workbench/service/settings/settings.service';
 import { MockComponent, MockProviders } from 'ng-mocks';
-import { ModelerService } from '../../Service/Modeler/modeler.service';
+import { ModelerService } from '../../tool/modeler/service/modeler.service';
 import { AutosaveConfigurationService } from '../../tool/autosave/service/autosave-configuration.service';
 import { IconSetCustomizationService } from '../../Service/IconSetConfiguration/icon-set-customization.service';
 import { IconSetConfigurationComponent } from '../IconSetConfiguration/icon-set-configuration.component';

@@ -4,7 +4,7 @@ import { MockComponent, MockProviders } from 'ng-mocks';
 import { SettingsService } from './service/settings/settings.service';
 import { TitleService } from '../tool/header/service/title.service';
 import { ExportService } from '../tool/export/service/export.service';
-import { ModelerComponent } from '../Presentation/Canvas/modeler.component';
+import { ModelerComponent } from '../tool/modeler/presentation/modeler/modeler.component';
 import { HeaderComponent } from '../tool/header/presentation/header/header.component';
 import { ReplayService } from 'src/app/tool/replay/service/replay.service';
 

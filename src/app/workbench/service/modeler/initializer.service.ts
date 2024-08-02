@@ -7,36 +7,38 @@ import { LabelDictionaryService } from '../../../tool/label-dictionary/service/l
 import { ElementTypes } from '../../../Domain/Common/elementTypes';
 import { ReplayStateService } from '../../../tool/replay/service/replay-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { ActivityDialogData } from '../../../Domain/Dialog/activityDialogData';
-import { ActivityDialogComponent } from '../../../Presentation/Dialog/activity-dialog/activity-dialog.component';
+import { ActivityDialogData } from '../../../tool/modeler/domain/activityDialogData';
+import { ActivityDialogComponent } from '../../../tool/modeler/presentation/activity-dialog/activity-dialog.component';
 import { DialogService } from '../../../Service/Dialog/dialog.service';
 import { TitleService } from '../../../tool/header/service/title.service';
 import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
 import { HtmlPresentationService } from '../../../tool/export/service/html-presentation.service';
 import { positionsMatch } from '../../../Utils/mathExtensions';
-import { initializeContextPadProvider } from '../../../BPMN-JS/modeler/context-pad/domainStoryContextPadProvider';
-import { CommandStackService } from '../../../Service/CommandStack/command-stack.service';
-import activityUpdateHandler, {
-  initializeActivityUpdateHandler,
-} from '../../../BPMN-JS/modeler/updateHandler/activityUpdateHandlers';
-import elementUpdateHandler from '../../../BPMN-JS/modeler/updateHandler/elementUpdateHandler';
-import headlineAndDescriptionUpdateHandler from '../../../BPMN-JS/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
-import { initializePalette } from '../../../BPMN-JS/modeler/palette/domainStoryPalette';
-import { initializeRenderer } from '../../../BPMN-JS/modeler/domainStoryRenderer';
+import { CommandStackService } from '../../../tool/modeler/service/command-stack.service';
+
+import { initializeRenderer } from '../../../tool/modeler/bpmn/modeler/domainStoryRenderer';
+
+import { initializeContextPadProvider } from '../../../tool/modeler/bpmn/modeler/context-pad/domainStoryContextPadProvider';
+import { initializePalette } from '../../../tool/modeler/bpmn/modeler/palette/domainStoryPalette';
 import {
   initializeLabelEditingProvider,
   toggleStashUse,
-} from '../../../BPMN-JS/modeler/labeling/dsLabelEditingProvider';
-import { initializeReplaceOptions } from '../../../BPMN-JS/modeler/change-icon/replaceOptions';
+} from '../../../tool/modeler/bpmn/modeler/labeling/dsLabelEditingProvider';
+import { initializeReplaceOptions } from '../../../tool/modeler/bpmn/modeler/change-icon/replaceOptions';
 import {
   getMultipleNumberRegistry,
   getNumberRegistry,
   initializeNumbering,
   setNumberIsMultiple,
   updateExistingNumbersAtEditing,
-} from '../../../BPMN-JS/modeler/numbering/numbering';
+} from '../../../tool/modeler/bpmn/modeler/numbering/numbering';
+import activityUpdateHandler, {
+  initializeActivityUpdateHandler,
+} from '../../../tool/modeler/bpmn/modeler/updateHandler/activityUpdateHandlers';
 
-import massRenameHandler from '../../../BPMN-JS/modeler/updateHandler/massRenameHandler';
+import massRenameHandler from '../../../tool/modeler/bpmn/modeler/updateHandler/massRenameHandler';
+import elementUpdateHandler from '../../../tool/modeler/bpmn/modeler/updateHandler/elementUpdateHandler';
+import headlineAndDescriptionUpdateHandler from '../../../tool/modeler/bpmn/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
 
 @Injectable({
   providedIn: 'root',

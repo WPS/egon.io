@@ -7,7 +7,7 @@ import { DirtyFlagService } from 'src/app/Service/DirtyFlag/dirty-flag.service';
 import { PngService } from 'src/app/tool/export/service/png.service';
 import { SvgService } from 'src/app/tool/export/service/svg.service';
 import { Subscription } from 'rxjs';
-import { RendererService } from '../../../Service/Renderer/renderer.service';
+import { RendererService } from '../../modeler/service/renderer.service';
 import { HtmlPresentationService } from './html-presentation.service';
 import { formatDate } from '@angular/common';
 import { environment } from '../../../../environments/environment';

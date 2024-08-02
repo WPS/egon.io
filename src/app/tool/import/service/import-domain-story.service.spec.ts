@@ -6,7 +6,7 @@ import { IconDictionaryService } from '../../../Service/IconSetConfiguration/ico
 import { DirtyFlagService } from '../../../Service/DirtyFlag/dirty-flag.service';
 import { ImportRepairService } from './import-repair.service';
 import { TitleService } from '../../header/service/title.service';
-import { RendererService } from '../../../Service/Renderer/renderer.service';
+import { RendererService } from '../../modeler/service/renderer.service';
 import { MockService } from 'ng-mocks';
 import { DialogService } from '../../../Service/Dialog/dialog.service';
 import { IconSetConfiguration } from '../../../Domain/Icon-Set-Configuration/iconSetConfiguration';

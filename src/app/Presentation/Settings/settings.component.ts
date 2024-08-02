@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SettingsService } from 'src/app/workbench/service/settings/settings.service';
-import { ModelerService } from 'src/app/Service/Modeler/modeler.service';
+import { ModelerService } from 'src/app/tool/modeler/service/modeler.service';
 import { IconSetConfiguration } from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AutosaveConfigurationService } from '../../tool/autosave/service/autosave-configuration.service';

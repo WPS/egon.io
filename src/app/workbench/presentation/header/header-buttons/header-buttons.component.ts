@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SettingsService } from '../../../service/settings/settings.service';
-import { ModelerService } from '../../../../Service/Modeler/modeler.service';
+import { ModelerService } from '../../../../tool/modeler/service/modeler.service';
 import { Observable } from 'rxjs';
 import { ReplayStateService } from '../../../../tool/replay/service/replay-state.service';
 import { DirtyFlagService } from '../../../../Service/DirtyFlag/dirty-flag.service';
@@ -23,7 +23,7 @@ import {
   SNACKBAR_INFO,
 } from '../../../../Domain/Common/constants';
 import { TitleService } from '../../../../tool/header/service/title.service';
-import { RendererService } from '../../../../Service/Renderer/renderer.service';
+import { RendererService } from '../../../../tool/modeler/service/renderer.service';
 
 @Component({
   selector: 'app-header-buttons',

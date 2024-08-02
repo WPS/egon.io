@@ -6,7 +6,7 @@ import { MockService } from 'ng-mocks';
 import { IconSetConfigurationService } from '../../../Service/IconSetConfiguration/icon-set-configuration.service';
 import { PngService } from './png.service';
 import { SvgService } from './svg.service';
-import { RendererService } from '../../../Service/Renderer/renderer.service';
+import { RendererService } from '../../modeler/service/renderer.service';
 
 describe('ExportService', () => {
   let service: ExportService;

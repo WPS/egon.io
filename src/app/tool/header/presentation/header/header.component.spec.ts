@@ -6,7 +6,7 @@ import { MockComponent, MockModule, MockService } from 'ng-mocks';
 import { ReplayService } from '../../../replay/service/replay.service';
 import { ImportDomainStoryService } from '../../../import/service/import-domain-story.service';
 import { ExportService } from '../../../export/service/export.service';
-import { ModelerService } from '../../../../Service/Modeler/modeler.service';
+import { ModelerService } from '../../../modeler/service/modeler.service';
 import { ElementRegistryService } from '../../../../Service/ElementRegistry/element-registry.service';
 import { DialogService } from '../../../../Service/Dialog/dialog.service';
 import { SettingsService } from '../../../../workbench/service/settings/settings.service';

@@ -4,7 +4,7 @@ import { HeaderButtonsComponent } from './header-buttons.component';
 import { MockProviders } from 'ng-mocks';
 import { SettingsService } from '../../../service/settings/settings.service';
 import { TitleService } from '../../../../tool/header/service/title.service';
-import { ModelerService } from '../../../../Service/Modeler/modeler.service';
+import { ModelerService } from '../../../../tool/modeler/service/modeler.service';
 import { ReplayStateService } from '../../../../tool/replay/service/replay-state.service';
 import { DirtyFlagService } from '../../../../Service/DirtyFlag/dirty-flag.service';
 import { ElementRegistryService } from '../../../../Service/ElementRegistry/element-registry.service';

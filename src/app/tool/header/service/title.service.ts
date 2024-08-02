@@ -6,7 +6,7 @@ import {
   INITIAL_ICON_SET_NAME,
   INITIAL_TITLE,
 } from '../../../Domain/Common/constants';
-import { CommandStackService } from '../../../Service/CommandStack/command-stack.service';
+import { CommandStackService } from '../../modeler/service/command-stack.service';
 
 @Injectable({
   providedIn: 'root',

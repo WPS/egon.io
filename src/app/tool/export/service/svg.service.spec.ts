@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { SvgService } from 'src/app/tool/export/service/svg.service';
-import { ModelerService } from '../../../Service/Modeler/modeler.service';
+import { ModelerService } from '../../modeler/service/modeler.service';
 import { testConfigAndDst } from '../domain/export/configAndDst';
 import { TEST_SVG } from './spec/testSVG';
 
