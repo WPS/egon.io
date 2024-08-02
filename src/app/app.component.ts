@@ -22,6 +22,8 @@ export class AppComponent implements OnInit {
   @ViewChild(ColorPickerDirective, { static: false })
   colorPicker!: ColorPickerDirective;
 
+  skipNextColorUpdate = false;
+
   // event storming colors for color picker
   colorBox: string[] = [
     '#FFEB3B', // yellow
@@ -77,6 +79,12 @@ export class AppComponent implements OnInit {
         e.stopPropagation();
         replayService.previousSentence();
       }
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        e.stopPropagation();
+        this.skipNextColorUpdate = true;
+        this.colorPicker.closeDialog();
+      }
     });
   }
 
@@ -95,6 +103,10 @@ export class AppComponent implements OnInit {
   }
 
   onColorChanged(color: string) {
+    if (this.skipNextColorUpdate) {
+      this.skipNextColorUpdate = false;
+      return;
+    }
     document.dispatchEvent(
       new CustomEvent('pickedColor', { detail: { color: color } }),
     );
