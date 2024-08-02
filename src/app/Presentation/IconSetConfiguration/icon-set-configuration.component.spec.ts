@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IconSetConfigurationComponent } from 'src/app/Presentation/DomainConfiguration/icon-set-configuration.component';
+import { IconSetConfigurationComponent } from 'src/app/Presentation/IconSetConfiguration/icon-set-configuration.component';
 import { MockModule, MockProvider, MockProviders } from 'ng-mocks';
 import { IconSetConfigurationService } from '../../Service/IconSetConfiguration/icon-set-configuration.service';
 import { IconDictionaryService } from '../../Service/IconSetConfiguration/icon-dictionary.service';
