@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { assign } from 'min-dash';
 import DomainStoryModeler from 'src/app/BPMN-JS';
 import { IconSetConfiguration } from 'src/app/Domain/Icon-Set-Configuration/iconSetConfiguration';
-import { InitializerService } from './initializer.service';
+import { InitializerService } from '../../workbench/service/modeler/initializer.service';
 import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
 import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
 import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';

@@ -1,42 +1,42 @@
 import { Injectable } from '@angular/core';
-import { DirtyFlagService } from '../DirtyFlag/dirty-flag.service';
-import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
-import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
-import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
-import { LabelDictionaryService } from '../LabelDictionary/label-dictionary.service';
-import { ElementTypes } from '../../Domain/Common/elementTypes';
-import { ReplayStateService } from '../Replay/replay-state.service';
+import { DirtyFlagService } from '../../../Service/DirtyFlag/dirty-flag.service';
+import { IconDictionaryService } from '../../../Service/IconSetConfiguration/icon-dictionary.service';
+import { ElementRegistryService } from '../../../Service/ElementRegistry/element-registry.service';
+import { IconSetConfigurationService } from '../../../Service/IconSetConfiguration/icon-set-configuration.service';
+import { LabelDictionaryService } from '../../../Service/LabelDictionary/label-dictionary.service';
+import { ElementTypes } from '../../../Domain/Common/elementTypes';
+import { ReplayStateService } from '../../../Service/Replay/replay-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { ActivityDialogData } from '../../Domain/Dialog/activityDialogData';
-import { ActivityDialogComponent } from '../../Presentation/Dialog/activity-dialog/activity-dialog.component';
-import { DialogService } from '../Dialog/dialog.service';
-import { TitleService } from '../Title/title.service';
-import { ActivityCanvasObject } from '../../Domain/Common/activityCanvasObject';
-import { HtmlPresentationService } from '../Export/html-presentation.service';
-import { positionsMatch } from '../../Utils/mathExtensions';
-import { initializeContextPadProvider } from '../../BPMN-JS/modeler/context-pad/domainStoryContextPadProvider';
-import { CommandStackService } from '../CommandStack/command-stack.service';
+import { ActivityDialogData } from '../../../Domain/Dialog/activityDialogData';
+import { ActivityDialogComponent } from '../../../Presentation/Dialog/activity-dialog/activity-dialog.component';
+import { DialogService } from '../../../Service/Dialog/dialog.service';
+import { TitleService } from '../../../Service/Title/title.service';
+import { ActivityCanvasObject } from '../../../Domain/Common/activityCanvasObject';
+import { HtmlPresentationService } from '../../../Service/Export/html-presentation.service';
+import { positionsMatch } from '../../../Utils/mathExtensions';
+import { initializeContextPadProvider } from '../../../BPMN-JS/modeler/context-pad/domainStoryContextPadProvider';
+import { CommandStackService } from '../../../Service/CommandStack/command-stack.service';
 import activityUpdateHandler, {
   initializeActivityUpdateHandler,
-} from '../../BPMN-JS/modeler/updateHandler/activityUpdateHandlers';
-import elementUpdateHandler from '../../BPMN-JS/modeler/updateHandler/elementUpdateHandler';
-import headlineAndDescriptionUpdateHandler from '../../BPMN-JS/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
-import { initializePalette } from '../../BPMN-JS/modeler/palette/domainStoryPalette';
-import { initializeRenderer } from '../../BPMN-JS/modeler/domainStoryRenderer';
+} from '../../../BPMN-JS/modeler/updateHandler/activityUpdateHandlers';
+import elementUpdateHandler from '../../../BPMN-JS/modeler/updateHandler/elementUpdateHandler';
+import headlineAndDescriptionUpdateHandler from '../../../BPMN-JS/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
+import { initializePalette } from '../../../BPMN-JS/modeler/palette/domainStoryPalette';
+import { initializeRenderer } from '../../../BPMN-JS/modeler/domainStoryRenderer';
 import {
   initializeLabelEditingProvider,
   toggleStashUse,
-} from '../../BPMN-JS/modeler/labeling/dsLabelEditingProvider';
-import { initializeReplaceOptions } from '../../BPMN-JS/modeler/change-icon/replaceOptions';
+} from '../../../BPMN-JS/modeler/labeling/dsLabelEditingProvider';
+import { initializeReplaceOptions } from '../../../BPMN-JS/modeler/change-icon/replaceOptions';
 import {
   getMultipleNumberRegistry,
   getNumberRegistry,
   initializeNumbering,
   setNumberIsMultiple,
   updateExistingNumbersAtEditing,
-} from '../../BPMN-JS/modeler/numbering/numbering';
+} from '../../../BPMN-JS/modeler/numbering/numbering';
 
-import massRenameHandler from '../../BPMN-JS/modeler/updateHandler/massRenameHandler';
+import massRenameHandler from '../../../BPMN-JS/modeler/updateHandler/massRenameHandler';
 
 @Injectable({
   providedIn: 'root',

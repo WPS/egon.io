@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
 import { InitializerService } from './initializer.service';
-import { DirtyFlagService } from '../DirtyFlag/dirty-flag.service';
-import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
-import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
-import { IconSetConfigurationService } from '../IconSetConfiguration/icon-set-configuration.service';
-import { LabelDictionaryService } from '../LabelDictionary/label-dictionary.service';
-import { ReplayStateService } from '../Replay/replay-state.service';
-import { DialogService } from '../Dialog/dialog.service';
-import { TitleService } from '../Title/title.service';
-import { MassNamingService } from '../LabelDictionary/mass-naming.service';
-import { HtmlPresentationService } from '../Export/html-presentation.service';
+import { DirtyFlagService } from '../../../Service/DirtyFlag/dirty-flag.service';
+import { IconDictionaryService } from '../../../Service/IconSetConfiguration/icon-dictionary.service';
+import { ElementRegistryService } from '../../../Service/ElementRegistry/element-registry.service';
+import { IconSetConfigurationService } from '../../../Service/IconSetConfiguration/icon-set-configuration.service';
+import { LabelDictionaryService } from '../../../Service/LabelDictionary/label-dictionary.service';
+import { ReplayStateService } from '../../../Service/Replay/replay-state.service';
+import { DialogService } from '../../../Service/Dialog/dialog.service';
+import { TitleService } from '../../../Service/Title/title.service';
+import { MassNamingService } from '../../../Service/LabelDictionary/mass-naming.service';
+import { HtmlPresentationService } from '../../../Service/Export/html-presentation.service';
 import { MockService } from 'ng-mocks';
 
 describe('InitializerService', () => {
