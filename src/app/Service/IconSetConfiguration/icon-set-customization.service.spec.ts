@@ -5,7 +5,7 @@ import { IconDictionaryService } from './icon-dictionary.service';
 import { MockProvider, MockProviders } from 'ng-mocks';
 import { TitleService } from '../Title/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
-import { ImportDomainStoryService } from '../Import/import-domain-story.service';
+import { ImportDomainStoryService } from '../../tool/import/service/import-domain-story.service';
 import {
   IconSetConfiguration,
   testCustomIconSetConfiguration,

@@ -11,7 +11,7 @@ import { ElementRegistryService } from '../../../../Service/ElementRegistry/elem
 import { DialogService } from '../../../../Service/Dialog/dialog.service';
 import { ReplayService } from '../../../../Service/Replay/replay.service';
 import { ExportService } from '../../../../Service/Export/export.service';
-import { ImportDomainStoryService } from '../../../../Service/Import/import-domain-story.service';
+import { ImportDomainStoryService } from '../../../../tool/import/service/import-domain-story.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('HeaderButtonsComponent', () => {

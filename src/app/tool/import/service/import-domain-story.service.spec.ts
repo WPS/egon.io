@@ -1,18 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ImportDomainStoryService } from 'src/app/Service/Import/import-domain-story.service';
-import { ElementRegistryService } from '../ElementRegistry/element-registry.service';
-import { IconDictionaryService } from '../IconSetConfiguration/icon-dictionary.service';
-import { DirtyFlagService } from '../DirtyFlag/dirty-flag.service';
+import { ImportDomainStoryService } from 'src/app/tool/import/service/import-domain-story.service';
+import { ElementRegistryService } from '../../../Service/ElementRegistry/element-registry.service';
+import { IconDictionaryService } from '../../../Service/IconSetConfiguration/icon-dictionary.service';
+import { DirtyFlagService } from '../../../Service/DirtyFlag/dirty-flag.service';
 import { ImportRepairService } from './import-repair.service';
-import { TitleService } from '../Title/title.service';
-import { RendererService } from '../Renderer/renderer.service';
+import { TitleService } from '../../../Service/Title/title.service';
+import { RendererService } from '../../../Service/Renderer/renderer.service';
 import { MockService } from 'ng-mocks';
-import { DialogService } from '../Dialog/dialog.service';
-import { IconSetConfiguration } from '../../Domain/Icon-Set-Configuration/iconSetConfiguration';
-import { INITIAL_ICON_SET_NAME } from '../../Domain/Common/constants';
-import { Dictionary } from '../../Domain/Common/dictionary/dictionary';
-import { ElementTypes } from '../../Domain/Common/elementTypes';
+import { DialogService } from '../../../Service/Dialog/dialog.service';
+import { IconSetConfiguration } from '../../../Domain/Icon-Set-Configuration/iconSetConfiguration';
+import { INITIAL_ICON_SET_NAME } from '../../../Domain/Common/constants';
+import { Dictionary } from '../../../Domain/Common/dictionary/dictionary';
+import { ElementTypes } from '../../../Domain/Common/elementTypes';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('ImportDomainStoryService', () => {

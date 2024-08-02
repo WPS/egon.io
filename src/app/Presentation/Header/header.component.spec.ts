@@ -4,7 +4,7 @@ import { HeaderComponent } from 'src/app/Presentation/Header/header.component';
 import { TitleService } from '../../Service/Title/title.service';
 import { MockComponent, MockModule, MockService } from 'ng-mocks';
 import { ReplayService } from '../../Service/Replay/replay.service';
-import { ImportDomainStoryService } from '../../Service/Import/import-domain-story.service';
+import { ImportDomainStoryService } from '../../tool/import/service/import-domain-story.service';
 import { ExportService } from '../../Service/Export/export.service';
 import { ModelerService } from '../../Service/Modeler/modeler.service';
 import { ElementRegistryService } from '../../Service/ElementRegistry/element-registry.service';
