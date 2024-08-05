@@ -22,7 +22,7 @@ describe('ReplayService', () => {
   beforeEach(() => {
     const storyCreatorServiceMock = jasmine.createSpyObj(
       'StoryCreatorService',
-      ['traceActivitiesAndCreateStory', 'getMissingSentences'],
+      ['traceActivitiesAndCreateStory'],
     );
     const domManipulationServiceMock = jasmine.createSpyObj(
       'DomManipulationService',
@@ -97,7 +97,9 @@ describe('ReplayService', () => {
     });
 
     it('should initialize Replay', () => {
-      service.initializeReplay();
+      service.initializeReplay(
+        storyCreatorServiceSpy.traceActivitiesAndCreateStory(),
+      );
 
       service.currentSentence$.subscribe((value) => expect(value).toEqual(1));
       service.maxSentenceNumber$.subscribe((value) => expect(value).toEqual(1));
@@ -117,7 +119,9 @@ describe('ReplayService', () => {
 
     describe('nextSentence ', () => {
       it('should select next sentence', () => {
-        service.initializeReplay();
+        service.initializeReplay(
+          storyCreatorServiceSpy.traceActivitiesAndCreateStory(),
+        );
         service.nextSentence();
 
         service.currentSentence$.subscribe((value) => {
@@ -127,7 +131,9 @@ describe('ReplayService', () => {
       });
 
       it('should not select next sentence when last sentence', () => {
-        service.initializeReplay();
+        service.initializeReplay(
+          storyCreatorServiceSpy.traceActivitiesAndCreateStory(),
+        );
         service.nextSentence();
 
         service.currentSentence$.subscribe((value) => {
@@ -153,7 +159,9 @@ describe('ReplayService', () => {
       });
 
       it('should select previous sentence', () => {
-        service.initializeReplay();
+        service.initializeReplay(
+          storyCreatorServiceSpy.traceActivitiesAndCreateStory(),
+        );
         service.nextSentence();
 
         service.previousSentence();
@@ -165,7 +173,9 @@ describe('ReplayService', () => {
       });
 
       it('should not select previous sentence when first sentence', () => {
-        service.initializeReplay();
+        service.initializeReplay(
+          storyCreatorServiceSpy.traceActivitiesAndCreateStory(),
+        );
         service.previousSentence();
 
         service.currentSentence$.subscribe((value) => {
@@ -185,21 +195,11 @@ describe('ReplayService', () => {
         replayStateServiceSpy.setReplayState.and.returnValue();
       });
 
-      it('should show dialog if not consecutively numbered', () => {
-        storyCreatorServiceSpy.getMissingSentences.and.returnValue([1]);
+      it('should start replay', () => {
+        service.startReplay(
+          storyCreatorServiceSpy.traceActivitiesAndCreateStory(),
+        );
 
-        service.startReplay();
-
-        expect(storyCreatorServiceSpy.getMissingSentences).toHaveBeenCalled();
-        expect(snackBarSpy.open).toHaveBeenCalled();
-      });
-
-      it(' should start replay if consecutively numbered', () => {
-        storyCreatorServiceSpy.getMissingSentences.and.returnValue([]);
-
-        service.startReplay();
-
-        expect(storyCreatorServiceSpy.getMissingSentences).toHaveBeenCalled();
         expect(replayStateServiceSpy.setReplayState).toHaveBeenCalledOnceWith(
           true,
         );
@@ -216,9 +216,10 @@ describe('ReplayService', () => {
         );
         domManipulationServiceSpy.showSentence.and.returnValue();
         replayStateServiceSpy.setReplayState.and.returnValue();
-        storyCreatorServiceSpy.getMissingSentences.and.returnValue([]);
 
-        service.startReplay();
+        service.startReplay(
+          storyCreatorServiceSpy.traceActivitiesAndCreateStory(),
+        );
       });
 
       it('should call methods', () => {

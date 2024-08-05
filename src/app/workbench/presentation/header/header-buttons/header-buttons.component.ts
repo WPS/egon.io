@@ -24,6 +24,7 @@ import {
 } from '../../../../domain/entity/common/constants';
 import { TitleService } from '../../../../tool/header/service/title.service';
 import { RendererService } from '../../../../tool/modeler/service/renderer.service';
+import { StoryCreatorService } from '../../../../tool/replay/service/story-creator.service';
 
 @Component({
   selector: 'app-header-buttons',
@@ -46,6 +47,7 @@ export class HeaderButtonsComponent {
     private titleService: TitleService,
     private renderService: RendererService,
     private snackbar: MatSnackBar,
+    private storyCreatorService: StoryCreatorService,
   ) {
     this.isReplay$ = this.replayStateService.replayOn$;
     this.isDirty$ = this.dirtyFlagService.dirty$;
@@ -168,7 +170,24 @@ export class HeaderButtonsComponent {
 
   /** Replay functions **/
   startReplay(): void {
-    this.replayService.startReplay();
+    const story = this.storyCreatorService.traceActivitiesAndCreateStory();
+    const missingSentences =
+      this.storyCreatorService.getMissingSentences(story);
+    if (missingSentences.length === 0) {
+      this.replayService.startReplay(story);
+    } else {
+      const sentence = missingSentences.join(', ');
+      this.snackbar.open(
+        missingSentences.length === 1
+          ? `The Domain Story is not complete. Sentence ${sentence} is missing.`
+          : `The Domain Story is not complete. Sentences ${sentence} are missing.`,
+        undefined,
+        {
+          duration: SNACKBAR_DURATION * 2,
+          panelClass: SNACKBAR_INFO,
+        },
+      );
+    }
   }
 
   stopReplay(): void {

@@ -4,6 +4,7 @@ import { ReplayService } from '../../replay/service/replay.service';
 // @ts-ignore
 import doT from 'dot';
 import { TitleService } from '../../header/service/title.service';
+import { StoryCreatorService } from '../../replay/service/story-creator.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class HtmlPresentationService {
   constructor(
     private replayService: ReplayService,
     private titleService: TitleService,
+    private storyCreatorService: StoryCreatorService,
   ) {}
 
   private multiplexSecret: any;
@@ -42,7 +44,8 @@ export class HtmlPresentationService {
   async downloadHTMLPresentation(filename: string): Promise<void> {
     const svgData = [];
     // export all sentences of domain story
-    this.replayService.startReplay();
+    const story = this.storyCreatorService.traceActivitiesAndCreateStory();
+    this.replayService.startReplay(story);
     try {
       const result = await this.modeler.saveSVG({});
       this.fixActivityMarkersForEachSentence(

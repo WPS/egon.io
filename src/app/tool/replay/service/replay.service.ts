@@ -33,9 +33,9 @@ export class ReplayService {
     return this.storyCreatorService.traceActivitiesAndCreateStory().length > 0;
   }
 
-  initializeReplay(): void {
+  initializeReplay(story: StorySentence[]): void {
     this.currentSentence.next(1);
-    this.story = this.storyCreatorService.traceActivitiesAndCreateStory();
+    this.story = story;
     this.maxSentenceNumber.next(this.story.length);
   }
 
@@ -70,30 +70,13 @@ export class ReplayService {
     );
   }
 
-  startReplay(): void {
-    this.initializeReplay();
+  startReplay(story: StorySentence[]): void {
+    this.initializeReplay(story);
     if (this.story.length > 0) {
-      const missingSentences = this.storyCreatorService.getMissingSentences(
-        this.story,
+      this.replayStateService.setReplayState(true);
+      this.domManipulationService.showSentence(
+        this.story[this.currentSentence.getValue() - 1],
       );
-      if (missingSentences.length === 0) {
-        this.replayStateService.setReplayState(true);
-        this.domManipulationService.showSentence(
-          this.story[this.currentSentence.getValue() - 1],
-        );
-      } else {
-        const sentence = missingSentences.join(', ');
-        this.snackbar.open(
-          missingSentences.length === 1
-            ? `The Domain Story is not complete. Sentence ${sentence} is missing.`
-            : `The Domain Story is not complete. Sentences ${sentence} are missing.`,
-          undefined,
-          {
-            duration: SNACKBAR_DURATION * 2,
-            panelClass: SNACKBAR_INFO,
-          },
-        );
-      }
     } else {
       this.snackbar.open('You need a Domain Story for replay.', undefined, {
         duration: SNACKBAR_DURATION * 2,
