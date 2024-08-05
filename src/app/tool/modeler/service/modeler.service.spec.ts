@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ModelerService } from 'src/app/tool/modeler/service/modeler.service';
-import { InitializerService } from '../../../workbench/service/modeler/initializer.service';
+import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from '../../../domain/service/element-registry.service';
 import { IconDictionaryService } from '../../icon-set-config/service/icon-dictionary.service';
 import { IconSetConfigurationService } from '../../icon-set-config/service/icon-set-configuration.service';

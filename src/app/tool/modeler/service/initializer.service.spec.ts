@@ -2,15 +2,15 @@ import { TestBed } from '@angular/core/testing';
 
 import { InitializerService } from './initializer.service';
 import { DirtyFlagService } from '../../../domain/service/dirty-flag.service';
-import { IconDictionaryService } from '../../../tool/icon-set-config/service/icon-dictionary.service';
+import { IconDictionaryService } from '../../icon-set-config/service/icon-dictionary.service';
 import { ElementRegistryService } from '../../../domain/service/element-registry.service';
-import { IconSetConfigurationService } from '../../../tool/icon-set-config/service/icon-set-configuration.service';
-import { LabelDictionaryService } from '../../../tool/label-dictionary/service/label-dictionary.service';
-import { ReplayStateService } from '../../../tool/replay/service/replay-state.service';
+import { IconSetConfigurationService } from '../../icon-set-config/service/icon-set-configuration.service';
+import { LabelDictionaryService } from '../../label-dictionary/service/label-dictionary.service';
+import { ReplayStateService } from '../../replay/service/replay-state.service';
 import { DialogService } from '../../../domain/service/dialog.service';
-import { TitleService } from '../../../tool/header/service/title.service';
-import { MassNamingService } from '../../../tool/label-dictionary/service/mass-naming.service';
-import { HtmlPresentationService } from '../../../tool/export/service/html-presentation.service';
+import { TitleService } from '../../header/service/title.service';
+import { MassNamingService } from '../../label-dictionary/service/mass-naming.service';
+import { HtmlPresentationService } from '../../export/service/html-presentation.service';
 import { MockService } from 'ng-mocks';
 
 describe('InitializerService', () => {

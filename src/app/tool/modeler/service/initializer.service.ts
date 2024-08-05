@@ -1,44 +1,44 @@
 import { Injectable } from '@angular/core';
 import { DirtyFlagService } from '../../../domain/service/dirty-flag.service';
-import { IconDictionaryService } from '../../../tool/icon-set-config/service/icon-dictionary.service';
+import { IconDictionaryService } from '../../icon-set-config/service/icon-dictionary.service';
 import { ElementRegistryService } from '../../../domain/service/element-registry.service';
-import { IconSetConfigurationService } from '../../../tool/icon-set-config/service/icon-set-configuration.service';
-import { LabelDictionaryService } from '../../../tool/label-dictionary/service/label-dictionary.service';
+import { IconSetConfigurationService } from '../../icon-set-config/service/icon-set-configuration.service';
+import { LabelDictionaryService } from '../../label-dictionary/service/label-dictionary.service';
 import { ElementTypes } from '../../../domain/entity/common/elementTypes';
-import { ReplayStateService } from '../../../tool/replay/service/replay-state.service';
+import { ReplayStateService } from '../../replay/service/replay-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { ActivityDialogData } from '../../../tool/modeler/domain/activityDialogData';
-import { ActivityDialogComponent } from '../../../tool/modeler/presentation/activity-dialog/activity-dialog.component';
+import { ActivityDialogData } from '../domain/activityDialogData';
+import { ActivityDialogComponent } from '../presentation/activity-dialog/activity-dialog.component';
 import { DialogService } from '../../../domain/service/dialog.service';
-import { TitleService } from '../../../tool/header/service/title.service';
+import { TitleService } from '../../header/service/title.service';
 import { ActivityCanvasObject } from '../../../domain/entity/common/activityCanvasObject';
-import { HtmlPresentationService } from '../../../tool/export/service/html-presentation.service';
+import { HtmlPresentationService } from '../../export/service/html-presentation.service';
 import { positionsMatch } from '../../../utils/mathExtensions';
-import { CommandStackService } from '../../../tool/modeler/service/command-stack.service';
+import { CommandStackService } from './command-stack.service';
 
-import { initializeRenderer } from '../../../tool/modeler/bpmn/modeler/domainStoryRenderer';
+import { initializeRenderer } from '../bpmn/modeler/domainStoryRenderer';
 
-import { initializeContextPadProvider } from '../../../tool/modeler/bpmn/modeler/context-pad/domainStoryContextPadProvider';
-import { initializePalette } from '../../../tool/modeler/bpmn/modeler/palette/domainStoryPalette';
+import { initializeContextPadProvider } from '../bpmn/modeler/context-pad/domainStoryContextPadProvider';
+import { initializePalette } from '../bpmn/modeler/palette/domainStoryPalette';
 import {
   initializeLabelEditingProvider,
   toggleStashUse,
-} from '../../../tool/modeler/bpmn/modeler/labeling/dsLabelEditingProvider';
-import { initializeReplaceOptions } from '../../../tool/modeler/bpmn/modeler/change-icon/replaceOptions';
+} from '../bpmn/modeler/labeling/dsLabelEditingProvider';
+import { initializeReplaceOptions } from '../bpmn/modeler/change-icon/replaceOptions';
 import {
   getMultipleNumberRegistry,
   getNumberRegistry,
   initializeNumbering,
   setNumberIsMultiple,
   updateExistingNumbersAtEditing,
-} from '../../../tool/modeler/bpmn/modeler/numbering/numbering';
+} from '../bpmn/modeler/numbering/numbering';
 import activityUpdateHandler, {
   initializeActivityUpdateHandler,
-} from '../../../tool/modeler/bpmn/modeler/updateHandler/activityUpdateHandlers';
+} from '../bpmn/modeler/updateHandler/activityUpdateHandlers';
 
-import massRenameHandler from '../../../tool/modeler/bpmn/modeler/updateHandler/massRenameHandler';
-import elementUpdateHandler from '../../../tool/modeler/bpmn/modeler/updateHandler/elementUpdateHandler';
-import headlineAndDescriptionUpdateHandler from '../../../tool/modeler/bpmn/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
+import massRenameHandler from '../bpmn/modeler/updateHandler/massRenameHandler';
+import elementUpdateHandler from '../bpmn/modeler/updateHandler/elementUpdateHandler';
+import headlineAndDescriptionUpdateHandler from '../bpmn/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
 
 @Injectable({
   providedIn: 'root',
