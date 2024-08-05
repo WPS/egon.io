@@ -3,17 +3,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HeaderButtonsComponent } from './header-buttons.component';
 import { MockProviders } from 'ng-mocks';
 import { SettingsService } from '../../../service/settings/settings.service';
-import { TitleService } from '../../../../tool/header/service/title.service';
-import { ModelerService } from '../../../../tool/modeler/service/modeler.service';
-import { ReplayStateService } from '../../../../tool/replay/service/replay-state.service';
+import { TitleService } from '../../../../tools/header/service/title.service';
+import { ModelerService } from '../../../../tools/modeler/service/modeler.service';
+import { ReplayStateService } from '../../../../tools/replay/service/replay-state.service';
 import { DirtyFlagService } from '../../../../domain/service/dirty-flag.service';
 import { ElementRegistryService } from '../../../../domain/service/element-registry.service';
 import { DialogService } from '../../../../domain/service/dialog.service';
-import { ReplayService } from '../../../../tool/replay/service/replay.service';
-import { ExportService } from '../../../../tool/export/service/export.service';
-import { ImportDomainStoryService } from '../../../../tool/import/service/import-domain-story.service';
+import { ReplayService } from '../../../../tools/replay/service/replay.service';
+import { ExportService } from '../../../../tools/export/service/export.service';
+import { ImportDomainStoryService } from '../../../../tools/import/service/import-domain-story.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { StoryCreatorService } from '../../../../tool/replay/service/story-creator.service';
+import { StoryCreatorService } from '../../../../tools/replay/service/story-creator.service';
 import { preBuildTestStory } from '../../../../utils/testHelpers.spec';
 
 describe('HeaderButtonsComponent', () => {
