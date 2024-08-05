@@ -12,7 +12,7 @@ import {
   fromConfigurationFromFile,
 } from 'src/app/domain/entity/iconSetConfiguration';
 import { DialogService } from '../../../domain/service/dialog.service';
-import { TitleAndDescriptionDialogComponent } from '../../header/presentation/dialog/info-dialog/title-and-description-dialog.component';
+import { InfoDialogComponent } from '../presentation/info-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { InfoDialogData } from '../../header/domain/infoDialogData';
 import {
@@ -320,7 +320,7 @@ export class ImportDomainStoryService implements OnDestroy {
 
     config.data = new InfoDialogData(title, text, true);
 
-    this.dialogService.openDialog(TitleAndDescriptionDialogComponent, config);
+    this.dialogService.openDialog(InfoDialogComponent, config);
   }
 
   private setImportedConfigurationAndEmit(config: IconSetConfiguration) {
@@ -341,7 +341,7 @@ export class ImportDomainStoryService implements OnDestroy {
       false,
     );
 
-    this.dialogService.openDialog(TitleAndDescriptionDialogComponent, config);
+    this.dialogService.openDialog(InfoDialogComponent, config);
   }
 
   private restoreTitleFromFileName(filename: string, isSVG: boolean): string {
