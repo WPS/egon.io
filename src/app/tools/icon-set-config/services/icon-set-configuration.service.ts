@@ -3,12 +3,12 @@ import { ElementRegistryService } from 'src/app/domain/services/element-registry
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
-import { CustomIconSetConfiguration } from 'src/app/domain/entities/iconSetConfiguration';
 import { defaultConf } from '../domain/iconConfiguration';
 import { TitleService } from '../../header/services/title.service';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set-configuration-for-export';
+import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
 
 @Injectable({
   providedIn: 'root',

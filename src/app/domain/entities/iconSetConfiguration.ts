@@ -2,12 +2,8 @@ import { INITIAL_ICON_SET_NAME } from './constants';
 import { testBusinessObject } from './businessObject';
 import { ElementTypes } from './elementTypes';
 import { Dictionary } from './dictionary';
+import { CustomIconSetConfiguration } from './custom-icon-set-configuration';
 
-export interface CustomIconSetConfiguration {
-  name: string;
-  actors: string[];
-  workObjects: string[];
-}
 const actor = structuredClone(testBusinessObject);
 actor.type = ElementTypes.ACTOR;
 

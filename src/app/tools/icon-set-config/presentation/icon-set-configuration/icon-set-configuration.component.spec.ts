@@ -7,12 +7,12 @@ import { IconDictionaryService } from '../../services/icon-dictionary.service';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 import { BehaviorSubject } from 'rxjs';
 import {
-  CustomIconSetConfiguration,
   testCustomIconSetConfiguration,
 } from '../../../../domain/entities/iconSetConfiguration';
 import { Dictionary } from '../../../../domain/entities/dictionary';
 import { IconSetDetailsComponent } from '../icon-set-details/icon-set-details.component';
 import { MaterialModule } from 'src/app/material.module';
+import {CustomIconSetConfiguration} from "../../../../domain/entities/custom-icon-set-configuration";
 
 describe(IconSetConfigurationComponent.name, () => {
   let component: IconSetConfigurationComponent;
