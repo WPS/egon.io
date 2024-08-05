@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ICON_SET_CONFIGURATION_TAG } from '../entities/constants';
-import {
-  IconSetConfiguration,
-  fromConfigurationFromFile,
-} from '../entities/iconSetConfiguration';
+import { fromConfigurationFromFile } from '../entities/iconSetConfiguration';
+import { IconSetConfiguration } from '../entities/icon-set-configuration';
 
 @Injectable({
   providedIn: 'root',

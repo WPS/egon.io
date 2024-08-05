@@ -4,8 +4,8 @@ import { ModelerService } from './modeler.service';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
-import { IconSetConfiguration } from '../../../domain/entities/iconSetConfiguration';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
+import {IconSetConfiguration} from "../../../domain/entities/icon-set-configuration";
 
 describe('RendererService', () => {
   let service: RendererService;

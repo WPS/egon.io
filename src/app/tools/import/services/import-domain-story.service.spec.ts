@@ -9,11 +9,11 @@ import { TitleService } from '../../header/services/title.service';
 import { RendererService } from '../../modeler/services/renderer.service';
 import { MockService } from 'ng-mocks';
 import { DialogService } from '../../../domain/services/dialog.service';
-import { IconSetConfiguration } from '../../../domain/entities/iconSetConfiguration';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 import { Dictionary } from '../../../domain/entities/dictionary';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {IconSetConfiguration} from "../../../domain/entities/icon-set-configuration";
 
 describe('ImportDomainStoryService', () => {
   let service: ImportDomainStoryService;

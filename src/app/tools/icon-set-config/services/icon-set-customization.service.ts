@@ -9,10 +9,7 @@ import {
   SNACKBAR_SUCCESS,
 } from '../../../domain/entities/constants';
 import { Dictionary } from '../../../domain/entities/dictionary';
-import {
-  CustomIconSetConfiguration,
-  IconSetConfiguration,
-} from '../../../domain/entities/iconSetConfiguration';
+import { CustomIconSetConfiguration } from '../../../domain/entities/iconSetConfiguration';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { IconListItem } from '../domain/iconListItem';
 import { StorageService } from '../../../domain/services/storage.service';
@@ -21,6 +18,7 @@ import { TitleService } from '../../header/services/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import getIconId = ElementTypes.getIconId;
+import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 
 @Injectable({
   providedIn: 'root',

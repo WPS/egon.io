@@ -5,12 +5,12 @@ import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import {
   CustomIconSetConfiguration,
-  IconSetConfiguration,
   IconSetConfigurationForExport,
 } from 'src/app/domain/entities/iconSetConfiguration';
 import { defaultConf } from '../domain/iconConfiguration';
 import { TitleService } from '../../header/services/title.service';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
+import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 
 @Injectable({
   providedIn: 'root',

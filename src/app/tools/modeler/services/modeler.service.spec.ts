@@ -5,7 +5,6 @@ import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
-import { IconSetConfiguration } from '../../../domain/entities/iconSetConfiguration';
 import { createTestCanvasObjects } from '../../../utils/testHelpers.spec';
 import { BusinessObject } from '../../../domain/entities/businessObject';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
@@ -15,6 +14,7 @@ import { Dictionary } from 'src/app/domain/entities/dictionary';
 import Modeler from 'bpmn-js/lib/Modeler';
 import { MockProvider } from 'ng-mocks';
 import { StorageService } from '../../../domain/services/storage.service';
+import {IconSetConfiguration} from "../../../domain/entities/icon-set-configuration";
 
 describe('ModelerService', () => {
   let service: ModelerService;

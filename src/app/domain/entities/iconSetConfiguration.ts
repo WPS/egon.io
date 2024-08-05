@@ -3,12 +3,6 @@ import { testBusinessObject } from './businessObject';
 import { ElementTypes } from './elementTypes';
 import { Dictionary } from './dictionary';
 
-export interface IconSetConfiguration {
-  name: string;
-  actors: Dictionary;
-  workObjects: Dictionary;
-}
-
 export interface IconSetConfigurationForExport {
   name: string;
   actors: any;

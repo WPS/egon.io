@@ -3,7 +3,7 @@ import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
-import { IconSetConfiguration } from 'src/app/domain/entities/iconSetConfiguration';
+import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 
 @Injectable({
   providedIn: 'root',

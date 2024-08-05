@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { Configuration } from 'src/app/domain/entities/configuration';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
-import { IconSetConfiguration } from 'src/app/domain/entities/iconSetConfiguration';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import {
   defaultConf,
@@ -14,6 +13,7 @@ import {
 } from 'src/app/tools/icon-set-config/domain/allIcons';
 import { sanitizeIconName } from '../../../utils/sanitizer';
 import getIconId = ElementTypes.getIconId;
+import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 
 export const ICON_PREFIX = 'icon-domain-story-';
 

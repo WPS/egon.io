@@ -7,10 +7,7 @@ import { ImportRepairService } from 'src/app/tools/import/services/import-repair
 import { Observable, Subscription } from 'rxjs';
 import { RendererService } from 'src/app/tools/modeler/services/renderer.service';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
-import {
-  IconSetConfiguration,
-  fromConfigurationFromFile,
-} from 'src/app/domain/entities/iconSetConfiguration';
+import { fromConfigurationFromFile } from 'src/app/domain/entities/iconSetConfiguration';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { InfoDialogComponent } from '../presentation/info-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
@@ -23,6 +20,7 @@ import {
 } from '../../../domain/entities/constants';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 
 @Injectable({
   providedIn: 'root',

@@ -7,7 +7,6 @@ import { TitleService } from '../../header/services/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { ImportDomainStoryService } from '../../import/services/import-domain-story.service';
 import {
-  IconSetConfiguration,
   testCustomIconSetConfiguration,
 } from '../../../domain/entities/iconSetConfiguration';
 import { Dictionary } from '../../../domain/entities/dictionary';
@@ -20,6 +19,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StorageService } from '../../../domain/services/storage.service';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
+import {IconSetConfiguration} from "../../../domain/entities/icon-set-configuration";
 
 describe(IconSetCustomizationService.name, () => {
   let service: IconSetCustomizationService;
