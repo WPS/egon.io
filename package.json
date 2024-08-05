@@ -10,7 +10,8 @@
     "test": "ng test",
     "build": "ng build",
     "build-prod": "ng build --configuration production",
-    "zip": "zip-build dist_build/ dist/ --template '%NAME%-%VERSION%.%EXT%'"
+    "zip": "zip-build dist_build/ dist/ --template '%NAME%-%VERSION%.%EXT%'",
+    "archlint": "node ./node_modules/ts-archlint/dist/index.js ./src/app"
   },
   "private": true,
   "dependencies": {
@@ -54,6 +55,7 @@
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "typescript": "5.4.4",
-    "zip-build": "^1.8.0"
+    "zip-build": "^1.8.0",
+    "ts-archlint": "^0.15.0"
   }
 }

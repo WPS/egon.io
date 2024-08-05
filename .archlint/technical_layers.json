@@ -1,0 +1,50 @@
+{
+  "$schema": "../node_modules/ts-archlint/dist/schema.json",
+  "name": "technical_layers",
+  "failOnUnassigned": false,
+  "exclude": [
+    "node_modules**",
+    "**.spec.ts",
+    "tool/modeler/bpmn/**",
+    "material.module.ts",
+    "../environments/**",
+    "app.*.ts"
+  ],
+  "artifacts": [
+    {
+      "name": "presentation",
+      "include": [
+        "**/presentation/**"
+      ],
+      "mayUseAllBelow": true
+    },
+    {
+      "name": "service",
+      "include": [
+        "**/service/**"
+      ],
+      "mayUseAllBelow": true
+    },
+    {
+      "name": "domain",
+      "include": [
+        "**/domain/**"
+      ],
+      "mayUseAllBelow": true
+    },
+    {
+      "name": "entity",
+      "include": [
+        "**/entity/**"
+      ],
+      "mayUseAllBelow": true
+    },
+    {
+      "name": "utils",
+      "include": [
+        "utils/**"
+      ],
+      "mayUseAllBelow": true
+    }
+  ]
+}

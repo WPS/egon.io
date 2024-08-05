@@ -43,6 +43,14 @@ jobs:
       - uses: ./.github/actions/setup_environment
       - run: npm run format:check
 
+  archlint:
+    runs-on: ubuntu-latest
+    needs: dependencies
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup_environment
+      - run: npm run archlint
+
   build:
     runs-on: ubuntu-latest
     needs: [ test, format ]

@@ -1,0 +1,101 @@
+{
+  "$schema": "../node_modules/ts-archlint/dist/schema.json",
+  "name": "layers",
+  "failOnUnassigned": false,
+  "exclude": [
+    "node_modules**",
+    "**.spec.ts",
+    "tool/modeler/bpmn/**",
+    "material.module.ts",
+    "../environments/**",
+    "app.*.ts"
+  ],
+  "artifacts": [
+    {
+      "name": "workbench",
+      "include": [
+        "workbench/**"
+      ],
+      "mayUseAllBelow": true
+    },
+    {
+      "name": "tool",
+      "include": [
+        "tool/**"
+      ],
+      "children": [
+        {
+          "name": "label-dictionary",
+          "include": [
+            "*/label-dictionary/**"
+          ],
+          "mayUseAllBelow": true
+        },
+        {
+          "name": "autosave",
+          "include": [
+            "*/autosave/**"
+          ],
+          "mayUseAllBelow": true
+        },
+        {
+          "name": "export",
+          "include": [
+            "*/export/**"
+          ],
+          "mayUseAllBelow": true
+        },
+        {
+          "name": "import",
+          "include": [
+            "*/import/**"
+          ],
+          "mayUseAllBelow": true
+        },
+        {
+          "name": "modeler",
+          "include": [
+            "*/modeler/**"
+          ],
+          "mayUseAllBelow": true
+        },
+        {
+          "name": "icon-set-config",
+          "include": [
+            "*/icon-set-config/**"
+          ],
+          "mayUseAllBelow": true
+        },
+        {
+          "name": "header",
+          "include": [
+            "*/header/**"
+          ],
+          "mayUseAllBelow": true
+        },
+        {
+          "name": "replay",
+          "include": [
+            "*/replay/**"
+          ],
+          "mayUseAllBelow": true
+        }
+      ],
+      "mayUseAllBelow": true
+    },
+    {
+      "name": "domain",
+      "include": [
+        "domain/**"
+      ],
+      "mayUseAllBelow": true
+    },
+    {
+      "name": "utils",
+      "include": [
+        "utils/**"
+      ],
+      "mayUseAllBelow": true
+    }
+  ]
+}
