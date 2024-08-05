@@ -13,7 +13,6 @@ import { Dictionary } from 'src/app/domain/entities/dictionary';
 // @ts-ignore
 import Modeler from 'bpmn-js/lib/Modeler';
 import { MockProvider } from 'ng-mocks';
-import { StorageService } from '../../../domain/services/storage.service';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 
 describe('ModelerService', () => {
@@ -40,20 +39,23 @@ describe('ModelerService', () => {
   };
 
   beforeEach(() => {
-    const elementRegistryMock = jasmine.createSpyObj('ElementRegistryService', [
-      'createObjectListForDSTDownload',
-      'clear',
-      'correctInitialize',
-    ]);
-    const iconDictionaryMock = jasmine.createSpyObj('IconDictionaryService', [
-      'setCustomConfiguration',
-      'createIconConfiguration',
-    ]);
+    const elementRegistryMock = jasmine.createSpyObj(
+      ElementRegistryService.name,
+      ['createObjectListForDSTDownload', 'clear', 'correctInitialize'],
+    );
+    const iconDictionaryMock = jasmine.createSpyObj(
+      IconDictionaryService.name,
+      ['setCustomConfiguration', 'createIconConfiguration'],
+    );
     const iconSetConfigurationMock = jasmine.createSpyObj(
       IconSetConfigurationService.name,
-      ['loadConfiguration'],
+      [
+        'loadConfiguration',
+        'getStoredIconSetConfiguration',
+        'setStoredIconSetConfiguration',
+      ],
     );
-    const initializerMock = jasmine.createSpyObj('InitializerService', [
+    const initializerMock = jasmine.createSpyObj(InitializerService.name, [
       'initializeDomainStoryModelerClasses',
       'initializeDomainStoryModelerEventHandlers',
       'propagateDomainStoryModelerClassesToServices',
@@ -78,7 +80,6 @@ describe('ModelerService', () => {
           provide: IconSetConfigurationService,
           useValue: iconSetConfigurationMock,
         },
-        MockProvider(StorageService),
       ],
     });
     elementRegistrySpy = TestBed.inject(

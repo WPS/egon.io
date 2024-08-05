@@ -6,17 +6,23 @@ import { IconSetConfigurationService } from '../../services/icon-set-configurati
 import { IconDictionaryService } from '../../services/icon-dictionary.service';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 import { BehaviorSubject } from 'rxjs';
-import { testCustomIconSetConfiguration } from '../../../../domain/entities/iconSetConfiguration';
-import { Dictionary } from '../../../../domain/entities/dictionary';
 import { IconSetDetailsComponent } from '../icon-set-details/icon-set-details.component';
 import { MaterialModule } from 'src/app/material.module';
 import { CustomIconSetConfiguration } from '../../../../domain/entities/custom-icon-set-configuration';
+import { INITIAL_ICON_SET_NAME } from '../../../../domain/entities/constants';
+import { Dictionary } from '../../../../domain/entities/dictionary';
 
 describe(IconSetConfigurationComponent.name, () => {
   let component: IconSetConfigurationComponent;
   let fixture: ComponentFixture<IconSetConfigurationComponent>;
 
   beforeEach(async () => {
+    const testCustomIconSetConfiguration: CustomIconSetConfiguration = {
+      name: INITIAL_ICON_SET_NAME,
+      actors: ['Person'],
+      workObjects: ['Document'],
+    };
+
     await TestBed.configureTestingModule({
       imports: [MockModule(MaterialModule)],
       declarations: [IconSetConfigurationComponent, IconSetDetailsComponent],

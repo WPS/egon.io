@@ -5,10 +5,20 @@ import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { defaultConf } from '../domain/iconConfiguration';
 import { TitleService } from '../../header/services/title.service';
-import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
+import {
+  ICON_SET_CONFIGURATION_TAG,
+  INITIAL_ICON_SET_NAME,
+} from '../../../domain/entities/constants';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set-configuration-for-export';
 import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
+import { StorageService } from '../../../domain/services/storage.service';
+
+export interface FileConfiguration {
+  name: string;
+  actors: { [p: string]: any };
+  workObjects: { [p: string]: any };
+}
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +28,7 @@ export class IconSetConfigurationService {
     private iconDictionaryService: IconDictionaryService,
     private elementRegistryService: ElementRegistryService,
     private titleService: TitleService,
+    private storageService: StorageService,
   ) {}
 
   setIconSetName(iconSetName: string): void {
@@ -191,6 +202,76 @@ export class IconSetConfigurationService {
     };
   }
 
+  public createIconSetConfiguration(
+    fileConfiguration: FileConfiguration,
+  ): IconSetConfiguration {
+    const actorsDict = new Dictionary();
+    const workObjectsDict = new Dictionary();
+    Object.keys(fileConfiguration.actors).forEach((key) => {
+      let icon = fileConfiguration.actors[key];
+      if (icon) {
+        // make sure the actor has an icon
+        actorsDict.add(icon, key);
+      }
+    });
+
+    Object.keys(fileConfiguration.workObjects).forEach((key) => {
+      let icon = fileConfiguration.workObjects[key];
+      if (icon) {
+        // make sure the work object has an icon
+        workObjectsDict.add(icon, key);
+      }
+    });
+
+    return {
+      name: fileConfiguration.name,
+      actors: actorsDict,
+      workObjects: workObjectsDict,
+    };
+  }
+
+  public getStoredIconSetConfiguration(): IconSetConfiguration | undefined {
+    const iconSetString = this.storageService.get(ICON_SET_CONFIGURATION_TAG);
+
+    if (!iconSetString) {
+      return;
+    } else {
+      const configurationFromFile = this.createIconSetConfiguration(
+        JSON.parse(iconSetString),
+      );
+      if (this.checkValidityOfConfiguration(configurationFromFile)) {
+        return configurationFromFile;
+      }
+    }
+    return;
+  }
+
+  public setStoredIconSetConfiguration(config: IconSetConfiguration): void {
+    const actors: {
+      [p: string]: any;
+    } = {};
+    config.actors.keysArray().forEach((key) => {
+      actors[key] = config.actors.get(key);
+    });
+    const workObjects: {
+      [p: string]: any;
+    } = {};
+    config.workObjects.keysArray().forEach((key) => {
+      workObjects[key] = config.workObjects.get(key);
+    });
+
+    const configForStorage = {
+      name: config.name,
+      actors: actors,
+      workObjects: workObjects,
+    };
+
+    this.storageService.set(
+      ICON_SET_CONFIGURATION_TAG,
+      JSON.stringify(configForStorage, null, 2),
+    );
+  }
+
   private createConfigFromCanvas(): IconSetConfiguration {
     const config = {
       name: INITIAL_ICON_SET_NAME,
@@ -216,5 +297,20 @@ export class IconSetConfigurationService {
       });
 
     return config;
+  }
+
+  private checkValidityOfConfiguration(
+    iconSetConfiguration: IconSetConfiguration,
+  ) {
+    return (
+      iconSetConfiguration.actors.keysArray().length > 1 &&
+      iconSetConfiguration.workObjects.keysArray().length > 1 &&
+      !iconSetConfiguration.actors
+        .all()
+        .some((e) => typeof e.value !== 'string') &&
+      !iconSetConfiguration.workObjects
+        .all()
+        .some((e) => typeof e.value !== 'string')
+    );
   }
 }
