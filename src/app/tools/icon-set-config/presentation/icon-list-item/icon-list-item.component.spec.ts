@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IconListItemComponent } from './icon-list-item.component';
 import { MockModule, MockProvider } from 'ng-mocks';
-import { IconSetCustomizationService } from '../../service/icon-set-customization.service';
+import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 import { IconListItem } from '../../domain/iconListItem';
 import { BehaviorSubject } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';

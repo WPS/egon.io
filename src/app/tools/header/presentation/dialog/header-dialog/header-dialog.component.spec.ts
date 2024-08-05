@@ -5,8 +5,8 @@ import { MockModule, MockProviders, MockService } from 'ng-mocks';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
-import { TitleService } from '../../../service/title.service';
-import { DirtyFlagService } from '../../../../../domain/service/dirty-flag.service';
+import { TitleService } from '../../../services/title.service';
+import { DirtyFlagService } from '../../../../../domain/services/dirty-flag.service';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,

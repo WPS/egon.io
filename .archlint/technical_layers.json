@@ -5,7 +5,7 @@
   "exclude": [
     "node_modules**",
     "**.spec.ts",
-    "tool/modeler/bpmn/**",
+    "tools/modeler/bpmn/**",
     "material.module.ts",
     "../environments/**",
     "app.*.ts"
@@ -21,7 +21,7 @@
     {
       "name": "service",
       "include": [
-        "**/service/**"
+        "**/services/**"
       ],
       "mayUseAllBelow": true
     },

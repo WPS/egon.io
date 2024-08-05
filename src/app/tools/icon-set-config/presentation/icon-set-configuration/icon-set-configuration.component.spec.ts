@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IconSetConfigurationComponent } from 'src/app/tools/icon-set-config/presentation/icon-set-configuration/icon-set-configuration.component';
 import { MockModule, MockProvider, MockProviders } from 'ng-mocks';
-import { IconSetConfigurationService } from '../../service/icon-set-configuration.service';
-import { IconDictionaryService } from '../../service/icon-dictionary.service';
-import { IconSetCustomizationService } from '../../service/icon-set-customization.service';
+import { IconSetConfigurationService } from '../../services/icon-set-configuration.service';
+import { IconDictionaryService } from '../../services/icon-dictionary.service';
+import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 import { BehaviorSubject } from 'rxjs';
 import {
   CustomIconSetConfiguration,

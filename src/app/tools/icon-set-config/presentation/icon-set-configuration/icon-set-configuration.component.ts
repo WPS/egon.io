@@ -5,13 +5,13 @@ import {
   CustomIconSetConfiguration,
   fromConfigurationFromFile,
 } from 'src/app/domain/entity/iconSetConfiguration';
-import { IconSetConfigurationService } from 'src/app/tools/icon-set-config/service/icon-set-configuration.service';
-import { IconDictionaryService } from 'src/app/tools/icon-set-config/service/icon-dictionary.service';
-import { ElementRegistryService } from 'src/app/domain/service/element-registry.service';
+import { IconSetConfigurationService } from 'src/app/tools/icon-set-config/services/icon-set-configuration.service';
+import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
+import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { sanitizeIconName } from 'src/app/utils/sanitizer';
 import { ElementTypes } from '../../../../domain/entity/common/elementTypes';
 import { IconFilterEnum } from '../../domain/iconFilterEnum';
-import { IconSetCustomizationService } from '../../service/icon-set-customization.service';
+import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 
 @Component({
   selector: 'app-icon-set-configuration',

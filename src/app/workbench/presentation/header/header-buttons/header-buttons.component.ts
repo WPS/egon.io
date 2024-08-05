@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { SettingsService } from '../../../service/settings/settings.service';
-import { ModelerService } from '../../../../tools/modeler/service/modeler.service';
+import { SettingsService } from '../../../services/settings/settings.service';
+import { ModelerService } from '../../../../tools/modeler/services/modeler.service';
 import { Observable } from 'rxjs';
-import { ReplayStateService } from '../../../../tools/replay/service/replay-state.service';
-import { DirtyFlagService } from '../../../../domain/service/dirty-flag.service';
+import { ReplayStateService } from '../../../../tools/replay/services/replay-state.service';
+import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
 import {
   ExportDialogData,
   ExportOption,
@@ -12,19 +12,19 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { ExportDialogComponent } from '../../../../tools/export/presentation/export-dialog/export-dialog.component';
 import { InfoDialogData } from '../../../../tools/header/domain/infoDialogData';
 import { InfoDialogComponent } from '../../../../tools/import/presentation/info-dialog/info-dialog.component';
-import { DialogService } from '../../../../domain/service/dialog.service';
-import { ReplayService } from '../../../../tools/replay/service/replay.service';
-import { ExportService } from '../../../../tools/export/service/export.service';
-import { ImportDomainStoryService } from '../../../../tools/import/service/import-domain-story.service';
+import { DialogService } from '../../../../domain/services/dialog.service';
+import { ReplayService } from '../../../../tools/replay/services/replay.service';
+import { ExportService } from '../../../../tools/export/services/export.service';
+import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
 import { LabelDictionaryDialogComponent } from '../../../../tools/label-dictionary/presentation/label-dictionary-dialog/label-dictionary-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
 } from '../../../../domain/entity/common/constants';
-import { TitleService } from '../../../../tools/header/service/title.service';
-import { RendererService } from '../../../../tools/modeler/service/renderer.service';
-import { StoryCreatorService } from '../../../../tools/replay/service/story-creator.service';
+import { TitleService } from '../../../../tools/header/services/title.service';
+import { RendererService } from '../../../../tools/modeler/services/renderer.service';
+import { StoryCreatorService } from '../../../../tools/replay/services/story-creator.service';
 
 @Component({
   selector: 'app-header-buttons',

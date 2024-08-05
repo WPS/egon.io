@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AutosavedDraftsComponent } from './autosaved-drafts.component';
 import { MockModule, MockProviders, MockService } from 'ng-mocks';
-import { AutosaveService } from '../../service/autosave.service';
-import { AutosaveConfigurationService } from '../../service/autosave-configuration.service';
+import { AutosaveService } from '../../services/autosave.service';
+import { AutosaveConfigurationService } from '../../services/autosave-configuration.service';
 import { MaterialModule } from 'src/app/material.module';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { of } from 'rxjs';

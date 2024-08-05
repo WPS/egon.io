@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { WorkObjectLabelEntry } from '../../domain/workObjectLabelEntry';
 import { LabelEntry } from '../../domain/labelEntry';
-import { LabelDictionaryService } from '../../service/label-dictionary.service';
+import { LabelDictionaryService } from '../../services/label-dictionary.service';
 
 @Component({
   selector: 'app-label-dictionary',

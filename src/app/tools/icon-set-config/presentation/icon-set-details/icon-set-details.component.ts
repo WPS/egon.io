@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IconSetCustomizationService } from 'src/app/tools/icon-set-config/service/icon-set-customization.service';
+import { IconSetCustomizationService } from 'src/app/tools/icon-set-config/services/icon-set-customization.service';
 import { IconListItem } from 'src/app/tools/icon-set-config/domain/iconListItem';
-import { TitleService } from 'src/app/tools/header/service/title.service';
+import { TitleService } from 'src/app/tools/header/services/title.service';
 
 @Component({
   selector: 'app-icon-set-details',
