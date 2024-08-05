@@ -9,14 +9,14 @@ import { ImportDomainStoryService } from '../../import/services/import-domain-st
 import {
   IconSetConfiguration,
   testCustomIconSetConfiguration,
-} from '../../../domain/entity/iconSetConfiguration';
-import { Dictionary } from '../../../domain/entity/common/dictionary';
+} from '../../../domain/entities/iconSetConfiguration';
+import { Dictionary } from '../../../domain/entities/common/dictionary';
 import { Observable, of } from 'rxjs';
 import {
   INITIAL_ICON_SET_NAME,
   SNACKBAR_DURATION,
   SNACKBAR_SUCCESS,
-} from '../../../domain/entity/common/constants';
+} from '../../../domain/entities/common/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StorageService } from '../../../domain/services/storage.service';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';

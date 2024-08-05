@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject } from 'rxjs';
-import { UsedIconList } from 'src/app/domain/entity/UsedIconList';
+import { UsedIconList } from 'src/app/domain/entities/UsedIconList';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
   SNACKBAR_SUCCESS,
-} from '../../../domain/entity/common/constants';
-import { Dictionary } from '../../../domain/entity/common/dictionary';
+} from '../../../domain/entities/common/constants';
+import { Dictionary } from '../../../domain/entities/common/dictionary';
 import {
   CustomIconSetConfiguration,
   IconSetConfiguration,
-} from '../../../domain/entity/iconSetConfiguration';
-import { ElementTypes } from '../../../domain/entity/common/elementTypes';
+} from '../../../domain/entities/iconSetConfiguration';
+import { ElementTypes } from '../../../domain/entities/common/elementTypes';
 import { IconListItem } from '../domain/iconListItem';
 import { StorageService } from '../../../domain/services/storage.service';
 import { ImportDomainStoryService } from '../../import/services/import-domain-story.service';

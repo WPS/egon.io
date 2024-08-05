@@ -2,7 +2,7 @@ import { bootstrapBpmnJS, inject } from "./testHelper";
 
 import { assign } from "min-dash";
 import DomainStoryModeler from "../index";
-import { ElementTypes } from "../../../../domain/entity/common/elementTypes";
+import { ElementTypes } from "../../../../domain/entities/common/elementTypes";
 
 describe("domainStory modeling", function () {
   const xml = require("./language/diagram.bpmn");

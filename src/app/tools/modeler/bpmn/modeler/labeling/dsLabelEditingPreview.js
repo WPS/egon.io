@@ -8,7 +8,7 @@ import {
 } from "tiny-svg";
 
 import { translate } from "diagram-js/lib/util/SvgTransformUtil";
-import { ElementTypes } from "src/app/domain/entity/common/elementTypes";
+import { ElementTypes } from "src/app/domain/entities/common/elementTypes";
 import { is } from "../util";
 
 const MARKER_HIDDEN = "djs-element-hidden",

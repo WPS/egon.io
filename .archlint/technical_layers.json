@@ -33,9 +33,9 @@
       "mayUseAllBelow": true
     },
     {
-      "name": "entity",
+      "name": "entities",
       "include": [
-        "**/entity/**"
+        "**/entities/**"
       ],
       "mayUseAllBelow": true
     },

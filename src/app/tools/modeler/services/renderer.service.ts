@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
-import { BusinessObject } from 'src/app/domain/entity/common/businessObject';
+import { BusinessObject } from 'src/app/domain/entities/common/businessObject';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
-import { IconSetConfiguration } from 'src/app/domain/entity/iconSetConfiguration';
+import { IconSetConfiguration } from 'src/app/domain/entities/iconSetConfiguration';
 
 @Injectable({
   providedIn: 'root',

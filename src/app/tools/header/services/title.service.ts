@@ -5,7 +5,7 @@ import {
   INITIAL_DESCRIPTION,
   INITIAL_ICON_SET_NAME,
   INITIAL_TITLE,
-} from '../../../domain/entity/common/constants';
+} from '../../../domain/entities/common/constants';
 import { CommandStackService } from '../../modeler/services/command-stack.service';
 
 @Injectable({

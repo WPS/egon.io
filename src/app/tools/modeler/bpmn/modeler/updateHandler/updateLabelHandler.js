@@ -14,7 +14,7 @@ import {
   isLabel,
 } from "bpmn-js/lib/util/LabelUtil";
 
-import { ElementTypes } from "src/app/domain/entity/common/elementTypes";
+import { ElementTypes } from "src/app/domain/entities/common/elementTypes";
 import { getBusinessObject, is } from "../util";
 
 const NULL_DIMENSIONS = {

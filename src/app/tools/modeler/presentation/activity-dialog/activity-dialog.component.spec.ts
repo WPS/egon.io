@@ -9,7 +9,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { ActivityDialogData } from '../../domain/activityDialogData';
-import { testActivityCanvasObject } from '../../../../domain/entity/common/activityCanvasObject';
+import { testActivityCanvasObject } from '../../../../domain/entities/common/activityCanvasObject';
 import { MaterialModule } from 'src/app/material.module';
 
 describe('ActivityDialogComponent', () => {

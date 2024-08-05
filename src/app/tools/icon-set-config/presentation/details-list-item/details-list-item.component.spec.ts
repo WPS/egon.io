@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DetailsListItemComponent } from './details-list-item.component';
 import { IconListItem } from '../../domain/iconListItem';
-import { ElementTypes } from '../../../../domain/entity/common/elementTypes';
+import { ElementTypes } from '../../../../domain/entities/common/elementTypes';
 import { MaterialModule } from '../../../../material.module';
 import { MockModule } from 'ng-mocks';
 

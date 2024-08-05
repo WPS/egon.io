@@ -1,4 +1,4 @@
-import { ElementTypes } from "src/app/domain/entity/common/elementTypes";
+import { ElementTypes } from "src/app/domain/entities/common/elementTypes";
 
 let iconDictionaryService;
 

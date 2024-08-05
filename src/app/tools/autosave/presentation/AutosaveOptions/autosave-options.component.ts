@@ -5,7 +5,7 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_ERROR,
   SNACKBAR_SUCCESS,
-} from 'src/app/domain/entity/common/constants';
+} from 'src/app/domain/entities/common/constants';
 
 @Component({
   selector: 'app-autosave-options',

@@ -4,13 +4,16 @@ import { ElementRegistryService } from 'src/app/domain/services/element-registry
 import {
   ActivityCanvasObject,
   testActivityCanvasObject,
-} from '../entity/common/activityCanvasObject';
-import { CanvasObject, testCanvasObject } from '../entity/common/canvasObject';
+} from '../entities/common/activityCanvasObject';
+import {
+  CanvasObject,
+  testCanvasObject,
+} from '../entities/common/canvasObject';
 import {
   GroupCanvasObject,
   testGroupCanvasObject,
-} from '../entity/common/groupCanvasObject';
-import { ElementTypes } from '../entity/common/elementTypes';
+} from '../entities/common/groupCanvasObject';
+import { ElementTypes } from '../entities/common/elementTypes';
 import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
 import {
   MatButtonToggle,

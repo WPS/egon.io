@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
-} from '../../../domain/entity/common/constants';
+} from '../../../domain/entities/common/constants';
 
 @Injectable({
   providedIn: 'root',

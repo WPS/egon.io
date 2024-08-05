@@ -4,14 +4,14 @@ import { IconDictionaryService } from '../../icon-set-config/services/icon-dicti
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { LabelDictionaryService } from '../../label-dictionary/services/label-dictionary.service';
-import { ElementTypes } from '../../../domain/entity/common/elementTypes';
+import { ElementTypes } from '../../../domain/entities/common/elementTypes';
 import { ReplayStateService } from '../../replay/services/replay-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ActivityDialogData } from '../domain/activityDialogData';
 import { ActivityDialogComponent } from '../presentation/activity-dialog/activity-dialog.component';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { TitleService } from '../../header/services/title.service';
-import { ActivityCanvasObject } from '../../../domain/entity/common/activityCanvasObject';
+import { ActivityCanvasObject } from '../../../domain/entities/common/activityCanvasObject';
 import { HtmlPresentationService } from '../../export/services/html-presentation.service';
 import { positionsMatch } from '../../../utils/mathExtensions';
 import { CommandStackService } from './command-stack.service';

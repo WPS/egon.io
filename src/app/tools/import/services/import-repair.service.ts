@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ElementTypes } from 'src/app/domain/entity/common/elementTypes';
-import { BusinessObject } from 'src/app/domain/entity/common/businessObject';
-import { Waypoint } from 'src/app/domain/entity/common/waypoint';
-import { ActivityBusinessObject } from '../../../domain/entity/common/activityBusinessObject';
+import { ElementTypes } from 'src/app/domain/entities/common/elementTypes';
+import { BusinessObject } from 'src/app/domain/entities/common/businessObject';
+import { Waypoint } from 'src/app/domain/entities/common/waypoint';
+import { ActivityBusinessObject } from '../../../domain/entities/common/activityBusinessObject';
 
 /**
  * Repairs broken Domain Stories so that it can be rendered onto the canvas

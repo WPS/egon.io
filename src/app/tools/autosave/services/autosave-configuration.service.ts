@@ -6,7 +6,7 @@ import {
   DEFAULT_AUTOSAVES_MAX_DRAFTS,
   DEFAULT_AUTOSAVES_ENABLED,
   DEFAULT_AUTOSAVES_INTERVAL,
-} from 'src/app/domain/entity/common/constants';
+} from 'src/app/domain/entities/common/constants';
 
 const AUTOSAVE_CONFIGURATION_TAG = 'autosaveConfiguration';
 
