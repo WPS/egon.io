@@ -8,9 +8,14 @@ A tool to visualize Domain Stories in your browser.
 - The [Egon.io Website](https://egon.io/) contains a user manual.
 
 ## Development
+
 1. Install the dependencies via `npm ci`
 2. Run the local development server via `npm run start`. Egon.io is accessible at http://localhost:4200.
 3. Run tests via `npm run test`
+
+## Architecture
+
+See [architecture documentation](/architecture.md).
 
 ## Deployment
 
@@ -23,6 +28,7 @@ There are several deployment options:
   - TODO: In the future, we will provide a ready-made Docker image: `docker pull ghcr.io/wps/egon.io:latest`
 
 ### Deploy Standalone Version (Zip file)
+
 1. In the package.json and environment.prod.ts update the version-tag appropriately
 2. Run the command **ng build --configuration production**
    - This should create (or update the contents of) the folder **dist_build**
@@ -30,6 +36,7 @@ There are several deployment options:
    - This should create (or update the contents of) the folder **dist** containing a zip.file named *egon-xxx*, where xxx is the name in the version-tag of the package.json
 
 ### Deploy Docker Container
+
 1. In the root directory of your sourcecode, run `docker build -t egon-dev .`
 2. To start the container, run `docker run -p 8080:80 egon-dev`
 
