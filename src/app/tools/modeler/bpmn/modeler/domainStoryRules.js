@@ -5,7 +5,7 @@ import { assign, every, reduce } from "min-dash";
 import inherits from "inherits";
 
 import RuleProvider from "diagram-js/lib/features/rules/RuleProvider";
-import { ElementTypes } from "src/app/domain/entities/common/elementTypes";
+import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { is } from "./util";
 
 const HIGH_PRIORITY = 1500;

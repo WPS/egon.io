@@ -1,4 +1,4 @@
-import { BusinessObject } from 'src/app/domain/entities/common/businessObject';
+import { BusinessObject } from 'src/app/domain/entities/businessObject';
 
 export interface StorySentence {
   objects: BusinessObject[];

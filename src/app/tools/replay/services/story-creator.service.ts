@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ElementTypes } from '../../../domain/entities/common/elementTypes';
-import { ActivityCanvasObject } from '../../../domain/entities/common/activityCanvasObject';
-import { BusinessObject } from '../../../domain/entities/common/businessObject';
-import { CanvasObject } from '../../../domain/entities/common/canvasObject';
+import { ElementTypes } from '../../../domain/entities/elementTypes';
+import { ActivityCanvasObject } from '../../../domain/entities/activityCanvasObject';
+import { BusinessObject } from '../../../domain/entities/businessObject';
+import { CanvasObject } from '../../../domain/entities/canvasObject';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
 import { StorySentence } from '../domain/storySentence';
-import { Dictionary } from '../../../domain/entities/common/dictionary';
-import { ActivityBusinessObject } from '../../../domain/entities/common/activityBusinessObject';
+import { Dictionary } from '../../../domain/entities/dictionary';
+import { ActivityBusinessObject } from '../../../domain/entities/activityBusinessObject';
 
 @Injectable({
   providedIn: 'root',

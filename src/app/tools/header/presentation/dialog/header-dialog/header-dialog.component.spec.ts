@@ -10,7 +10,7 @@ import { DirtyFlagService } from '../../../../../domain/services/dirty-flag.serv
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
-} from '../../../../../domain/entities/common/constants';
+} from '../../../../../domain/entities/constants';
 
 describe('HeaderDialogComponent', () => {
   let component: HeaderDialogComponent;

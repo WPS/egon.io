@@ -25,7 +25,7 @@ import {
   countLines,
   labelPosition,
 } from "src/app/tools/modeler/bpmn/modeler/labeling/position";
-import { ElementTypes } from "src/app/domain/entities/common/elementTypes";
+import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { angleBetween } from "../../../../utils/mathExtensions";
 
 let RENDERER_IDS = new Ids();

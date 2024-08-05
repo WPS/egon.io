@@ -1,4 +1,4 @@
-import { CanvasObject } from 'src/app/domain/entities/common/canvasObject';
+import { CanvasObject } from 'src/app/domain/entities/canvasObject';
 import { IMPLICIT_ROOT_ID } from './constants';
 
 export interface RootObject {

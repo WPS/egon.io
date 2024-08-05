@@ -1,12 +1,12 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
-import { Dictionary } from 'src/app/domain/entities/common/dictionary';
-import { ElementTypes } from 'src/app/domain/entities/common/elementTypes';
+import { Dictionary } from 'src/app/domain/entities/dictionary';
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { TitleService } from 'src/app/tools/header/services/title.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
 import { Observable, Subscription } from 'rxjs';
 import { RendererService } from 'src/app/tools/modeler/services/renderer.service';
-import { BusinessObject } from 'src/app/domain/entities/common/businessObject';
+import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import {
   IconSetConfiguration,
   fromConfigurationFromFile,
@@ -21,7 +21,7 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_ERROR,
   SNACKBAR_INFO,
-} from '../../../domain/entities/common/constants';
+} from '../../../domain/entities/constants';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

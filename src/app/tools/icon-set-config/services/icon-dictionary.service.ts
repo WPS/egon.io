@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BusinessObject } from 'src/app/domain/entities/common/businessObject';
-import { Configuration } from 'src/app/domain/entities/common/configuration';
-import { Dictionary } from 'src/app/domain/entities/common/dictionary';
+import { BusinessObject } from 'src/app/domain/entities/businessObject';
+import { Configuration } from 'src/app/domain/entities/configuration';
+import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { IconSetConfiguration } from 'src/app/domain/entities/iconSetConfiguration';
-import { ElementTypes } from 'src/app/domain/entities/common/elementTypes';
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import {
   defaultConf,
   IconConfiguration,

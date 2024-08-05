@@ -5,7 +5,7 @@ import { ElementRegistryService } from '../../../domain/services/element-registr
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
 import { IconSetConfiguration } from '../../../domain/entities/iconSetConfiguration';
-import { Dictionary } from 'src/app/domain/entities/common/dictionary';
+import { Dictionary } from 'src/app/domain/entities/dictionary';
 
 describe('RendererService', () => {
   let service: RendererService;

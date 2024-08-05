@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ICON_SET_CONFIGURATION_TAG } from '../entities/common/constants';
+import { ICON_SET_CONFIGURATION_TAG } from '../entities/constants';
 import {
   IconSetConfiguration,
   fromConfigurationFromFile,

@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_SUCCESS,
-} from 'src/app/domain/entities/common/constants';
+} from 'src/app/domain/entities/constants';
 import { Subscription } from 'rxjs';
 
 @Component({

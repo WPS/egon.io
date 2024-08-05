@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Dictionary } from 'src/app/domain/entities/common/dictionary';
+import { Dictionary } from 'src/app/domain/entities/dictionary';
 import {
   CustomIconSetConfiguration,
   fromConfigurationFromFile,
@@ -9,7 +9,7 @@ import { IconSetConfigurationService } from 'src/app/tools/icon-set-config/servi
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { sanitizeIconName } from 'src/app/utils/sanitizer';
-import { ElementTypes } from '../../../../domain/entities/common/elementTypes';
+import { ElementTypes } from '../../../../domain/entities/elementTypes';
 import { IconFilterEnum } from '../../domain/iconFilterEnum';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 

@@ -7,13 +7,13 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
   SNACKBAR_SUCCESS,
-} from '../../../domain/entities/common/constants';
-import { Dictionary } from '../../../domain/entities/common/dictionary';
+} from '../../../domain/entities/constants';
+import { Dictionary } from '../../../domain/entities/dictionary';
 import {
   CustomIconSetConfiguration,
   IconSetConfiguration,
 } from '../../../domain/entities/iconSetConfiguration';
-import { ElementTypes } from '../../../domain/entities/common/elementTypes';
+import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { IconListItem } from '../domain/iconListItem';
 import { StorageService } from '../../../domain/services/storage.service';
 import { ImportDomainStoryService } from '../../import/services/import-domain-story.service';

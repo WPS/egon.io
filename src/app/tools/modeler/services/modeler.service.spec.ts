@@ -7,10 +7,10 @@ import { IconDictionaryService } from '../../icon-set-config/services/icon-dicti
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { IconSetConfiguration } from '../../../domain/entities/iconSetConfiguration';
 import { createTestCanvasObjects } from '../../../utils/testHelpers.spec';
-import { BusinessObject } from '../../../domain/entities/common/businessObject';
-import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/common/constants';
-import { ElementTypes } from '../../../domain/entities/common/elementTypes';
-import { Dictionary } from 'src/app/domain/entities/common/dictionary';
+import { BusinessObject } from '../../../domain/entities/businessObject';
+import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
+import { ElementTypes } from '../../../domain/entities/elementTypes';
+import { Dictionary } from 'src/app/domain/entities/dictionary';
 // @ts-ignore
 import Modeler from 'bpmn-js/lib/Modeler';
 import { MockProvider } from 'ng-mocks';

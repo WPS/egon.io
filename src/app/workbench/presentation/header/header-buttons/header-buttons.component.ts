@@ -21,7 +21,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_INFO,
-} from '../../../../domain/entities/common/constants';
+} from '../../../../domain/entities/constants';
 import { TitleService } from '../../../../tools/header/services/title.service';
 import { RendererService } from '../../../../tools/modeler/services/renderer.service';
 import { StoryCreatorService } from '../../../../tools/replay/services/story-creator.service';

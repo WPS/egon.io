@@ -12,7 +12,7 @@ import {
 } from "diagram-js/lib/util/Collections";
 
 import { reworkGroupElements } from "./util";
-import { ElementTypes } from "../../../../domain/entities/common/elementTypes";
+import { ElementTypes } from "../../../../domain/entities/elementTypes";
 
 /**
  * a handler responsible for updating the custom element's businessObject

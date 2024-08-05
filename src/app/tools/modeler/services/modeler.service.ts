@@ -6,9 +6,9 @@ import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
-import { BusinessObject } from '../../../domain/entities/common/businessObject';
+import { BusinessObject } from '../../../domain/entities/businessObject';
 import { StorageService } from '../../../domain/services/storage.service';
-import { ActivityBusinessObject } from '../../../domain/entities/common/activityBusinessObject';
+import { ActivityBusinessObject } from '../../../domain/entities/activityBusinessObject';
 import { updateMultipleNumberRegistry } from '../bpmn/modeler/numbering/numbering';
 
 @Injectable({

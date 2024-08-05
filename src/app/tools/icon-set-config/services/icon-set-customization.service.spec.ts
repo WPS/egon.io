@@ -10,13 +10,13 @@ import {
   IconSetConfiguration,
   testCustomIconSetConfiguration,
 } from '../../../domain/entities/iconSetConfiguration';
-import { Dictionary } from '../../../domain/entities/common/dictionary';
+import { Dictionary } from '../../../domain/entities/dictionary';
 import { Observable, of } from 'rxjs';
 import {
   INITIAL_ICON_SET_NAME,
   SNACKBAR_DURATION,
   SNACKBAR_SUCCESS,
-} from '../../../domain/entities/common/constants';
+} from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StorageService } from '../../../domain/services/storage.service';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';

@@ -4,7 +4,7 @@ import { TitleService } from 'src/app/tools/header/services/title.service';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
-} from '../../../domain/entities/common/constants';
+} from '../../../domain/entities/constants';
 import { environment } from '../../../../environments/environment';
 
 describe(TitleService.name, () => {

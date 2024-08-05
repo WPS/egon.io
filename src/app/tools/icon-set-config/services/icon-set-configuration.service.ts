@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
-import { Dictionary } from 'src/app/domain/entities/common/dictionary';
-import { ElementTypes } from 'src/app/domain/entities/common/elementTypes';
+import { Dictionary } from 'src/app/domain/entities/dictionary';
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import {
   CustomIconSetConfiguration,
   IconSetConfiguration,
@@ -10,7 +10,7 @@ import {
 } from 'src/app/domain/entities/iconSetConfiguration';
 import { defaultConf } from '../domain/iconConfiguration';
 import { TitleService } from '../../header/services/title.service';
-import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/common/constants';
+import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 
 @Injectable({
   providedIn: 'root',

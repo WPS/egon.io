@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { ElementTypes } from 'src/app/domain/entities/common/elementTypes';
-import { CanvasObject } from 'src/app/domain/entities/common/canvasObject';
-import { GroupCanvasObject } from '../entities/common/groupCanvasObject';
-import { ActivityCanvasObject } from '../entities/common/activityCanvasObject';
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import { CanvasObject } from 'src/app/domain/entities/canvasObject';
+import { GroupCanvasObject } from '../entities/groupCanvasObject';
+import { ActivityCanvasObject } from '../entities/activityCanvasObject';
 import { UsedIconList } from 'src/app/domain/entities/UsedIconList';
 
 @Injectable({
