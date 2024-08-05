@@ -305,11 +305,11 @@ export class ImportDomainStoryService implements OnDestroy {
   }
 
   private showPreviousV050Dialog(version: number): void {
-    const title = 'Compatability-Warning';
+    const title = 'Old File Format Detected';
     const text =
-      'The uploaded Domain-Story is from version ' +
+      'You uploaded a Domain Story that was created with Egon version ' +
       version +
-      '. There may be problems with the default actors or workobjects contained in the story.';
+      '. The file format has since changed. Egon converted your Domain Story to the new format but it cannot guarantee that your Domain Story is complete.';
 
     const config = new MatDialogConfig();
     config.disableClose = false;
