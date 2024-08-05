@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
 import { ActivityDialogData } from 'src/app/tools/modeler/domain/activityDialogData';
 import { ActivityCanvasObject } from '../../../../domain/entities/activityCanvasObject';
-import { ActivityDialogForm } from '../dialog-forms/activity-dialog-form';
+import { ActivityDialogForm } from '../../domain/activity-dialog-form';
 
 @Component({
   selector: 'app-activity-dialog',

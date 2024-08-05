@@ -20,7 +20,6 @@ import {
   INITIAL_TITLE,
   SNACKBAR_DURATION,
   SNACKBAR_ERROR,
-  SNACKBAR_INFO,
 } from '../../../domain/entities/constants';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';

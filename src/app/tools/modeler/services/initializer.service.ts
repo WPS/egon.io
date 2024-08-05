@@ -14,7 +14,7 @@ import { TitleService } from '../../header/services/title.service';
 import { ActivityCanvasObject } from '../../../domain/entities/activityCanvasObject';
 import { HtmlPresentationService } from '../../export/services/html-presentation.service';
 import { positionsMatch } from '../../../utils/mathExtensions';
-import { CommandStackService } from './command-stack.service';
+import { CommandStackService } from '../../../domain/services/command-stack.service';
 
 import { initializeRenderer } from '../bpmn/modeler/domainStoryRenderer';
 

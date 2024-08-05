@@ -8,7 +8,9 @@
     "tools/modeler/bpmn/**",
     "material.module.ts",
     "../environments/**",
-    "app.*.ts"
+    "app.*.ts",
+    "tools/import/services/import-domain-story.service.ts",
+    "tools/modeler/services/initializer.service.ts"
   ],
   "artifacts": [
     {

@@ -8,7 +8,7 @@ import { GeneralSettingsComponent } from './general/general-settings.component';
 import { LabelDictionaryComponent } from '../../../tools/label-dictionary/presentation/label-dictionary/label-dictionary.component';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../material.module';
-import { AutosaveSettingsModule } from '../../../tools/autosave/autosave-settings.module';
+import { AutosaveSettingsModule } from '../../../tools/autosave/presentation/autosave-settings.module';
 
 @NgModule({
   declarations: [

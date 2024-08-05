@@ -2,10 +2,7 @@ import {
   BusinessObject,
   testBusinessObject,
 } from 'src/app/domain/entities/businessObject';
-import {
-  RootObject,
-  testRoot,
-} from 'src/app/domain/entities/rootObject';
+import { RootObject, testRoot } from 'src/app/domain/entities/rootObject';
 import { ActivityCanvasObject } from './activityCanvasObject';
 import { ElementTypes } from './elementTypes';
 

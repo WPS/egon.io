@@ -5,10 +5,7 @@ import {
   ActivityCanvasObject,
   testActivityCanvasObject,
 } from '../entities/activityCanvasObject';
-import {
-  CanvasObject,
-  testCanvasObject,
-} from '../entities/canvasObject';
+import { CanvasObject, testCanvasObject } from '../entities/canvasObject';
 import {
   GroupCanvasObject,
   testGroupCanvasObject,
