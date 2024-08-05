@@ -6,9 +6,7 @@ import { MockProvider, MockProviders } from 'ng-mocks';
 import { TitleService } from '../../header/services/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { ImportDomainStoryService } from '../../import/services/import-domain-story.service';
-import {
-  testCustomIconSetConfiguration,
-} from '../../../domain/entities/iconSetConfiguration';
+import { testCustomIconSetConfiguration } from '../../../domain/entities/iconSetConfiguration';
 import { Dictionary } from '../../../domain/entities/dictionary';
 import { Observable, of } from 'rxjs';
 import {
@@ -19,7 +17,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StorageService } from '../../../domain/services/storage.service';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
-import {IconSetConfiguration} from "../../../domain/entities/icon-set-configuration";
+import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 
 describe(IconSetCustomizationService.name, () => {
   let service: IconSetCustomizationService;

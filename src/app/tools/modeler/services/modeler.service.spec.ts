@@ -14,7 +14,7 @@ import { Dictionary } from 'src/app/domain/entities/dictionary';
 import Modeler from 'bpmn-js/lib/Modeler';
 import { MockProvider } from 'ng-mocks';
 import { StorageService } from '../../../domain/services/storage.service';
-import {IconSetConfiguration} from "../../../domain/entities/icon-set-configuration";
+import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 
 describe('ModelerService', () => {
   let service: ModelerService;

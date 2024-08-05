@@ -10,7 +10,7 @@ import {
   testBusinessObject,
 } from '../../../domain/entities/businessObject';
 import { allIcons } from '../domain/allIcons';
-import {IconSetConfiguration} from "../../../domain/entities/icon-set-configuration";
+import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 
 describe('IconDictionaryService', () => {
   let service: IconDictionaryService;
