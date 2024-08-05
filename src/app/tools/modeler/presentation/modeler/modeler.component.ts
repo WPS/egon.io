@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ModelerService } from '../../services/modeler.service';
-import { AutosaveService } from '../../../autosave/services/autosave.service';
 
 @Component({
   selector: 'app-modeler',
@@ -8,13 +7,9 @@ import { AutosaveService } from '../../../autosave/services/autosave.service';
   styleUrls: ['./modeler.component.scss'],
 })
 export class ModelerComponent implements OnInit {
-  constructor(
-    private modelerService: ModelerService,
-    private autosaveService: AutosaveService,
-  ) {}
+  constructor(private modelerService: ModelerService) {}
 
   ngOnInit(): void {
     this.modelerService.postInit();
-    this.autosaveService.loadLatestDraft();
   }
 }

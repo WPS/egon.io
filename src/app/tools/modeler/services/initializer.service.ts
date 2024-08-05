@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
-import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
-import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
-import { LabelDictionaryService } from '../../label-dictionary/services/label-dictionary.service';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { ReplayStateService } from '../../replay/services/replay-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';
@@ -12,29 +8,17 @@ import { ActivityDialogComponent } from '../presentation/activity-dialog/activit
 import { DialogService } from '../../../domain/services/dialog.service';
 import { TitleService } from '../../header/services/title.service';
 import { ActivityCanvasObject } from '../../../domain/entities/activityCanvasObject';
-import { HtmlPresentationService } from '../../export/services/html-presentation.service';
 import { positionsMatch } from '../../../utils/mathExtensions';
 import { CommandStackService } from '../../../domain/services/command-stack.service';
 
-import { initializeRenderer } from '../bpmn/modeler/domainStoryRenderer';
-
-import { initializeContextPadProvider } from '../bpmn/modeler/context-pad/domainStoryContextPadProvider';
-import { initializePalette } from '../bpmn/modeler/palette/domainStoryPalette';
-import {
-  initializeLabelEditingProvider,
-  toggleStashUse,
-} from '../bpmn/modeler/labeling/dsLabelEditingProvider';
-import { initializeReplaceOptions } from '../bpmn/modeler/change-icon/replaceOptions';
+import { toggleStashUse } from '../bpmn/modeler/labeling/dsLabelEditingProvider';
 import {
   getMultipleNumberRegistry,
   getNumberRegistry,
-  initializeNumbering,
   setNumberIsMultiple,
   updateExistingNumbersAtEditing,
 } from '../bpmn/modeler/numbering/numbering';
-import activityUpdateHandler, {
-  initializeActivityUpdateHandler,
-} from '../bpmn/modeler/updateHandler/activityUpdateHandlers';
+import activityUpdateHandler from '../bpmn/modeler/updateHandler/activityUpdateHandlers';
 
 import massRenameHandler from '../bpmn/modeler/updateHandler/massRenameHandler';
 import elementUpdateHandler from '../bpmn/modeler/updateHandler/elementUpdateHandler';
@@ -45,36 +29,12 @@ import headlineAndDescriptionUpdateHandler from '../bpmn/modeler/updateHandler/h
 })
 export class InitializerService {
   constructor(
-    private dirtyFlagService: DirtyFlagService,
-    private iconDictionaryService: IconDictionaryService,
     private elementRegistryService: ElementRegistryService,
-    private configurationService: IconSetConfigurationService,
-    private labelDictionaryService: LabelDictionaryService,
     private replayStateService: ReplayStateService,
     private dialogService: DialogService,
     private commandStackService: CommandStackService,
     private titleService: TitleService,
-    private htmlPresentationService: HtmlPresentationService,
   ) {}
-
-  initializeDomainStoryModelerClasses(): void {
-    initializeContextPadProvider(
-      this.dirtyFlagService,
-      this.iconDictionaryService,
-    );
-    /** The Palette and the Context Menu need the Icons present in the Domain,
-     * so the IconDictionaryService and the IconSetConfigurationService needs to be given to the Palette **/
-    initializePalette(this.iconDictionaryService, this.configurationService);
-    initializeRenderer(
-      this.iconDictionaryService,
-      this.elementRegistryService,
-      this.dirtyFlagService,
-    );
-    initializeLabelEditingProvider(this.labelDictionaryService);
-    initializeReplaceOptions(this.iconDictionaryService);
-    initializeNumbering(this.elementRegistryService);
-    initializeActivityUpdateHandler(this.elementRegistryService);
-  }
 
   propagateDomainStoryModelerClassesToServices(
     commandStack: any,
@@ -85,7 +45,6 @@ export class InitializerService {
   ): void {
     this.commandStackService.setCommandStack(commandStack);
     this.elementRegistryService.setElementRegistry(elementRegistry);
-    this.htmlPresentationService.setModelerClasses(canvas, selection, modeler);
   }
 
   initializeDomainStoryModelerEventHandlers(

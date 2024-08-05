@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { SettingsService } from 'src/app/workbench/services/settings/settings.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TitleService } from './tools/header/services/title.service';
@@ -7,13 +13,14 @@ import { ReplayStateService } from './tools/replay/services/replay-state.service
 import { ReplayService } from './tools/replay/services/replay.service';
 import { environment } from '../environments/environment';
 import { ColorPickerDirective } from 'ngx-color-picker';
+import { AutosaveService } from './tools/autosave/services/autosave.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   showSettings$: Observable<boolean> | BehaviorSubject<boolean>;
   showDescription$: Observable<boolean>;
   version: string = environment.version;
@@ -45,6 +52,8 @@ export class AppComponent implements OnInit {
     private titleService: TitleService,
     private exportService: ExportService,
     private replayStateService: ReplayStateService,
+    private autosaveService: AutosaveService,
+    private cd: ChangeDetectorRef,
     replayService: ReplayService,
   ) {
     this.showSettings$ = new BehaviorSubject(false);
@@ -110,5 +119,10 @@ export class AppComponent implements OnInit {
     document.dispatchEvent(
       new CustomEvent('pickedColor', { detail: { color: color } }),
     );
+  }
+
+  ngAfterViewInit(): void {
+    this.autosaveService.loadLatestDraft();
+    this.cd.detectChanges();
   }
 }

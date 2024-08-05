@@ -22,12 +22,6 @@ export class HtmlPresentationService {
   private multiplexSecret: any;
   private multiplexId: any;
 
-  private modeler: any;
-
-  setModelerClasses(canvas: any, selection: any, modeler: any): void {
-    this.modeler = modeler;
-  }
-
   private static viewBoxCoordinates(svg: any): any {
     const ViewBoxCoordinate =
       /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)"/;
@@ -41,13 +35,16 @@ export class HtmlPresentationService {
   ----------------------------
   */
 
-  async downloadHTMLPresentation(filename: string): Promise<void> {
+  async downloadHTMLPresentation(
+    filename: string,
+    modeler: any,
+  ): Promise<void> {
     const svgData = [];
     // export all sentences of domain story
     const story = this.storyCreatorService.traceActivitiesAndCreateStory();
     this.replayService.startReplay(story);
     try {
-      const result = await this.modeler.saveSVG({});
+      const result = await modeler.saveSVG({});
       this.fixActivityMarkersForEachSentence(
         result,
         this.replayService.getCurrentSentenceNumber(),
@@ -65,7 +62,7 @@ export class HtmlPresentationService {
     ) {
       this.replayService.nextSentence();
       try {
-        const result = await this.modeler.saveSVG({});
+        const result = await modeler.saveSVG({});
         this.fixActivityMarkersForEachSentence(
           result,
           this.replayService.getCurrentSentenceNumber(),

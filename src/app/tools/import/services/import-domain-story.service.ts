@@ -21,6 +21,7 @@ import {
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { IconSetCustomizationService } from '../../icon-set-config/services/icon-set-customization.service';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +44,7 @@ export class ImportDomainStoryService implements OnDestroy {
     private rendererService: RendererService,
     private dialogService: DialogService,
     private iconSetConfigurationService: IconSetConfigurationService,
+    private iconSetCustomiztationService: IconSetCustomizationService,
     private snackbar: MatSnackBar,
   ) {
     this.titleSubscription = this.titleService.title$.subscribe(
@@ -54,6 +56,10 @@ export class ImportDomainStoryService implements OnDestroy {
       (description: string) => {
         this.description = description;
       },
+    );
+    this.iconSetCustomiztationService.importConfiguration(
+      this.getImportedConfiguration(),
+      false,
     );
   }
 
@@ -322,6 +328,7 @@ export class ImportDomainStoryService implements OnDestroy {
 
   private setImportedConfigurationAndEmit(config: IconSetConfiguration) {
     this.importedConfiguration = config;
+    this.iconSetCustomiztationService.importConfiguration(config);
     this.importedConfigurationEmitter.emit(config);
   }
 

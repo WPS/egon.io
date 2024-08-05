@@ -186,11 +186,13 @@ export class ExportService implements OnDestroy {
     }
   }
 
-  downloadHTMLPresentation(): void {
+  downloadHTMLPresentation(modeler: any): void {
     const filename = sanitizeForDesktop(
       this.title + '_' + this.getCurrentDateString(),
     );
-    this.htmlPresentationService.downloadHTMLPresentation(filename).then();
+    this.htmlPresentationService
+      .downloadHTMLPresentation(filename, modeler)
+      .then();
   }
 
   private getStoryForDownload(): unknown[] {

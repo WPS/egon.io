@@ -9,22 +9,10 @@ describe('ModelerComponent', () => {
   let component: ModelerComponent;
   let fixture: ComponentFixture<ModelerComponent>;
 
-  let autosaveService: AutosaveService;
-
   beforeEach(async () => {
-    autosaveService = jasmine.createSpyObj(AutosaveService.name, [
-      AutosaveService.prototype.loadLatestDraft.name,
-    ]);
-
     await TestBed.configureTestingModule({
       declarations: [ModelerComponent],
-      providers: [
-        MockProviders(ModelerService),
-        {
-          provide: AutosaveService,
-          useValue: autosaveService,
-        },
-      ],
+      providers: [MockProviders(ModelerService)],
     }).compileComponents();
   });
 
@@ -36,9 +24,5 @@ describe('ModelerComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should load latest draft', () => {
-    expect(autosaveService.loadLatestDraft).toHaveBeenCalled();
   });
 });

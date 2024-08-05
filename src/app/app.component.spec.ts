@@ -7,9 +7,16 @@ import { ExportService } from './tools/export/services/export.service';
 import { ModelerComponent } from './tools/modeler/presentation/modeler/modeler.component';
 import { HeaderComponent } from './tools/header/presentation/header/header.component';
 import { ReplayService } from 'src/app/tools/replay/services/replay.service';
+import { AutosaveService } from './tools/autosave/services/autosave.service';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 describe('AppComponent', () => {
+  let autosaveService: jasmine.SpyObj<AutosaveService>;
+
   beforeEach(async () => {
+    autosaveService = jasmine.createSpyObj('autosaveService', [
+      'loadLatestDraft',
+    ]);
     await TestBed.configureTestingModule({
       declarations: [
         AppComponent,
@@ -23,7 +30,12 @@ describe('AppComponent', () => {
           ExportService,
           ReplayService,
         ),
+        {
+          provide: AutosaveService,
+          useValue: autosaveService,
+        },
       ],
+      imports: [ColorPickerModule],
     }).compileComponents();
   });
 
@@ -31,5 +43,12 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
+  });
+
+  it('should load latest draft', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+    expect(autosaveService.loadLatestDraft).toHaveBeenCalled();
   });
 });

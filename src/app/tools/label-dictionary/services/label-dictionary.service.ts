@@ -5,6 +5,7 @@ import { MassNamingService } from 'src/app/tools/label-dictionary/services/mass-
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { WorkObjectLabelEntry } from '../domain/workObjectLabelEntry';
 import { LabelEntry } from '../domain/labelEntry';
+import { initializeLabelEditingProvider } from '../../modeler/bpmn/modeler/labeling/dsLabelEditingProvider';
 
 @Injectable({
   providedIn: 'root',

@@ -119,9 +119,6 @@ describe('ModelerService', () => {
       service.postInit();
 
       expect(
-        initializerSpy.initializeDomainStoryModelerClasses,
-      ).toHaveBeenCalled();
-      expect(
         initializerSpy.initializeDomainStoryModelerEventHandlers,
       ).toHaveBeenCalled();
       expect(
@@ -144,9 +141,6 @@ describe('ModelerService', () => {
       );
       expect(elementRegistrySpy.clear).toHaveBeenCalled();
 
-      expect(
-        initializerSpy.initializeDomainStoryModelerClasses,
-      ).toHaveBeenCalled();
       expect(
         initializerSpy.initializeDomainStoryModelerEventHandlers,
       ).toHaveBeenCalled();
@@ -171,9 +165,6 @@ describe('ModelerService', () => {
       expect(elementRegistrySpy.clear).toHaveBeenCalled();
 
       expect(
-        initializerSpy.initializeDomainStoryModelerClasses,
-      ).toHaveBeenCalled();
-      expect(
         initializerSpy.initializeDomainStoryModelerEventHandlers,
       ).toHaveBeenCalled();
       expect(
@@ -194,9 +185,6 @@ describe('ModelerService', () => {
       );
       expect(elementRegistrySpy.clear).toHaveBeenCalled();
 
-      expect(
-        initializerSpy.initializeDomainStoryModelerClasses,
-      ).toHaveBeenCalled();
       expect(
         initializerSpy.initializeDomainStoryModelerEventHandlers,
       ).toHaveBeenCalled();

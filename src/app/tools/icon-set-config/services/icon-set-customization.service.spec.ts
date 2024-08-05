@@ -8,7 +8,6 @@ import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { ImportDomainStoryService } from '../../import/services/import-domain-story.service';
 import { testCustomIconSetConfiguration } from '../../../domain/entities/iconSetConfiguration';
 import { Dictionary } from '../../../domain/entities/dictionary';
-import { Observable, of } from 'rxjs';
 import {
   INITIAL_ICON_SET_NAME,
   SNACKBAR_DURATION,
@@ -66,16 +65,7 @@ describe(IconSetCustomizationService.name, () => {
           provide: MatSnackBar,
           useValue: matSnackbarMock,
         },
-        MockProvider(ImportDomainStoryService, {
-          get importedConfigurationEvent(): Observable<IconSetConfiguration> {
-            const iconSetConfiguration: IconSetConfiguration = {
-              name: INITIAL_ICON_SET_NAME,
-              actors: new Dictionary(),
-              workObjects: new Dictionary(),
-            };
-            return of(iconSetConfiguration);
-          },
-        }),
+        MockProvider(ImportDomainStoryService),
         {
           provide: IconDictionaryService,
           useValue: iconDictionaryMock,

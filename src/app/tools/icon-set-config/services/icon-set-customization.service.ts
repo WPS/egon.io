@@ -12,7 +12,6 @@ import { Dictionary } from '../../../domain/entities/dictionary';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { IconListItem } from '../domain/iconListItem';
 import { StorageService } from '../../../domain/services/storage.service';
-import { ImportDomainStoryService } from '../../import/services/import-domain-story.service';
 import { TitleService } from '../../header/services/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
@@ -37,7 +36,6 @@ export class IconSetCustomizationService {
   constructor(
     private configurationService: IconSetConfigurationService,
     private iconDictionaryService: IconDictionaryService,
-    private importService: ImportDomainStoryService,
     private titleService: TitleService,
     private storageService: StorageService,
     private elementRegistryService: ElementRegistryService,
@@ -59,17 +57,10 @@ export class IconSetCustomizationService {
         this.addIconToAllIconList(iconName);
       });
 
-    importService.importedConfigurationEvent.subscribe((config) => {
-      this.importConfiguration(config);
-    });
     const storedIconSetConfiguration =
       this.storageService.getStoredIconSetConfiguration();
     if (storedIconSetConfiguration) {
       this.importConfiguration(storedIconSetConfiguration, false);
-    }
-    const importedConfiguration = this.importService.getImportedConfiguration();
-    if (importedConfiguration) {
-      this.importConfiguration(importedConfiguration, false);
     }
   }
 

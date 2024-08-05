@@ -98,7 +98,10 @@ export class HeaderButtonsComponent {
       const HTMLDownloadOption = new ExportOption(
         'HTML-Presentation',
         'Download an HTML-Presentation. This does not include the Domain-Story!',
-        () => this.exportService.downloadHTMLPresentation(),
+        () =>
+          this.exportService.downloadHTMLPresentation(
+            this.modelerService.getModeler(),
+          ),
       );
 
       const config = new MatDialogConfig();

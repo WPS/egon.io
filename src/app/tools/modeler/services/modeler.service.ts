@@ -43,7 +43,7 @@ export class ModelerService {
         storedIconSetConfiguration,
       );
     }
-    this.initializerService.initializeDomainStoryModelerClasses();
+    // this.initializerService.initializeDomainStoryModelerClasses();
     this.modeler = new DomainStoryModeler({
       container: '#canvas',
       keyboard: {

@@ -1,4 +1,9 @@
-import { ApplicationRef, DoBootstrap, NgModule } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ApplicationRef,
+  DoBootstrap,
+  NgModule,
+} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   MAT_CHECKBOX_DEFAULT_OPTIONS,
@@ -22,7 +27,7 @@ import { MassNamingService } from 'src/app/tools/label-dictionary/services/mass-
 import { InfoDialogComponent } from 'src/app/tools/import/presentation/info-dialog/info-dialog.component';
 import { ExportDialogComponent } from 'src/app/tools/export/presentation/export-dialog/export-dialog.component';
 import { ActivityDialogComponent } from 'src/app/tools/modeler/presentation/activity-dialog/activity-dialog.component';
-import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { HeaderDialogComponent } from 'src/app/tools/header/presentation/dialog/header-dialog/header-dialog.component';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { ModelerComponent } from 'src/app/tools/modeler/presentation/modeler/modeler.component';
@@ -32,6 +37,8 @@ import { DomainStoryModelerModuleModule } from './workbench/presentation/header/
 import { LabelDictionaryDialogComponent } from './tools/label-dictionary/presentation/label-dictionary-dialog/label-dictionary-dialog.component';
 import { MaterialModule } from './material.module';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { DirtyFlagService } from './domain/services/dirty-flag.service';
+import { initializeDomainStoryModelerClasses } from './initializeDomainStoryModelerClasses';
 
 @NgModule({
   declarations: [
@@ -71,6 +78,18 @@ import { ColorPickerModule } from 'ngx-color-picker';
     {
       provide: MAT_CHECKBOX_DEFAULT_OPTIONS,
       useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeDomainStoryModelerClasses,
+      multi: true,
+      deps: [
+        DirtyFlagService,
+        IconDictionaryService,
+        IconSetConfigurationService,
+        ElementRegistryService,
+        LabelDictionaryService,
+      ],
     },
   ],
 })
