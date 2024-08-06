@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UsedIconList } from 'src/app/domain/entities/UsedIconList';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import {
@@ -11,13 +11,20 @@ import {
 import { Dictionary } from '../../../domain/entities/dictionary';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { IconListItem } from '../domain/iconListItem';
-import { StorageService } from '../../../domain/services/storage.service';
 import { TitleService } from '../../header/services/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import getIconId = ElementTypes.getIconId;
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
+
+/**
+ * We are not allowed to call ImportDomainStoryService directly,
+ * so we use this "interface" instead.
+ */
+export abstract class IconSetChangedService {
+  public abstract iconConfigrationChanged(): Observable<IconSetConfiguration>;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +43,7 @@ export class IconSetCustomizationService {
   constructor(
     private iconSetConfigurationService: IconSetConfigurationService,
     private iconDictionaryService: IconDictionaryService,
+    iconSetChangedService: IconSetChangedService,
     private titleService: TitleService,
     private elementRegistryService: ElementRegistryService,
     private snackbar: MatSnackBar,
@@ -56,10 +64,18 @@ export class IconSetCustomizationService {
         this.addIconToAllIconList(iconName);
       });
 
+    iconSetChangedService.iconConfigrationChanged().subscribe((config) => {
+      this.importConfiguration(config);
+    });
     const storedIconSetConfiguration =
       this.iconSetConfigurationService.getStoredIconSetConfiguration();
     if (storedIconSetConfiguration) {
       this.importConfiguration(storedIconSetConfiguration, false);
+    }
+    const importedConfiguration =
+      this.iconSetConfigurationService.getCurrentConfiguration();
+    if (importedConfiguration) {
+      this.importConfiguration(importedConfiguration, false);
     }
   }
 

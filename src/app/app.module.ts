@@ -39,6 +39,7 @@ import { MaterialModule } from './material.module';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { DirtyFlagService } from './domain/services/dirty-flag.service';
 import { initializeDomainStoryModelerClasses } from './initializeDomainStoryModelerClasses';
+import { IconSetChangedService } from './tools/icon-set-config/services/icon-set-customization.service';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,10 @@ import { initializeDomainStoryModelerClasses } from './initializeDomainStoryMode
         ElementRegistryService,
         LabelDictionaryService,
       ],
+    },
+    {
+      provide: IconSetChangedService,
+      useClass: ImportDomainStoryService,
     },
   ],
 })

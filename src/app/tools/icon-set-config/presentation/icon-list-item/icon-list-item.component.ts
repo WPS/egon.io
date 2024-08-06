@@ -56,7 +56,7 @@ export class IconListItemComponent implements OnInit, AfterViewChecked {
   private createIcon(): void {
     const img = document.getElementById(this.id) as HTMLImageElement;
     if (img && !this.iconInitiated) {
-      img.src = '' + this.icon.value?.svg;
+      img.src = '' + this.icon?.value?.svg;
       this.iconInitiated = true;
     }
   }
