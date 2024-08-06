@@ -378,20 +378,20 @@ export default function DomainStoryRenderer(
     }
   }
 
-  function getIconSvg(iconSvg, element) {
+  function getIconSvg(icon, element) {
     const pickedColor = element.businessObject.pickedColor;
-    if (isCustomIcon(iconSvg)) {
-      const svgBase64 = ElementTypes.isCustomSvgType(element.type)
-        ? applyColorToCustomSvgIcon(pickedColor, iconSvg)
-        : iconSvg;
+    if (isCustomIcon(icon)) {
+      const dataURL = ElementTypes.isCustomSvgType(element.type)
+        ? applyColorToCustomSvgIcon(pickedColor, icon)
+        : icon;
       return (
         '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
         '<image width="24" height="24" xlink:href="' +
-        svgBase64 +
+        dataURL +
         '"/></svg>'
       );
     } else {
-      return applyColorToIcon(pickedColor, iconSvg);
+      return applyColorToIcon(pickedColor, icon);
     }
   }
 
