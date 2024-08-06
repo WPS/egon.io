@@ -26,24 +26,32 @@ describe(IconSetCustomizationService.name, () => {
 
   beforeEach(() => {
     const matSnackbarMock = jasmine.createSpyObj(MatSnackBar.name, ['open']);
-    const iconDictionaryMock = jasmine.createSpyObj(IconDictionaryService.name, [
-      'getAllIconDictionary',
-      'getFullDictionary',
-      'getActorsDictionary',
-      'getWorkObjectsDictionary',
-      'getIconSource',
-      'addIconsToCss',
-      'registerIconForType',
-      'unregisterIconForType',
-    ]);
-    const configurationServiceMock = jasmine.createSpyObj(IconSetConfigurationService.name,[
+    const iconDictionaryMock = jasmine.createSpyObj(
+      IconDictionaryService.name,
+      [
+        'getAllIconDictionary',
+        'getFullDictionary',
+        'getActorsDictionary',
+        'getWorkObjectsDictionary',
+        'getIconSource',
+        'addIconsToCss',
+        'registerIconForType',
+        'unregisterIconForType',
+      ],
+    );
+    const configurationServiceMock = jasmine.createSpyObj(
+      IconSetConfigurationService.name,
+      [
         'createMinimalConfigurationWithDefaultIcons',
         'getCurrentConfigurationNamesWithoutPrefix',
         'setStoredIconSetConfiguration',
         'getStoredIconSetConfiguration',
       ],
     );
-    const elementRegistryServiceMock = jasmine.createSpyObj(ElementRegistryService.name,['getUsedIcons']);
+    const elementRegistryServiceMock = jasmine.createSpyObj(
+      ElementRegistryService.name,
+      ['getUsedIcons'],
+    );
 
     const testCustomIconSetConfiguration: CustomIconSetConfiguration = {
       name: INITIAL_ICON_SET_NAME,
