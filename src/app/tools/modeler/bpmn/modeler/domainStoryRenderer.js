@@ -27,6 +27,7 @@ import {
 } from "src/app/tools/modeler/bpmn/modeler/labeling/position";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { angleBetween } from "../../../../utils/mathExtensions";
+import { isCustomIcon } from "./util";
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
@@ -379,16 +380,14 @@ export default function DomainStoryRenderer(
 
   function getIconSvg(iconSvg, element) {
     const pickedColor = element.businessObject.pickedColor;
-    let isCustomIcon =
-      iconSvg.startsWith("data") && ElementTypes.isCustomType(element.type);
-    if (isCustomIcon) {
-      const svg = ElementTypes.isCustomSvgType(element.type)
+    if (isCustomIcon(iconSvg)) {
+      const svgBase64 = ElementTypes.isCustomSvgType(element.type)
         ? applyColorToCustomSvgIcon(pickedColor, iconSvg)
         : iconSvg;
       return (
         '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
         '<image width="24" height="24" xlink:href="' +
-        svg +
+        svgBase64 +
         '"/></svg>'
       );
     } else {
