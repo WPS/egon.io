@@ -145,9 +145,8 @@ mat-dialog-actions.mdc-dialog__actions {
 /* BPMN elements */
 
 .djs-overlay-context-pad {
-  width: 120px;
-  height: 238px;
-  overflow-y: auto;
+  min-width: 7.5rem;
+  height: auto;
 }
 
 .djs-context-pad.open {
