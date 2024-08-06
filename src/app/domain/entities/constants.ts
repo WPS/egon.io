@@ -21,3 +21,17 @@ export const SNACKBAR_INFO = 'snackbar_info';
 
 /** BPMN_RELEVANT_CONSTANTS **/
 export const IMPLICIT_ROOT_ID = '__implicitroot';
+
+/** COLOR PICKER DEFAULT COLORS **/
+export const YELLOW = '#FDD835';
+export const ORANGE = '#FB8C00';
+export const RED = '#D32F2F';
+export const LIGHT_PINK = '#F48FB1';
+export const DARK_PINK = '#EC407A';
+export const PURPLE = '#8E24AA';
+export const BLUE = '#1E88E5';
+export const CYAN = '#00ACC1';
+export const GREEN = '#43A047';
+export const LIME = '#C0CA33';
+export const GREY = '#9E9E9E';
+export const BLACK = '#000000';

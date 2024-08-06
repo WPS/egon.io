@@ -14,6 +14,20 @@ import { ReplayService } from './tools/replay/services/replay.service';
 import { environment } from '../environments/environment';
 import { ColorPickerDirective } from 'ngx-color-picker';
 import { AutosaveService } from './tools/autosave/services/autosave.service';
+import {
+  BLACK,
+  BLUE,
+  CYAN,
+  DARK_PINK,
+  GREEN,
+  GREY,
+  LIGHT_PINK,
+  LIME,
+  ORANGE,
+  PURPLE,
+  RED,
+  YELLOW,
+} from './domain/entities/constants';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +38,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   showSettings$: Observable<boolean> | BehaviorSubject<boolean>;
   showDescription$: Observable<boolean>;
   version: string = environment.version;
-  color: string = '#000000';
+  color: string = BLACK;
 
   @ViewChild(ColorPickerDirective, { static: false })
   colorPicker!: ColorPickerDirective;
@@ -33,18 +47,18 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   // define preset colors that have good contrast on white background and are compatible to EventStorming notation
   colorBox: string[] = [
-    '#FDD835', // yellow
-    '#FB8C00', // orange
-    '#D32F2F', // red
-    '#F48FB1', // light pink
-    '#EC407A', // dark pink
-    '#8E24AA', // purple
-    '#1E88E5', // blue
-    '#00ACC1', // cyan
-    '#43A047', // green
-    '#C0CA33', // lime
-    '#9E9E9E', // grey
-    '#000000', // black
+    YELLOW,
+    ORANGE,
+    RED,
+    LIGHT_PINK,
+    DARK_PINK,
+    PURPLE,
+    BLUE,
+    CYAN,
+    GREEN,
+    LIME,
+    GREY,
+    BLACK,
   ];
 
   constructor(
@@ -95,20 +109,24 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.colorPicker.closeDialog();
       }
     });
-  }
-
-  ngOnInit(): void {
-    this.showDescription$ = this.titleService.showDescription$;
-    this.showSettings$ = this.settingsService.showSettings$;
 
     document.addEventListener('defaultColor', (event: Event) => {
       const customEvent = event as CustomEvent;
-      this.color = customEvent.detail.color;
+      if (customEvent.detail.color === 'black') {
+        this.color = BLACK;
+      } else {
+        this.color = customEvent.detail.color;
+      }
     });
 
     document.addEventListener('openColorPicker', () => {
       this.colorPicker.openDialog();
     });
+  }
+
+  ngOnInit(): void {
+    this.showDescription$ = this.titleService.showDescription$;
+    this.showSettings$ = this.settingsService.showSettings$;
   }
 
   onColorChanged(color: string) {
