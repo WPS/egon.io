@@ -105,9 +105,9 @@ We assume that a users prefer to model with devices that have a keyboard and mou
 
 *The building block view shows the static decomposition of the system into building blocks (modules, components, subsystems, classes, interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, macros, operations, data structures, …) as well as their dependencies (relationships, associations, …).*
 
-## Whitebox Overall System {#_whitebox_overall_system}
+## Level 1: Overall System
 
-The following C4 container diagram is a white box description of the overall system together with black box descriptions of all contained building blocks. Since there is no backend and only one frontend application, the overall architecture is very simple – it consists of ust one building block (in C4: *container*): 
+Since there is no backend and only one frontend application, the overall architecture is very simple – it consists of just one building block (in C4: *container*). Here it is depicted as C4 container diagram:
 
 ```mermaid
 
@@ -140,6 +140,75 @@ end
 style Egon fill:none,stroke:#CCC,stroke-width:2px,color:#CCC,stroke-dasharray: 5 5
 
 ```
+
+## Level 2: Web Application
+
+On the top level, the web app is organized into a layered architecture:
+
+```mermaid
+
+flowchart TD
+
+Startup["Startup
+[Layer]
+
+initializes the application
+"]
+
+Workbench["Workbench
+[Layer]
+
+a home for modeling tools
+"]
+
+Tools["Tools
+[Layer]
+
+contains modeling tools
+"]
+
+Domain["Domain
+[Layer]
+
+...
+"]
+
+Utils["Utils
+[Layer]
+
+a collection of little utilities
+"]
+
+classDef layer fill:#1168bd,stroke:#0b4884,color:#ffffff
+
+class Startup layer
+class Workbench layer
+class Tools layer
+class Domain layer
+class Utils layer
+
+Startup-- "initializes" -->Workbench
+Startup-- "initializes" -->Tools
+Workbench-- "starts" -->Tools
+Tools-- "uses" -->Domain
+Tools-- "uses" -->Utils
+```
+
+The folder structure resembles the layered architecture:
+
+- `app` => Startup layer
+  - `workbench` => Workbench layer
+  - `tools` => Tools layer
+  - `domain` => Domain layer
+  - `utils` => Utils layer
+
+The architecture rules are enforced with ArchLint and can be checked by running `npm run archlint.`
+
+## Level 3: Tools
+
+TODO: Vertical Slices
+
+The folder structure resembles the vertical slices. 
 
 # Runtime View {#section-runtime-view}
 
