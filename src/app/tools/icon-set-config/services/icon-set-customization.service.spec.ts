@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
-import { IconSetCustomizationService } from './icon-set-customization.service';
+import {
+  IconSetChangedService,
+  IconSetCustomizationService,
+} from './icon-set-customization.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { MockProvider, MockProviders } from 'ng-mocks';
 import { TitleService } from '../../header/services/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { ImportDomainStoryService } from '../../import/services/import-domain-story.service';
 import { Dictionary } from '../../../domain/entities/dictionary';
+import { Observable, of } from 'rxjs';
 import {
   INITIAL_ICON_SET_NAME,
   SNACKBAR_DURATION,
@@ -46,8 +50,10 @@ describe(IconSetCustomizationService.name, () => {
         'getCurrentConfigurationNamesWithoutPrefix',
         'setStoredIconSetConfiguration',
         'getStoredIconSetConfiguration',
+        'getCurrentConfiguration',
       ],
     );
+
     const elementRegistryServiceMock = jasmine.createSpyObj(
       ElementRegistryService.name,
       ['getUsedIcons'],
@@ -59,6 +65,12 @@ describe(IconSetCustomizationService.name, () => {
       workObjects: ['Document'],
     };
 
+    const INITIAL_ICON_SET_CONFIGURATION = {
+      name: INITIAL_ICON_SET_NAME,
+      actors: new Dictionary(),
+      workObjects: new Dictionary(),
+    };
+
     TestBed.configureTestingModule({
       providers: [
         MockProviders(TitleService),
@@ -67,6 +79,13 @@ describe(IconSetCustomizationService.name, () => {
           useValue: matSnackbarMock,
         },
         MockProvider(ImportDomainStoryService),
+        MockProvider(IconSetChangedService, {
+          iconConfigrationChanged(): Observable<IconSetConfiguration> {
+            const iconSetConfiguration: IconSetConfiguration =
+              INITIAL_ICON_SET_CONFIGURATION;
+            return of(iconSetConfiguration);
+          },
+        }),
         {
           provide: IconDictionaryService,
           useValue: iconDictionaryMock,
@@ -99,11 +118,10 @@ describe(IconSetCustomizationService.name, () => {
       structuredClone(testCustomIconSetConfiguration),
     );
     configurationServiceSpy.createMinimalConfigurationWithDefaultIcons.and.returnValue(
-      {
-        name: INITIAL_ICON_SET_NAME,
-        actors: new Dictionary(),
-        workObjects: new Dictionary(),
-      },
+      INITIAL_ICON_SET_CONFIGURATION,
+    );
+    configurationServiceSpy.getCurrentConfiguration.and.returnValue(
+      INITIAL_ICON_SET_CONFIGURATION,
     );
 
     service = TestBed.inject(IconSetCustomizationService);

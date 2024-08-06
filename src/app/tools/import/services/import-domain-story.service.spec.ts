@@ -14,22 +14,16 @@ import { Dictionary } from '../../../domain/entities/dictionary';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
-import { IconSetCustomizationService } from '../../icon-set-config/services/icon-set-customization.service';
 
 describe('ImportDomainStoryService', () => {
   let service: ImportDomainStoryService;
 
   let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
-  let iconSetCustomizationService: jasmine.SpyObj<IconSetCustomizationService>;
 
   beforeEach(() => {
     const iconDictionaryMock = jasmine.createSpyObj('iconDictionaryService', [
       'getTypeDictionaryKeys',
     ]);
-    iconSetCustomizationService = jasmine.createSpyObj(
-      'iconSetCustomizationService',
-      ['importConfiguration'],
-    );
     TestBed.configureTestingModule({
       providers: [
         {
@@ -62,10 +56,6 @@ describe('ImportDomainStoryService', () => {
           provide: MatSnackBar,
           useValue: MockService(MatSnackBar),
         },
-        {
-          provide: IconSetCustomizationService,
-          useValue: iconSetCustomizationService,
-        },
       ],
     });
     iconDictionarySpy = TestBed.inject(
@@ -76,10 +66,6 @@ describe('ImportDomainStoryService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('should update icon set', () => {
-    expect(iconSetCustomizationService.importConfiguration).toHaveBeenCalled();
   });
 
   describe('checkConfigForChanges', () => {

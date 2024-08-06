@@ -20,12 +20,14 @@ import {
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
-import { IconSetCustomizationService } from '../../icon-set-config/services/icon-set-customization.service';
+import { IconSetChangedService } from '../../icon-set-config/services/icon-set-customization.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ImportDomainStoryService implements OnDestroy {
+export class ImportDomainStoryService
+  implements OnDestroy, IconSetChangedService
+{
   titleSubscription: Subscription;
   descriptionSubscription: Subscription;
 
@@ -43,7 +45,6 @@ export class ImportDomainStoryService implements OnDestroy {
     private rendererService: RendererService,
     private dialogService: DialogService,
     private iconSetConfigurationService: IconSetConfigurationService,
-    private iconSetCustomiztationService: IconSetCustomizationService,
     private snackbar: MatSnackBar,
   ) {
     this.titleSubscription = this.titleService.title$.subscribe(
@@ -56,15 +57,15 @@ export class ImportDomainStoryService implements OnDestroy {
         this.description = description;
       },
     );
-    this.iconSetCustomiztationService.importConfiguration(
-      this.getImportedConfiguration(),
-      false,
-    );
   }
 
   ngOnDestroy(): void {
     this.titleSubscription.unsubscribe();
     this.descriptionSubscription.unsubscribe();
+  }
+
+  iconConfigrationChanged(): Observable<IconSetConfiguration> {
+    return this.importedConfigurationEmitter.asObservable();
   }
 
   get importedConfigurationEvent(): Observable<IconSetConfiguration> {
@@ -333,7 +334,6 @@ export class ImportDomainStoryService implements OnDestroy {
 
   private setImportedConfigurationAndEmit(config: IconSetConfiguration) {
     this.importedConfiguration = config;
-    this.iconSetCustomiztationService.importConfiguration(config);
     this.importedConfigurationEmitter.emit(config);
   }
 

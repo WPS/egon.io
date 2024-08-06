@@ -8,7 +8,8 @@
     "tools/modeler/bpmn/**",
     "material.module.ts",
     "../environments/**",
-    "app.*.ts"
+    "app.*.ts",
+    "initializeDomainStoryModelerClasses.ts"
   ],
   "artifacts": [
     {
