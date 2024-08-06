@@ -66,11 +66,12 @@ export default function DomainStoryContextPadProvider(
       connect.start(event, element, autoActivate);
     };
 
+    let canBeColored =
+      !ElementTypes.isCustomType(element.type) ||
+      ElementTypes.isCustomSvgType(element.type);
+
     if (element.type.includes(ElementTypes.WORKOBJECT)) {
-      if (
-        !ElementTypes.isCustomType(element.type) ||
-        ElementTypes.isCustomSvgType(element.type)
-      ) {
+      if (canBeColored) {
         addColorChange(actions);
       }
       addConnectWithActivity(actions, startConnect);
@@ -79,10 +80,7 @@ export default function DomainStoryContextPadProvider(
       addWorkObjects(appendAction, actions);
       addChangeWorkObjectTypeMenu(actions);
     } else if (element.type.includes(ElementTypes.ACTOR)) {
-      if (
-        !ElementTypes.isCustomType(element.type) ||
-        ElementTypes.isCustomSvgType(element.type)
-      ) {
+      if (canBeColored) {
         addColorChange(actions);
       }
       addConnectWithActivity(actions, startConnect);

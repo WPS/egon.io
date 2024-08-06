@@ -48,7 +48,8 @@ export function undoGroupRework(parent, shape) {
   svgGroupParent.appendChild(svgShape);
 }
 
-export function isCustomIcon(iconSvg) {
+export function isCustomIcon(icon) {
+  // default icons are provided as SVG
   // custom icons are provided as "Data URL" with a base64-encoded image as payload
-  return iconSvg.startsWith("data");
+  return icon.startsWith("data");
 }
