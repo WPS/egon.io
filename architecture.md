@@ -1,6 +1,3 @@
-# TODO
-- 1 model = 1 Domain Story = 1 File
-
 # Introduction and Goals {#section-introduction-and-goals}
 
 *Describes the relevant requirements and the driving forces that software architects and development team must consider.*
@@ -12,7 +9,7 @@ Egon is a modeling tool that implements the notation and syntactical rules of [D
 ## Stakeholders {#_stakeholders}
 
 - Users: Intended users are are already familiar with Domain Storytelling. They do not require a technical background.
-- Developers: Egon was initiated and developed by German software company *WPS - Workplace Solutions GmbH*. All active  developers are employees of this company. Most developers are also users of Egon.
+- Developers: Egon was initiated and developed by German software company *WPS - Workplace Solutions GmbH*. All active developers are employees of this company. Most developers are also users of Egon.
 - Contributors: Programmers from all around the world can contribute code to Egon via pull requests. We assume that contributors are also users of Egon.
 
 ## Quality Goals {#_quality_goals}
@@ -56,6 +53,13 @@ Local["Local File System
 User-- "models, exports, and imports\nDomain Stories using" -->Egon
 Egon-- "imports from\nand exports to" -->Local
 
+classDef focusSystem fill:#1168bd,stroke:#0b4884,color:#ffffff
+classDef supportingSystem fill:#666,stroke:#0b4884,color:#ffffff
+classDef person fill:#08427b,stroke:#052e56,color:#ffffff
+
+class User person
+class Egon focusSystem
+class Local supportingSystem
 ```
   
 # Solution Strategy {#section-solution-strategy}
@@ -73,11 +77,11 @@ Domain Storytelling is a modeling language and we wanted to build a proper model
 
 [bpmn-js](https://github.com/bpmn-io/bpmn-js) checked all the boxes. It is a JavaScript modeling library for the BPMN language. For version 1.x.x. of Egon, we replaced BPMN with the Domain Storytelling modeling language and stayed technologically rather close to bpmn-js: JavaScript as programming language, tools for building and testing, etc.
 
-However, the decision for using bpmns-js came with a disadvantages: For some features, Egon developers had to dive deep into the inner workings of bpmn-js and change the frameworks behaviour or needed to finkd workarounds. At the same time, bpmn-js offer a lot of features that are not relevant for Domain Storytelling.
+However, the decision for using bpmn-js had tradeoffs: For some features, Egon developers had to dive deep into the inner workings of bpmn-js and change the frameworks behavior or needed to find workarounds. At the same time, bpmn-js offer a lot of features that are not relevant for Domain Storytelling.
 
-> The decision for using bpmn-js was revisited several times, but until now, we are not aware of an alternative modeling framework that would be a better fit.
+> The decision for using bpmn-js was revisited several times, but until now, we are not aware of an alternative modeling framework.
 
-## Decision: Better Separation Between Egon and bpmn-js
+## Decision: Separation Between Egon and bpmn-js
 
 After a few years of development, we had developed a number of features that had little to no connection to the bpmn-js framework. However, the architecture made it difficult to distinguish...
 - code that deals with core modeling activities and requires knowledge of bpmn-js
@@ -87,17 +91,15 @@ We wanted to flatten the learning curve for new developers by better separating 
 
 ## Decision: Migrate to Typescript and Angular
 
-TODO...
+Since all developers share a common background (see [Stakeholders](#_stakeholders)) which includes experience with Typescript and Angular, we decided to migrate most of our code to this tech stack. This lowered the learning curve for new developers, enabling them to work on new features without detailed knowledge of bpmn-js.
 
-The result of this migration is Egon v2.0.0
+The result of this migration is Egon v2.x.x
 
-## Decision: Use Browser Storage to Persist Configuration
+## Decision: No Touch Support, no Multi-User Support
 
-TODO
+Users of Egon facilitate Domain Storytelling workshops by modeling the participant's domain stories. They are supposed to share their screen with the participants so that everyone can see how the domain story evolves. In this setting, collaborative editing by multiple users is not relevant. 
 
-## Decision: No Mobile Support
-
-TODO
+We assume that a users prefer to model with devices that have a keyboard and mouse/touch pad rather than on touch devices. Hence, touch support was not a requirement when selecting the framework.
 
 # Building Block View {#section-building-block-view}
 
@@ -105,4 +107,57 @@ TODO
 
 ## Whitebox Overall System {#_whitebox_overall_system}
 
-TODO
+The following C4 container diagram is a white box description of the overall system together with black box descriptions of all contained building blocks. Since there is no backend and only one frontend application, the overall architecture is very simple – it consists of ust one building block (in C4: *container*): 
+
+```mermaid
+
+flowchart TD
+
+User["User
+[Person]"]
+
+WA["Web Application
+[Container: Typescript, JavaScript, and Angular]"]
+
+Local["Local File System
+[Software System]"]
+
+User-- "models, exports, and imports\nDomain Stories using" -->WA
+WA-- "imports from\nand exports to" -->Local
+
+classDef container fill:#1168bd,stroke:#0b4884,color:#ffffff
+classDef person fill:#08427b,stroke:#052e56,color:#ffffff
+classDef supportingSystem fill:#666,stroke:#0b4884,color:#ffffff
+
+class User person
+class WA container
+class Local supportingSystem
+
+subgraph Egon[Egon]
+ WA
+end
+
+style Egon fill:none,stroke:#CCC,stroke-width:2px,color:#CCC,stroke-dasharray: 5 5
+
+```
+
+# Runtime View {#section-runtime-view}
+
+# Deployment View {#section-deployment-view}
+
+# Architecture Decisions {#section-design-decisions}
+
+*Important, expensive, large scale or risky architecture decisions including rationales. With “decisions” we mean selecting one alternative based on given criteria.*
+
+TODO:
+
+- Use Browser Storage to Persist Configuration
+- 1 model = 1 Domain Story = 1 File
+
+# Quality Requirements {#section-quality-scenarios}
+
+## Quality Tree {#_quality_tree}
+
+## Quality Scenarios {#_quality_scenarios}
+
+# Risks and Technical Debts {#section-technical-risks}
