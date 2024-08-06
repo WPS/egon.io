@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
-import { fromConfigurationFromFile } from 'src/app/domain/entities/iconSetConfiguration';
 import { IconSetConfigurationService } from 'src/app/tools/icon-set-config/services/icon-set-configuration.service';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
@@ -29,7 +28,7 @@ export class IconSetConfigurationComponent implements OnInit {
   allFilteredIconNames = new BehaviorSubject<string[]>([]);
 
   constructor(
-    private configurationService: IconSetConfigurationService,
+    private iconSetConfigurationService: IconSetConfigurationService,
     private iconDictionaryService: IconDictionaryService,
     private iconSetCustomizationService: IconSetCustomizationService,
     private elementRegistryService: ElementRegistryService,
@@ -143,8 +142,11 @@ export class IconSetConfigurationComponent implements OnInit {
         actors: { [key: string]: any };
         workObjects: { [key: string]: any };
       };
-      const config = fromConfigurationFromFile(configFromFile);
-      this.configurationService.loadConfiguration(config, false);
+      const config =
+        this.iconSetConfigurationService.createIconSetConfiguration(
+          configFromFile,
+        );
+      this.iconSetConfigurationService.loadConfiguration(config, false);
 
       this.iconSetCustomizationService.importConfiguration(config);
     };

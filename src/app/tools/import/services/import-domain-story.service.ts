@@ -7,7 +7,6 @@ import { ImportRepairService } from 'src/app/tools/import/services/import-repair
 import { Observable, Subscription } from 'rxjs';
 import { RendererService } from 'src/app/tools/modeler/services/renderer.service';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
-import { fromConfigurationFromFile } from 'src/app/domain/entities/iconSetConfiguration';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { InfoDialogComponent } from '../presentation/info-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
@@ -145,13 +144,19 @@ export class ImportDomainStoryService implements OnDestroy {
         configFromFile = isEGN
           ? dstAndConfig.domain
           : JSON.parse(dstAndConfig.domain);
-        config = fromConfigurationFromFile(configFromFile);
+        config =
+          this.iconSetConfigurationService.createIconSetConfiguration(
+            configFromFile,
+          );
         elements = isEGN ? dstAndConfig.dst : JSON.parse(dstAndConfig.dst);
       } else {
         // legacy implementation
         if (dstAndConfig.config) {
           configFromFile = JSON.parse(dstAndConfig.config);
-          config = fromConfigurationFromFile(configFromFile);
+          config =
+            this.iconSetConfigurationService.createIconSetConfiguration(
+              configFromFile,
+            );
           elements = JSON.parse(dstAndConfig.dst);
         } else {
           // implementation prior to configuration

@@ -6,7 +6,6 @@ import { MockProvider, MockProviders } from 'ng-mocks';
 import { TitleService } from '../../header/services/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { ImportDomainStoryService } from '../../import/services/import-domain-story.service';
-import { testCustomIconSetConfiguration } from '../../../domain/entities/iconSetConfiguration';
 import { Dictionary } from '../../../domain/entities/dictionary';
 import {
   INITIAL_ICON_SET_NAME,
@@ -14,9 +13,9 @@ import {
   SNACKBAR_SUCCESS,
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { StorageService } from '../../../domain/services/storage.service';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
 
 describe(IconSetCustomizationService.name, () => {
   let service: IconSetCustomizationService;
@@ -24,11 +23,10 @@ describe(IconSetCustomizationService.name, () => {
   let matSnackbarSpy: jasmine.SpyObj<MatSnackBar>;
   let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
   let configurationServiceSpy: jasmine.SpyObj<IconSetConfigurationService>;
-  let storageServiceSpy: jasmine.SpyObj<StorageService>;
 
   beforeEach(() => {
-    const matSnackbarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
-    const iconDictionaryMock = jasmine.createSpyObj('IconDictionaryService', [
+    const matSnackbarMock = jasmine.createSpyObj(MatSnackBar.name, ['open']);
+    const iconDictionaryMock = jasmine.createSpyObj(IconDictionaryService.name, [
       'getAllIconDictionary',
       'getFullDictionary',
       'getActorsDictionary',
@@ -38,29 +36,24 @@ describe(IconSetCustomizationService.name, () => {
       'registerIconForType',
       'unregisterIconForType',
     ]);
-    const configurationServiceMock = jasmine.createSpyObj(
-      'ConfigurationService',
-      [
+    const configurationServiceMock = jasmine.createSpyObj(IconSetConfigurationService.name,[
         'createMinimalConfigurationWithDefaultIcons',
         'getCurrentConfigurationNamesWithoutPrefix',
+        'setStoredIconSetConfiguration',
+        'getStoredIconSetConfiguration',
       ],
     );
-    const storageServiceMock = jasmine.createSpyObj(StorageService.name, [
-      'setStoredIconSetConfiguration',
-      'getStoredIconSetConfiguration',
-    ]);
-    const elementRegistryServiceMock = jasmine.createSpyObj(
-      'ElementRegistryService',
-      ['getUsedIcons'],
-    );
+    const elementRegistryServiceMock = jasmine.createSpyObj(ElementRegistryService.name,['getUsedIcons']);
+
+    const testCustomIconSetConfiguration: CustomIconSetConfiguration = {
+      name: INITIAL_ICON_SET_NAME,
+      actors: ['Person'],
+      workObjects: ['Document'],
+    };
 
     TestBed.configureTestingModule({
       providers: [
         MockProviders(TitleService),
-        {
-          provide: StorageService,
-          useValue: storageServiceMock,
-        },
         {
           provide: MatSnackBar,
           useValue: matSnackbarMock,
@@ -87,9 +80,6 @@ describe(IconSetCustomizationService.name, () => {
     configurationServiceSpy = TestBed.inject(
       IconSetConfigurationService,
     ) as jasmine.SpyObj<IconSetConfigurationService>;
-    storageServiceSpy = TestBed.inject(
-      StorageService,
-    ) as jasmine.SpyObj<StorageService>;
 
     iconDictionarySpy.getAllIconDictionary.and.returnValue(new Dictionary());
     iconDictionarySpy.getFullDictionary.and.returnValue(new Dictionary());
@@ -146,7 +136,7 @@ describe(IconSetCustomizationService.name, () => {
       expect(selectedWorkObjects).toContain('TestWorkObject');
 
       expect(
-        storageServiceSpy.setStoredIconSetConfiguration,
+        configurationServiceSpy.setStoredIconSetConfiguration,
       ).toHaveBeenCalled();
 
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('Person');

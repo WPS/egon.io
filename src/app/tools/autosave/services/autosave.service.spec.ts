@@ -18,21 +18,26 @@ describe('AutosaveService', () => {
   let rendererServiceSpy: jasmine.SpyObj<RendererService>;
   let autosaveStateSpy: jasmine.SpyObj<AutosaveConfigurationService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  const autosaveConfigurationServiceMock = jasmine.createSpyObj(
-    'AutosaveConfigurationService',
-    ['setConfiguration'],
-    { configuration$: of({ activated: true, maxDrafts: 1, interval: 1 }) },
-  );
+  let iconSetConfigurationService: jasmine.SpyObj<IconSetConfigurationService>;
 
   beforeEach(() => {
-    const renderServiceMock = jasmine.createSpyObj('RendererService', [
+    const renderServiceMock = jasmine.createSpyObj(RendererService.name, [
       'importStory',
       'getStory',
     ]);
-    const storageServiceMock = jasmine.createSpyObj('StorageService', [
+    const autosaveConfigurationServiceMock = jasmine.createSpyObj(
+      AutosaveConfigurationService.name,
+      ['setConfiguration'],
+      { configuration$: of({ activated: true, maxDrafts: 1, interval: 1 }) },
+    );
+    const storageServiceMock = jasmine.createSpyObj(StorageService.name, [
       'get',
       'set',
     ]);
+    const iconSetConfigurationServiceMock = jasmine.createSpyObj(
+      IconSetConfigurationService.name,
+      ['createIconSetConfiguration'],
+    );
 
     TestBed.configureTestingModule({
       providers: [
@@ -48,7 +53,11 @@ describe('AutosaveService', () => {
           provide: StorageService,
           useValue: storageServiceMock,
         },
-        MockProviders(IconSetConfigurationService, ExportService, MatSnackBar),
+        {
+          priovide: IconSetConfigurationService,
+          useValue: iconSetConfigurationServiceMock,
+        },
+        MockProviders(ExportService, MatSnackBar),
       ],
     });
     rendererServiceSpy = TestBed.inject(
@@ -60,6 +69,9 @@ describe('AutosaveService', () => {
     storageServiceSpy = TestBed.inject(
       StorageService,
     ) as jasmine.SpyObj<StorageService>;
+    iconSetConfigurationService = TestBed.inject(
+      IconSetConfigurationService,
+    ) as jasmine.SpyObj<IconSetConfigurationService>;
 
     service = TestBed.inject(AutosaveService);
   });

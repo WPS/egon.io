@@ -6,7 +6,6 @@ import { ElementRegistryService } from '../../../domain/services/element-registr
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { BusinessObject } from '../../../domain/entities/businessObject';
-import { StorageService } from '../../../domain/services/storage.service';
 import { ActivityBusinessObject } from '../../../domain/entities/activityBusinessObject';
 import { updateMultipleNumberRegistry } from '../bpmn/modeler/numbering/numbering';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
@@ -20,7 +19,6 @@ export class ModelerService {
     private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService,
     private iconSetConfigurationService: IconSetConfigurationService,
-    private storageService: StorageService,
   ) {}
 
   private modeler: any;
@@ -34,7 +32,7 @@ export class ModelerService {
 
   postInit(): void {
     const storedIconSetConfiguration =
-      this.storageService.getStoredIconSetConfiguration();
+      this.iconSetConfigurationService.getStoredIconSetConfiguration();
     if (storedIconSetConfiguration) {
       this.iconDictionaryService.setCustomConfiguration(
         storedIconSetConfiguration,
@@ -107,10 +105,12 @@ export class ModelerService {
             .map((e) => e.businessObject);
     if (!iconSetConfiguration) {
       iconSetConfiguration =
-        this.storageService.getStoredIconSetConfiguration();
+        this.iconSetConfigurationService.getStoredIconSetConfiguration();
     }
     if (iconSetConfiguration) {
-      this.storageService.setStoredIconSetConfiguration(iconSetConfiguration);
+      this.iconSetConfigurationService.setStoredIconSetConfiguration(
+        iconSetConfiguration,
+      );
       this.iconDictionaryService.setCustomConfiguration(iconSetConfiguration);
       this.iconSetConfigurationService.loadConfiguration(iconSetConfiguration);
     }

@@ -5,7 +5,6 @@ import { Draft } from '../domain/draft';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
-import { fromConfigurationFromFile } from '../../../domain/entities/iconSetConfiguration';
 import { StorageService } from '../../../domain/services/storage.service';
 import { TitleService } from '../../header/services/title.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
@@ -17,6 +16,7 @@ import {
   SNACKBAR_INFO,
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 
 export const DRAFTS_TAG = 'autosaveDrafts';
 
@@ -35,6 +35,7 @@ export class AutosaveService {
     private snackbar: MatSnackBar,
     private storageService: StorageService,
     private titleService: TitleService,
+    private iconSetConfigurationService: IconSetConfigurationService,
   ) {
     this.autosaveConfiguration.configuration$.subscribe((configuration) =>
       this.updateConfiguration(configuration),
@@ -49,7 +50,10 @@ export class AutosaveService {
 
   loadDraft(draft: Draft): void {
     const configFromFile = draft.configAndDST.domain;
-    const config = fromConfigurationFromFile(configFromFile);
+    const config =
+      this.iconSetConfigurationService.createIconSetConfiguration(
+        configFromFile,
+      );
     const story = JSON.parse(draft.configAndDST.dst);
 
     this.titleService.updateTitleAndDescription(
