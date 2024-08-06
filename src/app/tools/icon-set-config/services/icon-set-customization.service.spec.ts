@@ -50,7 +50,6 @@ describe(IconSetCustomizationService.name, () => {
         'getCurrentConfigurationNamesWithoutPrefix',
         'setStoredIconSetConfiguration',
         'getStoredIconSetConfiguration',
-        'getCurrentConfiguration',
       ],
     );
 
@@ -85,6 +84,9 @@ describe(IconSetCustomizationService.name, () => {
               INITIAL_ICON_SET_CONFIGURATION;
             return of(iconSetConfiguration);
           },
+          getConfiguration(): IconSetConfiguration {
+            return INITIAL_ICON_SET_CONFIGURATION;
+          },
         }),
         {
           provide: IconDictionaryService,
@@ -118,9 +120,6 @@ describe(IconSetCustomizationService.name, () => {
       structuredClone(testCustomIconSetConfiguration),
     );
     configurationServiceSpy.createMinimalConfigurationWithDefaultIcons.and.returnValue(
-      INITIAL_ICON_SET_CONFIGURATION,
-    );
-    configurationServiceSpy.getCurrentConfiguration.and.returnValue(
       INITIAL_ICON_SET_CONFIGURATION,
     );
 

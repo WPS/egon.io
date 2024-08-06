@@ -24,6 +24,7 @@ import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon
  */
 export abstract class IconSetChangedService {
   public abstract iconConfigrationChanged(): Observable<IconSetConfiguration>;
+  public abstract getConfiguration(): IconSetConfiguration;
 }
 
 @Injectable({
@@ -67,13 +68,13 @@ export class IconSetCustomizationService {
     iconSetChangedService.iconConfigrationChanged().subscribe((config) => {
       this.importConfiguration(config);
     });
+
     const storedIconSetConfiguration =
       this.iconSetConfigurationService.getStoredIconSetConfiguration();
     if (storedIconSetConfiguration) {
       this.importConfiguration(storedIconSetConfiguration, false);
     }
-    const importedConfiguration =
-      this.iconSetConfigurationService.getCurrentConfiguration();
+    const importedConfiguration = iconSetChangedService.getConfiguration();
     if (importedConfiguration) {
       this.importConfiguration(importedConfiguration, false);
     }

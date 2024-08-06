@@ -68,11 +68,7 @@ export class ImportDomainStoryService
     return this.importedConfigurationEmitter.asObservable();
   }
 
-  get importedConfigurationEvent(): Observable<IconSetConfiguration> {
-    return this.importedConfigurationEmitter.asObservable();
-  }
-
-  getImportedConfiguration(): IconSetConfiguration {
+  getConfiguration(): IconSetConfiguration {
     const config: IconSetConfiguration = {
       name: this.importedConfiguration?.name || '',
       actors: this.importedConfiguration?.actors || new Dictionary(),

@@ -94,7 +94,7 @@ import { IconSetChangedService } from './tools/icon-set-config/services/icon-set
     },
     {
       provide: IconSetChangedService,
-      useClass: ImportDomainStoryService,
+      useExisting: ImportDomainStoryService,
     },
   ],
 })
