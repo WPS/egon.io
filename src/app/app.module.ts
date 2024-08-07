@@ -40,6 +40,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { DirtyFlagService } from './domain/services/dirty-flag.service';
 import { initializeDomainStoryModelerClasses } from './initializeDomainStoryModelerClasses';
 import { IconSetChangedService } from './tools/icon-set-config/services/icon-set-customization.service';
+import { ImportDialogComponent } from './tools/import/presentation/import-dialog/import-dialog.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { IconSetChangedService } from './tools/icon-set-config/services/icon-set
     AppComponent,
     InfoDialogComponent,
     ExportDialogComponent,
+    ImportDialogComponent,
     ActivityDialogComponent,
     HeaderDialogComponent,
     ModelerComponent,

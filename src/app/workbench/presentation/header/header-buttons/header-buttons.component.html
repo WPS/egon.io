@@ -14,18 +14,10 @@
     id="buttonUrlImport"
     class="headerButton"
     title="Import story from file"
-    (click)="openUrlPopup()"
+    (click)="openUploadUrlDialog()"
   >
     <span class="material-icons materialIconButton"> cloud_upload </span>
   </button>
-
-  <div *ngIf="showUrlPopup" class="url-popup">
-    <label for="urlInput">Enter the URL:</label>
-    <input type="text" id="urlInput" [(ngModel)]="fileUrl" />
-    <button (click)="importFromUrl()" [disabled]="!fileUrl">Import</button>
-    <button (click)="closeUrlPopup()">Cancel</button>
-  </div>
-
 
   <button
     id="buttonImport"

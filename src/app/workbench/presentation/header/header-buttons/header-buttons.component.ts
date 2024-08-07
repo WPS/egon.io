@@ -4,7 +4,10 @@ import { ModelerService } from '../../../../tools/modeler/services/modeler.servi
 import { from, Observable, switchMap, tap } from 'rxjs';
 import { ReplayStateService } from '../../../../tools/replay/services/replay-state.service';
 import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
-import { ExportDialogData, ExportOption, } from '../../../../tools/export/domain/dialog/exportDialogData';
+import {
+  ExportDialogData,
+  ExportOption,
+} from '../../../../tools/export/domain/dialog/exportDialogData';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ExportDialogComponent } from '../../../../tools/export/presentation/export-dialog/export-dialog.component';
 import { InfoDialogData } from '../../../../tools/header/domain/infoDialogData';
@@ -13,14 +16,16 @@ import { DialogService } from '../../../../domain/services/dialog.service';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
 import { ExportService } from '../../../../tools/export/services/export.service';
 import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
-import {
-  LabelDictionaryDialogComponent
-} from '../../../../tools/label-dictionary/presentation/label-dictionary-dialog/label-dictionary-dialog.component';
+import { LabelDictionaryDialogComponent } from '../../../../tools/label-dictionary/presentation/label-dictionary-dialog/label-dictionary-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SNACKBAR_DURATION, SNACKBAR_INFO, } from '../../../../domain/entities/constants';
+import {
+  SNACKBAR_DURATION,
+  SNACKBAR_INFO,
+} from '../../../../domain/entities/constants';
 import { TitleService } from '../../../../tools/header/services/title.service';
 import { RendererService } from '../../../../tools/modeler/services/renderer.service';
 import { StoryCreatorService } from '../../../../tools/replay/services/story-creator.service';
+import { ImportDialogComponent } from '../../../../tools/import/presentation/import-dialog/import-dialog.component';
 
 @Component({
   selector: 'app-header-buttons',
@@ -30,9 +35,6 @@ import { StoryCreatorService } from '../../../../tools/replay/services/story-cre
 export class HeaderButtonsComponent {
   isReplay$: Observable<boolean>;
   isDirty$: Observable<boolean>;
-
-  fileUrl: string = '';
-  showUrlPopup: boolean = false;
 
   constructor(
     private settingsService: SettingsService,
@@ -72,16 +74,16 @@ export class HeaderButtonsComponent {
     this.modelerService.commandStackChanged();
   }
 
-  importFromUrl(): void {
-    console.log("file: ", this.fileUrl)
-    from(fetch(this.fileUrl))
+  importFromUrl(fileUrl: string): void {
+    from(fetch(fileUrl))
       .pipe(
-        switchMap(response => {
-          console.log("Response: ", response)
+        switchMap((response) => {
           return from(response.blob());
         }),
-        tap(blob => {
-          const filename = "Test.dst";
+        tap((blob) => {
+          const string = fileUrl.split('/');
+          const filename = string[string.length - 1].replace(/%20/g, ' ');
+
           if (!filename) {
             throw new Error('Unable to extract filename from URL');
           }
@@ -99,9 +101,17 @@ export class HeaderButtonsComponent {
             this.importService.importEGN(blob, filename, true);
           }
           this.modelerService.commandStackChanged();
-          this.closeUrlPopup();
-        })
-      ).subscribe();
+        }),
+      )
+      .subscribe();
+  }
+
+  openUploadUrlDialog(): void {
+    const config = new MatDialogConfig();
+    config.disableClose = false;
+    config.autoFocus = true;
+    config.data = (fileUrl: string) => this.importFromUrl(fileUrl);
+    this.dialogService.openDialog(ImportDialogComponent, config);
   }
 
   openSettings(): void {
@@ -243,14 +253,4 @@ export class HeaderButtonsComponent {
       this.exportService.isDomainStoryExportable()
     );
   }
-
-  openUrlPopup(): void {
-    this.showUrlPopup = true;
-  }
-
-  closeUrlPopup(): void {
-    this.showUrlPopup = false;
-    this.fileUrl = "";
-  }
-
 }
