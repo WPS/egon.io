@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { IconSetConfigurationService } from 'src/app/tools/icon-set-config/services/icon-set-configuration.service';
-import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
+import {
+  ICON_PREFIX,
+  IconDictionaryService,
+} from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { sanitizeIconName } from 'src/app/utils/sanitizer';
 import { ElementTypes } from '../../../../domain/entities/elementTypes';
@@ -110,7 +113,7 @@ export class IconSetConfigurationComponent implements OnInit {
           // TODO: td: What kind of type is it here?
           this.iconDictionaryService.registerIconForBPMN(
             iconName,
-            src,
+            ICON_PREFIX + iconName.toLowerCase(),
             ElementTypes.ACTOR,
           );
 
