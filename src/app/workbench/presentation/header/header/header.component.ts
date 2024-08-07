@@ -32,7 +32,7 @@ export class HeaderComponent {
   }
 
   openHeaderDialog(): void {
-   this.titleService.openHeaderDialog()
+    this.titleService.openHeaderDialog();
   }
 
   setShowDescription(show: boolean): void {

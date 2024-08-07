@@ -19,7 +19,8 @@ export class ReplayService {
   private replayOnSubject = new BehaviorSubject<boolean>(false);
 
   currentSentence$: Observable<number> = this.currentSentence.asObservable();
-  maxSentenceNumber$: Observable<number> = this.maxSentenceNumber.asObservable();
+  maxSentenceNumber$: Observable<number> =
+    this.maxSentenceNumber.asObservable();
   replayOn$ = this.replayOnSubject.asObservable();
 
   constructor(
@@ -27,8 +28,6 @@ export class ReplayService {
     private storyCreatorService: StoryCreatorService,
     private snackbar: MatSnackBar,
   ) {}
-
-
 
   setReplayState(state: boolean): void {
     this.replayOnSubject.next(state);

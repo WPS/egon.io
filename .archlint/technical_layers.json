@@ -11,7 +11,7 @@
     "app.*.ts",
     "tools/import/services/import-domain-story.service.ts",
     "tools/modeler/services/initializer.service.ts",
-    "initializeDomainStoryModelerClasses.ts"
+    "tools/header/presentation/dialog/header-dialog/header-dialog.component.ts"
   ],
   "artifacts": [
     {

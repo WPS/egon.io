@@ -22,7 +22,7 @@ import activityUpdateHandler from '../bpmn/modeler/updateHandler/activityUpdateH
 import massRenameHandler from '../bpmn/modeler/updateHandler/massRenameHandler';
 import elementUpdateHandler from '../bpmn/modeler/updateHandler/elementUpdateHandler';
 import headlineAndDescriptionUpdateHandler from '../bpmn/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
-import {ReplayService} from "../../replay/services/replay.service";
+import { ReplayService } from '../../replay/services/replay.service';
 
 @Injectable({
   providedIn: 'root',

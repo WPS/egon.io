@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import {ReplayService} from "./replay.service";
+import { ReplayService } from './replay.service';
 
 describe(ReplayService.name, () => {
   let service: ReplayService;

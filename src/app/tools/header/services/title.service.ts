@@ -7,9 +7,9 @@ import {
   INITIAL_TITLE,
 } from '../../../domain/entities/constants';
 import { CommandStackService } from '../../../domain/services/command-stack.service';
-import {DialogService} from "../../../domain/services/dialog.service";
-import {MatDialogConfig} from "@angular/material/dialog";
-import {HeaderDialogComponent} from "../presentation/dialog/header-dialog/header-dialog.component";
+import { DialogService } from '../../../domain/services/dialog.service';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { HeaderDialogComponent } from '../presentation/dialog/header-dialog/header-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,8 @@ export class TitleService {
 
   constructor(
     private commandStackService: CommandStackService,
-    private dialogService: DialogService) {}
+    private dialogService: DialogService,
+  ) {}
 
   openHeaderDialog(): void {
     const config = new MatDialogConfig();
