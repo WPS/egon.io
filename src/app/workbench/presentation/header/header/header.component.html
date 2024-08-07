@@ -48,6 +48,7 @@
       [hasTitle]="hasTitle"
       [isDirty]="isDirty$ | async"
       [isReplayable]="isReplayable"
+      [isReplaying]="isReplay$ | async"
       (import)="onImport()"
       (openSettings)="openSettings()"
       (startReplay)="startReplay()"
