@@ -37,4 +37,6 @@ export class HeaderButtonsComponent {
   openLabelDictionary = new EventEmitter<void>();
   @Output()
   openDownloadDialog = new EventEmitter<void>();
+  @Output()
+  openUploadUrlDialog = new EventEmitter<void>();
 }
