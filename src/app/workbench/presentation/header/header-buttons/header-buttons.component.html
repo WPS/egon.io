@@ -12,15 +12,6 @@
     </button>
 
     <button
-      id="buttonUrlImport"
-      class="headerButton"
-      title="Import story from file"
-      (click)="openUploadUrlDialog.emit()"
-    >
-      <span class="material-icons materialIconButton"> cloud_upload </span>
-    </button>
-
-    <button
       id="buttonImport"
       class="headerButton"
       title="Import story from file"
@@ -28,6 +19,16 @@
     >
       <span class="material-icons materialIconButton"> unarchive </span>
     </button>
+
+    <button
+      id="buttonUrlImport"
+      class="headerButton"
+      title="Import story from URL"
+      (click)="openUploadUrlDialog.emit()"
+    >
+      <span class="material-icons materialIconButton"> cloud_upload </span>
+    </button>
+
     <input
       type="file"
       accept=".dst, .svg, .egn, .svg"
