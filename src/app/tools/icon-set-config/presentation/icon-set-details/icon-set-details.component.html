@@ -16,35 +16,41 @@
   <div class="actorList bottom-border">
     <h3>Order of Actors</h3>
     <mat-list>
-      <mat-list-item
-        class="compactItem"
-        *ngFor="let iconName of selectedActors$ | async; let i = index"
-        draggable="true"
-        (dragover)="allowDrop($event, 'actorList')"
-        (dragstart)="onDragStart(i, 'actorList')"
-        (drop)="onDrop($event, iconName, true, i)"
-      >
-        <app-details-list-item
-          [icon]="getIconForName(iconName)"
-        ></app-details-list-item>
-      </mat-list-item>
+      @for (
+        iconName of selectedActors$ | async;
+        track iconName;
+        let i = $index
+      ) {
+        <mat-list-item
+          class="compactItem"
+          draggable="true"
+          (dragover)="allowDrop($event, 'actorList')"
+          (dragstart)="onDragStart(i, 'actorList')"
+          (drop)="onDrop($event, iconName, true, i)"
+        >
+          <app-details-list-item [icon]="getIconForName(iconName)" />
+        </mat-list-item>
+      }
     </mat-list>
   </div>
   <div class="workobjectList">
     <h3>Order of Work Objects</h3>
     <mat-list>
-      <mat-list-item
-        class="compactItem"
-        *ngFor="let iconName of selectedWorkobjects$ | async; let i = index"
-        draggable="true"
-        (dragover)="allowDrop($event, 'workobjectList')"
-        (dragstart)="onDragStart(i, 'workobjectList')"
-        (drop)="onDrop($event, iconName, false, i)"
-      >
-        <app-details-list-item
-          [icon]="getIconForName(iconName)"
-        ></app-details-list-item>
-      </mat-list-item>
+      @for (
+        iconName of selectedWorkobjects$ | async;
+        track iconName;
+        let i = $index
+      ) {
+        <mat-list-item
+          class="compactItem"
+          draggable="true"
+          (dragover)="allowDrop($event, 'workobjectList')"
+          (dragstart)="onDragStart(i, 'workobjectList')"
+          (drop)="onDrop($event, iconName, false, i)"
+        >
+          <app-details-list-item [icon]="getIconForName(iconName)" />
+        </mat-list-item>
+      }
     </mat-list>
   </div>
 </div>

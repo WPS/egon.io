@@ -27,10 +27,10 @@
     </mat-toolbar-row>
   </mat-toolbar>
 
-  <app-general-settings
-    *ngIf="showGeneralSettings | async"
-  ></app-general-settings>
-  <app-icon-set-configuration
-    *ngIf="showIconSetCustomization | async"
-  ></app-icon-set-configuration>
+  @if (showGeneralSettings | async) {
+    <app-general-settings />
+  }
+  @if (showIconSetCustomization | async) {
+    <app-icon-set-configuration />
+  }
 </div>

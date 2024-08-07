@@ -1,23 +1,27 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <button
-      class="headerButton"
-      title="Hide Description"
-      *ngIf="showDescription | async"
-      (click)="setShowDescription(false)"
-    >
-      <span class="material-icons materialIconButton toggle">
-        expand_less
-      </span>
-    </button>
-    <button
-      class="headerButton"
-      title="Show Description"
-      *ngIf="!(showDescription | async)"
-      (click)="setShowDescription(true)"
-    >
-      <span class="material-icons materialIconButton toggle"> expand_more</span>
-    </button>
+    @if (showDescription | async) {
+      <button
+        class="headerButton"
+        title="Hide Description"
+        (click)="setShowDescription(false)"
+      >
+        <span class="material-icons materialIconButton toggle">
+          expand_less
+        </span>
+      </button>
+    }
+    @if (!(showDescription | async)) {
+      <button
+        class="headerButton"
+        title="Show Description"
+        (click)="setShowDescription(true)"
+      >
+        <span class="material-icons materialIconButton toggle">
+          expand_more</span
+        >
+      </button>
+    }
     <div class="mr-10 titel-scrollbar">
       <span
         class="headline"
@@ -31,9 +35,11 @@
 
     <span class="titleSpacer"></span>
 
-    <span title="Replay Sentence" *ngIf="isReplay$ | async">
-      Sentence: {{ sentenceDescription$ | async }}</span
-    >
+    @if (isReplay$ | async) {
+      <span title="Replay Sentence">
+        Sentence: {{ sentenceDescription$ | async }}</span
+      >
+    }
 
     <span class="buttonSpacer"></span>
     <app-header-buttons
@@ -55,6 +61,8 @@
     />
   </mat-toolbar-row>
 </mat-toolbar>
-<mat-card class="smallScrollbar description" *ngIf="showDescription$ | async">
-  <span class="descriptionText">{{ description$ | async }}</span>
-</mat-card>
+@if (showDescription$ | async) {
+  <mat-card class="smallScrollbar description">
+    <span class="descriptionText">{{ description$ | async }}</span>
+  </mat-card>
+}

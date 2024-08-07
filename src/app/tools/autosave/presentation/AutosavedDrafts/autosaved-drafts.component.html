@@ -7,34 +7,38 @@
         {{ drafts.length > 1 ? "drafts" : "draft" }} available
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <div class="items" *ngIf="drafts.length; else noDrafts">
-      <div *ngFor="let draft of drafts" class="item border-bottom">
-        <div>
-          <div class="item-title">{{ draft.title }}</div>
-          <div class="item-date">{{ draft.date }}</div>
+    @if (drafts.length) {
+      <div class="items">
+        @for (draft of drafts; track draft) {
+          <div class="item border-bottom">
+            <div>
+              <div class="item-title">{{ draft.title }}</div>
+              <div class="item-date">{{ draft.date }}</div>
+            </div>
+            <button
+              class="item-button"
+              mat-raised-button
+              color="primary"
+              (click)="loadDraft(draft)"
+            >
+              Load Draft
+            </button>
+          </div>
+        }
+        <div class="item">
+          <div></div>
+          <button
+            class="item-button"
+            mat-raised-button
+            color="primary"
+            (click)="removeAllDrafts()"
+          >
+            Remove All Drafts
+          </button>
         </div>
-        <button
-          class="item-button"
-          mat-raised-button
-          color="primary"
-          (click)="loadDraft(draft)"
-        >
-          Load Draft
-        </button>
       </div>
-      <div class="item">
-        <div></div>
-        <button
-          class="item-button"
-          mat-raised-button
-          color="primary"
-          (click)="removeAllDrafts()"
-        >
-          Remove All Drafts
-        </button>
-      </div>
-    </div>
+    } @else {
+      No drafts found.
+    }
   </mat-expansion-panel>
 </mat-accordion>
-
-<ng-template #noDrafts>No drafts found.</ng-template>
