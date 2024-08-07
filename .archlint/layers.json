@@ -67,9 +67,9 @@
           "mayUseAllBelow": true
         },
         {
-          "name": "header",
+          "name": "title",
           "include": [
-            "*/header/**"
+            "*/title/**"
           ],
           "mayUseAllBelow": true
         },

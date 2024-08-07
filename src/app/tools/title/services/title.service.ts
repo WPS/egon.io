@@ -9,7 +9,7 @@ import {
 import { CommandStackService } from '../../../domain/services/command-stack.service';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { HeaderDialogComponent } from '../presentation/dialog/header-dialog/header-dialog.component';
+import { TitleDialogComponent } from '../presentation/title-dialog/title-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +36,7 @@ export class TitleService {
     const config = new MatDialogConfig();
     config.disableClose = false;
     config.autoFocus = true;
-    this.dialogService.openDialog(HeaderDialogComponent, config);
+    this.dialogService.openDialog(TitleDialogComponent, config);
   }
 
   updateTitleAndDescription(

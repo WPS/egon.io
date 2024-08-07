@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { SettingsService } from 'src/app/workbench/services/settings/settings.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { TitleService } from './tools/header/services/title.service';
+import { TitleService } from './tools/title/services/title.service';
 import { ExportService } from './tools/export/services/export.service';
 import { ReplayService } from './tools/replay/services/replay.service';
 import { environment } from '../environments/environment';

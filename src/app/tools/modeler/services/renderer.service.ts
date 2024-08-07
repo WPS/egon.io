@@ -21,6 +21,7 @@ export class RendererService {
 
   reset(): void {
     this.renderStory([]);
+    this.dirtyFlagService.makeClean();
   }
 
   importStory(

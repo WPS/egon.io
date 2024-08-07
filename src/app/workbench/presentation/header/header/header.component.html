@@ -36,7 +36,23 @@
     >
 
     <span class="buttonSpacer"></span>
-    <app-header-buttons class="nowrap" />
+    <app-header-buttons
+      class="nowrap"
+      [hasDomainStory]="hasDomainStory"
+      [hasTitle]="hasTitle"
+      [isDirty]="isDirty$ | async"
+      [isReplayable]="isReplayable"
+      (import)="onImport()"
+      (openSettings)="openSettings()"
+      (startReplay)="startReplay()"
+      (stopReplay)="stopReplay()"
+      (nextSentence)="nextSentence()"
+      (previousSentence)="previousSentence()"
+      (newStory)="createNewDomainStory()"
+      (showKeyboardShortCuts)="openKeyboardShortcutsDialog()"
+      (openLabelDictionary)="openLabelDictionary()"
+      (openDownloadDialog)="openDownloadDialog()"
+    />
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-card class="smallScrollbar description" *ngIf="showDescription$ | async">

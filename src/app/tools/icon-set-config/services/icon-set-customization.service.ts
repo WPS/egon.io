@@ -11,7 +11,7 @@ import {
 import { Dictionary } from '../../../domain/entities/dictionary';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { IconListItem } from '../domain/iconListItem';
-import { TitleService } from '../../header/services/title.service';
+import { TitleService } from '../../title/services/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import getIconId = ElementTypes.getIconId;

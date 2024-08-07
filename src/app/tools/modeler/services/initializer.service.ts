@@ -5,7 +5,7 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { ActivityDialogData } from '../domain/activityDialogData';
 import { ActivityDialogComponent } from '../presentation/activity-dialog/activity-dialog.component';
 import { DialogService } from '../../../domain/services/dialog.service';
-import { TitleService } from '../../header/services/title.service';
+import { TitleService } from '../../title/services/title.service';
 import { ActivityCanvasObject } from '../../../domain/entities/activityCanvasObject';
 import { positionsMatch } from '../../../utils/mathExtensions';
 import { CommandStackService } from '../../../domain/services/command-stack.service';

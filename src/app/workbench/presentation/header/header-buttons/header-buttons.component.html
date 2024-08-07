@@ -1,11 +1,11 @@
-<div *ngIf="!(isReplay$ | async)">
+<div *ngIf="!isReplaying">
   <button
-    [disabled]="!replayService.isReplayable()"
-    [class.disabled]="!replayService.isReplayable()"
+    [disabled]="!isReplayable"
+    [class.disabled]="!isReplayable"
     id="buttonStartReplay"
     class="headerButton"
     title="Start replay"
-    (click)="startReplay()"
+    (click)="startReplay.emit()"
   >
     <span class="material-icons materialIconButton"> play_arrow </span>
   </button>
@@ -23,39 +23,36 @@
     style="display: none"
     id="import"
     onclick="this.value=null;"
-    (change)="import()"
+    (change)="import.emit()"
     name="file"
   />
   <button
-    [disabled]="!isExportable()"
-    [class.disabled]="!isExportable()"
+    [disabled]="!hasDomainStory && !hasTitle"
+    [class.disabled]="!hasDomainStory && !hasTitle"
     class="headerButton"
     id="export"
     title="Export story as .egn, .svg or .png file"
-    (click)="openDownloadDialog()"
+    (click)="openDownloadDialog.emit()"
   >
-    <span
-      class="material-icons-outlined materialIconButton"
-      *ngIf="!(isDirty$ | async)"
-    >
+    <span class="material-icons-outlined materialIconButton" *ngIf="!isDirty">
       archive
     </span>
-    <span class="material-icons materialIconButton" *ngIf="isDirty$ | async">
+    <span class="material-icons materialIconButton" *ngIf="isDirty">
       archive
     </span>
   </button>
   <button
-    [disabled]="!exportService.isDomainStoryExportable()"
-    [class.disabled]="!exportService.isDomainStoryExportable()"
+    [disabled]="!hasDomainStory"
+    [class.disabled]="!hasDomainStory"
     class="headerButton"
     title="Label Dictionary"
-    (click)="openLabelDictionary()"
+    (click)="openLabelDictionary.emit()"
   >
     <span class="material-icons materialIconButton" title="Label Dictionary">
       spellcheck
     </span>
   </button>
-  <button class="headerButton" title="Settings" (click)="openSettings()">
+  <button class="headerButton" title="Settings" (click)="openSettings.emit()">
     <span
       class="material-icons materialIconButton"
       title="Change Icons and Settings"
@@ -66,30 +63,34 @@
   <button
     class="headerButton"
     title="Show keyboard shortcuts"
-    (click)="openKeyboardShortcutsDialog()"
+    (click)="showKeyboardShortCuts.emit()"
   >
     <span class="material-icons materialIconButton"> keyboard </span>
   </button>
   <button
     class="headerButton"
     title="Create a new domain story"
-    (click)="createNewDomainStory()"
+    (click)="newStory.emit()"
   >
     <span class="material-icons materialIconButton"> note_add </span>
   </button>
 </div>
-<div *ngIf="isReplay$ | async">
+<div *ngIf="isReplaying">
   <button
     class="headerButton"
     title="Previous sentence"
-    (click)="previousSentence()"
+    (click)="previousSentence.emit()"
   >
     <span class="material-icons materialIconButton"> skip_previous </span>
   </button>
-  <button class="headerButton" title="Next sentence" (click)="nextSentence()">
+  <button
+    class="headerButton"
+    title="Next sentence"
+    (click)="nextSentence.emit()"
+  >
     <span class="material-icons materialIconButton"> skip_next </span>
   </button>
-  <button class="headerButton" title="Stop replay" (click)="stopReplay()">
+  <button class="headerButton" title="Stop replay" (click)="stopReplay.emit()">
     <span class="material-icons materialIconButton"> stop </span>
   </button>
 </div>

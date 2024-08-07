@@ -6,7 +6,7 @@ import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { StorageService } from '../../../domain/services/storage.service';
-import { TitleService } from '../../header/services/title.service';
+import { TitleService } from '../../title/services/title.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
 import { Subject } from 'rxjs';
 import {

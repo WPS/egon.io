@@ -4,7 +4,7 @@ import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/ic
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { defaultConf } from '../domain/iconConfiguration';
-import { TitleService } from '../../header/services/title.service';
+import { TitleService } from '../../title/services/title.service';
 import {
   ICON_SET_CONFIGURATION_TAG,
   INITIAL_ICON_SET_NAME,

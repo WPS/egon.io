@@ -78,7 +78,28 @@ export class ReplayService {
     );
   }
 
-  startReplay(story: StorySentence[]): void {
+  startReplay(checkSequenceNumbers = false): void {
+    const story = this.storyCreatorService.traceActivitiesAndCreateStory();
+
+    if (checkSequenceNumbers) {
+      const missingSentences =
+        this.storyCreatorService.getMissingSentences(story);
+      if (missingSentences.length > 0) {
+        const sentence = missingSentences.join(', ');
+        this.snackbar.open(
+          missingSentences.length === 1
+            ? `The Domain Story is not complete. Sentence ${sentence} is missing.`
+            : `The Domain Story is not complete. Sentences ${sentence} are missing.`,
+          undefined,
+          {
+            duration: SNACKBAR_DURATION * 2,
+            panelClass: SNACKBAR_INFO,
+          },
+        );
+        return;
+      }
+    }
+
     this.initializeReplay(story);
     if (this.story.length > 0) {
       this.setReplayState(true);
