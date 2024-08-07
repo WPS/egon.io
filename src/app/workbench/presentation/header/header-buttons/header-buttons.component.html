@@ -7,24 +7,43 @@
       class="headerButton"
       title="Start replay"
       (click)="startReplay.emit()"
-    >
-      <span class="material-icons materialIconButton"> play_arrow </span>
-    </button>
-    <button
-      id="buttonImport"
-      class="headerButton"
-      title="Import story from file"
-      onclick="document.getElementById('import').click();"
-    >
-      <span class="material-icons materialIconButton"> unarchive </span>
-    </button>
-    <input
-      type="file"
-      accept=".dst, .svg, .egn, .svg"
-      style="display: none"
-      id="import"
-      onclick="this.value=null;"
-      (change)="import.emit()"
+  >
+    <span class="material-icons materialIconButton"> play_arrow </span>
+  </button>
+
+  <button
+    id="buttonUrlImport"
+    class="headerButton"
+    title="Import story from file"
+    (click)="openUrlPopup()"
+  >
+    <span class="material-icons materialIconButton"> cloud_upload </span>
+  </button>
+
+  <div *ngIf="showUrlPopup" class="url-popup">
+    <label for="urlInput">Enter the URL:</label>
+    <input type="text" id="urlInput" [(ngModel)]="fileUrl" />
+    <button (click)="importFromUrl()" [disabled]="!fileUrl">Import</button>
+    <button (click)="closeUrlPopup()">Cancel</button>
+  </div>
+
+
+  <button
+    id="buttonImport"
+    class="headerButton"
+    title="Import story from file"
+    onclick="document.getElementById('import').click();"
+  >
+    <span class="material-icons materialIconButton"> unarchive </span>
+  </button>
+
+  <input
+    type="file"
+    accept=".dst, .svg, .egn, .svg"
+    style="display: none"
+    id="import"
+    onclick="this.value=null;"
+    (change)="import.emit()"
       name="file"
     />
     <button
