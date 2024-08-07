@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ReplayStateService } from 'src/app/tools/replay/services/replay-state.service';
 import { DomManipulationService } from 'src/app/tools/replay/services/dom-manipulation.service';
 import { StorySentence } from 'src/app/tools/replay/domain/storySentence';
 import { StoryCreatorService } from './story-creator.service';
@@ -17,17 +16,27 @@ export class ReplayService {
   private story: StorySentence[] = [];
   private currentSentence = new BehaviorSubject<number>(-1);
   private maxSentenceNumber = new BehaviorSubject<number>(0);
+  private replayOnSubject = new BehaviorSubject<boolean>(false);
 
   currentSentence$: Observable<number> = this.currentSentence.asObservable();
-  maxSentenceNumber$: Observable<number> =
-    this.maxSentenceNumber.asObservable();
+  maxSentenceNumber$: Observable<number> = this.maxSentenceNumber.asObservable();
+  replayOn$ = this.replayOnSubject.asObservable();
 
   constructor(
-    private replayStateService: ReplayStateService,
     private domManipulationService: DomManipulationService,
     private storyCreatorService: StoryCreatorService,
     private snackbar: MatSnackBar,
   ) {}
+
+
+
+  setReplayState(state: boolean): void {
+    this.replayOnSubject.next(state);
+  }
+
+  getReplayOn(): boolean {
+    return this.replayOnSubject.value;
+  }
 
   isReplayable(): boolean {
     return this.storyCreatorService.traceActivitiesAndCreateStory().length > 0;
@@ -73,7 +82,7 @@ export class ReplayService {
   startReplay(story: StorySentence[]): void {
     this.initializeReplay(story);
     if (this.story.length > 0) {
-      this.replayStateService.setReplayState(true);
+      this.setReplayState(true);
       this.domManipulationService.showSentence(
         this.story[this.currentSentence.getValue() - 1],
       );
@@ -88,7 +97,7 @@ export class ReplayService {
   stopReplay(): void {
     this.currentSentence.next(-1);
     this.maxSentenceNumber.next(0);
-    this.replayStateService.setReplayState(false);
+    this.setReplayState(false);
     this.domManipulationService.showAll();
   }
 }

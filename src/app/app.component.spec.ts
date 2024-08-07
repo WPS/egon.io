@@ -5,7 +5,7 @@ import { SettingsService } from './workbench/services/settings/settings.service'
 import { TitleService } from './tools/header/services/title.service';
 import { ExportService } from './tools/export/services/export.service';
 import { ModelerComponent } from './tools/modeler/presentation/modeler/modeler.component';
-import { HeaderComponent } from './tools/header/presentation/header/header.component';
+import { HeaderComponent } from './workbench/presentation/header/header/header.component';
 import { ReplayService } from 'src/app/tools/replay/services/replay.service';
 import { AutosaveService } from './tools/autosave/services/autosave.service';
 import { ColorPickerModule } from 'ngx-color-picker';

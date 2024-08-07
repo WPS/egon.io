@@ -7,6 +7,9 @@ import {
   INITIAL_TITLE,
 } from '../../../domain/entities/constants';
 import { CommandStackService } from '../../../domain/services/command-stack.service';
+import {DialogService} from "../../../domain/services/dialog.service";
+import {MatDialogConfig} from "@angular/material/dialog";
+import {HeaderDialogComponent} from "../presentation/dialog/header-dialog/header-dialog.component";
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +27,16 @@ export class TitleService {
   showDescription$ = this.showDescriptionSubject.asObservable();
   iconSetName$ = this.iconSetNameSubject.asObservable();
 
-  constructor(private commandStackService: CommandStackService) {}
+  constructor(
+    private commandStackService: CommandStackService,
+    private dialogService: DialogService) {}
+
+  openHeaderDialog(): void {
+    const config = new MatDialogConfig();
+    config.disableClose = false;
+    config.autoFocus = true;
+    this.dialogService.openDialog(HeaderDialogComponent, config);
+  }
 
   updateTitleAndDescription(
     title: string | null,

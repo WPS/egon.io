@@ -11,7 +11,7 @@ import {
 } from '@angular/material/checkbox';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from 'src/app/tools/header/presentation/header/header.component';
+import { HeaderComponent } from 'src/app/workbench/presentation/header/header/header.component';
 import { SettingsComponent } from 'src/app/workbench/presentation/settings/settings.component';
 import { AppComponent } from 'src/app/app.component';
 import { ExportService } from 'src/app/tools/export/services/export.service';

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { SettingsService } from '../../../services/settings/settings.service';
 import { ModelerService } from '../../../../tools/modeler/services/modeler.service';
 import { Observable } from 'rxjs';
-import { ReplayStateService } from '../../../../tools/replay/services/replay-state.service';
 import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
 import {
   ExportDialogData,
@@ -38,7 +37,6 @@ export class HeaderButtonsComponent {
   constructor(
     private settingsService: SettingsService,
     private modelerService: ModelerService,
-    private replayStateService: ReplayStateService,
     private dirtyFlagService: DirtyFlagService,
     private dialogService: DialogService,
     protected replayService: ReplayService,
@@ -49,7 +47,7 @@ export class HeaderButtonsComponent {
     private snackbar: MatSnackBar,
     private storyCreatorService: StoryCreatorService,
   ) {
-    this.isReplay$ = this.replayStateService.replayOn$;
+    this.isReplay$ = this.replayService.replayOn$;
     this.isDirty$ = this.dirtyFlagService.dirty$;
   }
   import(): void {

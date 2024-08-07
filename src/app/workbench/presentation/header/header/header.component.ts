@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
-import { TitleService } from '../../services/title.service';
-import { ReplayService } from '../../../replay/services/replay.service';
-import { ReplayStateService } from '../../../replay/services/replay-state.service';
-import { MatDialogConfig } from '@angular/material/dialog';
-import { HeaderDialogComponent } from '../dialog/header-dialog/header-dialog.component';
-import { DialogService } from '../../../../domain/services/dialog.service';
+import { TitleService } from '../../../../tools/header/services/title.service';
+import { ReplayService } from '../../../../tools/replay/services/replay.service';
 
 @Component({
   selector: 'app-header',
@@ -24,10 +20,8 @@ export class HeaderComponent {
   constructor(
     private titleService: TitleService,
     private replayService: ReplayService,
-    private replayStateService: ReplayStateService,
-    private dialogService: DialogService,
   ) {
-    this.isReplay$ = this.replayStateService.replayOn$;
+    this.isReplay$ = this.replayService.replayOn$;
 
     this.sentenceDescription$ = combineLatest([
       this.replayService.currentSentence$,
@@ -38,10 +32,7 @@ export class HeaderComponent {
   }
 
   openHeaderDialog(): void {
-    const config = new MatDialogConfig();
-    config.disableClose = false;
-    config.autoFocus = true;
-    this.dialogService.openDialog(HeaderDialogComponent, config);
+   this.titleService.openHeaderDialog()
   }
 
   setShowDescription(show: boolean): void {

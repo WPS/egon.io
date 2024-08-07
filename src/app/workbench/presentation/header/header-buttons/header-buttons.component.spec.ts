@@ -5,7 +5,6 @@ import { MockProviders } from 'ng-mocks';
 import { SettingsService } from '../../../services/settings/settings.service';
 import { TitleService } from '../../../../tools/header/services/title.service';
 import { ModelerService } from '../../../../tools/modeler/services/modeler.service';
-import { ReplayStateService } from '../../../../tools/replay/services/replay-state.service';
 import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
 import { ElementRegistryService } from '../../../../domain/services/element-registry.service';
 import { DialogService } from '../../../../domain/services/dialog.service';
@@ -52,7 +51,6 @@ describe('HeaderButtonsComponent', () => {
           SettingsService,
           TitleService,
           ModelerService,
-          ReplayStateService,
           DirtyFlagService,
           ElementRegistryService,
           DialogService,
