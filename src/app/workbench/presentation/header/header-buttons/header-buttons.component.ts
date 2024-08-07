@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { SettingsService } from '../../../services/settings/settings.service';
 import { ModelerService } from '../../../../tools/modeler/services/modeler.service';
-import { Observable } from 'rxjs';
+import { from, Observable, switchMap, tap } from 'rxjs';
 import { ReplayStateService } from '../../../../tools/replay/services/replay-state.service';
 import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
-import {
-  ExportDialogData,
-  ExportOption,
-} from '../../../../tools/export/domain/dialog/exportDialogData';
+import { ExportDialogData, ExportOption, } from '../../../../tools/export/domain/dialog/exportDialogData';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ExportDialogComponent } from '../../../../tools/export/presentation/export-dialog/export-dialog.component';
 import { InfoDialogData } from '../../../../tools/header/domain/infoDialogData';
@@ -16,12 +13,11 @@ import { DialogService } from '../../../../domain/services/dialog.service';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
 import { ExportService } from '../../../../tools/export/services/export.service';
 import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
-import { LabelDictionaryDialogComponent } from '../../../../tools/label-dictionary/presentation/label-dictionary-dialog/label-dictionary-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import {
-  SNACKBAR_DURATION,
-  SNACKBAR_INFO,
-} from '../../../../domain/entities/constants';
+  LabelDictionaryDialogComponent
+} from '../../../../tools/label-dictionary/presentation/label-dictionary-dialog/label-dictionary-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SNACKBAR_DURATION, SNACKBAR_INFO, } from '../../../../domain/entities/constants';
 import { TitleService } from '../../../../tools/header/services/title.service';
 import { RendererService } from '../../../../tools/modeler/services/renderer.service';
 import { StoryCreatorService } from '../../../../tools/replay/services/story-creator.service';
@@ -34,6 +30,9 @@ import { StoryCreatorService } from '../../../../tools/replay/services/story-cre
 export class HeaderButtonsComponent {
   isReplay$: Observable<boolean>;
   isDirty$: Observable<boolean>;
+
+  fileUrl: string = '';
+  showUrlPopup: boolean = false;
 
   constructor(
     private settingsService: SettingsService,
@@ -52,6 +51,7 @@ export class HeaderButtonsComponent {
     this.isReplay$ = this.replayStateService.replayOn$;
     this.isDirty$ = this.dirtyFlagService.dirty$;
   }
+
   import(): void {
     // @ts-ignore
     const file = document.getElementById('import').files[0];
@@ -70,6 +70,38 @@ export class HeaderButtonsComponent {
       this.importService.importEGN(file, filename, true);
     }
     this.modelerService.commandStackChanged();
+  }
+
+  importFromUrl(): void {
+    console.log("file: ", this.fileUrl)
+    from(fetch(this.fileUrl))
+      .pipe(
+        switchMap(response => {
+          console.log("Response: ", response)
+          return from(response.blob());
+        }),
+        tap(blob => {
+          const filename = "Test.dst";
+          if (!filename) {
+            throw new Error('Unable to extract filename from URL');
+          }
+
+          const dstSvgPattern = /.*(.dst)(\s*\(\d+\)){0,1}\.svg/;
+          const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
+
+          if (filename.endsWith('.dst')) {
+            this.importService.importDST(blob, filename, false);
+          } else if (filename.match(dstSvgPattern)) {
+            this.importService.importDST(blob, filename, true);
+          } else if (filename.endsWith('.egn')) {
+            this.importService.importEGN(blob, filename, false);
+          } else if (filename.match(egnSvgPattern)) {
+            this.importService.importEGN(blob, filename, true);
+          }
+          this.modelerService.commandStackChanged();
+          this.closeUrlPopup();
+        })
+      ).subscribe();
   }
 
   openSettings(): void {
@@ -211,4 +243,14 @@ export class HeaderButtonsComponent {
       this.exportService.isDomainStoryExportable()
     );
   }
+
+  openUrlPopup(): void {
+    this.showUrlPopup = true;
+  }
+
+  closeUrlPopup(): void {
+    this.showUrlPopup = false;
+    this.fileUrl = "";
+  }
+
 }
