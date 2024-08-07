@@ -152,6 +152,9 @@ export class IconSetConfigurationComponent implements OnInit {
       this.iconSetConfigurationService.loadConfiguration(config, false);
 
       this.iconSetCustomizationService.importConfiguration(config);
+
+      this.allIcons.next(this.iconDictionaryService.getFullDictionary());
+      this.filter.next(this.filter.value);
     };
 
     reader.readAsText(iconSetInputFile);
