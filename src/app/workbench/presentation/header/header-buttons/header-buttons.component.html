@@ -12,22 +12,14 @@
   </button>
 
     <button
-      id="buttonUrlImport"
+      id="buttonImport"
       class="headerButton"
       title="Import story from file"
-      (click)="openUploadUrlDialog.emit()"
+      onclick="document.getElementById('import').click();"
     >
-      <span class="material-icons materialIconButton"> cloud_upload </span>
+      <span class="material-icons materialIconButton"> unarchive </span>
     </button>
 
-  <button
-    id="buttonImport"
-    class="headerButton"
-    title="Import story from file"
-    onclick="document.getElementById('import').click();"
-  >
-    <span class="material-icons materialIconButton"> unarchive </span>
-  </button>
 
   <input
     type="file"
@@ -36,6 +28,22 @@
     id="import"
     onclick="this.value=null;"
     (change)="import.emit()"
+    <button
+      id="buttonUrlImport"
+      class="headerButton"
+      title="Import story from URL"
+      (click)="openUploadUrlDialog.emit()"
+    >
+      <span class="material-icons materialIconButton"> cloud_upload </span>
+    </button>
+
+    <input
+      type="file"
+      accept=".dst, .svg, .egn, .svg"
+      style="display: none"
+      id="import"
+      onclick="this.value=null;"
+      (change)="import.emit()"
       name="file"
     />
     <button
