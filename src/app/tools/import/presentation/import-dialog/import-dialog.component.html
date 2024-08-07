@@ -1,0 +1,19 @@
+<mat-dialog-content>
+  <label for="urlInput">Enter URL: </label>
+  <br />
+  <input
+    type="text"
+    id="urlInput"
+    [value]="fileUrl | async"
+    (input)="updateUrl($event)"
+  />
+</mat-dialog-content>
+<mat-dialog-actions>
+  <br />
+  <div>
+    <button mat-flat-button (click)="close()">Cancel</button>
+    <button mat-stroked-button (click)="doImport()" [disabled]="!fileUrl.value">
+      Import
+    </button>
+  </div>
+</mat-dialog-actions>
