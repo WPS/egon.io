@@ -4,7 +4,7 @@ import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
-import { Observable, Subscription } from 'rxjs';
+import { from, Observable, Subscription, switchMap, tap } from 'rxjs';
 import { RendererService } from 'src/app/tools/modeler/services/renderer.service';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { DialogService } from '../../../domain/services/dialog.service';
@@ -22,6 +22,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 import { IconSetChangedService } from '../../icon-set-config/services/icon-set-customization.service';
 import { ModelerService } from '../../modeler/services/modeler.service';
+import { ImportDialogComponent } from '../presentation/import-dialog/import-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -98,6 +99,46 @@ export class ImportDomainStoryService
       this.importEGN(file, filename, true);
     }
     this.modelerService.commandStackChanged();
+  }
+
+  importFromUrl(fileUrl: string): void {
+    from(fetch(fileUrl))
+      .pipe(
+        switchMap((response) => {
+          return from(response.blob());
+        }),
+        tap((blob) => {
+          const string = fileUrl.split('/');
+          const filename = string[string.length - 1].replace(/%20/g, ' ');
+
+          if (!filename) {
+            throw new Error('Unable to extract filename from URL');
+          }
+
+          const dstSvgPattern = /.*(.dst)(\s*\(\d+\)){0,1}\.svg/;
+          const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
+
+          if (filename.endsWith('.dst')) {
+            this.importDST(blob, filename, false);
+          } else if (filename.match(dstSvgPattern)) {
+            this.importDST(blob, filename, true);
+          } else if (filename.endsWith('.egn')) {
+            this.importEGN(blob, filename, false);
+          } else if (filename.match(egnSvgPattern)) {
+            this.importEGN(blob, filename, true);
+          }
+          this.modelerService.commandStackChanged();
+        }),
+      )
+      .subscribe();
+  }
+
+  openUploadUrlDialog(): void {
+    const config = new MatDialogConfig();
+    config.disableClose = false;
+    config.autoFocus = true;
+    config.data = (fileUrl: string) => this.importFromUrl(fileUrl);
+    this.dialogService.openDialog(ImportDialogComponent, config);
   }
 
   importDST(input: Blob, filename: string, isSVG: boolean): void {

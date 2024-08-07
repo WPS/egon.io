@@ -11,14 +11,14 @@
     <span class="material-icons materialIconButton"> play_arrow </span>
   </button>
 
-  <button
-    id="buttonUrlImport"
-    class="headerButton"
-    title="Import story from file"
-    (click)="openUploadUrlDialog()"
-  >
-    <span class="material-icons materialIconButton"> cloud_upload </span>
-  </button>
+    <button
+      id="buttonUrlImport"
+      class="headerButton"
+      title="Import story from file"
+      (click)="openUploadUrlDialog.emit()"
+    >
+      <span class="material-icons materialIconButton"> cloud_upload </span>
+    </button>
 
   <button
     id="buttonImport"
