@@ -3,9 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HeaderButtonsComponent } from './header-buttons.component';
 import { MockProviders } from 'ng-mocks';
 import { SettingsService } from '../../../services/settings/settings.service';
-import { TitleService } from '../../../../tools/header/services/title.service';
+import { TitleService } from '../../../../tools/title/services/title.service';
 import { ModelerService } from '../../../../tools/modeler/services/modeler.service';
-import { ReplayStateService } from '../../../../tools/replay/services/replay-state.service';
 import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
 import { ElementRegistryService } from '../../../../domain/services/element-registry.service';
 import { DialogService } from '../../../../domain/services/dialog.service';
@@ -52,7 +51,6 @@ describe('HeaderButtonsComponent', () => {
           SettingsService,
           TitleService,
           ModelerService,
-          ReplayStateService,
           DirtyFlagService,
           ElementRegistryService,
           DialogService,
@@ -71,23 +69,5 @@ describe('HeaderButtonsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('can start replay for consecutively numbered stories', () => {
-    storyCreatorService.getMissingSentences.and.returnValue([]);
-    component.startReplay();
-
-    expect(storyCreatorService.getMissingSentences).toHaveBeenCalled();
-    expect(replayService.startReplay).toHaveBeenCalled();
-    expect(snackbar.open).not.toHaveBeenCalled();
-  });
-
-  it('cannot start replay for non-consecutively numbered stories', () => {
-    storyCreatorService.getMissingSentences.and.returnValue([2]);
-    component.startReplay();
-
-    expect(storyCreatorService.getMissingSentences).toHaveBeenCalled();
-    expect(replayService.startReplay).not.toHaveBeenCalled();
-    expect(snackbar.open).toHaveBeenCalled();
   });
 });

@@ -8,8 +8,7 @@
     "tools/modeler/bpmn/**",
     "material.module.ts",
     "../environments/**",
-    "app.*.ts",
-    "initializeDomainStoryModelerClasses.ts"
+    "app.*.ts"
   ],
   "artifacts": [
     {
@@ -68,9 +67,9 @@
           "mayUseAllBelow": true
         },
         {
-          "name": "header",
+          "name": "title",
           "include": [
-            "*/header/**"
+            "*/title/**"
           ],
           "mayUseAllBelow": true
         },

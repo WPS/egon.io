@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TitleService } from 'src/app/tools/header/services/title.service';
+import { TitleService } from 'src/app/tools/title/services/title.service';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,

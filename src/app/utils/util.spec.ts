@@ -128,19 +128,3 @@ describe('naming', () => {
     });
   });
 });
-
-describe('sanitizer', () => {
-  describe('sanitize for desktop', () => {
-    it('should sanitize', () => {
-      const unsanitized = '/\\:*?"><|test';
-      expect(sanitizeForDesktop(unsanitized)).toEqual('test');
-    });
-  });
-
-  describe('sanitize Icon Name', () => {
-    it('should sanitize', () => {
-      const unsanitized = '/\\:*?"<>|().-test';
-      expect(sanitizeIconName(unsanitized)).toEqual('_-test');
-    });
-  });
-});

@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
-import { ReplayStateService } from '../../replay/services/replay-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ActivityDialogData } from '../domain/activityDialogData';
 import { ActivityDialogComponent } from '../presentation/activity-dialog/activity-dialog.component';
 import { DialogService } from '../../../domain/services/dialog.service';
-import { TitleService } from '../../header/services/title.service';
+import { TitleService } from '../../title/services/title.service';
 import { ActivityCanvasObject } from '../../../domain/entities/activityCanvasObject';
 import { positionsMatch } from '../../../utils/mathExtensions';
 import { CommandStackService } from '../../../domain/services/command-stack.service';
@@ -23,6 +22,7 @@ import activityUpdateHandler from '../bpmn/modeler/updateHandler/activityUpdateH
 import massRenameHandler from '../bpmn/modeler/updateHandler/massRenameHandler';
 import elementUpdateHandler from '../bpmn/modeler/updateHandler/elementUpdateHandler';
 import headlineAndDescriptionUpdateHandler from '../bpmn/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
+import { ReplayService } from '../../replay/services/replay.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +30,7 @@ import headlineAndDescriptionUpdateHandler from '../bpmn/modeler/updateHandler/h
 export class InitializerService {
   constructor(
     private elementRegistryService: ElementRegistryService,
-    private replayStateService: ReplayStateService,
+    private replayService: ReplayService,
     private dialogService: DialogService,
     private commandStackService: CommandStackService,
     private titleService: TitleService,
@@ -59,7 +59,7 @@ export class InitializerService {
 
   initiateEventBusListeners(eventBus: any, commandStack: any): void {
     eventBus.on('element.dblclick', (e: any) => {
-      if (!this.replayStateService.getReplayOn()) {
+      if (!this.replayService.getReplayOn()) {
         const element = e.element;
         if (element.type === ElementTypes.ACTIVITY) {
           // override the doubleClickListener on activities
@@ -164,7 +164,7 @@ export class InitializerService {
       ],
       10000000000,
       (event: any) => {
-        if (this.replayStateService.getReplayOn()) {
+        if (this.replayService.getReplayOn()) {
           event.stopPropagation();
           event.preventDefault();
         }

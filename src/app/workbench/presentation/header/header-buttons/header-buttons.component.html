@@ -1,106 +1,116 @@
-<div *ngIf="!(isReplay$ | async)">
-  <button
-    [disabled]="!replayService.isReplayable()"
-    [class.disabled]="!replayService.isReplayable()"
-    id="buttonStartReplay"
-    class="headerButton"
-    title="Start replay"
-    (click)="startReplay()"
-  >
-    <span class="material-icons materialIconButton"> play_arrow </span>
-  </button>
-
-  <button
-    id="buttonUrlImport"
-    class="headerButton"
-    title="Import story from file"
-    (click)="openUploadUrlDialog()"
-  >
-    <span class="material-icons materialIconButton"> cloud_upload </span>
-  </button>
-
-  <button
-    id="buttonImport"
-    class="headerButton"
-    title="Import story from file"
-    onclick="document.getElementById('import').click();"
-  >
-    <span class="material-icons materialIconButton"> unarchive </span>
-  </button>
-
-  <input
-    type="file"
-    accept=".dst, .svg, .egn, .svg"
-    style="display: none"
-    id="import"
-    onclick="this.value=null;"
-    (change)="import()"
-    name="file"
-  />
-  <button
-    [disabled]="!isExportable()"
-    [class.disabled]="!isExportable()"
-    class="headerButton"
-    id="export"
-    title="Export story as .egn, .svg or .png file"
-    (click)="openDownloadDialog()"
-  >
-    <span
-      class="material-icons-outlined materialIconButton"
-      *ngIf="!(isDirty$ | async)"
+@if (!isReplaying) {
+  <div>
+    <button
+      [disabled]="!isReplayable"
+      [class.disabled]="!isReplayable"
+      id="buttonStartReplay"
+      class="headerButton"
+      title="Start replay"
+      (click)="startReplay.emit()"
     >
-      archive
-    </span>
-    <span class="material-icons materialIconButton" *ngIf="isDirty$ | async">
-      archive
-    </span>
-  </button>
-  <button
-    [disabled]="!exportService.isDomainStoryExportable()"
-    [class.disabled]="!exportService.isDomainStoryExportable()"
-    class="headerButton"
-    title="Label Dictionary"
-    (click)="openLabelDictionary()"
-  >
-    <span class="material-icons materialIconButton" title="Label Dictionary">
-      spellcheck
-    </span>
-  </button>
-  <button class="headerButton" title="Settings" (click)="openSettings()">
-    <span
-      class="material-icons materialIconButton"
-      title="Change Icons and Settings"
+      <span class="material-icons materialIconButton"> play_arrow </span>
+    </button>
+
+    <button
+      id="buttonUrlImport"
+      class="headerButton"
+      title="Import story from file"
+      (click)="openUploadUrlDialog()"
     >
-      settings
-    </span>
-  </button>
-  <button
-    class="headerButton"
-    title="Show keyboard shortcuts"
-    (click)="openKeyboardShortcutsDialog()"
-  >
-    <span class="material-icons materialIconButton"> keyboard </span>
-  </button>
-  <button
-    class="headerButton"
-    title="Create a new domain story"
-    (click)="createNewDomainStory()"
-  >
-    <span class="material-icons materialIconButton"> note_add </span>
-  </button>
-</div>
-<div *ngIf="isReplay$ | async">
-  <button
-    class="headerButton"
-    title="Previous sentence"
-    (click)="previousSentence()"
-  >
-    <span class="material-icons materialIconButton"> skip_previous </span>
-  </button>
-  <button class="headerButton" title="Next sentence" (click)="nextSentence()">
-    <span class="material-icons materialIconButton"> skip_next </span>
-  </button>
-  <button class="headerButton" title="Stop replay" (click)="stopReplay()">
-    <span class="material-icons materialIconButton"> stop </span>
-  </button>
-</div>
+      <span class="material-icons materialIconButton"> cloud_upload </span>
+    </button>
+
+    <button
+      id="buttonImport"
+      class="headerButton"
+      title="Import story from file"
+      onclick="document.getElementById('import').click();"
+    >
+      <span class="material-icons materialIconButton"> unarchive </span>
+    </button>
+    <input
+      type="file"
+      accept=".dst, .svg, .egn, .svg"
+      style="display: none"
+      id="import"
+      onclick="this.value=null;"
+      (change)="import.emit()"
+      name="file"
+    />
+    <button
+      [disabled]="!hasDomainStory && !hasTitle"
+      [class.disabled]="!hasDomainStory && !hasTitle"
+      class="headerButton"
+      id="export"
+      title="Export story as .egn, .svg or .png file"
+      (click)="openDownloadDialog.emit()"
+    >
+      @if (!isDirty) {
+        <span class="material-icons-outlined materialIconButton">
+          archive
+        </span>
+      }
+      @if (isDirty) {
+        <span class="material-icons materialIconButton"> archive </span>
+      }
+    </button>
+    <button
+      [disabled]="!hasDomainStory"
+      [class.disabled]="!hasDomainStory"
+      class="headerButton"
+      title="Label Dictionary"
+      (click)="openLabelDictionary.emit()"
+    >
+      <span class="material-icons materialIconButton" title="Label Dictionary">
+        spellcheck
+      </span>
+    </button>
+    <button class="headerButton" title="Settings" (click)="openSettings.emit()">
+      <span
+        class="material-icons materialIconButton"
+        title="Change Icons and Settings"
+      >
+        settings
+      </span>
+    </button>
+    <button
+      class="headerButton"
+      title="Show keyboard shortcuts"
+      (click)="showKeyboardShortCuts.emit()"
+    >
+      <span class="material-icons materialIconButton"> keyboard </span>
+    </button>
+    <button
+      class="headerButton"
+      title="Create a new domain story"
+      (click)="newStory.emit()"
+    >
+      <span class="material-icons materialIconButton"> note_add </span>
+    </button>
+  </div>
+}
+@if (isReplaying) {
+  <div>
+    <button
+      class="headerButton"
+      title="Previous sentence"
+      (click)="previousSentence.emit()"
+    >
+      <span class="material-icons materialIconButton"> skip_previous </span>
+    </button>
+    <button
+      class="headerButton"
+      title="Next sentence"
+      (click)="nextSentence.emit()"
+    >
+      <span class="material-icons materialIconButton"> skip_next </span>
+    </button>
+    <button
+      class="headerButton"
+      title="Stop replay"
+      (click)="stopReplay.emit()"
+    >
+      <span class="material-icons materialIconButton"> stop </span>
+    </button>
+  </div>
+}

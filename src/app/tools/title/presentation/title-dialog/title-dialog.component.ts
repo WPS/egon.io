@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
-import { TitleService } from 'src/app/tools/header/services/title.service';
-import { HeaderDialogForm } from '../../../domain/header-dialog-form';
-import { DirtyFlagService } from '../../../../../domain/services/dirty-flag.service';
+import { TitleService } from 'src/app/tools/title/services/title.service';
+import { TitleDialogForm } from '../../domain/title-dialog-form';
+import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
 
 @Component({
   selector: 'app-header-dialog',
-  templateUrl: './header-dialog.component.html',
-  styleUrls: ['./header-dialog.component.scss'],
+  templateUrl: './title-dialog.component.html',
+  styleUrls: ['./title-dialog.component.scss'],
 })
-export class HeaderDialogComponent implements OnInit {
-  form!: FormGroup<HeaderDialogForm>;
+export class TitleDialogComponent implements OnInit {
+  form!: FormGroup<TitleDialogForm>;
 
   constructor(
-    private dialogRef: MatDialogRef<HeaderDialogComponent>,
+    private dialogRef: MatDialogRef<TitleDialogComponent>,
     private titleService: TitleService,
     private dirtyFlagService: DirtyFlagService,
   ) {}
@@ -23,7 +23,7 @@ export class HeaderDialogComponent implements OnInit {
     const title = this.titleService.getTitle();
     const description = this.titleService.getDescription();
 
-    this.form = HeaderDialogForm.create(title, description);
+    this.form = TitleDialogForm.create(title, description);
   }
 
   save(): void {

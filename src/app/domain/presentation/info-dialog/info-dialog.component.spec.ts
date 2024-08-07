@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InfoDialogComponent } from 'src/app/tools/import/presentation/info-dialog/info-dialog.component';
+import { InfoDialogComponent } from 'src/app/domain/presentation/info-dialog/info-dialog.component';
 import { MockProviders } from 'ng-mocks';
 import {
   MAT_DIALOG_DATA,
@@ -9,7 +9,7 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog';
 import { UntypedFormBuilder } from '@angular/forms';
-import { InfoDialogData } from '../../../header/domain/infoDialogData';
+import { InfoDialogData } from '../../entities/infoDialogData';
 
 describe('InfoDialogComponent', () => {
   let component: InfoDialogComponent;

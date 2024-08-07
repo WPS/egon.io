@@ -5,7 +5,15 @@ import { MassNamingService } from 'src/app/tools/label-dictionary/services/mass-
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { WorkObjectLabelEntry } from '../domain/workObjectLabelEntry';
 import { LabelEntry } from '../domain/labelEntry';
-import { initializeLabelEditingProvider } from '../../modeler/bpmn/modeler/labeling/dsLabelEditingProvider';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { LabelDictionaryDialogComponent } from '../presentation/label-dictionary-dialog/label-dictionary-dialog.component';
+import {
+  SNACKBAR_DURATION,
+  SNACKBAR_INFO,
+} from '../../../domain/entities/constants';
+import { DialogService } from '../../../domain/services/dialog.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CanvasObject } from '../../../domain/entities/canvasObject';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +26,41 @@ export class LabelDictionaryService {
     private massNamingService: MassNamingService,
     private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService,
+    private dialogService: DialogService,
+    private snackbar: MatSnackBar,
   ) {}
+
+  openLabelDictionary() {
+    const isActivityWithLabel = (element: CanvasObject) =>
+      element.type.includes(ElementTypes.ACTIVITY) &&
+      element.businessObject.name;
+    const isWorkObjectWithLabel = (element: CanvasObject) =>
+      element.type.includes(ElementTypes.WORKOBJECT) &&
+      element.businessObject.name;
+
+    const hasAtLeastOneLabel = this.elementRegistryService
+      .getAllCanvasObjects()
+      .some(
+        (element) =>
+          isActivityWithLabel(element) || isWorkObjectWithLabel(element),
+      );
+    if (hasAtLeastOneLabel) {
+      const config = new MatDialogConfig();
+      config.disableClose = false;
+      config.autoFocus = true;
+
+      this.dialogService.openDialog(LabelDictionaryDialogComponent, config);
+    } else {
+      this.snackbar.open(
+        'There are currently no activities or work objects with labels on the canvas',
+        undefined,
+        {
+          duration: SNACKBAR_DURATION * 3,
+          panelClass: SNACKBAR_INFO,
+        },
+      );
+    }
+  }
 
   createLabelDictionaries(): void {
     this.activityLabels = [];

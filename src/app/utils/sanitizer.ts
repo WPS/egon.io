@@ -18,6 +18,11 @@ export function sanitizeForDesktop(str: string): string {
 }
 
 export function sanitizeIconName(name: string): string {
+  if (!name) {
+    return '';
+  }
+  let nameWithoutFileEnding =
+    name.lastIndexOf('.') > 0 ? name.substring(0, name.lastIndexOf('.')) : name;
   const map: { [key: string]: string } = {
     '/': '',
     '\\': '',
@@ -31,12 +36,7 @@ export function sanitizeIconName(name: string): string {
     '(': '',
     ')': '',
     ' ': '-',
-    '.': '_',
   };
-  const reg = /[/\\:*?"<>|() .]/gi;
-  return name
-    ? name.replace(reg, (match) => {
-        return map[match];
-      })
-    : '';
+  const reg = /[/\\:*?"<>|() ]/gi;
+  return nameWithoutFileEnding.trim().replace(reg, (match) => map[match]);
 }

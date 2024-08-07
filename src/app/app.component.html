@@ -8,7 +8,9 @@
     style="display: none; height: 0"
   />
 
-  <app-settings *ngIf="showSettings$ | async"></app-settings>
+  @if (showSettings$ | async) {
+    <app-settings />
+  }
   <div
     [class.headerAndCanvas]="
       !(showSettings$ | async) && (showDescription$ | async)
@@ -21,8 +23,8 @@
     <app-header
       [class.header]="showDescription$ | async"
       [class.headerCollapsed]="!(showDescription$ | async)"
-    ></app-header>
-    <app-modeler></app-modeler>
+    />
+    <app-modeler />
   </div>
 
   <div

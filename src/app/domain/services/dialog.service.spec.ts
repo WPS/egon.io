@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 
 import { DialogService } from 'src/app/domain/services/dialog.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { InfoDialogData } from '../../tools/header/domain/infoDialogData';
-import { InfoDialogComponent } from '../../tools/import/presentation/info-dialog/info-dialog.component';
+import { InfoDialogData } from '../entities/infoDialogData';
+import { InfoDialogComponent } from '../presentation/info-dialog/info-dialog.component';
 import { MockProvider, MockProviders } from 'ng-mocks';
 import { of } from 'rxjs';
 

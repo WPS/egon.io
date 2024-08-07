@@ -1,17 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { HeaderComponent } from 'src/app/tools/header/presentation/header/header.component';
-import { TitleService } from '../../services/title.service';
+import { TitleService } from '../../../../tools/title/services/title.service';
 import { MockComponent, MockModule, MockService } from 'ng-mocks';
-import { ReplayService } from '../../../replay/services/replay.service';
-import { ImportDomainStoryService } from '../../../import/services/import-domain-story.service';
-import { ExportService } from '../../../export/services/export.service';
-import { ModelerService } from '../../../modeler/services/modeler.service';
+import { ReplayService } from '../../../../tools/replay/services/replay.service';
+import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
+import { ExportService } from '../../../../tools/export/services/export.service';
+import { ModelerService } from '../../../../tools/modeler/services/modeler.service';
 import { ElementRegistryService } from '../../../../domain/services/element-registry.service';
-import { DialogService } from '../../../../domain/services/dialog.service';
-import { SettingsService } from '../../../../workbench/services/settings/settings.service';
-import { HeaderButtonsComponent } from '../../../../workbench/presentation/header/header-buttons/header-buttons.component';
+import { SettingsService } from '../../../services/settings/settings.service';
+import { HeaderButtonsComponent } from '../header-buttons/header-buttons.component';
 import { MaterialModule } from 'src/app/material.module';
+import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -44,10 +42,6 @@ describe('HeaderComponent', () => {
         {
           provide: ElementRegistryService,
           useValue: MockService(ElementRegistryService),
-        },
-        {
-          provide: DialogService,
-          useValue: MockService(DialogService),
         },
         {
           provide: SettingsService,

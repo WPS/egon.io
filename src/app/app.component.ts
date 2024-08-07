@@ -7,9 +7,8 @@ import {
 } from '@angular/core';
 import { SettingsService } from 'src/app/workbench/services/settings/settings.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { TitleService } from './tools/header/services/title.service';
+import { TitleService } from './tools/title/services/title.service';
 import { ExportService } from './tools/export/services/export.service';
-import { ReplayStateService } from './tools/replay/services/replay-state.service';
 import { ReplayService } from './tools/replay/services/replay.service';
 import { environment } from '../environments/environment';
 import { ColorPickerDirective } from 'ngx-color-picker';
@@ -65,7 +64,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     private settingsService: SettingsService,
     private titleService: TitleService,
     private exportService: ExportService,
-    private replayStateService: ReplayStateService,
     private autosaveService: AutosaveService,
     private cd: ChangeDetectorRef,
     replayService: ReplayService,
@@ -88,7 +86,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
       if (
         (e.key === 'ArrowRight' || e.key === 'ArrowUp') &&
-        this.replayStateService.getReplayOn()
+        replayService.getReplayOn()
       ) {
         e.preventDefault();
         e.stopPropagation();
@@ -96,7 +94,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
       if (
         (e.key === 'ArrowLeft' || e.key === 'ArrowDown') &&
-        this.replayStateService.getReplayOn()
+        replayService.getReplayOn()
       ) {
         e.preventDefault();
         e.stopPropagation();

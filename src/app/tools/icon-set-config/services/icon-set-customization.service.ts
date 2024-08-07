@@ -11,7 +11,7 @@ import {
 import { Dictionary } from '../../../domain/entities/dictionary';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { IconListItem } from '../domain/iconListItem';
-import { TitleService } from '../../header/services/title.service';
+import { TitleService } from '../../title/services/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import getIconId = ElementTypes.getIconId;
@@ -24,6 +24,7 @@ import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon
  */
 export abstract class IconSetChangedService {
   public abstract iconConfigrationChanged(): Observable<IconSetConfiguration>;
+  public abstract getConfiguration(): IconSetConfiguration;
 }
 
 @Injectable({
@@ -67,13 +68,13 @@ export class IconSetCustomizationService {
     iconSetChangedService.iconConfigrationChanged().subscribe((config) => {
       this.importConfiguration(config);
     });
+
     const storedIconSetConfiguration =
       this.iconSetConfigurationService.getStoredIconSetConfiguration();
     if (storedIconSetConfiguration) {
       this.importConfiguration(storedIconSetConfiguration, false);
     }
-    const importedConfiguration =
-      this.iconSetConfigurationService.getCurrentConfiguration();
+    const importedConfiguration = iconSetChangedService.getConfiguration();
     if (importedConfiguration) {
       this.importConfiguration(importedConfiguration, false);
     }

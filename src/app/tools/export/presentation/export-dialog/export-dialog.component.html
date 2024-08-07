@@ -23,14 +23,15 @@
 
   <div>
     <button mat-flat-button (click)="close()">Cancel</button>
-    <button
-      *ngFor="let option of options; let i = index"
-      mat-stroked-button
-      class="mr-1"
-      [title]="option.tooltip"
-      (click)="doOption(i)"
-    >
-      {{ option.text }}
-    </button>
+    @for (option of options; track option; let i = $index) {
+      <button
+        mat-stroked-button
+        class="mr-1"
+        [title]="option.tooltip"
+        (click)="doOption(i)"
+      >
+        {{ option.text }}
+      </button>
+    }
   </div>
 </mat-dialog-actions>

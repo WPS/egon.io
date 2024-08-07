@@ -1,42 +1,48 @@
 <mat-dialog-content>
   <div class="workobjectList">
-    <h3>Workobjects</h3>
+    <h3>Work Objects</h3>
     <mat-list>
-      <mat-list-item
-        *ngFor="let workobjectEntry of workobjectEntriesSubject | async"
-      >
-        <mat-form-field class="inputText">
-          <input
-            matInput
-            class="inputText"
-            [value]="workobjectEntry.name"
-            (change)="updateWorkobjectEntry($event, workobjectEntry)"
-          />
-        </mat-form-field>
-      </mat-list-item>
+      @for (
+        workobjectEntry of workobjectEntriesSubject | async;
+        track workobjectEntry
+      ) {
+        <mat-list-item>
+          <mat-form-field class="inputText">
+            <input
+              matInput
+              class="inputText"
+              [value]="workobjectEntry.name"
+              (change)="updateWorkobjectEntry($event, workobjectEntry)"
+            />
+          </mat-form-field>
+        </mat-list-item>
+      }
     </mat-list>
   </div>
   <div class="activityList">
     <h3 class="activityListTitle">Activities</h3>
     <mat-list>
-      <mat-list-item
-        *ngFor="let activityEntry of activityEntriesSubject | async"
-      >
-        <mat-form-field class="inputText">
-          <textarea
-            matInput
-            class="inputText activity"
-            [value]="activityEntry.name"
-            (change)="updateActivityEntry($event, activityEntry)"
-            cdkTextareaAutosize
-            cdkAutosizeMinRows="1"
-            cdkAutosizeMaxRows="3"
-            (keydown.enter)="preventDefault($event)"
-            (keyup.enter)="save()"
-            (keyup.escape)="close()"
-          ></textarea>
-        </mat-form-field>
-      </mat-list-item>
+      @for (
+        activityEntry of activityEntriesSubject | async;
+        track activityEntry
+      ) {
+        <mat-list-item>
+          <mat-form-field class="inputText">
+            <textarea
+              matInput
+              class="inputText activity"
+              [value]="activityEntry.name"
+              (change)="updateActivityEntry($event, activityEntry)"
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="3"
+              (keydown.enter)="preventDefault($event)"
+              (keyup.enter)="save()"
+              (keyup.escape)="close()"
+            ></textarea>
+          </mat-form-field>
+        </mat-list-item>
+      }
     </mat-list>
   </div>
 </mat-dialog-content>

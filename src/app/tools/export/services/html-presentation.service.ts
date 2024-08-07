@@ -3,7 +3,7 @@ import { sanitizeForDesktop } from '../../../utils/sanitizer';
 import { ReplayService } from '../../replay/services/replay.service';
 // @ts-ignore
 import doT from 'dot';
-import { TitleService } from '../../header/services/title.service';
+import { TitleService } from '../../title/services/title.service';
 import { StoryCreatorService } from '../../replay/services/story-creator.service';
 
 @Injectable({
@@ -41,8 +41,7 @@ export class HtmlPresentationService {
   ): Promise<void> {
     const svgData = [];
     // export all sentences of domain story
-    const story = this.storyCreatorService.traceActivitiesAndCreateStory();
-    this.replayService.startReplay(story);
+    this.replayService.startReplay();
     try {
       const result = await modeler.saveSVG({});
       this.fixActivityMarkersForEachSentence(

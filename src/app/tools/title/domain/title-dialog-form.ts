@@ -1,16 +1,16 @@
 import { FormControl, FormGroup } from '@angular/forms';
 
-export interface HeaderDialogForm {
+export interface TitleDialogForm {
   title: FormControl<string | null>;
   description: FormControl<string | null>;
 }
 
-export namespace HeaderDialogForm {
+export namespace TitleDialogForm {
   export function create(
     titel: string,
     description: string,
-  ): FormGroup<HeaderDialogForm> {
-    return new FormGroup<HeaderDialogForm>({
+  ): FormGroup<TitleDialogForm> {
+    return new FormGroup<TitleDialogForm>({
       title: new FormControl<string | null>(titel),
       description: new FormControl<string | null>(description),
     });

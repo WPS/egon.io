@@ -11,7 +11,10 @@
     "app.*.ts",
     "tools/import/services/import-domain-story.service.ts",
     "tools/modeler/services/initializer.service.ts",
-    "initializeDomainStoryModelerClasses.ts"
+    "tools/title/presentation/title-dialog/title-dialog.component.ts",
+    "domain/presentation/info-dialog/info-dialog.component.ts",
+    "tools/export/presentation/export-dialog/export-dialog.component.ts",
+    "tools/label-dictionary/presentation/label-dictionary-dialog/label-dictionary-dialog.component.ts"
   ],
   "artifacts": [
     {

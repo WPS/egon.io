@@ -1,28 +1,28 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderDialogComponent } from 'src/app/tools/header/presentation/dialog/header-dialog/header-dialog.component';
+import { TitleDialogComponent } from 'src/app/tools/title/presentation/title-dialog/title-dialog.component';
 import { MockModule, MockProviders, MockService } from 'ng-mocks';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
-import { TitleService } from '../../../services/title.service';
-import { DirtyFlagService } from '../../../../../domain/services/dirty-flag.service';
+import { TitleService } from '../../services/title.service';
+import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
-} from '../../../../../domain/entities/constants';
+} from '../../../../domain/entities/constants';
 
 describe('HeaderDialogComponent', () => {
-  let component: HeaderDialogComponent;
-  let fixture: ComponentFixture<HeaderDialogComponent>;
+  let component: TitleDialogComponent;
+  let fixture: ComponentFixture<TitleDialogComponent>;
 
   let titleService: TitleService;
   let dirtyFlagService: DirtyFlagService;
-  let dialogRef: MatDialogRef<HeaderDialogComponent>;
+  let dialogRef: MatDialogRef<TitleDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HeaderDialogComponent],
+      declarations: [TitleDialogComponent],
       imports: [MockModule(MaterialModule), MockModule(ReactiveFormsModule)],
       providers: [
         {
@@ -43,7 +43,7 @@ describe('HeaderDialogComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderDialogComponent);
+    fixture = TestBed.createComponent(TitleDialogComponent);
     component = fixture.componentInstance;
     titleService = TestBed.inject(TitleService);
     dirtyFlagService = TestBed.inject(DirtyFlagService);

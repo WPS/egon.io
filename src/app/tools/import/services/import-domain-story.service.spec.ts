@@ -5,7 +5,7 @@ import { ElementRegistryService } from '../../../domain/services/element-registr
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
 import { ImportRepairService } from './import-repair.service';
-import { TitleService } from '../../header/services/title.service';
+import { TitleService } from '../../title/services/title.service';
 import { RendererService } from '../../modeler/services/renderer.service';
 import { MockService } from 'ng-mocks';
 import { DialogService } from '../../../domain/services/dialog.service';

@@ -2,15 +2,15 @@ import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
-import { TitleService } from 'src/app/tools/header/services/title.service';
+import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
 import { Observable, Subscription } from 'rxjs';
 import { RendererService } from 'src/app/tools/modeler/services/renderer.service';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { DialogService } from '../../../domain/services/dialog.service';
-import { InfoDialogComponent } from '../presentation/info-dialog/info-dialog.component';
+import { InfoDialogComponent } from '../../../domain/presentation/info-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { InfoDialogData } from '../../header/domain/infoDialogData';
+import { InfoDialogData } from '../../../domain/entities/infoDialogData';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
@@ -21,6 +21,7 @@ import { IconSetConfigurationService } from '../../icon-set-config/services/icon
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 import { IconSetChangedService } from '../../icon-set-config/services/icon-set-customization.service';
+import { ModelerService } from '../../modeler/services/modeler.service';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +46,7 @@ export class ImportDomainStoryService
     private rendererService: RendererService,
     private dialogService: DialogService,
     private iconSetConfigurationService: IconSetConfigurationService,
+    private modelerService: ModelerService,
     private snackbar: MatSnackBar,
   ) {
     this.titleSubscription = this.titleService.title$.subscribe(
@@ -68,11 +70,7 @@ export class ImportDomainStoryService
     return this.importedConfigurationEmitter.asObservable();
   }
 
-  get importedConfigurationEvent(): Observable<IconSetConfiguration> {
-    return this.importedConfigurationEmitter.asObservable();
-  }
-
-  getImportedConfiguration(): IconSetConfiguration {
+  getConfiguration(): IconSetConfiguration {
     const config: IconSetConfiguration = {
       name: this.importedConfiguration?.name || '',
       actors: this.importedConfiguration?.actors || new Dictionary(),
@@ -80,6 +78,26 @@ export class ImportDomainStoryService
     };
     this.importedConfiguration = null;
     return config;
+  }
+
+  performImport(): void {
+    // @ts-ignore
+    const file = document.getElementById('import').files[0];
+    const filename = file.name;
+
+    const dstSvgPattern = /.*(.dst)(\s*\(\d+\)){0,1}\.svg/;
+    const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
+
+    if (filename.endsWith('.dst')) {
+      this.importDST(file, filename, false);
+    } else if (filename.match(dstSvgPattern)) {
+      this.importDST(file, filename, true);
+    } else if (filename.endsWith('.egn')) {
+      this.importEGN(file, filename, false);
+    } else if (filename.match(egnSvgPattern)) {
+      this.importEGN(file, filename, true);
+    }
+    this.modelerService.commandStackChanged();
   }
 
   importDST(input: Blob, filename: string, isSVG: boolean): void {

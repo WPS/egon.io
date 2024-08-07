@@ -2,12 +2,12 @@ import { TestBed } from '@angular/core/testing';
 
 import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
-import { ReplayStateService } from '../../replay/services/replay-state.service';
 import { DialogService } from '../../../domain/services/dialog.service';
-import { TitleService } from '../../header/services/title.service';
+import { TitleService } from '../../title/services/title.service';
 import { MassNamingService } from '../../label-dictionary/services/mass-naming.service';
 import { HtmlPresentationService } from '../../export/services/html-presentation.service';
 import { MockService } from 'ng-mocks';
+import { ReplayService } from '../../replay/services/replay.service';
 
 describe('InitializerService', () => {
   let service: InitializerService;
@@ -32,8 +32,8 @@ describe('InitializerService', () => {
           useValue: MockService(MassNamingService),
         },
         {
-          provide: ReplayStateService,
-          useValue: MockService(ReplayStateService),
+          provide: ReplayService,
+          useValue: MockService(ReplayService),
         },
         TitleService,
       ],

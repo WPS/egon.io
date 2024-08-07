@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { IconSetConfigurationService } from 'src/app/tools/icon-set-config/services/icon-set-configuration.service';
 import { sanitizeForDesktop } from 'src/app/utils/sanitizer';
-import { TitleService } from 'src/app/tools/header/services/title.service';
+import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ConfigAndDST } from 'src/app/tools/export/domain/export/configAndDst';
 import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
 import { PngService } from 'src/app/tools/export/services/png.service';
@@ -11,6 +11,19 @@ import { RendererService } from '../../modeler/services/renderer.service';
 import { HtmlPresentationService } from './html-presentation.service';
 import { formatDate } from '@angular/common';
 import { environment } from '../../../../environments/environment';
+import {
+  ExportDialogData,
+  ExportOption,
+} from '../domain/dialog/exportDialogData';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { ExportDialogComponent } from '../presentation/export-dialog/export-dialog.component';
+import {
+  SNACKBAR_DURATION,
+  SNACKBAR_INFO,
+} from '../../../domain/entities/constants';
+import { ModelerService } from '../../modeler/services/modeler.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogService } from '../../../domain/services/dialog.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +43,9 @@ export class ExportService implements OnDestroy {
     private svgService: SvgService,
     private htmlPresentationService: HtmlPresentationService,
     private rendererService: RendererService,
+    private modelerService: ModelerService,
+    private dialogService: DialogService,
+    private snackbar: MatSnackBar,
   ) {
     this.titleSubscription = this.titleService.title$.subscribe(
       (title: string) => {
@@ -204,5 +220,48 @@ export class ExportService implements OnDestroy {
 
   private getCurrentDateString(): string {
     return formatDate(new Date(), 'YYYY-MM-dd', 'en-GB');
+  }
+
+  openDownloadDialog() {
+    if (this.isDomainStoryExportable()) {
+      const SVGDownloadOption = new ExportOption(
+        'SVG',
+        'Download an SVG-Image with the Domain-Story embedded. Can be used to save and share your Domain-Story.',
+        (withTitle: boolean, useWhiteBackground: boolean) =>
+          this.downloadSVG(withTitle, useWhiteBackground),
+      );
+      const EGNDownloadOption = new ExportOption(
+        'EGN',
+        'Download an EGN-File with the Domain-Story. Can be used to save and share your Domain-Story.',
+        () => this.downloadDST(),
+      );
+      const PNGDownloadOption = new ExportOption(
+        'PNG',
+        'Download a PNG-Image of the Domain-Story. This does not include the Domain-Story!',
+        (withTitle: boolean) => this.downloadPNG(withTitle),
+      );
+      const HTMLDownloadOption = new ExportOption(
+        'HTML-Presentation',
+        'Download an HTML-Presentation. This does not include the Domain-Story!',
+        () => this.downloadHTMLPresentation(this.modelerService.getModeler()),
+      );
+
+      const config = new MatDialogConfig();
+      config.disableClose = false;
+      config.autoFocus = true;
+      config.data = new ExportDialogData('Export', [
+        SVGDownloadOption,
+        EGNDownloadOption,
+        PNGDownloadOption,
+        HTMLDownloadOption,
+      ]);
+
+      this.dialogService.openDialog(ExportDialogComponent, config);
+    } else {
+      this.snackbar.open('No Domain Story to be exported', undefined, {
+        duration: SNACKBAR_DURATION,
+        panelClass: SNACKBAR_INFO,
+      });
+    }
   }
 }

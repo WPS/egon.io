@@ -105,9 +105,9 @@ We assume that a users prefer to model with devices that have a keyboard and mou
 
 *The building block view shows the static decomposition of the system into building blocks (modules, components, subsystems, classes, interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, macros, operations, data structures, …) as well as their dependencies (relationships, associations, …).*
 
-## Whitebox Overall System {#_whitebox_overall_system}
+## Level 1: Overall System
 
-The following C4 container diagram is a white box description of the overall system together with black box descriptions of all contained building blocks. Since there is no backend and only one frontend application, the overall architecture is very simple – it consists of ust one building block (in C4: *container*): 
+Since there is no backend and only one frontend application, the overall architecture is very simple – it consists of just one building block (in C4: *container*). Here it is depicted as C4 container diagram:
 
 ```mermaid
 
@@ -141,9 +141,84 @@ style Egon fill:none,stroke:#CCC,stroke-width:2px,color:#CCC,stroke-dasharray: 5
 
 ```
 
+## Level 2: Web Application
+
+On the top level, the web app is organized into a layered architecture:
+
+```mermaid
+
+flowchart TD
+
+Startup["Startup
+[Layer]
+
+initializes the application
+"]
+
+Workbench["Workbench
+[Layer]
+
+a home for modeling tools
+"]
+
+Tools["Tools
+[Layer]
+
+contains modeling tools
+"]
+
+Domain["Domain
+[Layer]
+
+...
+"]
+
+Utils["Utils
+[Layer]
+
+a collection of little utilities
+"]
+
+classDef layer fill:#1168bd,stroke:#0b4884,color:#ffffff
+
+class Startup layer
+class Workbench layer
+class Tools layer
+class Domain layer
+class Utils layer
+
+Startup-- "initializes" -->Workbench
+Startup-- "initializes" -->Tools
+Workbench-- "starts" -->Tools
+Tools-- "uses" -->Domain
+Tools-- "uses" -->Utils
+```
+
+The folder structure resembles the layered architecture:
+
+- `app` => Startup layer
+  - `workbench` => Workbench layer
+  - `tools` => Tools layer
+  - `domain` => Domain layer
+  - `utils` => Utils layer
+
+The architecture rules are enforced with ArchLint and can be checked by running `npm run archlint.`
+
+## Level 3: Tools
+
+TODO: Show vertical slices and usage of bmpn-js. The folder structure resembles the vertical slices. 
+
 # Runtime View {#section-runtime-view}
 
+*The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios.*
+
+This section is omitted as Egon consists only of one building block.
+
 # Deployment View {#section-deployment-view}
+
+*The deployment view describes the technical infrastructure used to execute your system.*
+
+TODO: Maybe document development pipeline here (Github Action builds and pushes to Github Pages, builds Docker container)
 
 # Architecture Decisions {#section-design-decisions}
 
@@ -151,13 +226,34 @@ style Egon fill:none,stroke:#CCC,stroke-width:2px,color:#CCC,stroke-dasharray: 5
 
 TODO:
 
-- Use Browser Storage to Persist Configuration
+## Decision: Use Web Storage to Persist User-specific Information
+
+Users can configure their icon set and autosave properties. To avoid having to configure everything again the next time a user uses Egon, the user-specific information must be persisted. 
+
+Also, autosave creates drafts that must be restorable across browser sessions to recover Domain Stories after a browser crash.
+
+Since Egon runs completely in the browser, we must use local means to persist all user-specific information. 
+
+**Decision:** Use *Web Storage* (i.e., `localStorage`) to persist user-specific information across browser sessions. All popular web browsers implement this standard. 
+
+Alternatively, cookies could be used (and in fact were used in earlier Egon versions). Unlike cookies, the storage limit is far larger (at least 5MB).
+
+## TODO
 - 1 model = 1 Domain Story = 1 File
+- Angular-specific patterns
 
 # Quality Requirements {#section-quality-scenarios}
 
-## Quality Tree {#_quality_tree}
+*This section contains all quality requirements as quality tree with scenarios.*
 
-## Quality Scenarios {#_quality_scenarios}
+TBD
 
 # Risks and Technical Debts {#section-technical-risks}
+
+*A list of identified technical risks or technical debts, ordered by priority*
+
+TBD
+
+# Glossary
+
+Egon uses terminology of Domain Storytelling in the UI and in the code. See [Domain Storytelling Website](https://domainstorytelling.org/quick-start-guide#the-pictographic-language).
