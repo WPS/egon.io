@@ -4,7 +4,7 @@ import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
-import { from, Observable, Subscription, switchMap, tap } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { RendererService } from 'src/app/tools/modeler/services/renderer.service';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { DialogService } from '../../../domain/services/dialog.service';
@@ -15,6 +15,7 @@ import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
   SNACKBAR_DURATION,
+  SNACKBAR_DURATION_LONG,
   SNACKBAR_ERROR,
 } from '../../../domain/entities/constants';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
@@ -102,35 +103,45 @@ export class ImportDomainStoryService
   }
 
   importFromUrl(fileUrl: string): void {
-    from(fetch(fileUrl))
-      .pipe(
-        switchMap((response) => {
-          return from(response.blob());
+    if (!fileUrl.startsWith('http')) {
+      this.snackbar.open('Url not valid', undefined, {
+        duration: SNACKBAR_DURATION_LONG,
+        panelClass: SNACKBAR_ERROR,
+      });
+      return;
+    }
+    fetch(fileUrl)
+      .then((response) => {
+        return response.blob();
+      })
+      .then((blob) => {
+        const string = fileUrl.split('/');
+        const filename = string[string.length - 1].replace(/%20/g, ' ');
+
+        if (!filename) {
+          throw new Error('Unable to extract filename from URL');
+        }
+
+        const dstSvgPattern = /.*(.dst)(\s*\(\d+\)){0,1}\.svg/;
+        const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
+
+        if (filename.endsWith('.dst')) {
+          this.importDST(blob, filename, false);
+        } else if (filename.match(dstSvgPattern)) {
+          this.importDST(blob, filename, true);
+        } else if (filename.endsWith('.egn')) {
+          this.importEGN(blob, filename, false);
+        } else if (filename.match(egnSvgPattern)) {
+          this.importEGN(blob, filename, true);
+        }
+        this.modelerService.commandStackChanged();
+      })
+      .catch(() =>
+        this.snackbar.open('Cross-origin request blocked', undefined, {
+          duration: SNACKBAR_DURATION_LONG,
+          panelClass: SNACKBAR_ERROR,
         }),
-        tap((blob) => {
-          const string = fileUrl.split('/');
-          const filename = string[string.length - 1].replace(/%20/g, ' ');
-
-          if (!filename) {
-            throw new Error('Unable to extract filename from URL');
-          }
-
-          const dstSvgPattern = /.*(.dst)(\s*\(\d+\)){0,1}\.svg/;
-          const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
-
-          if (filename.endsWith('.dst')) {
-            this.importDST(blob, filename, false);
-          } else if (filename.match(dstSvgPattern)) {
-            this.importDST(blob, filename, true);
-          } else if (filename.endsWith('.egn')) {
-            this.importEGN(blob, filename, false);
-          } else if (filename.match(egnSvgPattern)) {
-            this.importEGN(blob, filename, true);
-          }
-          this.modelerService.commandStackChanged();
-        }),
-      )
-      .subscribe();
+      );
   }
 
   openUploadUrlDialog(): void {

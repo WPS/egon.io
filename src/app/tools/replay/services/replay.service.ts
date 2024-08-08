@@ -5,7 +5,7 @@ import { StoryCreatorService } from './story-creator.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
-  SNACKBAR_DURATION,
+  SNACKBAR_DURATION_LONG,
   SNACKBAR_INFO,
 } from '../../../domain/entities/constants';
 
@@ -92,7 +92,7 @@ export class ReplayService {
             : `The Domain Story is not complete. Sentences ${sentence} are missing.`,
           undefined,
           {
-            duration: SNACKBAR_DURATION * 2,
+            duration: SNACKBAR_DURATION_LONG,
             panelClass: SNACKBAR_INFO,
           },
         );
@@ -108,7 +108,7 @@ export class ReplayService {
       );
     } else {
       this.snackbar.open('You need a Domain Story for replay.', undefined, {
-        duration: SNACKBAR_DURATION * 2,
+        duration: SNACKBAR_DURATION_LONG,
         panelClass: SNACKBAR_INFO,
       });
     }

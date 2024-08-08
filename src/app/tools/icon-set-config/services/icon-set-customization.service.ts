@@ -5,6 +5,7 @@ import { UsedIconList } from 'src/app/domain/entities/UsedIconList';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import {
   SNACKBAR_DURATION,
+  SNACKBAR_DURATION_LONGER,
   SNACKBAR_INFO,
   SNACKBAR_SUCCESS,
 } from '../../../domain/entities/constants';
@@ -347,7 +348,7 @@ export class IconSetCustomizationService {
           `The following icons are already in use as actors and cannot be changed: ${actors}`,
           undefined,
           {
-            duration: SNACKBAR_DURATION * 3,
+            duration: SNACKBAR_DURATION_LONGER,
             panelClass: SNACKBAR_INFO,
           },
         );
@@ -358,7 +359,7 @@ export class IconSetCustomizationService {
           `The following icons are already in use as workobjects and cannot be changed: ${workobjects}`,
           undefined,
           {
-            duration: SNACKBAR_DURATION * 3,
+            duration: SNACKBAR_DURATION_LONGER,
             panelClass: SNACKBAR_INFO,
           },
         );
