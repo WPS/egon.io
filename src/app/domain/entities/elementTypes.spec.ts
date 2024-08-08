@@ -13,16 +13,3 @@ describe('getIconId()', () => {
     expect(ElementTypes.getIconId('domainStory:textAnnotation')).toBe('');
   });
 });
-
-describe('isCustomType()', () => {
-  it('should return true', () => {
-    expect(
-      ElementTypes.isCustomType('domainStory:workObjectsnacks-custom'),
-    ).toBeTrue();
-  });
-  it('should return false', () => {
-    expect(
-      ElementTypes.isCustomType('domainStory:workObjectsnacks'),
-    ).toBeFalse();
-  });
-});

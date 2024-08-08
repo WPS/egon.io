@@ -104,7 +104,7 @@ export class IconSetConfigurationComponent implements OnInit {
     for (let iconInputFile of files) {
       const reader = new FileReader();
       const name = sanitizeIconName(iconInputFile.name);
-      const iconName = name + ElementTypes.CUSTOM;
+      const iconName = name + '-custom'; // this suffix helps users to see which icons they uploaded; it should not be used to check if an icon is actually custom or not since this convention was introduce after v1.3.0 and is therefore not reliable information
 
       reader.onloadend = (e: ProgressEvent<FileReader>) => {
         if (e.target) {

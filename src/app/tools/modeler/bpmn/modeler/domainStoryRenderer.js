@@ -27,7 +27,7 @@ import {
 } from "src/app/tools/modeler/bpmn/modeler/labeling/position";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { angleBetween } from "../../../../utils/mathExtensions";
-import { isCustomIcon } from "./util";
+import { isCustomIcon, isCustomSvgIcon } from "./util";
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
@@ -381,9 +381,13 @@ export default function DomainStoryRenderer(
   function getIconSvg(icon, element) {
     const pickedColor = element.businessObject.pickedColor;
     if (isCustomIcon(icon)) {
-      const dataURL = ElementTypes.isCustomSvgType(element.type)
-        ? applyColorToCustomSvgIcon(pickedColor, icon)
-        : icon;
+      let dataURL;
+      if (isCustomSvgIcon(icon)) {
+        dataURL = applyColorToCustomSvgIcon(pickedColor, icon);
+      } else {
+        dataURL = icon;
+        // show info message: Only SVG icons can be colored
+      }
       return (
         '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
         '<image width="24" height="24" xlink:href="' +

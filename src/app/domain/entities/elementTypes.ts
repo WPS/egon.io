@@ -6,7 +6,6 @@ export enum ElementTypes {
   GROUP = 'domainStory:group',
   TEXTANNOTATION = 'domainStory:textAnnotation',
   DOMAINSTORY = 'domainStory:',
-  CUSTOM = '-custom',
 }
 
 export namespace ElementTypes {
@@ -17,17 +16,5 @@ export namespace ElementTypes {
       return type.replace(ElementTypes.WORKOBJECT, '');
     }
     return '';
-  }
-
-  // this check will give the wrong result for imported domain stories created with <= 1.3.x
-  // because the "-custom" suffix for custom icons was introduced with a later version
-  export function isCustomType(type: string): boolean {
-    return type.endsWith(ElementTypes.CUSTOM);
-  }
-
-  // this check will give the wrong result for imported domain stories created with <= 1.3.x
-  // because the "-custom" suffix for custom icons was introduced with a later version
-  export function isCustomSvgType(type: string) {
-    return type.endsWith('_svg' + ElementTypes.CUSTOM);
   }
 }

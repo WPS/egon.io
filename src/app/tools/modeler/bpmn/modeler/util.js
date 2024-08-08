@@ -53,3 +53,9 @@ export function isCustomIcon(icon) {
   // custom icons are provided as "Data URL" with a base64-encoded image as payload
   return icon.startsWith("data");
 }
+
+export function isCustomSvgIcon(icon) {
+  // default icons are provided as SVG
+  // custom icons are provided as "Data URL" with a base64-encoded image as payload
+  return icon.startsWith("data:image/svg");
+}

@@ -66,23 +66,15 @@ export default function DomainStoryContextPadProvider(
       connect.start(event, element, autoActivate);
     };
 
-    let canBeColored =
-      !ElementTypes.isCustomType(element.type) ||
-      ElementTypes.isCustomSvgType(element.type);
-
     if (element.type.includes(ElementTypes.WORKOBJECT)) {
-      if (canBeColored) {
-        addColorChange(actions);
-      }
+      addColorChange(actions);
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
       addActors(appendAction, actions);
       addWorkObjects(appendAction, actions);
       addChangeWorkObjectTypeMenu(actions);
     } else if (element.type.includes(ElementTypes.ACTOR)) {
-      if (canBeColored) {
-        addColorChange(actions);
-      }
+      addColorChange(actions);
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
       addWorkObjects(appendAction, actions);
