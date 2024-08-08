@@ -1,9 +1,8 @@
-mat-dialog-content {
+.list-content {
   display: grid;
   grid-template-columns: auto auto;
   top: 0;
   bottom: 0;
-  max-height: 75vh;
   grid-column-gap: 5px;
   width: 75vw;
 
@@ -42,8 +41,9 @@ h3 {
   width: 100%;
 }
 
-.activityListTitle {
+.listTitle {
   justify-self: left;
+  margin-left: 16px;
 }
 
 .saveButton {
@@ -57,4 +57,14 @@ h3 {
 
 .activity {
   max-height: 3rem;
+}
+
+.sticky-bottom {
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  padding: 10px;
+  font-size: 18px;
+  z-index: 1;
+  box-shadow: 0 20px white;
 }
