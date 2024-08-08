@@ -182,3 +182,9 @@ export function getAllStandardIconKeys(): string[] {
 export function overrideAppendedIcons(newIcons: Dictionary): void {
   appendedIcons = newIcons;
 }
+
+export function updateAppendedIcons(newIcons: Dictionary): void {
+  for (const key in newIcons.keysArray().entries()) {
+    appendedIcons.add(newIcons.get(key), key);
+  }
+}
