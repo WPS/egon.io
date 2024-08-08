@@ -5,7 +5,7 @@ WORKDIR /app
 COPY . .
 RUN npm ci
 
-RUN npm run bundle
+RUN npm run build-prod
 
 
 # Runtime stage
