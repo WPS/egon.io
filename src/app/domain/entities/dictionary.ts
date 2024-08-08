@@ -67,27 +67,6 @@ export class Dictionary {
     const found = this.entries.filter((entry) => entry.key === key);
     return found[0] ? found[0].value : null;
   }
-
-  sort(fn: (a: Entry, b: Entry) => number) {
-    this.entries.sort(fn);
-  }
-
-  sortByName() {
-    this.entries.sort((a: Entry, b: Entry) => {
-      if (a.key.includes('_custom') == b.key.includes('_custom')) {
-        if (a.key < b.key) return -1;
-        else {
-          return 1;
-        }
-      } else {
-        if (a.key.includes('_custom')) {
-          return -1;
-        } else {
-          return 1;
-        }
-      }
-    });
-  }
 }
 
 export class Entry {

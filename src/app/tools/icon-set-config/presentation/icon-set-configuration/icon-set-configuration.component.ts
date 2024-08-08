@@ -59,18 +59,7 @@ export class IconSetConfigurationComponent implements OnInit {
   }
 
   private sortByName(a: string, b: string): number {
-    if (a.includes('_custom') == b.includes('_custom')) {
-      if (a < b) return -1;
-      else {
-        return 1;
-      }
-    } else {
-      if (a.includes('_custom')) {
-        return -1;
-      } else {
-        return 1;
-      }
-    }
+    return a.toLowerCase().localeCompare(b.toLowerCase());
   }
 
   /** Default Icon Set **/
