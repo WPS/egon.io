@@ -25,8 +25,11 @@ import {
   ORANGE,
   PURPLE,
   RED,
+  SNACKBAR_DURATION,
+  SNACKBAR_INFO,
   YELLOW,
 } from './domain/entities/constants';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -66,6 +69,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private exportService: ExportService,
     private autosaveService: AutosaveService,
     private cd: ChangeDetectorRef,
+    private snackbar: MatSnackBar,
     replayService: ReplayService,
   ) {
     this.showSettings$ = new BehaviorSubject(false);
@@ -119,6 +123,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     document.addEventListener('openColorPicker', () => {
       this.colorPicker.openDialog();
+    });
+
+    document.addEventListener('errorColoringOnlySvg', () => {
+      this.snackbar.open('Only SVG icons can be colored', undefined, {
+        duration: SNACKBAR_DURATION * 2,
+        panelClass: SNACKBAR_INFO,
+      });
     });
   }
 

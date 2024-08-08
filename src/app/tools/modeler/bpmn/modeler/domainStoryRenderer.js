@@ -31,7 +31,7 @@ import { isCustomIcon, isCustomSvgIcon } from "./util";
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
-const DEFAULT_COLOR = "black";
+const DEFAULT_COLOR = "#000000";
 
 /**
  * a renderer that knows how to render custom elements.
@@ -360,12 +360,11 @@ export default function DomainStoryRenderer(
   }
 
   function applyColorToIcon(pickedColor = DEFAULT_COLOR, iconSvg) {
-    const match = iconSvg.match(/fill="(?!none).*?"/);
+    const match = iconSvg.match(/fill[=:]/);
     if (match && match.length > 0) {
-      return iconSvg.replaceAll(
-        /fill="(?!none).*?"/g,
-        'fill="' + pickedColor + '"',
-      );
+      return iconSvg
+        .replaceAll(/fill="(?!none).*?"/g, `fill="${pickedColor}"`)
+        .replaceAll(/fill:\s*#\w*[; ]/g, `fill:${pickedColor}`);
     } else {
       const index = iconSvg.indexOf("<svg ") + 5;
       return (
@@ -386,7 +385,9 @@ export default function DomainStoryRenderer(
         dataURL = applyColorToCustomSvgIcon(pickedColor, icon);
       } else {
         dataURL = icon;
-        // show info message: Only SVG icons can be colored
+        if (pickedColor && pickedColor !== DEFAULT_COLOR) {
+          document.dispatchEvent(new CustomEvent("errorColoringOnlySvg"));
+        }
       }
       return (
         '<svg viewBox="0 0 24 24" width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
