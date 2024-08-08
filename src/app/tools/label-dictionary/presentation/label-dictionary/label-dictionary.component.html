@@ -1,6 +1,6 @@
-<mat-dialog-content>
+<div class="list-content">
   <div class="workobjectList">
-    <h3>Work Objects</h3>
+    <h3 class="listTitle">Work Objects</h3>
     <mat-list>
       @for (
         workobjectEntry of workobjectEntriesSubject | async;
@@ -20,7 +20,7 @@
     </mat-list>
   </div>
   <div class="activityList">
-    <h3 class="activityListTitle">Activities</h3>
+    <h3 class="listTitle">Activities</h3>
     <mat-list>
       @for (
         activityEntry of activityEntriesSubject | async;
@@ -45,8 +45,8 @@
       }
     </mat-list>
   </div>
-</mat-dialog-content>
-<mat-dialog-actions>
+</div>
+<mat-dialog-actions class="sticky-bottom">
   <button mat-flat-button (click)="close()">Cancel</button>
   <button mat-flat-button color="primary" (click)="save()">Save</button>
 </mat-dialog-actions>
