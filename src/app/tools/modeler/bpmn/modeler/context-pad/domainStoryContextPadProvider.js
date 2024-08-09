@@ -8,6 +8,11 @@ import { assign, bind } from "min-dash";
 import { generateAutomaticNumber } from "../numbering/numbering";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { getAllStandardIconKeys } from "src/app/tools/icon-set-config/domain/allIcons";
+import {
+  hexToRGBA,
+  isHexWithAlpha,
+  rgbaToHex,
+} from "../../../../../utils/colorConverter";
 
 let dirtyFlagService;
 let iconDictionaryService;
@@ -51,10 +56,15 @@ export default function DomainStoryContextPadProvider(
   this.getContextPadEntries = function (element) {
     selectedElement = element;
 
+    let pickedColor = selectedElement.businessObject.pickedColor;
+
+    if (isHexWithAlpha(pickedColor)) {
+      pickedColor = hexToRGBA(pickedColor);
+    }
     document.dispatchEvent(
       new CustomEvent("defaultColor", {
         detail: {
-          color: selectedElement.businessObject.pickedColor ?? "#000000",
+          color: pickedColor ?? "#000000",
         },
       }),
     );
@@ -330,9 +340,15 @@ export default function DomainStoryContextPadProvider(
   }
 
   function getSelectedBusinessObject(event) {
+    const oldColor = selectedElement.businessObject.pickedColor;
+    let newColor = event.detail.color;
+    if (isHexWithAlpha(oldColor)) {
+      newColor = rgbaToHex(newColor);
+    }
+
     return {
       businessObject: selectedElement.businessObject,
-      newColor: event.detail.color,
+      newColor: newColor,
       element: selectedElement,
     };
   }
