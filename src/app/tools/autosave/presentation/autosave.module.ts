@@ -15,4 +15,4 @@ import { MaterialModule } from '../../../material.module';
   exports: [AutosaveSettingsComponent],
   imports: [CommonModule, FormsModule, MaterialModule],
 })
-export class AutosaveSettingsModule {}
+export class AutosaveModule {}

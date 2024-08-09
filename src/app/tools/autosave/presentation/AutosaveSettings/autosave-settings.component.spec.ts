@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AutosaveSettingsComponent } from './autosave-settings.component';
 import { MockModule } from 'ng-mocks';
-import { SettingsModule } from 'src/app/workbench/presentation/settings/settings.module';
+import { AutosaveModule } from '../autosave.module';
 
 describe('AutosaveSettingsComponent', () => {
   let component: AutosaveSettingsComponent;
@@ -9,7 +9,7 @@ describe('AutosaveSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule(SettingsModule)],
+      imports: [MockModule(AutosaveModule)],
       declarations: [AutosaveSettingsComponent],
     }).compileComponents();
   });
