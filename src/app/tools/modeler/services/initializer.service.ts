@@ -57,8 +57,6 @@ export class InitializerService {
     headlineAndDescriptionUpdateHandler(commandStack, this.titleService);
   }
 
-  color: string | undefined;
-
   initiateEventBusListeners(eventBus: any, commandStack: any): void {
     eventBus.on('element.dblclick', (e: any) => {
       if (!this.replayService.getReplayOn()) {
