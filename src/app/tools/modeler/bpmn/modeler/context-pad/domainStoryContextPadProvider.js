@@ -114,6 +114,8 @@ export default function DomainStoryContextPadProvider(
           },
         },
       });
+    } else if (element.type.includes(ElementTypes.TEXTANNOTATION)) {
+      addColorChange(actions);
     }
 
     return actions;

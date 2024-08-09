@@ -539,7 +539,7 @@ export default function DomainStoryRenderer(
   this.drawDSConnection = function (p, element) {
     let attrs = "";
     attrs = computeStyle(attrs, {
-      stroke: "#000000",
+      stroke: element.businessObject.pickedColor ?? "black",
       strokeWidth: 1.5,
       strokeLinejoin: "round",
       strokeDasharray: "5, 5",
@@ -592,7 +592,7 @@ export default function DomainStoryRenderer(
     });
 
     drawPath(parentGfx, textPathData, {
-      stroke: "black",
+      stroke: element.businessObject.pickedColor ?? "black",
     });
 
     renderLabel(parentGfx, text, {
@@ -600,7 +600,7 @@ export default function DomainStoryRenderer(
       align: "left-top",
       padding: 5,
       style: {
-        fill: "black",
+        fill: element.businessObject.pickedColor ?? "black",
       },
     });
 
