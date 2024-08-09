@@ -57,6 +57,8 @@ export class InitializerService {
     headlineAndDescriptionUpdateHandler(commandStack, this.titleService);
   }
 
+  color: string | undefined;
+
   initiateEventBusListeners(eventBus: any, commandStack: any): void {
     eventBus.on('element.dblclick', (e: any) => {
       if (!this.replayService.getReplayOn()) {
@@ -170,6 +172,21 @@ export class InitializerService {
         }
       },
     );
+
+    let pasteColor: string | undefined;
+    eventBus.on('copyPaste.pasteElement', 10000, (e: any) => {
+      pasteColor = e.descriptor.oldBusinessObject.pickedColor;
+    });
+
+    eventBus.on('create.end', (e: any) => {
+      if (!pasteColor) {
+        return;
+      }
+      const element = e.elements[0];
+      element.businessObject.pickedColor = pasteColor;
+      pasteColor = undefined;
+      eventBus.fire('element.changed', { element });
+    });
   }
 
   /** Overrrides for Canvas Functions **/
