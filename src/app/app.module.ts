@@ -46,6 +46,7 @@ import { initializeNumbering } from './tools/modeler/bpmn/modeler/numbering/numb
 import { initializeActivityUpdateHandler } from './tools/modeler/bpmn/modeler/updateHandler/activityUpdateHandlers';
 import { HeaderComponent } from './workbench/presentation/header/header/header.component';
 import { DomainStoryModelerModuleModule } from './workbench/presentation/header/domain-story-modeler-module.module';
+import { ImportDialogComponent } from './tools/import/presentation/import-dialog/import-dialog.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { DomainStoryModelerModuleModule } from './workbench/presentation/header/
     AppComponent,
     InfoDialogComponent,
     ExportDialogComponent,
+    ImportDialogComponent,
     ActivityDialogComponent,
     TitleDialogComponent,
     ModelerComponent,

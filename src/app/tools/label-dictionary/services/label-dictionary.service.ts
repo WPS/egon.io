@@ -8,7 +8,7 @@ import { LabelEntry } from '../domain/labelEntry';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { LabelDictionaryDialogComponent } from '../presentation/label-dictionary-dialog/label-dictionary-dialog.component';
 import {
-  SNACKBAR_DURATION,
+  SNACKBAR_DURATION_LONGER,
   SNACKBAR_INFO,
 } from '../../../domain/entities/constants';
 import { DialogService } from '../../../domain/services/dialog.service';
@@ -55,7 +55,7 @@ export class LabelDictionaryService {
         'There are currently no activities or work objects with labels on the canvas',
         undefined,
         {
-          duration: SNACKBAR_DURATION * 3,
+          duration: SNACKBAR_DURATION_LONGER,
           panelClass: SNACKBAR_INFO,
         },
       );
