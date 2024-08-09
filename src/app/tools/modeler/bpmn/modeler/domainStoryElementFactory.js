@@ -9,6 +9,7 @@ import BpmnElementFactory from "bpmn-js/lib/features/modeling/ElementFactory";
 import { DEFAULT_LABEL_SIZE } from "bpmn-js/lib/util/LabelUtil";
 
 import DomainStoryIdFactory from "./domainStoryIdFactory";
+import { ElementTypes } from "src/app/domain/entities/elementTypes";
 
 /**
  * A custom factory that knows how to create BPMN _and_ custom elements.
@@ -116,8 +117,8 @@ DomainStoryElementFactory.$inject = ["bpmnFactory", "moddle"];
 DomainStoryElementFactory.prototype._getCustomElementSize = function (type) {
   let shapes = {
     __default: { width: 75, height: 75 },
-    "domainStory:textAnnotation": { width: 100, height: 30 },
-    "domainStory:group": { width: 525, height: 275 },
+    [ElementTypes.TEXTANNOTATION]: { width: 100, height: 30 },
+    [ElementTypes.GROUP]: { width: 525, height: 275 },
   };
 
   return shapes[type] || shapes.__default;
