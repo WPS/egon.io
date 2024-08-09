@@ -385,12 +385,10 @@ export class ImportDomainStoryService
       isSVG ? svgRegex : domainStoryRegex,
       '',
     );
-    if (filenameWithoutDateSuffix.includes(isSVG ? svgSuffix : dstSuffix)) {
-      filenameWithoutDateSuffix = filenameWithoutDateSuffix
-        .replace(svgSuffix, '')
-        .replace(dstSuffix, '')
-        .replace(egnSuffix, '');
-    }
+    filenameWithoutDateSuffix = filenameWithoutDateSuffix
+      .replace(svgSuffix, '')
+      .replace(dstSuffix, '')
+      .replace(egnSuffix, '');
     title = filenameWithoutDateSuffix;
     return title;
   }

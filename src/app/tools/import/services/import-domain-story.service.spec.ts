@@ -144,4 +144,87 @@ describe('ImportDomainStoryService', () => {
       expect(service.checkConfigForChanges(testDomainCofiguration)).toBeFalsy();
     });
   });
+
+  describe('should process title of story correctly', () => {
+    const input: Blob = new File([], '');
+    let filename: string;
+    let isSvg: boolean;
+    let expectedTitle: string;
+
+    beforeEach(function () {
+      spyOn(TitleService.prototype, 'updateTitleAndDescription');
+    });
+
+    it('.egn', () => {
+      filename = 'meine domain story.egn';
+      isSvg = false;
+      expectedTitle = 'meine domain story';
+      service.importEGN(input, filename, isSvg);
+      expect(
+        TitleService.prototype.updateTitleAndDescription,
+      ).toHaveBeenCalledWith(expectedTitle, null, false);
+    });
+
+    it('.egn.svg', () => {
+      filename = 'meine domain story.egn.svg';
+      isSvg = true;
+      expectedTitle = 'meine domain story';
+      service.importEGN(input, filename, isSvg);
+      expect(
+        TitleService.prototype.updateTitleAndDescription,
+      ).toHaveBeenCalledWith(expectedTitle, null, false);
+    });
+
+    it('.dst', () => {
+      filename = 'meine domain story.dst';
+      isSvg = false;
+      expectedTitle = 'meine domain story';
+      service.importDST(input, filename, isSvg);
+      expect(
+        TitleService.prototype.updateTitleAndDescription,
+      ).toHaveBeenCalledWith(expectedTitle, null, false);
+    });
+
+    it('.dst.svg', () => {
+      filename = 'meine domain story.dst.svg';
+      isSvg = true;
+      expectedTitle = 'meine domain story';
+      service.importDST(input, filename, isSvg);
+      expect(
+        TitleService.prototype.updateTitleAndDescription,
+      ).toHaveBeenCalledWith(expectedTitle, null, false);
+    });
+
+    it('.egn mit Datum', () => {
+      filename =
+        'alphorn-5a-riskassessment-fine-digitalized-tobe-colored_2024-08-08.egn';
+      isSvg = false;
+      expectedTitle = 'alphorn-5a-riskassessment-fine-digitalized-tobe-colored';
+      service.importEGN(input, filename, isSvg);
+      expect(
+        TitleService.prototype.updateTitleAndDescription,
+      ).toHaveBeenCalledWith(expectedTitle, null, false);
+    });
+
+    it('.egn.svg mit Datum', () => {
+      filename =
+        'alphorn-1a-standardcase-withboundaries-coarse-pure-asis_2024-08-08.egn.svg';
+      isSvg = true;
+      expectedTitle = 'alphorn-1a-standardcase-withboundaries-coarse-pure-asis';
+      service.importEGN(input, filename, isSvg);
+      expect(
+        TitleService.prototype.updateTitleAndDescription,
+      ).toHaveBeenCalledWith(expectedTitle, null, false);
+    });
+
+    it('.dst mit Datum', () => {
+      filename = 'Organizing an investment conference_2024-08-08.dst';
+      isSvg = false;
+      expectedTitle = 'Organizing an investment conference';
+      service.importDST(input, filename, isSvg);
+      expect(
+        TitleService.prototype.updateTitleAndDescription,
+      ).toHaveBeenCalledWith(expectedTitle, null, false);
+    });
+  });
 });
