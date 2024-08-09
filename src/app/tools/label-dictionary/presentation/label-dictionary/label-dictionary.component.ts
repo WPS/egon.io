@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, EventEmitter, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { WorkObjectLabelEntry } from '../../domain/workObjectLabelEntry';
 import { LabelEntry } from '../../domain/labelEntry';
@@ -20,7 +26,10 @@ export class LabelDictionaryComponent implements AfterViewInit {
   @Output()
   closeEmitter: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private labelDictionaryService: LabelDictionaryService) {
+  constructor(
+    private labelDictionaryService: LabelDictionaryService,
+    private cd: ChangeDetectorRef,
+  ) {
     this.labelDictionaryService.createLabelDictionaries();
     this.workObjectEntries = this.labelDictionaryService.getWorkObjectLabels();
     this.activityEntries = this.labelDictionaryService.getActivityLabels();
@@ -37,6 +46,7 @@ export class LabelDictionaryComponent implements AfterViewInit {
     this.activityEntriesSubject.next(
       this.labelDictionaryService.getActivityLabels(),
     );
+    this.cd.detectChanges();
   }
 
   save(): void {
