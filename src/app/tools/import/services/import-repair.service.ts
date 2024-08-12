@@ -134,4 +134,14 @@ export class ImportRepairService {
       }
     });
   }
+
+  // Early versions of Egon allowed Whitespaces in Icon names which are now not supported anymore.
+  // To find the right icon in the dictionary, they need to be replaced.
+  removeWhitespacesFromIcons(elements: BusinessObject[]) {
+    elements.forEach((bo) => {
+      if (bo.type) {
+        bo.type = bo.type.replace(/ /g, '-');
+      }
+    });
+  }
 }

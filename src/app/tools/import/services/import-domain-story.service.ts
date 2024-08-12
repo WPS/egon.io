@@ -237,6 +237,8 @@ export class ImportDomainStoryService
         }
       }
 
+      this.importRepairService.removeWhitespacesFromIcons(elements);
+
       const configChanged = this.checkConfigForChanges(config);
 
       let lastElement = elements[elements.length - 1];

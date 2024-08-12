@@ -13,6 +13,7 @@ import { IconSetConfiguration } from '../../../domain/entities/icon-set-configur
 import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set-configuration-for-export';
 import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
 import { StorageService } from '../../../domain/services/storage.service';
+import { sanitizeIconName } from '../../../utils/sanitizer';
 
 export interface FileConfiguration {
   name: string;
@@ -211,7 +212,7 @@ export class IconSetConfigurationService {
       let icon = fileConfiguration.actors[key];
       if (icon) {
         // make sure the actor has an icon
-        actorsDict.add(icon, key);
+        actorsDict.add(icon, sanitizeIconName(key));
       }
     });
 
@@ -219,7 +220,7 @@ export class IconSetConfigurationService {
       let icon = fileConfiguration.workObjects[key];
       if (icon) {
         // make sure the work object has an icon
-        workObjectsDict.add(icon, key);
+        workObjectsDict.add(icon, sanitizeIconName(key));
       }
     });
 
