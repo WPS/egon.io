@@ -23,6 +23,7 @@ import massRenameHandler from '../bpmn/modeler/updateHandler/massRenameHandler';
 import elementUpdateHandler from '../bpmn/modeler/updateHandler/elementUpdateHandler';
 import headlineAndDescriptionUpdateHandler from '../bpmn/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
 import { ReplayService } from '../../replay/services/replay.service';
+import { forEach } from 'min-dash';
 
 @Injectable({
   providedIn: 'root',
@@ -171,19 +172,21 @@ export class InitializerService {
       },
     );
 
-    let pasteColor: string | undefined;
+    let pasteColor: string[] = [];
     eventBus.on('copyPaste.pasteElement', 10000, (e: any) => {
-      pasteColor = e.descriptor.oldBusinessObject.pickedColor;
+      pasteColor.push(e.descriptor.oldBusinessObject.pickedColor);
     });
 
     eventBus.on('create.end', (e: any) => {
       if (!pasteColor) {
         return;
       }
-      const element = e.elements[0];
-      element.businessObject.pickedColor = pasteColor;
-      pasteColor = undefined;
-      eventBus.fire('element.changed', { element });
+      for (let elementsKey in e.elements) {
+        const element = e.elements[elementsKey];
+        element.businessObject.pickedColor = pasteColor[parseInt(elementsKey)];
+        eventBus.fire('element.changed', { element });
+      }
+      pasteColor = [];
     });
   }
 
