@@ -8,16 +8,15 @@ import { Observable, Subscription } from 'rxjs';
 import { RendererService } from 'src/app/tools/modeler/services/renderer.service';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { DialogService } from '../../../domain/services/dialog.service';
-import { InfoDialogComponent } from '../../../domain/presentation/info-dialog/info-dialog.component';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { InfoDialogData } from '../../../domain/entities/infoDialogData';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
   SNACKBAR_DURATION,
   SNACKBAR_DURATION_LONG,
+  SNACKBAR_DURATION_LONGER,
   SNACKBAR_ERROR,
-  SNACKBAR_SUCCESS,
+  SNACKBAR_INFO,
 } from '../../../domain/entities/constants';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -388,27 +387,12 @@ export class ImportDomainStoryService
   }
 
   private showPreviousV050Dialog(version: number): void {
-    // const title = 'Old File Format Detected';
-    // const text =
-    //   'You uploaded a Domain Story that was created with Egon version ' +
-    //   version +
-    //   '. The file format has since changed. Egon converted your Domain Story to the new format but it cannot guarantee that your Domain Story is complete.';
-    //
-    // const config = new MatDialogConfig();
-    // config.disableClose = false;
-    // config.autoFocus = true;
-    //
-    // config.data = new InfoDialogData(title, text, true);
-    //
-    // this.dialogService.openDialog(InfoDialogComponent, config);
-
-    const message = `You uploaded a Domain Story that was created with Egon version ${version}.
-    The file format has since changed. Egon converted your Domain Story to the new format but it cannot
-    guarantee that your Domain Story is complete.`;
+    const message = `Your domain story was created with Egon version ${version}. The file format has since changed.
+    Your Domain Story was converted to the new format. Please check if it is complete.`;
 
     this.snackbar.open(message, undefined, {
-      duration: SNACKBAR_DURATION,
-      panelClass: SNACKBAR_SUCCESS,
+      duration: SNACKBAR_DURATION_LONGER,
+      panelClass: SNACKBAR_INFO,
     });
   }
 
@@ -418,26 +402,12 @@ export class ImportDomainStoryService
   }
 
   private showBrokenImportDialog(type: string) {
-    // const config = new MatDialogConfig();
-    // config.disableClose = false;
-    // config.autoFocus = true;
-    // config.data = new InfoDialogData(
-    //   'Error during import',
-    //   'The uploaded ' +
-    //     type +
-    //     ' is not complete, there could be elements missing from the canvas.',
-    //   true,
-    //   false,
-    // );
-    //
-    // this.dialogService.openDialog(InfoDialogComponent, config);
-
     const message = `Error during import: The uploaded ${type} type is not complete, there could be
     elements missing from the canvas.`;
 
     this.snackbar.open(message, undefined, {
-      duration: SNACKBAR_DURATION,
-      panelClass: SNACKBAR_SUCCESS,
+      duration: SNACKBAR_DURATION_LONGER,
+      panelClass: SNACKBAR_ERROR,
     });
   }
 
