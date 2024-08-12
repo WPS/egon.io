@@ -17,6 +17,7 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_DURATION_LONG,
   SNACKBAR_ERROR,
+  SNACKBAR_SUCCESS,
 } from '../../../domain/entities/constants';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -387,19 +388,28 @@ export class ImportDomainStoryService
   }
 
   private showPreviousV050Dialog(version: number): void {
-    const title = 'Old File Format Detected';
-    const text =
-      'You uploaded a Domain Story that was created with Egon version ' +
-      version +
-      '. The file format has since changed. Egon converted your Domain Story to the new format but it cannot guarantee that your Domain Story is complete.';
+    // const title = 'Old File Format Detected';
+    // const text =
+    //   'You uploaded a Domain Story that was created with Egon version ' +
+    //   version +
+    //   '. The file format has since changed. Egon converted your Domain Story to the new format but it cannot guarantee that your Domain Story is complete.';
+    //
+    // const config = new MatDialogConfig();
+    // config.disableClose = false;
+    // config.autoFocus = true;
+    //
+    // config.data = new InfoDialogData(title, text, true);
+    //
+    // this.dialogService.openDialog(InfoDialogComponent, config);
 
-    const config = new MatDialogConfig();
-    config.disableClose = false;
-    config.autoFocus = true;
+    const message = `You uploaded a Domain Story that was created with Egon version ${version}.
+    The file format has since changed. Egon converted your Domain Story to the new format but it cannot
+    guarantee that your Domain Story is complete.`;
 
-    config.data = new InfoDialogData(title, text, true);
-
-    this.dialogService.openDialog(InfoDialogComponent, config);
+    this.snackbar.open(message, undefined, {
+      duration: SNACKBAR_DURATION,
+      panelClass: SNACKBAR_SUCCESS,
+    });
   }
 
   private setImportedConfigurationAndEmit(config: IconSetConfiguration) {
@@ -408,19 +418,27 @@ export class ImportDomainStoryService
   }
 
   private showBrokenImportDialog(type: string) {
-    const config = new MatDialogConfig();
-    config.disableClose = false;
-    config.autoFocus = true;
-    config.data = new InfoDialogData(
-      'Error during import',
-      'The uploaded ' +
-        type +
-        ' is not complete, there could be elements missing from the canvas.',
-      true,
-      false,
-    );
+    // const config = new MatDialogConfig();
+    // config.disableClose = false;
+    // config.autoFocus = true;
+    // config.data = new InfoDialogData(
+    //   'Error during import',
+    //   'The uploaded ' +
+    //     type +
+    //     ' is not complete, there could be elements missing from the canvas.',
+    //   true,
+    //   false,
+    // );
+    //
+    // this.dialogService.openDialog(InfoDialogComponent, config);
 
-    this.dialogService.openDialog(InfoDialogComponent, config);
+    const message = `Error during import: The uploaded ${type} type is not complete, there could be
+    elements missing from the canvas.`;
+
+    this.snackbar.open(message, undefined, {
+      duration: SNACKBAR_DURATION,
+      panelClass: SNACKBAR_SUCCESS,
+    });
   }
 
   private restoreTitleFromFileName(filename: string, isSVG: boolean): string {
