@@ -224,8 +224,6 @@ TODO: Maybe document development pipeline here (Github Action builds and pushes 
 
 *Important, expensive, large scale or risky architecture decisions including rationales. With “decisions” we mean selecting one alternative based on given criteria.*
 
-TODO:
-
 ## Decision: Use Web Storage to Persist User-specific Information
 
 Users can configure their icon set and autosave properties. To avoid having to configure everything again the next time a user uses Egon, the user-specific information must be persisted. 
@@ -240,6 +238,7 @@ Alternatively, cookies could be used (and in fact were used in earlier Egon vers
 
 ## TODO
 - 1 model = 1 Domain Story = 1 File
+- files are self-contained: they include the icon set (including custom icons); makes it easier to share domain stories with users
 - Angular-specific patterns
 
 # Quality Requirements {#section-quality-scenarios}
