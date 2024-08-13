@@ -1,6 +1,7 @@
 "use strict";
 
 import { undoGroupRework } from "../util";
+import { ElementTypes } from "../../../../../domain/entities/elementTypes";
 
 export default function elementUpdateHandler(commandStack, eventBus) {
   commandStack.registerHandler("element.colorChange", element_colorChange);
@@ -18,6 +19,14 @@ export default function elementUpdateHandler(commandStack, eventBus) {
       let semantic = context.businessObject;
       let element = context.element;
 
+      if (
+        semantic.type.includes(ElementTypes.TEXTANNOTATION) &&
+        element.incoming[0]
+      ) {
+        element.incoming[0].businessObject.pickedColor = context.newColor;
+        eventBus.fire("element.changed", { element: element.incoming[0] });
+      }
+
       semantic.pickedColor = context.newColor;
 
       eventBus.fire("element.changed", { element });
@@ -26,6 +35,14 @@ export default function elementUpdateHandler(commandStack, eventBus) {
     this.revert = function (context) {
       let semantic = context.businessObject;
       let element = context.element;
+
+      if (
+        semantic.type.includes(ElementTypes.TEXTANNOTATION) &&
+        element.incoming[0]
+      ) {
+        element.incoming[0].businessObject.pickedColor = context.oldColor;
+        eventBus.fire("element.changed", { element: element.incoming[0] });
+      }
 
       semantic.pickedColor = context.oldColor;
 
