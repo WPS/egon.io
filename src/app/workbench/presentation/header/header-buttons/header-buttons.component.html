@@ -7,9 +7,9 @@
       class="headerButton"
       title="Start replay"
       (click)="startReplay.emit()"
-  >
-    <span class="material-icons materialIconButton"> play_arrow </span>
-  </button>
+    >
+      <span class="material-icons materialIconButton"> play_arrow </span>
+    </button>
 
     <button
       id="buttonImport"
@@ -20,14 +20,15 @@
       <span class="material-icons materialIconButton"> unarchive </span>
     </button>
 
+    <input
+      type="file"
+      accept=".dst, .svg, .egn, .svg"
+      style="display: none"
+      id="import"
+      onclick="this.value=null;"
+      (change)="import.emit()"
+    />
 
-  <input
-    type="file"
-    accept=".dst, .svg, .egn, .svg"
-    style="display: none"
-    id="import"
-    onclick="this.value=null;"
-    (change)="import.emit()"
     <button
       id="buttonUrlImport"
       class="headerButton"
@@ -37,15 +38,6 @@
       <span class="material-icons materialIconButton"> cloud_upload </span>
     </button>
 
-    <input
-      type="file"
-      accept=".dst, .svg, .egn, .svg"
-      style="display: none"
-      id="import"
-      onclick="this.value=null;"
-      (change)="import.emit()"
-      name="file"
-    />
     <button
       [disabled]="!hasDomainStory && !hasTitle"
       [class.disabled]="!hasDomainStory && !hasTitle"
