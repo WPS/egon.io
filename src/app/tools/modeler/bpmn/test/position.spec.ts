@@ -1,13 +1,13 @@
-import { selectPartOfActivity } from "../../modeler/labeling/dsLabelUtil";
+import { selectPartOfActivity } from '../modeler/labeling/dsLabelUtil';
 import {
   labelPosition,
   labelPositionX,
   labelPositionY,
-} from "../../modeler/labeling/position";
-import { angleBetween } from "../../../../utils/mathExtensions";
+} from '../modeler/labeling/position';
+import { angleBetween } from '../../../../utils/mathExtensions';
 
-describe("position", function () {
-  it("labelPosition test", function () {
+describe('position', function () {
+  it('labelPosition test', function () {
     const startPoint = {
       x: 10,
       y: 10,
@@ -29,21 +29,15 @@ describe("position", function () {
       // calculate the angles of the activity
       angleActivity[i] = angleBetween(waypoints[i], waypoints[i + 1]);
     }
-    const selectedActivity = selectPartOfActivity(waypoints, angleActivity);
+    const segment = selectPartOfActivity(waypoints, angleActivity);
 
-    const xPos = labelPositionX(
-      waypoints[selectedActivity],
-      waypoints[selectedActivity + 1],
-    );
-    const yPos = labelPositionY(
-      waypoints[selectedActivity],
-      waypoints[selectedActivity + 1],
-    );
+    const xPos = labelPositionX(waypoints[segment], waypoints[segment + 1]);
+    const yPos = labelPositionY(waypoints[segment], waypoints[segment + 1]);
 
     const supposed = {
       x: xPos,
       y: yPos,
-      selected: selectedActivity,
+      selected: segment,
     };
 
     const res = labelPosition(waypoints);
@@ -51,7 +45,7 @@ describe("position", function () {
     expect(res).toEqual(supposed);
   });
 
-  it("labelPosition test", function () {
+  it('labelPosition test1', function () {
     const startPoint = {
       x: 10,
       y: 10,
@@ -74,21 +68,15 @@ describe("position", function () {
       // calculate the angles of the activity
       angleActivity[i] = angleBetween(waypoints[i], waypoints[i + 1]);
     }
-    const selectedActivity = selectPartOfActivity(waypoints, angleActivity);
+    const segment = selectPartOfActivity(waypoints, angleActivity);
 
-    const xPos = labelPositionX(
-      waypoints[selectedActivity],
-      waypoints[selectedActivity + 1],
-    );
-    const yPos = labelPositionY(
-      waypoints[selectedActivity],
-      waypoints[selectedActivity + 1],
-    );
+    const xPos = labelPositionX(waypoints[segment], waypoints[segment + 1]);
+    const yPos = labelPositionY(waypoints[segment], waypoints[segment + 1]);
 
     const supposed = {
       x: xPos,
       y: yPos,
-      selected: selectedActivity,
+      selected: segment,
     };
 
     const res = labelPosition(waypoints);
@@ -96,7 +84,7 @@ describe("position", function () {
     expect(res).toEqual(supposed);
   });
 
-  it("labelPosition test", function () {
+  it('labelPosition test2', function () {
     const startPoint = {
       x: 10,
       y: 10,
@@ -119,21 +107,43 @@ describe("position", function () {
       // calculate the angles of the activity
       angleActivity[i] = angleBetween(waypoints[i], waypoints[i + 1]);
     }
-    const selectedActivity = selectPartOfActivity(waypoints, angleActivity);
+    const segment = selectPartOfActivity(waypoints, angleActivity);
 
-    const xPos = labelPositionX(
-      waypoints[selectedActivity],
-      waypoints[selectedActivity + 1],
-    );
-    const yPos = labelPositionY(
-      waypoints[selectedActivity],
-      waypoints[selectedActivity + 1],
-    );
+    const xPos = labelPositionX(waypoints[segment], waypoints[segment + 1]);
+    const yPos = labelPositionY(waypoints[segment], waypoints[segment + 1]);
 
     const supposed = {
       x: xPos,
       y: yPos,
-      selected: selectedActivity,
+      selected: segment,
+    };
+
+    const res = labelPosition(waypoints);
+
+    expect(res).toEqual(supposed);
+  });
+
+  it('labelPosition two waypoints', function () {
+    const startPoint = {
+      x: 10,
+      y: 10,
+    };
+
+    const endPoint = {
+      x: 20,
+      y: 20,
+    };
+
+    const waypoints = [startPoint, endPoint];
+    const segment = 0;
+
+    const xPos = labelPositionX(waypoints[segment], waypoints[segment + 1]);
+    const yPos = labelPositionY(waypoints[segment], waypoints[segment + 1]);
+
+    const supposed = {
+      x: xPos,
+      y: yPos,
+      selected: segment,
     };
 
     const res = labelPosition(waypoints);

@@ -4,6 +4,10 @@ import { assign } from "min-dash";
 import DomainStoryModeler from "../index";
 import { ElementTypes } from "../../../../domain/entities/elementTypes";
 
+// This test is currently not running, Spec.js tests dont run when executing ng test, tests need to be named .spec.ts
+// to run when executing ng test. Instead of migrating it to a typescript test, we want to introduce integration tests
+// in the future and use the scenarios in this file as test cases.
+
 describe("domainStory modeling", function () {
   const xml = require("./language/diagram.bpmn");
 

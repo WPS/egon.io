@@ -1,13 +1,13 @@
-import "../../util/MathExtensions";
+import '../../../../utils/mathExtensions';
 import {
   calculateTextWidth,
   selectPartOfActivity,
-} from "../../modeler/labeling/dsLabelUtil";
-import { angleBetween } from "../../../../utils/mathExtensions";
+} from '../modeler/labeling/dsLabelUtil';
+import { angleBetween } from '../../../../utils/mathExtensions';
 
-describe("DSLabelUtil", function () {
+describe('DSLabelUtil', function () {
   // will only be used for three or more waypoints
-  it("selectActivity bothSlanted test", function () {
+  it('selectActivity bothSlanted test', function () {
     const startPoint = {
       x: 10,
       y: 10,
@@ -36,7 +36,7 @@ describe("DSLabelUtil", function () {
     expect(res).toEqual(0);
   });
 
-  it("selectActivity secondStraight test", function () {
+  it('selectActivity secondStraight test', function () {
     const startPoint = {
       x: 10,
       y: 10,
@@ -64,7 +64,7 @@ describe("DSLabelUtil", function () {
     expect(res).toEqual(1);
   });
 
-  it("selectActivity firstStraight test", function () {
+  it('selectActivity firstStraight test', function () {
     const startPoint = {
       x: 10,
       y: 10,
@@ -94,27 +94,27 @@ describe("DSLabelUtil", function () {
   });
 });
 
-describe("calculateTextWidth", function () {
-  it("returns 0 for empty text", function () {
-    assert.equal(0, calculateTextWidth(""));
+describe('calculateTextWidth', function () {
+  it('returns 0 for empty text', function () {
+    expect(calculateTextWidth('')).toEqual(0);
   });
 
-  it("returns 0 for null", function () {
-    assert.equal(0, calculateTextWidth(null));
+  it('returns 0 for null', function () {
+    expect(calculateTextWidth(null)).toEqual(0);
   });
 
-  it("returns 0 for undefined", function () {
-    assert.equal(0, calculateTextWidth(undefined));
+  it('returns 0 for undefined', function () {
+    expect(calculateTextWidth(undefined)).toEqual(0);
   });
 
-  it("returns same value for same characters", function () {
-    expect(calculateTextWidth("AIW")).toEqual(calculateTextWidth("AIW"));
-    expect(calculateTextWidth("AIW")).toEqual(calculateTextWidth("IWA"));
+  it('returns same value for same characters', function () {
+    expect(calculateTextWidth('AIW')).toEqual(calculateTextWidth('AIW'));
+    expect(calculateTextWidth('AIW')).toEqual(calculateTextWidth('IWA'));
   });
 
-  it("distinguishes casing", function () {
-    expect(calculateTextWidth("abcdefghi")).toEqual(
-      calculateTextWidth("ABCDEFGHI"),
+  it('distinguishes casing', function () {
+    expect(calculateTextWidth('abcdefghi')).toEqual(
+      calculateTextWidth('ABCDEFGHI'),
     );
   });
 });
