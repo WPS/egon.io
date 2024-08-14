@@ -14,12 +14,6 @@ import { is } from "../util";
 const MARKER_HIDDEN = "djs-element-hidden",
   MARKER_LABEL_HIDDEN = "djs-label-hidden";
 
-let annotationBoxHeight = 0;
-
-export function getAnnotationBoxHeight() {
-  return annotationBoxHeight;
-}
-
 export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
   let self = this;
 
@@ -34,10 +28,7 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
     // text annotation
     if (is(element, ElementTypes.TEXTANNOTATION)) {
       absoluteElementBBox = canvas.getAbsoluteBBox(element);
-
       gfx = svgCreate("g");
-
-      annotationBoxHeight = element.height;
 
       let textPathData = pathMap.getScaledPath("TEXT_ANNOTATION", {
         xScaleFactor: 1,
@@ -87,7 +78,6 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
         (element.height / absoluteElementBBox.height) * (height + dy),
         0,
       );
-      annotationBoxHeight = newElementHeight;
 
       let textPathData = pathMap.getScaledPath("TEXT_ANNOTATION", {
         xScaleFactor: 1,

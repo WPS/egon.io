@@ -556,7 +556,7 @@ export default function DomainStoryRenderer(
 
     let text = element.businessObject.text || "";
     if (element.businessObject.text) {
-      let height = getAnnotationBoxHeight();
+      let height = element.height ?? 0;
 
       if (height === 0 && element.businessObject.number) {
         height = element.businessObject.number;

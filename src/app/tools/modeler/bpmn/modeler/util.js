@@ -3,17 +3,11 @@ import { some } from "min-dash";
 export function is(element, type) {
   const bo = getBusinessObject(element);
 
-  return bo && typeof bo.$instanceOf == "function" && bo.$instanceOf(type);
+  return bo && bo.type === type;
 }
 
 export function getBusinessObject(element) {
   return (element && element.businessObject) || element;
-}
-
-export function isAny(element, types) {
-  return some(types, function (t) {
-    return is(element, t);
-  });
 }
 
 export function reworkGroupElements(parent, shape) {
