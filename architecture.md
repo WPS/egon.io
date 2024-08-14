@@ -216,6 +216,20 @@ bpmn-js is built on top of diagram-js and bpmn-moddle. bpmn-js ties both togethe
 
 The *canvas* contains graphical *elements* of different *types* (*shape*, *label*, *connection*, possibly more). Thereby it ties both the BPMN elements and the graphical elements together. The graphical elements can contains *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `bpmn:ExclusiveGateway` (for the BPMN modeling language ) or `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in`elementTypes.ts`.
 
+Element positions on the canvas work as shown in this diagram:
+
+```mermaid
+
+quadrantChart
+    title Coordinate Plane of the bpmn-js Canvas
+    x-axis "-x" --> "+x"
+    y-axis "+y" --> "-y"
+    quadrant-1 "angle: 0° to 90°"
+    quadrant-2 "angle: 91° to 180°"
+    quadrant-3 "angle: 181° to 270°"
+    quadrant-4 "angle: 271° to 359°"
+    "(x: 0/ y: 0)": [0.5, 0.5]
+```    
 
 # Runtime View {#section-runtime-view}
 
