@@ -208,6 +208,15 @@ The architecture rules are enforced with ArchLint and can be checked by running 
 
 TODO: Show vertical slices and usage of bmpn-js. The folder structure resembles the vertical slices. 
 
+## bpmn-js
+
+This section is based on the [bpmn-js documentation](https://bpmn.io/toolkit/bpmn-js/walkthrough/) and aims at giving a brief introduction to the library. This should be helpful when working on the `modeler` tool.
+
+bpmn-js is built on top of diagram-js and bpmn-moddle. bpmn-js ties both together and provides the *palette* and the *context pad*. 
+
+The *canvas* contains graphical *elements* of different *types* (*shape*, *label*, *connection*, possibly more). Thereby it ties both the BPMN elements and the graphical elements together. The graphical elements can contains *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `bpmn:ExclusiveGateway` (for the BPMN modeling language ) or `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in`elementTypes.ts`.
+
+
 # Runtime View {#section-runtime-view}
 
 *The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios.*
