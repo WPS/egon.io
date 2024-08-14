@@ -356,7 +356,7 @@ export class IconSetCustomizationService {
       if (changedWorkobjects.length) {
         const workobjects = changedWorkobjects.join(', ');
         this.snackbar.open(
-          `The following icons are already in use as workobjects and cannot be changed: ${workobjects}`,
+          `The following icons are already in use as work objects and cannot be changed: ${workobjects}`,
           undefined,
           {
             duration: SNACKBAR_DURATION_LONGER,
