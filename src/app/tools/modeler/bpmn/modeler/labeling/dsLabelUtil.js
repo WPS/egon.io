@@ -12,8 +12,7 @@ function getLabelAttr(semantic) {
   ) {
     return "name";
   }
-
-  if (is(semantic, ElementTypes.TEXTANNOTATION)) {
+  if (semantic.type.includes(ElementTypes.TEXTANNOTATION)) {
     return "text";
   }
 }

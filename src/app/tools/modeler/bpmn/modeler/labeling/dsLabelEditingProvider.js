@@ -194,7 +194,7 @@ DSLabelEditingProvider.prototype.activate = function (element) {
   }
 
   // text annotations
-  if (is(element, ElementTypes.TEXTANNOTATION)) {
+  if (element.businessObject.type.includes(ElementTypes.TEXTANNOTATION)) {
     assign(options, {
       resizable: true,
       autoResize: true,
@@ -346,7 +346,7 @@ DSLabelEditingProvider.prototype.getEditingBBox = function (element) {
   }
 
   // text annotations
-  if (is(element, ElementTypes.TEXTANNOTATION)) {
+  if (element.businessObject.type.includes(ElementTypes.TEXTANNOTATION)) {
     assign(bounds, {
       width: bbox.width,
       height: bbox.height,

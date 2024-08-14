@@ -175,7 +175,6 @@ export class InitializerService {
     let pasteText: string[] = [];
     let pasteHeight: number[] = [];
     eventBus.on('copyPaste.pasteElement', 10000, (e: any) => {
-      console.log('old: ', e.descriptor.oldBusinessObject);
       pasteColor.push(e.descriptor.oldBusinessObject.pickedColor);
       if (
         e.descriptor.oldBusinessObject.type.includes(
@@ -200,7 +199,6 @@ export class InitializerService {
           pasteText.shift();
           pasteHeight.shift();
         }
-        console.log('new: ', element.businessObject);
         element.businessObject.pickedColor = pasteColor[parseInt(elementsKey)];
         eventBus.fire('element.changed', { element });
       }
