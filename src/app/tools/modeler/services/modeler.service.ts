@@ -9,6 +9,14 @@ import { BusinessObject } from '../../../domain/entities/businessObject';
 import { ActivityBusinessObject } from '../../../domain/entities/activityBusinessObject';
 import { updateMultipleNumberRegistry } from '../bpmn/modeler/numbering/numbering';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { StorageService } from '../../../domain/services/storage.service';
+import {
+  SNACKBAR_DURATION_LONGER,
+  SNACKBAR_INFO,
+  VERSION_KEY,
+} from '../../../domain/entities/constants';
+import { environment } from '../../../../environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +27,8 @@ export class ModelerService {
     private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService,
     private iconSetConfigurationService: IconSetConfigurationService,
+    private storageService: StorageService,
+    private snackbar: MatSnackBar,
   ) {}
 
   private modeler: any;
@@ -31,6 +41,8 @@ export class ModelerService {
   private encoded: string | undefined;
 
   postInit(): void {
+    this.checkCurrentVersion();
+
     const storedIconSetConfiguration =
       this.iconSetConfigurationService.getStoredIconSetConfiguration();
     if (storedIconSetConfiguration) {
@@ -41,7 +53,6 @@ export class ModelerService {
         storedIconSetConfiguration,
       );
     }
-    // this.initializerService.initializeDomainStoryModelerClasses();
     this.modeler = new DomainStoryModeler({
       container: '#canvas',
       keyboard: {
@@ -91,6 +102,29 @@ export class ModelerService {
     assign(window, { bpmnjs: this.modeler });
 
     this.startDebounce();
+  }
+
+  private checkCurrentVersion() {
+    const version = this.storageService.get(VERSION_KEY);
+    if (version === null) {
+      this.storageService.set(VERSION_KEY, environment.version);
+    }
+
+    if (version !== null && version !== environment.version) {
+      this.snackbar
+        .open(
+          'The current version has changed. We recommend to clear the local storage.',
+          'More information',
+          {
+            duration: SNACKBAR_DURATION_LONGER,
+            panelClass: SNACKBAR_INFO,
+          },
+        )
+        .onAction()
+        .subscribe(() => {
+          window.open('https://egon.io/howto#launching-egon');
+        });
+    }
   }
 
   restart(

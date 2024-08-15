@@ -26,6 +26,7 @@ import {
   PURPLE,
   RED,
   SNACKBAR_DURATION,
+  SNACKBAR_DURATION_LONG,
   SNACKBAR_INFO,
   YELLOW,
 } from './domain/entities/constants';
@@ -127,7 +128,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     document.addEventListener('errorColoringOnlySvg', () => {
       this.snackbar.open('Only SVG icons can be colored', undefined, {
-        duration: SNACKBAR_DURATION * 2,
+        duration: SNACKBAR_DURATION_LONG,
         panelClass: SNACKBAR_INFO,
       });
     });
