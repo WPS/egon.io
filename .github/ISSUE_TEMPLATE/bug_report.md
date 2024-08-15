@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: ""
-labels: ""
+labels: "bug"
 assignees: ""
 ---
 
@@ -24,11 +24,8 @@ Steps to reproduce the behavior:
 **Screenshots**
 [If applicable, add screenshots to help explain your problem.]
 
-**Desktop (please complete the following information):**
+**Version**
 
-- Modeler Version: v0.4.0
+- Egon: v2.x.x
 - Browser: [e.g. chrome 71.0]
-- OS: [e.g. Windows 10]
-
-**Additional context**
-[Add any other context about the problem here.]
+- OS: [e.g. Windows]
