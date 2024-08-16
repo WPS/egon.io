@@ -7,7 +7,6 @@ import { ElementRegistryService } from '../../../domain/services/element-registr
 import { StorySentence } from '../domain/storySentence';
 import { Dictionary } from '../../../domain/entities/dictionary';
 import { ActivityBusinessObject } from '../../../domain/entities/activityBusinessObject';
-import { forEach } from 'min-dash';
 
 @Injectable({
   providedIn: 'root',
@@ -131,11 +130,11 @@ export class StoryCreatorService {
       }
     });
     initialSource.forEach((actor) =>
-      this.addTextAnnotationsForActor(actor, actorTextAnnotations),
+      this.addTextAnnotationsForActorOrGroup(actor, actorTextAnnotations),
     );
     targetObjects.forEach((target) => {
       if (target.businessObject.type.includes(ElementTypes.ACTOR)) {
-        this.addTextAnnotationsForActor(target, actorTextAnnotations);
+        this.addTextAnnotationsForActorOrGroup(target, actorTextAnnotations);
       }
     });
 
@@ -146,25 +145,29 @@ export class StoryCreatorService {
       .concat(actorTextAnnotations.map((ta) => ta.businessObject));
   }
 
-  private addTextAnnotationsForActor(
-    actor: CanvasObject,
-    actorTextAnnotations: CanvasObject[],
+  private addTextAnnotationsForActorOrGroup(
+    object: CanvasObject,
+    objectTextAnnotations: CanvasObject[],
   ) {
-    actor.outgoing?.forEach((connection) => {
-      // connections outgoing from actors without number must be connections to text annotations
+    object.outgoing?.forEach((connection) => {
+      // connections outgoing from actors or groups without number must be connections to text annotations
       if (!connection.businessObject.number) {
-        actorTextAnnotations.push(connection);
-        actorTextAnnotations.push(connection.target);
+        objectTextAnnotations.push(connection);
+        objectTextAnnotations.push(connection.target);
       }
     });
   }
 
   private addGroupsToLastSentence(story: StorySentence[]): void {
     const groups = this.elementRegistryService.getAllGroups() as CanvasObject[];
+    const annotationsForGroups: CanvasObject[] = [];
+    groups.forEach((group) =>
+      this.addTextAnnotationsForActorOrGroup(group, annotationsForGroups),
+    );
     if (groups.length > 0 && story.length > 0) {
-      story[story.length - 1].objects = story[story.length - 1].objects.concat(
-        groups.map((g) => g.businessObject),
-      );
+      story[story.length - 1].objects = story[story.length - 1].objects
+        .concat(groups.map((g) => g.businessObject))
+        .concat(annotationsForGroups.map((a) => a.businessObject));
     }
   }
 }

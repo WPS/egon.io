@@ -152,17 +152,7 @@ export class DomManipulationService {
 
     allObjects.forEach((element) => {
       if (!shownElements.includes(element.businessObject)) {
-        if (element.type.includes(ElementTypes.CONNECTION)) {
-          // @ts-ignore
-          if (!element.source.type.includes(ElementTypes.GROUP)) {
-            notShownElements.push(element.businessObject);
-          } else {
-            // @ts-ignore
-            shownElements.push(element.target);
-          }
-        } else {
-          notShownElements.push(element.businessObject);
-        }
+        notShownElements.push(element.businessObject);
       }
     });
     return notShownElements;
