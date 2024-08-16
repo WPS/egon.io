@@ -7,6 +7,7 @@ import { ElementRegistryService } from '../../../domain/services/element-registr
 import { StorySentence } from '../domain/storySentence';
 import { Dictionary } from '../../../domain/entities/dictionary';
 import { ActivityBusinessObject } from '../../../domain/entities/activityBusinessObject';
+import { forEach } from 'min-dash';
 
 @Injectable({
   providedIn: 'root',
@@ -103,6 +104,7 @@ export class StoryCreatorService {
     const initialSource: CanvasObject[] = [];
     const activities = tracedActivity;
     const targetObjects: CanvasObject[] = [];
+    const actorTextAnnotations: CanvasObject[] = [];
 
     tracedActivity.forEach((parallelSentence: ActivityCanvasObject) => {
       initialSource.push(parallelSentence.source);
@@ -128,10 +130,33 @@ export class StoryCreatorService {
         }
       }
     });
+    initialSource.forEach((actor) =>
+      this.addTextAnnotationsForActor(actor, actorTextAnnotations),
+    );
+    targetObjects.forEach((target) => {
+      if (target.businessObject.type.includes(ElementTypes.ACTOR)) {
+        this.addTextAnnotationsForActor(target, actorTextAnnotations);
+      }
+    });
+
     return initialSource
       .map((e) => e.businessObject)
       .concat(activities.map((a) => a.businessObject))
-      .concat(targetObjects.map((t) => t.businessObject));
+      .concat(targetObjects.map((t) => t.businessObject))
+      .concat(actorTextAnnotations.map((ta) => ta.businessObject));
+  }
+
+  private addTextAnnotationsForActor(
+    actor: CanvasObject,
+    actorTextAnnotations: CanvasObject[],
+  ) {
+    actor.outgoing?.forEach((connection) => {
+      // connections outgoing from actors without number must be connections to text annotations
+      if (!connection.businessObject.number) {
+        actorTextAnnotations.push(connection);
+        actorTextAnnotations.push(connection.target);
+      }
+    });
   }
 
   private addGroupsToLastSentence(story: StorySentence[]): void {
