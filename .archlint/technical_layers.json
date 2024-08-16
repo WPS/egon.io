@@ -25,6 +25,13 @@
       "mayUseAllBelow": true
     },
     {
+      "name": "directive",
+      "include": [
+        "**/directive/**"
+      ],
+      "mayUseAllBelow": true
+    },
+    {
       "name": "service",
       "include": [
         "**/services/**"
