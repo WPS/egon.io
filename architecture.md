@@ -143,7 +143,9 @@ style Egon fill:none,stroke:#CCC,stroke-width:2px,color:#CCC,stroke-dasharray: 5
 
 ## Level 2: Web Application
 
-On the top level, the web app is organized into a layered architecture:
+On the top level, the web app is organized into a layered architecture. Some layers contain – among other things –  Angular components which themselves are structured into technical layers.
+
+### Layers
 
 ```mermaid
 
@@ -158,7 +160,7 @@ initializes the application
 Workbench["Workbench
 [Layer]
 
-a home for modeling tools
+a home for modeling tools and settings
 "]
 
 Tools["Tools
@@ -203,6 +205,79 @@ The folder structure resembles the layered architecture:
   - `utils` => Utils layer
 
 The architecture rules are enforced with ArchLint and can be checked by running `npm run archlint.`
+
+### Angular Components
+
+All arrows represent dependencies.
+
+```mermaid
+
+flowchart TD
+
+app["app
+[Angular Component]"]
+
+header["header
+[Angular Component]"]
+
+settings["settings
+[Angular Component]"]
+
+info["info dialog
+[Angular Component]"]
+
+as-drafts["autosave-drafts
+[Angular Component]"]
+
+as-options["autosave-options
+[Angular Component]"]
+
+as-settings["autosave-settings
+[Angular Component]"]
+
+classDef component fill:#1168bd,stroke:#0b4884,color:#ffffff
+
+class app component
+class header component
+class settings component
+class info component
+class as-drafts component
+class as-options component
+class as-settings component
+
+app---->header
+app---->settings
+
+subgraph startup["startup layer"]
+ app
+end
+
+subgraph workbench["workbench layer"]
+ header
+ settings
+end
+
+subgraph tools["tools layer"]
+ as-drafts
+ as-options
+ as-settings
+end
+
+subgraph domain["domain layer"]
+ info
+end
+
+classDef layer fill:none,stroke:#CCC,stroke-width:2px,color:#CCC,stroke-dasharray: 5 5
+class startup layer
+class workbench layer
+class tools layer
+class domain layer
+
+```
+TODO: complete diagram
+
+
+### Technical Layering of Angular Components
 
 ## Level 3: Tools
 
