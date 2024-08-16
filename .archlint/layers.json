@@ -8,8 +8,7 @@
     "tools/modeler/bpmn/**",
     "material.module.ts",
     "../environments/**",
-    "app.*.ts",
-    "**/dragDrop.directive.ts"
+    "app.*.ts"
   ],
   "artifacts": [
     {
