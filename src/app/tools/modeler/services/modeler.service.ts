@@ -113,7 +113,7 @@ export class ModelerService {
     if (version !== null && version !== environment.version) {
       this.snackbar
         .open(
-          'Egon was updated. Clear your browser\'s local storage.',
+          "Egon was updated. Clear your browser's local storage.",
           'More information',
           {
             duration: SNACKBAR_DURATION_LONGER,
