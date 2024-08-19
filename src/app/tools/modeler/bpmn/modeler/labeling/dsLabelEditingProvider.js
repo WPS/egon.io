@@ -4,15 +4,6 @@ import { assign } from "min-dash";
 
 import { autocomplete, getLabel } from "./dsLabelUtil";
 
-import { isAny } from "bpmn-js/lib/features/modeling/util/ModelingUtil";
-
-import {
-  getExternalLabelMid,
-  hasExternalLabel,
-  isLabel,
-  isLabelExternal,
-} from "bpmn-js/lib/util/LabelUtil";
-
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { is } from "../util";
 
@@ -126,7 +117,6 @@ export default function DSLabelEditingProvider(
   function activateDirectEdit(element, force) {
     if (
       force ||
-      isAny(element, [ElementTypes.TEXTANNOTATION]) ||
       element.businessObject.type.includes(ElementTypes.DOMAINSTORY)
     ) {
       directEditing.activate(element);
@@ -186,15 +176,7 @@ DSLabelEditingProvider.prototype.activate = function (element) {
 
   let options = {};
 
-  // external labels
-  if (isLabelExternal(element)) {
-    assign(options, {
-      autoResize: true,
-    });
-  }
-
-  // text annotations
-  if (element.businessObject.type.includes(ElementTypes.TEXTANNOTATION)) {
+  if (is(element, ElementTypes.TEXTANNOTATION)) {
     assign(options, {
       resizable: true,
       autoResize: true,
@@ -223,24 +205,16 @@ DSLabelEditingProvider.prototype.getEditingBBox = function (element) {
 
   let bbox = canvas.getAbsoluteBBox(target);
 
-  let mid = {
-    x: bbox.x + bbox.width / 2,
-    y: bbox.y + bbox.height / 2,
-  };
-
   // default position
   let bounds = { x: bbox.x, y: bbox.y };
 
-  /** The cavnas is an Object from BPMN, the IDE might say, that zoom is deprecated,
-   * because it thinks canvas is the standard HTMLElement. -> Needs to stay toom **/
+  /** The canvas is an object from bpmn-js. The IDE might say that zoom is deprecated,
+   * because it thinks that canvas is the standard HTML element.**/
   let zoom = canvas.zoom();
-  let defaultStyle = this._textRenderer.getDefaultStyle(),
-    externalStyle = this._textRenderer.getExternalStyle();
+  let defaultStyle = this._textRenderer.getDefaultStyle();
 
   // take zoom into account
-  let externalFontSize = externalStyle.fontSize * zoom,
-    externalLineHeight = externalStyle.lineHeight,
-    defaultFontSize = defaultStyle.fontSize * zoom,
+  let defaultFontSize = defaultStyle.fontSize * zoom,
     defaultLineHeight = defaultStyle.lineHeight;
 
   let style = {
@@ -269,9 +243,8 @@ DSLabelEditingProvider.prototype.getEditingBBox = function (element) {
     });
   }
 
-  // internal labels for tasks and collapsed call activities,
-  // sub processes and participants
   if (
+    // we can't use util's is() function here because the type contains the name of the icon
     /^domainStory:actor\w*/.test(element.type) ||
     /^domainStory:workObject\w*/.test(element.type)
   ) {
@@ -292,61 +265,8 @@ DSLabelEditingProvider.prototype.getEditingBBox = function (element) {
     });
   }
 
-  let width = 90 * zoom,
-    paddingTop = 7 * zoom,
-    paddingBottom = 4 * zoom;
-
-  // external labels for events, data elements, gateways and connections
-  if (target.labelTarget) {
-    assign(bounds, {
-      width: width,
-      height: bbox.height + paddingTop + paddingBottom,
-      x: mid.x - width / 2,
-      y: bbox.y - paddingTop,
-    });
-
-    assign(style, {
-      fontSize: externalFontSize + "px",
-      lineHeight: externalLineHeight,
-      paddingTop: paddingTop + "px",
-      paddingBottom: paddingBottom + "px",
-    });
-  }
-
-  // external label not yet created
-  if (
-    isLabelExternal(target) &&
-    !hasExternalLabel(target) &&
-    !isLabel(target)
-  ) {
-    let externalLabelMid = getExternalLabelMid(element);
-
-    let absoluteBBox = canvas.getAbsoluteBBox({
-      x: externalLabelMid.x,
-      y: externalLabelMid.y,
-      width: 0,
-      height: 0,
-    });
-
-    let height = externalFontSize + paddingTop + paddingBottom;
-
-    assign(bounds, {
-      width: width,
-      height: height,
-      x: absoluteBBox.x - width / 2,
-      y: absoluteBBox.y - height / 2,
-    });
-
-    assign(style, {
-      fontSize: externalFontSize + "px",
-      lineHeight: externalLineHeight,
-      paddingTop: paddingTop + "px",
-      paddingBottom: paddingBottom + "px",
-    });
-  }
-
   // text annotations
-  if (element.businessObject.type.includes(ElementTypes.TEXTANNOTATION)) {
+  if (is(element, ElementTypes.TEXTANNOTATION)) {
     assign(bounds, {
       width: bbox.width,
       height: bbox.height,
