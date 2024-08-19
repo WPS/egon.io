@@ -39,26 +39,26 @@ import { ImportModule } from './tools/import/presentation/import.module';
 import { LabelDictionaryModule } from './tools/label-dictionary/presentation/label-dictionary.module';
 import { ModelerModule } from './tools/modeler/presentation/modeler.module';
 import { TitleModule } from './tools/title/presentation/title.module';
-import {DragDirective} from "./tools/import/directive/dragDrop.directive";
+import { DragDirective } from './tools/import/directive/dragDrop.directive';
 
 @NgModule({
   declarations: [AppComponent],
-    imports: [
-        BrowserModule,
-        NoopAnimationsModule,
-        MaterialModule,
-        ColorPickerModule,
-        WorkbenchModule,
-        AutosaveModule,
-        ExportModule,
-        IconSetConfigModule,
-        ImportModule,
-        LabelDictionaryModule,
-        ModelerModule,
-        TitleModule,
-        DomainModule,
-        DragDirective,
-    ],
+  imports: [
+    BrowserModule,
+    NoopAnimationsModule,
+    MaterialModule,
+    ColorPickerModule,
+    WorkbenchModule,
+    AutosaveModule,
+    ExportModule,
+    IconSetConfigModule,
+    ImportModule,
+    LabelDictionaryModule,
+    ModelerModule,
+    TitleModule,
+    DomainModule,
+    DragDirective,
+  ],
   providers: [
     UntypedFormBuilder,
     {

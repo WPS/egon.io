@@ -31,7 +31,7 @@ import {
   YELLOW,
 } from './domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {ModelerService} from "./tools/modeler/services/modeler.service";
+import { ModelerService } from './tools/modeler/services/modeler.service';
 
 @Component({
   selector: 'app-root',
@@ -73,11 +73,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private cd: ChangeDetectorRef,
     private snackbar: MatSnackBar,
     replayService: ReplayService,
-    private modelerService: ModelerService
+    private modelerService: ModelerService,
   ) {
-
-
-
     this.showSettings$ = new BehaviorSubject(false);
     this.showDescription$ = new BehaviorSubject(true);
 
@@ -140,7 +137,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.modelerService.postInit()
+    this.modelerService.postInit();
     this.showDescription$ = this.titleService.showDescription$;
     this.showSettings$ = this.settingsService.showSettings$;
   }

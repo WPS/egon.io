@@ -156,6 +156,11 @@ export class ImportDomainStoryService
           this.importEGN(blob, filename, false);
         } else if (filename.match(egnSvgPattern)) {
           this.importEGN(blob, filename, true);
+        } else {
+          this.snackbar.open('Url not valid', undefined, {
+            duration: SNACKBAR_DURATION_LONG,
+            panelClass: SNACKBAR_ERROR,
+          });
         }
         this.modelerService.commandStackChanged();
       })
