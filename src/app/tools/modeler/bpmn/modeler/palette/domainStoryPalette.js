@@ -6,10 +6,6 @@ import { Dictionary } from "src/app/domain/entities/dictionary";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { APPENDED_ICONS_TAG } from "src/app/domain/entities/constants";
 
-/**
- * A palette that allows you to create BPMN _and_ custom elements.
- */
-
 let iconDictionary;
 let configuration;
 

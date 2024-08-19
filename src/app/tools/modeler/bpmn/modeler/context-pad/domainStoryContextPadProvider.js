@@ -40,7 +40,6 @@ export default function DomainStoryContextPadProvider(
   let selectedElement;
 
   injector.invoke(ContextPadProvider, this);
-  let autoPlace = injector.get("autoPlace", false);
 
   let cached = bind(this.getContextPadEntries, this);
 

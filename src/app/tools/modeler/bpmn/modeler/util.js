@@ -1,5 +1,4 @@
-import { some } from "min-dash";
-
+// TODO: this will not work for actors and work objects as the name of the icon is part of the type
 export function is(element, type) {
   const bo = getBusinessObject(element);
 

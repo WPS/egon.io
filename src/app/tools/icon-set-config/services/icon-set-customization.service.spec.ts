@@ -64,9 +64,11 @@ describe(IconSetCustomizationService.name, () => {
       workObjects: ['Document'],
     };
 
+    const actorDefaultDictionary = new Dictionary();
+    actorDefaultDictionary.add('actorSvg', 'actorkey');
     const INITIAL_ICON_SET_CONFIGURATION = {
       name: INITIAL_ICON_SET_NAME,
-      actors: new Dictionary(),
+      actors: actorDefaultDictionary,
       workObjects: new Dictionary(),
     };
 
@@ -116,6 +118,10 @@ describe(IconSetCustomizationService.name, () => {
     iconDictionarySpy.getWorkObjectsDictionary.and.returnValue(
       new Dictionary(),
     );
+    elementRegistryServiceMock.getUsedIcons.and.returnValue({
+      actors: [],
+      workobjects: [],
+    });
     configurationServiceSpy.getCurrentConfigurationNamesWithoutPrefix.and.returnValue(
       structuredClone(testCustomIconSetConfiguration),
     );

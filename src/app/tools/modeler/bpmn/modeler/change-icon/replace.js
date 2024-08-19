@@ -15,8 +15,6 @@ export default function Replace(modeling) {
  * @param modeling
  */
 function replaceElement(oldElement, newElementData, modeling) {
-  // let modeling = this._modeling;
-
   let newElement = setCenterOfElement(newElementData, oldElement, modeling);
   let outgoingActivities = newElement.outgoing;
   let incomingActivities = newElement.incoming;

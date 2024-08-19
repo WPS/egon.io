@@ -103,6 +103,7 @@ export class StoryCreatorService {
     const initialSource: CanvasObject[] = [];
     const activities = tracedActivity;
     const targetObjects: CanvasObject[] = [];
+    const actorTextAnnotations: CanvasObject[] = [];
 
     tracedActivity.forEach((parallelSentence: ActivityCanvasObject) => {
       initialSource.push(parallelSentence.source);
@@ -128,18 +129,45 @@ export class StoryCreatorService {
         }
       }
     });
+    initialSource.forEach((actor) =>
+      this.addTextAnnotationsForActorOrGroup(actor, actorTextAnnotations),
+    );
+    targetObjects.forEach((target) => {
+      if (target.businessObject.type.includes(ElementTypes.ACTOR)) {
+        this.addTextAnnotationsForActorOrGroup(target, actorTextAnnotations);
+      }
+    });
+
     return initialSource
       .map((e) => e.businessObject)
       .concat(activities.map((a) => a.businessObject))
-      .concat(targetObjects.map((t) => t.businessObject));
+      .concat(targetObjects.map((t) => t.businessObject))
+      .concat(actorTextAnnotations.map((ta) => ta.businessObject));
+  }
+
+  private addTextAnnotationsForActorOrGroup(
+    object: CanvasObject,
+    objectTextAnnotations: CanvasObject[],
+  ) {
+    object.outgoing?.forEach((connection) => {
+      // connections outgoing from actors or groups without number must be connections to text annotations
+      if (!connection.businessObject.number) {
+        objectTextAnnotations.push(connection);
+        objectTextAnnotations.push(connection.target);
+      }
+    });
   }
 
   private addGroupsToLastSentence(story: StorySentence[]): void {
     const groups = this.elementRegistryService.getAllGroups() as CanvasObject[];
+    const annotationsForGroups: CanvasObject[] = [];
+    groups.forEach((group) =>
+      this.addTextAnnotationsForActorOrGroup(group, annotationsForGroups),
+    );
     if (groups.length > 0 && story.length > 0) {
-      story[story.length - 1].objects = story[story.length - 1].objects.concat(
-        groups.map((g) => g.businessObject),
-      );
+      story[story.length - 1].objects = story[story.length - 1].objects
+        .concat(groups.map((g) => g.businessObject))
+        .concat(annotationsForGroups.map((a) => a.businessObject));
     }
   }
 }
