@@ -105,11 +105,13 @@ jobs:
   deploy-website-latest:
     if: inputs.deploy_prod == false
     runs-on: ubuntu-latest
-    needs: [ build ]
+    needs: [ test, format, archlint  ]
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup_environment
       - run: |
+          npm run build
+
           CLONE_DIR=$(mktemp -d)
 
           git config --global user.email "development@egon.io"
@@ -128,11 +130,13 @@ jobs:
   deploy-website-prod:
     if: inputs.deploy_prod == true
     runs-on: ubuntu-latest
-    needs: [ build-prod ]
+    needs: [ test, format, archlint  ]
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup_environment
       - run: |
+          npm run build-prod
+
           CLONE_DIR=$(mktemp -d)
 
           git config --global user.email "development@egon.io"
