@@ -243,50 +243,63 @@ export class ExportService implements OnDestroy {
   }
 
   openDownloadDialog() {
+    const exportOptions: ExportOption[] = []
     if (this.isDomainStoryExportable()) {
       const SVGDownloadOption = new ExportOption(
+        'LOCAL',
         'SVG',
         'Download an SVG-Image with the Domain-Story embedded. Can be used to save and share your Domain-Story.',
         (withTitle: boolean, useWhiteBackground: boolean) =>
           this.downloadSVG(withTitle, useWhiteBackground),
       );
       const EGNDownloadOption = new ExportOption(
+        'LOCAL',
         'EGN',
         'Download an EGN-File with the Domain-Story. Can be used to save and share your Domain-Story.',
         () => this.downloadDST(),
       );
       const PNGDownloadOption = new ExportOption(
+        'LOCAL',
         'PNG',
         'Download a PNG-Image of the Domain-Story. This does not include the Domain-Story!',
         (withTitle: boolean) => this.downloadPNG(withTitle),
       );
       const HTMLDownloadOption = new ExportOption(
+        'LOCAL',
         'HTML-Presentation',
         'Download an HTML-Presentation. This does not include the Domain-Story!',
         () => this.downloadHTMLPresentation(this.modelerService.getModeler()),
       );
-      const connectToDropboxOption = new ExportOption(
-        'connect to Dropbox',
-        'Connect Egon to your Dropbox account. Can be used to save and share your Domain-Story.',
-        () => this.dropboxService.authenticateUserWithOauth2(),
-      );
-      const exportToDropboxOption = new ExportOption(
-        'Dropbox (SVG)',
-        'Export an SVG-Image with the Domain-Story embedded to Dropbox. Can be used to save and share your Domain-Story.',
-        () => this.uploadSvgToDropbox(),
-      );
+
+      exportOptions.push(
+        SVGDownloadOption,
+        EGNDownloadOption,
+        PNGDownloadOption,
+        HTMLDownloadOption
+      )
+
+      if (this.dropboxService.getAccessToken() === null) {
+        const connectToDropboxOption = new ExportOption(
+          'DROPBOX',
+          'connect to Dropbox',
+          'Connect Egon to your Dropbox account. Can be used to save and share your Domain-Story.',
+          () => this.dropboxService.authenticateUserWithOauth2(),
+        );
+        exportOptions.push(connectToDropboxOption)
+      } else {
+        const exportToDropboxOption = new ExportOption(
+          'DROPBOX',
+          'save Svg to Dropbox',
+          'Export an SVG-Image with the Domain-Story embedded to Dropbox. Can be used to save and share your Domain-Story.',
+          () => this.uploadSvgToDropbox(),
+        );
+        exportOptions.push(exportToDropboxOption)
+      }
 
       const config = new MatDialogConfig();
       config.disableClose = false;
       config.autoFocus = true;
-      config.data = new ExportDialogData('Export', [
-        SVGDownloadOption,
-        EGNDownloadOption,
-        PNGDownloadOption,
-        HTMLDownloadOption,
-        connectToDropboxOption,
-        exportToDropboxOption
-      ]);
+      config.data = new ExportDialogData('Export', exportOptions);
 
       this.dialogService.openDialog(ExportDialogComponent, config);
     } else {

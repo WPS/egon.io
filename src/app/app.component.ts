@@ -25,14 +25,11 @@ import {
   ORANGE,
   PURPLE,
   RED,
-  SNACKBAR_DURATION,
   SNACKBAR_DURATION_LONG,
   SNACKBAR_INFO,
   YELLOW,
 } from './domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {ActivatedRoute} from "@angular/router";
-import {DropboxService} from "./tools/export/services/dropbox.service";
 
 @Component({
   selector: 'app-root',
@@ -74,7 +71,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     private cd: ChangeDetectorRef,
     private snackbar: MatSnackBar,
     replayService: ReplayService,
-    private dropboxService: DropboxService,
   ) {
     this.showSettings$ = new BehaviorSubject(false);
     this.showDescription$ = new BehaviorSubject(true);

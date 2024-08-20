@@ -1,3 +1,5 @@
+export type ExportLocation = 'DROPBOX' | 'LOCAL';
+
 export class ExportDialogData {
   title: string;
   options: ExportOption[];
@@ -9,11 +11,13 @@ export class ExportDialogData {
 }
 
 export class ExportOption {
+  exportLocation: ExportLocation;
   text: string;
   fn: any;
   tooltip: string;
 
-  constructor(text: string, tooltip: string, fn: any) {
+  constructor(exportLocation: ExportLocation, text: string, tooltip: string, fn: any) {
+    this.exportLocation = exportLocation
     this.text = text;
     this.tooltip = tooltip;
     this.fn = fn;

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Dropbox} from "dropbox";
 import {environment} from "../../../../environments/environment";
-import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {
   SNACKBAR_DURATION,
@@ -31,17 +30,15 @@ export class DropboxService {
   }
 
   uploadToDropbox(filename: string, svgData: string): void {
-
-    const ACCESS_TOKEN = this.getAccessToken()
-    console.log('ACCESS_TOKEN: ', ACCESS_TOKEN)
-    if (ACCESS_TOKEN === null) {
+    const accessToken = this.getAccessToken()
+    if (accessToken === null) {
       this.snackbar.open('If you want to upload a SVG-File to your Dropbox account, you have to connect Egon before', undefined, {
         duration: SNACKBAR_DURATION_LONG,
         panelClass: SNACKBAR_INFO,
       });
       return;
     }
-    this.dropbox = new Dropbox({ accessToken: ACCESS_TOKEN });
+    this.dropbox = new Dropbox({ accessToken: accessToken });
 
     this.dropbox.filesUpload({ path: '/' + filename, contents: svgData })
       .then((response) => {
