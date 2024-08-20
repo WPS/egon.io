@@ -24,7 +24,6 @@ import {
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '../../../domain/services/dialog.service';
-import {Dropbox} from "dropbox";
 import {DropboxService} from "./dropbox.service";
 
 @Injectable({

@@ -39,6 +39,5 @@ export class HeaderButtonsComponent {
   openDownloadDialog = new EventEmitter<void>();
   @Output()
   openUploadUrlDialog = new EventEmitter<void>();
-  @Output()
-  onDropboxSaveEvent = new EventEmitter<void>
+
 }
