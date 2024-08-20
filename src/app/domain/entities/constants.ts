@@ -4,7 +4,6 @@ export const INITIAL_DESCRIPTION = '';
 export const INITIAL_ICON_SET_NAME = 'default';
 
 /** LocalStorage KEYS **/
-export const APPENDED_ICONS_KEY = 'appendedIcons';
 export const ICON_SET_CONFIGURATION_KEY = 'iconSetConfiguration';
 export const DRAFTS_KEY = 'autosaveDrafts';
 export const VERSION_KEY = 'version';

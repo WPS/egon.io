@@ -1,10 +1,8 @@
 "use strict";
 
 import { assign } from "min-dash";
-import { overrideAppendedIcons } from "src/app/tools/icon-set-config/domain/allIcons";
 import { Dictionary } from "src/app/domain/entities/dictionary";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { APPENDED_ICONS_KEY } from "src/app/domain/entities/constants";
 
 let iconDictionary;
 let configuration;
@@ -106,23 +104,6 @@ function appendCSSStyleCheat(customIcons) {
 function initPalette(actions, spaceTool, lassoTool, createAction) {
   let config = iconDictionary?.getCurrentIconConfigurationForBPMN();
 
-  let customIcons = localStorage.getItem(APPENDED_ICONS_KEY);
-
-  if (customIcons) {
-    customIcons = JSON.parse(customIcons);
-    if (customIconsLegacy(customIcons)) {
-      customIcons = convertLegacyAppendedIconsToDict(customIcons);
-    }
-    if (customIcons.entries && customIcons.entries.forEach) {
-      const customIconsDict = new Dictionary();
-      customIcons.entries.forEach((entry) => {
-        customIconsDict.putEntry(entry);
-      });
-      overrideAppendedIcons(customIconsDict);
-      appendCSSStyleCheat(customIcons);
-    }
-  }
-
   iconDictionary?.initTypeDictionaries(config.actors, config.workObjects);
 
   let actorTypes = iconDictionary?.getTypeDictionary(ElementTypes.ACTOR);
@@ -215,21 +196,6 @@ function addCanvasObjectTypes(
     name,
   );
   assign(actions, action);
-}
-
-function customIconsLegacy(customIcons) {
-  return !(
-    Object.keys(customIcons).length === 1 &&
-    Object.keys(customIcons)[0] === "entries"
-  );
-}
-
-function convertLegacyAppendedIconsToDict(customIcons) {
-  let dict = new Dictionary();
-  Object.keys(customIcons).forEach((key) => {
-    dict.set(key, customIcons[key]);
-  });
-  return dict;
 }
 
 // For some reason its important to use ' in the content for the Palette and ContextPad
