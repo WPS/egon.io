@@ -4,7 +4,7 @@ import { assign } from "min-dash";
 import { overrideAppendedIcons } from "src/app/tools/icon-set-config/domain/allIcons";
 import { Dictionary } from "src/app/domain/entities/dictionary";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { APPENDED_ICONS_TAG } from "src/app/domain/entities/constants";
+import { APPENDED_ICONS_KEY } from "src/app/domain/entities/constants";
 
 let iconDictionary;
 let configuration;
@@ -106,7 +106,7 @@ function appendCSSStyleCheat(customIcons) {
 function initPalette(actions, spaceTool, lassoTool, createAction) {
   let config = iconDictionary?.getCurrentIconConfigurationForBPMN();
 
-  let customIcons = localStorage.getItem(APPENDED_ICONS_TAG);
+  let customIcons = localStorage.getItem(APPENDED_ICONS_KEY);
 
   if (customIcons) {
     customIcons = JSON.parse(customIcons);

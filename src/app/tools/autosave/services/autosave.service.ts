@@ -10,6 +10,7 @@ import { TitleService } from '../../title/services/title.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
 import { Subject } from 'rxjs';
 import {
+  DRAFTS_KEY,
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
   SNACKBAR_DURATION,
@@ -17,8 +18,6 @@ import {
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
-
-export const DRAFTS_TAG = 'autosaveDrafts';
 
 @Injectable({
   providedIn: 'root',
@@ -79,7 +78,7 @@ export class AutosaveService {
   }
 
   removeAllDrafts() {
-    this.storageService.set(DRAFTS_TAG, []);
+    this.storageService.set(DRAFTS_KEY, []);
     this.autosavedDraftsChanged$.next();
   }
 
@@ -147,11 +146,11 @@ export class AutosaveService {
   }
 
   private writeDrafts(drafts: Draft[]) {
-    this.storageService.set(DRAFTS_TAG, drafts);
+    this.storageService.set(DRAFTS_KEY, drafts);
   }
 
   private readDrafts(): Draft[] {
-    return this.storageService.get(DRAFTS_TAG) ?? [];
+    return this.storageService.get(DRAFTS_KEY) ?? [];
   }
 
   private createDraft(): Draft {
