@@ -24,8 +24,10 @@
     "@angular/material": "^17.3.3",
     "@angular/platform-browser": "^17.3.3",
     "@angular/platform-browser-dynamic": "^17.3.3",
+    "@angular/router": "^17.3.3",
     "bpmn-js": "^8.8.3",
     "dot": "^1.1.3",
+    "dropbox": "^10.34.0",
     "material-icons": "^1.13.2",
     "min-dash": "^4.2.1",
     "ngx-color-picker": "^17.0.0",
@@ -49,9 +51,9 @@
     "ng-mocks": "^14.11.0",
     "node-polyfill-webpack-plugin": "^3.0.0",
     "prettier": "^3.2.5",
+    "ts-archlint": "^0.15.0",
     "ts-node": "^10.9.2",
     "typescript": "5.4.4",
-    "zip-build": "^1.8.0",
-    "ts-archlint": "^0.15.0"
+    "zip-build": "^1.8.0"
   }
 }

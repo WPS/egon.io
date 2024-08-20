@@ -24,6 +24,8 @@ import {
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '../../../domain/services/dialog.service';
+import {Dropbox} from "dropbox";
+import {DropboxService} from "./dropbox.service";
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +48,7 @@ export class ExportService implements OnDestroy {
     private modelerService: ModelerService,
     private dialogService: DialogService,
     private snackbar: MatSnackBar,
+    private dropboxService: DropboxService
   ) {
     this.titleSubscription = this.titleService.title$.subscribe(
       (title: string) => {
@@ -114,6 +117,23 @@ export class ExportService implements OnDestroy {
     }
 
     document.body.removeChild(element);
+  }
+
+  private uploadSvgToDropbox(): void {
+    const story = this.getStoryForDownload();
+    const dst = this.createConfigAndDST(story);
+    const svgData = this.svgService.createSVGData(
+      this.title,
+      this.description,
+      dst,
+      true,
+      true,
+    );
+
+    const filename =  sanitizeForDesktop(this.title + '_' + formatDate(new Date(), 'YYYY-MM-dd HH:mm:ss', 'en-GB'));
+    const fileEnding =  '.egn.svg';
+
+    this.dropboxService.uploadToDropbox(filename + fileEnding, svgData)
   }
 
   downloadSVG(withTitle: boolean, useWhiteBackground: boolean): void {
@@ -245,6 +265,16 @@ export class ExportService implements OnDestroy {
         'Download an HTML-Presentation. This does not include the Domain-Story!',
         () => this.downloadHTMLPresentation(this.modelerService.getModeler()),
       );
+      const connectToDropboxOption = new ExportOption(
+        'connect to Dropbox',
+        'Connect Egon to your Dropbox account. Can be used to save and share your Domain-Story.',
+        () => this.dropboxService.authenticateUserWithOauth2(),
+      );
+      const exportToDropboxOption = new ExportOption(
+        'Dropbox (SVG)',
+        'Export an SVG-Image with the Domain-Story embedded to Dropbox. Can be used to save and share your Domain-Story.',
+        () => this.uploadSvgToDropbox(),
+      );
 
       const config = new MatDialogConfig();
       config.disableClose = false;
@@ -254,6 +284,8 @@ export class ExportService implements OnDestroy {
         EGNDownloadOption,
         PNGDownloadOption,
         HTMLDownloadOption,
+        connectToDropboxOption,
+        exportToDropboxOption
       ]);
 
       this.dialogService.openDialog(ExportDialogComponent, config);

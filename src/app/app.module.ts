@@ -81,7 +81,7 @@ import { TitleModule } from './tools/title/presentation/title.module';
     },
   ],
 })
-export class AppModule implements DoBootstrap {
+export class AppModule {
   constructor(private autosaveService: AutosaveService) {
     // autosaveService wird so automatisch initialisiert, auf keinen Fall entfernen!
   }
