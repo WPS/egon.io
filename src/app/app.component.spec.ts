@@ -17,10 +17,7 @@ describe('AppComponent', () => {
       'loadLatestDraft',
     ]);
     await TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-        MockComponent(HeaderComponent),
-      ],
+      declarations: [AppComponent, MockComponent(HeaderComponent)],
       providers: [
         MockProviders(
           SettingsService,
