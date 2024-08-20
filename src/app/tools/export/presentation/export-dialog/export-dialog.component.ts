@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {ExportDialogData, ExportLocation, ExportOption} from 'src/app/tools/export/domain/dialog/exportDialogData';
+import {ExportDialogData, ExportOption} from 'src/app/tools/export/domain/dialog/exportDialogData';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import {isDecoratorOptionsInterface} from "@angular/compiler-cli/src/ngtsc/docs/src/decorator_extractor";
 
 @Component({
   selector: 'app-export-dialog',
@@ -15,11 +14,6 @@ export class ExportDialogComponent implements OnInit {
   withTitle: BehaviorSubject<boolean>;
   useWhiteBackground: BehaviorSubject<boolean>;
 
-  optionMap = new Map<ExportLocation, ExportOption[]>()
-
-  localOptions: ExportOption[] = []
-  dropboxOtions: ExportOption[] = []
-
   constructor(
     private dialogRef: MatDialogRef<ExportDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: ExportDialogData,
@@ -30,20 +24,7 @@ export class ExportDialogComponent implements OnInit {
     this.options = data.options;
   }
 
-  ngOnInit(): void {
-    // sort options according there exportLocation
-    // this.options.forEach(it => {
-    //   if (it.exportLocation === 'LOCAL') {
-    //     this.localOptions.push(it)
-    //   }
-    //
-    //   if (it.exportLocation === 'DROPBOX') {
-    //     this.dropboxOtions.push(it)
-    //   }
-    // })
-
-    // this.options = this.options.sort(it => it.exportLocation.localeCompare(it.exportLocation))
-  }
+  ngOnInit(): void { }
 
   doOption(i: number): void {
     this.options[i].fn(this.withTitle.value, this.useWhiteBackground.value);
