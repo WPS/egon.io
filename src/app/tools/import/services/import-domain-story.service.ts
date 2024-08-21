@@ -102,6 +102,29 @@ export class ImportDomainStoryService
     this.modelerService.commandStackChanged();
   }
 
+  performDropImport(file: File): void {
+    const filename = file.name;
+
+    const dstSvgPattern = /.*(.dst)(\s*\(\d+\)){0,1}\.svg/;
+    const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
+
+    if (filename.endsWith('.dst')) {
+      this.importDST(file, filename, false);
+    } else if (filename.match(dstSvgPattern)) {
+      this.importDST(file, filename, true);
+    } else if (filename.endsWith('.egn')) {
+      this.importEGN(file, filename, false);
+    } else if (filename.match(egnSvgPattern)) {
+      this.importEGN(file, filename, true);
+    } else {
+      this.snackbar.open('File not supported', undefined, {
+        duration: SNACKBAR_DURATION_LONG,
+        panelClass: SNACKBAR_ERROR,
+      });
+    }
+    this.modelerService.commandStackChanged();
+  }
+
   importFromUrl(fileUrl: string): void {
     if (!fileUrl.startsWith('http')) {
       this.snackbar.open('Url not valid', undefined, {
@@ -133,6 +156,11 @@ export class ImportDomainStoryService
           this.importEGN(blob, filename, false);
         } else if (filename.match(egnSvgPattern)) {
           this.importEGN(blob, filename, true);
+        } else {
+          this.snackbar.open('Url not valid', undefined, {
+            duration: SNACKBAR_DURATION_LONG,
+            panelClass: SNACKBAR_ERROR,
+          });
         }
         this.modelerService.commandStackChanged();
       })

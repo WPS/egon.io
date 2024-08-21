@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AutosaveService, DRAFTS_TAG } from './autosave.service';
+import { AutosaveService } from './autosave.service';
 import { MockProviders } from 'ng-mocks';
 import { RendererService } from '../../modeler/services/renderer.service';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
@@ -11,6 +11,7 @@ import { testConfigAndDst } from '../../export/domain/export/configAndDst';
 import { StorageService } from '../../../domain/services/storage.service';
 import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DRAFTS_KEY } from 'src/app/domain/entities/constants';
 
 describe('AutosaveService', () => {
   let service: AutosaveService;
@@ -106,19 +107,19 @@ describe('AutosaveService', () => {
     });
 
     it('should getItem from local Storage', () => {
-      storageServiceSpy.get.withArgs(DRAFTS_TAG).and.returnValue([]);
+      storageServiceSpy.get.withArgs(DRAFTS_KEY).and.returnValue([]);
       const loadedAutosaves = service.loadCurrentDrafts();
 
-      expect(storageServiceSpy.get).toHaveBeenCalledWith(DRAFTS_TAG);
+      expect(storageServiceSpy.get).toHaveBeenCalledWith(DRAFTS_KEY);
       expect(loadedAutosaves).toEqual([]);
     });
 
     it('should return sorted autosaves', () => {
-      storageServiceSpy.get.withArgs(DRAFTS_TAG).and.returnValue(autosaves);
+      storageServiceSpy.get.withArgs(DRAFTS_KEY).and.returnValue(autosaves);
 
       const loadedAutosaves = service.loadCurrentDrafts();
 
-      expect(storageServiceSpy.get).toHaveBeenCalledWith(DRAFTS_TAG);
+      expect(storageServiceSpy.get).toHaveBeenCalledWith(DRAFTS_KEY);
       expect(loadedAutosaves).toEqual(autosaves);
     });
   });

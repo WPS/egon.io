@@ -6,7 +6,7 @@ import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { defaultConf } from '../domain/iconConfiguration';
 import { TitleService } from '../../title/services/title.service';
 import {
-  ICON_SET_CONFIGURATION_TAG,
+  ICON_SET_CONFIGURATION_KEY,
   INITIAL_ICON_SET_NAME,
 } from '../../../domain/entities/constants';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
@@ -232,7 +232,7 @@ export class IconSetConfigurationService {
   }
 
   public getStoredIconSetConfiguration(): IconSetConfiguration | undefined {
-    const iconSetString = this.storageService.get(ICON_SET_CONFIGURATION_TAG);
+    const iconSetString = this.storageService.get(ICON_SET_CONFIGURATION_KEY);
 
     if (!iconSetString) {
       return;
@@ -268,7 +268,7 @@ export class IconSetConfigurationService {
     };
 
     this.storageService.set(
-      ICON_SET_CONFIGURATION_TAG,
+      ICON_SET_CONFIGURATION_KEY,
       JSON.stringify(configForStorage, null, 2),
     );
   }

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  version: '2.1.0-dev',
+  version: '2.2.0-dev',
   dropbox_api_key: 'j68p01tsno65ec8' // TODO don't push the api key. Should be replaced by a variable and set during deployment.
 };
 

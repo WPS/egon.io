@@ -1,5 +1,6 @@
 "use strict";
 
+import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import Replace from "./replace";
 import * as replaceOptions from "./replaceOptions";
 
@@ -25,9 +26,9 @@ ReplaceMenuProvider.$inject = ["modeling"];
  */
 ReplaceMenuProvider.prototype.getEntries = function (element) {
   let entries;
-  if (element.type.includes("actor")) {
+  if (element.type.includes(ElementTypes.ACTOR)) {
     entries = replaceOptions.actorReplaceOptions(element.type);
-  } else if (element.type.includes("workObject")) {
+  } else if (element.type.includes(ElementTypes.WORKOBJECT)) {
     entries = replaceOptions.workObjectReplaceOptions(element.type);
   }
 

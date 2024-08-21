@@ -1,6 +1,3 @@
-/**
- * a handler that updates the text of a BPMN element.
- */
 export default function headlineAndDescriptionUpdateHandler(
   commandStack,
   titleService,

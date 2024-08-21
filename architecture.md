@@ -50,8 +50,12 @@ Egon["Egon
 Local["Local File System
 [Software System]"]
 
+Remote["Remote File System
+[Software System]"]
+
 User-- "models, exports, and imports\nDomain Stories using" -->Egon
 Egon-- "imports from\nand exports to" -->Local
+Egon-- "imports from" -->Remote
 
 classDef focusSystem fill:#1168bd,stroke:#0b4884,color:#ffffff
 classDef supportingSystem fill:#666,stroke:#0b4884,color:#ffffff
@@ -59,7 +63,7 @@ classDef person fill:#08427b,stroke:#052e56,color:#ffffff
 
 class User person
 class Egon focusSystem
-class Local supportingSystem
+class Local,Remote supportingSystem
 ```
   
 # Solution Strategy {#section-solution-strategy}
@@ -122,8 +126,12 @@ WA["Web Application
 Local["Local File System
 [Software System]"]
 
-User-- "models, exports, and imports\nDomain Stories using" -->WA
-WA-- "imports from\nand exports to" -->Local
+Remote["Remote File System
+[Software System]"]
+
+User-- "models, exports, and imports\ndomain stories using" -->WA
+WA-- "imports domain stories from\nand exports to" -->Local
+WA-- "imports domain stories from\n[http]" -->Remote
 
 classDef container fill:#1168bd,stroke:#0b4884,color:#ffffff
 classDef person fill:#08427b,stroke:#052e56,color:#ffffff
@@ -131,7 +139,7 @@ classDef supportingSystem fill:#666,stroke:#0b4884,color:#ffffff
 
 class User person
 class WA container
-class Local supportingSystem
+class Local,Remote supportingSystem
 
 subgraph Egon[Egon]
  WA
@@ -143,7 +151,9 @@ style Egon fill:none,stroke:#CCC,stroke-width:2px,color:#CCC,stroke-dasharray: 5
 
 ## Level 2: Web Application
 
-On the top level, the web app is organized into a layered architecture:
+On the top level, the web app is organized into a layered architecture. Some layers contain – among other things –  Angular modules and components which themselves are structured into technical layers.
+
+### Layers
 
 ```mermaid
 
@@ -158,7 +168,7 @@ initializes the application
 Workbench["Workbench
 [Layer]
 
-a home for modeling tools
+a home for modeling tools and settings
 "]
 
 Tools["Tools
@@ -181,17 +191,11 @@ a collection of little utilities
 
 classDef layer fill:#1168bd,stroke:#0b4884,color:#ffffff
 
-class Startup layer
-class Workbench layer
-class Tools layer
-class Domain layer
-class Utils layer
+class Startup,Workbench,Tools,Domain,Utils layer
 
-Startup-- "initializes" -->Workbench
-Startup-- "initializes" -->Tools
+Startup-- "initializes" -->Workbench & Tools
 Workbench-- "starts" -->Tools
-Tools-- "uses" -->Domain
-Tools-- "uses" -->Utils
+Tools-- "uses" -->Domain & Utils
 ```
 
 The folder structure resembles the layered architecture:
@@ -203,6 +207,96 @@ The folder structure resembles the layered architecture:
   - `utils` => Utils layer
 
 The architecture rules are enforced with ArchLint and can be checked by running `npm run archlint.`
+
+### Angular Modules and Components
+
+All arrows represent dependencies.
+
+```mermaid
+
+flowchart TD
+
+app["app
+[Angular Component]"]
+
+header["header
+[Angular Component]"]
+
+settings["settings
+[Angular Component]"]
+
+info["info dialog
+[Angular Component]"]
+
+as-drafts["autosave-drafts
+[Angular Component]"]
+
+as-options["autosave-options
+[Angular Component]"]
+
+as-settings["autosave-settings
+[Angular Component]"]
+
+details-list["details-list
+[Angular Component]"]
+
+classDef component fill:#1168bd,stroke:#0b4884,color:#ffffff
+class app,header,settings,info,as-drafts,as-options,as-settings,details-list component
+
+app---->header & settings
+
+subgraph as-module["autosave module"]
+ as-drafts
+ as-options
+ as-settings
+end
+
+subgraph export-module["export module"]
+end
+
+subgraph import-module["import module"]
+end
+
+subgraph is-module["icon-set configuration module"]
+  details-list
+end
+
+subgraph ld-module["label dictionary module"]
+end
+
+classDef module fill:none,stroke:#BBB stroke-width:2px,color:#BBB,stroke-dasharray: 5 5
+class as-module,export-module,is-module,import-module,ld-module module
+
+subgraph startup["startup layer"]
+ app
+end
+
+subgraph workbench["workbench layer"]
+ header
+ settings
+end
+
+subgraph tools["tools layer"]
+ as-module
+ export-module
+ import-module
+ is-module
+ ld-module
+end
+
+
+subgraph domain["domain layer"]
+ info
+end
+
+classDef layer fill:none,stroke:#CCC,stroke-width:2px,color:#CCC,stroke-dasharray: 5 5
+class startup,workbench,tools,domain layer
+
+```
+TODO: complete diagram
+
+
+### Technical Layering of Angular Components
 
 ## Level 3: Tools
 
