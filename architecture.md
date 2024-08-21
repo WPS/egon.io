@@ -50,8 +50,12 @@ Egon["Egon
 Local["Local File System
 [Software System]"]
 
+Remote["Remote File System
+[Software System]"]
+
 User-- "models, exports, and imports\nDomain Stories using" -->Egon
 Egon-- "imports from\nand exports to" -->Local
+Egon-- "imports from" -->Remote
 
 classDef focusSystem fill:#1168bd,stroke:#0b4884,color:#ffffff
 classDef supportingSystem fill:#666,stroke:#0b4884,color:#ffffff
@@ -59,7 +63,7 @@ classDef person fill:#08427b,stroke:#052e56,color:#ffffff
 
 class User person
 class Egon focusSystem
-class Local supportingSystem
+class Local,Remote supportingSystem
 ```
   
 # Solution Strategy {#section-solution-strategy}
@@ -122,8 +126,12 @@ WA["Web Application
 Local["Local File System
 [Software System]"]
 
-User-- "models, exports, and imports\nDomain Stories using" -->WA
-WA-- "imports from\nand exports to" -->Local
+Remote["Remote File System
+[Software System]"]
+
+User-- "models, exports, and imports\ndomain stories using" -->WA
+WA-- "imports domain stories from\nand exports to" -->Local
+WA-- "imports domain stories from\n[http]" -->Remote
 
 classDef container fill:#1168bd,stroke:#0b4884,color:#ffffff
 classDef person fill:#08427b,stroke:#052e56,color:#ffffff
@@ -131,7 +139,7 @@ classDef supportingSystem fill:#666,stroke:#0b4884,color:#ffffff
 
 class User person
 class WA container
-class Local supportingSystem
+class Local,Remote supportingSystem
 
 subgraph Egon[Egon]
  WA
