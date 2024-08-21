@@ -24,7 +24,7 @@ import {
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '../../../domain/services/dialog.service';
-import {DropboxService} from "./dropbox.service";
+import {DropboxService, FileItem} from "./dropbox.service";
 
 @Injectable({
   providedIn: 'root',
@@ -290,7 +290,11 @@ export class ExportService implements OnDestroy {
           'DROPBOX',
           'save Svg to Dropbox',
           'Export an SVG-Image with the Domain-Story embedded to Dropbox. Can be used to save and share your Domain-Story.',
-          () => this.uploadSvgToDropbox(),
+          // () => this.uploadSvgToDropbox(),
+          () => {
+            let fileItems = this.dropboxService.getFileItems();
+            console.log(fileItems)
+          },
         );
         exportOptions.push(exportToDropboxOption)
       }

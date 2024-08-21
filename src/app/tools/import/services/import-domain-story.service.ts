@@ -24,6 +24,7 @@ import { IconSetConfiguration } from '../../../domain/entities/icon-set-configur
 import { IconSetChangedService } from '../../icon-set-config/services/icon-set-customization.service';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ImportDialogComponent } from '../presentation/import-dialog/import-dialog.component';
+import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 
 @Injectable({
   providedIn: 'root',
@@ -135,12 +136,14 @@ export class ImportDomainStoryService
     }
     fetch(fileUrl)
       .then((response) => {
-        return response.blob();
+        return response;
       })
-      .then((blob) => {
+      .then(async (response) => {
+        const blob = await response.blob()
         const string = fileUrl.split('/');
-        const filename = string[string.length - 1].replace(/%20/g, ' ');
-
+        // const filename = string[string.length - 1].replace(/%20/g, ' ');
+        const filename = 'test _2024-08-21 121645.egn.svg';
+        console.log(response)
         if (!filename) {
           throw new Error('Unable to extract filename from URL');
         }
@@ -163,12 +166,16 @@ export class ImportDomainStoryService
           });
         }
         this.modelerService.commandStackChanged();
+        console.log('Fertig')
       })
-      .catch(() =>
+      .catch((error) => {
+          console.log(error)
         this.snackbar.open('Cross-origin request blocked', undefined, {
           duration: SNACKBAR_DURATION_LONG,
           panelClass: SNACKBAR_ERROR,
-        }),
+        })
+      }
+
       );
   }
 

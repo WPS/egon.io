@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
-import {Dropbox} from "dropbox";
+import {Dropbox, DropboxResponse} from "dropbox";
 import {environment} from "../../../../environments/environment";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {
   SNACKBAR_DURATION,
-  SNACKBAR_DURATION_LONG, SNACKBAR_ERROR,
+  SNACKBAR_DURATION_LONG, SNACKBAR_DURATION_LONGER, SNACKBAR_ERROR,
   SNACKBAR_INFO,
   SNACKBAR_SUCCESS
 } from "../../../domain/entities/constants";
+
+export interface FileItem {
+  filename: string,
+  pathWithFilename: string,
+}
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +31,7 @@ export class DropboxService {
 
   authenticateUserWithOauth2() {
     const authUrl = `https://www.dropbox.com/oauth2/authorize?client_id=${environment.dropbox_api_key}&response_type=token&redirect_uri=${encodeURIComponent('http://localhost:4200/')}`;
+
     window.location.href = authUrl;
   }
 
@@ -42,10 +48,11 @@ export class DropboxService {
 
     this.dropbox.filesUpload({ path: '/' + filename, contents: svgData })
       .then((response) => {
+        console.log(response)
         this.uploadSvgSuccessful()
       })
-      .catch((error) => {
-        this.uploadNotSuccessful(error)
+      .catch(() => {
+        this.uploadNotSuccessful()
       });
   }
 
@@ -56,21 +63,6 @@ export class DropboxService {
     return urlSearchParams.get('access_token');
   }
 
-  getUsersCurrentAccount(): void {
-    this.dropbox = new Dropbox({
-      clientId: environment.dropbox_api_key,
-      fetch: fetch
-    })
-    if( this.dropbox !== null) {
-      this.dropbox.usersGetCurrentAccount().then(function(response) {
-        console.log(response);
-      })
-    .catch(function(error) {
-        console.error(error);
-      });
-    }
-  }
-
   private uploadSvgSuccessful(): void {
     this.snackbar.open('Upload successful', undefined, {
       duration: SNACKBAR_DURATION,
@@ -78,10 +70,60 @@ export class DropboxService {
     });
   }
 
-  private uploadNotSuccessful(errorMessage: string): void {
-    this.snackbar.open(`Failed to upload file! Message: ${errorMessage}`, undefined, {
-      duration: SNACKBAR_DURATION,
-      panelClass: SNACKBAR_ERROR
-    })
+  private uploadNotSuccessful(): void {
+      this.snackbar.open(`Failed to upload file!`, 'Try to reconnect to Dropbox', {
+        duration: SNACKBAR_DURATION_LONGER,
+        panelClass: SNACKBAR_ERROR
+      }).onAction().subscribe(() => this.authenticateUserWithOauth2())
+  }
+
+   listFiles = async (path: string) => {
+    try {
+      const response = await this.dropbox!.filesListFolder({ path });
+      const files = response.result.entries;
+
+      files.forEach(file => {
+        console.log(`Name: ${file.name}, Path: ${file.path_lower}`);
+      });
+
+      let hasMore = response.result.has_more;
+      let cursor = response.result.cursor;
+
+      while (hasMore) {
+        const nextResponse = await this.dropbox!.filesListFolderContinue({ cursor });
+        nextResponse.result.entries.forEach(file => {
+          console.log(`Name: ${file.name}, Path: ${file.path_lower}`);
+        });
+        hasMore = nextResponse.result.has_more;
+        cursor = nextResponse.result.cursor;
+      }
+
+    } catch (error: any) {
+
+        console.error("Error listing files:", error);
+    }
+  };
+
+  public async getFileItems(): Promise<FileItem[]> {
+    try {
+      const accessToken = this.getAccessToken()!
+      this.dropbox = new Dropbox({accessToken: accessToken})
+      return this.dropbox.filesListFolder({path: ''}).then(response => {
+        return response.result.entries.map(entry => {
+          const fileItem: FileItem = {
+            filename: entry.name,
+            pathWithFilename: entry.path_lower!
+          }
+          return fileItem
+        })
+      });
+
+    } catch (error) {
+      this.snackbar.open('Failed to load file entries from Dropbox', undefined, {
+        duration: SNACKBAR_DURATION_LONG,
+        panelClass: SNACKBAR_ERROR
+      })
+      throw new Error('Failed to load file entries from Dropbox');
+    }
   }
 }
