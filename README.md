@@ -10,8 +10,12 @@ A tool to visualize Domain Stories in your browser.
 ## Development
 
 1. Install the dependencies via `npm ci`
-2. Run the local development server via `npm run start`. Egon.io is accessible at http://localhost:4200.
-3. Run tests via `npm run test`
+2. Build and run Egon on a local development server via `npm run start`. Egon.io is accessible at http://localhost:4200.
+
+Before committing any changes/creating pull requests, you should:
+- Run tests via `npm run test`
+- Run formatter via `npm run format`
+- Check architecture rules via `npm run archlint`
 
 ## Architecture
 
@@ -25,9 +29,9 @@ There are several deployment options:
 - Docker container: If you prefer to provide websites as Docker container, you can build your own.
 - If you don't want to build and deploy Egon.io yourself, than use one of the ready-to-use options provided by the Egon.io team:
   - Run [Egon.io online](https://egon.io/)
-  - TODO: In the future, we will provide a ready-made Docker image: `docker pull ghcr.io/wps/egon.io:latest`
+  - Download a ready-made Docker image: `docker pull ghcr.io/wps/egon.io:latest`
 
-### Deploy Standalone Version (Zip file)
+### Build Standalone Version (Zip file)
 
 1. In the package.json and environment.prod.ts update the version-tag appropriately
 2. Run the command **ng build --configuration production**
@@ -35,9 +39,9 @@ There are several deployment options:
 3. Run the command **npm run zip**
    - This should create (or update the contents of) the folder **dist** containing a zip.file named *egon-xxx*, where xxx is the name in the version-tag of the package.json
 
-### Deploy Docker Container
+### Build Docker Container
 
-1. In the root directory of your sourcecode, run `docker build -t egon-dev .`
+1. In the root directory of your source code, run `docker build -t egon-dev .`
 2. To start the container, run `docker run -p 8080:80 egon-dev`
 
 Adapt container name and port as needed.
