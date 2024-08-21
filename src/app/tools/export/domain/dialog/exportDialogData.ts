@@ -16,8 +16,13 @@ export class ExportOption {
   fn: any;
   tooltip: string;
 
-  constructor(exportLocation: ExportLocation, text: string, tooltip: string, fn: any) {
-    this.exportLocation = exportLocation
+  constructor(
+    exportLocation: ExportLocation,
+    text: string,
+    tooltip: string,
+    fn: any,
+  ) {
+    this.exportLocation = exportLocation;
     this.text = text;
     this.tooltip = tooltip;
     this.fn = fn;

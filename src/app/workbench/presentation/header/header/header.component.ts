@@ -100,6 +100,10 @@ export class HeaderComponent {
     this.importService.openUploadUrlDialog();
   }
 
+  openImportDropboxDialog(): void {
+    this.importService.openImportDropboxDialog();
+  }
+
   get hasDomainStory() {
     return this.exportService.isDomainStoryExportable();
   }

@@ -1,6 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {ExportDialogData, ExportOption} from 'src/app/tools/export/domain/dialog/exportDialogData';
+import {
+  ExportDialogData,
+  ExportOption,
+} from 'src/app/tools/export/domain/dialog/exportDialogData';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Component({
@@ -24,7 +27,7 @@ export class ExportDialogComponent implements OnInit {
     this.options = data.options;
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   doOption(i: number): void {
     this.options[i].fn(this.withTitle.value, this.useWhiteBackground.value);

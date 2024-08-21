@@ -54,6 +54,15 @@
         <span class="material-icons materialIconButton"> archive </span>
       }
     </button>
+
+    <button
+      class="headerButton"
+      id="exportDropBox"
+      title="import story from DropBox"
+      (click)="openImportDropboxDialog.emit()"
+    >
+      <span class="material-icons materialIconButton"> cloud_upload </span>
+    </button>
     <button
       [disabled]="!hasDomainStory"
       [class.disabled]="!hasDomainStory"

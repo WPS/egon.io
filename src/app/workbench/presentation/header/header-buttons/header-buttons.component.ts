@@ -38,6 +38,7 @@ export class HeaderButtonsComponent {
   @Output()
   openDownloadDialog = new EventEmitter<void>();
   @Output()
+  openImportDropboxDialog = new EventEmitter<void>();
+  @Output()
   openUploadUrlDialog = new EventEmitter<void>();
-
 }

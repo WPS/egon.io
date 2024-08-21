@@ -23,8 +23,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 import { IconSetChangedService } from '../../icon-set-config/services/icon-set-customization.service';
 import { ModelerService } from '../../modeler/services/modeler.service';
-import { ImportDialogComponent } from '../presentation/import-dialog/import-dialog.component';
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
+import { ImportUrlDialogComponent } from '../presentation/import-url-dialog/import-url-dialog.component';
+
+import { DropboxService } from '../../export/services/dropbox.service';
+import { ImportDropboxDialogComponent } from '../presentation/import-dropbox-dialog/import-dropbox-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +53,7 @@ export class ImportDomainStoryService
     private iconSetConfigurationService: IconSetConfigurationService,
     private modelerService: ModelerService,
     private snackbar: MatSnackBar,
+    private dropboxService: DropboxService,
   ) {
     this.titleSubscription = this.titleService.title$.subscribe(
       (title: string) => {
@@ -126,7 +129,7 @@ export class ImportDomainStoryService
     this.modelerService.commandStackChanged();
   }
 
-  importFromUrl(fileUrl: string): void {
+  importFromUrl(fileUrl: string, filename: string | null): void {
     if (!fileUrl.startsWith('http')) {
       this.snackbar.open('Url not valid', undefined, {
         duration: SNACKBAR_DURATION_LONG,
@@ -139,11 +142,11 @@ export class ImportDomainStoryService
         return response;
       })
       .then(async (response) => {
-        const blob = await response.blob()
+        const blob = await response.blob();
         const string = fileUrl.split('/');
-        // const filename = string[string.length - 1].replace(/%20/g, ' ');
-        const filename = 'test _2024-08-21 121645.egn.svg';
-        console.log(response)
+        // filename === null ? string[string.length - 1].replace(/%20/g, ' ') : filename;
+        filename ?? string[string.length - 1].replace(/%20/g, ' ');
+
         if (!filename) {
           throw new Error('Unable to extract filename from URL');
         }
@@ -166,25 +169,30 @@ export class ImportDomainStoryService
           });
         }
         this.modelerService.commandStackChanged();
-        console.log('Fertig')
+        console.log('Fertig');
       })
       .catch((error) => {
-          console.log(error)
+        console.log(error);
         this.snackbar.open('Cross-origin request blocked', undefined, {
           duration: SNACKBAR_DURATION_LONG,
           panelClass: SNACKBAR_ERROR,
-        })
-      }
-
-      );
+        });
+      });
   }
 
   openUploadUrlDialog(): void {
     const config = new MatDialogConfig();
     config.disableClose = false;
     config.autoFocus = true;
-    config.data = (fileUrl: string) => this.importFromUrl(fileUrl);
-    this.dialogService.openDialog(ImportDialogComponent, config);
+    config.data = (fileUrl: string) => this.importFromUrl(fileUrl, null);
+    this.dialogService.openDialog(ImportUrlDialogComponent, config);
+  }
+
+  openImportDropboxDialog() {
+    const config = new MatDialogConfig();
+    config.disableClose = false;
+    config.autoFocus = true;
+    this.dialogService.openDialog(ImportDropboxDialogComponent, config);
   }
 
   importDST(input: Blob, filename: string, isSVG: boolean): void {

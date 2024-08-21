@@ -13,10 +13,10 @@ describe('ExportDialogComponent', () => {
   const exportData: ExportDialogData = {
     title: '',
     options: [
-      { text: '1', tooltip: '', fn: () => {} },
-      { text: '2', tooltip: '', fn: () => {} },
-      { text: '3', tooltip: '', fn: () => {} },
-      { text: '4', tooltip: '', fn: () => {} },
+      { exportLocation: 'LOCAL', text: '1', tooltip: '', fn: () => {} },
+      { exportLocation: 'LOCAL', text: '2', tooltip: '', fn: () => {} },
+      { exportLocation: 'LOCAL', text: '3', tooltip: '', fn: () => {} },
+      { exportLocation: 'LOCAL', text: '4', tooltip: '', fn: () => {} },
     ],
   };
 

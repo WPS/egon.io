@@ -4,15 +4,15 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Component({
   selector: 'app-import-dialog',
-  templateUrl: './import-dialog.component.html',
-  styleUrls: ['./import-dialog.component.scss'],
+  templateUrl: './import-url-dialog.component.html',
+  styleUrls: ['./import-url-dialog.component.scss'],
 })
-export class ImportDialogComponent implements OnInit {
+export class ImportUrlDialogComponent implements OnInit {
   fn: any;
   fileUrl: BehaviorSubject<string>;
 
   constructor(
-    private dialogRef: MatDialogRef<ImportDialogComponent>,
+    private dialogRef: MatDialogRef<ImportUrlDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: () => {},
   ) {
     this.fileUrl = new BehaviorSubject<string>('');

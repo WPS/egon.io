@@ -3,18 +3,18 @@ import { MockModule, MockProvider } from 'ng-mocks';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { MaterialModule } from 'src/app/material.module';
-import { ImportDialogComponent } from './import-dialog.component';
+import { ImportUrlDialogComponent } from './import-url-dialog.component';
 
 describe('ImportDialogComponent', () => {
-  let component: ImportDialogComponent;
-  let fixture: ComponentFixture<ImportDialogComponent>;
+  let component: ImportUrlDialogComponent;
+  let fixture: ComponentFixture<ImportUrlDialogComponent>;
 
   const importData = () => {};
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MockModule(MaterialModule)],
-      declarations: [ImportDialogComponent],
+      declarations: [ImportUrlDialogComponent],
       providers: [
         MockProvider(MatDialogRef),
         {
@@ -26,7 +26,7 @@ describe('ImportDialogComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImportDialogComponent);
+    fixture = TestBed.createComponent(ImportUrlDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

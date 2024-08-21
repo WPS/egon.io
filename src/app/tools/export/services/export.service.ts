@@ -24,7 +24,7 @@ import {
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '../../../domain/services/dialog.service';
-import {DropboxService, FileItem} from "./dropbox.service";
+import { DropboxService, FileItem } from './dropbox.service';
 
 @Injectable({
   providedIn: 'root',
@@ -47,7 +47,7 @@ export class ExportService implements OnDestroy {
     private modelerService: ModelerService,
     private dialogService: DialogService,
     private snackbar: MatSnackBar,
-    private dropboxService: DropboxService
+    private dropboxService: DropboxService,
   ) {
     this.titleSubscription = this.titleService.title$.subscribe(
       (title: string) => {
@@ -129,10 +129,12 @@ export class ExportService implements OnDestroy {
       true,
     );
 
-    const filename =  sanitizeForDesktop(this.title + '_' + formatDate(new Date(), 'YYYY-MM-dd HH:mm:ss', 'en-GB'));
-    const fileEnding =  '.egn.svg';
+    const filename = sanitizeForDesktop(
+      this.title + '_' + formatDate(new Date(), 'YYYY-MM-dd HH:mm:ss', 'en-GB'),
+    );
+    const fileEnding = '.egn.svg';
 
-    this.dropboxService.uploadToDropbox(filename + fileEnding, svgData)
+    this.dropboxService.uploadToDropbox(filename + fileEnding, svgData);
   }
 
   downloadSVG(withTitle: boolean, useWhiteBackground: boolean): void {
@@ -242,7 +244,7 @@ export class ExportService implements OnDestroy {
   }
 
   openDownloadDialog() {
-    const exportOptions: ExportOption[] = []
+    const exportOptions: ExportOption[] = [];
     if (this.isDomainStoryExportable()) {
       const SVGDownloadOption = new ExportOption(
         'LOCAL',
@@ -274,8 +276,8 @@ export class ExportService implements OnDestroy {
         SVGDownloadOption,
         EGNDownloadOption,
         PNGDownloadOption,
-        HTMLDownloadOption
-      )
+        HTMLDownloadOption,
+      );
 
       if (this.dropboxService.getAccessToken() === null) {
         const connectToDropboxOption = new ExportOption(
@@ -284,19 +286,15 @@ export class ExportService implements OnDestroy {
           'Connect Egon to your Dropbox account. Can be used to save and share your Domain-Story.',
           () => this.dropboxService.authenticateUserWithOauth2(),
         );
-        exportOptions.push(connectToDropboxOption)
+        exportOptions.push(connectToDropboxOption);
       } else {
         const exportToDropboxOption = new ExportOption(
           'DROPBOX',
           'save Svg to Dropbox',
           'Export an SVG-Image with the Domain-Story embedded to Dropbox. Can be used to save and share your Domain-Story.',
-          // () => this.uploadSvgToDropbox(),
-          () => {
-            let fileItems = this.dropboxService.getFileItems();
-            console.log(fileItems)
-          },
+          () => this.uploadSvgToDropbox(),
         );
-        exportOptions.push(exportToDropboxOption)
+        exportOptions.push(exportToDropboxOption);
       }
 
       const config = new MatDialogConfig();
