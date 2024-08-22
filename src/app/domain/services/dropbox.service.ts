@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Dropbox } from 'dropbox';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION,
@@ -9,7 +9,7 @@ import {
   SNACKBAR_ERROR,
   SNACKBAR_INFO,
   SNACKBAR_SUCCESS,
-} from '../../../domain/entities/constants';
+} from '../entities/constants';
 
 export interface FileItem {
   filename: string;
@@ -25,7 +25,6 @@ export interface DownloadLink {
 })
 export class DropboxService {
   private dropbox: Dropbox | null = null;
-  private accessToken: string | null = null;
 
   constructor(private snackbar: MatSnackBar) {
     this.dropbox = new Dropbox({
@@ -35,7 +34,7 @@ export class DropboxService {
   }
 
   authenticateUserWithOauth2() {
-    window.location.href = `https://www.dropbox.com/oauth2/authorize?client_id=${environment.dropbox_api_key}&response_type=token&redirect_uri=${encodeURIComponent('http://localhost:4200/')}`;
+    window.location.href = `https://www.dropbox.com/oauth2/authorize?client_id=${environment.dropbox_api_key}&response_type=token&redirect_uri=${encodeURIComponent(environment.domainUrl)}`;
   }
 
   uploadToDropbox(filename: string, svgData: string): void {
@@ -106,33 +105,6 @@ export class DropboxService {
       .onAction()
       .subscribe(() => this.authenticateUserWithOauth2());
   }
-
-  listFiles = async (path: string) => {
-    try {
-      const response = await this.dropbox!.filesListFolder({ path });
-      const files = response.result.entries;
-
-      files.forEach((file) => {
-        console.log(`Name: ${file.name}, Path: ${file.path_lower}`);
-      });
-
-      let hasMore = response.result.has_more;
-      let cursor = response.result.cursor;
-
-      while (hasMore) {
-        const nextResponse = await this.dropbox!.filesListFolderContinue({
-          cursor,
-        });
-        nextResponse.result.entries.forEach((file) => {
-          console.log(`Name: ${file.name}, Path: ${file.path_lower}`);
-        });
-        hasMore = nextResponse.result.has_more;
-        cursor = nextResponse.result.cursor;
-      }
-    } catch (error: any) {
-      console.error('Error listing files:', error);
-    }
-  };
 
   public async getFileItems(): Promise<FileItem[]> {
     try {

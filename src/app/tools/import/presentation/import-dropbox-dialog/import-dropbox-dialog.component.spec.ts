@@ -13,9 +13,7 @@ describe('ImportDropboxDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [MockModule(MaterialModule)],
       declarations: [ImportDropboxDialogComponent],
-      providers: [
-        MockProvider(MatDialogRef)
-      ],
+      providers: [MockProvider(MatDialogRef)],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ImportDropboxDialogComponent);

@@ -25,7 +25,7 @@ import { IconSetChangedService } from '../../icon-set-config/services/icon-set-c
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ImportUrlDialogComponent } from '../presentation/import-url-dialog/import-url-dialog.component';
 
-import { DropboxService } from '../../export/services/dropbox.service';
+import { DropboxService } from '../../../domain/services/dropbox.service';
 import { ImportDropboxDialogComponent } from '../presentation/import-dropbox-dialog/import-dropbox-dialog.component';
 
 @Injectable({

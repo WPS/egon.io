@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef, } from '@angular/material/dialog';
-import { DropboxService, FileItem, } from '../../../export/services/dropbox.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import {
+  DropboxService,
+  FileItem,
+} from '../../../../domain/services/dropbox.service';
 import { ImportDomainStoryService } from '../../services/import-domain-story.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SNACKBAR_DURATION_LONG, SNACKBAR_ERROR, } from '../../../../domain/entities/constants';
+import {
+  SNACKBAR_DURATION_LONG,
+  SNACKBAR_ERROR,
+} from '../../../../domain/entities/constants';
 
 @Component({
   selector: 'app-import-dropbox-dialog',
@@ -20,8 +26,7 @@ export class ImportDropboxDialogComponent implements OnInit {
     private dropboxService: DropboxService,
     private dialogRef: MatDialogRef<ImportDropboxDialogComponent>,
     private snackbar: MatSnackBar,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.dropboxService
