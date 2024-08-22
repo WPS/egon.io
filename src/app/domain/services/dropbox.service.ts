@@ -55,7 +55,6 @@ export class DropboxService {
     this.dropbox
       .filesUpload({ path: '/' + filename, contents: svgData })
       .then((response) => {
-        console.log(response);
         this.uploadSvgSuccessful();
       })
       .catch(() => {
