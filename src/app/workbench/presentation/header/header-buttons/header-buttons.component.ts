@@ -16,6 +16,8 @@ export class HeaderButtonsComponent {
   isDirty: boolean | null = false;
   @Input()
   isReplayable = false;
+  @Input()
+  isConnectedToDropbox = false;
 
   @Output()
   import = new EventEmitter<void>();

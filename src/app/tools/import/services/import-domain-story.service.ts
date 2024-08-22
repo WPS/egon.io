@@ -144,7 +144,6 @@ export class ImportDomainStoryService
       .then(async (response) => {
         const blob = await response.blob();
         const string = fileUrl.split('/');
-        // filename === null ? string[string.length - 1].replace(/%20/g, ' ') : filename;
         filename ?? string[string.length - 1].replace(/%20/g, ' ');
 
         if (!filename) {
@@ -193,6 +192,10 @@ export class ImportDomainStoryService
     config.disableClose = false;
     config.autoFocus = true;
     this.dialogService.openDialog(ImportDropboxDialogComponent, config);
+  }
+
+  isConnectedToDropbox(): boolean {
+    return this.dropboxService.getAccessToken() === null;
   }
 
   importDST(input: Blob, filename: string, isSVG: boolean): void {

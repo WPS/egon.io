@@ -104,6 +104,10 @@ export class HeaderComponent {
     this.importService.openImportDropboxDialog();
   }
 
+  isConnectedToDropbox(): boolean {
+    return this.importService.isConnectedToDropbox();
+  }
+
   get hasDomainStory() {
     return this.exportService.isDomainStoryExportable();
   }

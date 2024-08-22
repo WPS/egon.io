@@ -35,9 +35,7 @@ export class DropboxService {
   }
 
   authenticateUserWithOauth2() {
-    const authUrl = `https://www.dropbox.com/oauth2/authorize?client_id=${environment.dropbox_api_key}&response_type=token&redirect_uri=${encodeURIComponent('http://localhost:4200/')}`;
-
-    window.location.href = authUrl;
+    window.location.href = `https://www.dropbox.com/oauth2/authorize?client_id=${environment.dropbox_api_key}&response_type=token&redirect_uri=${encodeURIComponent('http://localhost:4200/')}`;
   }
 
   uploadToDropbox(filename: string, svgData: string): void {

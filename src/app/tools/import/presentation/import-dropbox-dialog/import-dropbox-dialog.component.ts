@@ -5,7 +5,7 @@ import {
   MatDialogContent,
   MatDialogRef,
 } from '@angular/material/dialog';
-import {AsyncPipe, NgClass, NgForOf} from '@angular/common';
+import { AsyncPipe, NgClass, NgForOf } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
@@ -14,6 +14,11 @@ import {
   FileItem,
 } from '../../../export/services/dropbox.service';
 import { ImportDomainStoryService } from '../../services/import-domain-story.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  SNACKBAR_DURATION_LONG,
+  SNACKBAR_ERROR,
+} from '../../../../domain/entities/constants';
 
 @Component({
   selector: 'app-import-dropbox-dialog',
@@ -41,12 +46,23 @@ export class ImportDropboxDialogComponent implements OnInit {
     private importDomainStoryService: ImportDomainStoryService,
     private dropboxService: DropboxService,
     private dialogRef: MatDialogRef<ImportDropboxDialogComponent>,
+    private snackbar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
     this.dropboxService
       .getFileItems()
-      .then((fileItems) => (this.fileItems = fileItems));
+      .then((fileItems) => (this.fileItems = fileItems))
+      .catch(() =>
+        this.snackbar.open(
+          'You should connect to your Dropbox account first',
+          undefined,
+          {
+            duration: SNACKBAR_DURATION_LONG,
+            panelClass: SNACKBAR_ERROR,
+          },
+        ),
+      );
 
     this.dropboxService
       .getUserEmail()
@@ -67,9 +83,9 @@ export class ImportDropboxDialogComponent implements OnInit {
 
   selectFileItem(fileItem: FileItem): void {
     if (this.selectedFile === fileItem) {
-      this.selectedFile = null
+      this.selectedFile = null;
     } else {
-      this.selectedFile = fileItem
+      this.selectedFile = fileItem;
     }
   }
 
@@ -78,6 +94,6 @@ export class ImportDropboxDialogComponent implements OnInit {
   }
 
   isSeleced(file: FileItem) {
-    return this.selectedFile === file
+    return this.selectedFile === file;
   }
 }

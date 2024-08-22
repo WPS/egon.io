@@ -60,8 +60,11 @@
       id="exportDropBox"
       title="import story from DropBox"
       (click)="openImportDropboxDialog.emit()"
+      [hidden]="isConnectedToDropbox"
     >
-      <span class="material-icons materialIconButton"> cloud_upload </span>
+      <span class="material-icons materialIconButton">
+        download_for_offline
+      </span>
     </button>
     <button
       [disabled]="!hasDomainStory"

@@ -2,18 +2,27 @@
   <h2>Select file:</h2>
 
   <div class="scroll-container">
-    <div *ngFor="let file of fileItems" class="file-item" (click)="selectFileItem(file)" [ngClass]="{'selected': isSeleced(file)}">
-      <input type="checkbox" [value]="file" (click)="selectFileItem(file)" [checked]="isSeleced(file)"/>
+    <div
+      *ngFor="let file of fileItems"
+      class="file-item"
+      (click)="selectFileItem(file)"
+      [ngClass]="{ selected: isSeleced(file) }"
+    >
+      <input
+        type="checkbox"
+        [value]="file"
+        (click)="selectFileItem(file)"
+        [checked]="isSeleced(file)"
+      />
       <span>{{ file.filename }}</span>
     </div>
   </div>
 
   <br />
   <div class="flex-between">
-
     <div>
       <span><strong>Dropbox user:</strong></span>
-      <br/>
+      <br />
       <span>{{ userEmail }}</span>
     </div>
     <div>
