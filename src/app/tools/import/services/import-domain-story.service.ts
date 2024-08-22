@@ -17,6 +17,7 @@ import {
   SNACKBAR_DURATION_LONGER,
   SNACKBAR_ERROR,
   SNACKBAR_INFO,
+  SNACKBAR_SUCCESS,
 } from '../../../domain/entities/constants';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -144,7 +145,10 @@ export class ImportDomainStoryService
       .then(async (response) => {
         const blob = await response.blob();
         const string = fileUrl.split('/');
-        filename ?? string[string.length - 1].replace(/%20/g, ' ');
+
+        if (filename === null) {
+          filename = string[string.length - 1].replace(/%20/g, ' ');
+        }
 
         if (!filename) {
           throw new Error('Unable to extract filename from URL');
@@ -168,10 +172,8 @@ export class ImportDomainStoryService
           });
         }
         this.modelerService.commandStackChanged();
-        console.log('Fertig');
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         this.snackbar.open('Cross-origin request blocked', undefined, {
           duration: SNACKBAR_DURATION_LONG,
           panelClass: SNACKBAR_ERROR,
@@ -199,35 +201,44 @@ export class ImportDomainStoryService
   }
 
   importDST(input: Blob, filename: string, isSVG: boolean): void {
-    const fileReader = new FileReader();
-    const titleText = this.restoreTitleFromFileName(filename, isSVG);
+    try {
+      const fileReader = new FileReader();
+      const titleText = this.restoreTitleFromFileName(filename, isSVG);
 
-    // no need to put this on the commandStack
-    this.titleService.updateTitleAndDescription(titleText, null, false);
+      // no need to put this on the commandStack
+      this.titleService.updateTitleAndDescription(titleText, null, false);
 
-    fileReader.onloadend = (e) => {
-      if (e && e.target) {
-        this.fileReaderFunction(e.target.result, isSVG, false);
-      }
-    };
-
-    fileReader.readAsText(input);
+      fileReader.onloadend = (e) => {
+        if (e && e.target) {
+          this.fileReaderFunction(e.target.result, isSVG, false);
+        }
+      };
+      fileReader.readAsText(input);
+      this.importSuccessful();
+    } catch (error) {
+      this.importFailed();
+    }
   }
 
   importEGN(input: Blob, filename: string, isSVG: boolean): void {
-    const fileReader = new FileReader();
-    const titleText = this.restoreTitleFromFileName(filename, isSVG);
+    try {
+      const fileReader = new FileReader();
+      const titleText = this.restoreTitleFromFileName(filename, isSVG);
 
-    // no need to put this on the commandStack
-    this.titleService.updateTitleAndDescription(titleText, null, false);
+      // no need to put this on the commandStack
+      this.titleService.updateTitleAndDescription(titleText, null, false);
 
-    fileReader.onloadend = (e) => {
-      if (e && e.target) {
-        this.fileReaderFunction(e.target.result, isSVG, true);
-      }
-    };
+      fileReader.onloadend = (e) => {
+        if (e && e.target) {
+          this.fileReaderFunction(e.target.result, isSVG, true);
+        }
+      };
 
-    fileReader.readAsText(input);
+      fileReader.readAsText(input);
+      this.importSuccessful();
+    } catch (error) {
+      this.importFailed();
+    }
   }
 
   private fileReaderFunction(
@@ -365,6 +376,20 @@ export class ImportDomainStoryService
     xmlText = xmlText.replace('<DST>', '');
     xmlText = xmlText.replace('</DST>', '');
     return xmlText;
+  }
+
+  private importSuccessful() {
+    this.snackbar.open('Import successful', undefined, {
+      duration: SNACKBAR_DURATION,
+      panelClass: SNACKBAR_SUCCESS,
+    });
+  }
+
+  private importFailed() {
+    this.snackbar.open('Import failed', undefined, {
+      duration: SNACKBAR_DURATION,
+      panelClass: SNACKBAR_ERROR,
+    });
   }
 
   checkConfigForChanges(iconSetConfiguration: IconSetConfiguration): boolean {
