@@ -18,7 +18,14 @@
     </div>
   </div>
 
+  @if (selectedFile !== null) {
+    <span>Chosen file: {{selectedFile.filename}}</span>
+  } @else {
+    <span></span>
+  }
   <br />
+  <br />
+
   <div class="flex-between">
     <div>
       <span><strong>Dropbox user:</strong></span>
