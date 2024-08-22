@@ -5,7 +5,7 @@ import {
   MatDialogContent,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { AsyncPipe, NgForOf } from '@angular/common';
+import {AsyncPipe, NgClass, NgForOf} from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
@@ -27,6 +27,7 @@ import { ImportDomainStoryService } from '../../services/import-domain-story.ser
     FormsModule,
     MatRadioGroup,
     MatRadioButton,
+    NgClass,
   ],
   templateUrl: './import-dropbox-dialog.component.html',
   styleUrl: './import-dropbox-dialog.component.scss',
@@ -46,6 +47,7 @@ export class ImportDropboxDialogComponent implements OnInit {
     this.dropboxService
       .getFileItems()
       .then((fileItems) => (this.fileItems = fileItems));
+
     this.dropboxService
       .getUserEmail()
       .then((email) => (this.userEmail = email));
@@ -63,7 +65,19 @@ export class ImportDropboxDialogComponent implements OnInit {
       });
   }
 
+  selectFileItem(fileItem: FileItem): void {
+    if (this.selectedFile === fileItem) {
+      this.selectedFile = null
+    } else {
+      this.selectedFile = fileItem
+    }
+  }
+
   close(): void {
     this.dialogRef.close();
+  }
+
+  isSeleced(file: FileItem) {
+    return this.selectedFile === file
   }
 }

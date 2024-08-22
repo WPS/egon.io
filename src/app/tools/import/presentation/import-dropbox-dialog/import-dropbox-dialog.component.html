@@ -1,15 +1,20 @@
 <div class="margin">
   <h2>Select file:</h2>
 
-  <div *ngFor="let file of fileItems">
-    <input [(ngModel)]="selectedFile" type="radio" [value]="file" />
-    {{ file.filename }}
+  <div class="scroll-container">
+    <div *ngFor="let file of fileItems" class="file-item" (click)="selectFileItem(file)" [ngClass]="{'selected': isSeleced(file)}">
+      <input type="checkbox" [value]="file" (click)="selectFileItem(file)" [checked]="isSeleced(file)"/>
+      <span>{{ file.filename }}</span>
+    </div>
   </div>
 
   <br />
   <div class="flex-between">
+
     <div>
-      {{ userEmail }}
+      <span><strong>Dropbox user:</strong></span>
+      <br/>
+      <span>{{ userEmail }}</span>
     </div>
     <div>
       <button mat-flat-button class="margin-right" (click)="close()">

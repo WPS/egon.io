@@ -11,3 +11,40 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.scroll-container {
+  max-height: 20rem;
+  overflow: auto;
+  border: solid 0.5px #c1bdbd;
+}
+
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: solid 0.5px #c1bdbd;
+}
+
+.file-item:hover {
+  background-color: #dddddd;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #DEEBFF;
+}
+
+.selected:hover {
+  background-color: #DEEBFF;
+}
+
+span {
+  color: #494949;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.5);
+  margin-right: 10px;
+}
