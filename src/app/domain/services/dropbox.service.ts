@@ -53,7 +53,7 @@ export class DropboxService {
     this.dropbox = new Dropbox({ accessToken: accessToken });
 
     this.dropbox
-      .filesUpload({ path: '/' + filename, contents: svgData })
+      .filesUpload({ path: '/' + filename, mode: {".tag": 'overwrite'}, autorename: true, contents: svgData })
       .then((response) => {
         this.uploadSvgSuccessful();
       })
