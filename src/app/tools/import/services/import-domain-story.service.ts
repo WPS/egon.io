@@ -16,7 +16,7 @@ import {
   SNACKBAR_DURATION_LONG,
   SNACKBAR_DURATION_LONGER,
   SNACKBAR_ERROR,
-  SNACKBAR_INFO,
+  SNACKBAR_INFO, SNACKBAR_SUCCESS,
 } from '../../../domain/entities/constants';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -181,35 +181,44 @@ export class ImportDomainStoryService
   }
 
   importDST(input: Blob, filename: string, isSVG: boolean): void {
-    const fileReader = new FileReader();
-    const titleText = this.restoreTitleFromFileName(filename, isSVG);
+    try {
+      const fileReader = new FileReader();
+      const titleText = this.restoreTitleFromFileName(filename, isSVG);
 
-    // no need to put this on the commandStack
-    this.titleService.updateTitleAndDescription(titleText, null, false);
+      // no need to put this on the commandStack
+      this.titleService.updateTitleAndDescription(titleText, null, false);
 
-    fileReader.onloadend = (e) => {
-      if (e && e.target) {
-        this.fileReaderFunction(e.target.result, isSVG, false);
-      }
-    };
-
-    fileReader.readAsText(input);
+      fileReader.onloadend = (e) => {
+        if (e && e.target) {
+          this.fileReaderFunction(e.target.result, isSVG, false);
+        }
+      };
+      fileReader.readAsText(input);
+      this.importSuccessful();
+    } catch (error) {
+      this.importFailed();
+    }
   }
 
   importEGN(input: Blob, filename: string, isSVG: boolean): void {
-    const fileReader = new FileReader();
-    const titleText = this.restoreTitleFromFileName(filename, isSVG);
+    try {
+      const fileReader = new FileReader();
+      const titleText = this.restoreTitleFromFileName(filename, isSVG);
 
-    // no need to put this on the commandStack
-    this.titleService.updateTitleAndDescription(titleText, null, false);
+      // no need to put this on the commandStack
+      this.titleService.updateTitleAndDescription(titleText, null, false);
 
-    fileReader.onloadend = (e) => {
-      if (e && e.target) {
-        this.fileReaderFunction(e.target.result, isSVG, true);
-      }
-    };
+      fileReader.onloadend = (e) => {
+        if (e && e.target) {
+          this.fileReaderFunction(e.target.result, isSVG, true);
+        }
+      };
 
-    fileReader.readAsText(input);
+      fileReader.readAsText(input);
+      this.importSuccessful();
+    } catch (error) {
+      this.importFailed();
+    }
   }
 
   private fileReaderFunction(
@@ -311,6 +320,20 @@ export class ImportDomainStoryService
       this.updateIconRegistries(elements, config);
       this.rendererService.importStory(elements, configChanged, config);
     }
+  }
+
+  private importSuccessful() {
+    this.snackbar.open('Import successful', undefined, {
+      duration: SNACKBAR_DURATION,
+      panelClass: SNACKBAR_SUCCESS,
+    });
+  }
+
+  private importFailed() {
+    this.snackbar.open('Import failed', undefined, {
+      duration: SNACKBAR_DURATION,
+      panelClass: SNACKBAR_ERROR,
+    });
   }
 
   private handleVersionNumber(
