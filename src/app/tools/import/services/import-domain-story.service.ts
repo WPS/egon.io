@@ -16,7 +16,8 @@ import {
   SNACKBAR_DURATION_LONG,
   SNACKBAR_DURATION_LONGER,
   SNACKBAR_ERROR,
-  SNACKBAR_INFO, SNACKBAR_SUCCESS,
+  SNACKBAR_INFO,
+  SNACKBAR_SUCCESS,
 } from '../../../domain/entities/constants';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -133,6 +134,9 @@ export class ImportDomainStoryService
       });
       return;
     }
+
+    fileUrl = this.convertToDownloadableUrl(fileUrl);
+
     fetch(fileUrl)
       .then((response) => {
         return response.blob();
@@ -170,6 +174,19 @@ export class ImportDomainStoryService
           panelClass: SNACKBAR_ERROR,
         }),
       );
+  }
+
+  private convertToDownloadableUrl(fileUrl: string): string {
+    // Convert GitHub URLs to raw content
+    const githubPattern = /https:\/\/github\.com\/(.+)\/(blob|blame)\/(.+)/;
+    if (githubPattern.test(fileUrl)) {
+      fileUrl = fileUrl.replace(
+        githubPattern,
+        'https://raw.githubusercontent.com/$1/$3',
+      );
+    }
+
+    return fileUrl;
   }
 
   openUploadUrlDialog(): void {
