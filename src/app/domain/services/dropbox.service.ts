@@ -20,6 +20,29 @@ export interface DownloadLink {
   link: string;
 }
 
+/**
+ *
+ * The DropboxService implements the Dropbox Api.
+ * You can test the interfaces under the following link.
+ * @link https://dropbox.github.io/dropbox-api-v2-explorer/
+ *
+ * For this you need the access token of a user account.
+ * You can currently obtain this via EgonIo, for example,
+ * by logging in to Dropbox with your user.
+ * After the login process, you will be redirected back to Egon.
+ * The url should then contain the access token.
+ *
+ * Info about the Api
+ *
+ * To integrate Dropbox into Egon you need a Dropbox account
+ * which is used for developers. Afterwards you have the
+ * possibility to create an Api key via the App-Console.
+ * The Api key should be stored in the environments.
+ * For productive use, the Api key should be transferred
+ * as a variable during deployment.
+ *
+ * **/
+
 @Injectable({
   providedIn: 'root',
 })

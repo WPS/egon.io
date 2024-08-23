@@ -130,7 +130,7 @@ export class ExportService implements OnDestroy {
     );
 
     const filename = sanitizeForDesktop(
-      this.title + '_' + formatDate(new Date(), 'YYYY-MM-dd HH:mm:ss', 'en-GB'),
+      this.title + '_' + formatDate(new Date(), 'YYYY-MM-dd', 'en-GB'),
     );
     const fileEnding = '.egn.svg';
 
@@ -288,13 +288,21 @@ export class ExportService implements OnDestroy {
         );
         exportOptions.push(connectToDropboxOption);
       } else {
-        const exportToDropboxOption = new ExportOption(
+        const exportSvgToDropboxOption = new ExportOption(
           'DROPBOX',
           'save Svg to Dropbox',
           'Export an SVG-Image with the Domain-Story embedded to Dropbox. Can be used to save and share your Domain-Story.',
           () => this.uploadSvgToDropbox(),
         );
-        exportOptions.push(exportToDropboxOption);
+        exportOptions.push(exportSvgToDropboxOption);
+
+        // const exportPngToDropboxOption = new ExportOption(
+        //   'DROPBOX',
+        //   'save Svg to Dropbox',
+        //   'Export an SVG-Image with the Domain-Story embedded to Dropbox. Can be used to save and share your Domain-Story.',
+        //   () => this.uploadSvgToDropbox(),
+        // );
+        // exportOptions.push(exportPngToDropboxOption);
       }
 
       const config = new MatDialogConfig();
