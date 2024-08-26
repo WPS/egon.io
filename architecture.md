@@ -54,8 +54,10 @@ Remote["Remote File System
 [Software System]"]
 
 User-- "models, exports, and imports\nDomain Stories using" -->Egon
-Egon-- "imports from\nand exports to" -->Local
-Egon-- "imports from" -->Remote
+User-- "configures icon\nsets using" -->Egon
+Egon-- "imports Domain Stories,\n icon sets, icons from" -->Local
+Egon-- "exports Domain Stories,\n icon sets, images to" -->Local
+Egon-- "imports Domain\nStories from" -->Remote
 
 classDef focusSystem fill:#1168bd,stroke:#0b4884,color:#ffffff
 classDef supportingSystem fill:#666,stroke:#0b4884,color:#ffffff
@@ -120,7 +122,7 @@ flowchart TD
 User["User
 [Person]"]
 
-WA["Web Application
+Egon["Web Application
 [Container: Typescript, JavaScript, and Angular]"]
 
 Local["Local File System
@@ -129,23 +131,25 @@ Local["Local File System
 Remote["Remote File System
 [Software System]"]
 
-User-- "models, exports, and imports\ndomain stories using" -->WA
-WA-- "imports domain stories from\nand exports to" -->Local
-WA-- "imports domain stories from\n[http]" -->Remote
+User-- "models, exports, and imports\nDomain Stories using" -->Egon
+User-- "configures icon\nsets using" -->Egon
+Egon-- "imports Domain Stories,\n icon sets, icons from" -->Local
+Egon-- "exports Domain Stories,\n icon sets, images to" -->Local
+Egon-- "imports Domain\nStories from" -->Remote
 
 classDef container fill:#1168bd,stroke:#0b4884,color:#ffffff
 classDef person fill:#08427b,stroke:#052e56,color:#ffffff
 classDef supportingSystem fill:#666,stroke:#0b4884,color:#ffffff
 
 class User person
-class WA container
+class Egon container
 class Local,Remote supportingSystem
 
-subgraph Egon[Egon]
- WA
+subgraph EgonSystem[Egon]
+ Egon
 end
 
-style Egon fill:none,stroke:#CCC,stroke-width:2px,color:#CCC,stroke-dasharray: 5 5
+style EgonSystem fill:none,stroke:#CCC,stroke-width:2px,color:#CCC,stroke-dasharray: 5 5
 
 ```
 
@@ -208,7 +212,7 @@ The folder structure resembles the layered architecture:
 
 The architecture rules are enforced with ArchLint and can be checked by running `npm run archlint.`
 
-### Angular Modules and Components
+### Angular Modules
 
 All arrows represent dependencies.
 
@@ -264,8 +268,14 @@ end
 subgraph ld-module["label dictionary module"]
 end
 
+subgraph modeler-module["label dictionary module"]
+end
+
+subgraph title-module["label dictionary module"]
+end
+
 classDef module fill:none,stroke:#BBB stroke-width:2px,color:#BBB,stroke-dasharray: 5 5
-class as-module,export-module,is-module,import-module,ld-module module
+class as-module,export-module,is-module,import-module,ld-module,modeler-module,title-module module
 
 subgraph startup["startup layer"]
  app
@@ -282,6 +292,8 @@ subgraph tools["tools layer"]
  import-module
  is-module
  ld-module
+ modeler-module
+ title-module
 end
 
 
@@ -296,7 +308,7 @@ class startup,workbench,tools,domain layer
 TODO: complete diagram
 
 
-### Technical Layering of Angular Components
+### Technical Layering within Angular Components
 
 ## Level 3: Tools
 
