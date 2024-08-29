@@ -186,6 +186,12 @@ export class ImportDomainStoryService
       );
     }
 
+    //Convert Dropbox URLs to dl content
+    const dropboxPattern = /https:\/\/www\.dropbox\.com\/(.+)/;
+    if (dropboxPattern.test(fileUrl)) {
+      fileUrl = fileUrl.replace(dropboxPattern, 'https://dl.dropbox.com/$1');
+    }
+
     return fileUrl;
   }
 
