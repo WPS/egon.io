@@ -180,7 +180,7 @@ export class ImportDomainStoryService
     return isSupported;
   }
 
-  openUploadUrlDialog(): void {
+  openImportFromUrlDialog(): void {
     const config = new MatDialogConfig();
     config.disableClose = false;
     config.autoFocus = true;

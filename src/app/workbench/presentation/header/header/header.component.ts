@@ -96,8 +96,8 @@ export class HeaderComponent {
     this.exportService.openDownloadDialog();
   }
 
-  openUploadUrlDialog(): void {
-    this.importService.openUploadUrlDialog();
+  openImportFromUrlDialog(): void {
+    this.importService.openImportFromUrlDialog();
   }
 
   get hasDomainStory() {
