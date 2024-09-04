@@ -86,39 +86,16 @@ export class ImportDomainStoryService
   performImport(): void {
     // @ts-ignore
     const file = document.getElementById('import').files[0];
-    const filename = file.name;
 
-    const dstSvgPattern = /.*(.dst)(\s*\(\d+\)){0,1}\.svg/;
-    const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
-
-    if (filename.endsWith('.dst')) {
-      this.importDST(file, filename, false);
-    } else if (filename.match(dstSvgPattern)) {
-      this.importDST(file, filename, true);
-    } else if (filename.endsWith('.egn')) {
-      this.importEGN(file, filename, false);
-    } else if (filename.match(egnSvgPattern)) {
-      this.importEGN(file, filename, true);
-    }
+    this.import(file, file.name);
     this.modelerService.commandStackChanged();
   }
 
   performDropImport(file: File): void {
-    const filename = file.name;
-
-    const dstSvgPattern = /.*(.dst)(\s*\(\d+\)){0,1}\.svg/;
-    const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
-
-    if (filename.endsWith('.dst')) {
-      this.importDST(file, filename, false);
-    } else if (filename.match(dstSvgPattern)) {
-      this.importDST(file, filename, true);
-    } else if (filename.endsWith('.egn')) {
-      this.importEGN(file, filename, false);
-    } else if (filename.match(egnSvgPattern)) {
-      this.importEGN(file, filename, true);
+    if (this.isSupportedFileEnding(file.name)) {
+      this.import(file, file.name);
     } else {
-      this.snackbar.open('File not supported', undefined, {
+      this.snackbar.open('File type not supported', undefined, {
         duration: SNACKBAR_DURATION_LONG,
         panelClass: SNACKBAR_ERROR,
       });
@@ -149,19 +126,10 @@ export class ImportDomainStoryService
           throw new Error('Unable to extract filename from URL');
         }
 
-        const dstSvgPattern = /.*(.dst)(\s*\(\d+\)){0,1}\.svg/;
-        const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
-
-        if (filename.endsWith('.dst')) {
-          this.importDST(blob, filename, false);
-        } else if (filename.match(dstSvgPattern)) {
-          this.importDST(blob, filename, true);
-        } else if (filename.endsWith('.egn')) {
-          this.importEGN(blob, filename, false);
-        } else if (filename.match(egnSvgPattern)) {
-          this.importEGN(blob, filename, true);
+        if (this.isSupportedFileEnding(filename)) {
+          this.import(blob, filename);
         } else {
-          this.snackbar.open('Url not valid', undefined, {
+          this.snackbar.open('File type not supported', undefined, {
             duration: SNACKBAR_DURATION_LONG,
             panelClass: SNACKBAR_ERROR,
           });
@@ -195,6 +163,23 @@ export class ImportDomainStoryService
     return fileUrl;
   }
 
+  private isSupportedFileEnding(filename: string) {
+    let isSupported = false;
+
+    const dstSvgPattern = /.*(.dst)(\s*\(\d+\)){0,1}\.svg/;
+    const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
+
+    if (filename != null) {
+      isSupported =
+        filename.endsWith('.dst') ||
+        filename.endsWith('.egn') ||
+        filename.match(dstSvgPattern) != null ||
+        filename.match(egnSvgPattern) != null;
+    }
+
+    return isSupported;
+  }
+
   openUploadUrlDialog(): void {
     const config = new MatDialogConfig();
     config.disableClose = false;
@@ -203,40 +188,28 @@ export class ImportDomainStoryService
     this.dialogService.openDialog(ImportDialogComponent, config);
   }
 
-  importDST(input: Blob, filename: string, isSVG: boolean): void {
-    try {
-      const fileReader = new FileReader();
-      const titleText = this.restoreTitleFromFileName(filename, isSVG);
+  import(input: Blob, filename: string): void {
+    const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
+    const isSVG = filename.endsWith('.svg');
+    let isEGN = filename.endsWith('.egn');
 
-      // no need to put this on the commandStack
-      this.titleService.updateTitleAndDescription(titleText, null, false);
-
-      fileReader.onloadend = (e) => {
-        if (e && e.target) {
-          this.fileReaderFunction(e.target.result, isSVG, false);
-        }
-      };
-      fileReader.readAsText(input);
-      this.importSuccessful();
-    } catch (error) {
-      this.importFailed();
+    if (isSVG) {
+      isEGN = filename.match(egnSvgPattern) != null;
     }
-  }
 
-  importEGN(input: Blob, filename: string, isSVG: boolean): void {
     try {
       const fileReader = new FileReader();
-      const titleText = this.restoreTitleFromFileName(filename, isSVG);
 
+      // TODO: seems unnecessary because title and description will be updated again in fileReaderFunction()
+      const titleText = this.restoreTitleFromFileName(filename, isSVG);
       // no need to put this on the commandStack
       this.titleService.updateTitleAndDescription(titleText, null, false);
 
       fileReader.onloadend = (e) => {
         if (e && e.target) {
-          this.fileReaderFunction(e.target.result, isSVG, true);
+          this.fileReaderFunction(e.target.result, isSVG, isEGN);
         }
       };
-
       fileReader.readAsText(input);
       this.importSuccessful();
     } catch (error) {
