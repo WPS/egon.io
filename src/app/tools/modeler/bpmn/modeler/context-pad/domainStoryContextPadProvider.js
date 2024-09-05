@@ -205,7 +205,7 @@ export default function DomainStoryContextPadProvider(
   }
 
   function addWorkObjects(appendAction, actions) {
-    let workObjectTypes = iconDictionaryService.getTypeDictionary(
+    let workObjectTypes = iconDictionaryService.getIconsAssignedAs(
       ElementTypes.WORKOBJECT,
     );
     workObjectTypes.keysArray().forEach((workObjectType) => {
@@ -226,7 +226,7 @@ export default function DomainStoryContextPadProvider(
   }
 
   function addActors(appendAction, actions) {
-    let actorTypes = iconDictionaryService.getTypeDictionary(
+    let actorTypes = iconDictionaryService.getIconsAssignedAs(
       ElementTypes.ACTOR,
     );
     actorTypes.keysArray().forEach((actorType) => {

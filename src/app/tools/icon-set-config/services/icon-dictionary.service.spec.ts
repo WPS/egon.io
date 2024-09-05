@@ -172,14 +172,14 @@ describe('IconDictionaryService', () => {
       service.updateIconRegistries(actors, workObjects, config);
 
       expect(service.getActorsDictionary().keysArray()).toContain('Person');
-      expect(service.getAppendedIconDictionary().keysArray()).toContain(
+      expect(service.getCustomIconsDictionary().keysArray()).toContain(
         'TestCustomActor',
       );
 
       expect(service.getWorkObjectsDictionary().keysArray()).toContain(
         'Document',
       );
-      expect(service.getAppendedIconDictionary().keysArray()).toContain(
+      expect(service.getCustomIconsDictionary().keysArray()).toContain(
         'TestCustomWorkObject',
       );
     });

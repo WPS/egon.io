@@ -7,7 +7,7 @@ export function initializeReplaceOptions(iconDictionary) {
 }
 
 export function actorReplaceOptions(name) {
-  const actorTypes = iconDictionaryService.getTypeDictionary(
+  const actorTypes = iconDictionaryService.getIconsAssignedAs(
     ElementTypes.ACTOR,
   );
 
@@ -35,7 +35,7 @@ export function actorReplaceOptions(name) {
 }
 
 export function workObjectReplaceOptions(name) {
-  const workObjectTypes = iconDictionaryService.getTypeDictionary(
+  const workObjectTypes = iconDictionaryService.getIconsAssignedAs(
     ElementTypes.WORKOBJECT,
   );
 

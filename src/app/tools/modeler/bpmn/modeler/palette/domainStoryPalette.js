@@ -84,7 +84,7 @@ function appendCSSStyleCheat(customIcons) {
   let customIconDictKeys = customIconDict.keysArray();
 
   customIconDictKeys.forEach((name) => {
-    if (iconDictionary.getAppendedIconDictionary().has(name)) {
+    if (iconDictionary.getCustomIconsDictionary().has(name)) {
       let src = customIconDict.get(name);
 
       const iconStyle =
@@ -106,7 +106,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
 
   iconDictionary?.initTypeDictionaries(config.actors, config.workObjects);
 
-  let actorTypes = iconDictionary?.getTypeDictionary(ElementTypes.ACTOR);
+  let actorTypes = iconDictionary?.getIconsAssignedAs(ElementTypes.ACTOR);
 
   actorTypes?.keysArray().forEach((name) => {
     addCanvasObjectTypes(
@@ -125,7 +125,7 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
     },
   });
 
-  let workObjectTypes = iconDictionary?.getTypeDictionary(
+  let workObjectTypes = iconDictionary?.getIconsAssignedAs(
     ElementTypes.WORKOBJECT,
   );
 

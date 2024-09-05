@@ -24,7 +24,7 @@ export class IconDictionaryService {
   private actorIconDictionary = new Dictionary();
   private workObjectDictionary = new Dictionary();
 
-  private allIconDictionary = new Dictionary();
+  private builtInIconsDictionary = new Dictionary();
   private iconDictionaryForBPMN = new Dictionary();
 
   private customConfiguration?: IconSetConfiguration;
@@ -32,11 +32,10 @@ export class IconDictionaryService {
   private readonly iconConfig: IconConfiguration;
 
   constructor() {
-    this.allIconDictionary.addEach(builtInIcons);
-    this.iconConfig = new IconConfiguration(this.allIconDictionary);
+    this.builtInIconsDictionary.addEach(builtInIcons);
+    this.iconConfig = new IconConfiguration(this.builtInIconsDictionary);
   }
 
-  // TODO: only used in tests
   initTypeDictionaries(actors: string[], workObjects: string[]): void {
     if (!actors || actors.length == 0) {
       actors = defaultConf.actors;
@@ -47,7 +46,7 @@ export class IconDictionaryService {
 
     const allTypes = new Dictionary();
     allTypes.addEach(builtInIcons);
-    allTypes.appendDict(this.getAppendedIconDictionary());
+    allTypes.appendDict(this.getCustomIconsDictionary());
 
     this.initDictionary(
       actors,
@@ -308,22 +307,22 @@ export class IconDictionaryService {
 
   getFullDictionary(): Dictionary {
     const fullDictionary = new Dictionary();
-    fullDictionary.appendDict(this.allIconDictionary);
-    fullDictionary.appendDict(this.getAppendedIconDictionary());
+    fullDictionary.appendDict(this.builtInIconsDictionary);
+    fullDictionary.appendDict(this.getCustomIconsDictionary());
     return fullDictionary;
   }
 
-  getAppendedIconDictionary(): Dictionary {
+  getCustomIconsDictionary(): Dictionary {
     const appendedDict = new Dictionary();
     customIcons.keysArray().forEach((key) => {
-      if (!this.allIconDictionary.has(key)) {
+      if (!this.builtInIconsDictionary.has(key)) {
         appendedDict.set(key, customIcons.get(key));
       }
     });
     return appendedDict;
   }
 
-  getTypeDictionary(type: ElementTypes): Dictionary {
+  getIconsAssignedAs(type: ElementTypes): Dictionary {
     if (type === ElementTypes.ACTOR) {
       return this.actorIconDictionary;
     } else if (type === ElementTypes.WORKOBJECT) {
@@ -332,8 +331,8 @@ export class IconDictionaryService {
     return new Dictionary();
   }
 
-  getTypeDictionaryKeys(type: ElementTypes): string[] {
-    return this.getTypeDictionary(type).keysArray();
+  getNamesOfIconsAssignedAs(type: ElementTypes): string[] {
+    return this.getIconsAssignedAs(type).keysArray();
   }
 
   getTypeIconSRC(type: ElementTypes, name: string): string | null {
@@ -350,8 +349,8 @@ export class IconDictionaryService {
   }
 
   getIconSource(name: string): string | null {
-    if (this.allIconDictionary.has(name)) {
-      return this.allIconDictionary.get(name);
+    if (this.builtInIconsDictionary.has(name)) {
+      return this.builtInIconsDictionary.get(name);
     } else if (customIcons.has(name)) {
       return customIcons.get(name);
     }
@@ -372,7 +371,7 @@ export class IconDictionaryService {
   }
 
   getAllIconDictionary(): Dictionary {
-    return this.allIconDictionary;
+    return this.builtInIconsDictionary;
   }
 
   getActorsDictionary(): Dictionary {

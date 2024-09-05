@@ -370,11 +370,12 @@ export class ImportDomainStoryService
     const newActorKeys = iconSetConfiguration.actors.keysArray();
     const newWorkObjectKeys = iconSetConfiguration.workObjects.keysArray();
 
-    const currentActorKeys = this.iconDictionaryService.getTypeDictionaryKeys(
-      ElementTypes.ACTOR,
-    );
+    const currentActorKeys =
+      this.iconDictionaryService.getNamesOfIconsAssignedAs(ElementTypes.ACTOR);
     const currentWorkobjectKeys =
-      this.iconDictionaryService.getTypeDictionaryKeys(ElementTypes.WORKOBJECT);
+      this.iconDictionaryService.getNamesOfIconsAssignedAs(
+        ElementTypes.WORKOBJECT,
+      );
 
     let changed = false;
 

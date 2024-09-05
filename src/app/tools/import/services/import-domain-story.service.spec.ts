@@ -22,7 +22,7 @@ describe('ImportDomainStoryService', () => {
 
   beforeEach(() => {
     const iconDictionaryMock = jasmine.createSpyObj('iconDictionaryService', [
-      'getTypeDictionaryKeys',
+      'getNamesOfIconsAssignedAs',
     ]);
     TestBed.configureTestingModule({
       providers: [
@@ -82,10 +82,10 @@ describe('ImportDomainStoryService', () => {
     };
 
     it('should find changes, more actors', () => {
-      iconDictionarySpy.getTypeDictionaryKeys
+      iconDictionarySpy.getNamesOfIconsAssignedAs
         .withArgs(ElementTypes.ACTOR)
         .and.returnValue(['test']);
-      iconDictionarySpy.getTypeDictionaryKeys
+      iconDictionarySpy.getNamesOfIconsAssignedAs
         .withArgs(ElementTypes.WORKOBJECT)
         .and.returnValue(['workObject']);
 
@@ -95,10 +95,10 @@ describe('ImportDomainStoryService', () => {
     });
 
     it('should find changes, different actors', () => {
-      iconDictionarySpy.getTypeDictionaryKeys
+      iconDictionarySpy.getNamesOfIconsAssignedAs
         .withArgs(ElementTypes.ACTOR)
         .and.returnValue(['actor', 'test']);
-      iconDictionarySpy.getTypeDictionaryKeys
+      iconDictionarySpy.getNamesOfIconsAssignedAs
         .withArgs(ElementTypes.WORKOBJECT)
         .and.returnValue(['workObject']);
 
@@ -108,10 +108,10 @@ describe('ImportDomainStoryService', () => {
     });
 
     it('should find changes, different workobjects', () => {
-      iconDictionarySpy.getTypeDictionaryKeys
+      iconDictionarySpy.getNamesOfIconsAssignedAs
         .withArgs(ElementTypes.ACTOR)
         .and.returnValue(['actor']);
-      iconDictionarySpy.getTypeDictionaryKeys
+      iconDictionarySpy.getNamesOfIconsAssignedAs
         .withArgs(ElementTypes.WORKOBJECT)
         .and.returnValue(['workObject', 'test']);
 
@@ -121,10 +121,10 @@ describe('ImportDomainStoryService', () => {
     });
 
     it('should find changes, different workobjects', () => {
-      iconDictionarySpy.getTypeDictionaryKeys
+      iconDictionarySpy.getNamesOfIconsAssignedAs
         .withArgs(ElementTypes.ACTOR)
         .and.returnValue(['actor']);
-      iconDictionarySpy.getTypeDictionaryKeys
+      iconDictionarySpy.getNamesOfIconsAssignedAs
         .withArgs(ElementTypes.WORKOBJECT)
         .and.returnValue(['test']);
 
@@ -134,10 +134,10 @@ describe('ImportDomainStoryService', () => {
     });
 
     it('should not find changes', () => {
-      iconDictionarySpy.getTypeDictionaryKeys
+      iconDictionarySpy.getNamesOfIconsAssignedAs
         .withArgs(ElementTypes.ACTOR)
         .and.returnValue(['actor']);
-      iconDictionarySpy.getTypeDictionaryKeys
+      iconDictionarySpy.getNamesOfIconsAssignedAs
         .withArgs(ElementTypes.WORKOBJECT)
         .and.returnValue(['workObject']);
 
