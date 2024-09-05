@@ -14,7 +14,7 @@
         <button
           mat-button
           [class.activeActor]="(filter | async) === 'ICON_FILTER_ACTOR'"
-          title="Actors"
+          title="Icons used as actors"
           (click)="filterForActors()"
         >
           <span>Actors</span>
@@ -24,10 +24,10 @@
           [class.activeWorkObject]="
             (filter | async) === 'ICON_FILTER_WORKOBJECT'
           "
-          title="Workobjects"
+          title="Icons used as work objects"
           (click)="filterForWorkobjects()"
         >
-          <span>Workobjects</span>
+          <span>Work Objects</span>
         </button>
         <input
           class="textInput"

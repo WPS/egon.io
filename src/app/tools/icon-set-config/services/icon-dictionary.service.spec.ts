@@ -9,7 +9,7 @@ import {
   BusinessObject,
   testBusinessObject,
 } from '../../../domain/entities/businessObject';
-import { allIcons } from '../domain/allIcons';
+import { builtInIcons } from '../domain/allIcons';
 import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
 
 describe('IconDictionaryService', () => {
@@ -129,7 +129,7 @@ describe('IconDictionaryService', () => {
       service.registerIconForType(
         ElementTypes.WORKOBJECT,
         'Hotel',
-        allIcons['Hotel'],
+        builtInIcons['Hotel'],
       );
 
       expect(service.getWorkObjectsDictionary().has('Hotel')).toBeTruthy();
@@ -139,7 +139,7 @@ describe('IconDictionaryService', () => {
       service.registerIconForType(
         ElementTypes.ACTOR,
         'Hotel',
-        allIcons['Hotel'],
+        builtInIcons['Hotel'],
       );
 
       expect(service.getActorsDictionary().has('Hotel')).toBeTruthy();

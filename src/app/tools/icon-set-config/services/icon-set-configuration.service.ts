@@ -83,7 +83,7 @@ export class IconSetConfigurationService {
 
     this.iconDictionaryService
       .getIconConfiguration()
-      .appendSRCFile(actorKeys, actorDict, workObjectKeys, workObjectDict);
+      .addCustomIcons(actorKeys, actorDict, workObjectKeys, workObjectDict);
 
     this.iconDictionaryService.addIconsFromIconSetConfiguration(
       ElementTypes.ACTOR,

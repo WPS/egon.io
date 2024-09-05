@@ -7,7 +7,6 @@ import ContextPadProvider from "bpmn-js/lib/features/context-pad/ContextPadProvi
 import { assign, bind } from "min-dash";
 import { generateAutomaticNumber } from "../numbering/numbering";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { getAllStandardIconKeys } from "src/app/tools/icon-set-config/domain/allIcons";
 import {
   hexToRGBA,
   isHexWithAlpha,
@@ -68,7 +67,6 @@ export default function DomainStoryContextPadProvider(
       }),
     );
 
-    const allStandardIconKeys = getAllStandardIconKeys();
     let actions = cached(element);
 
     startConnect = function (event, element, autoActivate) {

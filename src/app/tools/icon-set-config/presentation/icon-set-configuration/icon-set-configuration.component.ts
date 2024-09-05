@@ -9,7 +9,7 @@ import {
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { sanitizeIconName } from 'src/app/utils/sanitizer';
 import { ElementTypes } from '../../../../domain/entities/elementTypes';
-import { IconFilterEnum } from '../../domain/iconFilterEnum';
+import { IconFilterOptions } from '../../domain/iconFilterOptions';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 import { CustomIconSetConfiguration } from '../../../../domain/entities/custom-icon-set-configuration';
 
@@ -21,7 +21,7 @@ import { CustomIconSetConfiguration } from '../../../../domain/entities/custom-i
 export class IconSetConfigurationComponent implements OnInit {
   private iconSetConfigurationTypes: CustomIconSetConfiguration;
 
-  filter = new BehaviorSubject<IconFilterEnum>(IconFilterEnum.ICON_FILTER_NONE);
+  filter = new BehaviorSubject<IconFilterOptions>(IconFilterOptions.NO_FILTER);
 
   selectedActors = new BehaviorSubject<string[]>([]);
   selectedWorkobjects = new BehaviorSubject<string[]>([]);
@@ -151,26 +151,26 @@ export class IconSetConfigurationComponent implements OnInit {
 
   /** Filter **/
   filterForActors(): void {
-    if (this.filter.value !== IconFilterEnum.ICON_FILTER_ACTOR) {
-      this.filter.next(IconFilterEnum.ICON_FILTER_ACTOR);
+    if (this.filter.value !== IconFilterOptions.ONLY_ACTORS) {
+      this.filter.next(IconFilterOptions.ONLY_ACTORS);
     } else {
-      this.filter.next(IconFilterEnum.ICON_FILTER_NONE);
+      this.filter.next(IconFilterOptions.NO_FILTER);
     }
   }
 
   filterForWorkobjects(): void {
-    if (this.filter.value !== IconFilterEnum.ICON_FILTER_WORKOBJECT) {
-      this.filter.next(IconFilterEnum.ICON_FILTER_WORKOBJECT);
+    if (this.filter.value !== IconFilterOptions.ONLY_WORKOBJECTS) {
+      this.filter.next(IconFilterOptions.ONLY_WORKOBJECTS);
     } else {
-      this.filter.next(IconFilterEnum.ICON_FILTER_NONE);
+      this.filter.next(IconFilterOptions.NO_FILTER);
     }
   }
 
   filterForUnassigned(): void {
-    if (this.filter.value !== IconFilterEnum.ICON_FILTER_UNASSIGNED) {
-      this.filter.next(IconFilterEnum.ICON_FILTER_UNASSIGNED);
+    if (this.filter.value !== IconFilterOptions.ONLY_UNASSIGNED) {
+      this.filter.next(IconFilterOptions.ONLY_UNASSIGNED);
     } else {
-      this.filter.next(IconFilterEnum.ICON_FILTER_NONE);
+      this.filter.next(IconFilterOptions.NO_FILTER);
     }
   }
 
@@ -183,23 +183,23 @@ export class IconSetConfigurationComponent implements OnInit {
     this.allFilteredIconNames.next(filteredByNameAndType.sort(this.sortByName));
   }
 
-  private getFilteredNamesForType(type: IconFilterEnum): string[] {
+  private getFilteredNamesForType(type: IconFilterOptions): string[] {
     let allFiltered: string[] = [];
     switch (type) {
-      case IconFilterEnum.ICON_FILTER_NONE:
+      case IconFilterOptions.NO_FILTER:
         allFiltered = this.allIconNames.value;
         break;
-      case IconFilterEnum.ICON_FILTER_ACTOR:
+      case IconFilterOptions.ONLY_ACTORS:
         allFiltered = this.allIconNames.value.filter((name) =>
           this.iconSetCustomizationService.isIconActor(name),
         );
         break;
-      case IconFilterEnum.ICON_FILTER_WORKOBJECT:
+      case IconFilterOptions.ONLY_WORKOBJECTS:
         allFiltered = this.allIconNames.value.filter((name) =>
           this.iconSetCustomizationService.isIconWorkObject(name),
         );
         break;
-      case IconFilterEnum.ICON_FILTER_UNASSIGNED:
+      case IconFilterOptions.ONLY_UNASSIGNED:
         allFiltered = this.allIconNames.value.filter(
           (name) =>
             !this.iconSetCustomizationService.isIconActor(name) &&

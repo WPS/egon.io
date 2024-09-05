@@ -1,9 +1,9 @@
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 
-export let appendedIcons = new Dictionary();
+export let customIcons = new Dictionary();
 
 // These SVGs are used to render the actors/work objects on the canvas and in the iconset configuration. For palette and context pad, icons.css is used.
-export const allIcons = {
+export const builtInIcons = {
   Person:
     '<svg viewBox="0 0 24 26" xmlns="http://www.w3.org/2000/svg"><path d="M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
   Group:
@@ -230,20 +230,8 @@ export const allIcons = {
     '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/><path d="M19,3H5C3.89,3,3,3.9,3,5v14c0,1.1,0.89,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.11,3,19,3z M19,19H5V7h14V19z M17,12H7v-2 h10V12z M13,16H7v-2h6V16z"/></g></svg>',
 };
 
-export function getAllStandardIconKeys(): string[] {
-  const allIconsDict = new Dictionary();
-
-  allIconsDict.addEach(allIcons);
-
-  return allIconsDict.keysArray();
-}
-
-export function overrideAppendedIcons(newIcons: Dictionary): void {
-  appendedIcons = newIcons;
-}
-
-export function updateAppendedIcons(newIcons: Dictionary): void {
+export function addCustomIcons(newIcons: Dictionary): void {
   for (const key in newIcons.keysArray().entries()) {
-    appendedIcons.add(newIcons.get(key), key);
+    customIcons.add(newIcons.get(key), key);
   }
 }

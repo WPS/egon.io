@@ -8,8 +8,8 @@ import {
   IconConfiguration,
 } from 'src/app/tools/icon-set-config/domain/iconConfiguration';
 import {
-  allIcons,
-  appendedIcons,
+  builtInIcons,
+  customIcons,
 } from 'src/app/tools/icon-set-config/domain/allIcons';
 import { sanitizeIconName } from '../../../utils/sanitizer';
 import getIconId = ElementTypes.getIconId;
@@ -32,10 +32,11 @@ export class IconDictionaryService {
   private readonly iconConfig: IconConfiguration;
 
   constructor() {
-    this.allIconDictionary.addEach(allIcons);
+    this.allIconDictionary.addEach(builtInIcons);
     this.iconConfig = new IconConfiguration(this.allIconDictionary);
   }
 
+  // TODO: only used in tests
   initTypeDictionaries(actors: string[], workObjects: string[]): void {
     if (!actors || actors.length == 0) {
       actors = defaultConf.actors;
@@ -45,7 +46,7 @@ export class IconDictionaryService {
     }
 
     const allTypes = new Dictionary();
-    allTypes.addEach(allIcons);
+    allTypes.addEach(builtInIcons);
     allTypes.appendDict(this.getAppendedIconDictionary());
 
     this.initDictionary(
@@ -123,8 +124,8 @@ export class IconDictionaryService {
     }
 
     const allTypes = new Dictionary();
-    allTypes.addEach(allIcons);
-    allTypes.appendDict(appendedIcons);
+    allTypes.addEach(builtInIcons);
+    allTypes.appendDict(customIcons);
 
     iconTypes.forEach((name) => {
       if (!collection.has(name)) {
@@ -276,7 +277,7 @@ export class IconDictionaryService {
   }
 
   addIMGToIconDictionary(input: string, name: string): void {
-    appendedIcons.set(name, input);
+    customIcons.set(name, input);
   }
 
   addIconsToCss(customIcons: Dictionary) {
@@ -314,9 +315,9 @@ export class IconDictionaryService {
 
   getAppendedIconDictionary(): Dictionary {
     const appendedDict = new Dictionary();
-    appendedIcons.keysArray().forEach((key) => {
+    customIcons.keysArray().forEach((key) => {
       if (!this.allIconDictionary.has(key)) {
-        appendedDict.set(key, appendedIcons.get(key));
+        appendedDict.set(key, customIcons.get(key));
       }
     });
     return appendedDict;
@@ -351,8 +352,8 @@ export class IconDictionaryService {
   getIconSource(name: string): string | null {
     if (this.allIconDictionary.has(name)) {
       return this.allIconDictionary.get(name);
-    } else if (appendedIcons.has(name)) {
-      return appendedIcons.get(name);
+    } else if (customIcons.has(name)) {
+      return customIcons.get(name);
     }
     return null;
   }
