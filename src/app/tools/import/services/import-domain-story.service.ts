@@ -200,7 +200,6 @@ export class ImportDomainStoryService
     try {
       const fileReader = new FileReader();
 
-      // TODO: seems unnecessary because title and description will be updated again in fileReaderFunction()
       const titleText = this.restoreTitleFromFileName(filename, isSVG);
       // no need to put this on the commandStack
       this.titleService.updateTitleAndDescription(titleText, null, false);
@@ -219,73 +218,72 @@ export class ImportDomainStoryService
 
   private fileReaderFunction(
     text: string | ArrayBuffer | null,
-    isSVG: boolean,
-    isEGN: boolean,
+    isSvgFile: boolean,
+    isEgnFormat: boolean,
   ): void {
-    let dstText;
+    let contentAsJson;
     if (typeof text === 'string') {
-      if (isSVG) {
-        dstText = this.removeXMLComments(text);
+      if (isSvgFile) {
+        contentAsJson = this.extractJsonFromSvgComment(text);
       } else {
-        dstText = text;
+        contentAsJson = text;
       }
 
       let elements: any[];
-      let config: IconSetConfiguration;
-      let configFromFile: {
+      let iconSetConfig: IconSetConfiguration;
+      let iconSetFromFile: {
         name: string;
         actors: { [key: string]: any };
         workObjects: { [key: string]: any };
       };
 
-      let dstAndConfig = this.extractDstAndConfig(dstText);
-      if (dstAndConfig == null) {
+      let storyAndIconSet = this.extractStoryAndIconSet(contentAsJson);
+      if (storyAndIconSet == null) {
         return;
       }
 
       // current implementation
-      if (dstAndConfig.domain) {
-        configFromFile = isEGN
-          ? dstAndConfig.domain
-          : JSON.parse(dstAndConfig.domain);
-        config =
+      if (storyAndIconSet.domain) {
+        iconSetFromFile = isEgnFormat
+          ? storyAndIconSet.domain
+          : JSON.parse(storyAndIconSet.domain);
+        iconSetConfig =
           this.iconSetConfigurationService.createIconSetConfiguration(
-            configFromFile,
+            iconSetFromFile,
           );
-        elements = isEGN ? dstAndConfig.dst : JSON.parse(dstAndConfig.dst);
+        elements = isEgnFormat
+          ? storyAndIconSet.dst
+          : JSON.parse(storyAndIconSet.dst);
       } else {
         // legacy implementation
-        if (dstAndConfig.config) {
-          configFromFile = JSON.parse(dstAndConfig.config);
-          config =
+        if (storyAndIconSet.config) {
+          iconSetFromFile = JSON.parse(storyAndIconSet.config);
+          iconSetConfig =
             this.iconSetConfigurationService.createIconSetConfiguration(
-              configFromFile,
+              iconSetFromFile,
             );
-          elements = JSON.parse(dstAndConfig.dst);
+          elements = JSON.parse(storyAndIconSet.dst);
         } else {
-          // implementation prior to configuration
-          elements = JSON.parse(dstText);
-          config =
+          // even older legacy implementation (prior to configurable icon set):
+          elements = JSON.parse(contentAsJson);
+          iconSetConfig =
             this.iconSetConfigurationService.createMinimalConfigurationWithDefaultIcons();
         }
       }
 
       this.importRepairService.removeWhitespacesFromIcons(elements);
 
-      const configChanged = this.checkConfigForChanges(config);
+      const configChanged = this.checkConfigForChanges(iconSetConfig);
 
       let lastElement = elements[elements.length - 1];
       if (!lastElement.id) {
         lastElement = elements.pop();
         let importVersionNumber = lastElement;
 
-        // if the last element has the importedVersionNumber has the tag version,
-        // then there exists another meta tag 'info' for the description
+        // if the last element has the tag 'version',
+        // then there exists another tag 'info' for the description
         if (importVersionNumber.version) {
           lastElement = elements.pop();
-        }
-
-        if (importVersionNumber.version) {
           importVersionNumber = importVersionNumber.version as string;
         } else {
           importVersionNumber = '?';
@@ -313,8 +311,8 @@ export class ImportDomainStoryService
 
       this.importRepairService.adjustPositions(elements);
 
-      this.updateIconRegistries(elements, config);
-      this.rendererService.importStory(elements, configChanged, config);
+      this.updateIconRegistries(elements, iconSetConfig);
+      this.rendererService.importStory(elements, configChanged, iconSetConfig);
     }
   }
 
@@ -348,7 +346,7 @@ export class ImportDomainStoryService
     return elements;
   }
 
-  private extractDstAndConfig(dstText: string) {
+  private extractStoryAndIconSet(dstText: string) {
     let dstAndConfig = null;
     try {
       dstAndConfig = JSON.parse(dstText);
@@ -358,7 +356,7 @@ export class ImportDomainStoryService
     return dstAndConfig;
   }
 
-  private removeXMLComments(xmlText: string): string {
+  private extractJsonFromSvgComment(xmlText: string): string {
     xmlText = xmlText.substring(xmlText.indexOf('<DST>'));
     while (xmlText.includes('<!--') || xmlText.includes('-->')) {
       xmlText = xmlText.replace('<!--', '').replace('-->', '');
