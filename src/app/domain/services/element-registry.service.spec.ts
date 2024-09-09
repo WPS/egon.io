@@ -35,6 +35,7 @@ function resetRegistry(
     element: structuredClone(testWorkobject),
   };
   registry._elements[testGroup.name] = { element: structuredClone(testGroup) };
+
   registry._elements[testConnection.name] = {
     element: structuredClone(testConnection),
   };
@@ -81,6 +82,7 @@ describe('ElementRegistryService', () => {
 
     testGroup = structuredClone(testGroupCanvasObject);
     testGroup.name = 'group';
+    testGroup.children?.push(structuredClone(testGroupCanvasObject));
 
     testConnection = structuredClone(testActivityCanvasObject);
     testConnection.name = 'conntection';
@@ -162,6 +164,16 @@ describe('ElementRegistryService', () => {
     it('getAllGroups', () => {
       const groups = service.getAllGroups();
 
+      expect(groups.length).toBe(1);
+      expect(groups).toContain(testGroup);
+    });
+
+    it('getAllGroups should not contain duplicates', () => {
+      const groups = service.getAllGroups();
+
+      expect(testGroup.id).toBe('test');
+      expect(testGroup.children![0].id).toBe('test');
+      expect(groups.length).toBe(1);
       expect(groups).toContain(testGroup);
     });
 

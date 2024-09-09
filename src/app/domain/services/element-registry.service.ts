@@ -39,7 +39,6 @@ export class ElementRegistryService {
     if (this.registry) {
       const allObjectsFromCanvas = this.getAllCanvasObjects();
       const groups = this.getAllGroups();
-
       const objectList: CanvasObject[] = [];
 
       this.fillListOfCanvasObjects(allObjectsFromCanvas, objectList, groups);
@@ -136,7 +135,16 @@ export class ElementRegistryService {
         }
       });
     }
-    return groupObjects;
+
+    const seenIds = new Set<string>();
+
+    return groupObjects.filter((groupObject) => {
+      const isNewId = !seenIds.has(groupObject.id);
+      if (isNewId) {
+        seenIds.add(groupObject.id);
+      }
+      return isNewId;
+    });
   }
 
   private checkChildForGroup(
