@@ -116,7 +116,11 @@ export class ExportService implements OnDestroy {
     document.body.removeChild(element);
   }
 
-  downloadSVG(withTitle: boolean, useWhiteBackground: boolean): void {
+  downloadSVG(
+    withTitle: boolean,
+    useWhiteBackground: boolean,
+    seconds: number | undefined,
+  ): void {
     const story = this.getStoryForDownload();
     const dst = this.createConfigAndDST(story);
 
@@ -126,6 +130,7 @@ export class ExportService implements OnDestroy {
       dst,
       withTitle,
       useWhiteBackground,
+      seconds,
     );
 
     this.downloadFile(
@@ -227,8 +232,11 @@ export class ExportService implements OnDestroy {
       const SVGDownloadOption = new ExportOption(
         'SVG',
         'Download an SVG-Image with the Domain-Story embedded. Can be used to save and share your Domain-Story.',
-        (withTitle: boolean, useWhiteBackground: boolean) =>
-          this.downloadSVG(withTitle, useWhiteBackground),
+        (
+          withTitle: boolean,
+          useWhiteBackground: boolean,
+          seconds: number | undefined,
+        ) => this.downloadSVG(withTitle, useWhiteBackground, seconds),
       );
       const EGNDownloadOption = new ExportOption(
         'EGN',

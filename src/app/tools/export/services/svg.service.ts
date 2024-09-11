@@ -6,6 +6,8 @@ import {
   DEFAULT_PADDING,
   TEXTSPAN_TITLE_HEIGHT,
 } from '../domain/export/exportConstants';
+import { StoryCreatorService } from '../../replay/services/story-creator.service';
+import { StorySentence } from '../../replay/domain/storySentence';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +15,10 @@ import {
 export class SvgService {
   private cacheData = '';
 
-  constructor(private modelerService: ModelerService) {}
+  constructor(
+    private modelerService: ModelerService,
+    private storyCreatorService: StoryCreatorService,
+  ) {}
 
   createSVGData(
     title: string,
@@ -21,10 +26,30 @@ export class SvgService {
     dst: ConfigAndDST,
     withTitle: boolean,
     useWhiteBackground: boolean,
+    seconds: number | undefined = undefined,
   ): string {
     this.cacheData = this.modelerService.getEncoded();
 
     let domainStorySvg = structuredClone(this.cacheData);
+
+    if (seconds) {
+      const story: StorySentence[] =
+        this.storyCreatorService.traceActivitiesAndCreateStory();
+      let endSeconds = 0;
+      const usedElementId: string[] = [];
+      story.forEach((sentence) => {
+        const objects = sentence.objects.filter(
+          (it) => !usedElementId.includes(it.id),
+        );
+        objects.forEach((objectId) => {
+          usedElementId.push(objectId.id);
+          const index = domainStorySvg.indexOf(objectId.id);
+          const insertIndex = domainStorySvg.indexOf('>', index) + 1;
+          domainStorySvg = `${domainStorySvg.slice(0, insertIndex)} <set end="${endSeconds}s" attributeName="visibility" to="hidden"/>  ${domainStorySvg.slice(insertIndex)}`;
+        });
+        endSeconds += seconds;
+      });
+    }
 
     let viewBoxIndex = domainStorySvg.indexOf('width="');
 

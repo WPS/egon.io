@@ -17,6 +17,8 @@ export class ExportDialogComponent implements OnInit {
   }[];
   withTitle: BehaviorSubject<boolean>;
   useWhiteBackground: BehaviorSubject<boolean>;
+  seconds: number = 1;
+  isAnimatedSvgExport: boolean = false;
 
   constructor(
     private dialogRef: MatDialogRef<ExportDialogComponent>,
@@ -31,7 +33,15 @@ export class ExportDialogComponent implements OnInit {
   ngOnInit(): void {}
 
   doOption(i: number): void {
-    this.options[i].fn(this.withTitle.value, this.useWhiteBackground.value);
+    if (this.isAnimatedSvgExport) {
+      this.options[i].fn(
+        this.withTitle.value,
+        this.useWhiteBackground.value,
+        this.seconds,
+      );
+    } else {
+      this.options[i].fn(this.withTitle.value, this.useWhiteBackground.value);
+    }
     this.close();
   }
 
