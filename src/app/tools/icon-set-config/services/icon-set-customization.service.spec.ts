@@ -18,7 +18,7 @@ import {
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
-import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { IconSet } from '../../../domain/entities/iconSet';
 import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
 
 describe(IconSetCustomizationService.name, () => {
@@ -81,12 +81,12 @@ describe(IconSetCustomizationService.name, () => {
         },
         MockProvider(ImportDomainStoryService),
         MockProvider(IconSetChangedService, {
-          iconConfigrationChanged(): Observable<IconSetConfiguration> {
-            const iconSetConfiguration: IconSetConfiguration =
+          iconConfigrationChanged(): Observable<IconSet> {
+            const iconSetConfiguration: IconSet =
               INITIAL_ICON_SET_CONFIGURATION;
             return of(iconSetConfiguration);
           },
-          getConfiguration(): IconSetConfiguration {
+          getConfiguration(): IconSet {
             return INITIAL_ICON_SET_CONFIGURATION;
           },
         }),
@@ -146,7 +146,7 @@ describe(IconSetCustomizationService.name, () => {
     workobjects.add('', 'Document');
     workobjects.add('TestValue2 - The Testening', 'TestWorkObject');
 
-    const customConfig: IconSetConfiguration = {
+    const customConfig: IconSet = {
       name: INITIAL_ICON_SET_NAME,
       actors: actors,
       workObjects: workobjects,

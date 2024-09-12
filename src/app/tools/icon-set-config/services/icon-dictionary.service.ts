@@ -4,7 +4,7 @@ import { Configuration } from 'src/app/domain/entities/configuration';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import {
-  defaultConf,
+  defaultIconSet,
   IconConfiguration,
 } from 'src/app/tools/icon-set-config/domain/iconConfiguration';
 import {
@@ -13,7 +13,7 @@ import {
 } from 'src/app/tools/icon-set-config/domain/allIcons';
 import { sanitizeIconName } from '../../../utils/sanitizer';
 import getIconId = ElementTypes.getIconId;
-import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { IconSet } from '../../../domain/entities/iconSet';
 
 export const ICON_PREFIX = 'icon-domain-story-';
 
@@ -27,7 +27,7 @@ export class IconDictionaryService {
   private builtInIconsDictionary = new Dictionary();
   private iconDictionaryForBPMN = new Dictionary();
 
-  private customConfiguration?: IconSetConfiguration;
+  private customConfiguration?: IconSet;
 
   private readonly iconConfig: IconConfiguration;
 
@@ -38,10 +38,10 @@ export class IconDictionaryService {
 
   initTypeDictionaries(actors: string[], workObjects: string[]): void {
     if (!actors || actors.length == 0) {
-      actors = defaultConf.actors;
+      actors = defaultIconSet.actors;
     }
     if (!workObjects || workObjects.length == 0) {
-      workObjects = defaultConf.workObjects;
+      workObjects = defaultIconSet.workObjects;
     }
 
     const allTypes = new Dictionary();
@@ -203,7 +203,7 @@ export class IconDictionaryService {
   updateIconRegistries(
     actors: BusinessObject[],
     workObjects: BusinessObject[],
-    config: IconSetConfiguration,
+    config: IconSet,
   ): void {
     const elements: BusinessObject[] = [];
 
@@ -386,7 +386,7 @@ export class IconDictionaryService {
     return this.iconConfig;
   }
 
-  setCustomConfiguration(customConfiguration: IconSetConfiguration): void {
+  setCustomConfiguration(customConfiguration: IconSet): void {
     this.customConfiguration = customConfiguration;
   }
 }

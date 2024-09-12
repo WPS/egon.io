@@ -3,13 +3,13 @@ import { ElementRegistryService } from 'src/app/domain/services/element-registry
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
-import { defaultConf } from '../domain/iconConfiguration';
+import { defaultIconSet } from '../domain/iconConfiguration';
 import { TitleService } from '../../title/services/title.service';
 import {
   ICON_SET_CONFIGURATION_KEY,
   INITIAL_ICON_SET_NAME,
 } from '../../../domain/entities/constants';
-import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set-configuration-for-export';
 import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
 import { StorageService } from '../../../domain/services/storage.service';
@@ -61,10 +61,7 @@ export class IconSetConfigurationService {
     document.body.removeChild(element);
   }
 
-  loadConfiguration(
-    customConfig: IconSetConfiguration,
-    updateIconSetName = true,
-  ): void {
+  loadConfiguration(customConfig: IconSet, updateIconSetName = true): void {
     let actorDict = new Dictionary();
     let workObjectDict = new Dictionary();
 
@@ -100,7 +97,7 @@ export class IconSetConfigurationService {
     }
   }
 
-  getCurrentConfiguration(): IconSetConfiguration | undefined {
+  getCurrentConfiguration(): IconSet | undefined {
     const actors = this.iconDictionaryService.getActorsDictionary();
     const workObjects = this.iconDictionaryService.getWorkObjectsDictionary();
 
@@ -154,16 +151,16 @@ export class IconSetConfigurationService {
     };
   }
 
-  createMinimalConfigurationWithDefaultIcons(): IconSetConfiguration {
+  createMinimalConfigurationWithDefaultIcons(): IconSet {
     const minimalConfig = this.createConfigFromCanvas();
 
-    defaultConf.actors.forEach((iconName) => {
+    defaultIconSet.actors.forEach((iconName) => {
       minimalConfig.actors.add(
         this.iconDictionaryService.getIconSource(iconName),
         iconName,
       );
     });
-    defaultConf.workObjects.forEach((iconName) => {
+    defaultIconSet.workObjects.forEach((iconName) => {
       minimalConfig.workObjects.add(
         this.iconDictionaryService.getIconSource(iconName),
         iconName,
@@ -176,7 +173,7 @@ export class IconSetConfigurationService {
   private createConfigFromDictionaries(
     actorsDict: Dictionary,
     workObjectsDict: Dictionary,
-  ): IconSetConfiguration {
+  ): IconSet {
     const actorNames = actorsDict.keysArray();
     const workobjectNames = workObjectsDict.keysArray();
     const newActors = new Dictionary();
@@ -205,7 +202,7 @@ export class IconSetConfigurationService {
 
   public createIconSetConfiguration(
     fileConfiguration: FileConfiguration,
-  ): IconSetConfiguration {
+  ): IconSet {
     const actorsDict = new Dictionary();
     const workObjectsDict = new Dictionary();
     Object.keys(fileConfiguration.actors).forEach((key) => {
@@ -231,7 +228,7 @@ export class IconSetConfigurationService {
     };
   }
 
-  public getStoredIconSetConfiguration(): IconSetConfiguration | undefined {
+  public getStoredIconSetConfiguration(): IconSet | undefined {
     const iconSetString = this.storageService.get(ICON_SET_CONFIGURATION_KEY);
 
     if (!iconSetString) {
@@ -247,7 +244,7 @@ export class IconSetConfigurationService {
     return;
   }
 
-  public setStoredIconSetConfiguration(config: IconSetConfiguration): void {
+  public setStoredIconSetConfiguration(config: IconSet): void {
     const actors: {
       [p: string]: any;
     } = {};
@@ -273,7 +270,7 @@ export class IconSetConfigurationService {
     );
   }
 
-  private createConfigFromCanvas(): IconSetConfiguration {
+  private createConfigFromCanvas(): IconSet {
     const config = {
       name: INITIAL_ICON_SET_NAME,
       actors: new Dictionary(),
@@ -300,9 +297,7 @@ export class IconSetConfigurationService {
     return config;
   }
 
-  private checkValidityOfConfiguration(
-    iconSetConfiguration: IconSetConfiguration,
-  ) {
+  private checkValidityOfConfiguration(iconSetConfiguration: IconSet) {
     return (
       iconSetConfiguration.actors.keysArray().length > 1 &&
       iconSetConfiguration.workObjects.keysArray().length > 1 &&

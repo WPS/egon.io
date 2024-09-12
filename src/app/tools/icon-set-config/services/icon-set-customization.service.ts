@@ -16,7 +16,7 @@ import { TitleService } from '../../title/services/title.service';
 import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import getIconId = ElementTypes.getIconId;
-import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { IconSet } from '../../../domain/entities/iconSet';
 import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
 
 /**
@@ -24,8 +24,8 @@ import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon
  * so we use this "interface" instead.
  */
 export abstract class IconSetChangedService {
-  public abstract iconConfigrationChanged(): Observable<IconSetConfiguration>;
-  public abstract getConfiguration(): IconSetConfiguration;
+  public abstract iconConfigrationChanged(): Observable<IconSet>;
+  public abstract getConfiguration(): IconSet;
 }
 
 @Injectable({
@@ -40,7 +40,7 @@ export class IconSetCustomizationService {
 
   selectedActors$ = new BehaviorSubject<string[]>([]);
   selectedWorkobjects$ = new BehaviorSubject<string[]>([]);
-  private changedIconSetConfiguration: IconSetConfiguration | undefined;
+  private changedIconSetConfiguration: IconSet | undefined;
 
   constructor(
     private iconSetConfigurationService: IconSetConfigurationService,
@@ -77,10 +77,7 @@ export class IconSetCustomizationService {
     }
   }
 
-  importConfiguration(
-    customConfig: IconSetConfiguration,
-    saveIconSet = true,
-  ): void {
+  importConfiguration(customConfig: IconSet, saveIconSet = true): void {
     const actorKeys = customConfig.actors.keysArray();
     const workObjectKeys = customConfig.workObjects.keysArray();
     const usedIcons = this.elementRegistryService.getUsedIcons();
@@ -384,14 +381,14 @@ export class IconSetCustomizationService {
     this.iconSetConfigurationService.exportConfiguration();
   }
 
-  getAndClearSavedConfiguration(): IconSetConfiguration | undefined {
+  getAndClearSavedConfiguration(): IconSet | undefined {
     const temp = this.changedIconSetConfiguration;
     this.changedIconSetConfiguration = undefined;
 
     return temp;
   }
 
-  private createIconSetConfiguration(): IconSetConfiguration {
+  private createIconSetConfiguration(): IconSet {
     const actors = new Dictionary();
     const workObjects = new Dictionary();
 
@@ -476,7 +473,7 @@ export class IconSetCustomizationService {
     }
   }
 
-  private updateIcons(changedIconSet: IconSetConfiguration) {
+  private updateIcons(changedIconSet: IconSet) {
     this.allIconListItems
       .keysArray()
       .forEach((item) => this.setAsUnassigned(item, this.isIconActor(item)));

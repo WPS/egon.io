@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
-import { defaultConf } from '../domain/iconConfiguration';
+import { defaultIconSet } from '../domain/iconConfiguration';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 import { Dictionary } from '../../../domain/entities/dictionary';
@@ -10,7 +10,7 @@ import {
   testBusinessObject,
 } from '../../../domain/entities/businessObject';
 import { builtInIcons } from '../domain/allIcons';
-import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { IconSet } from '../../../domain/entities/iconSet';
 
 describe('IconDictionaryService', () => {
   let service: IconDictionaryService;
@@ -38,12 +38,12 @@ describe('IconDictionaryService', () => {
         actorsDictionary
           .keysArray()
           .map((e) => e.replace(ElementTypes.ACTOR, '')),
-      ).toEqual(defaultConf.actors);
+      ).toEqual(defaultIconSet.actors);
       expect(
         workObjectsDictionary
           .keysArray()
           .map((e) => e.replace(ElementTypes.WORKOBJECT, '')),
-      ).toEqual(defaultConf.workObjects);
+      ).toEqual(defaultIconSet.workObjects);
     });
 
     it('should initialize Dictionaries with provided icons', () => {
@@ -68,8 +68,8 @@ describe('IconDictionaryService', () => {
   describe('getCurrentIconConfigurationForBPMN', () => {
     it('should return default Configuration', () => {
       const configuration = service.getCurrentIconConfigurationForBPMN();
-      expect(configuration.actors).toEqual(defaultConf.actors);
-      expect(configuration.workObjects).toEqual(defaultConf.workObjects);
+      expect(configuration.actors).toEqual(defaultIconSet.actors);
+      expect(configuration.workObjects).toEqual(defaultIconSet.workObjects);
     });
 
     it('should return current Configuration', () => {
@@ -78,7 +78,7 @@ describe('IconDictionaryService', () => {
       const workObjects = new Dictionary();
       workObjects.add('', 'Gavel');
 
-      const customConfig: IconSetConfiguration = {
+      const customConfig: IconSet = {
         name: INITIAL_ICON_SET_NAME,
         actors,
         workObjects,
@@ -162,7 +162,7 @@ describe('IconDictionaryService', () => {
     actorsDict.add(actor, 'TestCustomActor');
     workObjectsDict.add(workObject, 'TestCustomWorkObject');
 
-    const config: IconSetConfiguration = {
+    const config: IconSet = {
       name: INITIAL_ICON_SET_NAME,
       actors: actorsDict,
       workObjects: workObjectsDict,

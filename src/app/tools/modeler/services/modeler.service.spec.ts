@@ -13,7 +13,7 @@ import { Dictionary } from 'src/app/domain/entities/dictionary';
 // @ts-ignore
 import Modeler from 'bpmn-js/lib/Modeler';
 import { MockProvider } from 'ng-mocks';
-import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { IconSet } from '../../../domain/entities/iconSet';
 
 describe('ModelerService', () => {
   let service: ModelerService;
@@ -32,7 +32,7 @@ describe('ModelerService', () => {
   const workObjectsDict = new Dictionary();
   workObjectsDict.add('', ElementTypes.WORKOBJECT);
 
-  let testConfiguration: IconSetConfiguration = {
+  let testConfiguration: IconSet = {
     name: INITIAL_ICON_SET_NAME,
     actors: actorsDict,
     workObjects: workObjectsDict,

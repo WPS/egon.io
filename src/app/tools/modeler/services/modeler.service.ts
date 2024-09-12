@@ -8,7 +8,7 @@ import { IconSetConfigurationService } from '../../icon-set-config/services/icon
 import { BusinessObject } from '../../../domain/entities/businessObject';
 import { ActivityBusinessObject } from '../../../domain/entities/activityBusinessObject';
 import { updateMultipleNumberRegistry } from '../bpmn/modeler/numbering/numbering';
-import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { IconSet } from '../../../domain/entities/iconSet';
 import { StorageService } from '../../../domain/services/storage.service';
 import {
   SNACKBAR_DURATION_LONGER,
@@ -128,7 +128,7 @@ export class ModelerService {
   }
 
   restart(
-    iconSetConfiguration?: IconSetConfiguration,
+    iconSetConfiguration?: IconSet,
     domainStory?: BusinessObject[],
   ): void {
     const currentStory =

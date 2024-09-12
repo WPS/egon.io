@@ -3,7 +3,7 @@ import { SettingsService } from 'src/app/workbench/services/settings/settings.se
 import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 import { BehaviorSubject } from 'rxjs';
 import { IconSetCustomizationService } from '../../../tools/icon-set-config/services/icon-set-customization.service';
-import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { IconSet } from '../../../domain/entities/iconSet';
 
 @Component({
   selector: 'app-settings',
@@ -11,7 +11,7 @@ import { IconSetConfiguration } from '../../../domain/entities/icon-set-configur
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-  iconSetConfiguration: IconSetConfiguration | undefined;
+  iconSetConfiguration: IconSet | undefined;
   showGeneralSettings = new BehaviorSubject<boolean>(false);
   showIconSetCustomization = new BehaviorSubject<boolean>(true);
 

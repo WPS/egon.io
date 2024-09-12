@@ -5,7 +5,7 @@ import { ElementRegistryService } from '../../../domain/services/element-registr
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
-import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { IconSet } from '../../../domain/entities/iconSet';
 
 describe('RendererService', () => {
   let service: RendererService;
@@ -79,7 +79,7 @@ describe('RendererService', () => {
   });
 
   describe('importStory', () => {
-    const iconSetConfig: IconSetConfiguration = {
+    const iconSetConfig: IconSet = {
       name: 'test',
       actors: new Dictionary(),
       workObjects: new Dictionary(),

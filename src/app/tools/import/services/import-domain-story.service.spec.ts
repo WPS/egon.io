@@ -13,7 +13,7 @@ import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 import { Dictionary } from '../../../domain/entities/dictionary';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { IconSet } from '../../../domain/entities/iconSet';
 
 describe('ImportDomainStoryService', () => {
   let service: ImportDomainStoryService;
@@ -75,7 +75,7 @@ describe('ImportDomainStoryService', () => {
     actorsDict.add('', 'actor');
     workObjectsDict.add('', 'workObject');
 
-    const testDomainCofiguration: IconSetConfiguration = {
+    const testDomainCofiguration: IconSet = {
       name: INITIAL_ICON_SET_NAME,
       actors: actorsDict,
       workObjects: workObjectsDict,

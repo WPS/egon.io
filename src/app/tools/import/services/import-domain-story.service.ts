@@ -21,7 +21,7 @@ import {
 } from '../../../domain/entities/constants';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetChangedService } from '../../icon-set-config/services/icon-set-customization.service';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ImportDialogComponent } from '../presentation/import-dialog/import-dialog.component';
@@ -37,10 +37,9 @@ export class ImportDomainStoryService
 
   title = INITIAL_TITLE;
   description = INITIAL_DESCRIPTION;
-  private importedConfiguration: IconSetConfiguration | null = null;
+  private importedConfiguration: IconSet | null = null;
 
-  private importedConfigurationEmitter =
-    new EventEmitter<IconSetConfiguration>();
+  private importedConfigurationEmitter = new EventEmitter<IconSet>();
 
   constructor(
     private iconDictionaryService: IconDictionaryService,
@@ -69,12 +68,12 @@ export class ImportDomainStoryService
     this.descriptionSubscription.unsubscribe();
   }
 
-  iconConfigrationChanged(): Observable<IconSetConfiguration> {
+  iconConfigrationChanged(): Observable<IconSet> {
     return this.importedConfigurationEmitter.asObservable();
   }
 
-  getConfiguration(): IconSetConfiguration {
-    const config: IconSetConfiguration = {
+  getConfiguration(): IconSet {
+    const config: IconSet = {
       name: this.importedConfiguration?.name || '',
       actors: this.importedConfiguration?.actors || new Dictionary(),
       workObjects: this.importedConfiguration?.workObjects || new Dictionary(),
@@ -232,7 +231,7 @@ export class ImportDomainStoryService
       }
 
       let elements: any[];
-      let iconSetConfig: IconSetConfiguration;
+      let iconSetConfig: IconSet;
       let iconSetFromFile: {
         name: string;
         actors: { [key: string]: any };
@@ -368,7 +367,7 @@ export class ImportDomainStoryService
     return xmlText;
   }
 
-  checkConfigForChanges(iconSetConfiguration: IconSetConfiguration): boolean {
+  checkConfigForChanges(iconSetConfiguration: IconSet): boolean {
     const newActorKeys = iconSetConfiguration.actors.keysArray();
     const newWorkObjectKeys = iconSetConfiguration.workObjects.keysArray();
 
@@ -417,7 +416,7 @@ export class ImportDomainStoryService
 
   private updateIconRegistries(
     elements: BusinessObject[],
-    config: IconSetConfiguration,
+    config: IconSet,
   ): void {
     const actorIcons = this.iconDictionaryService.getElementsOfType(
       elements,
@@ -446,7 +445,7 @@ export class ImportDomainStoryService
     });
   }
 
-  private setImportedConfigurationAndEmit(config: IconSetConfiguration) {
+  private setImportedConfigurationAndEmit(config: IconSet) {
     this.importedConfiguration = config;
     this.importedConfigurationEmitter.emit(config);
   }

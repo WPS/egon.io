@@ -2,7 +2,7 @@ import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { addCustomIcons } from 'src/app/tools/icon-set-config/domain/allIcons';
 import { Configuration } from 'src/app/domain/entities/configuration';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
-import { IconSetConfiguration } from '../../../domain/entities/icon-set-configuration';
+import { IconSet } from '../../../domain/entities/iconSet';
 
 export class IconConfiguration {
   iconSetName = INITIAL_ICON_SET_NAME;
@@ -14,7 +14,7 @@ export class IconConfiguration {
   }
 
   getDefaultConf(): Configuration {
-    return defaultConf;
+    return defaultIconSet;
   }
 
   addCustomIcons(
@@ -45,7 +45,7 @@ export class IconConfiguration {
     addCustomIcons(customIcons);
   }
 
-  createCustomConf(iconSetConfiguration: IconSetConfiguration): Configuration {
+  createCustomConf(iconSetConfiguration: IconSet): Configuration {
     this.iconSetName = iconSetConfiguration.name;
 
     let actors = iconSetConfiguration.actors;
@@ -62,10 +62,7 @@ export class IconConfiguration {
   }
 }
 
-/**
- * Default Iconset
- */
-export const defaultConf = {
+export const defaultIconSet = {
   actors: ['Person', 'Group', 'System'],
   workObjects: ['Document', 'Folder', 'Call', 'Email', 'Conversation', 'Info'],
 };
