@@ -22,19 +22,6 @@
     <input type="checkbox" [(ngModel)]="isAnimatedSvgExport" />
     Export animated SVG
   </label>
-  @if (isAnimatedSvgExport) {
-    <br />
-    <label class="ml-2">
-      <input
-        class="number-input"
-        type="number"
-        max="5"
-        min="1"
-        [(ngModel)]="seconds"
-      />
-      Set delay for animation time
-    </label>
-  }
 </mat-dialog-content>
 <mat-dialog-actions>
   <br />

@@ -17,7 +17,6 @@ export class ExportDialogComponent implements OnInit {
   }[];
   withTitle: BehaviorSubject<boolean>;
   useWhiteBackground: BehaviorSubject<boolean>;
-  seconds: number = 1;
   isAnimatedSvgExport: boolean = false;
 
   constructor(
@@ -37,7 +36,7 @@ export class ExportDialogComponent implements OnInit {
       this.options[i].fn(
         this.withTitle.value,
         this.useWhiteBackground.value,
-        this.seconds,
+        this.isAnimatedSvgExport,
       );
     } else {
       this.options[i].fn(this.withTitle.value, this.useWhiteBackground.value);

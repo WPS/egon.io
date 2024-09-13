@@ -26,29 +26,14 @@ export class SvgService {
     dst: ConfigAndDST,
     withTitle: boolean,
     useWhiteBackground: boolean,
-    seconds: number | undefined = undefined,
+    isAnimated: boolean = false,
   ): string {
     this.cacheData = this.modelerService.getEncoded();
 
     let domainStorySvg = structuredClone(this.cacheData);
 
-    if (seconds) {
-      const story: StorySentence[] =
-        this.storyCreatorService.traceActivitiesAndCreateStory();
-      let endSeconds = 0;
-      const usedElementId: string[] = [];
-      story.forEach((sentence) => {
-        const objects = sentence.objects.filter(
-          (it) => !usedElementId.includes(it.id),
-        );
-        objects.forEach((objectId) => {
-          usedElementId.push(objectId.id);
-          const index = domainStorySvg.indexOf(objectId.id);
-          const insertIndex = domainStorySvg.indexOf('>', index) + 1;
-          domainStorySvg = `${domainStorySvg.slice(0, insertIndex)} <set end="${endSeconds}s" attributeName="visibility" to="hidden"/>  ${domainStorySvg.slice(insertIndex)}`;
-        });
-        endSeconds += seconds;
-      });
+    if (isAnimated) {
+      domainStorySvg = this.createAnimatedSvg(domainStorySvg);
     }
 
     let viewBoxIndex = domainStorySvg.indexOf('width="');
@@ -127,6 +112,52 @@ export class SvgService {
     }
 
     return this.appendDST(domainStorySvg, dst);
+  }
+
+  private createAnimatedSvg(domainStorySvg: string) {
+    const story: StorySentence[] =
+      this.storyCreatorService.traceActivitiesAndCreateStory();
+    const usedElementId: string[] = [];
+    const storyLength = story.length;
+    const visibleTimeInPercent = Math.floor(100 / storyLength);
+    const durationOfAnimation = storyLength * 1.5;
+    let senteceCounter = 1;
+    let currentVisibleTimeInPercent = visibleTimeInPercent;
+    let previouVisibleTimeInPercent = visibleTimeInPercent;
+    story.forEach((sentence) => {
+      const objects = sentence.objects.filter(
+        (it) => !usedElementId.includes(it.id),
+      );
+      objects.forEach((objectId) => {
+        usedElementId.push(objectId.id);
+        const idIndex = domainStorySvg.indexOf(objectId.id);
+        const insertIdIndex = domainStorySvg.indexOf('>', idIndex);
+        domainStorySvg = `${domainStorySvg.slice(0, insertIdIndex)} id="group${senteceCounter}" ${domainStorySvg.slice(insertIdIndex)}`;
+
+        const index = domainStorySvg.indexOf(objectId.id);
+        const insertIndex = domainStorySvg.indexOf('>', index) + 1;
+        if (senteceCounter > 1) {
+          domainStorySvg = `${domainStorySvg.slice(0, insertIndex)}
+            <style>
+              #group${senteceCounter} {
+                  opacity: 0;
+                  animation: visibilityControl${senteceCounter} ${durationOfAnimation}s infinite;
+              }
+              @keyframes visibilityControl${senteceCounter} {
+                  ${previouVisibleTimeInPercent - 1}% { opacity: 0; }    /* Initially invisible */
+                  ${previouVisibleTimeInPercent}% { opacity: 1; }  /* Starts becoming visible */
+                  98% { opacity: 1; }   /* Stays visible */
+                  99% { opacity: 0; }   /* Starts disappearing */
+                  100% { opacity: 0; }  /* Fully invisible */
+              }
+            </style>  ${domainStorySvg.slice(insertIndex)}`;
+        }
+      });
+      senteceCounter += 1;
+      previouVisibleTimeInPercent = currentVisibleTimeInPercent;
+      currentVisibleTimeInPercent = visibleTimeInPercent * senteceCounter;
+    });
+    return domainStorySvg;
   }
 
   private findIndexToInsertData(data: string) {
