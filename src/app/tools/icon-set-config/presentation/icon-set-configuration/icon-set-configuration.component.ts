@@ -177,15 +177,19 @@ export class IconSetConfigurationComponent implements OnInit {
   filterByNameAndType($event: any) {
     const filteredByKeyWord = this.allIcons.value
       .all()
-      .filter(entry => entry.keyWords.some(key => {
-        return key.toLowerCase().includes($event.target.value.toLowerCase())
-      }))
-      .map(entry => entry.key)
+      .filter((entry) =>
+        entry.keyWords.some((key) => {
+          return key.toLowerCase().includes($event.target.value.toLowerCase());
+        }),
+      )
+      .map((entry) => entry.key);
 
     const filteredByNameAndType = this.getFilteredNamesForType(
       this.filter.value,
-    ).filter((name) =>
-      name.toLowerCase().includes($event.target.value.toLowerCase()) || filteredByKeyWord.includes(name),
+    ).filter(
+      (name) =>
+        name.toLowerCase().includes($event.target.value.toLowerCase()) ||
+        filteredByKeyWord.includes(name),
     );
     this.allFilteredIconNames.next(filteredByNameAndType.sort(this.sortByName));
   }
