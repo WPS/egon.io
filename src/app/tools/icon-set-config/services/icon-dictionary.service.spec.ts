@@ -129,7 +129,7 @@ describe('IconDictionaryService', () => {
       service.registerIconForType(
         ElementTypes.WORKOBJECT,
         'Hotel',
-        builtInIcons['Hotel'],
+        builtInIcons.get('Hotel'),
       );
 
       expect(service.getWorkObjectsDictionary().has('Hotel')).toBeTruthy();
@@ -139,7 +139,7 @@ describe('IconDictionaryService', () => {
       service.registerIconForType(
         ElementTypes.ACTOR,
         'Hotel',
-        builtInIcons['Hotel'],
+        builtInIcons.get('Hotel'),
       );
 
       expect(service.getActorsDictionary().has('Hotel')).toBeTruthy();
