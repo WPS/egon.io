@@ -52,7 +52,11 @@ export class Dictionary {
   }
 
   addBuildInIcons(buildInIcons: Dictionary): void {
-    buildInIcons.entries.forEach(entry => this.set(entry.key, entry.value))
+    buildInIcons.entries.forEach(entry => {
+      if (!this.has(entry.key)) {
+        this.entries.push(entry);
+      }
+    })
   }
 
   appendDict(dict: Dictionary): void {
