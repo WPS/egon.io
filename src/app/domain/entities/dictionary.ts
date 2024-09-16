@@ -37,7 +37,7 @@ export class Dictionary {
 
   putEntry(entry: Entry): void {
     if (!this.has(entry.key)) {
-      this.entries.push(new Entry(entry.value, entry.key));
+      this.entries.push(entry);
     }
   }
 
@@ -49,6 +49,10 @@ export class Dictionary {
     Object.keys(object).forEach((key) => {
       this.set(key, object[key]);
     });
+  }
+
+  addBuildInIcons(buildInIcons: Dictionary): void {
+    buildInIcons.entries.forEach(entry => this.set(entry.key, entry.value))
   }
 
   appendDict(dict: Dictionary): void {
@@ -70,11 +74,13 @@ export class Dictionary {
 }
 
 export class Entry {
-  value: any;
+  value: any; // ToDo: dh, I think type of any is not a good choice. Try to figur out if we can use typed objects here.
   key: string;
+  keyWords: string[];
 
-  constructor(value: any, key: string) {
+  constructor(value: any, key: string, keyWords: string[] = []) {
     this.value = value;
     this.key = key;
+    this.keyWords = keyWords;
   }
 }

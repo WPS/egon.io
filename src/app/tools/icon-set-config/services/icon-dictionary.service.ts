@@ -32,7 +32,7 @@ export class IconDictionaryService {
   private readonly iconConfig: IconConfiguration;
 
   constructor() {
-    this.builtInIconsDictionary.addEach(builtInIcons);
+    this.builtInIconsDictionary.addBuildInIcons(builtInIcons);
     this.iconConfig = new IconConfiguration(this.builtInIconsDictionary);
   }
 
@@ -45,7 +45,7 @@ export class IconDictionaryService {
     }
 
     const allTypes = new Dictionary();
-    allTypes.addEach(builtInIcons);
+    allTypes.addBuildInIcons(builtInIcons);
     allTypes.appendDict(this.getCustomIconsDictionary());
 
     this.initDictionary(
@@ -123,7 +123,7 @@ export class IconDictionaryService {
     }
 
     const allTypes = new Dictionary();
-    allTypes.addEach(builtInIcons);
+    allTypes.addBuildInIcons(builtInIcons);
     allTypes.appendDict(customIcons);
 
     iconTypes.forEach((name) => {
