@@ -138,10 +138,14 @@ export class ImportDomainStoryService
         this.modelerService.commandStackChanged();
       })
       .catch(() =>
-        this.snackbar.open('Cross-origin request blocked', undefined, {
-          duration: SNACKBAR_DURATION_LONG,
-          panelClass: SNACKBAR_ERROR,
-        }),
+        this.snackbar.open(
+          'Request blocked by server (CORS error)',
+          undefined,
+          {
+            duration: SNACKBAR_DURATION_LONG,
+            panelClass: SNACKBAR_ERROR,
+          },
+        ),
       );
   }
 
