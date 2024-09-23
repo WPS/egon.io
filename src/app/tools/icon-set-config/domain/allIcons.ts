@@ -150,7 +150,7 @@ const infoDialogs = [
   'risk',
   'trouble',
   'failure',
-  'borken',
+  'broken',
   'critical',
   'caution',
   'conflict',
@@ -744,7 +744,7 @@ const wrench = new Entry(
     'fix',
     'repair',
     'settings',
-    'mechanik',
+    'mechanic',
     'hardware',
     'maintenance',
     'spanner',
@@ -847,19 +847,19 @@ builtInIcons.putEntry(shopping);
 const thumbUp = new Entry(
   '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 26"><path fill="none" d="M0 0h24v24H0V0zm0 0h24v24H0V0z"/><path d="M9 21h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.58 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2zM9 9l4.34-4.34L12 10h9v2l-3 7H9V9zM1 9h4v12H1z"/></svg>',
   'Thumb-up',
-  [...rating, 'thumb down', 'thum up down'],
+  [...rating, 'thumb down', 'thumb up down'],
 );
 builtInIcons.putEntry(thumbUp);
 const thumbDown = new Entry(
   '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 28"><path fill="none" d="M0 0h24v24H0V0zm0 0h24v24H0V0z"/><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm0 12l-4.34 4.34L12 14H3v-2l3-7h9v10zm4-12h4v12h-4z"/></svg>',
   'Thumb-down',
-  [...rating, 'thumb up', 'thum up down'],
+  [...rating, 'thumb up', 'thumb up down'],
 );
 builtInIcons.putEntry(thumbDown);
 const thumbUpDown = new Entry(
   '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 28"><path fill="none" d="M0 0h24v24H0V0zm0 0h24v24H0V0z"/><path d="M12 6c0-.55-.45-1-1-1H5.82l.66-3.18.02-.23c0-.31-.13-.59-.33-.8L5.38 0 .44 4.94C.17 5.21 0 5.59 0 6v6.5c0 .83.67 1.5 1.5 1.5h6.75c.62 0 1.15-.38 1.38-.91l2.26-5.29c.07-.17.11-.36.11-.55V6zm-2 1.13L7.92 12H2V6.21l1.93-1.93L3.36 7H10v.13zM22.5 10h-6.75c-.62 0-1.15.38-1.38.91l-2.26 5.29c-.07.17-.11.36-.11.55V18c0 .55.45 1 1 1h5.18l-.66 3.18-.02.24c0 .31.13.59.33.8l.79.78 4.94-4.94c.27-.27.44-.65.44-1.06v-6.5c0-.83-.67-1.5-1.5-1.5zm-.5 7.79l-1.93 1.93.57-2.72H14v-.13L16.08 12H22v5.79z"/></svg>',
   'Thumb-up-down',
-  [...rating, 'thumb down', 'thum down'],
+  [...rating, 'thumb down', 'thumb down'],
 );
 builtInIcons.putEntry(thumbUpDown);
 const couch = new Entry(
@@ -908,9 +908,9 @@ const ruler = new Entry(
     'design service',
     'straighten',
     'square foot',
-    'messering tool',
+    'measuring tool',
     'scale',
-    'geometrie',
+    'geometry',
     'math',
     'length',
     'inch',
@@ -1324,7 +1324,7 @@ const wysiwyg = new Entry(
     'editor',
     'design',
     'content',
-    'unser interface',
+    'user interface',
     'page builder',
     'layout',
     'preview',
