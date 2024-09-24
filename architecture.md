@@ -1,4 +1,4 @@
-# Introduction and Goals {#section-introduction-and-goals}
+# Introduction and Goals
 
 *Describes the relevant requirements and the driving forces that software architects and development team must consider.*
 
@@ -16,7 +16,7 @@ Egon is a modeling tool that implements the notation and syntactical rules of [D
 
 Top quality goals are:
 - Functional suitability: System provides functions that meets stated or implied needs.
-- Operability: System can be understood, learned, used, and is attractive to its users.
+- Operability: System can be understood, learned, used, and is attractive to its [users](#introduction-and-goals).
 
 # Architecture Constraints {#section-architecture-constraints}
 
