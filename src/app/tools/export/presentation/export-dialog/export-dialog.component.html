@@ -3,41 +3,41 @@
   <div class="card">
     <span>Options for image export:</span>
     <label class="row">
-    <input
-      type="checkbox"
-      [checked]="withTitle | async"
-      (change)="updateWithTitle($event)"
-    />
-    Add title and description to image
+      <input
+        type="checkbox"
+        [checked]="withTitle | async"
+        (change)="updateWithTitle($event)"
+      />
+      Add title and description to image
     </label>
     <label class="row">
-    <input
-      type="checkbox"
-      [checked]="useWhiteBackground | async"
-      (change)="updateUseWhiteBackground($event)"
-    />
-    Add white background to SVG (default: transparent)
-  </label>
-    <div class="row">
-    <input type="checkbox" [(ngModel)]="isAnimatedSvgExport" />
-    <span (click)="onExportAnimatedSvg()">Export animated SVG.</span>
-    @if (isAnimatedSvgExport) {
-      <span>Animation speed:</span>
       <input
-        class="number-input"
-        [(ngModel)]="animationSpeed"
-        [max]="9"
-        [min]="1"
-        [maxLength]="1"
-        oninput="this.value = this.value.replace(/[^1-9]/g, '');"
+        type="checkbox"
+        [checked]="useWhiteBackground | async"
+        (change)="updateUseWhiteBackground($event)"
       />
-      <span (click)="onExportAnimatedSvg()">seconds</span>
-    }
-  </div>
+      Add white background to SVG (default: transparent)
+    </label>
+    <div class="row">
+      <input type="checkbox" [(ngModel)]="isAnimatedSvgExport" />
+      <span (click)="onExportAnimatedSvg()">Export animated SVG.</span>
+      @if (isAnimatedSvgExport) {
+        <span>Animation speed:</span>
+        <input
+          class="number-input"
+          [(ngModel)]="animationSpeed"
+          [max]="9"
+          [min]="1"
+          [maxLength]="1"
+          oninput="this.value = this.value.replace(/[^1-9]/g, '');"
+        />
+        <span (click)="onExportAnimatedSvg()">seconds</span>
+      }
+    </div>
   </div>
 </mat-dialog-content>
-<br>
-<br>
+<br />
+<br />
 <mat-dialog-actions>
   <div>
     <button mat-flat-button (click)="close()">Cancel</button>
