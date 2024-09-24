@@ -10,6 +10,9 @@
 @include mat.all-component-typographies();
 @include mat.core();
 
+:root {
+  --borderGray10: #e8e9ed;
+}
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/

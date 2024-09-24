@@ -18,6 +18,7 @@ export class ExportDialogComponent implements OnInit {
   withTitle: BehaviorSubject<boolean>;
   useWhiteBackground: BehaviorSubject<boolean>;
   isAnimatedSvgExport: boolean = false;
+  animationSpeed: number = 2;
 
   constructor(
     private dialogRef: MatDialogRef<ExportDialogComponent>,
@@ -36,7 +37,7 @@ export class ExportDialogComponent implements OnInit {
       this.options[i].fn(
         this.withTitle.value,
         this.useWhiteBackground.value,
-        this.isAnimatedSvgExport,
+        this.animationSpeed,
       );
     } else {
       this.options[i].fn(this.withTitle.value, this.useWhiteBackground.value);
@@ -56,5 +57,9 @@ export class ExportDialogComponent implements OnInit {
   updateUseWhiteBackground($event: Event) {
     // @ts-ignore
     this.useWhiteBackground.next($event.target.checked);
+  }
+
+  onExportAnimatedSvg(): void {
+    this.isAnimatedSvgExport = !this.isAnimatedSvgExport;
   }
 }

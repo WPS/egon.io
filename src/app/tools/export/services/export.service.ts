@@ -119,7 +119,7 @@ export class ExportService implements OnDestroy {
   downloadSVG(
     withTitle: boolean,
     useWhiteBackground: boolean,
-    isAnimated: boolean,
+    animationSpeed: number | undefined,
   ): void {
     const story = this.getStoryForDownload();
     const dst = this.createConfigAndDST(story);
@@ -130,7 +130,7 @@ export class ExportService implements OnDestroy {
       dst,
       withTitle,
       useWhiteBackground,
-      isAnimated,
+      animationSpeed,
     );
 
     this.downloadFile(
@@ -235,8 +235,8 @@ export class ExportService implements OnDestroy {
         (
           withTitle: boolean,
           useWhiteBackground: boolean,
-          isAnimated: boolean,
-        ) => this.downloadSVG(withTitle, useWhiteBackground, isAnimated),
+          animationSpeed: number | undefined,
+        ) => this.downloadSVG(withTitle, useWhiteBackground, animationSpeed),
       );
       const EGNDownloadOption = new ExportOption(
         'EGN',

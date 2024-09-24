@@ -1,15 +1,16 @@
 <mat-dialog-content>
-  <h2>{{ title }}</h2>
-  <label>
+  <h2 class="bold-2">{{ title }}</h2>
+  <div class="card">
+    <span>Options for image export:</span>
+    <label class="row">
     <input
       type="checkbox"
       [checked]="withTitle | async"
       (change)="updateWithTitle($event)"
     />
     Add title and description to image
-  </label>
-  <br />
-  <label>
+    </label>
+    <label class="row">
     <input
       type="checkbox"
       [checked]="useWhiteBackground | async"
@@ -17,15 +18,27 @@
     />
     Add white background to SVG (default: transparent)
   </label>
-  <br />
-  <label>
+    <div class="row">
     <input type="checkbox" [(ngModel)]="isAnimatedSvgExport" />
-    Export animated SVG
-  </label>
+    <span (click)="onExportAnimatedSvg()">Export animated SVG.</span>
+    @if (isAnimatedSvgExport) {
+      <span>Animation speed:</span>
+      <input
+        class="number-input"
+        [(ngModel)]="animationSpeed"
+        [max]="9"
+        [min]="1"
+        [maxLength]="1"
+        oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+      />
+      <span (click)="onExportAnimatedSvg()">seconds</span>
+    }
+  </div>
+  </div>
 </mat-dialog-content>
+<br>
+<br>
 <mat-dialog-actions>
-  <br />
-
   <div>
     <button mat-flat-button (click)="close()">Cancel</button>
     @for (option of options; track option; let i = $index) {

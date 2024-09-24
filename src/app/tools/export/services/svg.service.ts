@@ -26,14 +26,14 @@ export class SvgService {
     dst: ConfigAndDST,
     withTitle: boolean,
     useWhiteBackground: boolean,
-    isAnimated: boolean = false,
+    animationSpeed?: number,
   ): string {
     this.cacheData = this.modelerService.getEncoded();
 
     let domainStorySvg = structuredClone(this.cacheData);
 
-    if (isAnimated) {
-      domainStorySvg = this.createAnimatedSvg(domainStorySvg);
+    if (animationSpeed) {
+      domainStorySvg = this.createAnimatedSvg(domainStorySvg, animationSpeed);
     }
 
     let viewBoxIndex = domainStorySvg.indexOf('width="');
@@ -114,13 +114,16 @@ export class SvgService {
     return this.appendDST(domainStorySvg, dst);
   }
 
-  private createAnimatedSvg(domainStorySvg: string) {
+  private createAnimatedSvg(
+    domainStorySvg: string,
+    animationSpeed: number = 2,
+  ) {
     const story: StorySentence[] =
       this.storyCreatorService.traceActivitiesAndCreateStory();
     const usedElementId: string[] = [];
     const storyLength = story.length;
     const visibleTimeInPercent = Math.floor(100 / storyLength);
-    const durationOfAnimation = storyLength * 1.5;
+    const durationOfAnimation = storyLength * animationSpeed;
     let senteceCounter = 1;
     let currentVisibleTimeInPercent = visibleTimeInPercent;
     let previouVisibleTimeInPercent = visibleTimeInPercent;

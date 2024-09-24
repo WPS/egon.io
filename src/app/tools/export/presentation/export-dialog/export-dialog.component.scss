@@ -2,9 +2,43 @@
   margin-left: 2rem;
 }
 
-.number-input {
-  margin-right: 0.5rem;
-  padding: 0.25rem 0.5rem;
+.card {
+  border: var(--borderGray10) solid 2px;
   border-radius: 0.25rem;
-  max-width: 5rem;
+  padding: 0.5rem;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.number-input {
+  max-width: 1rem;
+  text-align: center;
+  height: 1rem;
+  align-self: center;
+  border: var(--borderGray10) solid 2px;
+  border-radius: 3px;
+}
+
+.number-input:focus {
+  outline: none; /* Remove default outline */
+  border-color: var(--borderGray10); /* Change border color */
+  box-shadow: 0 0 5px var(--borderGray10); /* Optional: Add a glowing effect */
+
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  cursor: pointer;
+}
+
+.bold-2 {
+  font-weight: bold;
+}
+
+input {
+  margin: 0;
+  padding: 0;
 }
