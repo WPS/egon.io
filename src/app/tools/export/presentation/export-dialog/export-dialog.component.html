@@ -20,9 +20,9 @@
     </label>
     <div class="row">
       <input type="checkbox" [(ngModel)]="isAnimatedSvgExport" />
-      <span (click)="onExportAnimatedSvg()">Export animated SVG.</span>
+      <span (click)="onExportAnimatedSvg()">Animated SVG</span>
       @if (isAnimatedSvgExport) {
-        <span>Animation speed:</span>
+        <span> - animation speed:</span>
         <input
           class="number-input"
           [(ngModel)]="animationSpeed"
