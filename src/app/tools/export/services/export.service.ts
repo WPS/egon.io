@@ -24,6 +24,7 @@ import {
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '../../../domain/services/dialog.service';
+import { BusinessObject } from '../../../domain/entities/businessObject';
 
 @Injectable({
   providedIn: 'root',
@@ -217,7 +218,15 @@ export class ExportService implements OnDestroy {
   }
 
   private getStoryForDownload(): unknown[] {
-    const story = this.rendererService.getStory() as unknown[];
+    let story = this.rendererService
+      .getStory()
+      .sort((objA: BusinessObject, objB: BusinessObject) => {
+        if (objA.id !== undefined && objB.id !== undefined) {
+          return objA.id.localeCompare(objB.id);
+        } else {
+          return 0;
+        }
+      }) as unknown[];
     story.push({ info: this.titleService.getDescription() });
     story.push({ version: environment.version });
     return story;
