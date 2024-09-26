@@ -216,7 +216,6 @@ export class ImportDomainStoryService
           domainStory = this.fileReaderFunction(e.target.result, isSVG, isEGN);
         }
       };
-      console.log('input: ', input)
       fileReader.readAsText(input);
       this.importSuccessful();
       return domainStory;
@@ -267,6 +266,8 @@ export class ImportDomainStoryService
         // elements = isEgnFormat
         //   ? storyAndIconSet.dst
         //   : JSON.parse(storyAndIconSet.dst);
+
+        console.log(contentAsJson)
         elements = this.dstToDomainStory(contentAsJson);
       } else {
         // legacy implementation
@@ -519,7 +520,8 @@ export class ImportDomainStoryService
     return title;
   }
 
-  private dstToDomainStory(dstAsJson: string): DomainStory {
+  dstToDomainStory(dstAsJson: string): DomainStory {
+    console.log('dstAsJson')
     const domainStory: DomainStory = {
       businessObjects: [],
       version: '?',
