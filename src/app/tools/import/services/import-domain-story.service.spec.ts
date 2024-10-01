@@ -23,6 +23,7 @@ import * as dst_v_1_3_0 from './test-files/dst_export_version_1_3_0.json';
 import * as dst_v_1_4_0 from './test-files/dst_export_version_1_4_0.json';
 import * as dst_v_1_5_0 from './test-files/dst_export_version_1_5_0.json';
 import * as dst_v_2_2_0 from './test-files/dst_export_version_2_2_0.json';
+import * as domain_story from './test-files/dst_export_version_2_2_0_dev_new-domain-story.json';
 
 describe('ImportDomainStoryService', () => {
   let service: ImportDomainStoryService;
@@ -312,6 +313,18 @@ describe('ImportDomainStoryService', () => {
       expect(domainStory!.businessObjects[0].id).toBe('connection_5930');
       expect(domainStory!.description).toBe('version 2.2.0');
       expect(domainStory!.version).toBe('2.2.0');
+    });
+
+    it('dst file of domain story', () => {
+      // This import represents the import of a dst file.
+      const domainStory: DomainStory | null = service.dstToDomainStory(
+        JSON.stringify(domain_story),
+      );
+
+      expect(domainStory!.businessObjects.length).toBe(13);
+      expect(domainStory!.businessObjects[0].id).toBe('connection_5930');
+      expect(domainStory!.description).toBe('version 2.2.1-dev (implement new DomainStory model)');
+      expect(domainStory!.version).toBe('2.2.1-dev');
     });
   });
 });

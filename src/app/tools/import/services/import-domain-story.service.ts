@@ -499,22 +499,21 @@ export class ImportDomainStoryService
   }
 
   dstToDomainStory(contentAsJson: string): DomainStory {
+    const dst = JSON.parse(contentAsJson);
     const domainStory: DomainStory = {
       businessObjects: [],
       version: '?',
       description: '',
     };
 
-    const dst = JSON.parse(contentAsJson);
-
-    if (isPresent(dst.businessObjects)) {
-      domainStory.businessObjects = dst.businessObjects;
-      if (isPresent(dst.version)) {
-        domainStory.version = dst.version;
+    if (isPresent(dst.dst.businessObjects)) {
+      domainStory.businessObjects = dst.dst.businessObjects;
+      if (isPresent(dst.dst.version)) {
+        domainStory.version = dst.dst.version;
       }
 
-      if (isPresent(dst.description)) {
-        domainStory.description = dst.description;
+      if (isPresent(dst.dst.description)) {
+        domainStory.description = dst.dst.description;
       }
       return domainStory;
     } else if (!isPresent(dst.dst)) {

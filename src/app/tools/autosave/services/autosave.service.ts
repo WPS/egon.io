@@ -18,6 +18,8 @@ import {
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
+import {DomainStory} from "../../../domain/entities/domainStory";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root',
@@ -53,7 +55,7 @@ export class AutosaveService {
       this.iconSetConfigurationService.createIconSetConfiguration(
         configFromFile,
       );
-    const story = JSON.parse(draft.configAndDST.dst);
+    const story = draft.configAndDST.dst;
 
     this.titleService.updateTitleAndDescription(
       draft.title,
@@ -62,11 +64,11 @@ export class AutosaveService {
     );
 
     const actorIcons = this.iconDictionaryService.getElementsOfType(
-      story,
+      story.businessObjects,
       ElementTypes.ACTOR,
     );
     const workObjectIcons = this.iconDictionaryService.getElementsOfType(
-      story,
+      story.businessObjects,
       ElementTypes.WORKOBJECT,
     );
     this.iconDictionaryService.updateIconRegistries(
@@ -74,7 +76,7 @@ export class AutosaveService {
       workObjectIcons,
       config,
     );
-    this.rendererService.importStory(story, true, config, false);
+    this.rendererService.importStory(story.businessObjects, true, config, false);
   }
 
   removeAllDrafts() {
@@ -129,11 +131,11 @@ export class AutosaveService {
   }
 
   private isDraftEmpty(draft: Draft) {
-    const configAndDST = draft.configAndDST ?? { dst: '[]' };
+    const configAndDST = draft.configAndDST ?? { domain: '', dst: { businessObjects: [], description: '', version: '' }};
     return (
       draft.title === INITIAL_TITLE &&
       draft.description === INITIAL_DESCRIPTION &&
-      JSON.parse(configAndDST.dst).length === 0
+      configAndDST.dst.businessObjects.length === 0
     );
   }
 
@@ -154,8 +156,12 @@ export class AutosaveService {
   }
 
   private createDraft(): Draft {
-    const dst = JSON.stringify(this.rendererService.getStory(), null, 2);
-    const configAndDST = this.exportService.createConfigAndDST(dst);
+    const domainStory: DomainStory = {
+      businessObjects: this.rendererService.getStory(),
+      version: environment.version,
+      description: this.titleService.getDescription()
+    }
+    const configAndDST = this.exportService.createConfigAndDST(domainStory);
 
     const date = new Date().toString().slice(0, 25);
 

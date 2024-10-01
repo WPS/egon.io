@@ -25,6 +25,8 @@ import { ModelerService } from '../../modeler/services/modeler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { BusinessObject } from '../../../domain/entities/businessObject';
+import {DomainStory} from "../../../domain/entities/domainStory";
+import {isPresent} from "../../../utils/isPresent";
 
 @Injectable({
   providedIn: 'root',
@@ -69,10 +71,10 @@ export class ExportService implements OnDestroy {
     return this.rendererService.getStory().length >= 1;
   }
 
-  createConfigAndDST(DomainStory: any): ConfigAndDST {
+  createConfigAndDST(domainStory: DomainStory): ConfigAndDST {
     return new ConfigAndDST(
       this.configurationService.getCurrentConfigurationForExport(),
-      DomainStory,
+      domainStory,
     );
   }
 
@@ -122,10 +124,10 @@ export class ExportService implements OnDestroy {
     useWhiteBackground: boolean,
     animationSpeed: number | undefined,
   ): void {
-    const story = this.getStoryForDownload();
-    const dst = this.createConfigAndDST(story);
+    const story:DomainStory = this.getStoryForDownload();
+    const dst: ConfigAndDST = this.createConfigAndDST(story);
 
-    const svgData = this.svgService.createSVGData(
+    const svgData: string = this.svgService.createSVGData(
       this.title,
       this.description,
       dst,
@@ -217,19 +219,19 @@ export class ExportService implements OnDestroy {
       .then();
   }
 
-  private getStoryForDownload(): unknown[] {
-    let story = this.rendererService
+  private getStoryForDownload(): DomainStory {
+    let story: BusinessObject[] = this.rendererService
       .getStory()
       .sort((objA: BusinessObject, objB: BusinessObject) => {
-        if (objA.id !== undefined && objB.id !== undefined) {
+        if (isPresent(objA.id) && isPresent(objB.id)) {
           return objA.id.localeCompare(objB.id);
         } else {
           return 0;
         }
-      }) as unknown[];
-    story.push({ info: this.titleService.getDescription() });
-    story.push({ version: environment.version });
-    return story;
+      });
+
+    return { businessObjects: story, description: this.titleService.getDescription(), version: environment.version };
+
   }
 
   private getCurrentDateString(): string {
