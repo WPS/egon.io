@@ -2,6 +2,6 @@ import { BusinessObject } from './businessObject';
 
 export interface DomainStory {
   businessObjects: BusinessObject[];
-  info: string;
+  description: string;
   version: string;
 }

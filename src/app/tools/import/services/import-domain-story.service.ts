@@ -26,6 +26,7 @@ import { IconSetChangedService } from '../../icon-set-config/services/icon-set-c
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ImportDialogComponent } from '../presentation/import-dialog/import-dialog.component';
 import { DomainStory } from '../../../domain/entities/domainStory';
+import { isPresent } from '../../../utils/isPresent';
 
 @Injectable({
   providedIn: 'root',
@@ -194,7 +195,8 @@ export class ImportDomainStoryService
     this.dialogService.openDialog(ImportDialogComponent, config);
   }
 
-  import(input: Blob, filename: string): DomainStory | null { // return value is currently only used for tests
+  import(input: Blob, filename: string): DomainStory | null {
+    // return value is currently only used for tests
     const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
     const isSVG = filename.endsWith('.svg');
     let isEGN = filename.endsWith('.egn');
@@ -210,14 +212,21 @@ export class ImportDomainStoryService
       // no need to put this on the commandStack
       this.titleService.updateTitleAndDescription(titleText, null, false);
 
-      let domainStory: DomainStory | null = null
+      let domainStory: DomainStory | null = null;
       fileReader.onloadend = (e) => {
-        if (e && e.target) {
-          domainStory = this.fileReaderFunction(e.target.result, isSVG, isEGN);
+        if (isPresent(e) && isPresent(e.target)) {
+          domainStory = this.fileReaderFunction(e.target!.result, isSVG, isEGN);
+          if (
+            isPresent(domainStory) &&
+            domainStory!.businessObjects.length === 0
+          ) {
+            this.importFailed('DomainStory is empty.');
+          } else {
+            this.importSuccessful();
+          }
         }
       };
       fileReader.readAsText(input);
-      this.importSuccessful();
       return domainStory;
     } catch (error) {
       this.importFailed();
@@ -237,10 +246,6 @@ export class ImportDomainStoryService
       } else {
         contentAsJson = text;
       }
-
-      // this.dstToDomainStory(contentAsJson);
-
-      let elements: DomainStory;
       let iconSetConfig: IconSet;
       let iconSetFromFile: {
         name: string;
@@ -262,13 +267,6 @@ export class ImportDomainStoryService
           this.iconSetConfigurationService.createIconSetConfiguration(
             iconSetFromFile,
           );
-
-        // elements = isEgnFormat
-        //   ? storyAndIconSet.dst
-        //   : JSON.parse(storyAndIconSet.dst);
-
-        console.log(contentAsJson)
-        elements = this.dstToDomainStory(contentAsJson);
       } else {
         // legacy implementation
         if (storyAndIconSet.config) {
@@ -277,60 +275,37 @@ export class ImportDomainStoryService
             this.iconSetConfigurationService.createIconSetConfiguration(
               iconSetFromFile,
             );
-          // elements = JSON.parse(storyAndIconSet.dst);
-          elements = this.dstToDomainStory(contentAsJson);
         } else {
           // even older legacy implementation (prior to configurable icon set):
-          // elements = JSON.parse(contentAsJson);
-          elements = this.dstToDomainStory(contentAsJson);
           iconSetConfig =
             this.iconSetConfigurationService.createMinimalConfigurationWithDefaultIcons();
         }
       }
 
+      const domainStory: DomainStory = this.dstToDomainStory(contentAsJson);
+
       this.importRepairService.removeWhitespacesFromIcons(
-        elements.businessObjects,
+        domainStory.businessObjects,
       );
 
-      // const configChanged = this.checkConfigForChanges(iconSetConfig);
+      this.checkConfigForChanges(iconSetConfig);
 
-      if (elements.version) {
-        elements.businessObjects = this.handleVersionNumber(
-          elements.version,
-          elements.businessObjects,
+      if (domainStory.version) {
+        domainStory.businessObjects = this.handleVersionNumber(
+          domainStory.version,
+          domainStory.businessObjects,
         );
       } else {
-        elements.version = '?';
+        domainStory.version = '?';
         this.snackbar.open(`The version number is unreadable.`, undefined, {
           duration: SNACKBAR_DURATION,
           panelClass: SNACKBAR_ERROR,
         });
       }
 
-      // let lastElement = elements.businessObjects[elements.businessObjects.length - 1];
-
-      // if (!lastElement.id) {
-      //   lastElement = elements.businessObjects.pop();
-      //   let importVersionNumber = lastElement;
-      //
-      //   // if the last element has the tag 'version',
-      //   // then there exists another tag 'info' for the description
-      //   if (importVersionNumber.version) {
-      //     lastElement = elements.pop();
-      //     importVersionNumber = importVersionNumber.version as string;
-      //   } else {
-      //     importVersionNumber = '?';
-      //     this.snackbar.open(`The version number is unreadable.`, undefined, {
-      //       duration: SNACKBAR_DURATION,
-      //       panelClass: SNACKBAR_ERROR,
-      //     });
-      //   }
-      //   elements = this.handleVersionNumber(importVersionNumber, elements);
-      // }
-
       if (
         !this.importRepairService.checkForUnreferencedElementsInActivitiesAndRepair(
-          elements.businessObjects,
+          domainStory.businessObjects,
         )
       ) {
         this.showBrokenImportDialog();
@@ -338,22 +313,22 @@ export class ImportDomainStoryService
 
       this.titleService.updateTitleAndDescription(
         this.title,
-        elements.info,
+        domainStory.description,
         false,
       );
 
-      this.importRepairService.adjustPositions(elements.businessObjects);
+      this.importRepairService.adjustPositions(domainStory.businessObjects);
 
-      this.updateIconRegistries(elements.businessObjects, iconSetConfig);
+      this.updateIconRegistries(domainStory.businessObjects, iconSetConfig);
       this.rendererService.importStory(
-        elements.businessObjects,
-         false,
+        domainStory.businessObjects,
+        false,
         iconSetConfig,
       );
 
-      return elements
+      return domainStory;
     }
-    return null
+    return null;
   }
 
   private importSuccessful() {
@@ -363,9 +338,12 @@ export class ImportDomainStoryService
     });
   }
 
-  private importFailed() {
-    this.snackbar.open('Import failed', undefined, {
-      duration: SNACKBAR_DURATION,
+  private importFailed(message?: string) {
+    const errorMessage: string = isPresent(message)
+      ? 'Import failed due to: ' + message
+      : 'Import failed';
+    this.snackbar.open(errorMessage, undefined, {
+      duration: SNACKBAR_DURATION_LONGER,
       panelClass: SNACKBAR_ERROR,
     });
   }
@@ -520,32 +498,26 @@ export class ImportDomainStoryService
     return title;
   }
 
-  dstToDomainStory(dstAsJson: string): DomainStory {
-    console.log('dstAsJson')
+  dstToDomainStory(contentAsJson: string): DomainStory {
     const domainStory: DomainStory = {
       businessObjects: [],
       version: '?',
-      info: '',
+      description: '',
     };
 
-    if (dstAsJson.length === 0) {
-      this.snackbar.open(`The DomainStory is empty!.`, undefined, {
-              duration: SNACKBAR_DURATION,
-              panelClass: SNACKBAR_ERROR,
-            });
-      return domainStory;
-    }
+    const dst = JSON.parse(contentAsJson);
 
-    const dst = JSON.parse(dstAsJson);
-    if (dst.businessObjects !== undefined) {
+    if (isPresent(dst.businessObjects)) {
       domainStory.businessObjects = dst.businessObjects;
-      if (dst.version) {
+      if (isPresent(dst.version)) {
         domainStory.version = dst.version;
       }
 
-      if (dst.info) {
-        domainStory.info = dst.info;
+      if (isPresent(dst.description)) {
+        domainStory.description = dst.description;
       }
+      return domainStory;
+    } else if (!isPresent(dst.dst)) {
       return domainStory;
     } else if (!Array.isArray(dst.dst)) {
       // for older versions where the dst.dst is a string
@@ -563,14 +535,13 @@ export class ImportDomainStoryService
           domainStory.businessObjects.push(businessObject);
         }
         if (it.info !== undefined || it.hasOwnProperty('info')) {
-          domainStory.info = it.info;
+          domainStory.description = it.info;
         }
         if (it.version !== undefined || it.hasOwnProperty('version')) {
           domainStory.version = it.version;
         }
       });
     }
-
     return domainStory;
   }
 }
