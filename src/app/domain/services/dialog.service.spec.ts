@@ -1,9 +1,9 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {DialogService} from 'src/app/domain/services/dialog.service';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {MockProvider} from 'ng-mocks';
-import {of} from 'rxjs';
+import { DialogService } from 'src/app/domain/services/dialog.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MockProvider } from 'ng-mocks';
+import { of } from 'rxjs';
 
 describe('DialogService', () => {
   let service: DialogService;
@@ -32,7 +32,7 @@ describe('DialogService', () => {
 
     config.data = {
       title: 'Keyboard Shortcuts',
-      shortCuts: []
+      shortCuts: [],
     };
     service.openKeyboardShortcutsDialog();
 

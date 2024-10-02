@@ -5,7 +5,7 @@ import { MockModule, MockProvider } from 'ng-mocks';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ExportDialogData } from '../../domain/dialog/exportDialogData';
 import { MaterialModule } from 'src/app/material.module';
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from '@angular/forms';
 
 describe('ExportDialogComponent', () => {
   let component: ExportDialogComponent;

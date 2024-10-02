@@ -2,12 +2,12 @@ import { TestBed } from '@angular/core/testing';
 
 import { ExportService } from 'src/app/tools/export/services/export.service';
 import { HtmlPresentationService } from './html-presentation.service';
-import {MockModule, MockService} from 'ng-mocks';
+import { MockModule, MockService } from 'ng-mocks';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { PngService } from './png.service';
 import { SvgService } from './svg.service';
 import { RendererService } from '../../modeler/services/renderer.service';
-import {MatDialogModule} from "@angular/material/dialog";
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('ExportService', () => {
   let service: ExportService;

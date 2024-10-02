@@ -1,6 +1,6 @@
 export interface ShortCut {
-  description: string,
-  shortCut: string
+  description: string;
+  shortCut: string;
 }
 
 export interface ShortcutDialogData {
