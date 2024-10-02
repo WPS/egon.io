@@ -220,6 +220,7 @@ export class ImportDomainStoryService
             isPresent(domainStory) &&
             domainStory!.businessObjects.length === 0
           ) {
+            // show import failure if the domain story is empty
             this.importFailed('DomainStory is empty.');
           } else {
             this.importSuccessful();

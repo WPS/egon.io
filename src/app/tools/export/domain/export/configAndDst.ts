@@ -1,7 +1,7 @@
 import {DomainStory} from "../../../../domain/entities/domainStory";
 
 export class ConfigAndDST {
-  domain: any;
+  domain: any; // TODO dh: sollte auch kein any mehr sein
   dst: DomainStory;
 
   constructor(domain: any, dst: DomainStory) {
