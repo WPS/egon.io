@@ -79,11 +79,18 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.showDescription$ = new BehaviorSubject(true);
 
     document.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === 's') {
+      if (e.ctrlKey && e.key === 's' && !e.altKey) {
         e.preventDefault();
         e.stopPropagation();
         if (this.exportService.isDomainStoryExportable()) {
           this.exportService.downloadDST();
+        }
+      }
+      if (e.ctrlKey && e.altKey && e.key === 's') {
+        e.preventDefault();
+        e.stopPropagation();
+        if (this.exportService.isDomainStoryExportable()) {
+          this.exportService.downloadSVG(true, true, undefined);
         }
       }
       if (e.ctrlKey && e.key === 'l') {
