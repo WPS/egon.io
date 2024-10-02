@@ -323,7 +323,9 @@ describe('ImportDomainStoryService', () => {
 
       expect(domainStory!.businessObjects.length).toBe(13);
       expect(domainStory!.businessObjects[0].id).toBe('connection_5930');
-      expect(domainStory!.description).toBe('version 2.2.1-dev (implement new DomainStory model)');
+      expect(domainStory!.description).toBe(
+        'version 2.2.1-dev (implement new DomainStory model)',
+      );
       expect(domainStory!.version).toBe('2.2.1-dev');
     });
   });

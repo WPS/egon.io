@@ -18,8 +18,8 @@ import {
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
-import {DomainStory} from "../../../domain/entities/domainStory";
-import {environment} from "../../../../environments/environment";
+import { DomainStory } from '../../../domain/entities/domainStory';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -76,7 +76,12 @@ export class AutosaveService {
       workObjectIcons,
       config,
     );
-    this.rendererService.importStory(story.businessObjects, true, config, false);
+    this.rendererService.importStory(
+      story.businessObjects,
+      true,
+      config,
+      false,
+    );
   }
 
   removeAllDrafts() {
@@ -131,7 +136,10 @@ export class AutosaveService {
   }
 
   private isDraftEmpty(draft: Draft) {
-    const configAndDST = draft.configAndDST ?? { domain: '', dst: { businessObjects: [], description: '', version: '' }};
+    const configAndDST = draft.configAndDST ?? {
+      domain: '',
+      dst: { businessObjects: [], description: '', version: '' },
+    };
     return (
       draft.title === INITIAL_TITLE &&
       draft.description === INITIAL_DESCRIPTION &&
@@ -159,8 +167,8 @@ export class AutosaveService {
     const domainStory: DomainStory = {
       businessObjects: this.rendererService.getStory(),
       version: environment.version,
-      description: this.titleService.getDescription()
-    }
+      description: this.titleService.getDescription(),
+    };
     const configAndDST = this.exportService.createConfigAndDST(domainStory);
 
     const date = new Date().toString().slice(0, 25);

@@ -25,8 +25,8 @@ import { ModelerService } from '../../modeler/services/modeler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { BusinessObject } from '../../../domain/entities/businessObject';
-import {DomainStory} from "../../../domain/entities/domainStory";
-import {isPresent} from "../../../utils/isPresent";
+import { DomainStory } from '../../../domain/entities/domainStory';
+import { isPresent } from '../../../utils/isPresent';
 
 @Injectable({
   providedIn: 'root',
@@ -124,7 +124,7 @@ export class ExportService implements OnDestroy {
     useWhiteBackground: boolean,
     animationSpeed: number | undefined,
   ): void {
-    const story:DomainStory = this.getStoryForDownload();
+    const story: DomainStory = this.getStoryForDownload();
     const dst: ConfigAndDST = this.createConfigAndDST(story);
 
     const svgData: string = this.svgService.createSVGData(
@@ -230,8 +230,11 @@ export class ExportService implements OnDestroy {
         }
       });
 
-    return { businessObjects: story, description: this.titleService.getDescription(), version: environment.version };
-
+    return {
+      businessObjects: story,
+      description: this.titleService.getDescription(),
+      version: environment.version,
+    };
   }
 
   private getCurrentDateString(): string {

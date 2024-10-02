@@ -1,4 +1,4 @@
-import {DomainStory} from "../../../../domain/entities/domainStory";
+import { DomainStory } from '../../../../domain/entities/domainStory';
 
 export class ConfigAndDST {
   domain: any; // TODO dh: sollte auch kein any mehr sein
@@ -37,53 +37,54 @@ export const testConfigAndDst: ConfigAndDST = {
       '</svg>"}}',
   ),
   dst: {
-    businessObjects: [{
-      "type": "domainStory:workObjectDocument",
-      "name": "",
-      "id": "shape_3792",
-      "$type": "Element",
-      "di": {},
-      "$descriptor": {},
-      "pickedColor": "black",
-      "x": 302,
-      "y": 102,
-      get: undefined,
-      set: undefined,
-      height: undefined,
-      width: undefined
-    },
+    businessObjects: [
       {
-        "type": "domainStory:actorPerson",
-        "name": "",
-        "id": "shape_4666",
-        "$type": "Element",
-        "di": {},
-        "$descriptor": {},
-        "pickedColor": "black",
-        "x": 103,
-        "y": 93,
+        type: 'domainStory:workObjectDocument',
+        name: '',
+        id: 'shape_3792',
+        $type: 'Element',
+        di: {},
+        $descriptor: {},
+        pickedColor: 'black',
+        x: 302,
+        y: 102,
         get: undefined,
         set: undefined,
         height: undefined,
-        width: undefined
+        width: undefined,
       },
       {
-        "type": "domainStory:activity",
-        "name": "",
-        "id": "connection_4884",
-        "$type": "Element",
-        "di": {},
-        "$descriptor": {},
-        "pickedColor": "black",
+        type: 'domainStory:actorPerson',
+        name: '',
+        id: 'shape_4666',
+        $type: 'Element',
+        di: {},
+        $descriptor: {},
+        pickedColor: 'black',
+        x: 103,
+        y: 93,
+        get: undefined,
+        set: undefined,
+        height: undefined,
+        width: undefined,
+      },
+      {
+        type: 'domainStory:activity',
+        name: '',
+        id: 'connection_4884',
+        $type: 'Element',
+        di: {},
+        $descriptor: {},
+        pickedColor: 'black',
         get: undefined,
         set: undefined,
         x: 0,
         y: 0,
         height: undefined,
-        width: undefined
-      }
+        width: undefined,
+      },
     ],
     description: 'new domain story',
-    version: '2.2.1'
-  }
+    version: '2.2.1',
+  },
 };
