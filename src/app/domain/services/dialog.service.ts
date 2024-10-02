@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/overlay';
 import { InfoDialogData } from '../entities/infoDialogData';
 import { KeyboardShortcutsDialogComponent } from "../presentation/keyboard-shortcuts-dialog/keyboard-shortcuts/keyboard-shortcuts-dialog.component";
-import {ShortcutDialogData, ShortCutText} from "../entities/shortcut-dialog-data";
+import {ShortcutDialogData, ShortCut} from "../entities/shortcut-dialog-data";
 
 
 
@@ -18,7 +18,7 @@ export class DialogService {
   }
 
   openKeyboardShortcutsDialog(): void {
-    const shortCuts: ShortCutText[] = [];
+    const shortCuts: ShortCut[] = [];
     shortCuts.push({description: 'Undo', shortCut: 'ctrl + Z'})
     shortCuts.push({description: 'Redo', shortCut: 'ctrl + Y    OR   ctrl + shift + Z'})
     shortCuts.push({description: 'Select All', shortCut: 'ctrl + A'})

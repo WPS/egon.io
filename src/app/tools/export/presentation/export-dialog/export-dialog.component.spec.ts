@@ -5,6 +5,7 @@ import { MockModule, MockProvider } from 'ng-mocks';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ExportDialogData } from '../../domain/dialog/exportDialogData';
 import { MaterialModule } from 'src/app/material.module';
+import {FormsModule} from "@angular/forms";
 
 describe('ExportDialogComponent', () => {
   let component: ExportDialogComponent;
@@ -22,7 +23,7 @@ describe('ExportDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule(MaterialModule)],
+      imports: [MockModule(MaterialModule), MockModule(FormsModule)],
       declarations: [ExportDialogComponent],
       providers: [
         MockProvider(MatDialogRef),

@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ShortcutDialogData, ShortCutText} from "../../../entities/shortcut-dialog-data";
+import {ShortcutDialogData, ShortCut} from "../../../entities/shortcut-dialog-data";
 
 @Component({
   selector: 'app-keyboard-shortcuts-dialog',
@@ -9,10 +9,9 @@ import {ShortcutDialogData, ShortCutText} from "../../../entities/shortcut-dialo
 })
 export class KeyboardShortcutsDialogComponent {
   title: string;
-  shortCuts: ShortCutText[] = [];
+  shortCuts: ShortCut[] = [];
 
   constructor(
-    private dialogRef: MatDialogRef<KeyboardShortcutsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: ShortcutDialogData,
   ) {
     this.title = data.title;
