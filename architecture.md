@@ -24,7 +24,7 @@ Top quality goals are:
 
 | Constraint                | Reason                                              |
 |---------------------------|-----------------------------------------------------|
-| runs in browser           | users do not need to install anything on their machine; deploy new versions easily |
+| runs in browser           | users do not need to install anything on their machine; developers can deploy new versions easily |
 | distributed under liberal open source license | increases adoption by providing Egon free of charge (even for "commercial" use), without risk of vendor lock-in; while Egon is open source, the domain stories created with Egon do *not* fall under an open source license |
 | no registration or log-in required | increases adoption; ease of use; avoids security problems; lowers maintenance effort |
 | no centralized storage | avoids security problems; lowers maintenance effort |
@@ -81,17 +81,17 @@ Domain Storytelling is a modeling language and we wanted to build a proper model
 
 ## Decision: Using bpmn-js as Modeling Framework
 
-[bpmn-js](https://github.com/bpmn-io/bpmn-js) checked all the boxes. It is a JavaScript modeling library for the BPMN language. For version 1.x.x. of Egon, we replaced BPMN with the Domain Storytelling modeling language and stayed technologically rather close to bpmn-js: JavaScript as programming language, tools for building and testing, etc.
+[bpmn-js](https://github.com/bpmn-io/bpmn-js) checked all the boxes. It is a JavaScript modeling library for the BPMN language. For version 1.x.x. of Egon, we replaced BPMN with the Domain Storytelling modeling language and stayed close to the tech stack used by bpmn-js: JavaScript as programming language, tools for building and testing, etc.
 
-However, the decision for using bpmn-js had tradeoffs: For some features, Egon developers had to dive deep into the inner workings of bpmn-js and change the frameworks behavior or needed to find workarounds. At the same time, bpmn-js offer a lot of features that are not relevant for Domain Storytelling.
+However, the decision for using bpmn-js had tradeoffs: For some features, Egon developers had to dive deep into the inner workings of bpmn-js and work around the framework's behavior. At the same time, bpmn-js offers a lot of features that are not relevant for Domain Storytelling.
 
-> The decision for using bpmn-js was revisited several times, but until now, we are not aware of an alternative modeling framework.
+> The decision for using bpmn-js was revisited several times, but until now, we are not aware of an alternative modeling framework that fulfilles the [architectural constraints](#section-architecture-constraints).
 
 ## Decision: Separation Between Egon and bpmn-js
 
-After a few years of development, we had developed a number of features that had little to no connection to the bpmn-js framework. However, the architecture made it difficult to distinguish...
+After a few years of development, we had built features that had little to no connection to the bpmn-js framework. However, the architecture made it difficult to distinguish...
 - code that deals with core modeling activities and requires knowledge of bpmn-js
-- and code that is rather independent of bpmn-js
+- and code that is independent of bpmn-js
 
 We wanted to flatten the learning curve for new developers by better separating Egon and bpmn-js. This went hand in hand with migration to a different tech stack (Typescript and Angular, see below) that helped us to better express the intended architecture.
 
