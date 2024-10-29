@@ -79,7 +79,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.showDescription$ = new BehaviorSubject(true);
 
     document.addEventListener('keydown', (e: KeyboardEvent) => {
-      const modifierPressed = e.ctrlKey || e.metaKey
+      const modifierPressed = e.ctrlKey || e.metaKey;
       if (modifierPressed && e.key === 's' && !e.altKey) {
         e.preventDefault();
         e.stopPropagation();
@@ -88,7 +88,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
       }
 
-if (modifierPressed && e.altKey && e.key === 's') {
+      if (modifierPressed && e.altKey && e.key === 's') {
         e.preventDefault();
         e.stopPropagation();
         if (this.exportService.isDomainStoryExportable()) {
