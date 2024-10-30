@@ -365,9 +365,20 @@ Since Egon runs completely in the browser, we must use local means to persist al
 
 Alternatively, cookies could be used (and in fact were used in earlier Egon versions). Unlike cookies, the storage limit is far larger (at least 5MB).
 
-## TODO
-- 1 model = 1 Domain Story = 1 File
-- files are self-contained: they include the icon set (including custom icons); makes it easier to share domain stories with users
+## Decision: 1 Domain Story = 1 Self-contained File
+
+Since Egon does not use centralized storage (see [architectural constraints](#section-architecture-constraints), users need to export their Domain Stories to their local file system as files. 
+
+The most simple way of doing that is to put one domain story into one file and make it self-contained, i.E. include the SVG of the icon set (including custom icons). This makes it easy to share domain stories with other users.
+
+Alternatively a one-to-many relationship (one file containing several Domain Stories) would enable references between Domain Stories. However, this would likely make it necessary to build more features for the export and import tools (e.g., export all stories or just specific ones).
+
+**Decision:** We choose simplicity over advanced functionality and persist each domain story as one self-contained file.
+
+
+## TODO: More decisions
+- JSON as file format
+- no separation of model and diagram
 - Angular-specific patterns
 
 # Quality Requirements {#section-quality-scenarios}
