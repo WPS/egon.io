@@ -3,19 +3,11 @@ span {
   color: white;
 }
 
-#dictionaryButton {
-  opacity: 0.2;
-  pointer-events: none;
+.button-label {
+  color: white;
 }
 
-.headerButton:hover {
-  cursor: pointer;
-
-  span {
-    color: white;
-  }
-}
-
+.disabled .button-label,
 .disabled span,
 .disabled:hover span {
   cursor: initial;
