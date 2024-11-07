@@ -38,8 +38,13 @@
         />
       </div>
       <div class="buttons">
-        <button mat-button title="Upload Icon" (click)="startIconUpload()">
-          <span class="material-icons-outlined materialIconButton">upload</span>
+        <button
+          mat-stroked-button
+          class="mr-1"
+          title="Upload Icon"
+          (click)="startIconUpload()"
+        >
+          <span>Upload Icon</span>
           <input
             type="file"
             multiple
@@ -52,33 +57,36 @@
           />
         </button>
         <button
-          mat-button
-          class="button"
+          mat-stroked-button
+          class="mr-1"
           title="Reset to default icon set"
           (click)="loadMinimalIconConfigurationWithDefaultIcons()"
         >
-          <span class="material-icons-outlined materialIconButton"> home </span>
+          <span>Reset to Default</span>
         </button>
         <button
-          mat-button
-          title="Cancel changes"
+          mat-stroked-button
+          class="mr-1"
+          title="Cancel Changes"
           (click)="loadInitialConfiguration()"
         >
-          <span class="material-icons-outlined materialIconButton">close</span>
+          <span>Cancel Changes</span>
         </button>
-        <div class="divider"></div>
-        <button mat-button title="Save icon set" (click)="saveIconSet()">
-          <span class="material-icons-outlined materialIconButton">save</span>
-        </button>
-        <div class="divider"></div>
         <button
-          mat-button
-          title="Import icon set"
+          mat-stroked-button
+          class="mr-1"
+          title="Save changes"
+          (click)="saveIconSet()"
+        >
+          <span>Save changes</span>
+        </button>
+        <button
+          mat-stroked-button
+          class="mr-1"
+          title="Import Icon Set"
           (click)="startIconSetImport()"
         >
-          <span class="material-icons-outlined materialIconButton"
-            >unarchive</span
-          >
+          <span>Import Icon Set</span>
           <input
             type="file"
             accept=".domain, .iconset"
@@ -89,10 +97,13 @@
             (change)="importIconSet()"
           />
         </button>
-        <button mat-button title="Export icon set" (click)="exportIconSet()">
-          <span class="material-icons-outlined materialIconButton"
-            >archive</span
-          >
+        <button
+          mat-stroked-button
+          class="mr-1"
+          title="Export Icon Set"
+          (click)="exportIconSet()"
+        >
+          <span>Export Icon Set</span>
         </button>
       </div>
     </div>

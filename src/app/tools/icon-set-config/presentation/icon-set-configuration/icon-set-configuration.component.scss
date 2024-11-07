@@ -7,7 +7,7 @@
   display: grid;
   grid-template-columns: max-content auto;
   height: 46px;
-  border-bottom: #ccc 2px solid;
+  background-color: #e4eff3;
 }
 
 .searchbar {
@@ -18,7 +18,6 @@
   align-items: center;
   justify-self: left;
   height: inherit;
-  border-right: #ccc 2px solid;
 }
 
 .buttons {
@@ -33,31 +32,16 @@
   }
 }
 
-.divider {
-  border-left: #ccc 2px solid;
-  height: inherit;
-}
-
-.button {
-  width: 36px;
-}
-
-.mat-button {
-  color: #666666;
+.activeNone {
+  background-color: #e0e0e0;
 }
 
 .activeActor {
-  background-color: #42aebb;
-  color: white;
-}
-
-.activeNone {
-  background-color: #e0e0e0;
-  color: black;
+  background-color: #b3d8e0;
 }
 
 .activeWorkObject {
-  background-color: #42aebb;
+  background-color: #3eafbf;
   color: white;
 }
 
