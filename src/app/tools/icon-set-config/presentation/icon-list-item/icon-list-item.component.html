@@ -4,7 +4,7 @@
     <div class="name">{{ name }}</div>
   </div>
   <div class="footer">
-    <mat-button-toggle-group>
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true">
       <mat-button-toggle
         (change)="toggleNone()"
         [value]="isNone"
@@ -26,7 +26,7 @@
         [value]="isWorkobject"
         [checked]="isWorkobject"
       >
-        <span class="toggleButtonTitle">Workobject</span>
+        <span class="toggleButtonTitle">Work Object</span>
       </mat-button-toggle>
     </mat-button-toggle-group>
   </div>
