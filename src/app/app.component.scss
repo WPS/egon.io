@@ -38,10 +38,17 @@
   bottom: 0;
   right: 100px;
   align-items: flex-end;
+  background-color: rgb(250, 250, 250);
+  margin-bottom: 7px;
+  border-width: 0.1em;
+  border-style: solid;
+  border-color: lightgrey;
 
   span {
-    margin-left: 16px;
-    margin-bottom: 14px;
+    margin-left: 7px;
+    margin-right: 7px;
+    margin-top: 7px;
+    margin-bottom: 7px;
     align-items: center;
   }
 }
