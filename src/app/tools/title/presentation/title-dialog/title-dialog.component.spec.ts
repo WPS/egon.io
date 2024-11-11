@@ -60,7 +60,7 @@ describe('HeaderDialogComponent', () => {
   });
 
   it('should initialize component with correct form', () => {
-    expect(component.form.getRawValue().title).toBe('< title >');
+    expect(component.form.getRawValue().title).toBe('<title>');
     expect(component.form.getRawValue().description).toBe('');
     expect(component.form.dirty).toBe(false);
   });
