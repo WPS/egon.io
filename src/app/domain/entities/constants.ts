@@ -1,5 +1,5 @@
 /** DEFAULT VALUES **/
-export const INITIAL_TITLE = '< title >';
+export const INITIAL_TITLE = '<title>';
 export const INITIAL_DESCRIPTION = '';
 export const INITIAL_ICON_SET_NAME = 'default';
 
