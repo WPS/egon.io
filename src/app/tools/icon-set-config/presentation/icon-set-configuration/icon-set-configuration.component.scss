@@ -7,7 +7,7 @@
   display: grid;
   grid-template-columns: max-content auto;
   height: 46px;
-  background-color: #e4eff3;
+  background-color: #f7f7f8;
 }
 
 .searchbar {
@@ -34,21 +34,21 @@ button {
 }
 
 .activeNone {
-  background-color: #e0e0e0;
+  background-color: #b9bcc6;
 }
 
 .activeActor {
-  background-color: #b3d8e0;
+  background-color: #a4d7e1;
 }
 
 .activeWorkObject {
-  background-color: #3eafbf;
+  background-color: #46aebd;
   color: white;
 }
 
 .textInput {
   width: 130px;
-  border: #666666 1px solid;
+  border: #b9bcc6 1px solid;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
 }
