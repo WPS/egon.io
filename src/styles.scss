@@ -140,7 +140,7 @@ mat-dialog-actions.mdc-dialog__actions {
     --mdc-snackbar-supporting-text-color: #fff;
   }
   &.snackbar_info {
-    --mdc-snackbar-container-color: #42aebb;
+    --mdc-snackbar-container-color: #46aebd;
     --mat-mdc-snack-bar-button-color: black;
     --mat-snack-bar-button-color: #000000;
     --mdc-snackbar-supporting-text-color: #fff;
@@ -155,13 +155,13 @@ mat-dialog-actions.mdc-dialog__actions {
 }
 
 .djs-context-pad.open {
-  border: solid 1px #80808054;
+  border: solid 1px #b9bcc6;
 }
 
 .djs-context-pad.open > .group {
-  border: solid 1px #80808054;
+  border: solid 1px #b9bcc6;
   padding: 1px;
-  background-color: white;
+  background-color: #f7f7f8;
 }
 
 /**
@@ -186,7 +186,7 @@ mat-dialog-actions.mdc-dialog__actions {
   padding-top: 0;
 
   border: none;
-  border-bottom: solid 1px #ddd;
+  border-bottom: solid 1px #b9bcc6;
 
   clear: both;
 }
@@ -226,11 +226,11 @@ mat-dialog-actions.mdc-dialog__actions {
 }
 
 .djs-palette .entry:hover {
-  fill: #42aebb;
+  fill: #46aebd;
 }
 
 .djs-palette .highlighted-entry {
-  color: #42aebb !important;
+  color: #46aebd !important;
 }
 
 .djs-palette .entry,
@@ -278,17 +278,12 @@ mat-dialog-actions.mdc-dialog__actions {
   stroke-dasharray: 3, 3;
 }
 
-.djs-element.selected .djs-outline {
-  stroke: #8888ff;
-  stroke-width: 1px;
-}
-
 .djs-element.hover .djs-outline {
-  stroke: #42aebb;
+  stroke: #46aebd;
 }
 
 .djs-element.attach-ok .djs-visual > :nth-child(1) {
-  stroke: #42aebb !important;
+  stroke: #46aebd !important;
 }
 
 /**
@@ -296,14 +291,14 @@ mat-dialog-actions.mdc-dialog__actions {
 *
 */
 .djs-lasso-overlay {
-  stroke: #42aebb;
+  stroke: #46aebd;
 }
 
 /**
  * Resize styles
  */
 .djs-resize-overlay {
-  stroke: #42aebb;
+  stroke: #46aebd;
 }
 
 /**
@@ -316,33 +311,33 @@ mat-dialog-actions.mdc-dialog__actions {
 .djs-dragger .djs-visual rect,
 .djs-dragger .djs-visual text {
   fill: none !important;
-  stroke: #42aebb !important;
+  stroke: #46aebd !important;
 }
 
 /**
  * snapping
  */
 .djs-snap-line {
-  stroke: #42aebb;
-  stroke: rgba(255, 195, 66, 0.5);
+  stroke: #46aebd;
+  stroke: #f6e4c3;
 }
 
 .djs-palette .entry:hover {
-  color: #42aebb;
+  color: #46aebd;
 }
 
 .djs-palette .highlighted-entry {
-  color: #42aebb !important;
+  color: #46aebd !important;
 }
 
 .djs-context-pad .entry:hover {
-  background: #42aebb;
+  background: #46aebd;
 }
 
 .djs-popup .djs-popup-header .entry.active {
-  color: #42aebb;
-  border: solid 1px #42aebb;
-  background-color: #f6f6f6;
+  color: #46aebd;
+  border: solid 1px #46aebd;
+  background-color: #f7f7f8;
 }
 
 .djs-popup-body .entry {
@@ -353,48 +348,27 @@ mat-dialog-actions.mdc-dialog__actions {
 .djs-segment-dragger.djs-dragging .djs-visual,
 .djs-bendpoint:hover .djs-visual,
 .djs-bendpoint.floating .djs-visual {
-  fill: #42aebb;
+  fill: #46aebd;
   stroke-opacity: 0.5;
   stroke: black;
 }
 
 .djs-segment-dragger.djs-dragging .djs-visual,
 .djs-bendpoint.djs-dragging .djs-visual {
-  fill: #42aebb;
+  fill: #46aebd;
 }
 
 .djs-tooltip-error > * {
-  color: #42aebb;
-  border-left: solid 5px #42aebb;
-}
-
-.djs-search-input input:focus {
-  outline: none;
-  border-color: #52b415;
-}
-
-.djs-search-result:hover {
-  background: #fdffd6;
-}
-
-.djs-search-result-selected {
-  background: #42aebb;
-}
-
-.djs-search-result-selected:hover {
-  background: #42aebb;
-}
-
-.djs-search-overlay {
-  background: #42aebb;
+  color: #46aebd;
+  border-left: solid 5px #46aebd;
 }
 
 .autocomplete-items {
-  border: 1px solid #a9a9a9;
-  background-color: #f0f0f0;
+  border: 1px solid #b9bcc6;
+  background-color: #f7f7f8;
 }
 
 .autocomplete-active {
-  background-color: DodgerBlue !important;
+  background-color: #46aebd !important;
   color: #ffffff;
 }
