@@ -1,19 +1,6 @@
-span {
-  font-size: 15pt;
-  color: white;
-}
-
-.button-label {
-  color: white;
-}
-
 .disabled .button-label,
 .disabled span,
 .disabled:hover span {
   cursor: initial;
   color: gray;
-}
-
-.materialIconButton:hover {
-  color: lightgrey;
 }

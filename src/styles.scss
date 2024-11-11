@@ -79,6 +79,7 @@ body {
 .headerButton {
   background-color: transparent;
   border: none;
+  letter-spacing: 0.05em;
 }
 
 .spacer {
@@ -100,8 +101,8 @@ body {
   margin-top: 9px;
 }
 
-.toolbar {
-  height: 65px;
+.materialIconButton:hover {
+  color: grey;
 }
 
 app-root {

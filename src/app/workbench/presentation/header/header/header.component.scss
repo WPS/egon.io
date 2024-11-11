@@ -1,5 +1,6 @@
 .firstRow {
   min-height: 4rem;
+  background-color: #a4d7e1;
 }
 
 .description {
@@ -22,10 +23,6 @@
   line-height: 12pt;
 }
 
-.descriptionButton {
-  margin-bottom: 4px;
-}
-
 .description:hover {
   cursor: default;
 }
@@ -38,20 +35,8 @@
   margin-right: 15px;
 }
 
-.headline:hover > .editIcon {
-  display: contents;
-}
-
 .headline > .editIcon {
   display: none;
-}
-
-.headerButton {
-  color: white;
-}
-
-.headerButton:hover {
-  cursor: pointer;
 }
 
 .nowrap {
