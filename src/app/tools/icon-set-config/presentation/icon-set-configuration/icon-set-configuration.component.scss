@@ -1,6 +1,6 @@
 .content {
   display: grid;
-  grid-template-columns: auto 250px;
+  grid-template-columns: auto 150px;
 }
 
 .header {
@@ -20,16 +20,17 @@
   height: inherit;
 }
 
+button {
+  letter-spacing: 0.05em;
+  line-height: 0.9rem;
+}
+
 .buttons {
   display: inline-flex;
   align-self: center;
   align-items: center;
   justify-self: right;
   height: inherit;
-
-  ::ng-deep.mat-button {
-    min-width: 36px;
-  }
 }
 
 .activeNone {
@@ -46,9 +47,7 @@
 }
 
 .textInput {
-  width: 300px;
-  margin-left: 15px;
-  margin-right: 5px;
+  width: 130px;
   border: #666666 1px solid;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
@@ -68,10 +67,6 @@
   :nth-last-child(1) {
     margin-bottom: 1rem;
   }
-}
-
-.iconSetDetails {
-  width: 250px;
 }
 
 ::ng-deep.mat-grid-tile {
