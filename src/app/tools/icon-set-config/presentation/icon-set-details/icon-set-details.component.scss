@@ -6,7 +6,7 @@
   overflow-y: auto;
   overflow-x: auto;
 
-  border-left: solid 1px #ccc;
+  border-left: solid 1px #b9bcc6;
 }
 
 .iconSetDetails {
@@ -23,6 +23,10 @@
 
 .compactItem {
   height: 40px !important;
+}
+
+.compactItem:hover {
+  cursor: pointer;
 }
 
 .fullWidth {
@@ -53,5 +57,5 @@ mat-list {
 }
 
 .bottom-border {
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid #b9bcc6;
 }
