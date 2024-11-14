@@ -1,3 +1,17 @@
+.header {
+  background-color: #f7f7f8;
+  margin: 8px;
+}
+
+.content {
+  margin: 8px;
+  padding: 8px;
+}
+
+.heading {
+  font-weight: bold;
+}
+
 .option {
   margin: 8px;
 }
@@ -12,11 +26,6 @@
   margin-left: 4px;
   width: 56px;
   height: inherit;
-}
-
-mat-card {
-  margin: 8px;
-  background-color: #f7f7f8;
 }
 
 button {

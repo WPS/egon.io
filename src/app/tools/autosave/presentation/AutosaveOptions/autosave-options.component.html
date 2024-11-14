@@ -1,15 +1,13 @@
 @if (autosaveConfiguration.configuration$ | async; as configuration) {
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Autosave Options</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
+  <div class="header">
+    <div class="content">
+      <div class="heading">Autosave Options</div>
       <div class="option">
         <input #activated type="checkbox" [checked]="configuration.activated" />
-        <mat-label>Enabled</mat-label>
+        Enabled
       </div>
       <div class="grid option">
-        <mat-label>Save every x seconds</mat-label>
+        Save every x seconds
         <input
           #interval
           class="numberInput"
@@ -17,7 +15,7 @@
           type="number"
           [value]="configuration.interval"
         />
-        <mat-label>Keep last x drafts</mat-label>
+        Keep last x drafts
         <input
           #drafts
           class="numberInput"
@@ -35,6 +33,6 @@
           Apply
         </button>
       </div>
-    </mat-card-content>
-  </mat-card>
+    </div>
+  </div>
 }
