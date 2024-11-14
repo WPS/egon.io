@@ -1,6 +1,6 @@
 .content {
   display: grid;
-  grid-template-columns: auto 150px;
+  grid-template-columns: auto max-content;
 }
 
 .header {

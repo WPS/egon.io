@@ -2,14 +2,18 @@
   display: flex;
   flex-direction: column;
   height: calc(100vh - 46px - 20px);
-  grid-row-gap: 1px;
+  grid-row-gap: 4px;
   overflow-y: auto;
   overflow-x: auto;
-
-  border-left: solid 1px #b9bcc6;
+  background-color: #f7f7f8;
+  margin-top: 8px;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .iconSetDetails {
+  padding-left: 8px;
+  padding-right: 8px;
   ::ng-deep.mat-mdc-form-field-infix {
     border: none;
     padding-bottom: 0 !important;
@@ -31,7 +35,7 @@
 
 .fullWidth {
   width: 100%;
-  padding-left: 15px;
+  padding-left: 12px;
 }
 
 .alignment {
@@ -43,19 +47,15 @@
 }
 
 .inputWidth {
-  margin-left: 15px;
+  margin-left: 12px;
 }
 
 h3 {
-  padding-left: 15px;
+  padding-left: 12px;
   margin-bottom: 0;
   font-weight: bold;
 }
 
 mat-list {
   padding-top: 0;
-}
-
-.bottom-border {
-  border-bottom: 2px solid #b9bcc6;
 }
