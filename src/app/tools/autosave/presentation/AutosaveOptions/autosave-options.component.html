@@ -3,13 +3,13 @@
     <mat-card-header>
       <mat-card-title>Autosave Options</mat-card-title>
     </mat-card-header>
-    <mat-card-content class="cardContent">
-      <div class="alignSelfCenter">
+    <mat-card-content>
+      <div class="option">
         <input #activated type="checkbox" [checked]="configuration.activated" />
         <mat-label>Enabled</mat-label>
       </div>
-      <div class="inputContainer">
-        <mat-label>Interval [sec]</mat-label>
+      <div class="grid option">
+        <mat-label>Save every x seconds</mat-label>
         <input
           #interval
           class="numberInput"
@@ -17,9 +17,7 @@
           type="number"
           [value]="configuration.interval"
         />
-      </div>
-      <div class="inputContainer">
-        <mat-label>Max. Drafts</mat-label>
+        <mat-label>Keep last x drafts</mat-label>
         <input
           #drafts
           class="numberInput"
@@ -28,13 +26,15 @@
           [value]="configuration.maxDrafts"
         />
       </div>
-      <button
-        class="saveButton"
-        mat-raised-button
-        (click)="save(activated.checked, +drafts.value, +interval.value)"
-      >
-        Apply
-      </button>
+      <div class="grid option">
+        <span class="spacer"></span>
+        <button
+          mat-stroked-button
+          (click)="save(activated.checked, +drafts.value, +interval.value)"
+        >
+          Apply
+        </button>
+      </div>
     </mat-card-content>
   </mat-card>
 }

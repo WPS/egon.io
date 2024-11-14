@@ -1,42 +1,34 @@
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>History</mat-panel-title>
-      <mat-panel-description>
-        {{ drafts.length ? drafts.length : "no" }}
-        {{ drafts.length > 1 ? "drafts" : "draft" }} available
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    @if (drafts.length) {
-      <div class="items">
-        @for (draft of drafts; track draft) {
-          <div class="item border-bottom">
-            <div>
-              <div class="item-title">{{ draft.title }}</div>
-              <div class="item-date">{{ draft.date }}</div>
-            </div>
-            <button
-              class="item-button"
-              mat-raised-button
-              (click)="loadDraft(draft)"
-            >
-              Load Draft
-            </button>
-          </div>
-        }
-        <div class="item">
-          <div></div>
-          <button
-            class="item-button"
-            mat-raised-button
-            (click)="removeAllDrafts()"
-          >
-            Remove All Drafts
+<div class="header">
+  <div class="history">
+    {{ drafts.length ? drafts.length : "no" }}
+    {{ drafts.length > 1 ? "drafts" : "draft" }} saved
+  </div>
+  <span class="spacer"></span>
+  <div class="buttons">
+    <button
+      mat-stroked-button
+      class="mr-1"
+      [disabled]="!drafts.length"
+      (click)="removeAllDrafts()"
+    >
+      Remove all drafts
+    </button>
+  </div>
+</div>
+@if (drafts.length) {
+  <mat-list>
+    @for (draft of drafts; track draft) {
+      <mat-list-item>
+        <div class="draft">
+          <div class="item-title">{{ draft.title }}</div>
+          <div class="item-date">{{ draft.date }}</div>
+          <button mat-stroked-button (click)="loadDraft(draft)">
+            Load draft
           </button>
         </div>
-      </div>
-    } @else {
-      No drafts found.
+      </mat-list-item>
     }
-  </mat-expansion-panel>
-</mat-accordion>
+  </mat-list>
+} @else {
+  No drafts found.
+}
