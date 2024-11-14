@@ -125,25 +125,20 @@ mat-dialog-actions.mdc-dialog__actions {
 
 .mat-mdc-snack-bar-container {
   &.snackbar_success {
-    --mdc-snackbar-container-color: darkgreen;
-    --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-  }
-  &.snackbar_warning {
-    --mdc-snackbar-container-color: darkorange;
+    --mdc-snackbar-container-color: #a4d7e1;
     --mat-mdc-snack-bar-button-color: black;
-    --mdc-snackbar-supporting-text-color: #fff;
+    --mdc-snackbar-supporting-text-color: #black;
   }
   &.snackbar_error {
-    --mdc-snackbar-container-color: #d04437;
+    --mdc-snackbar-container-color: #e46969;
     --mat-mdc-snack-bar-button-color: #fff;
     --mdc-snackbar-supporting-text-color: #fff;
   }
   &.snackbar_info {
-    --mdc-snackbar-container-color: #46aebd;
+    --mdc-snackbar-container-color: #f7f7f8;
     --mat-mdc-snack-bar-button-color: black;
-    --mat-snack-bar-button-color: #000000;
-    --mdc-snackbar-supporting-text-color: #fff;
+    --mat-snack-bar-button-color: black;
+    --mdc-snackbar-supporting-text-color: black;
   }
 }
 
