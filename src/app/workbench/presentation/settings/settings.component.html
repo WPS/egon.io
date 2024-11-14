@@ -15,17 +15,17 @@
       </button>
       <button
         class="headerButton tab-like"
-        [class.highlight]="showGeneralSettings | async"
+        [class.highlight]="showAutosaveSettings | async"
         mat-button
         (click)="openGeneralSettings()"
       >
-        <span class="headline">General Settings</span>
+        <span class="headline">Autosave Settings</span>
       </button>
     </mat-toolbar-row>
   </mat-toolbar>
 
-  @if (showGeneralSettings | async) {
-    <app-general-settings />
+  @if (showAutosaveSettings | async) {
+    <app-autosave-settings />
   }
   @if (showIconSetCustomization | async) {
     <app-icon-set-configuration />

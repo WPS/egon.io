@@ -12,7 +12,7 @@ import { IconSet } from '../../../domain/entities/iconSet';
 })
 export class SettingsComponent {
   iconSetConfiguration: IconSet | undefined;
-  showGeneralSettings = new BehaviorSubject<boolean>(false);
+  showAutosaveSettings = new BehaviorSubject<boolean>(false);
   showIconSetCustomization = new BehaviorSubject<boolean>(true);
 
   constructor(
@@ -31,12 +31,12 @@ export class SettingsComponent {
   }
 
   openGeneralSettings() {
-    this.showGeneralSettings.next(true);
+    this.showAutosaveSettings.next(true);
     this.showIconSetCustomization.next(false);
   }
 
   openIconSetCustomization() {
-    this.showGeneralSettings.next(false);
+    this.showAutosaveSettings.next(false);
     this.showIconSetCustomization.next(true);
   }
 }
