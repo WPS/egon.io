@@ -3,12 +3,12 @@
   grid-template-columns: auto auto;
   top: 0;
   bottom: 0;
-  grid-column-gap: 5px;
-  width: 75vw;
+  grid-column-gap: 4px;
+  width: 50vw;
 
   mat-list-item {
     height: unset !important;
-    //padding-bottom: 2px !important;
+    padding-left: 0;
   }
 
   mat-list-item-content {
@@ -20,39 +20,12 @@ h3 {
   font-weight: bold;
 }
 
-.icon {
-  width: 36px;
-  height: 36px;
-}
-
 .inputText {
-  width: 98%;
-  resize: none;
-  font-family: sans-serif;
-  font-size: small;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  margin: 0;
-}
-
-.activityListHeader {
-  display: inline-grid;
-  grid-template-columns: auto auto auto;
   width: 100%;
 }
 
 .listTitle {
   justify-self: left;
-  margin-left: 16px;
-}
-
-.saveButton {
-  justify-self: end;
-  padding-right: 0 !important;
-}
-
-.saveButtonSpan {
-  margin-left: 2px;
 }
 
 .activity {
@@ -64,7 +37,6 @@ h3 {
   bottom: 0;
   background-color: white;
   padding: 10px;
-  font-size: 18px;
   z-index: 1;
   box-shadow: 0 20px white;
 }

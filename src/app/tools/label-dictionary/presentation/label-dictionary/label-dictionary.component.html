@@ -1,5 +1,5 @@
 <div class="list-content">
-  <div class="workobjectList">
+  <div>
     <h3 class="listTitle">Work Objects</h3>
     <mat-list>
       @for (
@@ -7,7 +7,7 @@
         track workobjectEntry
       ) {
         <mat-list-item>
-          <mat-form-field class="inputText">
+          <mat-form-field class="inputText dense-8" color="accent">
             <input
               matInput
               class="inputText"
@@ -19,7 +19,7 @@
       }
     </mat-list>
   </div>
-  <div class="activityList">
+  <div>
     <h3 class="listTitle">Activities</h3>
     <mat-list>
       @for (
@@ -27,7 +27,7 @@
         track activityEntry
       ) {
         <mat-list-item>
-          <mat-form-field class="inputText">
+          <mat-form-field class="inputText dense-8" color="accent">
             <textarea
               matInput
               class="inputText activity"
