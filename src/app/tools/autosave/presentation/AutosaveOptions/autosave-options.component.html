@@ -6,28 +6,39 @@
         <input #activated type="checkbox" [checked]="configuration.activated" />
         Enabled
       </div>
-      <div class="grid option">
-        Save every x seconds
-        <input
-          #interval
-          class="numberInput"
-          min="1"
-          type="number"
-          [value]="configuration.interval"
-        />
-        Keep last x drafts
-        <input
-          #drafts
-          class="numberInput"
-          min="1"
-          type="number"
-          [value]="configuration.maxDrafts"
-        />
+
+      <div class="option">
+        <mat-form-field color="accent">
+          <mat-label>Interval [seconds]</mat-label>
+          <input
+            matInput
+            #interval
+            class="numberInput"
+            min="1"
+            type="number"
+            [value]="configuration.interval"
+          />
+        </mat-form-field>
       </div>
-      <div class="grid option">
+      <div class="option">
+        <mat-form-field color="accent">
+          <mat-label>Keep last X drafts</mat-label>
+          <input
+            matInput
+            #drafts
+            class="numberInput"
+            min="1"
+            type="number"
+            [value]="configuration.maxDrafts"
+          />
+        </mat-form-field>
+      </div>
+      <div class="option">
         <span class="spacer"></span>
+
         <button
-          mat-stroked-button
+          mat-flat-button
+          color="primary"
           (click)="save(activated.checked, +drafts.value, +interval.value)"
         >
           Apply

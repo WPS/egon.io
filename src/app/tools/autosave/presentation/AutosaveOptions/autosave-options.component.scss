@@ -18,13 +18,12 @@
 
 .grid {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto;
   row-gap: 8px;
 }
 
 .numberInput {
   margin-left: 4px;
-  width: 56px;
   height: inherit;
 }
 
