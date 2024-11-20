@@ -78,10 +78,6 @@ export class IconSetConfigurationComponent implements OnInit {
     );
   }
 
-  exportIconSet(): void {
-    this.iconSetCustomizationService.exportIconSet();
-  }
-
   /** Add Custom Icon **/
   startIconUpload(): void {
     document.getElementById('importIcon')?.click();

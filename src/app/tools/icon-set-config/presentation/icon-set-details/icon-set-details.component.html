@@ -1,18 +1,26 @@
 <div class="details smallScrollbar">
   <div>
-    <h3>Set Name for Export:</h3>
+    <h3>Export as File:</h3>
     <div class="iconSetDetails">
       <mat-form-field class="exportForm" color="accent">
+        <mat-label>Icon set name</mat-label>
         <input
           matInput
           type="text"
-          placeholder="Icon Set Name"
           subscriptSizing="dynamic"
           class="dense-8"
           (input)="changeName($event)"
           [value]="iconSetName | async"
         />
       </mat-form-field>
+      <button
+        mat-stroked-button
+        class="exportForm"
+        title="Export icon set"
+        (click)="exportIconSet()"
+      >
+        <span>Export icon set</span>
+      </button>
     </div>
   </div>
   <div class="actorList">

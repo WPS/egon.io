@@ -12,17 +12,10 @@
 }
 
 .iconSetDetails {
+  display: flex;
+  flex-direction: column;
   padding-left: 8px;
   padding-right: 8px;
-  ::ng-deep.mat-mdc-form-field-infix {
-    border: none;
-    padding-bottom: 0 !important;
-    padding-top: 0 !important;
-  }
-
-  ::ng-deep.mdc-text-field {
-    padding-left: 0 !important;
-  }
 }
 
 .compactItem {
@@ -40,9 +33,9 @@
 
 .exportForm {
   margin-left: 12px;
-  margin-top: 12px;
-  margin-bottom: 0px;
-  height: 50px;
+  margin-right: 12px;
+  margin-top: 8px;
+  margin-bottom: 0;
 }
 
 h3 {
@@ -54,4 +47,8 @@ h3 {
 
 mat-list {
   padding-top: 0;
+}
+
+::ng-deep.mat-mdc-form-field-subscript-wrapper {
+  height: 0 !important;
 }

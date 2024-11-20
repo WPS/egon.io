@@ -43,6 +43,23 @@
         <button
           mat-stroked-button
           class="mr-1"
+          title="Import icon set"
+          (click)="startIconSetImport()"
+        >
+          <span>Import icon set</span>
+          <input
+            type="file"
+            accept=".domain, .iconset"
+            style="display: none"
+            id="importDomain"
+            name="file"
+            onclick="this.value=null"
+            (change)="importIconSet()"
+          />
+        </button>
+        <button
+          mat-stroked-button
+          class="mr-1"
           title="Upload icon"
           (click)="startIconUpload()"
         >
@@ -75,37 +92,13 @@
           <span>Cancel changes</span>
         </button>
         <button
-          mat-stroked-button
+          mat-flat-button
           class="mr-1"
           title="Save changes"
+          color="primary"
           (click)="saveIconSet()"
         >
           <span>Save changes</span>
-        </button>
-        <button
-          mat-stroked-button
-          class="mr-1"
-          title="Import icon set"
-          (click)="startIconSetImport()"
-        >
-          <span>Import icon set</span>
-          <input
-            type="file"
-            accept=".domain, .iconset"
-            style="display: none"
-            id="importDomain"
-            name="file"
-            onclick="this.value=null"
-            (change)="importIconSet()"
-          />
-        </button>
-        <button
-          mat-stroked-button
-          class="mr-1"
-          title="Export icon set"
-          (click)="exportIconSet()"
-        >
-          <span>Export icon set</span>
         </button>
       </div>
     </div>
