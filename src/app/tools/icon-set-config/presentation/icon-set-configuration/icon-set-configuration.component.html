@@ -29,13 +29,15 @@
         >
           <span>Work Objects</span>
         </button>
-        <input
-          class="textInput"
-          matInput
-          type="text"
-          placeholder="Search icons"
-          (input)="filterByNameAndType($event)"
-        />
+        <mat-form-field
+          class="searchForm dense-8"
+          color="accent"
+          subscriptSizing="dynamic"
+          appearance="outline"
+        >
+          <mat-label>Search icons</mat-label>
+          <input matInput type="text" (input)="filterByNameAndType($event)" />
+        </mat-form-field>
       </div>
       <div class="buttons">
         <button

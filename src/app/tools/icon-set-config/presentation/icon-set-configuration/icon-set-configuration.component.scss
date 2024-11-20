@@ -53,11 +53,9 @@ button {
   color: white;
 }
 
-.textInput {
-  width: 130px;
-  border: #b9bcc6 1px solid;
-  padding: 0.25rem 0.5rem;
-  border-radius: 2px;
+.searchForm {
+  background-color: white;
+  margin: 4px;
 }
 
 .iconList {
@@ -80,4 +78,11 @@ button {
   .mat-grid-tile-content {
     justify-content: inherit;
   }
+}
+
+::ng-deep.mat-form-field {
+  .mat-mdc-text-field-wrapper {
+    height: 28px;
+  }
+  height: 28px;
 }

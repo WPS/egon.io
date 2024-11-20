@@ -16,11 +16,71 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$egon-primary: mat.define-palette(mat.$cyan-palette);
-$egon-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// This pallette was generated with https://m2.material.io/design/color/the-color-system.html#tools-for-picking-colors,
+// using the color of the left part of the Domain Storytelling logo (#A4D7E1) as primary color (nr. 100 in the palette):
+$egon-palette: (
+  50: #daeff3,
+  100: #a4d7e1,
+  200: #67bdcd,
+  300: #15a3b9,
+  400: #0093ac,
+  500: #00839f,
+  600: #00758f,
+  700: #006377,
+  800: #005160,
+  900: #003139,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+// mdc-filled-text-field-focus-label-text-color: rgba(164, 215, 225, 0.87);
+
+// This was generated (see egon-palette), with 100 as primary color
+$egon-contrast-palette: (
+  50: #eedddd,
+  100: #e1aea4,
+  200: #cb796b,
+  300: #b64435,
+  400: #a90e10,
+  500: #9b0000,
+  600: #940000,
+  700: #8a0000,
+  800: #7c0000,
+  900: #660000,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+// @param base-pallette
+// @param primary
+// @param lighter
+// @param darker
+$egon-primary: mat.define-palette($egon-palette, 100, 50, 200);
+$egon-accent: mat.define-palette($egon-palette, 500, 400, 600);
 
 // The warn palette is optional (defaults to red).
-$egon-warn: mat.define-palette(mat.$red-palette);
+$egon-warn: mat.define-palette($egon-contrast-palette, 100, 50, 300);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -70,8 +130,7 @@ body {
 }
 
 .headline {
-  font-size: 17pt;
-  height: 40px;
+  font-size: 1.1rem;
   cursor: pointer;
 }
 
@@ -105,6 +164,10 @@ body {
   margin-top: 9px;
 }
 
+.dense-8 {
+  @include mat.all-component-densities(-8);
+}
+
 app-root {
   display: block;
   height: 100%;
@@ -121,16 +184,14 @@ mat-dialog-actions.mdc-dialog__actions {
   justify-content: end;
 }
 
-/* Snackbar */
-
 .mat-mdc-snack-bar-container {
   &.snackbar_success {
     --mdc-snackbar-container-color: #a4d7e1;
     --mat-mdc-snack-bar-button-color: black;
-    --mdc-snackbar-supporting-text-color: #black;
+    --mdc-snackbar-supporting-text-color: black;
   }
   &.snackbar_error {
-    --mdc-snackbar-container-color: #e46969;
+    --mdc-snackbar-container-color: #b64435;
     --mat-mdc-snack-bar-button-color: #fff;
     --mdc-snackbar-supporting-text-color: #fff;
   }
