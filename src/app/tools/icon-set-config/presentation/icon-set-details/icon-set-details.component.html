@@ -2,18 +2,17 @@
   <div>
     <h3>Set Name for Export:</h3>
     <div class="iconSetDetails">
-      <form class="inputWidth">
-        <div class="alignment"></div>
-        <mat-form-field class="inputHeight" color="accent">
-          <input
-            matInput
-            type="text"
-            placeholder="Icon Set Name"
-            (input)="changeName($event)"
-            [value]="iconSetName | async"
-          />
-        </mat-form-field>
-      </form>
+      <mat-form-field class="exportForm" color="accent">
+        <input
+          matInput
+          type="text"
+          placeholder="Icon Set Name"
+          subscriptSizing="dynamic"
+          class="dense-8"
+          (input)="changeName($event)"
+          [value]="iconSetName | async"
+        />
+      </mat-form-field>
     </div>
   </div>
   <div class="actorList">
