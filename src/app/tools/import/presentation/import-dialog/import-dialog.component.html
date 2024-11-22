@@ -1,14 +1,19 @@
 <mat-dialog-content>
   <label for="urlInput">
-    <h2>Import Domain Story from this URL:</h2>
+    <h2>Import Domain Story:</h2>
   </label>
-  <input
-    class="input-width"
-    type="text"
-    id="urlInput"
-    [value]="fileUrl | async"
-    (input)="updateUrl($event)"
-  />
+  <mat-form-field class="form-width" color="accent">
+    <mat-label>URL</mat-label>
+    <input
+      matInput
+      class="dense-8"
+      type="url"
+      id="urlInput"
+      subscriptSizing="dynamic"
+      [value]="fileUrl | async"
+      (input)="updateUrl($event)"
+    />
+  </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
   <br />

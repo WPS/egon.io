@@ -1,27 +1,14 @@
-span {
-  font-size: 15pt;
-  color: white;
-}
-
-#dictionaryButton {
-  opacity: 0.2;
-  pointer-events: none;
-}
-
-.headerButton:hover {
-  cursor: pointer;
-
-  span {
-    color: white;
-  }
-}
-
+.disabled .button-label,
 .disabled span,
 .disabled:hover span {
   cursor: initial;
   color: gray;
 }
 
-.materialIconButton:hover {
-  color: lightgrey;
+.dirty {
+  color: #b64435;
+}
+
+.dirty:hover {
+  color: #0093ac;
 }

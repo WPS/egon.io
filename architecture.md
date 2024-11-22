@@ -24,7 +24,7 @@ Top quality goals are:
 
 | Constraint                | Reason                                              |
 |---------------------------|-----------------------------------------------------|
-| runs in browser           | users do not need to install anything on their machine; deploy new versions easily |
+| runs in browser           | users do not need to install anything on their machine; developers can deploy new versions easily |
 | distributed under liberal open source license | increases adoption by providing Egon free of charge (even for "commercial" use), without risk of vendor lock-in; while Egon is open source, the domain stories created with Egon do *not* fall under an open source license |
 | no registration or log-in required | increases adoption; ease of use; avoids security problems; lowers maintenance effort |
 | no centralized storage | avoids security problems; lowers maintenance effort |
@@ -81,17 +81,17 @@ Domain Storytelling is a modeling language and we wanted to build a proper model
 
 ## Decision: Using bpmn-js as Modeling Framework
 
-[bpmn-js](https://github.com/bpmn-io/bpmn-js) checked all the boxes. It is a JavaScript modeling library for the BPMN language. For version 1.x.x. of Egon, we replaced BPMN with the Domain Storytelling modeling language and stayed technologically rather close to bpmn-js: JavaScript as programming language, tools for building and testing, etc.
+[bpmn-js](https://github.com/bpmn-io/bpmn-js) checked all the boxes. It is a JavaScript modeling library for the BPMN language. For version 1.x.x. of Egon, we replaced BPMN with the Domain Storytelling modeling language and stayed close to the tech stack used by bpmn-js: JavaScript as programming language, tools for building and testing, etc.
 
-However, the decision for using bpmn-js had tradeoffs: For some features, Egon developers had to dive deep into the inner workings of bpmn-js and change the frameworks behavior or needed to find workarounds. At the same time, bpmn-js offer a lot of features that are not relevant for Domain Storytelling.
+However, the decision for using bpmn-js had tradeoffs: For some features, Egon developers had to dive deep into the inner workings of bpmn-js and work around the framework's behavior. At the same time, bpmn-js offers a lot of features that are not relevant for Domain Storytelling.
 
-> The decision for using bpmn-js was revisited several times, but until now, we are not aware of an alternative modeling framework.
+> The decision for using bpmn-js was revisited several times, but until now, we are not aware of an alternative modeling framework that fulfilles the [architectural constraints](#section-architecture-constraints).
 
 ## Decision: Separation Between Egon and bpmn-js
 
-After a few years of development, we had developed a number of features that had little to no connection to the bpmn-js framework. However, the architecture made it difficult to distinguish...
+After a few years of development, we had built features that had little to no connection to the bpmn-js framework. However, the architecture made it difficult to distinguish...
 - code that deals with core modeling activities and requires knowledge of bpmn-js
-- and code that is rather independent of bpmn-js
+- and code that is independent of bpmn-js
 
 We wanted to flatten the learning curve for new developers by better separating Egon and bpmn-js. This went hand in hand with migration to a different tech stack (Typescript and Angular, see below) that helped us to better express the intended architecture.
 
@@ -320,7 +320,7 @@ This section is based on the [bpmn-js documentation](https://bpmn.io/toolkit/bpm
 
 bpmn-js is built on top of diagram-js and bpmn-moddle. bpmn-js ties both together and provides the *palette* and the *context pad*. 
 
-The *canvas* contains graphical *elements* of different *types* (*shape*, *label*, *connection*, possibly more). Thereby it ties both the BPMN elements and the graphical elements together. The graphical elements can contains *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `bpmn:ExclusiveGateway` (for the BPMN modeling language ) or `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in`elementTypes.ts`.
+The *canvas* contains graphical *elements* of different *types* (*shape*, *label*, *connection*, possibly more). Thereby it ties both the BPMN elements and the graphical elements together. The graphical elements can contain *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `bpmn:ExclusiveGateway` (for the BPMN modeling language ) or `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in`elementTypes.ts`.
 
 Element positions on the canvas work as shown in this diagram:
 
@@ -330,10 +330,10 @@ quadrantChart
     title Coordinate Plane of the bpmn-js Canvas
     x-axis "-x" --> "+x"
     y-axis "+y" --> "-y"
-    quadrant-1 "angle: 0° to 90°"
+    quadrant-1 "angle: 1° to 90°"
     quadrant-2 "angle: 91° to 180°"
     quadrant-3 "angle: 181° to 270°"
-    quadrant-4 "angle: 271° to 359°"
+    quadrant-4 "angle: 271° to 360°"
     "(x: 0/ y: 0)": [0.5, 0.5]
 ```    
 
@@ -365,9 +365,20 @@ Since Egon runs completely in the browser, we must use local means to persist al
 
 Alternatively, cookies could be used (and in fact were used in earlier Egon versions). Unlike cookies, the storage limit is far larger (at least 5MB).
 
-## TODO
-- 1 model = 1 Domain Story = 1 File
-- files are self-contained: they include the icon set (including custom icons); makes it easier to share domain stories with users
+## Decision: 1 Domain Story = 1 Self-contained File
+
+Since Egon does not use centralized storage (see [architectural constraints](#section-architecture-constraints)), users need to export their Domain Stories to their local file system as files. 
+
+The most simple way of doing that is to put one domain story into one file and make it self-contained, i.E. include the SVG of the icon set (including custom icons). This makes it easy to share domain stories with other users.
+
+Alternatively a one-to-many relationship (one file containing several Domain Stories) would enable references between Domain Stories. However, this would likely make it necessary to build more features for the export and import tools (e.g., export all stories or just specific ones).
+
+**Decision:** We choose simplicity over advanced functionality and persist each domain story as one self-contained file.
+
+
+## TODO: More decisions
+- JSON as file format
+- no separation of model and diagram
 - Angular-specific patterns
 
 # Quality Requirements {#section-quality-scenarios}

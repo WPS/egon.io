@@ -66,4 +66,8 @@ export class IconSetDetailsComponent implements OnInit {
     this.draggedList = draggedList;
     this.draggedIndex = index;
   }
+
+  exportIconSet(): void {
+    this.customizationService.exportIconSet();
+  }
 }

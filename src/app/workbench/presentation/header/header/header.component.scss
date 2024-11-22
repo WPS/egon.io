@@ -1,8 +1,13 @@
+.firstRow {
+  min-height: 4rem;
+}
+
 .description {
   top: 0;
   max-width: 100vw;
   overflow-y: scroll;
   display: grid;
+  background-color: #f7f7f8;
 }
 
 .descriptionText {
@@ -12,7 +17,7 @@
   word-wrap: anywhere;
   white-space: pre-wrap;
   padding-top: 15px;
-  padding-left: 15px;
+  padding-left: 27px;
   padding-right: 15px;
   line-height: 12pt;
 }
@@ -29,20 +34,8 @@
   margin-right: 15px;
 }
 
-.headline:hover > .editIcon {
-  display: contents;
-}
-
 .headline > .editIcon {
   display: none;
-}
-
-.headerButton {
-  color: white;
-}
-
-.headerButton:hover {
-  cursor: pointer;
 }
 
 .nowrap {
@@ -52,10 +45,10 @@
 .mat-toolbar-row {
   white-space: normal;
   height: min-content;
-  min-height: 5rem;
 }
 
 .titel-scrollbar {
+  margin-left: 12px;
   max-height: 10rem;
   overflow: auto;
   scrollbar-width: none;

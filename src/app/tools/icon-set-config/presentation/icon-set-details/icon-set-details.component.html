@@ -1,20 +1,30 @@
 <div class="details smallScrollbar">
-  <div class="iconSetDetails bottom-border">
-    <form class="inputWidth inputHeight">
-      <div class="alignment"></div>
-      <mat-form-field class="inputHeight">
+  <div>
+    <h3>Export as File:</h3>
+    <div class="iconSetDetails">
+      <mat-form-field class="exportForm" color="accent">
+        <mat-label>Icon set name</mat-label>
         <input
           matInput
           type="text"
-          placeholder="Icon Set Name"
+          subscriptSizing="dynamic"
+          class="dense-8"
           (input)="changeName($event)"
           [value]="iconSetName | async"
         />
       </mat-form-field>
-    </form>
+      <button
+        mat-stroked-button
+        class="exportForm"
+        title="Export icon set"
+        (click)="exportIconSet()"
+      >
+        <span>Export icon set</span>
+      </button>
+    </div>
   </div>
-  <div class="actorList bottom-border">
-    <h3>Order of Actors</h3>
+  <div class="actorList">
+    <h3>Order of Actors:</h3>
     <mat-list>
       @for (
         iconName of selectedActors$ | async;
@@ -34,7 +44,7 @@
     </mat-list>
   </div>
   <div class="workobjectList">
-    <h3>Order of Work Objects</h3>
+    <h3>Order of Work Objects:</h3>
     <mat-list>
       @for (
         iconName of selectedWorkobjects$ | async;

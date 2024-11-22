@@ -2,14 +2,14 @@
   <div>
     <div class="header">
       <div class="searchbar">
-        <div>Filter by assignment:</div>
+        <div class="heading">Filter:</div>
         <button
           mat-button
           [class.activeNone]="(filter | async) === 'ICON_FILTER_UNASSIGNED'"
           title="Unassigned Icons"
           (click)="filterForUnassigned()"
         >
-          <span>None</span>
+          <span>Unassigned</span>
         </button>
         <button
           mat-button
@@ -29,17 +29,41 @@
         >
           <span>Work Objects</span>
         </button>
-        <input
-          class="textInput"
-          matInput
-          type="text"
-          placeholder="Search icons"
-          (input)="filterByNameAndType($event)"
-        />
+        <mat-form-field
+          class="searchForm dense-8"
+          color="accent"
+          subscriptSizing="dynamic"
+          appearance="outline"
+        >
+          <mat-label>Search icons</mat-label>
+          <input matInput type="text" (input)="filterByNameAndType($event)" />
+        </mat-form-field>
       </div>
       <div class="buttons">
-        <button mat-button title="Upload Icon" (click)="startIconUpload()">
-          <span class="material-icons-outlined materialIconButton">upload</span>
+        <button
+          mat-stroked-button
+          class="mr-1"
+          title="Import icon set"
+          (click)="startIconSetImport()"
+        >
+          <span>Import icon set</span>
+          <input
+            type="file"
+            accept=".domain, .iconset"
+            style="display: none"
+            id="importDomain"
+            name="file"
+            onclick="this.value=null"
+            (change)="importIconSet()"
+          />
+        </button>
+        <button
+          mat-stroked-button
+          class="mr-1"
+          title="Upload icon"
+          (click)="startIconUpload()"
+        >
+          <span>Upload icon</span>
           <input
             type="file"
             multiple
@@ -52,47 +76,29 @@
           />
         </button>
         <button
-          mat-button
-          class="button"
+          mat-stroked-button
+          class="mr-1"
           title="Reset to default icon set"
           (click)="loadMinimalIconConfigurationWithDefaultIcons()"
         >
-          <span class="material-icons-outlined materialIconButton"> home </span>
+          <span>Reset to default</span>
         </button>
         <button
-          mat-button
+          mat-stroked-button
+          class="mr-1"
           title="Cancel changes"
           (click)="loadInitialConfiguration()"
         >
-          <span class="material-icons-outlined materialIconButton">close</span>
+          <span>Cancel changes</span>
         </button>
-        <div class="divider"></div>
-        <button mat-button title="Save icon set" (click)="saveIconSet()">
-          <span class="material-icons-outlined materialIconButton">save</span>
-        </button>
-        <div class="divider"></div>
         <button
-          mat-button
-          title="Import icon set"
-          (click)="startIconSetImport()"
+          mat-flat-button
+          class="mr-1"
+          title="Save changes"
+          color="primary"
+          (click)="saveIconSet()"
         >
-          <span class="material-icons-outlined materialIconButton"
-            >unarchive</span
-          >
-          <input
-            type="file"
-            accept=".domain, .iconset"
-            style="display: none"
-            id="importDomain"
-            name="file"
-            onclick="this.value=null"
-            (change)="importIconSet()"
-          />
-        </button>
-        <button mat-button title="Export icon set" (click)="exportIconSet()">
-          <span class="material-icons-outlined materialIconButton"
-            >archive</span
-          >
+          <span>Save changes</span>
         </button>
       </div>
     </div>
@@ -102,5 +108,5 @@
       }
     </div>
   </div>
-  <app-icon-set-details class="iconSetDetails"></app-icon-set-details>
+  <app-icon-set-details></app-icon-set-details>
 </div>

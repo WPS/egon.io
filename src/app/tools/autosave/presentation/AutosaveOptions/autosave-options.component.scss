@@ -1,50 +1,33 @@
-.autosaveEnabled,
-.autosaveInterval {
-  display: inline-grid;
-  grid-template-columns: 120px auto;
-  width: 300px;
-  grid-row-gap: 5px;
-  height: 20px;
+.header {
+  background-color: #f7f7f8;
+  margin: 8px;
 }
 
-.enableButton {
-  justify-self: start;
+.content {
+  margin: 8px;
+  padding: 8px;
 }
 
-.autosaveEnabled {
-  padding-bottom: 2px;
+.heading {
+  font-weight: bold;
 }
 
-.autosaveInterval {
-  padding-bottom: 10px;
+.option {
+  margin: 8px;
 }
 
-.autosaveIntervalSpan {
-  padding-top: 2px;
-  justify-self: start;
-}
-
-.saveButton {
-  align-self: end;
-  right: 0;
-  margin-left: -5px;
-}
-
-.cardContent {
-  display: flex;
-  justify-content: space-between;
-}
-
-.inputContainer {
-  display: inline-grid;
-  width: fit-content;
+.grid {
+  display: grid;
+  grid-template-columns: auto;
+  row-gap: 8px;
 }
 
 .numberInput {
-  justify-self: end;
-  width: 64px;
+  margin-left: 4px;
+  height: inherit;
 }
 
-.alignSelfCenter {
-  align-self: center;
+button {
+  letter-spacing: 0.05em;
+  line-height: 0.9rem;
 }

@@ -8,7 +8,10 @@
       title="Start replay"
       (click)="startReplay.emit()"
     >
-      <span class="material-icons materialIconButton"> play_arrow </span>
+      <span class="material-icons-outlined materialIconButton">
+        play_arrow
+      </span>
+      <div class="button-label">Replay</div>
     </button>
 
     <button
@@ -17,7 +20,10 @@
       title="Import story from file"
       onclick="document.getElementById('import').click();"
     >
-      <span class="material-icons materialIconButton"> unarchive </span>
+      <span class="material-icons-outlined materialIconButton">
+        file_upload
+      </span>
+      <div class="button-label">Import from file</div>
     </button>
 
     <button
@@ -26,7 +32,10 @@
       title="Import story from URL"
       (click)="openImportFromUrlDialog.emit()"
     >
-      <span class="material-icons materialIconButton"> cloud_upload </span>
+      <span class="material-icons-outlined materialIconButton">
+        cloud_upload
+      </span>
+      <div class="button-label">Import from URL</div>
     </button>
 
     <input
@@ -41,18 +50,15 @@
       [disabled]="!hasDomainStory && !hasTitle"
       [class.disabled]="!hasDomainStory && !hasTitle"
       class="headerButton"
+      [class.dirty]="isDirty"
       id="export"
       title="Export story as .egn, .svg or .png file"
       (click)="openDownloadDialog.emit()"
     >
-      @if (!isDirty) {
-        <span class="material-icons-outlined materialIconButton">
-          archive
-        </span>
-      }
-      @if (isDirty) {
-        <span class="material-icons materialIconButton"> archive </span>
-      }
+      <span class="material-icons-outlined materialIconButton">
+        file_download
+      </span>
+      <div class="button-label">Export</div>
     </button>
     <button
       [disabled]="!hasDomainStory"
@@ -64,28 +70,35 @@
       <span class="material-icons materialIconButton" title="Label Dictionary">
         spellcheck
       </span>
+      <div class="button-label">Dictionary</div>
     </button>
-    <button class="headerButton" title="Settings" (click)="openSettings.emit()">
-      <span
-        class="material-icons materialIconButton"
-        title="Change Icons and Settings"
-      >
-        settings
-      </span>
-    </button>
-    <button
-      class="headerButton"
-      title="Show keyboard shortcuts"
-      (click)="showKeyboardShortCuts.emit()"
-    >
-      <span class="material-icons materialIconButton"> keyboard </span>
-    </button>
+
     <button
       class="headerButton"
       title="Create a new domain story"
       (click)="newStory.emit()"
     >
-      <span class="material-icons materialIconButton"> note_add </span>
+      <span class="material-icons-outlined materialIconButton"> note_add </span>
+      <div class="button-label">New story</div>
+    </button>
+
+    <button class="headerButton" title="Settings" (click)="openSettings.emit()">
+      <span
+        class="material-icons-outlined materialIconButton"
+        title="Change Icons and Settings"
+      >
+        settings
+      </span>
+      <div class="button-label">Settings</div>
+    </button>
+
+    <button
+      class="headerButton"
+      title="Show keyboard shortcuts"
+      (click)="showKeyboardShortCuts.emit()"
+    >
+      <span class="material-icons-outlined materialIconButton"> keyboard </span>
+      <div class="button-label">Shortcuts</div>
     </button>
   </div>
 }
@@ -96,21 +109,25 @@
       title="Previous sentence"
       (click)="previousSentence.emit()"
     >
-      <span class="material-icons materialIconButton"> skip_previous </span>
+      <span class="material-icons-outlined materialIconButton">
+        skip_previous
+      </span>
     </button>
     <button
       class="headerButton"
       title="Next sentence"
       (click)="nextSentence.emit()"
     >
-      <span class="material-icons materialIconButton"> skip_next </span>
+      <span class="material-icons-outlined materialIconButton">
+        skip_next
+      </span>
     </button>
     <button
       class="headerButton"
       title="Stop replay"
       (click)="stopReplay.emit()"
     >
-      <span class="material-icons materialIconButton"> stop </span>
+      <span class="material-icons-outlined materialIconButton"> stop </span>
     </button>
   </div>
 }

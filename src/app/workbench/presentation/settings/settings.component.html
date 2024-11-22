@@ -1,34 +1,31 @@
 <div class="settings">
-  <mat-toolbar color="primary" class="toolbar">
-    <mat-toolbar-row>
-      <button class="headerButton noPadding" mat-icon-button (click)="close()">
-        <span class="material-icons-outlined materialIconButton">
-          arrow_back</span
-        >
+  <mat-toolbar color="primary">
+    <mat-toolbar-row class="firstRow">
+      <button class="headerButton tab-small" mat-button (click)="close()">
+        <span class="material-icons">navigate_before</span>
+        Back
       </button>
-      <div class="paddedButton">
-        <button
-          class="headerButton mr-10"
-          [class.highlight]="showIconSetCustomization | async"
-          mat-button
-          (click)="openIconSetCustomization()"
-        >
-          <span class="headline">Customize Icons for Your Domain</span>
-        </button>
-        <button
-          class="headerButton"
-          [class.highlight]="showGeneralSettings | async"
-          mat-button
-          (click)="openGeneralSettings()"
-        >
-          <span class="headline">General Settings</span>
-        </button>
-      </div>
+      <button
+        class="headerButton tab-like"
+        [class.highlight]="showIconSetCustomization | async"
+        mat-button
+        (click)="openIconSetCustomization()"
+      >
+        <span class="headline">Customize Icon Set</span>
+      </button>
+      <button
+        class="headerButton tab-like"
+        [class.highlight]="showAutosaveSettings | async"
+        mat-button
+        (click)="openGeneralSettings()"
+      >
+        <span class="headline">Autosave Settings</span>
+      </button>
     </mat-toolbar-row>
   </mat-toolbar>
 
-  @if (showGeneralSettings | async) {
-    <app-general-settings />
+  @if (showAutosaveSettings | async) {
+    <app-autosave-settings />
   }
   @if (showIconSetCustomization | async) {
     <app-icon-set-configuration />

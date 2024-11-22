@@ -25,7 +25,6 @@ import {
   ORANGE,
   PURPLE,
   RED,
-  SNACKBAR_DURATION,
   SNACKBAR_DURATION_LONG,
   SNACKBAR_INFO,
   YELLOW,
@@ -79,14 +78,23 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.showDescription$ = new BehaviorSubject(true);
 
     document.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === 's') {
+      const modifierPressed = e.ctrlKey || e.metaKey;
+      if (modifierPressed && e.key === 's' && !e.altKey) {
         e.preventDefault();
         e.stopPropagation();
         if (this.exportService.isDomainStoryExportable()) {
           this.exportService.downloadDST();
         }
       }
-      if (e.ctrlKey && e.key === 'l') {
+
+      if (modifierPressed && e.altKey && e.key === 's') {
+        e.preventDefault();
+        e.stopPropagation();
+        if (this.exportService.isDomainStoryExportable()) {
+          this.exportService.downloadSVG(true, true, undefined);
+        }
+      }
+      if (modifierPressed && e.key === 'l') {
         e.preventDefault();
         e.stopPropagation();
         document.getElementById('import')?.click();

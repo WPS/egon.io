@@ -1,0 +1,14 @@
+.content {
+  height: fit-content;
+  width: 30vw;
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.description-width {
+  width: 12rem;
+}

@@ -1,25 +1,52 @@
-.items {
-  ::ng-deep.mat-list-item-content {
-    padding: 0;
-  }
-  padding-top: 0 !important;
-}
-
-.item {
+.header {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 8px 0;
-  width: 400px;
+  height: 46px;
+  background-color: #f7f7f8;
+  margin-top: 8px;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
-.border-bottom {
-  border-bottom: 1px solid darkgray;
+.history {
+  font-weight: bold;
+  display: inline-flex;
+  margin-left: 16px;
+  align-self: center;
+  align-items: center;
+  justify-self: left;
+  height: inherit;
+}
+
+button {
+  letter-spacing: 0.05em;
+  line-height: 0.9rem;
+  justify-self: right;
+}
+
+.buttons {
+  display: inline-flex;
+  align-self: center;
+  align-items: center;
+  justify-self: right;
+  height: inherit;
+}
+
+mat-list {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+mat-list-item {
+  margin-top: 8px;
+  border: 1px solid #b9bcc6;
+}
+
+.draft {
+  display: grid;
+  grid-template-columns: auto max-content max-content;
 }
 
 .item-title {
-  font-weight: bold;
-  width: 270px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -27,12 +54,6 @@
 
 .item-date {
   font-weight: normal;
-}
-
-.item-button {
-  margin-left: 1rem;
-}
-
-mat-list-item {
-  border-bottom: 1px solid darkgray;
+  margin-left: 15px;
+  margin-right: 15px;
 }

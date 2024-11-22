@@ -1,0 +1,10 @@
+<mat-dialog-content class="content">
+  <h2 id="info-dialog-title">{{ title }}</h2>
+
+  @for (shortCut of shortCuts; track shortCut.description) {
+    <div class="row">
+      <span class="description-width">{{ shortCut.description }}:</span>
+      <span>{{ shortCut.shortCut }}</span>
+    </div>
+  }
+</mat-dialog-content>

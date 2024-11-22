@@ -1,13 +1,16 @@
 .content {
   display: grid;
-  grid-template-columns: auto 250px;
+  grid-template-columns: auto max-content;
 }
 
 .header {
   display: grid;
   grid-template-columns: max-content auto;
   height: 46px;
-  border-bottom: #ccc 2px solid;
+  background-color: #f7f7f8;
+  margin-top: 8px;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .searchbar {
@@ -18,7 +21,16 @@
   align-items: center;
   justify-self: left;
   height: inherit;
-  border-right: #ccc 2px solid;
+}
+
+.heading {
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+button {
+  letter-spacing: 0.05em;
+  line-height: 0.9rem;
 }
 
 .buttons {
@@ -27,47 +39,23 @@
   align-items: center;
   justify-self: right;
   height: inherit;
-
-  ::ng-deep.mat-button {
-    min-width: 36px;
-  }
-}
-
-.divider {
-  border-left: #ccc 2px solid;
-  height: inherit;
-}
-
-.button {
-  width: 36px;
-}
-
-.mat-button {
-  color: #666666;
-}
-
-.activeActor {
-  background-color: #42aebb;
-  color: white;
 }
 
 .activeNone {
-  background-color: #e0e0e0;
-  color: black;
+  background-color: #0093ac;
+}
+
+.activeActor {
+  background-color: #0093ac;
 }
 
 .activeWorkObject {
-  background-color: #42aebb;
-  color: white;
+  background-color: #0093ac;
 }
 
-.textInput {
-  width: 300px;
-  margin-left: 15px;
-  margin-right: 5px;
-  border: #666666 1px solid;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
+.searchForm {
+  background-color: white;
+  margin: 4px;
 }
 
 .iconList {
@@ -86,12 +74,15 @@
   }
 }
 
-.iconSetDetails {
-  width: 250px;
-}
-
 ::ng-deep.mat-grid-tile {
   .mat-grid-tile-content {
     justify-content: inherit;
   }
+}
+
+::ng-deep.mat-form-field {
+  .mat-mdc-text-field-wrapper {
+    height: 28px;
+  }
+  height: 28px;
 }

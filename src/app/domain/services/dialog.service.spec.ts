@@ -2,9 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { DialogService } from 'src/app/domain/services/dialog.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { InfoDialogData } from '../entities/infoDialogData';
-import { InfoDialogComponent } from '../presentation/info-dialog/info-dialog.component';
-import { MockProvider, MockProviders } from 'ng-mocks';
+import { MockProvider } from 'ng-mocks';
 import { of } from 'rxjs';
 
 describe('DialogService', () => {
@@ -29,16 +27,14 @@ describe('DialogService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('dialog should open', () => {
+  it('should open Keyboard Shortcut Dialog', () => {
     const config = new MatDialogConfig();
 
-    config.disableClose = false;
-    config.autoFocus = true;
-
-    const title = 'Test';
-    const text = 'Test.';
-    config.data = new InfoDialogData(title, text, true);
-    service.openDialog(InfoDialogComponent, config);
+    config.data = {
+      title: 'Keyboard Shortcuts',
+      shortCuts: [],
+    };
+    service.openKeyboardShortcutsDialog();
 
     expect(matDialogSpy).toHaveBeenCalled();
   });

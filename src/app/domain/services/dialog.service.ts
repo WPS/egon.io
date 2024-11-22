@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/overlay';
-import { InfoDialogData } from '../entities/infoDialogData';
-import { InfoDialogComponent } from '../presentation/info-dialog/info-dialog.component';
+import { KeyboardShortcutsDialogComponent } from '../presentation/keyboard-shortcuts-dialog/keyboard-shortcuts/keyboard-shortcuts-dialog.component';
+import { ShortCut, ShortcutDialogData } from '../entities/shortcut-dialog-data';
 
 @Injectable({
   providedIn: 'root',
@@ -15,25 +15,35 @@ export class DialogService {
   }
 
   openKeyboardShortcutsDialog(): void {
-    const title = 'Keyboard Shortcuts';
-    const shortCutText =
-      'Undo:\t\t\t\t\tctrl + Z \n' +
-      'Redo:\t\t\t\t\tctrl + Y    OR   ctrl + shift + Z\n' +
-      'Select All:\t\t\t\tctrl + A\n' +
-      'Export as EGN:\t\t\tctrl + S\n' +
-      'Import Domain Story: \tctrl + L\n' +
-      'Search for text:\t\t\tctrl + F\n' +
-      'Direct editing:\t\t\tE\n' +
-      'Hand tool:\t\t\t\tH\n' +
-      'Lasso tool:\t\t\t\tL\n' +
-      'Space tool:\t\t\t\tS';
+    const shortCuts: ShortCut[] = [];
+    shortCuts.push({ description: 'Undo', shortCut: 'ctrl + Z' });
+    shortCuts.push({
+      description: 'Redo',
+      shortCut: 'ctrl + Y    OR   ctrl + shift + Z',
+    });
+    shortCuts.push({ description: 'Select All', shortCut: 'ctrl + A' });
+    shortCuts.push({ description: 'Export as EGN', shortCut: 'ctrl + S' });
+    shortCuts.push({
+      description: 'Export as SVG',
+      shortCut: 'ctrl + alt + S',
+    });
+    shortCuts.push({
+      description: 'Import Domain Story',
+      shortCut: 'ctrl + L',
+    });
+    shortCuts.push({ description: 'Search for text', shortCut: 'ctrl + F' });
+    shortCuts.push({ description: 'Direct editing', shortCut: 'E' });
+    shortCuts.push({ description: 'Hand tool', shortCut: 'H' });
+    shortCuts.push({ description: 'Lasso tool', shortCut: 'L' });
+    shortCuts.push({ description: 'Space tool', shortCut: 'S' });
 
     const config = new MatDialogConfig();
-    config.disableClose = false;
-    config.autoFocus = true;
 
-    config.data = new InfoDialogData(title, shortCutText, true);
+    config.data = {
+      title: 'Keyboard Shortcuts',
+      shortCuts: shortCuts,
+    };
 
-    this.openDialog(InfoDialogComponent, config);
+    this.openDialog(KeyboardShortcutsDialogComponent, config);
   }
 }
