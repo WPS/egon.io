@@ -320,7 +320,7 @@ This section is based on the [bpmn-js documentation](https://bpmn.io/toolkit/bpm
 
 bpmn-js is built on top of diagram-js and bpmn-moddle. bpmn-js ties both together and provides the *palette* and the *context pad*. 
 
-The *canvas* contains graphical *elements* of different *types* (*shape*, *label*, *connection*, possibly more). Thereby it ties both the BPMN elements and the graphical elements together. The graphical elements can contains *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `bpmn:ExclusiveGateway` (for the BPMN modeling language ) or `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in`elementTypes.ts`.
+The *canvas* contains graphical *elements* of different *types* (*shape*, *label*, *connection*, possibly more). Thereby it ties both the BPMN elements and the graphical elements together. The graphical elements can contain *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `bpmn:ExclusiveGateway` (for the BPMN modeling language ) or `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in`elementTypes.ts`.
 
 Element positions on the canvas work as shown in this diagram:
 
@@ -330,10 +330,10 @@ quadrantChart
     title Coordinate Plane of the bpmn-js Canvas
     x-axis "-x" --> "+x"
     y-axis "+y" --> "-y"
-    quadrant-1 "angle: 0° to 90°"
+    quadrant-1 "angle: 1° to 90°"
     quadrant-2 "angle: 91° to 180°"
     quadrant-3 "angle: 181° to 270°"
-    quadrant-4 "angle: 271° to 359°"
+    quadrant-4 "angle: 271° to 360°"
     "(x: 0/ y: 0)": [0.5, 0.5]
 ```    
 
@@ -367,7 +367,7 @@ Alternatively, cookies could be used (and in fact were used in earlier Egon vers
 
 ## Decision: 1 Domain Story = 1 Self-contained File
 
-Since Egon does not use centralized storage (see [architectural constraints](#section-architecture-constraints), users need to export their Domain Stories to their local file system as files. 
+Since Egon does not use centralized storage (see [architectural constraints](#section-architecture-constraints)), users need to export their Domain Stories to their local file system as files. 
 
 The most simple way of doing that is to put one domain story into one file and make it self-contained, i.E. include the SVG of the icon set (including custom icons). This makes it easy to share domain stories with other users.
 
