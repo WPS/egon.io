@@ -4,7 +4,7 @@ import { ElementRegistryService } from 'src/app/domain/services/element-registry
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { StorySentence } from 'src/app/tools/replay/domain/storySentence';
 import {
-  HIGHLIGHT_NUMBER_BACKGROUNG_COLOR,
+  HIGHLIGHT_NUMBER_BACKGROUND_COLOR,
   HIGHLIGHT_NUMBER_COLOR,
   HIGHLIGHT_STROKE_WIDTH,
   NUMBER_BACKGROUND_COLOR,
@@ -137,7 +137,7 @@ export class DomManipulationService {
           const { numberBackgroundDom, numberTextDom } =
             this.getNumberDomForActivity(activityDomObject);
           if (numberTextDom && numberBackgroundDom) {
-            numberBackgroundDom.style.fill = HIGHLIGHT_NUMBER_BACKGROUNG_COLOR;
+            numberBackgroundDom.style.fill = HIGHLIGHT_NUMBER_BACKGROUND_COLOR;
             numberTextDom.style.fill = HIGHLIGHT_NUMBER_COLOR;
           }
         }
