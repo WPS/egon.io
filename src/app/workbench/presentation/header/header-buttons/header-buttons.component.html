@@ -103,7 +103,7 @@
   </div>
 }
 @if (isReplaying) {
-  <div>
+  <div class="replaying">
     <button
       class="headerButton"
       title="Previous sentence"
@@ -112,6 +112,7 @@
       <span class="material-icons-outlined materialIconButton">
         skip_previous
       </span>
+      <div class="button-label">Prev.</div>
     </button>
     <button
       class="headerButton"
@@ -121,6 +122,7 @@
       <span class="material-icons-outlined materialIconButton">
         skip_next
       </span>
+      <div class="button-label">Next</div>
     </button>
     <button
       class="headerButton"
@@ -128,6 +130,8 @@
       (click)="stopReplay.emit()"
     >
       <span class="material-icons-outlined materialIconButton"> stop </span>
+      <div class="button-label">Stop</div>
     </button>
+    <div class="sentences">Sentence: {{ sentenceDescription$ | async }}</div>
   </div>
 }

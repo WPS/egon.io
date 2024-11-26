@@ -44,13 +44,6 @@
     }
     <span class="titleSpacer"></span>
 
-    @if (isReplay$ | async) {
-      <span title="Replay Sentence">
-        Sentence: {{ sentenceDescription$ | async }}</span
-      >
-    }
-
-    <span class="buttonSpacer"></span>
     <app-header-buttons
       class="nowrap"
       [hasDomainStory]="hasDomainStory"
