@@ -29,7 +29,7 @@ There are several deployment options:
 - Docker container: If you prefer to provide websites as Docker container, you can build your own.
 - If you don't want to build and deploy Egon.io yourself, than use one of the ready-to-use options provided by the Egon.io team:
   - Run [Egon.io online](https://egon.io/)
-  - Download a ready-made Docker image: `docker pull ghcr.io/wps/egon.io:latest`
+  - Download a ready-made Docker image `docker pull ghcr.io/wps/egon.io:latest` and run it `docker run -p 4040:80 ghcr.io/wps/egon.io:latest` (replace "4040" with whatever port you want to use)
 
 ### Build Standalone Version (Zip file)
 
@@ -44,7 +44,7 @@ There are several deployment options:
 1. In the root directory of your source code, run `docker build -t egon-dev .`
 2. To start the container, run `docker run -p 8080:80 egon-dev`
 
-Adapt container name and port as needed.
+Adapt container name ("egon-dev" in the above example) and port ("8080") as needed.
 
 ## License
 
