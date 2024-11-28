@@ -14,7 +14,7 @@ import { is, getScaledPath } from "../util";
 const MARKER_HIDDEN = "djs-element-hidden",
   MARKER_LABEL_HIDDEN = "djs-label-hidden";
 
-export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
+export default function DSLabelEditingPreview(eventBus, canvas) {
   let self = this;
 
   let defaultLayer = canvas.getDefaultLayer();
@@ -25,7 +25,6 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
 
     element = activeProvider.element.label || activeProvider.element;
 
-    // text annotation
     if (is(element, ElementTypes.TEXTANNOTATION)) {
       absoluteElementBBox = canvas.getAbsoluteBBox(element);
       gfx = svgCreate("g");
@@ -46,7 +45,7 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
       svgAttr(path, {
         d: textPathData,
         strokeWidth: 2,
-        stroke: getStrokeColor(element),
+        stroke: "black",
       });
 
       svgAppend(gfx, path);
@@ -120,10 +119,4 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
   );
 }
 
-DSLabelEditingPreview.$inject = ["eventBus", "canvas", "pathMap"];
-
-// helpers ///////////////////
-
-function getStrokeColor() {
-  return "black";
-}
+DSLabelEditingPreview.$inject = ["eventBus", "canvas"];

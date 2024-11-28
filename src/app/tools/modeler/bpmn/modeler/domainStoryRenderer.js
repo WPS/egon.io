@@ -54,7 +54,6 @@ export default function DomainStoryRenderer(
   styles,
   canvas,
   textRenderer,
-  pathMap,
   commandStack,
 ) {
   BaseRenderer.call(this, eventBus, 2000);
@@ -735,7 +734,6 @@ DomainStoryRenderer.$inject = [
   "styles",
   "canvas",
   "textRenderer",
-  "pathMap",
   "commandStack",
 ];
 

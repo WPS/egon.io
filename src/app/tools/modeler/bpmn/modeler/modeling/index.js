@@ -2,7 +2,6 @@
 
 import DomainStoryPalette from "../palette/domainStoryPalette";
 import CreateModule from "diagram-js/lib/features/create";
-import PathMap from "bpmn-js/lib/draw/PathMap";
 import PopupMenuModule from "bpmn-js/lib/features/popup-menu";
 import ContextPadModule from "diagram-js/lib/features/context-pad";
 import CommandStack from "diagram-js/lib/command/CommandStack";
@@ -32,7 +31,6 @@ export default {
   domainStoryRules: ["type", DomainStoryRules],
   domainStoryUpdater: ["type", DomainStoryUpdater],
   contextPadProvider: ["type", DomainStoryContextPadProvider],
-  pathMap: ["type", PathMap],
   replaceMenuProvider: ["type", ReplaceMenuProvider],
   commandStack: ["type", CommandStack],
   updateLabelHandler: ["type", UpdateLabelHandler],
