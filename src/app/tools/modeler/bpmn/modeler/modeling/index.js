@@ -1,7 +1,6 @@
 "use strict";
 
 import DomainStoryPalette from "../palette/domainStoryPalette";
-import ElementFactory from "bpmn-js/lib/features/modeling/ElementFactory";
 import CreateModule from "diagram-js/lib/features/create";
 import PathMap from "bpmn-js/lib/draw/PathMap";
 import PopupMenuModule from "bpmn-js/lib/features/popup-menu";
@@ -33,7 +32,6 @@ export default {
   domainStoryRules: ["type", DomainStoryRules],
   domainStoryUpdater: ["type", DomainStoryUpdater],
   contextPadProvider: ["type", DomainStoryContextPadProvider],
-  elementFactoryBpmn: ["type", ElementFactory],
   pathMap: ["type", PathMap],
   replaceMenuProvider: ["type", ReplaceMenuProvider],
   commandStack: ["type", CommandStack],
