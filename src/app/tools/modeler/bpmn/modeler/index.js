@@ -6,7 +6,6 @@ import DomainStoryPalette from "./palette/domainStoryPalette";
 import DomainStoryRules from "./domainStoryRules";
 import DomainStoryUpdater from "./domainStoryUpdater";
 import CreateModule from "diagram-js/lib/features/create";
-import PopupMenuModule from "bpmn-js/lib/features/popup-menu";
 import ContextPadModule from "diagram-js/lib/features/context-pad";
 import CommandStack from "diagram-js/lib/command/CommandStack";
 import UpdateLabelHandler from "./updateHandler/updateLabelHandler";
@@ -16,7 +15,7 @@ import ReplaceMenuProvider from "./change-icon/replaceMenuProvider";
 import DSModeling from "./modeling/dSModeling";
 
 export default {
-  __depends__: [CreateModule, ContextPadModule, PopupMenuModule],
+  __depends__: [CreateModule, ContextPadModule],
   __init__: [
     "domainStoryRenderer",
     "paletteProvider",

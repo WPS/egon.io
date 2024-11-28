@@ -49,7 +49,6 @@ export default function DomainStoryContextPadProvider(
   });
 
   popupMenu.registerProvider("ds-replace", replaceMenuProvider);
-  popupMenu.registerProvider("bpmn-replace", replaceMenuProvider);
 
   this.getContextPadEntries = function (element) {
     selectedElement = element;
