@@ -3,7 +3,6 @@
 import inherits from "inherits";
 import BaseRenderer from "diagram-js/lib/draw/BaseRenderer";
 import Ids from "ids";
-import { getAnnotationBoxHeight } from "src/app/tools/modeler/bpmn/modeler/labeling/dsLabelEditingPreview";
 import { componentsToPath, createLine } from "diagram-js/lib/util/RenderUtil";
 import {
   append as svgAppend,
@@ -27,7 +26,7 @@ import {
 } from "src/app/tools/modeler/bpmn/modeler/labeling/position";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { angleBetween } from "../../../../utils/mathExtensions";
-import { isCustomIcon, isCustomSvgIcon } from "./util";
+import { isCustomIcon, isCustomSvgIcon, getScaledPath } from "./util";
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
@@ -102,32 +101,6 @@ export default function DomainStoryRenderer(
       style: assign({}, textRenderer.getExternalStyle(), {
         fill: "black",
         position: "absolute",
-      }),
-    };
-  }
-
-  function backgroundBoxStyle(box) {
-    return {
-      box: box,
-      fitBox: true,
-      style: assign({}, textRenderer.getExternalStyle(), {
-        fill: "black",
-        fontSize: 50,
-        position: "absolute",
-        fontFamily: "Courier New",
-      }),
-    };
-  }
-
-  function backgroundDotStyle(box) {
-    return {
-      box: box,
-      fitBox: true,
-      style: assign({}, textRenderer.getExternalStyle(), {
-        fill: "white",
-        fontSize: 150,
-        position: "absolute",
-        fontFamily: "Courier",
       }),
     };
   }
@@ -580,7 +553,7 @@ export default function DomainStoryRenderer(
       0,
       style,
     );
-    let textPathData = pathMap.getScaledPath("TEXT_ANNOTATION", {
+    let textPathData = getScaledPath({
       xScaleFactor: 1,
       yScaleFactor: 1,
       containerWidth: element.width,
@@ -652,7 +625,7 @@ export default function DomainStoryRenderer(
     return rect;
   }
 
-  // marker functions
+  // marker functions ("markers" are arrowheads of activities)
   function marker(type, fill, stroke) {
     let id = type + "-" + fill + "-" + stroke + "-" + rendererId;
 

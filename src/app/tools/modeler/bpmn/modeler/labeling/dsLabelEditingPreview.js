@@ -9,7 +9,7 @@ import {
 
 import { translate } from "diagram-js/lib/util/SvgTransformUtil";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { is } from "../util";
+import { is, getScaledPath } from "../util";
 
 const MARKER_HIDDEN = "djs-element-hidden",
   MARKER_LABEL_HIDDEN = "djs-label-hidden";
@@ -30,7 +30,7 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
       absoluteElementBBox = canvas.getAbsoluteBBox(element);
       gfx = svgCreate("g");
 
-      let textPathData = pathMap.getScaledPath("TEXT_ANNOTATION", {
+      let textPathData = getScaledPath({
         xScaleFactor: 1,
         yScaleFactor: 1,
         containerWidth: element.width,
@@ -69,7 +69,6 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
   });
 
   eventBus.on("directEditing.resize", function (context) {
-    // text annotation
     if (is(element, ElementTypes.TEXTANNOTATION)) {
       let height = context.height,
         dy = context.dy;
@@ -79,7 +78,7 @@ export default function DSLabelEditingPreview(eventBus, canvas, pathMap) {
         0,
       );
 
-      let textPathData = pathMap.getScaledPath("TEXT_ANNOTATION", {
+      let textPathData = getScaledPath({
         xScaleFactor: 1,
         yScaleFactor: 1,
         containerWidth: element.width,
