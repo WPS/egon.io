@@ -203,7 +203,11 @@ mat-dialog-actions.mdc-dialog__actions {
   }
 }
 
-/* BPMN elements */
+/**
+ * from diagram-js
+ */
+
+/* context pad */
 
 .djs-overlay-context-pad {
   min-width: 7.5rem;
@@ -219,10 +223,6 @@ mat-dialog-actions.mdc-dialog__actions {
   padding: 1px;
   background-color: #f7f7f8;
 }
-
-/**
- * from bpmn.io
- */
 
 /**
  * palette
