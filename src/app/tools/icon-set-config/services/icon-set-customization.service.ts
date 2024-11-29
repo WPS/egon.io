@@ -410,7 +410,7 @@ export class IconSetCustomizationService {
   /** Update Icons **/
   addNewIcon(iconName: string): void {
     const iconDict = new Dictionary();
-    iconDict.add(this.getSrcForIcon(iconName), iconName);
+    iconDict.add(this.getDataUrlForIcon(iconName), iconName);
     this.iconDictionaryService.addIconsToCss(iconDict);
     this.addIconToAllIconList(iconName);
   }
@@ -419,7 +419,7 @@ export class IconSetCustomizationService {
     this.allIconListItems.add(
       new BehaviorSubject({
         name: iconName,
-        svg: this.getSrcForIcon(iconName),
+        svg: this.getDataUrlForIcon(iconName),
         isActor: this.isIconActor(iconName),
         isWorkObject: this.isIconWorkObject(iconName),
       }),
@@ -453,14 +453,7 @@ export class IconSetCustomizationService {
     });
   }
 
-  private getSrcForIcon(name: string): string {
-    let iconName: string;
-    if (name.includes(ElementTypes.DOMAINSTORY)) {
-      // TODO: td: This returns empty every time!
-      iconName = getIconId(name);
-    } else {
-      iconName = name;
-    }
+  private getDataUrlForIcon(iconName: string): string {
     const rawSrc = this.iconDictionaryService.getIconSource(iconName);
 
     if (!rawSrc) {
