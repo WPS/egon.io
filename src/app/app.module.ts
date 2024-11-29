@@ -105,9 +105,7 @@ function initialize(
   return () => {
     initializeContextPadProvider(dirtyFlagService, iconDictionaryService);
 
-    /** The Palette and the Context Menu need the Icons present in the Domain,
-     * so the IconDictionaryService and the IconSetConfigurationService needs to be given to the Palette **/
-    initializePalette(iconDictionaryService, configurationService);
+    initializePalette(iconDictionaryService);
     initializeRenderer(
       iconDictionaryService,
       elementRegistryService,

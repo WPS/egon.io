@@ -1,15 +1,12 @@
 "use strict";
 
 import { assign } from "min-dash";
-import { Dictionary } from "src/app/domain/entities/dictionary";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 
 let iconDictionary;
-let configuration;
 
-export function initializePalette(iconDictionaryService, configurationService) {
+export function initializePalette(iconDictionaryService) {
   iconDictionary = iconDictionaryService;
-  configuration = configurationService;
 }
 
 export default function PaletteProvider(
@@ -73,33 +70,6 @@ PaletteProvider.prototype.getPaletteEntries = function () {
 
   return initPalette(actions, spaceTool, lassoTool, createAction);
 };
-
-function appendCSSStyleCheat(customIcons) {
-  const sheetEl = document.createElement("style");
-  document.head.appendChild(sheetEl);
-
-  let customIconDict = new Dictionary();
-
-  customIconDict.appendDict(customIcons);
-  let customIconDictKeys = customIconDict.keysArray();
-
-  customIconDictKeys.forEach((name) => {
-    if (iconDictionary.getCustomIconsDictionary().has(name)) {
-      let src = customIconDict.get(name);
-
-      const iconStyle =
-        ".icon-domain-story-" +
-        name.toLowerCase() +
-        "::before{" +
-        " display: block;" +
-        ' content: url("data:image/svg+xml;utf8,' +
-        wrapSRCInSVG(src) +
-        '");' +
-        " margin: 3px;}";
-      sheetEl.sheet.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
-    }
-  });
-}
 
 function initPalette(actions, spaceTool, lassoTool, createAction) {
   let config = iconDictionary?.getCurrentIconConfigurationForBPMN();
@@ -196,15 +166,4 @@ function addCanvasObjectTypes(
     name,
   );
   assign(actions, action);
-}
-
-// For some reason its important to use ' in the content for the Palette and ContextPad
-// Do not change!
-function wrapSRCInSVG(src) {
-  return (
-    "<svg viewBox='0 0 22 22' width='22' height='22' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>" +
-    "<image width='22' height='22' xlink:href='" +
-    src +
-    "'/></svg>"
-  );
 }
