@@ -46,7 +46,7 @@ $egon-palette: (
 
 // mdc-filled-text-field-focus-label-text-color: rgba(164, 215, 225, 0.87);
 
-// This was generated (see egon-palette), with 100 as primary color
+// This was generated (see egon-palette, with 100 as primary color)
 $egon-contrast-palette: (
   50: #eedddd,
   100: #e1aea4,
@@ -80,7 +80,7 @@ $egon-primary: mat.define-palette($egon-palette, 100, 50, 200);
 $egon-accent: mat.define-palette($egon-palette, 400, 300, 500);
 
 // The warn palette is optional (defaults to red).
-$egon-warn: mat.define-palette($egon-contrast-palette, 100, 50, 300);
+$egon-warn: mat.define-palette($egon-contrast-palette, 200, 100, 300);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -374,7 +374,7 @@ mat-dialog-actions.mdc-dialog__actions {
  * snapping
  */
 .djs-snap-line {
-  stroke: #eedddd;
+  stroke: #e1aea4;
 }
 
 .djs-palette .entry:hover {
