@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { defaultIconSet } from '../domain/iconConfiguration';
-import { TitleService } from '../../title/services/title.service';
 import {
   ICON_SET_CONFIGURATION_KEY,
   INITIAL_ICON_SET_NAME,
@@ -25,17 +25,20 @@ export interface FileConfiguration {
   providedIn: 'root',
 })
 export class IconSetConfigurationService {
+  private iconSetNameSubject = new BehaviorSubject<string>(
+    INITIAL_ICON_SET_NAME,
+  );
+
+  iconSetName$ = this.iconSetNameSubject.asObservable();
+
   constructor(
     private iconDictionaryService: IconDictionaryService,
     private elementRegistryService: ElementRegistryService,
-    private titleService: TitleService,
     private storageService: StorageService,
   ) {}
 
-  setIconSetName(iconSetName: string): void {
-    this.titleService.setIconSetName(
-      iconSetName ? iconSetName : INITIAL_ICON_SET_NAME,
-    );
+  setIconSetName(name: string): void {
+    this.iconSetNameSubject.next(name); // ? name : INITIAL_ICON_SET_NAME);
   }
 
   exportConfiguration(): void {
@@ -45,7 +48,7 @@ export class IconSetConfigurationService {
     }
 
     const configJSONString = JSON.stringify(iconSetConfiguration, null, 2);
-    const filename = this.titleService.getIconSetName();
+    const filename = this.iconSetNameSubject.value;
     const element = document.createElement('a');
 
     element.setAttribute(
@@ -139,7 +142,7 @@ export class IconSetConfigurationService {
 
   getCurrentConfigurationNamesWithoutPrefix(): CustomIconSetConfiguration {
     return {
-      name: this.titleService.getIconSetName() || INITIAL_ICON_SET_NAME,
+      name: this.iconSetNameSubject.value || INITIAL_ICON_SET_NAME,
       actors: this.iconDictionaryService
         .getActorsDictionary()
         .keysArray()
@@ -194,7 +197,7 @@ export class IconSetConfigurationService {
     });
 
     return {
-      name: this.titleService.getIconSetName(),
+      name: this.iconSetNameSubject.value,
       actors: newActors,
       workObjects: newWorkobjects,
     };
