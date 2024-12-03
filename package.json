@@ -47,7 +47,7 @@
     "karma-jasmine-html-reporter": "^2.0.0",
     "ng-mocks": "^14.13.1",
     "node-polyfill-webpack-plugin": "^3.0.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "5.4.4",
     "zip-build": "^1.8.0",
