@@ -142,7 +142,7 @@ export class IconDictionaryService {
   }
 
   /** Add Icon(s) to Dictionary **/
-  registerIconForBPMN(
+  private registerIconForBPMN(
     name: string,
     src: string,
     elementType: ElementTypes,
