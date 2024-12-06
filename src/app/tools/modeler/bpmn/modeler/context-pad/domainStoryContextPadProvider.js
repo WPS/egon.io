@@ -204,10 +204,10 @@ export default function DomainStoryContextPadProvider(
   }
 
   function addWorkObjects(appendAction, actions) {
-    let workObjectTypes = iconDictionaryService.getIconsAssignedAs(
+    let workObjects = iconDictionaryService.getIconsAssignedAs(
       ElementTypes.WORKOBJECT,
     );
-    workObjectTypes.keysArray().forEach((workObjectType) => {
+    workObjects.keysArray().forEach((workObjectType) => {
       let name = workObjectType;
       let icon = iconDictionaryService.getIconForBPMN(
         ElementTypes.WORKOBJECT,
@@ -225,10 +225,8 @@ export default function DomainStoryContextPadProvider(
   }
 
   function addActors(appendAction, actions) {
-    let actorTypes = iconDictionaryService.getIconsAssignedAs(
-      ElementTypes.ACTOR,
-    );
-    actorTypes.keysArray().forEach((actorType) => {
+    let actors = iconDictionaryService.getIconsAssignedAs(ElementTypes.ACTOR);
+    actors.keysArray().forEach((actorType) => {
       let name = actorType;
       let icon = iconDictionaryService.getIconForBPMN(
         ElementTypes.ACTOR,

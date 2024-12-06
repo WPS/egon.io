@@ -32,7 +32,7 @@ export class IconDictionaryService {
   private readonly iconConfig: IconConfiguration;
 
   constructor() {
-    this.builtInIconsDictionary.addBuildInIcons(builtInIcons);
+    this.builtInIconsDictionary.addBuiltInIcons(builtInIcons);
     this.iconConfig = new IconConfiguration(this.builtInIconsDictionary);
   }
 
@@ -45,8 +45,8 @@ export class IconDictionaryService {
     }
 
     const allTypes = new Dictionary();
-    allTypes.addBuildInIcons(builtInIcons);
-    allTypes.appendDict(this.getCustomIconsDictionary());
+    allTypes.addBuiltInIcons(builtInIcons);
+    allTypes.appendDict(this.getCustomIcons());
 
     this.initDictionary(
       actors,
@@ -63,14 +63,14 @@ export class IconDictionaryService {
   }
 
   private initDictionary(
-    keys: string[],
-    allTypes: Dictionary,
+    selectedIconNames: string[],
+    allIcons: Dictionary,
     dictionary: Dictionary,
     elementType: ElementTypes,
   ) {
     dictionary.clear();
-    for (const key of keys) {
-      dictionary.add(allTypes.get(key), key);
+    for (const key of selectedIconNames) {
+      dictionary.add(allIcons.get(key), key);
     }
 
     dictionary.keysArray().forEach((name) => {
@@ -123,7 +123,7 @@ export class IconDictionaryService {
     }
 
     const allTypes = new Dictionary();
-    allTypes.addBuildInIcons(builtInIcons);
+    allTypes.addBuiltInIcons(builtInIcons);
     allTypes.appendDict(customIcons);
 
     iconTypes.forEach((name) => {
@@ -308,11 +308,11 @@ export class IconDictionaryService {
   getFullDictionary(): Dictionary {
     const fullDictionary = new Dictionary();
     fullDictionary.appendDict(this.builtInIconsDictionary);
-    fullDictionary.appendDict(this.getCustomIconsDictionary());
+    fullDictionary.appendDict(this.getCustomIcons());
     return fullDictionary;
   }
 
-  getCustomIconsDictionary(): Dictionary {
+  getCustomIcons(): Dictionary {
     const appendedDict = new Dictionary();
     customIcons.keysArray().forEach((key) => {
       if (!this.builtInIconsDictionary.has(key)) {
