@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
-import { Waypoint } from 'src/app/domain/entities/waypoint';
 import { ActivityBusinessObject } from '../../../domain/entities/activityBusinessObject';
 
 /**
@@ -57,82 +56,6 @@ export class ImportRepairService {
       }
     }
     return elements;
-  }
-
-  /**
-   * Adjusts Positions of Elements to ensure the Domain Story starts in the visible parts of the canvas
-   */
-  adjustPositions(elements: BusinessObject[]): void {
-    let xLeft = 0;
-    let yUp = 0;
-    let isFirst = true;
-
-    this.findFirstElement(elements, isFirst, xLeft, yUp);
-
-    if (xLeft < 75 || xLeft > 150 || yUp < 0 || yUp > 50) {
-      // add Padding for the Palette and the top
-      xLeft -= 75;
-      yUp -= 50;
-
-      elements.forEach((element) =>
-        this.adjustElementPosition(element, xLeft, yUp),
-      );
-    }
-  }
-
-  private adjustElementPosition(
-    element: BusinessObject,
-    xLeft: number,
-    yUp: number,
-  ): void {
-    if (
-      element.type === ElementTypes.ACTIVITY ||
-      element.type === ElementTypes.CONNECTION
-    ) {
-      const waypoints = (element as ActivityBusinessObject).waypoints;
-      waypoints.forEach((point: Waypoint) => {
-        point.x -= xLeft;
-        point.y -= yUp;
-
-        if (point.original) {
-          point.original.x = point.x;
-          point.original.y = point.y;
-        }
-      });
-    } else {
-      element.x -= xLeft;
-      element.y -= yUp;
-    }
-  }
-
-  private findFirstElement(
-    elements: BusinessObject[],
-    isFirst: boolean,
-    xLeft: number,
-    yUp: number,
-  ) {
-    elements.forEach((element) => {
-      let elXLeft;
-      let elYUp;
-      if (
-        element.type !== ElementTypes.ACTIVITY &&
-        element.type !== ElementTypes.CONNECTION
-      ) {
-        if (isFirst) {
-          xLeft = element.x;
-          yUp = element.y;
-          isFirst = false;
-        }
-        elXLeft = element.x;
-        elYUp = element.y;
-        if (elXLeft < xLeft) {
-          xLeft = elXLeft;
-        }
-        if (elYUp < yUp) {
-          yUp = elYUp;
-        }
-      }
-    });
   }
 
   // Early versions of Egon allowed Whitespaces in Icon names which are now not supported anymore.

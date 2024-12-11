@@ -314,8 +314,6 @@ export class ImportDomainStoryService
         false,
       );
 
-      this.importRepairService.adjustPositions(elements);
-
       this.updateIconRegistries(elements, iconSetConfig);
       this.rendererService.importStory(elements, configChanged, iconSetConfig);
     }
