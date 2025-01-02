@@ -76,15 +76,15 @@ $egon-contrast-palette: (
 // @param primary
 // @param lighter
 // @param darker
-$egon-primary: mat.define-palette($egon-palette, 100, 50, 200);
-$egon-accent: mat.define-palette($egon-palette, 400, 300, 500);
+$egon-primary: mat.m2-define-palette($egon-palette, 100, 50, 200);
+$egon-accent: mat.m2-define-palette($egon-palette, 400, 300, 500);
 
 // The warn palette is optional (defaults to red).
-$egon-warn: mat.define-palette($egon-contrast-palette, 200, 100, 300);
+$egon-warn: mat.m2-define-palette($egon-contrast-palette, 200, 100, 300);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$egon-theme: mat.define-light-theme(
+$egon-theme: mat.m2-define-light-theme(
   (
     color: (
       primary: $egon-primary,
