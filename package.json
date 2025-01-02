@@ -25,7 +25,6 @@
     "@angular/platform-browser-dynamic": "^18.2.13",
     "bpmn-js": "^8.8.3",
     "dot": "^1.1.3",
-    "material-icons": "^1.13.2",
     "min-dash": "^4.2.2",
     "ngx-color-picker": "^17.0.0",
     "rxjs": "^7.8.0",

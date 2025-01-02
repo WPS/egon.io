@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
+import  { MaterialModule} from '../../../../material.module';
 
 @Component({
   selector: 'app-header-buttons',

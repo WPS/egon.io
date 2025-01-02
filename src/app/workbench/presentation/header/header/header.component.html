@@ -15,7 +15,7 @@
       (click)="openHeaderDialog()"
       title="Edit title and description"
     >
-      <span class="material-icons-outlined materialIconButton"> edit </span>
+      <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
       <div class="button-label">Title</div>
     </button>
     @if (showDescription | async) {
@@ -24,9 +24,7 @@
         title="Hide description"
         (click)="setShowDescription(false)"
       >
-        <span class="material-icons-outlined materialIconButton">
-          visibility_off
-        </span>
+        <mat-icon fontSet="material-icons-outlined">visibility_off</mat-icon>
         <div class="button-label">Description</div>
       </button>
     }
@@ -36,9 +34,7 @@
         title="Show description"
         (click)="setShowDescription(true)"
       >
-        <span class="material-icons-outlined materialIconButton">
-          visibility
-        </span>
+        <mat-icon fontSet="material-icons-outlined">visibility</mat-icon>
         <div class="button-label">Description</div>
       </button>
     }

@@ -8,9 +8,7 @@
       title="Start replay"
       (click)="startReplay.emit()"
     >
-      <span class="material-icons-outlined materialIconButton">
-        play_arrow
-      </span>
+      <mat-icon fontSet="material-icons-outlined">play_arrow</mat-icon>
       <div class="button-label">Replay</div>
     </button>
 
@@ -20,9 +18,7 @@
       title="Import story from file"
       onclick="document.getElementById('import').click();"
     >
-      <span class="material-icons-outlined materialIconButton">
-        file_upload
-      </span>
+      <mat-icon fontSet="material-icons-outlined">file_upload</mat-icon>
       <div class="button-label">Import from file</div>
     </button>
 
@@ -32,9 +28,7 @@
       title="Import story from URL"
       (click)="openImportFromUrlDialog.emit()"
     >
-      <span class="material-icons-outlined materialIconButton">
-        cloud_upload
-      </span>
+      <mat-icon fontSet="material-icons-outlined">cloud_upload</mat-icon>
       <div class="button-label">Import from URL</div>
     </button>
 
@@ -55,9 +49,7 @@
       title="Export story as .egn, .svg or .png file"
       (click)="openDownloadDialog.emit()"
     >
-      <span class="material-icons-outlined materialIconButton">
-        file_download
-      </span>
+      <mat-icon fontSet="material-icons-outlined">file_download</mat-icon>
       <div class="button-label">Export</div>
     </button>
     <button
@@ -67,9 +59,7 @@
       title="Label Dictionary"
       (click)="openLabelDictionary.emit()"
     >
-      <span class="material-icons materialIconButton" title="Label Dictionary">
-        spellcheck
-      </span>
+      <mat-icon fontSet="material-icons-outlined">spellcheck</mat-icon>
       <div class="button-label">Dictionary</div>
     </button>
 
@@ -78,17 +68,12 @@
       title="Create a new domain story"
       (click)="newStory.emit()"
     >
-      <span class="material-icons-outlined materialIconButton"> note_add </span>
+      <mat-icon fontSet="material-icons-outlined">note_add</mat-icon>
       <div class="button-label">New story</div>
     </button>
 
     <button class="headerButton" title="Settings" (click)="openSettings.emit()">
-      <span
-        class="material-icons-outlined materialIconButton"
-        title="Change Icons and Settings"
-      >
-        settings
-      </span>
+      <mat-icon fontSet="material-icons-outlined">settings</mat-icon>
       <div class="button-label">Settings</div>
     </button>
 
@@ -97,7 +82,7 @@
       title="Show keyboard shortcuts"
       (click)="showKeyboardShortCuts.emit()"
     >
-      <span class="material-icons-outlined materialIconButton"> keyboard </span>
+      <mat-icon fontSet="material-icons-outlined">keyboard</mat-icon>
       <div class="button-label">Shortcuts</div>
     </button>
   </div>
@@ -109,9 +94,7 @@
       title="Previous sentence"
       (click)="previousSentence.emit()"
     >
-      <span class="material-icons-outlined materialIconButton">
-        skip_previous
-      </span>
+      <mat-icon fontSet="material-icons-outlined">skip_previous</mat-icon>
       <div class="button-label">Prev.</div>
     </button>
     <button
@@ -119,9 +102,7 @@
       title="Next sentence"
       (click)="nextSentence.emit()"
     >
-      <span class="material-icons-outlined materialIconButton">
-        skip_next
-      </span>
+      <mat-icon fontSet="material-icons-outlined">skip_next</mat-icon>
       <div class="button-label">Next</div>
     </button>
     <button
@@ -129,7 +110,7 @@
       title="Stop replay"
       (click)="stopReplay.emit()"
     >
-      <span class="material-icons-outlined materialIconButton"> stop </span>
+      <mat-icon fontSet="material-icons-outlined">stop</mat-icon>
       <div class="button-label">Stop</div>
     </button>
     <div class="sentences">Sentence: {{ sentenceDescription$ | async }}</div>
