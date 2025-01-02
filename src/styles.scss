@@ -103,7 +103,8 @@ $egon-theme: mat.m2-define-light-theme(
 
 @font-face {
   font-family: Roboto;
-  font-style: normal, bold;
+  font-style: normal;
+  font-weight: bold;
   src: local("Roboto-Regular"), url("~src/assets/font/Roboto-Regular.woff");
 }
 
