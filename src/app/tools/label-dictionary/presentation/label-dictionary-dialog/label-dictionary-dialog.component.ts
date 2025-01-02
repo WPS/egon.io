@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   selector: 'app-label-dictionary-dialog',
   templateUrl: './label-dictionary-dialog.component.html',
   styleUrls: ['./label-dictionary-dialog.component.scss'],
+  standalone: false,
 })
 export class LabelDictionaryDialogComponent {
   constructor(

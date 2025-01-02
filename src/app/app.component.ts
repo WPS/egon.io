@@ -36,6 +36,7 @@ import { ModelerService } from './tools/modeler/services/modeler.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  standalone: false,
 })
 export class AppComponent implements OnInit, AfterViewInit {
   showSettings$: Observable<boolean> | BehaviorSubject<boolean>;

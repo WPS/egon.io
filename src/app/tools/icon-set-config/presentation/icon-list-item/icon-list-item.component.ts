@@ -7,6 +7,7 @@ import { IconSetCustomizationService } from '../../services/icon-set-customizati
   selector: 'app-icon-list-item',
   templateUrl: './icon-list-item.component.html',
   styleUrls: ['./icon-list-item.component.scss'],
+  standalone: false,
 })
 export class IconListItemComponent implements OnInit, AfterViewChecked {
   @Input()

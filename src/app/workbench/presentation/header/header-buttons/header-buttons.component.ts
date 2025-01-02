@@ -6,6 +6,7 @@ import { ReplayService } from '../../../../tools/replay/services/replay.service'
   selector: 'app-header-buttons',
   templateUrl: './header-buttons.component.html',
   styleUrls: ['./header-buttons.component.scss'],
+  standalone: false,
 })
 export class HeaderButtonsComponent {
   sentenceDescription$: Observable<string>;

@@ -9,6 +9,7 @@ import { ActivityDialogForm } from '../../domain/activity-dialog-form';
   selector: 'app-activity-dialog',
   templateUrl: './activity-dialog.component.html',
   styleUrls: ['./activity-dialog.component.scss'],
+  standalone: false,
 })
 export class ActivityDialogComponent {
   form: FormGroup<ActivityDialogForm>;

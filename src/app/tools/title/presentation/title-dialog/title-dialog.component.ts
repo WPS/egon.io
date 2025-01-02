@@ -9,6 +9,7 @@ import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service
   selector: 'app-header-dialog',
   templateUrl: './title-dialog.component.html',
   styleUrls: ['./title-dialog.component.scss'],
+  standalone: false,
 })
 export class TitleDialogComponent implements OnInit {
   form!: FormGroup<TitleDialogForm>;
