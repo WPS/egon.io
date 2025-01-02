@@ -47,7 +47,7 @@
     "karma-jasmine": "^5.1.0",
     "karma-jasmine-html-reporter": "^2.0.0",
     "ng-mocks": "^14.13.1",
-    "node-polyfill-webpack-plugin": "^3.0.0",
+    "node-polyfill-webpack-plugin": "^4.1.0",
     "prettier": "^3.4.1",
     "ts-archlint": "^0.15.0",
     "ts-node": "^10.9.2",
