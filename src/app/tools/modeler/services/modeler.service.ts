@@ -32,10 +32,8 @@ export class ModelerService {
   ) {}
 
   private modeler: any;
-  private canvas: any;
   private elementRegistry: any;
   private commandStack: any;
-  private selection: any;
   private eventBus: any;
 
   private encoded: string | undefined;
@@ -68,11 +66,9 @@ export class ModelerService {
     });
 
     if (this.modeler.get) {
-      this.canvas = this.modeler.get('canvas');
       this.elementRegistry = this.modeler.get('elementRegistry');
       this.eventBus = this.modeler.get('eventBus');
       this.commandStack = this.modeler.get('commandStack');
-      this.selection = this.modeler.get('selection');
     }
 
     this.initializerService.initializeDomainStoryModelerEventHandlers(
@@ -82,9 +78,6 @@ export class ModelerService {
     this.initializerService.propagateDomainStoryModelerClassesToServices(
       this.commandStack,
       this.elementRegistry,
-      this.canvas,
-      this.selection,
-      this.modeler,
     );
 
     const exportArtifacts = this.debounce(this.saveSVG, 500);
@@ -97,7 +90,6 @@ export class ModelerService {
       this.commandStack,
     );
 
-    this.modeler.createDiagram();
     // expose bpmnjs to window for debugging purposes
     assign(window, { bpmnjs: this.modeler });
 

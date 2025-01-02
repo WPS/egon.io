@@ -39,9 +39,6 @@ export class InitializerService {
   propagateDomainStoryModelerClassesToServices(
     commandStack: any,
     elementRegistry: any,
-    canvas: any,
-    selection: any,
-    modeler: any,
   ): void {
     this.commandStackService.setCommandStack(commandStack);
     this.elementRegistryService.setElementRegistry(elementRegistry);

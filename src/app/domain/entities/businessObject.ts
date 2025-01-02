@@ -1,12 +1,6 @@
 import { ElementTypes } from './elementTypes';
 
 export interface BusinessObject {
-  $descriptor: any;
-  $type: any;
-  di: any;
-  get: any;
-  set: any;
-
   id: string;
   name: string;
 
@@ -20,12 +14,6 @@ export interface BusinessObject {
 }
 
 export const testBusinessObject: BusinessObject = {
-  $descriptor: undefined,
-  $type: undefined,
-  di: undefined,
-  get: undefined,
-  set: undefined,
-
   id: 'test',
   name: 'test',
 
