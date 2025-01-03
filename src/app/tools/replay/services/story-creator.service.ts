@@ -106,13 +106,16 @@ export class StoryCreatorService {
     const actorTextAnnotations: CanvasObject[] = [];
 
     tracedActivity.forEach((parallelSentence: ActivityCanvasObject) => {
+      const parallelSentenceTargetObjects: CanvasObject[] = [];
+
       initialSource.push(parallelSentence.source);
 
       const firstTarget = parallelSentence.target;
       targetObjects.push(firstTarget);
+      parallelSentenceTargetObjects.push(firstTarget);
 
       // check the outgoing activities for each target
-      for (const checkTarget of targetObjects) {
+      for (const checkTarget of parallelSentenceTargetObjects) {
         if (
           checkTarget.businessObject &&
           !checkTarget.businessObject.type.includes('actor') &&
@@ -124,6 +127,7 @@ export class StoryCreatorService {
             const activityTarget = activity.target;
             if (activityTarget && !targetObjects.includes(activityTarget)) {
               targetObjects.push(activityTarget);
+              parallelSentenceTargetObjects.push(activityTarget);
             }
           });
         }
