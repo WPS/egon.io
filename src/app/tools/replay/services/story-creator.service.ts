@@ -108,7 +108,12 @@ export class StoryCreatorService {
     tracedActivity.forEach((parallelSentence: ActivityCanvasObject) => {
       const parallelSentenceTargetObjects: CanvasObject[] = [];
 
-      initialSource.push(parallelSentence.source);
+      if (
+        !initialSource.includes(parallelSentence.source) &&
+        !targetObjects.includes(parallelSentence.source)
+      ) {
+        initialSource.push(parallelSentence.source);
+      }
 
       const firstTarget = parallelSentence.target;
       targetObjects.push(firstTarget);
@@ -125,7 +130,11 @@ export class StoryCreatorService {
           checkTarget.outgoing.forEach((activity: ActivityCanvasObject) => {
             activities.push(activity);
             const activityTarget = activity.target;
-            if (activityTarget && !targetObjects.includes(activityTarget)) {
+            if (
+              activityTarget &&
+              !targetObjects.includes(activityTarget) &&
+              !initialSource.includes(activityTarget)
+            ) {
               targetObjects.push(activityTarget);
               parallelSentenceTargetObjects.push(activityTarget);
             }
