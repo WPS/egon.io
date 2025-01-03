@@ -1,5 +1,10 @@
 'use strict';
 
+export function sanitizeTextForSVGExport(str: string): string {
+  // @ts-ignore Typescript does not realize that replaceAll exists, no idea why not.
+  return str.replaceAll('--', '––');
+}
+
 // sanitize user-Input to be Desktop-Filename safe
 export function sanitizeForDesktop(str: string): string {
   const map: { [key: string]: string } = {
@@ -14,7 +19,9 @@ export function sanitizeForDesktop(str: string): string {
     '|': '',
   };
   const reg = /[/\\:*?"<>|]/gi;
-  return str ? str.replace(reg, (match) => map[match]) : '';
+  return str
+    ? sanitizeTextForSVGExport(str.replace(reg, (match) => map[match]))
+    : '';
 }
 
 export function sanitizeIconName(name: string): string {

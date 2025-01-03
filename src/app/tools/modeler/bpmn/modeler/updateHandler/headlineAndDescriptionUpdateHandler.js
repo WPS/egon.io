@@ -1,3 +1,5 @@
+import { sanitizeTextForSVGExport } from "src/app/utils/sanitizer";
+
 export default function headlineAndDescriptionUpdateHandler(
   commandStack,
   titleService,
@@ -13,8 +15,8 @@ export default function headlineAndDescriptionUpdateHandler(
       ctx.oldDescription = titleService.getDescription();
 
       titleService.updateTitleAndDescription(
-        ctx.newTitle,
-        ctx.newDescription,
+        sanitizeTextForSVGExport(ctx.newTitle),
+        sanitizeTextForSVGExport(ctx.newDescription),
         false,
       );
     };

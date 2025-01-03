@@ -5,6 +5,7 @@ import { assign } from "min-dash";
 import { autocomplete, getLabel } from "./dsLabelUtil";
 
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
+import { sanitizeTextForSVGExport } from "src/app/utils/sanitizer";
 import { is } from "../util";
 
 let dictionaryService;
@@ -307,5 +308,9 @@ DSLabelEditingProvider.prototype.update = function (
     };
   }
 
-  this._modeling.updateLabel(element, newLabel, newBounds);
+  this._modeling.updateLabel(
+    element,
+    sanitizeTextForSVGExport(newLabel),
+    newBounds,
+  );
 };
