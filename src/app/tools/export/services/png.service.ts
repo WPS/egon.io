@@ -68,7 +68,10 @@ export class PngService {
     return svg;
   }
 
-  findMostOuterElements(svg: HTMLElement, includeSpaceForDescription: boolean): Box {
+  findMostOuterElements(
+    svg: HTMLElement,
+    includeSpaceForDescription: boolean,
+  ): Box {
     let xLeft = 0;
     let xRight = 0;
     let yUp = 0;
@@ -143,7 +146,7 @@ export class PngService {
 
     // we need to adjust yUp to have space for the description if necessary
     if (includeSpaceForDescription) {
-      yUp -= 75
+      yUp -= 75;
     }
 
     return {
@@ -161,7 +164,10 @@ export class PngService {
     title: string,
     withTitle: boolean,
   ): string {
-    const box = this.findMostOuterElements(layerBase, description === undefined);
+    const box = this.findMostOuterElements(
+      layerBase,
+      description === undefined,
+    );
     let viewBoxIndex = svg.indexOf('width="');
 
     this.calculateWidthAndHeight(box);
