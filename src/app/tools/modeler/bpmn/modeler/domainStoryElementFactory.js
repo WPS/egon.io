@@ -69,10 +69,6 @@ export default function DomainStoryElementFactory() {
       if (!attrs.businessObject.$type) {
         assign(attrs.businessObject, { $type: "Element" });
       }
-      assign(attrs.businessObject, { di: {} });
-      if (!attrs.businessObject.$descriptor) {
-        assign(attrs.businessObject, { $descriptor: {} });
-      }
 
       // add width and height if shape
       if (
