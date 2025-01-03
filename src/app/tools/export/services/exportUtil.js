@@ -22,7 +22,10 @@ export function createTitleAndDescriptionSVGElement(
 
   let titleElement = createTitle(title, width);
 
-  let descriptionElement = createDescription(description, width);
+  let descriptionElement = "";
+  if (description) {
+    descriptionElement = createDescription(description, width);
+  }
 
   // to display the title and description in the SVG-file, we need to add a container for our text-elements
 
