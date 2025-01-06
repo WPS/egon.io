@@ -167,7 +167,7 @@ export class SvgService {
   private findIndexToInsertData(data: string) {
     let insertIndex = data.indexOf('</defs>');
     if (insertIndex < 0) {
-      insertIndex = data.indexOf('version="1.2">') + 14;
+      insertIndex = data.indexOf('version="1.1">') + 14; // BPMN 8 exports SVG v. 1.1
     } else {
       insertIndex += 7;
     }
