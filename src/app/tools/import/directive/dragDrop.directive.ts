@@ -5,6 +5,7 @@ import {
   SNACKBAR_ERROR,
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
 
 @Directive({
   standalone: true,
@@ -16,6 +17,7 @@ export class DragDirective {
   constructor(
     private importDomainStoryService: ImportDomainStoryService,
     private snackbar: MatSnackBar,
+    private dirtyFlagService: DirtyFlagService,
   ) {}
 
   @HostListener('dragover', ['$event']) public onDragOver(evt: DragEvent) {
@@ -36,9 +38,17 @@ export class DragDirective {
     this.background = '';
 
     if (evt.dataTransfer?.files[0]) {
-      this.importDomainStoryService.performDropImport(
-        evt.dataTransfer.files[0],
-      );
+      if (this.dirtyFlagService.dirty) {
+        this.importDomainStoryService.openUnsavedChangesReminderDialog(() =>
+          this.importDomainStoryService.performDropImport(
+            evt.dataTransfer!.files[0],
+          ),
+        );
+      } else {
+        this.importDomainStoryService.performDropImport(
+          evt.dataTransfer.files[0],
+        );
+      }
     } else {
       this.snackbar.open('Nothing to import', undefined, {
         duration: SNACKBAR_DURATION_LONG,

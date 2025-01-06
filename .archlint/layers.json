@@ -79,6 +79,13 @@
             "*/replay/**"
           ],
           "mayUseAllBelow": true
+        },
+        {
+          "name": "unsavedChangesReminder",
+          "include": [
+            "*/unsavedChangesReminder/**"
+          ],
+          "mayUseAllBelow": true
         }
       ],
       "mayUseAllBelow": true

@@ -60,7 +60,13 @@ export class HeaderComponent {
   }
 
   onImport(): void {
-    this.importService.performImport();
+    if (this.dirtyFlagService.dirty) {
+      this.importService.openUnsavedChangesReminderDialog(() =>
+        this.importService.performImport(),
+      );
+    } else {
+      this.importService.performImport();
+    }
   }
 
   startReplay(): void {
@@ -92,7 +98,7 @@ export class HeaderComponent {
   }
 
   openImportFromUrlDialog(): void {
-    this.importService.openImportFromUrlDialog();
+    this.importService.openImportFromUrlDialog(this.dirtyFlagService.dirty);
   }
 
   get hasDomainStory() {
