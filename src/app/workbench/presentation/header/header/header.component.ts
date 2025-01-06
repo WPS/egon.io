@@ -55,8 +55,15 @@ export class HeaderComponent {
   }
 
   createNewDomainStory(): void {
-    this.titleService.reset();
-    this.renderService.reset();
+    if (this.dirtyFlagService.dirty) {
+      this.importService.openUnsavedChangesReminderDialog(() => {
+        this.titleService.reset();
+        this.renderService.reset();
+      });
+    } else {
+      this.titleService.reset();
+      this.renderService.reset();
+    }
   }
 
   onImport(): void {
