@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  HostListener,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -31,6 +32,7 @@ import {
 } from './domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModelerService } from './tools/modeler/services/modeler.service';
+import { DirtyFlagService } from './domain/services/dirty-flag.service';
 
 @Component({
   selector: 'app-root',
@@ -73,6 +75,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private snackbar: MatSnackBar,
     replayService: ReplayService,
     private modelerService: ModelerService,
+    private dirtyFlagService: DirtyFlagService,
   ) {
     this.showSettings$ = new BehaviorSubject(false);
     this.showDescription$ = new BehaviorSubject(true);
@@ -163,5 +166,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.autosaveService.loadLatestDraft();
     this.cd.detectChanges();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onWindowClose(event: any): void {
+    if (this.dirtyFlagService.dirty) {
+      event.returnValue = true;
+    }
   }
 }
