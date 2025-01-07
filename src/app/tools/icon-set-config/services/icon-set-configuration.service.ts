@@ -206,6 +206,11 @@ export class IconSetConfigurationService {
   public createIconSetConfiguration(
     fileConfiguration: FileConfiguration,
   ): IconSet {
+    if (fileConfiguration === undefined) {
+      return {name: "", actors: new Dictionary(), workObjects: new Dictionary()}
+      // TODO-RIP-BPMN
+    }
+
     const actorsDict = new Dictionary();
     const workObjectsDict = new Dictionary();
     Object.keys(fileConfiguration.actors).forEach((key) => {

@@ -1,8 +1,8 @@
 "use strict";
 
-import inherits from "inherits";
+import inherits from "inherits-browser";
 
-import ContextPadProvider from "bpmn-js/lib/features/context-pad/ContextPadProvider";
+import ContextPadProvider from "diagram-js/lib/features/context-pad/ContextPadProvider";
 
 import { assign, bind } from "min-dash";
 import { generateAutomaticNumber } from "../numbering/numbering";
@@ -357,7 +357,8 @@ export default function DomainStoryContextPadProvider(
   }
 }
 
-inherits(DomainStoryContextPadProvider, ContextPadProvider);
+// TODO-RIP-BPMN
+//inherits(DomainStoryContextPadProvider, ContextPadProvider);
 
 DomainStoryContextPadProvider.$inject = [
   "injector",

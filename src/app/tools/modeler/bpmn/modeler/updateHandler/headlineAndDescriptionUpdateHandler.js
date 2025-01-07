@@ -4,10 +4,11 @@ export default function headlineAndDescriptionUpdateHandler(
   commandStack,
   titleService,
 ) {
-  commandStack.registerHandler(
-    "story.updateHeadlineAndDescription",
-    handlerFunction,
-  );
+  // commandStack.registerHandler(
+  //   "story.updateHeadlineAndDescription",
+  //   handlerFunction,
+  // );
+  // TODO-RIP-BPMN
 
   function handlerFunction() {
     this.execute = function (ctx) {

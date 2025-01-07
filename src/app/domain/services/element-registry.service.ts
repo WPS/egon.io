@@ -10,7 +10,7 @@ import { UsedIconList } from 'src/app/domain/entities/UsedIconList';
   providedIn: 'root',
 })
 export class ElementRegistryService {
-  private registry: any;
+  private registry: any = {}; // TODO-RIP-BPMN
   private fullyInitialized = false;
 
   /**

@@ -4,11 +4,12 @@ import { undoGroupRework } from "../util";
 import { ElementTypes } from "../../../../../domain/entities/elementTypes";
 
 export default function elementUpdateHandler(commandStack, eventBus) {
-  commandStack.registerHandler("element.colorChange", element_colorChange);
-  commandStack.registerHandler(
-    "shape.removeGroupWithoutChildren",
-    removeGroupWithoutChildren,
-  );
+  // commandStack.registerHandler("element.colorChange", element_colorChange);
+  // commandStack.registerHandler(
+  //   "shape.removeGroupWithoutChildren",
+  //   removeGroupWithoutChildren,
+  // );
+  // TODO-RIP-BPMN
 
   function element_colorChange() {
     this.preExecute = function (context) {

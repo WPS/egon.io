@@ -16,8 +16,8 @@ export class RendererService {
   ) {}
 
   renderStory(domainStory: BusinessObject[]): void {
-    this.modelerService.getModeler().importCustomElements(domainStory);
-  }
+    //this.modelerService.getModeler().importCustomElements(domainStory);
+  } // TODO-RIP-BPMN
 
   reset(): void {
     this.renderStory([]);
@@ -30,6 +30,10 @@ export class RendererService {
     config?: IconSet,
     makeClean = true,
   ): void {
+    if (domainStory === undefined) {
+      return; // TODO-RIP-BPMN
+    }
+
     this.modelerService.restart(config, domainStory);
     this.renderStory(domainStory);
 

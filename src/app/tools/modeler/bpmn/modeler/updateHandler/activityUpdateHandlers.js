@@ -12,11 +12,12 @@ export function initializeActivityUpdateHandler(canvasElementRegistryService) {
 }
 
 export default function activityUpdateHandler(commandStack, eventBus) {
-  commandStack.registerHandler(
-    "activity.directionChange",
-    activity_directionChange,
-  );
-  commandStack.registerHandler("activity.changed", activity_changed);
+  // commandStack.registerHandler(
+  //   "activity.directionChange",
+  //   activity_directionChange,
+  // );
+  // commandStack.registerHandler("activity.changed", activity_changed);
+  // TODO-RIP-BPMN
 
   // update the activity from the activity-dialog, either with or without number
   // and change other activities too, to keep the numbers consistent

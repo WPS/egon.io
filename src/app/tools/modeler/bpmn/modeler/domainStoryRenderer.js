@@ -1,6 +1,6 @@
 "use strict";
 
-import inherits from "inherits";
+import inherits from "inherits-browser";
 import BaseRenderer from "diagram-js/lib/draw/BaseRenderer";
 import Ids from "ids";
 import { componentsToPath, createLine } from "diagram-js/lib/util/RenderUtil";

@@ -1,6 +1,6 @@
 "use strict";
 
-import Modeling from "bpmn-js/lib/features/modeling/Modeling";
+import Modeling from "diagram-js/lib/features/modeling/Modeling";
 
 import { inherits } from "util";
 
@@ -9,7 +9,7 @@ export default function DSModeling(
   elementFactory,
   commandStack,
   domainStoryRules,
-) {
+) { // TODO-RIP-BPMN
   Modeling.call(this, eventBus, elementFactory, commandStack, domainStoryRules);
 }
 

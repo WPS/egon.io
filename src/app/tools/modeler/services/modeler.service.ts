@@ -37,63 +37,63 @@ export class ModelerService {
   private eventBus: any;
 
   private encoded: string | undefined;
-
+  // TODO-RIP-BPMN
   postInit(): void {
-    this.checkCurrentVersion();
-
-    const storedIconSetConfiguration =
-      this.iconSetConfigurationService.getStoredIconSetConfiguration();
-    if (storedIconSetConfiguration) {
-      this.iconDictionaryService.setCustomConfiguration(
-        storedIconSetConfiguration,
-      );
-      this.iconSetConfigurationService.loadConfiguration(
-        storedIconSetConfiguration,
-      );
-    }
-    this.modeler = new DomainStoryModeler({
-      container: '#canvas',
-      keyboard: {
-        bindTo: document,
-      },
-
-      // Disable BPMN-SearchModule and re-enable browser Search
-      additionalModules: [
-        {
-          bpmnSearch: ['value', 'foo'],
-        },
-      ],
-    });
-
-    if (this.modeler.get) {
-      this.elementRegistry = this.modeler.get('elementRegistry');
-      this.eventBus = this.modeler.get('eventBus');
-      this.commandStack = this.modeler.get('commandStack');
-    }
-
-    this.initializerService.initializeDomainStoryModelerEventHandlers(
-      this.commandStack,
-      this.eventBus,
-    );
-    this.initializerService.propagateDomainStoryModelerClassesToServices(
-      this.commandStack,
-      this.elementRegistry,
-    );
-
-    const exportArtifacts = this.debounce(this.saveSVG, 500);
-    if (this.modeler.get) {
-      this.modeler.on('commandStack.changed', exportArtifacts);
-    }
-
-    this.initializerService.initiateEventBusListeners(
-      this.eventBus,
-      this.commandStack,
-    );
-
-    // expose bpmnjs to window for debugging purposes
-    assign(window, { bpmnjs: this.modeler });
-
-    this.startDebounce();
+    // this.checkCurrentVersion();
+    //
+    // const storedIconSetConfiguration =
+    //   this.iconSetConfigurationService.getStoredIconSetConfiguration();
+    // if (storedIconSetConfiguration) {
+    //   this.iconDictionaryService.setCustomConfiguration(
+    //     storedIconSetConfiguration,
+    //   );
+    //   this.iconSetConfigurationService.loadConfiguration(
+    //     storedIconSetConfiguration,
+    //   );
+    // }
+    // this.modeler = new DomainStoryModeler({
+    //   container: '#canvas',
+    //   keyboard: {
+    //     bindTo: document,
+    //   },
+    //
+    //   // Disable BPMN-SearchModule and re-enable browser Search
+    //   additionalModules: [
+    //     {
+    //       bpmnSearch: ['value', 'foo'],
+    //     },
+    //   ],
+    // });
+    //
+    // if (this.modeler.get) {
+    //   this.elementRegistry = this.modeler.get('elementRegistry');
+    //   this.eventBus = this.modeler.get('eventBus');
+    //   this.commandStack = this.modeler.get('commandStack');
+    // }
+    //
+    // this.initializerService.initializeDomainStoryModelerEventHandlers(
+    //   this.commandStack,
+    //   this.eventBus,
+    // );
+    // this.initializerService.propagateDomainStoryModelerClassesToServices(
+    //   this.commandStack,
+    //   this.elementRegistry,
+    // );
+    //
+    // const exportArtifacts = this.debounce(this.saveSVG, 500);
+    // if (this.modeler.get) {
+    //   this.modeler.on('commandStack.changed', exportArtifacts);
+    // }
+    //
+    // this.initializerService.initiateEventBusListeners(
+    //   this.eventBus,
+    //   this.commandStack,
+    // );
+    //
+    // // expose bpmnjs to window for debugging purposes
+    // assign(window, { bpmnjs: this.modeler });
+    //
+    // this.startDebounce();
   }
 
   private checkCurrentVersion() {
@@ -119,40 +119,41 @@ export class ModelerService {
     }
   }
 
+  // TODO-RIP-BPMN
   restart(
     iconSetConfiguration?: IconSet,
     domainStory?: BusinessObject[],
   ): void {
-    const currentStory =
-      domainStory != undefined
-        ? domainStory
-        : this.elementRegistryService
-            .createObjectListForDSTDownload()
-            .map((e) => e.businessObject);
-    if (!iconSetConfiguration) {
-      iconSetConfiguration =
-        this.iconSetConfigurationService.getStoredIconSetConfiguration();
-    }
-    if (iconSetConfiguration) {
-      this.iconSetConfigurationService.setStoredIconSetConfiguration(
-        iconSetConfiguration,
-      );
-      this.iconDictionaryService.setCustomConfiguration(iconSetConfiguration);
-      this.iconSetConfigurationService.loadConfiguration(iconSetConfiguration);
-    }
-
-    this.elementRegistryService.clear();
-    this.modeler?.destroy();
-    this.postInit();
-    updateMultipleNumberRegistry(
-      currentStory
-        .filter((bo) => bo.type === 'domainStory:activity')
-        .map((bo) => <ActivityBusinessObject>bo)
-        .filter((bo) => bo.number !== null),
-    );
-    if (currentStory && this.modeler.get) {
-      this.modeler.importCustomElements(currentStory);
-    }
+    // const currentStory =
+    //   domainStory != undefined
+    //     ? domainStory
+    //     : this.elementRegistryService
+    //         .createObjectListForDSTDownload()
+    //         .map((e) => e.businessObject);
+    // if (!iconSetConfiguration) {
+    //   iconSetConfiguration =
+    //     this.iconSetConfigurationService.getStoredIconSetConfiguration();
+    // }
+    // if (iconSetConfiguration) {
+    //   this.iconSetConfigurationService.setStoredIconSetConfiguration(
+    //     iconSetConfiguration,
+    //   );
+    //   this.iconDictionaryService.setCustomConfiguration(iconSetConfiguration);
+    //   this.iconSetConfigurationService.loadConfiguration(iconSetConfiguration);
+    // }
+    //
+    // this.elementRegistryService.clear();
+    // this.modeler?.destroy();
+    // this.postInit();
+    // updateMultipleNumberRegistry(
+    //   currentStory
+    //     .filter((bo) => bo.type === 'domainStory:activity')
+    //     .map((bo) => <ActivityBusinessObject>bo)
+    //     .filter((bo) => bo.number !== null),
+    // );
+    // if (currentStory && this.modeler.get) {
+    //   this.modeler.importCustomElements(currentStory);
+    // }
   }
 
   /** Interactions with the Modeler **/
@@ -162,10 +163,11 @@ export class ModelerService {
 
   commandStackChanged(): void {
     // to update the title of the svg, we need to tell the command stack, that a value has changed
-    this.eventBus.fire(
-      'commandStack.changed',
-      this.debounce(this.saveSVG, 500),
-    );
+    // this.eventBus.fire(
+    //   'commandStack.changed',
+    //   this.debounce(this.saveSVG, 500),
+    // );
+    // TODO-RIP-BPMN
   }
 
   startDebounce(): void {
