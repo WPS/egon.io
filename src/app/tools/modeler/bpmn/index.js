@@ -1,4 +1,4 @@
-//import Modeler from "bpmn-js/lib/Modeler";
+import BaseViewer from "../diagram-js";
 import ResizeModule from "diagram-js/lib/features/resize";
 import { assign, isArray } from "min-dash";
 import inherits from "inherits";
@@ -9,16 +9,15 @@ import ModelingModule from "./modeler/modeling";
 import { ElementTypes } from "../../../domain/entities/elementTypes";
 
 export default function DomainStoryModeler(options) {
-  //Modeler.call(this, options);
-  // TODO-RIP-BPMN
+  BaseViewer.call(this, options);
   this._customElements = [];
   this._groupElements = [];
 }
 
-inherits(DomainStoryModeler);//, Modeler
+inherits(DomainStoryModeler, BaseViewer);
 
 DomainStoryModeler.prototype._modules = [].concat(
-  DomainStoryModeler.prototype._modules,
+  //DomainStoryModeler.prototype._modules, // TODO-RIP-BPMN
   [DomainStoryModule, LabelEditingModule, ModelingModule],
   [ResizeModule],
 );

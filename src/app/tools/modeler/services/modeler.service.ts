@@ -41,32 +41,33 @@ export class ModelerService {
   // TODO-RIP-BPMN
   postInit(): void {
     // @ts-ignore
-    const invoker = new Editorinvoker();
-    // this.checkCurrentVersion();
-    //
-    // const storedIconSetConfiguration =
-    //   this.iconSetConfigurationService.getStoredIconSetConfiguration();
-    // if (storedIconSetConfiguration) {
-    //   this.iconDictionaryService.setCustomConfiguration(
-    //     storedIconSetConfiguration,
-    //   );
-    //   this.iconSetConfigurationService.loadConfiguration(
-    //     storedIconSetConfiguration,
-    //   );
-    // }
-    // this.modeler = new DomainStoryModeler({
-    //   container: '#canvas',
-    //   keyboard: {
-    //     bindTo: document,
-    //   },
-    //
-    //   // Disable BPMN-SearchModule and re-enable browser Search
-    //   additionalModules: [
-    //     {
-    //       bpmnSearch: ['value', 'foo'],
-    //     },
-    //   ],
-    // });
+    //const invoker = new Editorinvoker();
+
+    this.checkCurrentVersion();
+
+    const storedIconSetConfiguration =
+      this.iconSetConfigurationService.getStoredIconSetConfiguration();
+    if (storedIconSetConfiguration) {
+      this.iconDictionaryService.setCustomConfiguration(
+        storedIconSetConfiguration,
+      );
+      this.iconSetConfigurationService.loadConfiguration(
+        storedIconSetConfiguration,
+      );
+    }
+    this.modeler = new DomainStoryModeler({
+      container: '#canvas',
+      keyboard: {
+        bindTo: document,
+      },
+
+      // Disable BPMN-SearchModule and re-enable browser Search
+      additionalModules: [
+        {
+          bpmnSearch: ['value', 'foo'],
+        },
+      ],
+    });
     //
     // if (this.modeler.get) {
     //   this.elementRegistry = this.modeler.get('elementRegistry');
