@@ -9,6 +9,7 @@ import {
 import {
   domify,
   query as domQuery,
+  remove as domRemove,
 } from 'min-dom';
 
 import {
@@ -169,6 +170,15 @@ BaseViewer.prototype._emit = function(type, event) {
 
 BaseViewer.prototype.on = function(events, priority, callback, that) {
   return this.get('eventBus').on(events, priority, callback, that);
+};
+
+BaseViewer.prototype.destroy = function() {
+
+  // diagram destroy
+  Diagram.prototype.destroy.call(this);
+
+  // dom detach
+  domRemove(this._container);
 };
 
 function ensureUnit(val) {

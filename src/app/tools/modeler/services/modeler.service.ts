@@ -123,41 +123,40 @@ export class ModelerService {
     }
   }
 
-  // TODO-RIP-BPMN
   restart(
     iconSetConfiguration?: IconSet,
     domainStory?: BusinessObject[],
   ): void {
-    // const currentStory =
-    //   domainStory != undefined
-    //     ? domainStory
-    //     : this.elementRegistryService
-    //         .createObjectListForDSTDownload()
-    //         .map((e) => e.businessObject);
-    // if (!iconSetConfiguration) {
-    //   iconSetConfiguration =
-    //     this.iconSetConfigurationService.getStoredIconSetConfiguration();
-    // }
-    // if (iconSetConfiguration) {
-    //   this.iconSetConfigurationService.setStoredIconSetConfiguration(
-    //     iconSetConfiguration,
-    //   );
-    //   this.iconDictionaryService.setCustomConfiguration(iconSetConfiguration);
-    //   this.iconSetConfigurationService.loadConfiguration(iconSetConfiguration);
-    // }
-    //
-    // this.elementRegistryService.clear();
-    // this.modeler?.destroy();
-    // this.postInit();
-    // updateMultipleNumberRegistry(
-    //   currentStory
-    //     .filter((bo) => bo.type === 'domainStory:activity')
-    //     .map((bo) => <ActivityBusinessObject>bo)
-    //     .filter((bo) => bo.number !== null),
-    // );
-    // if (currentStory && this.modeler.get) {
-    //   this.modeler.importCustomElements(currentStory);
-    // }
+    const currentStory =
+      domainStory != undefined
+        ? domainStory
+        : this.elementRegistryService
+            .createObjectListForDSTDownload()
+            .map((e) => e.businessObject);
+    if (!iconSetConfiguration) {
+      iconSetConfiguration =
+        this.iconSetConfigurationService.getStoredIconSetConfiguration();
+    }
+    if (iconSetConfiguration) {
+      this.iconSetConfigurationService.setStoredIconSetConfiguration(
+        iconSetConfiguration,
+      );
+      this.iconDictionaryService.setCustomConfiguration(iconSetConfiguration);
+      this.iconSetConfigurationService.loadConfiguration(iconSetConfiguration);
+    }
+
+    this.elementRegistryService.clear();
+    this.modeler?.destroy();
+    this.postInit();
+    updateMultipleNumberRegistry(
+      currentStory
+        .filter((bo) => bo.type === 'domainStory:activity')
+        .map((bo) => <ActivityBusinessObject>bo)
+        .filter((bo) => bo.number !== null),
+    );
+    if (currentStory && this.modeler.get) {
+      this.modeler.importCustomElements(currentStory);
+    }
   }
 
   /** Interactions with the Modeler **/
