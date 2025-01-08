@@ -5,7 +5,7 @@ import CreateModule from "diagram-js/lib/features/create";
 import ContextPadModule from "diagram-js/lib/features/context-pad";
 import CommandStack from "diagram-js/lib/command/CommandStack";
 import UpdateLabelHandler from "../updateHandler/updateLabelHandler";
-//import DomainStoryUpdater from "../domainStoryUpdater";
+import DomainStoryUpdater from "../domainStoryUpdater";
 import DomainStoryElementFactory from "../domainStoryElementFactory";
 import headlineAndDescriptionUpdateHandler from "../updateHandler/headlineAndDescriptionUpdateHandler";
 import DomainStoryRenderer from "../domainStoryRenderer";
@@ -20,7 +20,7 @@ export default {
     "domainStoryRenderer",
     "paletteProvider",
     "domainStoryRules",
- //   "domainStoryUpdater",
+    "domainStoryUpdater",
  //   "contextPadProvider",
     "replaceMenuProvider",
   ],
@@ -28,7 +28,7 @@ export default {
   domainStoryRenderer: ["type", DomainStoryRenderer],
   paletteProvider: ["type", DomainStoryPalette],
   domainStoryRules: ["type", DomainStoryRules],
-  //domainStoryUpdater: ["type", DomainStoryUpdater],
+  domainStoryUpdater: ["type", DomainStoryUpdater],
   //contextPadProvider: ["type", DomainStoryContextPadProvider],
   replaceMenuProvider: ["type", ReplaceMenuProvider],
   commandStack: ["type", CommandStack],

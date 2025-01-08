@@ -1,8 +1,8 @@
 "use strict";
 
 export default function DSMassRenameHandler(commandStack, eventBus) {
-  //commandStack.registerHandler("domainStoryObjects.massRename", massRename);
-  // TODO-RIP-BPMN
+  commandStack.registerHandler("domainStoryObjects.massRename", massRename);
+
   function massRename(modeling) {
     this.preExecute = function (context) {
       let relevantElements = context.elements;

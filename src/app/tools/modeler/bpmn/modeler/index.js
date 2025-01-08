@@ -9,7 +9,7 @@ import DomainStoryElementFactory from "./domainStoryElementFactory";
 import DomainStoryRenderer from "./domainStoryRenderer";
 import DomainStoryPalette from "./palette/domainStoryPalette";
 import DomainStoryRules from "./domainStoryRules";
-//import DomainStoryUpdater from "./domainStoryUpdater";
+import DomainStoryUpdater from "./domainStoryUpdater";
 import CreateModule from "diagram-js/lib/features/create";
 import ContextPadModule from "diagram-js/lib/features/context-pad";
 import CommandStack from "diagram-js/lib/command/CommandStack";
@@ -25,7 +25,7 @@ export default {
     "domainStoryRenderer",
     "paletteProvider",
     "domainStoryRules",
-  //  "domainStoryUpdater",
+    "domainStoryUpdater",
   //  "contextPadProvider",
     "replaceMenuProvider",
   ],
@@ -35,7 +35,7 @@ export default {
   domainStoryRenderer: ["type", DomainStoryRenderer],
   paletteProvider: ["type", DomainStoryPalette],
   domainStoryRules: ["type", DomainStoryRules],
- // domainStoryUpdater: ["type", DomainStoryUpdater],
+  domainStoryUpdater: ["type", DomainStoryUpdater],
  // contextPadProvider: ["type", DomainStoryContextPadProvider],
   replaceMenuProvider: ["type", ReplaceMenuProvider],
   commandStack: ["type", CommandStack],

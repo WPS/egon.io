@@ -68,36 +68,36 @@ export class ModelerService {
         },
       ],
     });
-    //
-    // if (this.modeler.get) {
-    //   this.elementRegistry = this.modeler.get('elementRegistry');
-    //   this.eventBus = this.modeler.get('eventBus');
-    //   this.commandStack = this.modeler.get('commandStack');
-    // }
-    //
-    // this.initializerService.initializeDomainStoryModelerEventHandlers(
-    //   this.commandStack,
-    //   this.eventBus,
-    // );
-    // this.initializerService.propagateDomainStoryModelerClassesToServices(
-    //   this.commandStack,
-    //   this.elementRegistry,
-    // );
-    //
-    // const exportArtifacts = this.debounce(this.saveSVG, 500);
-    // if (this.modeler.get) {
-    //   this.modeler.on('commandStack.changed', exportArtifacts);
-    // }
-    //
-    // this.initializerService.initiateEventBusListeners(
-    //   this.eventBus,
-    //   this.commandStack,
-    // );
-    //
-    // // expose bpmnjs to window for debugging purposes
-    // assign(window, { bpmnjs: this.modeler });
-    //
-    // this.startDebounce();
+
+    if (this.modeler.get) {
+      this.elementRegistry = this.modeler.get('elementRegistry');
+      this.eventBus = this.modeler.get('eventBus');
+      this.commandStack = this.modeler.get('commandStack');
+    }
+
+    this.initializerService.initializeDomainStoryModelerEventHandlers(
+      this.commandStack,
+      this.eventBus,
+    );
+    this.initializerService.propagateDomainStoryModelerClassesToServices(
+      this.commandStack,
+      this.elementRegistry,
+    );
+
+    const exportArtifacts = this.debounce(this.saveSVG, 500);
+    if (this.modeler.get) {
+      this.modeler.on('commandStack.changed', exportArtifacts);
+    }
+
+    this.initializerService.initiateEventBusListeners(
+      this.eventBus,
+      this.commandStack,
+    );
+
+    // expose bpmnjs to window for debugging purposes
+    assign(window, { bpmnjs: this.modeler });
+
+    this.startDebounce();
   }
 
   private checkCurrentVersion() {
@@ -167,11 +167,10 @@ export class ModelerService {
 
   commandStackChanged(): void {
     // to update the title of the svg, we need to tell the command stack, that a value has changed
-    // this.eventBus.fire(
-    //   'commandStack.changed',
-    //   this.debounce(this.saveSVG, 500),
-    // );
-    // TODO-RIP-BPMN
+    this.eventBus.fire(
+      'commandStack.changed',
+      this.debounce(this.saveSVG, 500),
+    );
   }
 
   startDebounce(): void {

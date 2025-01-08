@@ -16,8 +16,8 @@ export class RendererService {
   ) {}
 
   renderStory(domainStory: BusinessObject[]): void {
-    //this.modelerService.getModeler().importCustomElements(domainStory);
-  } // TODO-RIP-BPMN
+    this.modelerService.getModeler().importCustomElements(domainStory);
+  }
 
   reset(): void {
     this.renderStory([]);
