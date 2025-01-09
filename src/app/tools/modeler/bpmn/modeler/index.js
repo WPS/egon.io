@@ -15,7 +15,7 @@ import ContextPadModule from "diagram-js/lib/features/context-pad";
 import CommandStack from "diagram-js/lib/command/CommandStack";
 import UpdateLabelHandler from "./updateHandler/updateLabelHandler";
 import headlineAndDescriptionUpdateHandler from "./updateHandler/headlineAndDescriptionUpdateHandler";
-//import DomainStoryContextPadProvider from "./context-pad/domainStoryContextPadProvider";
+import DomainStoryContextPadProvider from "./context-pad/domainStoryContextPadProvider";
 import ReplaceMenuProvider from "./change-icon/replaceMenuProvider";
 import DSModeling from "./modeling/dSModeling";
 
@@ -26,7 +26,7 @@ export default {
     "paletteProvider",
     "domainStoryRules",
     "domainStoryUpdater",
-  //  "contextPadProvider",
+    "contextPadProvider",
     "replaceMenuProvider",
   ],
   layouter: ["type", BaseLayouter],
@@ -36,7 +36,7 @@ export default {
   paletteProvider: ["type", DomainStoryPalette],
   domainStoryRules: ["type", DomainStoryRules],
   domainStoryUpdater: ["type", DomainStoryUpdater],
- // contextPadProvider: ["type", DomainStoryContextPadProvider],
+  contextPadProvider: ["type", DomainStoryContextPadProvider],
   replaceMenuProvider: ["type", ReplaceMenuProvider],
   commandStack: ["type", CommandStack],
   updateLabelHandler: ["type", UpdateLabelHandler],

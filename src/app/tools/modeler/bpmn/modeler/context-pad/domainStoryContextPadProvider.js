@@ -2,7 +2,8 @@
 
 import inherits from "inherits-browser";
 
-import ContextPadProvider from "diagram-js/lib/features/context-pad/ContextPadProvider";
+// import ContextPadProvider from "diagram-js/lib/features/context-pad/ContextPadProvider";
+import ContextPadProvider from "./contextPadProvider.js";
 
 import { assign, bind } from "min-dash";
 import { generateAutomaticNumber } from "../numbering/numbering";
@@ -261,7 +262,7 @@ export default function DomainStoryContextPadProvider(
     });
   }
 
-  function changeDirection(element) {
+  function changeDirection(element) {ä
     let context;
     let businessObject = element.businessObject;
     let newNumber;
@@ -358,7 +359,7 @@ export default function DomainStoryContextPadProvider(
 }
 
 // TODO-RIP-BPMN
-//inherits(DomainStoryContextPadProvider, ContextPadProvider);
+inherits(DomainStoryContextPadProvider, ContextPadProvider);
 
 DomainStoryContextPadProvider.$inject = [
   "injector",
