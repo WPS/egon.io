@@ -8,6 +8,10 @@ import LabelEditingModule from "./modeler/labeling";
 import ModelingModule from "./modeler/modeling";
 import { ElementTypes } from "../../../domain/entities/elementTypes";
 
+import MoveCanvasModule from 'diagram-js/lib/navigation/movecanvas';
+import KeyboardMoveModule from 'diagram-js/lib/navigation/keyboard-move';
+import ZoomScrollModule from "diagram-js/lib/navigation/zoomscroll";
+
 export default function DomainStoryModeler(options) {
   BaseViewer.call(this, options);
   this._customElements = [];
@@ -20,6 +24,7 @@ DomainStoryModeler.prototype._modules = [].concat(
   //DomainStoryModeler.prototype._modules, // TODO-RIP-BPMN
   [DomainStoryModule, LabelEditingModule, ModelingModule],
   [ResizeModule],
+  [MoveCanvasModule, KeyboardMoveModule, ZoomScrollModule] // Navigation on Canvas
 );
 
 /**
