@@ -6,6 +6,7 @@ import { ElementRegistryService } from 'src/app/domain/services/element-registry
 import {
   SNACKBAR_DURATION,
   SNACKBAR_DURATION_LONGER,
+  SNACKBAR_ERROR,
   SNACKBAR_INFO,
   SNACKBAR_SUCCESS,
 } from '../../../domain/entities/constants';
@@ -359,7 +360,7 @@ export class IconSetCustomizationService {
           undefined,
           {
             duration: SNACKBAR_DURATION_LONGER,
-            panelClass: SNACKBAR_INFO,
+            panelClass: SNACKBAR_ERROR,
           },
         );
       }
@@ -370,7 +371,7 @@ export class IconSetCustomizationService {
           undefined,
           {
             duration: SNACKBAR_DURATION_LONGER,
-            panelClass: SNACKBAR_INFO,
+            panelClass: SNACKBAR_ERROR,
           },
         );
       }

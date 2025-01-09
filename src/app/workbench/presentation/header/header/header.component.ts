@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { combineLatest, map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TitleService } from '../../../../tools/title/services/title.service';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
 import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
@@ -22,7 +22,7 @@ export class HeaderComponent {
 
   isReplay$: Observable<boolean>;
   isDirty$: Observable<boolean>;
-  sentenceDescription$: Observable<string>;
+
   showDescription: Observable<boolean>;
 
   constructor(
@@ -38,11 +38,6 @@ export class HeaderComponent {
   ) {
     this.isReplay$ = this.replayService.replayOn$;
     this.isDirty$ = this.dirtyFlagService.dirty$;
-
-    this.sentenceDescription$ = combineLatest([
-      this.replayService.currentSentence$,
-      this.replayService.maxSentenceNumber$,
-    ]).pipe(map(([sentence, count]) => `${sentence}/${count}`));
 
     this.showDescription = this.titleService.showDescription$;
   }

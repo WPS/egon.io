@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { combineLatest, map, Observable } from 'rxjs';
+import { ReplayService } from '../../../../tools/replay/services/replay.service';
 
 @Component({
   selector: 'app-header-buttons',
@@ -6,6 +8,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./header-buttons.component.scss'],
 })
 export class HeaderButtonsComponent {
+  sentenceDescription$: Observable<string>;
+
+  constructor(private replayService: ReplayService) {
+    this.sentenceDescription$ = combineLatest([
+      this.replayService.currentSentence$,
+      this.replayService.maxSentenceNumber$,
+    ]).pipe(map(([sentence, count]) => `${sentence}/${count}`));
+  }
+
   @Input()
   hasDomainStory = false;
   @Input()

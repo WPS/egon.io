@@ -12,3 +12,14 @@
 .dirty:hover {
   color: #0093ac;
 }
+
+.replaying {
+  display: flex;
+}
+
+/** fixed width avoids "jumping" of label when sequence number reaches double digits**/
+.sentences {
+  align-self: center;
+  margin-left: 16px;
+  width: 150px;
+}
