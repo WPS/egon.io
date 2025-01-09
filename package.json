@@ -23,6 +23,7 @@
     "@angular/material": "^18.2.14",
     "@angular/platform-browser": "^18.2.13",
     "@angular/platform-browser-dynamic": "^18.2.13",
+    "bpmn-font": "^0.12.1",
     "diagram-js": "^15.2.4",
     "diagram-js-direct-editing": "^3.2.0",
     "dot": "^1.1.3",
