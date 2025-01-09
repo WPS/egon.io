@@ -48,10 +48,6 @@ PaletteProvider.prototype.getPaletteEntries = function () {
         id: shape.id,
       });
 
-      if (options) {
-        shape.businessObject.di.isExpanded = options.isExpanded;
-      }
-
       create.start(event, shape);
     }
 

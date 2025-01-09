@@ -1,0 +1,16 @@
+<mat-dialog-content>
+  <label>
+    <h2>Attention</h2>
+  </label>
+
+  <p>There are some unsaved changes. Do you want to discard them?</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <br />
+  <div>
+    <button mat-flat-button (click)="close()">Cancel</button>
+    <button mat-flat-button color="primary" (click)="continueAction()">
+      Discard changes
+    </button>
+  </div>
+</mat-dialog-actions>

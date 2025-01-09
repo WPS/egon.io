@@ -1,10 +1,35 @@
-import { sanitizeForDesktop, sanitizeIconName } from './sanitizer';
+import {
+  sanitizeForDesktop,
+  sanitizeIconName,
+  sanitizeTextForSVGExport,
+} from './sanitizer';
 
 describe('sanitizer', () => {
+  describe('sanitize for SVG Export', () => {
+    it('should not sanitize', () => {
+      const unsanitized = '-test-';
+      expect(sanitizeTextForSVGExport(unsanitized)).toEqual('-test-');
+    });
+  });
+
+  describe('sanitize for SVG Export', () => {
+    it('should sanitize', () => {
+      const unsanitized = '-test--';
+      expect(sanitizeTextForSVGExport(unsanitized)).toEqual('-test––');
+    });
+  });
+
+  describe('sanitize for SVG Export', () => {
+    it('should sanitize multiple times', () => {
+      const unsanitized = '------';
+      expect(sanitizeTextForSVGExport(unsanitized)).toEqual('––––––');
+    });
+  });
+
   describe('sanitize for desktop', () => {
     it('should sanitize', () => {
-      const unsanitized = '/\\:*?"><|test';
-      expect(sanitizeForDesktop(unsanitized)).toEqual('test');
+      const unsanitized = '/\\:*?"><|-test--';
+      expect(sanitizeForDesktop(unsanitized)).toEqual('-test––');
     });
   });
 

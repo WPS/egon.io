@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION_LONG,
+  SNACKBAR_ERROR,
   SNACKBAR_INFO,
 } from '../../../domain/entities/constants';
 
@@ -93,7 +94,7 @@ export class ReplayService {
           undefined,
           {
             duration: SNACKBAR_DURATION_LONG,
-            panelClass: SNACKBAR_INFO,
+            panelClass: SNACKBAR_ERROR,
           },
         );
         return;

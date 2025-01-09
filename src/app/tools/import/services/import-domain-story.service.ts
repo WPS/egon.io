@@ -27,6 +27,7 @@ import { ModelerService } from '../../modeler/services/modeler.service';
 import { ImportDialogComponent } from '../presentation/import-dialog/import-dialog.component';
 import { DomainStory } from '../../../domain/entities/domainStory';
 import { isPresent } from '../../../utils/isPresent';
+import { UnsavedChangesReminderComponent } from '../../unsavedChangesReminder/presentation/unsavedChangesReminder-dialog/unsaved-changes-reminder/unsaved-changes-reminder.component';
 
 @Injectable({
   providedIn: 'root',
@@ -87,7 +88,6 @@ export class ImportDomainStoryService
   performImport(): void {
     // @ts-ignore
     const file = document.getElementById('import').files[0];
-
     this.import(file, file.name);
     this.modelerService.commandStackChanged();
   }
@@ -102,6 +102,14 @@ export class ImportDomainStoryService
       });
     }
     this.modelerService.commandStackChanged();
+  }
+
+  importNotDirtyFromUrl(fileUrl: string, isDirty: boolean) {
+    if (isDirty) {
+      this.openUnsavedChangesReminderDialog(() => this.importFromUrl(fileUrl));
+    } else {
+      this.importFromUrl(fileUrl);
+    }
   }
 
   importFromUrl(fileUrl: string): void {
@@ -187,12 +195,21 @@ export class ImportDomainStoryService
     return isSupported;
   }
 
-  openImportFromUrlDialog(): void {
+  openImportFromUrlDialog(isDirty: boolean): void {
     const config = new MatDialogConfig();
     config.disableClose = false;
     config.autoFocus = true;
-    config.data = (fileUrl: string) => this.importFromUrl(fileUrl);
+    config.data = (fileUrl: string) =>
+      this.importNotDirtyFromUrl(fileUrl, isDirty);
     this.dialogService.openDialog(ImportDialogComponent, config);
+  }
+
+  openUnsavedChangesReminderDialog(fn: Function): void {
+    const config = new MatDialogConfig();
+    config.disableClose = false;
+    config.autoFocus = true;
+    config.data = fn;
+    this.dialogService.openDialog(UnsavedChangesReminderComponent, config);
   }
 
   import(input: Blob, filename: string): DomainStory | null {

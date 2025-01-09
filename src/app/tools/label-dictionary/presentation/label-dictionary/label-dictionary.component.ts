@@ -9,7 +9,6 @@ import { BehaviorSubject } from 'rxjs';
 import { WorkObjectLabelEntry } from '../../domain/workObjectLabelEntry';
 import { LabelEntry } from '../../domain/labelEntry';
 import { LabelDictionaryService } from '../../services/label-dictionary.service';
-import { initializeLabelEditingProvider } from '../../../modeler/bpmn/modeler/labeling/dsLabelEditingProvider';
 
 @Component({
   selector: 'app-label-dictionary',

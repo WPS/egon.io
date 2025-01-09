@@ -55,12 +55,25 @@ export class HeaderComponent {
   }
 
   createNewDomainStory(): void {
-    this.titleService.reset();
-    this.renderService.reset();
+    if (this.dirtyFlagService.dirty) {
+      this.importService.openUnsavedChangesReminderDialog(() => {
+        this.titleService.reset();
+        this.renderService.reset();
+      });
+    } else {
+      this.titleService.reset();
+      this.renderService.reset();
+    }
   }
 
   onImport(): void {
-    this.importService.performImport();
+    if (this.dirtyFlagService.dirty) {
+      this.importService.openUnsavedChangesReminderDialog(() =>
+        this.importService.performImport(),
+      );
+    } else {
+      this.importService.performImport();
+    }
   }
 
   startReplay(): void {
@@ -92,7 +105,7 @@ export class HeaderComponent {
   }
 
   openImportFromUrlDialog(): void {
-    this.importService.openImportFromUrlDialog();
+    this.importService.openImportFromUrlDialog(this.dirtyFlagService.dirty);
   }
 
   get hasDomainStory() {

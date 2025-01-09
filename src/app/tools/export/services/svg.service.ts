@@ -8,6 +8,7 @@ import {
 } from '../domain/export/exportConstants';
 import { StoryCreatorService } from '../../replay/services/story-creator.service';
 import { StorySentence } from '../../replay/domain/storySentence';
+import { sanitizeTextForSVGExport } from 'src/app/utils/sanitizer';
 
 @Injectable({
   providedIn: 'root',
@@ -166,7 +167,7 @@ export class SvgService {
   private findIndexToInsertData(data: string) {
     let insertIndex = data.indexOf('</defs>');
     if (insertIndex < 0) {
-      insertIndex = data.indexOf('version="1.2">') + 14;
+      insertIndex = data.indexOf('version="1.1">') + 14; // BPMN 8 exports SVG v. 1.1
     } else {
       insertIndex += 7;
     }
@@ -216,7 +217,10 @@ export class SvgService {
   }
 
   private appendDST(data: string, dst: ConfigAndDST): string {
-    data += '\n<!-- <DST>\n' + JSON.stringify(dst, null, 2) + '\n </DST> -->';
+    data +=
+      '\n<!-- <DST>\n' +
+      sanitizeTextForSVGExport(JSON.stringify(dst, null, 2)) +
+      '\n </DST> -->';
     return data;
   }
 }
