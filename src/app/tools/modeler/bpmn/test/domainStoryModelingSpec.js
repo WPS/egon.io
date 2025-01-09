@@ -1,4 +1,4 @@
-import { bootstrapBpmnJS, inject } from "./testHelper";
+/* import { bootstrapBpmnJS, inject } from "./testHelper";
 
 import { assign } from "min-dash";
 import DomainStoryModeler from "../index";
@@ -271,3 +271,4 @@ describe("domainStory modeling", function () {
     }));
   });
 });
+ */

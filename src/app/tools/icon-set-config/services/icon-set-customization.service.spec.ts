@@ -7,7 +7,6 @@ import {
 import { IconDictionaryService } from './icon-dictionary.service';
 import { MockProvider, MockProviders } from 'ng-mocks';
 import { TitleService } from '../../title/services/title.service';
-import { IconSetConfigurationService } from './icon-set-configuration.service';
 import { ImportDomainStoryService } from '../../import/services/import-domain-story.service';
 import { Dictionary } from '../../../domain/entities/dictionary';
 import { Observable, of } from 'rxjs';
@@ -26,7 +25,6 @@ describe(IconSetCustomizationService.name, () => {
 
   let matSnackbarSpy: jasmine.SpyObj<MatSnackBar>;
   let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
-  let configurationServiceSpy: jasmine.SpyObj<IconSetConfigurationService>;
 
   beforeEach(() => {
     const matSnackbarMock = jasmine.createSpyObj(MatSnackBar.name, ['open']);
@@ -41,15 +39,6 @@ describe(IconSetCustomizationService.name, () => {
         'addIconsToCss',
         'registerIconForType',
         'unregisterIconForType',
-      ],
-    );
-    const configurationServiceMock = jasmine.createSpyObj(
-      IconSetConfigurationService.name,
-      [
-        'createMinimalConfigurationWithDefaultIcons',
-        'getCurrentConfigurationNamesWithoutPrefix',
-        'setStoredIconSetConfiguration',
-        'getStoredIconSetConfiguration',
       ],
     );
 
@@ -94,10 +83,7 @@ describe(IconSetCustomizationService.name, () => {
           provide: IconDictionaryService,
           useValue: iconDictionaryMock,
         },
-        {
-          provide: IconSetConfigurationService,
-          useValue: configurationServiceMock,
-        },
+
         {
           provide: ElementRegistryService,
           useValue: elementRegistryServiceMock,
@@ -108,9 +94,6 @@ describe(IconSetCustomizationService.name, () => {
     iconDictionarySpy = TestBed.inject(
       IconDictionaryService,
     ) as jasmine.SpyObj<IconDictionaryService>;
-    configurationServiceSpy = TestBed.inject(
-      IconSetConfigurationService,
-    ) as jasmine.SpyObj<IconSetConfigurationService>;
 
     iconDictionarySpy.getAllIconDictionary.and.returnValue(new Dictionary());
     iconDictionarySpy.getFullDictionary.and.returnValue(new Dictionary());
@@ -122,12 +105,6 @@ describe(IconSetCustomizationService.name, () => {
       actors: [],
       workobjects: [],
     });
-    configurationServiceSpy.getCurrentConfigurationNamesWithoutPrefix.and.returnValue(
-      structuredClone(testCustomIconSetConfiguration),
-    );
-    configurationServiceSpy.createMinimalConfigurationWithDefaultIcons.and.returnValue(
-      INITIAL_ICON_SET_CONFIGURATION,
-    );
 
     service = TestBed.inject(IconSetCustomizationService);
   });
@@ -166,10 +143,6 @@ describe(IconSetCustomizationService.name, () => {
       expect(selectedWorkObjects).toContain('Document');
       expect(selectedWorkObjects).toContain('TestWorkObject');
 
-      expect(
-        configurationServiceSpy.setStoredIconSetConfiguration,
-      ).toHaveBeenCalled();
-
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('Person');
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('TestActor');
       expect(iconDictionarySpy.getIconSource).toHaveBeenCalledWith('Document');
@@ -207,16 +180,6 @@ describe(IconSetCustomizationService.name, () => {
         'TestWorkObject',
       );
       expect(matSnackbarSpy.open).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('reset Domain', () => {
-    it('should call correct function', () => {
-      service.resetIconSet();
-
-      expect(
-        configurationServiceSpy.createMinimalConfigurationWithDefaultIcons,
-      ).toHaveBeenCalled();
     });
   });
 

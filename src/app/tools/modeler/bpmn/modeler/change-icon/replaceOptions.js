@@ -7,14 +7,12 @@ export function initializeReplaceOptions(iconDictionary) {
 }
 
 export function actorReplaceOptions(name) {
-  const actorTypes = iconDictionaryService.getIconsAssignedAs(
-    ElementTypes.ACTOR,
-  );
+  const actors = iconDictionaryService.getIconsAssignedAs(ElementTypes.ACTOR);
 
   let replaceOption = {};
   let i = 0;
 
-  actorTypes.keysArray().forEach((actorType) => {
+  actors.keysArray().forEach((actorType) => {
     if (!name.includes(actorType)) {
       const typeName = actorType;
       replaceOption[i] = {
@@ -35,14 +33,14 @@ export function actorReplaceOptions(name) {
 }
 
 export function workObjectReplaceOptions(name) {
-  const workObjectTypes = iconDictionaryService.getIconsAssignedAs(
+  const workObjects = iconDictionaryService.getIconsAssignedAs(
     ElementTypes.WORKOBJECT,
   );
 
   let replaceOption = {};
   let i = 0;
 
-  workObjectTypes.keysArray().forEach((workObjectType) => {
+  workObjects.keysArray().forEach((workObjectType) => {
     if (!name.includes(workObjectType)) {
       const typeName = workObjectType;
       replaceOption[i] = {

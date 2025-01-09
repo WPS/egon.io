@@ -124,9 +124,6 @@ DomainStoryModeler.prototype.getCustomElements = function () {
   return this._customElements;
 };
 
-// override standard function to prevent default elements on canvas
-DomainStoryModeler.prototype.createDiagram = function (done) {};
-
 function isConnection(element) {
   return (
     element.type === ElementTypes.ACTIVITY ||

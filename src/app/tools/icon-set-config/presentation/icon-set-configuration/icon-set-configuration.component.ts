@@ -95,16 +95,8 @@ export class IconSetConfigurationComponent implements OnInit {
         if (e.target) {
           const src: string = e.target.result as unknown as string;
           this.iconDictionaryService.addIMGToIconDictionary(src, iconName);
-          // TODO: td: What kind of type is it here?
-          this.iconDictionaryService.registerIconForBPMN(
-            iconName,
-            ICON_PREFIX + iconName.toLowerCase(),
-            ElementTypes.ACTOR,
-          );
-
           this.allIcons.next(this.iconDictionaryService.getFullDictionary());
           this.filter.next(this.filter.value);
-
           this.iconSetCustomizationService.addNewIcon(iconName);
         }
       };

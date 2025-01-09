@@ -7,13 +7,6 @@ import {
   getNumber,
 } from "../labeling/dsLabelUtil";
 
-import {
-  getExternalLabelMid,
-  isLabelExternal,
-  hasExternalLabel,
-  isLabel,
-} from "bpmn-js/lib/util/LabelUtil";
-
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { getBusinessObject, is } from "../util";
 
@@ -33,44 +26,6 @@ export default function UpdateLabelHandler(
   commandStack.registerHandler("element.updateCustomLabel", handlerFunction);
 
   function handlerFunction() {
-    /**
-     * Set the label and return the changed elements.
-     *
-     * Element parameter can be label itself or connection (i.e. sequence flow).
-     *
-     * @param {djs.model.Base} element
-     * @param {String} text
-     */
-
-    this.preExecute = function (ctx) {
-      let element = ctx.element,
-        businessObject = element.businessObject,
-        newLabel = ctx.newLabel,
-        newNumber = ctx.newNumber;
-
-      if (
-        !isLabel(element) &&
-        isLabelExternal(element) &&
-        !hasExternalLabel(element) &&
-        (newLabel !== "" || newNumber !== "")
-      ) {
-        // create label
-        let paddingTop = 7;
-
-        let labelCenter = getExternalLabelMid(element);
-
-        labelCenter = {
-          x: labelCenter.x,
-          y: labelCenter.y + paddingTop,
-        };
-
-        modeling.createLabel(element, labelCenter, {
-          id: businessObject.id + "_label",
-          businessObject: businessObject,
-        });
-      }
-    };
-
     this.execute = function (ctx) {
       ctx.oldLabel = getLabel(ctx.element);
       ctx.oldNumber = getNumber(ctx.element);
@@ -84,48 +39,35 @@ export default function UpdateLabelHandler(
     this.postExecute = function (ctx) {
       let element = ctx.element,
         label = element.label || element,
-        newLabel = ctx.newLabel,
         newBounds = ctx.newBounds;
 
-      if (isLabel(label) && newLabel.trim() === "") {
-        modeling.removeShape(label);
+      // resize text annotation to amount of text that is entered
+      if (is(element, ElementTypes.TEXTANNOTATION)) {
+        let bo = getBusinessObject(label);
 
-        return;
-      }
+        let text = bo.name || bo.text;
 
-      // ignore internal labels for elements except text annotations
-      if (
-        !isLabelExternal(element) &&
-        !is(element, ElementTypes.TEXTANNOTATION)
-      ) {
-        return;
-      }
+        // don't resize without text
+        if (!text) {
+          return;
+        }
 
-      let bo = getBusinessObject(label);
+        // resize element based on label _or_ pre-defined bounds
+        if (typeof newBounds === "undefined") {
+          newBounds = textRenderer.getLayoutedBounds(label, text);
+        }
 
-      let text = bo.name || bo.text;
-
-      // don't resize without text
-      if (!text) {
-        return;
-      }
-
-      // resize element based on label _or_ pre-defined bounds
-      if (typeof newBounds === "undefined") {
-        newBounds = textRenderer.getLayoutedBounds(label, text);
-      }
-
-      // setting newBounds to false or _null_ will
-      // disable the postExecute resize operation
-      if (newBounds) {
-        modeling.resizeShape(label, newBounds, NULL_DIMENSIONS);
+        // setting newBounds to false or _null_ will
+        // disable the postExecute resize operation
+        if (newBounds) {
+          modeling.resizeShape(label, newBounds, NULL_DIMENSIONS);
+        }
       }
     };
   }
 }
 
 function setText(element, text, textNumber) {
-  // external label if present
   let label = element.label || element;
 
   let number = element.number || element;

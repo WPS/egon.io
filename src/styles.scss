@@ -46,7 +46,7 @@ $egon-palette: (
 
 // mdc-filled-text-field-focus-label-text-color: rgba(164, 215, 225, 0.87);
 
-// This was generated (see egon-palette), with 100 as primary color
+// This was generated (see egon-palette, with 100 as primary color)
 $egon-contrast-palette: (
   50: #eedddd,
   100: #e1aea4,
@@ -76,15 +76,15 @@ $egon-contrast-palette: (
 // @param primary
 // @param lighter
 // @param darker
-$egon-primary: mat.define-palette($egon-palette, 100, 50, 200);
-$egon-accent: mat.define-palette($egon-palette, 400, 300, 500);
+$egon-primary: mat.m2-define-palette($egon-palette, 100, 50, 200);
+$egon-accent: mat.m2-define-palette($egon-palette, 400, 300, 500);
 
 // The warn palette is optional (defaults to red).
-$egon-warn: mat.define-palette($egon-contrast-palette, 100, 50, 300);
+$egon-warn: mat.m2-define-palette($egon-contrast-palette, 200, 100, 300);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$egon-theme: mat.define-light-theme(
+$egon-theme: mat.m2-define-light-theme(
   (
     color: (
       primary: $egon-primary,
@@ -103,7 +103,8 @@ $egon-theme: mat.define-light-theme(
 
 @font-face {
   font-family: Roboto;
-  font-style: normal, bold;
+  font-style: normal;
+  font-weight: bold;
   src: local("Roboto-Regular"), url("~src/assets/font/Roboto-Regular.woff");
 }
 
@@ -203,7 +204,11 @@ mat-dialog-actions.mdc-dialog__actions {
   }
 }
 
-/* BPMN elements */
+/**
+ * from diagram-js
+ */
+
+/* context pad */
 
 .djs-overlay-context-pad {
   min-width: 7.5rem;
@@ -219,10 +224,6 @@ mat-dialog-actions.mdc-dialog__actions {
   padding: 1px;
   background-color: #f7f7f8;
 }
-
-/**
- * from bpmn.io
- */
 
 /**
  * palette
@@ -374,7 +375,7 @@ mat-dialog-actions.mdc-dialog__actions {
  * snapping
  */
 .djs-snap-line {
-  stroke: #eedddd;
+  stroke: #e1aea4;
 }
 
 .djs-palette .entry:hover {

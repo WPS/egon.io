@@ -4,19 +4,17 @@ import { assign } from "min-dash";
 
 import inherits from "inherits";
 
-import BpmnElementFactory from "bpmn-js/lib/features/modeling/ElementFactory";
-
-import { DEFAULT_LABEL_SIZE } from "bpmn-js/lib/util/LabelUtil";
+import BaseElementFactory from "diagram-js/lib/core/ElementFactory";
 
 import DomainStoryIdFactory from "./domainStoryIdFactory";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 
-/**
- * A custom factory that knows how to create BPMN _and_ custom elements.
- */
-export default function DomainStoryElementFactory(bpmnFactory, moddle) {
-  BpmnElementFactory.call(this, bpmnFactory, moddle);
+const DEFAULT_LABEL_SIZE = {
+  width: 90,
+  height: 20,
+};
 
+export default function DomainStoryElementFactory() {
   let self = this;
   let domainStoryIdFactory = new DomainStoryIdFactory();
 
@@ -95,20 +93,16 @@ export default function DomainStoryElementFactory(bpmnFactory, moddle) {
 
       return self.baseCreate(elementType, attrs);
     }
-
-    return self.createBpmnElement(elementType, attrs);
   };
 }
 
-inherits(DomainStoryElementFactory, BpmnElementFactory);
+inherits(DomainStoryElementFactory, BaseElementFactory);
 
-DomainStoryElementFactory.$inject = ["bpmnFactory", "moddle"];
+DomainStoryElementFactory.prototype.baseCreate =
+  BaseElementFactory.prototype.create;
 
 /**
  * returns the default size of custom shapes.
- *
- * the following example shows an interface on how
- * to setup the custom shape's dimensions.
  * *
  * @param {String} type
  *

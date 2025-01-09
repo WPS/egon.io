@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IconSetCustomizationService } from 'src/app/tools/icon-set-config/services/icon-set-customization.service';
+import { IconSetConfigurationService } from 'src/app/tools/icon-set-config/services/icon-set-configuration.service';
 import { IconListItem } from 'src/app/tools/icon-set-config/domain/iconListItem';
-import { TitleService } from 'src/app/tools/title/services/title.service';
 
 @Component({
   selector: 'app-icon-set-details',
@@ -20,9 +20,9 @@ export class IconSetDetailsComponent implements OnInit {
 
   constructor(
     private customizationService: IconSetCustomizationService,
-    titleService: TitleService,
+    private configurationService: IconSetConfigurationService,
   ) {
-    this.iconSetName = titleService.iconSetName$;
+    this.iconSetName = configurationService.iconSetName$;
   }
 
   ngOnInit(): void {}
@@ -68,6 +68,6 @@ export class IconSetDetailsComponent implements OnInit {
   }
 
   exportIconSet(): void {
-    this.customizationService.exportIconSet();
+    this.configurationService.exportConfiguration();
   }
 }

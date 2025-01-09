@@ -320,12 +320,12 @@ This section is based on the [bpmn-js documentation](https://bpmn.io/toolkit/bpm
 
 bpmn-js is built on top of diagram-js and bpmn-moddle. bpmn-js ties both together and provides the *palette* and the *context pad*. 
 
-The *canvas* contains graphical *elements* of different *types* (*shape*, *label*, *connection*, possibly more). Thereby it ties both the BPMN elements and the graphical elements together. The graphical elements can contain *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `bpmn:ExclusiveGateway` (for the BPMN modeling language ) or `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in`elementTypes.ts`.
+The *canvas* contains graphical *elements* of different *types* (*shape*, *label*, *connection*, possibly more). Thereby it ties both the BPMN elements and the graphical elements together. The graphical elements can contain *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `bpmn:ExclusiveGateway` (for the BPMN modeling language ) or `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in `elementTypes.ts`.
 
 Element positions on the canvas work as shown in this diagram:
 
 ```mermaid
-
+%%{init: {"themeVariables": {"quadrant4Fill": "#a4d7e1"} }}%%
 quadrantChart
     title Coordinate Plane of the bpmn-js Canvas
     x-axis "-x" --> "+x"
@@ -336,6 +336,7 @@ quadrantChart
     quadrant-4 "angle: 271° to 360°"
     "(x: 0/ y: 0)": [0.5, 0.5]
 ```    
+Per default, the visible area of the canvas is the bottom right quadrant (+x/+y). That means that 0/0 is in the top left corner of the screen. 
 
 # Runtime View {#section-runtime-view}
 

@@ -124,9 +124,9 @@ export class SvgService {
     const storyLength = story.length;
     const visibleTimeInPercent = Math.floor(100 / storyLength);
     const durationOfAnimation = storyLength * animationSpeed;
-    let senteceCounter = 1;
+    let sentenceCounter = 1;
     let currentVisibleTimeInPercent = visibleTimeInPercent;
-    let previouVisibleTimeInPercent = visibleTimeInPercent;
+    let previousVisibleTimeInPercent = visibleTimeInPercent;
     story.forEach((sentence) => {
       const objects = sentence.objects.filter(
         (it) => !usedElementId.includes(it.id),
@@ -135,20 +135,20 @@ export class SvgService {
         usedElementId.push(objectId.id);
         const idIndex = domainStorySvg.indexOf(objectId.id);
         const insertIdIndex = domainStorySvg.indexOf('>', idIndex);
-        domainStorySvg = `${domainStorySvg.slice(0, insertIdIndex)} id="group${senteceCounter}" ${domainStorySvg.slice(insertIdIndex)}`;
+        domainStorySvg = `${domainStorySvg.slice(0, insertIdIndex)} id="group${sentenceCounter}" ${domainStorySvg.slice(insertIdIndex)}`;
 
         const index = domainStorySvg.indexOf(objectId.id);
         const insertIndex = domainStorySvg.indexOf('>', index) + 1;
-        if (senteceCounter > 1) {
+        if (sentenceCounter > 1) {
           domainStorySvg = `${domainStorySvg.slice(0, insertIndex)}
             <style>
-              #group${senteceCounter} {
+              #group${sentenceCounter} {
                   opacity: 0;
-                  animation: visibilityControl${senteceCounter} ${durationOfAnimation}s infinite;
+                  animation: visibilityControl${sentenceCounter} ${durationOfAnimation}s infinite;
               }
-              @keyframes visibilityControl${senteceCounter} {
-                  ${previouVisibleTimeInPercent - 1}% { opacity: 0; }    /* Initially invisible */
-                  ${previouVisibleTimeInPercent}% { opacity: 1; }  /* Starts becoming visible */
+              @keyframes visibilityControl${sentenceCounter} {
+                  ${previousVisibleTimeInPercent - 1}% { opacity: 0; }    /* Initially invisible */
+                  ${previousVisibleTimeInPercent}% { opacity: 1; }  /* Starts becoming visible */
                   98% { opacity: 1; }   /* Stays visible */
                   99% { opacity: 0; }   /* Starts disappearing */
                   100% { opacity: 0; }  /* Fully invisible */
@@ -156,9 +156,9 @@ export class SvgService {
             </style>  ${domainStorySvg.slice(insertIndex)}`;
         }
       });
-      senteceCounter += 1;
-      previouVisibleTimeInPercent = currentVisibleTimeInPercent;
-      currentVisibleTimeInPercent = visibleTimeInPercent * senteceCounter;
+      sentenceCounter += 1;
+      previousVisibleTimeInPercent = currentVisibleTimeInPercent;
+      currentVisibleTimeInPercent = visibleTimeInPercent * sentenceCounter;
     });
     return domainStorySvg;
   }

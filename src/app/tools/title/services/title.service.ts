@@ -3,7 +3,6 @@ import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import {
   INITIAL_DESCRIPTION,
-  INITIAL_ICON_SET_NAME,
   INITIAL_TITLE,
 } from '../../../domain/entities/constants';
 import { CommandStackService } from '../../../domain/services/command-stack.service';
@@ -17,15 +16,11 @@ import { TitleDialogComponent } from '../presentation/title-dialog/title-dialog.
 export class TitleService {
   private titleSubject = new BehaviorSubject<string>(INITIAL_TITLE);
   private descriptionSubject = new BehaviorSubject<string>(INITIAL_DESCRIPTION);
-  private iconSetNameSubject = new BehaviorSubject<string>(
-    INITIAL_ICON_SET_NAME,
-  );
   private showDescriptionSubject = new BehaviorSubject<boolean>(true);
 
   title$ = this.titleSubject.asObservable();
   description$ = this.descriptionSubject.asObservable();
   showDescription$ = this.showDescriptionSubject.asObservable();
-  iconSetName$ = this.iconSetNameSubject.asObservable();
 
   constructor(
     private commandStackService: CommandStackService,
@@ -74,20 +69,12 @@ export class TitleService {
     this.showDescriptionSubject.next(show);
   }
 
-  setIconSetName(name: string): void {
-    this.iconSetNameSubject.next(name);
-  }
-
   getTitle(): string {
     return this.titleSubject.value;
   }
 
   getDescription(): string {
     return this.descriptionSubject.value;
-  }
-
-  getIconSetName(): string {
-    return this.iconSetNameSubject.value;
   }
 
   getVersion(): string {

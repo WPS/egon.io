@@ -51,8 +51,8 @@ export class Dictionary {
     });
   }
 
-  addBuildInIcons(buildInIcons: Dictionary): void {
-    buildInIcons.entries.forEach((entry) => {
+  addBuiltInIcons(builtInIcons: Dictionary): void {
+    builtInIcons.entries.forEach((entry) => {
       if (!this.has(entry.key)) {
         this.entries.push(entry);
       }

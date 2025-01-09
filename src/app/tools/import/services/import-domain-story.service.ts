@@ -318,8 +318,6 @@ export class ImportDomainStoryService
         false,
       );
 
-      this.importRepairService.adjustPositions(domainStory.businessObjects);
-
       this.updateIconRegistries(domainStory.businessObjects, iconSetConfig);
       this.rendererService.importStory(
         domainStory.businessObjects,
