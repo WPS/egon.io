@@ -12,6 +12,9 @@ import MoveCanvasModule from 'diagram-js/lib/navigation/movecanvas';
 import KeyboardMoveModule from 'diagram-js/lib/navigation/keyboard-move';
 import ZoomScrollModule from "diagram-js/lib/navigation/zoomscroll";
 
+import DraggingModule from "diagram-js/lib/features/dragging";
+import MoveModule from "diagram-js/lib/features/move";
+
 export default function DomainStoryModeler(options) {
   BaseViewer.call(this, options);
   this._customElements = [];
@@ -21,10 +24,10 @@ export default function DomainStoryModeler(options) {
 inherits(DomainStoryModeler, BaseViewer);
 
 DomainStoryModeler.prototype._modules = [].concat(
-  //DomainStoryModeler.prototype._modules, // TODO-RIP-BPMN
   [DomainStoryModule, LabelEditingModule, ModelingModule],
   [ResizeModule],
-  [MoveCanvasModule, KeyboardMoveModule, ZoomScrollModule] // Navigation on Canvas
+  [MoveCanvasModule, KeyboardMoveModule, ZoomScrollModule], // Navigation on Canvas
+  [MoveModule] // Move Elements
 );
 
 /**
