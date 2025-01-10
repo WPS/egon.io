@@ -39,37 +39,47 @@ function isAnnotation(element) {
   return element && /^domainStory:textAnnotation/.test(element.type);
 }
 
+function isBackground(element) {
+  return element && /^__implicitroot/.test(element.id);
+}
+
 /**
  * can source and target be connected?
  */
 function canConnect(source, target) {
+
+  // never connect to background
+  if (isBackground(target)) {
+    return false;
+  }
+
   // only judge about two custom elements
   if (
     isDomainStoryGroup(target) ||
     !isDomainStory(source) ||
     !isDomainStory(target)
   ) {
-    return;
+    return false;
   }
 
   // do not allow a connection from one element to itself
   if (source === target) {
-    return;
+    return false;
   }
 
   // do not allow a connection between two actors
   if (isActor(source) && isActor(target)) {
-    return;
+    return false;
   }
 
   // do not allow a connection, where the source or target is an activity
   if (isActivity(source) || isActivity(target)) {
-    return;
+    return false;
   }
 
   // do not allow a connection, where the source or target is an annotation connection
   if (isConnection(source) || isConnection(target)) {
-    return;
+    return false;
   }
 
   // do not allow a connection to a connection(the special type of connection between an element and a comment box)
