@@ -262,7 +262,7 @@ export default function DomainStoryContextPadProvider(
     });
   }
 
-  function changeDirection(element) {ä
+  function changeDirection(element) {
     let context;
     let businessObject = element.businessObject;
     let newNumber;
