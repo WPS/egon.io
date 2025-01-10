@@ -1,6 +1,5 @@
 "use strict";
 
-import BaseLayouter from "diagram-js/lib/layout/BaseLayouter";
 import LassoTool from "diagram-js/lib/features/lasso-tool";
 import SpaceTool from "diagram-js/lib/features/space-tool";
 import Palette from "diagram-js/lib/features/palette"
@@ -18,6 +17,7 @@ import headlineAndDescriptionUpdateHandler from "./updateHandler/headlineAndDesc
 import DomainStoryContextPadProvider from "./context-pad/domainStoryContextPadProvider";
 import ReplaceMenuProvider from "./change-icon/replaceMenuProvider";
 import DSModeling from "./modeling/dSModeling";
+import EgonLayouter from "./modeling/EgonLayouter";
 
 export default {
   __depends__: [CreateModule, ContextPadModule, Palette, SpaceTool, LassoTool],
@@ -29,7 +29,7 @@ export default {
     "contextPadProvider",
     "replaceMenuProvider",
   ],
-  layouter: ["type", BaseLayouter],
+  layouter: ["type", EgonLayouter],
   textRenderer: ["type", TextRenderer],
   elementFactory: ["type", DomainStoryElementFactory],
   domainStoryRenderer: ["type", DomainStoryRenderer],

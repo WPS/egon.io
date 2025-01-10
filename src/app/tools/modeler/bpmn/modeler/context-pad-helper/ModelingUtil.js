@@ -78,7 +78,7 @@ export function isDirectionHorizontal(element, elementRegistry) {
   // assumption that such BPMN files are unusual.
   var pool = elementRegistry.find(function(shape) {
     var businessObject = getBusinessObject(shape);
-    return businessObject && businessObject.get('processRef') === process;
+    return businessObject; // && businessObject.get('processRef') === process;
   });
 
   if (!pool) {
