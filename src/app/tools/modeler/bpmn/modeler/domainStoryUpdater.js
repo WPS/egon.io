@@ -18,7 +18,7 @@ import { ElementTypes } from "../../../../domain/entities/elementTypes";
  * a handler responsible for updating the custom element's businessObject
  * once changes on the diagram happen.
  */
-export default function DomainStoryUpdater(eventBus, bpmnjs) {
+export default function DomainStoryUpdater(eventBus, bpmnjs, connectionDocking) {
   CommandInterceptor.call(this, eventBus);
 
   function updateCustomElement(e) {
@@ -130,6 +130,30 @@ export default function DomainStoryUpdater(eventBus, bpmnjs) {
     });
   }
 
+  // crop connection ends during create/update
+  function cropConnection(e) {
+    var context = e.context,
+      hints = context.hints || {},
+      connection;
+
+    if (!context.cropped && hints.createElementsBehavior !== false) {
+      connection = context.connection;
+      connection.waypoints = connectionDocking.getCroppedWaypoints(connection);
+      context.cropped = true;
+    }
+  }
+
+  // cropping must be done before updateCustomElement
+  // do not change the order of these .executed calls
+  this.executed([
+    'connection.layout',
+    'connection.create'
+  ], cropConnection);
+
+  this.reverted([ 'connection.layout' ], function(e) {
+    delete e.context.cropped;
+  });
+
   this.executed(
     [
       "shape.create",
@@ -195,4 +219,4 @@ function isDomainStory(element) {
 
 inherits(DomainStoryUpdater, CommandInterceptor);
 
-DomainStoryUpdater.$inject = ["eventBus", "bpmnjs"];
+DomainStoryUpdater.$inject = ["eventBus", "bpmnjs", "connectionDocking"];

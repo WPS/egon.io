@@ -17,7 +17,9 @@ import headlineAndDescriptionUpdateHandler from "./updateHandler/headlineAndDesc
 import DomainStoryContextPadProvider from "./context-pad/domainStoryContextPadProvider";
 import ReplaceMenuProvider from "./change-icon/replaceMenuProvider";
 import DSModeling from "./modeling/dSModeling";
-import EgonLayouter from "./modeling/EgonLayouter";
+//import EgonLayouter from "./modeling/EgonLayouter";
+import BaseLayouter from "diagram-js/lib/layout/BaseLayouter";
+import CroppingConnectionDocking from "diagram-js/lib/layout/CroppingConnectionDocking";
 
 export default {
   __depends__: [CreateModule, ContextPadModule, Palette, SpaceTool, LassoTool],
@@ -29,7 +31,8 @@ export default {
     "contextPadProvider",
     "replaceMenuProvider",
   ],
-  layouter: ["type", EgonLayouter],
+  connectionDocking: ["type", CroppingConnectionDocking],
+  layouter: ["type", BaseLayouter],
   textRenderer: ["type", TextRenderer],
   elementFactory: ["type", DomainStoryElementFactory],
   domainStoryRenderer: ["type", DomainStoryRenderer],

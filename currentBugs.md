@@ -3,8 +3,8 @@
 - replay does not work
 - when connecting an activity from an actor via the arrow icon, no dashed line is displayed and abborting without actually connecting is not possible
 - change direction of activities does not work
-- all connections are too long in both directions
 - context pad size changed
+- copyPaste does not work
 
 ### We have not checked for bugs yet
 
