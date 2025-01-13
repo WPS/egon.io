@@ -449,6 +449,12 @@ export default function DomainStoryRenderer(
       // this however does not adjust the surrounding box of the connection.
       fixConnectionInHTML(p.parentElement);
 
+      // changes the color of the moved activity back to original instead of blue
+      if (p.className.baseVal === "djs-dragger") {
+        svgClasses(p).remove("djs-dragger");
+        svgClasses(p).add("djs-connection-preview");
+      }
+
       return x;
     }
   };
@@ -725,6 +731,19 @@ export default function DomainStoryRenderer(
     let rectangle = getRectPath(shape);
     return componentsToPath(rectangle);
   };
+
+  eventBus.on("bendpoint.move.start",200, function (event) {
+    // the bendpoint which we are dragging will otherwise be displayed with 0.3 opacity
+    svgClasses(event.context.draggerGfx).remove('djs-dragging');
+    svgClasses(event.context.draggerGfx).add('bendpoint-dragging');
+    // the old path of the activity will otherwise be displayed in gray
+    canvas.addMarker(event.context.connection, 'djs-element-hidden');
+  });
+
+  eventBus.on("bendpoint.move.end",200, function (event) {
+    // the acitvity will not be displayed if we don't remove the marker we added during bendpoint.move.start
+    canvas.removeMarker(event.context.connection, 'djs-element-hidden');
+  });
 }
 
 inherits(DomainStoryRenderer, BaseRenderer);

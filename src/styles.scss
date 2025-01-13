@@ -403,10 +403,16 @@ mat-dialog-actions.mdc-dialog__actions {
 .djs-segment-dragger:hover .djs-visual,
 .djs-segment-dragger.djs-dragging .djs-visual,
 .djs-bendpoint:hover .djs-visual,
-.djs-bendpoint.floating .djs-visual {
+.djs-bendpoint.floating .djs-visual,
+.djs-bendpoint.bendpoint-dragging .djs-visual {
   fill: #a4d7e1;
   stroke-opacity: 0.5;
   stroke: black;
+}
+
+.djs-bendpoint.bendpoint-dragging {
+  display: block;
+  opacity: 1.0;
 }
 
 .djs-segment-dragger.djs-dragging .djs-visual,
