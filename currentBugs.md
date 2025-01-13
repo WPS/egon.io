@@ -1,6 +1,5 @@
 # Current bugs after BPMN.js --> Diagram.js
 
-- context pad size changed
 - copyPaste does not work
 - snapping to shape middle when connecting does not work
 - connect with activity dashed line is blue
