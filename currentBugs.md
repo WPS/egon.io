@@ -1,9 +1,9 @@
 # Current bugs after BPMN.js --> Diagram.js
 
-- replay does not work
 - context pad size changed
 - copyPaste does not work
 - snapping to shape middle when connecting does not work
+- bendpoints preview
 
 ### We have not checked for bugs yet
 
