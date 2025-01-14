@@ -58,7 +58,7 @@ export class ModelerService {
     this.modeler = new DomainStoryModeler({
       container: '#canvas',
       keyboard: {
-        bindTo: document,
+        bind: true,
       },
 
       // Disable BPMN-SearchModule and re-enable browser Search

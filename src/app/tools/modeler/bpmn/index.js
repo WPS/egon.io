@@ -19,7 +19,8 @@ import CopyPaste from "diagram-js/lib/features/copy-paste";
 import SpaceToolModule from "diagram-js/lib/features/space-tool";
 import LassoToolModule from "diagram-js/lib/features/lasso-tool";
 import ConnectModule from "diagram-js/lib/features/connect";
-
+import KeyboardModule from "diagram-js/lib/features/keyboard";
+import EditorActionsModule from "diagram-js/lib/features/editor-actions";
 
 export default function DomainStoryModeler(options) {
   BaseViewer.call(this, options);
@@ -34,7 +35,8 @@ DomainStoryModeler.prototype._modules = [].concat(
   [ResizeModule],
   [SpaceToolModule, LassoToolModule],
   [MoveCanvasModule, KeyboardMoveModule, ZoomScrollModule], // Navigation on Canvas
-  [MoveModule, Bendpoints, ConnectionPreview, CopyPaste, ConnectModule] // Move/Create/Alter Elements
+  [MoveModule, Bendpoints, ConnectionPreview, CopyPaste, ConnectModule], // Move/Create/Alter Elements
+  [KeyboardModule, EditorActionsModule]
 );
 
 /**
