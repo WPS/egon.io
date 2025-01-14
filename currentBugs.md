@@ -1,6 +1,5 @@
 # Current bugs after BPMN.js --> Diagram.js
 
-- copyPaste does not work
 - lasso tool displays a grey line right of the selected frame (it's an empty multi element context pad)
 - alignment lines are not visible
 - shortcuts that don't work: ctrl + A, H, L, S, E
@@ -17,3 +16,4 @@
 - space tool works but sometimes the preview gets stuck
 ![img.png](img.png)
 - no snapping to shape middle when connecting
+- when copypasting several numbered activities, the pasted ones all have the same number (and multiple is not checked)
