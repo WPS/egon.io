@@ -3,6 +3,7 @@
 - lasso tool displays a grey line right of the selected frame (it's an empty multi element context pad)
 - alignment lines are not visible
 - shortcuts that don't work: ctrl + A, H, L, S, E
+- context-pad resizing
 
 ### Changed but might be better or not worth fixing
 

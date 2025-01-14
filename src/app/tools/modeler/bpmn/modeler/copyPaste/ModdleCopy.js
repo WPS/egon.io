@@ -1,67 +1,18 @@
 import {
-  find,
   forEach,
   isArray,
   isDefined,
   isObject,
-  matchPattern,
   reduce,
   has,
   sortBy
 } from 'min-dash';
 
 var DISALLOWED_PROPERTIES = [
-  'artifacts',
-  'dataInputAssociations',
-  'dataOutputAssociations',
-  'default',
-  'flowElements',
-  'lanes',
   'incoming',
   'outgoing'
 ];
 
-/**
- * @typedef {Function} <moddleCopy.canCopyProperties> listener
- *
- * @param {Object} context
- * @param {Array<string>} context.propertyNames
- * @param {ModdleElement} context.sourceElement
- * @param {ModdleElement} context.targetElement
- *
- * @returns {Array<string>|boolean} - Return properties to be copied or false to disallow
- * copying.
- */
-
-/**
- * @typedef {Function} <moddleCopy.canCopyProperty> listener
- *
- * @param {Object} context
- * @param {ModdleElement} context.parent
- * @param {*} context.property
- * @param {string} context.propertyName
- *
- * @returns {*|boolean} - Return copied property or false to disallow
- * copying.
- */
-
-/**
- * @typedef {Function} <moddleCopy.canSetCopiedProperty> listener
- *
- * @param {Object} context
- * @param {ModdleElement} context.parent
- * @param {*} context.property
- * @param {string} context.propertyName
- *
- * @returns {boolean} - Return false to disallow
- * setting copied property.
- */
-
-/**
- * Utility for copying model properties from source element to target element.
- *
- * @param {EventBus} eventBus
- */
 export default function ModdleCopy(eventBus) {
   this._eventBus = eventBus;
 
@@ -80,32 +31,10 @@ export default function ModdleCopy(eventBus) {
 
   // default check whether property can be copied
   eventBus.on('moddleCopy.canCopyProperty', function(context) {
-    var parent = context.parent,
-      parentDescriptor = isObject(parent) && parent.$descriptor,
-      propertyName = context.propertyName;
+    var  propertyName = context.propertyName;
 
     if (propertyName && DISALLOWED_PROPERTIES.indexOf(propertyName) !== -1) {
-
       // disallow copying property
-      return false;
-    }
-
-    if (propertyName &&
-      parentDescriptor &&
-      !find(parentDescriptor.properties, matchPattern({ name: propertyName }))) {
-
-      // disallow copying property
-      return false;
-    }
-  });
-
-  // do NOT allow to copy empty extension elements
-  eventBus.on('moddleCopy.canSetCopiedProperty', function(context) {
-    var property = context.property;
-
-    if (is(property, 'bpmn:ExtensionElements') && (!property.values || !property.values.length)) {
-
-      // disallow setting copied property
       return false;
     }
   });
@@ -115,23 +44,12 @@ ModdleCopy.$inject = [
   'eventBus',
 ];
 
-/**
- * Copy model properties of source element to target element.
- *
- * @param {ModdleElement} sourceElement
- * @param {ModdleElement} targetElement
- * @param {Array<string>} [propertyNames]
- *
- * @param {ModdleElement}
- */
 ModdleCopy.prototype.copyElement = function(sourceElement, targetElement, propertyNames) {
   var self = this;
 
   if (propertyNames && !isArray(propertyNames)) {
     propertyNames = [ propertyNames ];
   }
-
-  propertyNames = propertyNames || getPropertyNames(sourceElement.$descriptor);
 
   var canCopyProperties = this._eventBus.fire('moddleCopy.canCopyProperties', {
     propertyNames: propertyNames,
@@ -175,15 +93,6 @@ ModdleCopy.prototype.copyElement = function(sourceElement, targetElement, proper
   return targetElement;
 };
 
-/**
- * Copy model property.
- *
- * @param {*} property
- * @param {ModdleElement} parent
- * @param {string} propertyName
- *
- * @returns {*}
- */
 ModdleCopy.prototype.copyProperty = function(property, parent, propertyName) {
   var self = this;
 
@@ -207,18 +116,6 @@ ModdleCopy.prototype.copyProperty = function(property, parent, propertyName) {
     return copiedProperty;
   }
 
-  // var propertyDescriptor = this._moddle.getPropertyDescriptor(parent, propertyName);
-  //
-  // // do NOT copy references
-  // if (propertyDescriptor.isReference) {
-  //   return;
-  // }
-  //
-  // // copy id
-  // if (propertyDescriptor.isId) {
-  //   return this._copyId(property, parent);
-  // }
-
   // copy arrays
   if (isArray(property)) {
     return reduce(property, function(childProperties, childProperty) {
@@ -239,9 +136,6 @@ ModdleCopy.prototype.copyProperty = function(property, parent, propertyName) {
 
   // copy model elements
   if (isObject(property) && property.$type) {
-    // if (this._moddle.getElementDescriptor(property).isGeneric) {
-    //   return;
-    // }
 
     copiedProperty = self.createDefaultElement(property.$type);
 
@@ -257,39 +151,10 @@ ModdleCopy.prototype.copyProperty = function(property, parent, propertyName) {
   return property;
 };
 
-// ModdleCopy.prototype._copyId = function(id, element) {
-//
-//   // disallow if already taken
-//   if (this._moddle.ids.assigned(id)) {
-//     return;
-//   } else {
-//
-//     this._moddle.ids.claim(id, element);
-//     return id;
-//   }
-// };
-
 ModdleCopy.prototype.createDefaultElement = function (type) {
   return {
     $type: type,
     $attrs: new Object(),
     $descriptor: new Object()
   }
-}
-
-// helpers //////////
-
-export function getPropertyNames(descriptor, keepDefaultProperties) {
-  return reduce(descriptor.properties, function(properties, property) {
-
-    if (keepDefaultProperties && property.default) {
-      return properties;
-    }
-
-    return properties.concat(property.name);
-  }, []);
-}
-
-function is(element, type) {
-  return element && (typeof element.$instanceOf === 'function') && element.$instanceOf(type);
 }

@@ -37,8 +37,6 @@ function removeProperties(element, properties) {
 
 var LOW_PRIORITY = 750;
 
-//TODO-RIP-BPMN needs refactoring
-
 export default function BpmnCopyPaste(eventBus, moddleCopy) {
 
   eventBus.on('copyPaste.copyElement', LOW_PRIORITY, function(context) {
@@ -51,61 +49,15 @@ export default function BpmnCopyPaste(eventBus, moddleCopy) {
 
     copyProperties(businessObject, descriptor, 'name');
 
-    descriptor.di = {};
-
-    // colors will be set to DI
-    copyProperties(businessObject.di, descriptor.di, [
-      'fill',
-      'stroke',
-      'background-color',
-      'border-color',
-      'color'
-    ]);
-
-    copyProperties(businessObject.di, descriptor, 'isExpanded');
-
     if (isLabel(descriptor)) {
       return descriptor;
     }
-
-    // default sequence flow
-    if (businessObject.default) {
-      descriptor.default = businessObject.default.id;
-    }
   });
-
-  // eventBus.on('moddleCopy.canCopyProperty', function(context) {
-  //   var parent = context.parent,
-  //     property = context.property,
-  //     propertyName = context.propertyName,
-  //     bpmnProcess;
-  //
-  //   if (
-  //     propertyName === 'processRef' &&
-  //     is(parent, 'bpmn:Participant') &&
-  //     is(property, 'bpmn:Process')
-  //   ) {
-  //     bpmnProcess = bpmnFactory.create('bpmn:Process');
-  //
-  //     // return copy of process
-  //     return moddleCopy.copyElement(property, bpmnProcess);
-  //   }
-  // });
 
   var references;
 
   function resolveReferences(descriptor, cache) {
     var businessObject = getBusinessObject(descriptor);
-
-    // default sequence flows
-    if (descriptor.default) {
-
-      // relationship cannot be resolved immediately
-      references[ descriptor.default ] = {
-        element: businessObject,
-        property: 'default'
-      };
-    }
 
     // boundary events
     if (descriptor.host) {
@@ -156,7 +108,6 @@ export default function BpmnCopyPaste(eventBus, moddleCopy) {
     resolveReferences(descriptor, cache);
 
     copyProperties(descriptor, newBusinessObject, [
-      'isExpanded',
       'name'
     ]);
 
@@ -164,7 +115,6 @@ export default function BpmnCopyPaste(eventBus, moddleCopy) {
   });
 
 }
-
 
 BpmnCopyPaste.$inject = [
   'eventBus',
