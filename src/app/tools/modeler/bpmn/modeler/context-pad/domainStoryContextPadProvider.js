@@ -114,6 +114,12 @@ export default function DomainStoryContextPadProvider(
     return actions;
   };
 
+  this.getMultiElementContextPadEntries = function(elements) {
+    let actions = {};
+    addDelete(actions, elements);
+    return actions;
+  }
+
   function addDelete(actions, element) {
     // delete element entry, only show if allowed by rules
     var deleteAllowed = rules.allowed('elements.delete', { elements: {element} });
@@ -131,7 +137,11 @@ export default function DomainStoryContextPadProvider(
           title: translate('Remove'),
           action: {
             click: function (event, element) {
-              modeling.removeElements({ element });
+              if (isArray(element)) {
+                modeling.removeElements(element.slice());
+              } else {
+                modeling.removeElements({element});
+              }
               dirtyFlagService.makeDirty();
             },
           }
