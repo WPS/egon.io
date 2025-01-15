@@ -1,7 +1,9 @@
-# Current bugs after BPMN.js --> Diagram.js
+# Agenda
 
-- lasso tool displays a grey line right of the selected frame (it's an empty multi element context pad)
-- context-pad resizing
+- implement delete on multi element context pad
+- fix tests
+- move all js files into diagram-js, remove bpmn folder
+- di $descriptor, $type should be removed
 
 ### Changed but might be better or not worth fixing
 
@@ -9,16 +11,12 @@
 - when selected by lasso tool, hovering over an element does not change the outline to egon blue
 - connect with activity dashed line is blue until you hover over an allowed target
 
-### bugs also contained in applatest
-
-- when creating bendpoints on a colored activity, during creation the activity is displayed as black
+### bugs not reproduceable
 - space tool works but sometimes the preview gets stuck
 ![img.png](img.png)
-- no snapping to shape middle when connecting
-- when copypasting several numbered activities, the pasted ones all have the same number (and multiple is not checked)
 
-### ask
-
+### future bugs
+- color change for text annotations with several connections
 - is it okay that when connecting with activity from a shape, hovering over a group lets create a connection from the group to the shape?
-- is it okay that a text annotation can be connected to several shapes?
-- what is the global connect tool that activates when pressing c? do we need that?
+- when creating bendpoints on a colored activity, during creation the activity is displayed as black
+- no snapping to shape middle when connecting (could also be a feature)
