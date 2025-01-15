@@ -1,7 +1,6 @@
 # Current bugs after BPMN.js --> Diagram.js
 
 - lasso tool displays a grey line right of the selected frame (it's an empty multi element context pad)
-- alignment lines are not visible
 - shortcuts that don't work: ctrl + A, H, L, S, E
 - selecting several elements when holding ctrl doesn't work
 - context-pad resizing
