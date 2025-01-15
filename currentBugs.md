@@ -1,8 +1,6 @@
 # Current bugs after BPMN.js --> Diagram.js
 
 - lasso tool displays a grey line right of the selected frame (it's an empty multi element context pad)
-- shortcuts that don't work: ctrl + A, H, L, S, E
-- selecting several elements when holding ctrl doesn't work
 - context-pad resizing
 
 ### Changed but might be better or not worth fixing
@@ -23,3 +21,4 @@
 
 - is it okay that when connecting with activity from a shape, hovering over a group lets create a connection from the group to the shape?
 - is it okay that a text annotation can be connected to several shapes?
+- what is the global connect tool that activates when pressing c? do we need that?

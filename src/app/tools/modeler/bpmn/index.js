@@ -18,10 +18,12 @@ import ConnectionPreview from "diagram-js/lib/features/connection-preview";
 import CopyPasteModule from "./modeler/copyPaste";
 import SpaceToolModule from "diagram-js/lib/features/space-tool";
 import LassoToolModule from "diagram-js/lib/features/lasso-tool";
+import HandToolModule from "diagram-js/lib/features/hand-tool";
 import ConnectModule from "diagram-js/lib/features/connect";
 import KeyboardModule from "diagram-js/lib/features/keyboard";
 import EditorActionsModule from "diagram-js/lib/features/editor-actions";
 import SnappingModule from "diagram-js/lib/features/snapping";
+import AdditionalShortcuts from "./modeler/shortcuts";
 
 export default function DomainStoryModeler(options) {
   BaseViewer.call(this, options);
@@ -34,10 +36,10 @@ inherits(DomainStoryModeler, BaseViewer);
 DomainStoryModeler.prototype._modules = [].concat(
   [DomainStoryModule, LabelEditingModule, ModelingModule],
   [ResizeModule],
-  [SpaceToolModule, LassoToolModule],
+  [SpaceToolModule, LassoToolModule, HandToolModule],
   [MoveCanvasModule, KeyboardMoveModule, ZoomScrollModule], // Navigation on Canvas
   [MoveModule, Bendpoints, ConnectionPreview, CopyPasteModule, ConnectModule], // Move/Create/Alter Elements
-  [KeyboardModule, EditorActionsModule], // Shortcuts
+  [KeyboardModule, EditorActionsModule, AdditionalShortcuts], // Shortcuts
   [SnappingModule] // Alignment
 );
 
