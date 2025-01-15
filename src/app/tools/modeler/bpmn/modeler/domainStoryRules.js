@@ -43,6 +43,21 @@ function isBackground(element) {
   return element && /^__implicitroot/.test(element.id);
 }
 
+export function isLabel(element) {
+  return element && !!element.labelTarget;
+}
+
+function nonExistingOrLabel(element) {
+  return !element || isLabel(element);
+}
+
+function canStartConnection(element) {
+  if (nonExistingOrLabel(element)) {
+    return null;
+  }
+  return false;
+}
+
 /**
  * can source and target be connected?
  */
@@ -297,6 +312,23 @@ DomainStoryRules.prototype.init = function () {
       newBounds = context.newBounds;
 
     return canResize(shape, newBounds);
+  });
+
+  this.addRule('connection.start', function(context) {
+    var source = context.source;
+
+    return canStartConnection(source);
+  });
+
+  this.addRule('connection.updateWaypoints', function(context) {
+    return {
+      type: context.connection.type
+    };
+  });
+
+  // CopyPaste.js requires this empty-looking rule to exist
+  this.addRule('element.copy', function(context) {
+    return true;
   });
 };
 

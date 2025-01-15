@@ -20,7 +20,6 @@ import DSModeling from "./modeling/dSModeling";
 //import EgonLayouter from "./modeling/EgonLayouter";
 import BaseLayouter from "diagram-js/lib/layout/BaseLayouter";
 import CroppingConnectionDocking from "diagram-js/lib/layout/CroppingConnectionDocking";
-import BpmnRules from "./BpmnRules";
 
 export default {
   __depends__: [CreateModule, ContextPadModule, Palette, SpaceTool, LassoTool],
@@ -31,7 +30,6 @@ export default {
     "domainStoryUpdater",
     "contextPadProvider",
     "replaceMenuProvider",
-    "bpmnRules",
   ],
   connectionDocking: ["type", CroppingConnectionDocking],
   layouter: ["type", BaseLayouter],
@@ -40,7 +38,6 @@ export default {
   domainStoryRenderer: ["type", DomainStoryRenderer],
   paletteProvider: ["type", DomainStoryPalette],
   domainStoryRules: ["type", DomainStoryRules],
-  bpmnRules: ["type", BpmnRules],
   domainStoryUpdater: ["type", DomainStoryUpdater],
   contextPadProvider: ["type", DomainStoryContextPadProvider],
   replaceMenuProvider: ["type", ReplaceMenuProvider],

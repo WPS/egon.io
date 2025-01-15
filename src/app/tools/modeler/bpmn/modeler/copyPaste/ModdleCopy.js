@@ -154,7 +154,6 @@ ModdleCopy.prototype.copyProperty = function(property, parent, propertyName) {
 ModdleCopy.prototype.createDefaultElement = function (type) {
   return {
     $type: type,
-    $attrs: new Object(),
     $descriptor: new Object()
   }
 }

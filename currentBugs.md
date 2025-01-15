@@ -3,6 +3,7 @@
 - lasso tool displays a grey line right of the selected frame (it's an empty multi element context pad)
 - alignment lines are not visible
 - shortcuts that don't work: ctrl + A, H, L, S, E
+- selecting several elements when holding ctrl doesn't work
 - context-pad resizing
 
 ### Changed but might be better or not worth fixing
@@ -18,3 +19,8 @@
 ![img.png](img.png)
 - no snapping to shape middle when connecting
 - when copypasting several numbered activities, the pasted ones all have the same number (and multiple is not checked)
+
+### ask
+
+- is it okay that when connecting with activity from a shape, hovering over a group lets create a connection from the group to the shape?
+- is it okay that a text annotation can be connected to several shapes?
