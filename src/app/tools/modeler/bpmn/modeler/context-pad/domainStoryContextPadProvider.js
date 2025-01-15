@@ -1,11 +1,6 @@
 "use strict";
 
-import inherits from "inherits-browser";
-
-// import ContextPadProvider from "diagram-js/lib/features/context-pad/ContextPadProvider";
-import ContextPadProvider from "./contextPadProvider.js";
-
-import { assign, bind } from "min-dash";
+import { assign, isArray} from "min-dash";
 import { generateAutomaticNumber } from "../numbering/numbering";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import {
@@ -13,6 +8,7 @@ import {
   isHexWithAlpha,
   rgbaToHex,
 } from "../../../../../utils/colorConverter";
+import {hasPrimaryModifier} from "diagram-js/lib/util/Mouse";
 
 let dirtyFlagService;
 let iconDictionaryService;
@@ -23,7 +19,6 @@ export function initializeContextPadProvider(dirtyFlag, iconDictionary) {
 }
 
 export default function DomainStoryContextPadProvider(
-  injector,
   connect,
   translate,
   elementFactory,
@@ -35,26 +30,39 @@ export default function DomainStoryContextPadProvider(
   commandStack,
   eventBus,
   modeling,
+  rules,
 ) {
+  contextPad.registerProvider(this);
+  popupMenu.registerProvider("ds-replace", replaceMenuProvider);
+
+  let _selectedElement;
   let startConnect;
-  let selectedElement;
 
-  injector.invoke(ContextPadProvider, this);
+  eventBus.on('create.end', 250, function(event) {
+    var context = event.context,
+      shape = context.shape;
 
-  let cached = bind(this.getContextPadEntries, this);
+    if (!hasPrimaryModifier(event) || !contextPad.isOpen(shape)) {
+      return;
+    }
+
+    var entries = contextPad.getEntries(shape);
+
+    if (entries.replace) {
+      entries.replace.action.click(event, shape);
+    }
+  });
 
   document.addEventListener("pickedColor", (event) => {
-    if (selectedElement) {
+    if (_selectedElement) {
       executeCommandStack(event);
     }
   });
 
-  popupMenu.registerProvider("ds-replace", replaceMenuProvider);
-
   this.getContextPadEntries = function (element) {
-    selectedElement = element;
+    _selectedElement = element;
 
-    let pickedColor = selectedElement.businessObject.pickedColor;
+    let pickedColor = _selectedElement.businessObject.pickedColor;
 
     if (isHexWithAlpha(pickedColor)) {
       pickedColor = hexToRGBA(pickedColor);
@@ -67,13 +75,14 @@ export default function DomainStoryContextPadProvider(
       }),
     );
 
-    let actions = cached(element);
+    let actions = {};
 
     startConnect = function (event, element, autoActivate) {
       connect.start(event, element, autoActivate);
     };
 
     if (element.type.includes(ElementTypes.WORKOBJECT)) {
+      addDelete(actions, element);
       addColorChange(actions);
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
@@ -81,56 +90,73 @@ export default function DomainStoryContextPadProvider(
       addWorkObjects(appendAction, actions);
       addChangeWorkObjectTypeMenu(actions);
     } else if (element.type.includes(ElementTypes.ACTOR)) {
+      addDelete(actions, element);
       addColorChange(actions);
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
       addWorkObjects(appendAction, actions);
       addChangeActorTypeMenu(actions);
     } else if (element.type.includes(ElementTypes.GROUP)) {
-      delete actions.delete;
       addTextAnnotation(actions);
-      assign(actions, {
-        deleteGroup: {
-          group: "edit",
-          className: "bpmn-icon-trash",
-          title: "Remove Group without Child-Elements",
-          action: {
-            click: function (event, element) {
-              modeling.removeGroup(element);
-              dirtyFlagService.makeDirty();
-            },
-          },
-        },
-      });
+      addDeleteGroupWithoutChildren(actions, element);
       addColorChange(actions);
     } else if (element.type.includes(ElementTypes.ACTIVITY)) {
-      moveDeleteActionToEndOfArray(actions);
-
+      addChangeDirection(actions);
       addColorChange(actions);
-
-      assign(actions, {
-        delete: {
-          group: "edit",
-          className: "bpmn-icon-trash",
-          title: "Remove",
-          action: {
-            click: function (event, element) {
-              modeling.removeElements({ element });
-              dirtyFlagService.makeDirty();
-            },
-          },
-        },
-      });
+      addDelete(actions, element);
     } else if (element.type.includes(ElementTypes.TEXTANNOTATION)) {
+      addDelete(actions, element);
       addColorChange(actions);
+    } else if (element.type.includes(ElementTypes.CONNECTION)) {
+      addDelete(actions, element);
     }
 
     return actions;
   };
 
-  function moveDeleteActionToEndOfArray(actions) {
-    delete actions.delete;
+  function addDelete(actions, element) {
+    // delete element entry, only show if allowed by rules
+    var deleteAllowed = rules.allowed('elements.delete', { elements: {element} });
 
+    if (isArray(deleteAllowed)) {
+      // was the element returned as a deletion candidate?
+      deleteAllowed = deleteAllowed[0] === element;
+    }
+
+    if (deleteAllowed) {
+      assign(actions, {
+        delete: {
+          group: 'edit',
+          className: 'bpmn-icon-trash',
+          title: translate('Remove'),
+          action: {
+            click: function (event, element) {
+              modeling.removeElements({ element });
+              dirtyFlagService.makeDirty();
+            },
+          }
+        }
+      });
+    }
+  }
+
+  function addDeleteGroupWithoutChildren(actions, element) {
+    assign(actions, {
+      deleteGroup: {
+        group: "edit",
+        className: "bpmn-icon-trash",
+        title: translate("Remove Group without Child-Elements"),
+        action: {
+          click: function (event, element) {
+            modeling.removeGroup(element);
+            dirtyFlagService.makeDirty();
+          },
+        },
+      },
+    });
+  }
+
+  function addChangeDirection(actions) {
     assign(actions, {
       changeDirection: {
         group: "edit",
@@ -140,6 +166,7 @@ export default function DomainStoryContextPadProvider(
           // event needs to be addressed
           click: function (event, element) {
             changeDirection(element);
+            dirtyFlagService.makeDirty();
           },
         },
       },
@@ -298,17 +325,6 @@ export default function DomainStoryContextPadProvider(
     };
   }
 
-  /**
-   * create an append action
-   *
-   * @param {String} type
-   * @param {String} className
-   * @param {String} [title]
-   * @param {String} group
-   * @param {Object} [options]
-   *
-   * @return {Object} descriptor
-   */
   function appendAction(type, className, title, group, options) {
     if (typeof title !== "string") {
       options = title;
@@ -337,16 +353,16 @@ export default function DomainStoryContextPadProvider(
   }
 
   function getSelectedBusinessObject(event) {
-    const oldColor = selectedElement.businessObject.pickedColor;
+    const oldColor = _selectedElement.businessObject.pickedColor;
     let newColor = event.detail.color;
     if (isHexWithAlpha(oldColor)) {
       newColor = rgbaToHex(newColor);
     }
 
     return {
-      businessObject: selectedElement.businessObject,
+      businessObject: _selectedElement.businessObject,
       newColor: newColor,
-      element: selectedElement,
+      element: _selectedElement,
     };
   }
 
@@ -358,11 +374,7 @@ export default function DomainStoryContextPadProvider(
   }
 }
 
-// TODO-RIP-BPMN
-inherits(DomainStoryContextPadProvider, ContextPadProvider);
-
 DomainStoryContextPadProvider.$inject = [
-  "injector",
   "connect",
   "translate",
   "elementFactory",
@@ -374,4 +386,5 @@ DomainStoryContextPadProvider.$inject = [
   "commandStack",
   "eventBus",
   "modeling",
+  "rules",
 ];
