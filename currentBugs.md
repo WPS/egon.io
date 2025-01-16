@@ -1,6 +1,5 @@
 # Agenda
 
-- fix tests
 - move all js files into diagram-js, remove bpmn folder
 - di $descriptor, $type should be removed
 

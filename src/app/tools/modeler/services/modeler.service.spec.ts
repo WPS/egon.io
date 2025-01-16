@@ -10,10 +10,8 @@ import { BusinessObject } from '../../../domain/entities/businessObject';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
-// @ts-ignore
-import Modeler from 'bpmn-js/lib/Modeler';
-import { MockProvider } from 'ng-mocks';
 import { IconSet } from '../../../domain/entities/iconSet';
+import BaseViewer from '../diagram-js';
 
 describe('ModelerService', () => {
   let service: ModelerService;
@@ -39,6 +37,7 @@ describe('ModelerService', () => {
   };
 
   beforeEach(() => {
+    BaseViewer.prototype.get = undefined;
     const elementRegistryMock = jasmine.createSpyObj(
       ElementRegistryService.name,
       ['createObjectListForDSTDownload', 'clear', 'correctInitialize'],
@@ -104,7 +103,8 @@ describe('ModelerService', () => {
     spyOn(document, 'getElementById').and.returnValue({
       onchange,
     } as HTMLElement);
-    spyOn(Modeler, 'call').and.returnValue({
+    // @ts-ignore
+    spyOn(BaseViewer, 'call').and.returnValue({
       get: () => {
         return undefined;
       },

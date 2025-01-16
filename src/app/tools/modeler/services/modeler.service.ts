@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { assign } from 'min-dash';
 import DomainStoryModeler from 'src/app/tools/modeler/bpmn';
-import Editorinvoker from '../diagram-js-example-presentation/example';
 import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
@@ -40,9 +39,6 @@ export class ModelerService {
   private encoded: string | undefined;
   // TODO-RIP-BPMN
   postInit(): void {
-    // @ts-ignore
-    //const invoker = new Editorinvoker();
-
     this.checkCurrentVersion();
 
     const storedIconSetConfiguration =
