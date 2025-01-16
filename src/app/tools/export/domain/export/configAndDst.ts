@@ -36,9 +36,9 @@ export const testConfigAndDst: ConfigAndDST = {
   ),
   dst:
     '[' +
-    '{"type":"domainStory:workObjectDocument","name":"","id":"shape_3792","$type":"Element","di":{},"$descriptor":{},"pickedColor":"black","x":302,"y":102},' +
-    '{"type":"domainStory:actorPerson","name":"","id":"shape_4666","$type":"Element","di":{},"$descriptor":{},"pickedColor":"black","x":103,"y":93},' +
-    '{"type":"domainStory:activity","name":"","id":"connection_4884","$type":"Element","di":{},"$descriptor":{},"pickedColor":"black","number":1,' +
+    '{"type":"domainStory:workObjectDocument","name":"","id":"shape_3792","pickedColor":"black","x":302,"y":102},' +
+    '{"type":"domainStory:actorPerson","name":"","id":"shape_4666","pickedColor":"black","x":103,"y":93},' +
+    '{"type":"domainStory:activity","name":"","id":"connection_4884","pickedColor":"black","number":1,' +
     '"waypoints":[{"original":{"x":141,"y":131},"x":186,"y":133},{"original":{"x":340,"y":140},"x":302,"y":138}],' +
     '"source":"shape_4666","target":"shape_3792"}]',
 };

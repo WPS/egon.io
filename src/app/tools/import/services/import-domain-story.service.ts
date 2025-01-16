@@ -294,6 +294,7 @@ export class ImportDomainStoryService
       }
 
       this.importRepairService.removeWhitespacesFromIcons(elements);
+      this.importRepairService.removeUnnecessaryBpmnProperties(elements);
 
       const configChanged = this.checkConfigForChanges(iconSetConfig);
 

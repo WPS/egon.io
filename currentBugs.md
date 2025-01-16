@@ -1,7 +1,3 @@
-# Agenda
-
-- di $descriptor, $type should be removed
-
 ### Changed but might be better or not worth fixing
 
 - lasso tool displays a frame around all selected elements

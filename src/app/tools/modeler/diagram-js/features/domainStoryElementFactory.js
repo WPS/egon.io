@@ -66,16 +66,6 @@ export default function DomainStoryElementFactory() {
         }
       };
 
-      if (!attrs.businessObject.$type) {
-        assign(attrs.businessObject, { $type: "Element" });
-      }
-
-      // even though we don't use these attributes they are needed for the copy/paste functionality of diagram-js
-      assign(attrs.businessObject, { di: {} });
-      if (!attrs.businessObject.$descriptor) {
-        assign(attrs.businessObject, { $descriptor: {} });
-      }
-
       // add width and height if shape
       if (
         (!/:activity$/.test(type) || !/:connection$/.test(type)) &&

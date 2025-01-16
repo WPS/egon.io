@@ -98,9 +98,7 @@ export default function EgonCopyPaste(eventBus, propertyCopy) {
       return;
     }
 
-    newBusinessObject = propertyCopy.createDefaultElement(
-      oldBusinessObject.$type,
-    );
+    newBusinessObject = {};
 
     descriptor.businessObject = propertyCopy.copyElement(
       oldBusinessObject,

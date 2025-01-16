@@ -122,11 +122,7 @@ PropertyCopy.prototype.copyProperty = function (
   }
 
   if (copiedProperty) {
-    if (
-      isObject(copiedProperty) &&
-      copiedProperty.$type &&
-      !copiedProperty.$parent
-    ) {
+    if (isObject(copiedProperty) && !copiedProperty.$parent) {
       copiedProperty.$parent = parent;
     }
 
@@ -155,8 +151,8 @@ PropertyCopy.prototype.copyProperty = function (
   }
 
   // copy model elements
-  if (isObject(property) && property.$type) {
-    copiedProperty = self.createDefaultElement(property.$type);
+  if (isObject(property)) {
+    copiedProperty = {};
 
     copiedProperty.$parent = parent;
 
@@ -168,11 +164,4 @@ PropertyCopy.prototype.copyProperty = function (
 
   // copy primitive properties
   return property;
-};
-
-PropertyCopy.prototype.createDefaultElement = function (type) {
-  return {
-    $type: type,
-    $descriptor: new Object(),
-  };
 };
