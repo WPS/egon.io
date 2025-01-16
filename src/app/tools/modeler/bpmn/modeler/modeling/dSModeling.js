@@ -10,7 +10,6 @@ export default function DSModeling(
   commandStack,
   domainStoryRules,
 ) {
-  // TODO-RIP-BPMN
   Modeling.call(this, eventBus, elementFactory, commandStack, domainStoryRules);
 }
 

@@ -11,7 +11,7 @@ import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { IconSet } from '../../../domain/entities/iconSet';
-import BaseViewer from '../diagram-js';
+import BaseViewer from '../diagram-js/BaseViewer';
 
 describe('ModelerService', () => {
   let service: ModelerService;

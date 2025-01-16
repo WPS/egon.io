@@ -68,7 +68,7 @@ PaletteProvider.prototype.getPaletteEntries = function () {
 };
 
 function initPalette(actions, spaceTool, lassoTool, createAction) {
-  let config = iconDictionary?.getCurrentIconConfigurationForBPMN();
+  let config = iconDictionary?.getCurrentIconConfigurationForMenu();
 
   iconDictionary?.initTypeDictionaries(config.actors, config.workObjects);
 
@@ -152,7 +152,7 @@ function addCanvasObjectTypes(
   className,
   elementType,
 ) {
-  let icon = iconDictionary.getIconForBPMN(elementType, name);
+  let icon = iconDictionary.getIconForMenu(elementType, name);
 
   let action = [];
   action["domainStory-" + className + name] = createAction(

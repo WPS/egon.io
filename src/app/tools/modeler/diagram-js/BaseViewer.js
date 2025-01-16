@@ -4,7 +4,7 @@
  *
  * @see http://bpmn.io/license for more information.
  */
-import { assign, find, isNumber, omit } from "min-dash";
+import { assign, isNumber, omit } from "min-dash";
 
 import {
   domify,
@@ -33,46 +33,6 @@ export default function BaseViewer(options) {
 
 inherits(BaseViewer, Diagram);
 
-//TODO-RIP_BPMN do we need this?
-// BaseViewer.prototype.open = async function open(bpmnDiagramOrId) {
-//
-//   const definitions = this._definitions;
-//   let bpmnDiagram = bpmnDiagramOrId;
-//
-//   if (!definitions) {
-//     const error = new Error('no XML imported');
-//     addWarningsToError(error, []);
-//
-//     throw error;
-//   }
-//
-//   if (typeof bpmnDiagramOrId === 'string') {
-//     bpmnDiagram = findBPMNDiagram(definitions, bpmnDiagramOrId);
-//
-//     if (!bpmnDiagram) {
-//       const error = new Error('BPMNDiagram <' + bpmnDiagramOrId + '> not found');
-//       addWarningsToError(error, []);
-//
-//       throw error;
-//     }
-//   }
-//
-//   // clear existing rendered diagram
-//   // catch synchronous exceptions during #clear()
-//   try {
-//     this.clear();
-//   } catch (error) {
-//     addWarningsToError(error, []);
-//
-//     throw error;
-//   }
-//
-//   // perform graphical import
-//   const { warnings } = await importBpmnDiagram(this, definitions, bpmnDiagram);
-//
-//   return { warnings };
-// };
-
 BaseViewer.prototype.saveSVG = async function saveSVG() {
   this._emit("saveSVG.start");
 
@@ -91,7 +51,7 @@ BaseViewer.prototype.saveSVG = async function saveSVG() {
 
     svg =
       '<?xml version="1.0" encoding="utf-8"?>\n' +
-      "<!-- created with bpmn-js / http://bpmn.io -->\n" + //TODO-RIP-BPMN
+      "<!-- created with diagram-js / http://bpmn.io -->\n" +
       '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n' +
       '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ' +
       'width="' +
@@ -126,12 +86,6 @@ BaseViewer.prototype.saveSVG = async function saveSVG() {
 
   return { svg };
 };
-
-//TODO-RIP_BPMN do we need this?
-
-// BaseViewer.prototype._setDefinitions = function(definitions) {
-//   this._definitions = definitions;
-// };
 
 BaseViewer.prototype.getModules = function () {
   return this._modules;
@@ -188,12 +142,6 @@ BaseViewer.prototype.attachTo = function (parentNode) {
   this.get("canvas").resized();
 };
 
-//TODO-RIP_BPMN do we need this?
-
-// BaseViewer.prototype.getDefinitions = function() {
-//   return this._definitions;
-// };
-
 BaseViewer.prototype.detach = function () {
   const container = this._container,
     parentNode = container.parentNode;
@@ -211,7 +159,7 @@ BaseViewer.prototype._init = function (container, options) {
     additionalModules = options.additionalModules || [],
     staticModules = [
       {
-        bpmnjs: ["value", this],
+        egon: ["value", this],
       },
     ];
 
@@ -259,25 +207,6 @@ function addWarningsToError(err, warningsAry) {
   return err;
 }
 
-function checkValidationError(err) {
-  // check if we can help the user by indicating wrong BPMN 2.0 xml
-  // (in case he or the exporting tool did not get that right)
-
-  const pattern = /unparsable content <([^>]+)> detected([\s\S]*)$/;
-  const match = pattern.exec(err.message);
-
-  if (match) {
-    err.message =
-      "unparsable content <" +
-      match[1] +
-      "> detected; " +
-      "this may indicate an invalid BPMN 2.0 diagram file" +
-      match[2];
-  }
-
-  return err;
-}
-
 const DEFAULT_OPTIONS = {
   width: "100%",
   height: "100%",
@@ -290,28 +219,6 @@ const DEFAULT_OPTIONS = {
 function ensureUnit(val) {
   return val + (isNumber(val) ? "px" : "");
 }
-
-//TODO-RIP_BPMN do we need this?
-
-// /**
-//  * Find BPMNDiagram in definitions by ID
-//  *
-//  * @param {ModdleElement<Definitions>} definitions
-//  * @param {string} diagramId
-//  *
-//  * @return {ModdleElement<BPMNDiagram>|null}
-//  */
-// function findBPMNDiagram(definitions, diagramId) {
-//   if (!diagramId) {
-//     return null;
-//   }
-//
-//   return find(definitions.diagrams, function(element) {
-//     return element.id === diagramId;
-//   }) || null;
-// }
-
-/* <project-logo> */
 
 import {
   open as openPoweredBy,

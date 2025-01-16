@@ -20,7 +20,7 @@ import { ElementTypes } from "../../../../domain/entities/elementTypes";
  */
 export default function DomainStoryUpdater(
   eventBus,
-  bpmnjs,
+  egon,
   connectionDocking,
 ) {
   CommandInterceptor.call(this, eventBus);
@@ -35,9 +35,9 @@ export default function DomainStoryUpdater(
     }
 
     let parent = shape.parent;
-    let customElements = bpmnjs._customElements;
+    let customElements = egon._customElements;
 
-    // make sure element is added / removed from bpmnjs.customElements
+    // make sure element is added / removed from egon.customElements
     if (!parent) {
       collectionRemove(customElements, businessObject);
     } else {
@@ -84,9 +84,9 @@ export default function DomainStoryUpdater(
     }
 
     let parent = connection.parent;
-    let customElements = bpmnjs._customElements;
+    let customElements = egon._customElements;
 
-    // make sure element is added / removed from bpmnjs.customElements
+    // make sure element is added / removed from egon.customElements
     if (!parent) {
       collectionRemove(customElements, businessObject);
     } else {
@@ -220,4 +220,4 @@ function isDomainStory(element) {
 
 inherits(DomainStoryUpdater, CommandInterceptor);
 
-DomainStoryUpdater.$inject = ["eventBus", "bpmnjs", "connectionDocking"];
+DomainStoryUpdater.$inject = ["eventBus", "egon", "connectionDocking"];

@@ -16,7 +16,7 @@ const NULL_DIMENSIONS = {
 };
 
 /**
- * a handler that updates the text of a BPMN element.
+ * a handler that updates the text or label of an element.
  */
 export default function UpdateLabelHandler(
   modeling,

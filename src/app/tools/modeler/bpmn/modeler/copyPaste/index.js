@@ -1,11 +1,11 @@
 import CopyPasteModule from "diagram-js/lib/features/copy-paste";
 
-import BpmnCopyPaste from "./BpmnCopyPaste";
-import ModdleCopy from "./ModdleCopy";
+import EgonCopyPaste from "./EgonCopyPaste";
+import PropertyCopy from "./PropertyCopy";
 
 export default {
   __depends__: [CopyPasteModule],
-  __init__: ["bpmnCopyPaste", "moddleCopy"],
-  bpmnCopyPaste: ["type", BpmnCopyPaste],
-  moddleCopy: ["type", ModdleCopy],
+  __init__: ["egonCopyPaste", "propertyCopy"],
+  egonCopyPaste: ["type", EgonCopyPaste],
+  propertyCopy: ["type", PropertyCopy],
 };

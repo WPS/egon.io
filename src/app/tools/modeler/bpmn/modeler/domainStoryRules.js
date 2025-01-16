@@ -253,7 +253,7 @@ DomainStoryRules.prototype.init = function () {
 
     let type;
 
-    // do not allow mixed movements of custom / BPMN shapes
+    // do not allow mixed movements of custom / diagram-js shapes
     // if any shape cannot be moved, the group cannot be moved, too
 
     // reject, if we have at least one

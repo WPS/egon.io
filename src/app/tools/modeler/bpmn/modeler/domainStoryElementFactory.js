@@ -70,7 +70,7 @@ export default function DomainStoryElementFactory() {
         assign(attrs.businessObject, { $type: "Element" });
       }
 
-      // even though we don't use these attributes they are needed for the copy/paste functionality of bpmn-js
+      // even though we don't use these attributes they are needed for the copy/paste functionality of diagram-js
       assign(attrs.businessObject, { di: {} });
       if (!attrs.businessObject.$descriptor) {
         assign(attrs.businessObject, { $descriptor: {} });

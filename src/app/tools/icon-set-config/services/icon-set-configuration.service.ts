@@ -212,7 +212,6 @@ export class IconSetConfigurationService {
         actors: new Dictionary(),
         workObjects: new Dictionary(),
       };
-      // TODO-RIP-BPMN
     }
 
     const actorsDict = new Dictionary();

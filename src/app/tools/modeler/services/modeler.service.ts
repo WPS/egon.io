@@ -37,7 +37,6 @@ export class ModelerService {
   private eventBus: any;
 
   private encoded: string | undefined;
-  // TODO-RIP-BPMN
   postInit(): void {
     this.checkCurrentVersion();
 
@@ -90,8 +89,8 @@ export class ModelerService {
       this.commandStack,
     );
 
-    // expose bpmnjs to window for debugging purposes
-    assign(window, { bpmnjs: this.modeler });
+    // expose modeler to window for debugging purposes
+    assign(window, { egon: this.modeler });
 
     this.startDebounce();
   }

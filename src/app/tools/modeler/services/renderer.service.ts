@@ -30,9 +30,6 @@ export class RendererService {
     config?: IconSet,
     makeClean = true,
   ): void {
-    if (domainStory === undefined) {
-      return; // TODO-RIP-BPMN
-    }
 
     this.modelerService.restart(config, domainStory);
     this.renderStory(domainStory);

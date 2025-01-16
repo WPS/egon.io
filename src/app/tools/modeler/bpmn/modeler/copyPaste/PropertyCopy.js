@@ -10,11 +10,11 @@ import {
 
 var DISALLOWED_PROPERTIES = ["incoming", "outgoing"];
 
-export default function ModdleCopy(eventBus) {
+export default function PropertyCopy(eventBus) {
   this._eventBus = eventBus;
 
   // copy extension elements last
-  eventBus.on("moddleCopy.canCopyProperties", function (context) {
+  eventBus.on("propertyCopy.canCopyProperties", function (context) {
     var propertyNames = context.propertyNames;
 
     if (!propertyNames || !propertyNames.length) {
@@ -27,7 +27,7 @@ export default function ModdleCopy(eventBus) {
   });
 
   // default check whether property can be copied
-  eventBus.on("moddleCopy.canCopyProperty", function (context) {
+  eventBus.on("propertyCopy.canCopyProperty", function (context) {
     var propertyName = context.propertyName;
 
     if (propertyName && DISALLOWED_PROPERTIES.indexOf(propertyName) !== -1) {
@@ -37,9 +37,9 @@ export default function ModdleCopy(eventBus) {
   });
 }
 
-ModdleCopy.$inject = ["eventBus"];
+PropertyCopy.$inject = ["eventBus"];
 
-ModdleCopy.prototype.copyElement = function (
+PropertyCopy.prototype.copyElement = function (
   sourceElement,
   targetElement,
   propertyNames,
@@ -50,7 +50,7 @@ ModdleCopy.prototype.copyElement = function (
     propertyNames = [propertyNames];
   }
 
-  var canCopyProperties = this._eventBus.fire("moddleCopy.canCopyProperties", {
+  var canCopyProperties = this._eventBus.fire("propertyCopy.canCopyProperties", {
     propertyNames: propertyNames,
     sourceElement: sourceElement,
     targetElement: targetElement,
@@ -79,7 +79,7 @@ ModdleCopy.prototype.copyElement = function (
     );
 
     var canSetProperty = self._eventBus.fire(
-      "moddleCopy.canSetCopiedProperty",
+      "propertyCopy.canSetCopiedProperty",
       {
         parent: targetElement,
         property: copiedProperty,
@@ -99,11 +99,11 @@ ModdleCopy.prototype.copyElement = function (
   return targetElement;
 };
 
-ModdleCopy.prototype.copyProperty = function (property, parent, propertyName) {
+PropertyCopy.prototype.copyProperty = function (property, parent, propertyName) {
   var self = this;
 
   // allow others to copy property
-  var copiedProperty = this._eventBus.fire("moddleCopy.canCopyProperty", {
+  var copiedProperty = this._eventBus.fire("propertyCopy.canCopyProperty", {
     parent: parent,
     property: property,
     propertyName: propertyName,
@@ -163,7 +163,7 @@ ModdleCopy.prototype.copyProperty = function (property, parent, propertyName) {
   return property;
 };
 
-ModdleCopy.prototype.createDefaultElement = function (type) {
+PropertyCopy.prototype.createDefaultElement = function (type) {
   return {
     $type: type,
     $descriptor: new Object(),

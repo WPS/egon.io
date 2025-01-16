@@ -1,4 +1,4 @@
-import { getBusinessObject, is } from "../context-pad-helper/ModelUtil";
+import { getBusinessObject } from "../util";
 
 import { forEach, isArray, isUndefined, omit, reduce } from "min-dash";
 
@@ -28,7 +28,7 @@ function removeProperties(element, properties) {
 
 var LOW_PRIORITY = 750;
 
-export default function BpmnCopyPaste(eventBus, moddleCopy) {
+export default function EgonCopyPaste(eventBus, propertyCopy) {
   eventBus.on("copyPaste.copyElement", LOW_PRIORITY, function (context) {
     var descriptor = context.descriptor,
       element = context.element;
@@ -98,11 +98,11 @@ export default function BpmnCopyPaste(eventBus, moddleCopy) {
       return;
     }
 
-    newBusinessObject = moddleCopy.createDefaultElement(
+    newBusinessObject = propertyCopy.createDefaultElement(
       oldBusinessObject.$type,
     );
 
-    descriptor.businessObject = moddleCopy.copyElement(
+    descriptor.businessObject = propertyCopy.copyElement(
       oldBusinessObject,
       newBusinessObject,
     );
@@ -116,7 +116,7 @@ export default function BpmnCopyPaste(eventBus, moddleCopy) {
   });
 }
 
-BpmnCopyPaste.$inject = ["eventBus", "moddleCopy"];
+EgonCopyPaste.$inject = ["eventBus", "propertyCopy"];
 
 // helpers //////////
 

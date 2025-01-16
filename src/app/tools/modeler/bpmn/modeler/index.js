@@ -3,7 +3,7 @@
 import LassoTool from "diagram-js/lib/features/lasso-tool";
 import SpaceTool from "diagram-js/lib/features/space-tool";
 import Palette from "diagram-js/lib/features/palette";
-import TextRenderer from "../../diagram-js/copiedClasses";
+import TextRenderer from "../../diagram-js/copiedClasses/TextRenderer";
 import DomainStoryElementFactory from "./domainStoryElementFactory";
 import DomainStoryRenderer from "./domainStoryRenderer";
 import DomainStoryPalette from "./palette/domainStoryPalette";
@@ -17,7 +17,6 @@ import headlineAndDescriptionUpdateHandler from "./updateHandler/headlineAndDesc
 import DomainStoryContextPadProvider from "./context-pad/domainStoryContextPadProvider";
 import ReplaceMenuProvider from "./change-icon/replaceMenuProvider";
 import DSModeling from "./modeling/dSModeling";
-//import EgonLayouter from "./modeling/EgonLayouter";
 import BaseLayouter from "diagram-js/lib/layout/BaseLayouter";
 import CroppingConnectionDocking from "diagram-js/lib/layout/CroppingConnectionDocking";
 

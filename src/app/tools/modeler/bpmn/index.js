@@ -1,4 +1,4 @@
-import BaseViewer from "../diagram-js";
+import BaseViewer from "../diagram-js/BaseViewer";
 import ResizeModule from "diagram-js/lib/features/resize";
 import { assign, isArray } from "min-dash";
 import inherits from "inherits";

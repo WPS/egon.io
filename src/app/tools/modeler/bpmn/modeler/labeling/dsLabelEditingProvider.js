@@ -209,7 +209,7 @@ DSLabelEditingProvider.prototype.getEditingBBox = function (element) {
   // default position
   let bounds = { x: bbox.x, y: bbox.y };
 
-  /** The canvas is an object from bpmn-js. The IDE might say that zoom is deprecated,
+  /** The canvas is an object from diagram-js. The IDE might say that zoom is deprecated,
    * because it thinks that canvas is the standard HTML element.**/
   let zoom = canvas.zoom();
   let defaultStyle = this._textRenderer.getDefaultStyle();

@@ -65,9 +65,9 @@ describe('IconDictionaryService', () => {
     });
   });
 
-  describe('getCurrentIconConfigurationForBPMN', () => {
+  describe('getCurrentIconConfigurationForMenu', () => {
     it('should return default Configuration', () => {
-      const configuration = service.getCurrentIconConfigurationForBPMN();
+      const configuration = service.getCurrentIconConfigurationForMenu();
       expect(configuration.actors).toEqual(defaultIconSet.actors);
       expect(configuration.workObjects).toEqual(defaultIconSet.workObjects);
     });
@@ -85,7 +85,7 @@ describe('IconDictionaryService', () => {
       };
       service.setCustomConfiguration(customConfig);
 
-      const configuration = service.getCurrentIconConfigurationForBPMN();
+      const configuration = service.getCurrentIconConfigurationForMenu();
       expect(configuration.actors).toEqual(['Dollar']);
       expect(configuration.workObjects).toEqual(['Gavel']);
     });
