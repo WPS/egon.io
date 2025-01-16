@@ -1,4 +1,4 @@
-import { numberBoxDefinitions } from '../modeler/numbering/numbering';
+import { numberBoxDefinitions } from '../features/numbering/numbering';
 
 describe('numbering', function () {
   it('numberBoxDefinitions angle 270', function () {

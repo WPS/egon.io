@@ -2,7 +2,7 @@ import '../../../../utils/mathExtensions';
 import {
   calculateTextWidth,
   selectPartOfActivity,
-} from '../modeler/labeling/dsLabelUtil';
+} from '../features/labeling/dsLabelUtil';
 import { angleBetween } from '../../../../utils/mathExtensions';
 
 describe('DSLabelUtil', function () {

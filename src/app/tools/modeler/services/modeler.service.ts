@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { assign } from 'min-dash';
-import DomainStoryModeler from 'src/app/tools/modeler/bpmn';
+import DomainStoryModeler from 'src/app/tools/modeler/diagram-js';
 import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
 import { BusinessObject } from '../../../domain/entities/businessObject';
 import { ActivityBusinessObject } from '../../../domain/entities/activityBusinessObject';
-import { updateMultipleNumberRegistry } from '../bpmn/modeler/numbering/numbering';
+import { updateMultipleNumberRegistry } from 'src/app/tools/modeler/diagram-js/features/numbering/numbering';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { StorageService } from '../../../domain/services/storage.service';
 import {

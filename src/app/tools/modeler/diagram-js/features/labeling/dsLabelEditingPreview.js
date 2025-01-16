@@ -9,7 +9,7 @@ import {
 
 import { translate } from "diagram-js/lib/util/SvgTransformUtil";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { is, getScaledPath } from "../util";
+import { is, getScaledPath } from "../util/util";
 
 const MARKER_HIDDEN = "djs-element-hidden",
   MARKER_LABEL_HIDDEN = "djs-label-hidden";

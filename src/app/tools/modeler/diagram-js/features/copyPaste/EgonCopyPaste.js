@@ -1,4 +1,4 @@
-import { getBusinessObject } from "../util";
+import { getBusinessObject } from "../util/util";
 
 import { forEach, isArray, isUndefined, omit, reduce } from "min-dash";
 

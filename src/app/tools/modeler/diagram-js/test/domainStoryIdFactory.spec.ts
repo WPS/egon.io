@@ -1,4 +1,4 @@
-import DomainStoryIdFactory from '../modeler/domainStoryIdFactory';
+import DomainStoryIdFactory from '../features/domainStoryIdFactory';
 
 describe('DomainStoryIdFactory', function () {
   it('generateId', function () {

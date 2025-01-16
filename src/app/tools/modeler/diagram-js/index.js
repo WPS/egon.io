@@ -1,11 +1,11 @@
-import BaseViewer from "../diagram-js/BaseViewer";
+import BaseViewer from "./BaseViewer";
 import ResizeModule from "diagram-js/lib/features/resize";
 import { assign, isArray } from "min-dash";
 import inherits from "inherits";
 
-import DomainStoryModule from "./modeler";
-import LabelEditingModule from "./modeler/labeling";
-import ModelingModule from "./modeler/modeling";
+import DomainStoryModule from "./features";
+import LabelEditingModule from "./features/labeling";
+import ModelingModule from "./features/modeling";
 import { ElementTypes } from "../../../domain/entities/elementTypes";
 
 import MoveCanvasModule from "diagram-js/lib/navigation/movecanvas";
@@ -15,7 +15,7 @@ import ZoomScrollModule from "diagram-js/lib/navigation/zoomscroll";
 import MoveModule from "diagram-js/lib/features/move";
 import Bendpoints from "diagram-js/lib/features/bendpoints";
 import ConnectionPreview from "diagram-js/lib/features/connection-preview";
-import CopyPasteModule from "./modeler/copyPaste";
+import CopyPasteModule from "./features/copyPaste";
 import SpaceToolModule from "diagram-js/lib/features/space-tool";
 import LassoToolModule from "diagram-js/lib/features/lasso-tool";
 import HandToolModule from "diagram-js/lib/features/hand-tool";
@@ -23,7 +23,7 @@ import ConnectModule from "diagram-js/lib/features/connect";
 import KeyboardModule from "diagram-js/lib/features/keyboard";
 import EditorActionsModule from "diagram-js/lib/features/editor-actions";
 import SnappingModule from "diagram-js/lib/features/snapping";
-import AdditionalShortcuts from "./modeler/shortcuts";
+import AdditionalShortcuts from "./features/shortcuts";
 
 export default function DomainStoryModeler(options) {
   BaseViewer.call(this, options);

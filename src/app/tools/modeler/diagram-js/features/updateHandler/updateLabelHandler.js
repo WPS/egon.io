@@ -8,7 +8,7 @@ import {
 } from "../labeling/dsLabelUtil";
 
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { getBusinessObject, is } from "../util";
+import { getBusinessObject, is } from "../util/util";
 
 const NULL_DIMENSIONS = {
   width: 0,

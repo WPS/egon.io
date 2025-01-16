@@ -50,11 +50,14 @@ PropertyCopy.prototype.copyElement = function (
     propertyNames = [propertyNames];
   }
 
-  var canCopyProperties = this._eventBus.fire("propertyCopy.canCopyProperties", {
-    propertyNames: propertyNames,
-    sourceElement: sourceElement,
-    targetElement: targetElement,
-  });
+  var canCopyProperties = this._eventBus.fire(
+    "propertyCopy.canCopyProperties",
+    {
+      propertyNames: propertyNames,
+      sourceElement: sourceElement,
+      targetElement: targetElement,
+    },
+  );
 
   if (canCopyProperties === false) {
     return targetElement;
@@ -99,7 +102,11 @@ PropertyCopy.prototype.copyElement = function (
   return targetElement;
 };
 
-PropertyCopy.prototype.copyProperty = function (property, parent, propertyName) {
+PropertyCopy.prototype.copyProperty = function (
+  property,
+  parent,
+  propertyName,
+) {
   var self = this;
 
   // allow others to copy property

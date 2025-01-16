@@ -6,7 +6,7 @@ import inherits from "inherits";
 
 import RuleProvider from "diagram-js/lib/features/rules/RuleProvider";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { is } from "./util";
+import { is } from "./util/util";
 
 const HIGH_PRIORITY = 1500;
 const MIN_SIZE = 125;

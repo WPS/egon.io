@@ -225,7 +225,7 @@ import {
   BPMNIO_IMG,
   LOGO_STYLES,
   LINK_STYLES,
-} from "./copiedClasses/PoweredByUtil";
+} from "./features/util/PoweredByUtil";
 
 import { event as domEvent } from "min-dom";
 

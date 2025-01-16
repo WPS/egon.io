@@ -30,7 +30,6 @@ export class RendererService {
     config?: IconSet,
     makeClean = true,
   ): void {
-
     this.modelerService.restart(config, domainStory);
     this.renderStory(domainStory);
 

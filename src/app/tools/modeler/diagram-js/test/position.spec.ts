@@ -1,9 +1,9 @@
-import { selectPartOfActivity } from '../modeler/labeling/dsLabelUtil';
+import { selectPartOfActivity } from '../features/labeling/dsLabelUtil';
 import {
   labelPosition,
   labelPositionX,
   labelPositionY,
-} from '../modeler/labeling/position';
+} from '../features/labeling/position';
 import { angleBetween } from '../../../../utils/mathExtensions';
 
 describe('position', function () {

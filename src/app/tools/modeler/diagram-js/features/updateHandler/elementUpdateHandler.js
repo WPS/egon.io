@@ -1,6 +1,6 @@
 "use strict";
 
-import { undoGroupRework } from "../util";
+import { undoGroupRework } from "../util/util";
 import { ElementTypes } from "../../../../../domain/entities/elementTypes";
 
 export default function elementUpdateHandler(commandStack, eventBus) {

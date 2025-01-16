@@ -12,21 +12,21 @@ import {
 } from "tiny-svg";
 import { query as domQuery } from "min-dom";
 import { assign, isObject } from "min-dash";
-import { getNumberStash } from "src/app/tools/modeler/bpmn/modeler/labeling/dsLabelEditingProvider";
+import { getNumberStash } from "src/app/tools/modeler/diagram-js/features/labeling/dsLabelEditingProvider";
 import {
   addNumberToRegistry,
   generateAutomaticNumber,
   numberBoxDefinitions,
-} from "src/app/tools/modeler/bpmn/modeler/numbering/numbering";
+} from "src/app/tools/modeler/diagram-js/features/numbering/numbering";
 
-import { calculateTextWidth } from "src/app/tools/modeler/bpmn/modeler/labeling/dsLabelUtil";
+import { calculateTextWidth } from "src/app/tools/modeler/diagram-js/features/labeling/dsLabelUtil";
 import {
   countLines,
   labelPosition,
-} from "src/app/tools/modeler/bpmn/modeler/labeling/position";
+} from "src/app/tools/modeler/diagram-js/features/labeling/position";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { angleBetween } from "../../../../utils/mathExtensions";
-import { isCustomIcon, isCustomSvgIcon, getScaledPath } from "./util";
+import { isCustomIcon, isCustomSvgIcon, getScaledPath } from "./util/util";
 
 let RENDERER_IDS = new Ids();
 let numbers = [];

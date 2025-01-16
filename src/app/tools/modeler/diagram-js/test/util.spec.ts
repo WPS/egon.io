@@ -1,5 +1,5 @@
-import { isCustomIcon } from '../modeler/util';
-import { isCustomSvgIcon } from '../modeler/util';
+import { isCustomIcon } from '../features/util/util';
+import { isCustomSvgIcon } from '../features/util/util';
 
 describe('isCustomIcon', function () {
   it('empty string is not a custom icon', function () {

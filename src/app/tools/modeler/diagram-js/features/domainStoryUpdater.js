@@ -11,18 +11,14 @@ import {
   remove as collectionRemove,
 } from "diagram-js/lib/util/Collections";
 
-import { reworkGroupElements } from "./util";
+import { reworkGroupElements } from "./util/util";
 import { ElementTypes } from "../../../../domain/entities/elementTypes";
 
 /**
  * a handler responsible for updating the custom element's businessObject
  * once changes on the diagram happen.
  */
-export default function DomainStoryUpdater(
-  eventBus,
-  egon,
-  connectionDocking,
-) {
+export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
   CommandInterceptor.call(this, eventBus);
 
   function updateCustomElement(e) {
