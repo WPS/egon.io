@@ -1,6 +1,5 @@
 # Agenda
 
-- when deleting a group over multi element context pad, all children get removed. fix!
 - fix tests
 - move all js files into diagram-js, remove bpmn folder
 - di $descriptor, $type should be removed

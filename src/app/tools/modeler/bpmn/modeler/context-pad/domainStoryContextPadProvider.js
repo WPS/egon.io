@@ -138,7 +138,10 @@ export default function DomainStoryContextPadProvider(
           action: {
             click: function (event, element) {
               if (isArray(element)) {
-                modeling.removeElements(element.slice());
+                const groups = element.filter(el => el.type.includes(ElementTypes.GROUP));
+                const otherElements = element.filter(el => !el.type.includes(ElementTypes.GROUP));
+                groups.forEach(group => modeling.removeGroup(group));
+                modeling.removeElements(otherElements.slice());
               } else {
                 modeling.removeElements({element});
               }
