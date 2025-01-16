@@ -2,7 +2,7 @@
 
 import LassoTool from "diagram-js/lib/features/lasso-tool";
 import SpaceTool from "diagram-js/lib/features/space-tool";
-import Palette from "diagram-js/lib/features/palette"
+import Palette from "diagram-js/lib/features/palette";
 import TextRenderer from "../../diagram-js/copiedClasses";
 import DomainStoryElementFactory from "./domainStoryElementFactory";
 import DomainStoryRenderer from "./domainStoryRenderer";

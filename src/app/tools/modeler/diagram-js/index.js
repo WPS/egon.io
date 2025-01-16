@@ -1,2 +1,2 @@
 //export { default } from './editor';
-export { default } from './BaseViewer';
+export { default } from "./BaseViewer";

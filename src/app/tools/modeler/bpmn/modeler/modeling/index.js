@@ -2,8 +2,8 @@
 
 import DomainStoryPalette from "../palette/domainStoryPalette";
 import CreateModule from "diagram-js/lib/features/create";
-import Connect from "diagram-js/lib/features/connect"
-import Translate from "diagram-js/lib/i18n/translate"
+import Connect from "diagram-js/lib/features/connect";
+import Translate from "diagram-js/lib/i18n/translate";
 import ContextPadModule from "diagram-js/lib/features/context-pad";
 import PopupMenu from "diagram-js/lib/features/popup-menu";
 import CommandStack from "diagram-js/lib/command/CommandStack";

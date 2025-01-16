@@ -62,7 +62,6 @@ function canStartConnection(element) {
  * can source and target be connected?
  */
 function canConnect(source, target) {
-
   // never connect to background
   if (isBackground(target)) {
     return false;
@@ -314,20 +313,20 @@ DomainStoryRules.prototype.init = function () {
     return canResize(shape, newBounds);
   });
 
-  this.addRule('connection.start', function(context) {
+  this.addRule("connection.start", function (context) {
     var source = context.source;
 
     return canStartConnection(source);
   });
 
-  this.addRule('connection.updateWaypoints', function(context) {
+  this.addRule("connection.updateWaypoints", function (context) {
     return {
-      type: context.connection.type
+      type: context.connection.type,
     };
   });
 
   // CopyPaste.js requires this empty-looking rule to exist
-  this.addRule('element.copy', function(context) {
+  this.addRule("element.copy", function (context) {
     return true;
   });
 };

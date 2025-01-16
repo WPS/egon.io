@@ -1,14 +1,10 @@
-import { isString } from 'min-dash';
+import { isString } from "min-dash";
 
-export { is, isAny } from './ModelUtil';
+export { is, isAny } from "./ModelUtil";
 
-import {
-  is,
-  isAny,
-  getBusinessObject
-} from './ModelUtil';
+import { is, isAny, getBusinessObject } from "./ModelUtil";
 
-import { isHorizontal } from './DiUtil';
+import { isHorizontal } from "./DiUtil";
 
 /**
  * @typedef {import('diagram-js/lib/core/ElementRegistry').default} ElementRegistry
@@ -24,9 +20,8 @@ import { isHorizontal } from './DiUtil';
  * @return {Element|null}
  */
 export function getParent(element, anyType) {
-
   if (isString(anyType)) {
-    anyType = [ anyType ];
+    anyType = [anyType];
   }
 
   while ((element = element.parent)) {
@@ -47,13 +42,12 @@ export function getParent(element, anyType) {
  * @return {boolean} false for vertical pools, lanes and their children. true otherwise
  */
 export function isDirectionHorizontal(element, elementRegistry) {
-
-  var parent = getParent(element, 'bpmn:Process');
+  var parent = getParent(element, "bpmn:Process");
   if (parent) {
     return true;
   }
 
-  var types = [ 'bpmn:Participant', 'bpmn:Lane' ];
+  var types = ["bpmn:Participant", "bpmn:Lane"];
 
   parent = getParent(element, types);
   if (parent) {
@@ -63,8 +57,12 @@ export function isDirectionHorizontal(element, elementRegistry) {
   }
 
   var process;
-  for (process = getBusinessObject(element); process; process = process.$parent) {
-    if (is(process, 'bpmn:Process')) {
+  for (
+    process = getBusinessObject(element);
+    process;
+    process = process.$parent
+  ) {
+    if (is(process, "bpmn:Process")) {
       break;
     }
   }
@@ -76,7 +74,7 @@ export function isDirectionHorizontal(element, elementRegistry) {
   // The direction may be specified in another diagram. We ignore that there
   // could be multiple diagrams with contradicting properties based on the
   // assumption that such BPMN files are unusual.
-  var pool = elementRegistry.find(function(shape) {
+  var pool = elementRegistry.find(function (shape) {
     var businessObject = getBusinessObject(shape);
     return businessObject; // && businessObject.get('processRef') === process;
   });

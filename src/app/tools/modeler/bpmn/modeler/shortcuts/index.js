@@ -5,7 +5,7 @@ import AdditionalKeyboardBindings from "./AdditionalKeyboardBindings";
 
 export default {
   __depends__: [EditorActionsModule, KeyboardModule],
-  __init__: [ 'additionalEditorActions', 'additionalKeyBindings' ],
-  additionalEditorActions: [ 'type', AdditionalEditorActions ],
-  additionalKeyBindings: [ 'type', AdditionalKeyboardBindings ]
+  __init__: ["additionalEditorActions", "additionalKeyBindings"],
+  additionalEditorActions: ["type", AdditionalEditorActions],
+  additionalKeyBindings: ["type", AdditionalKeyboardBindings],
 };

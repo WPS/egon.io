@@ -1,12 +1,6 @@
-import {
-  is,
-  getBusinessObject,
-  getDi
-} from './ModelUtil';
+import { is, getBusinessObject, getDi } from "./ModelUtil";
 
-import {
-  some
-} from 'min-dash';
+import { some } from "min-dash";
 
 /**
  * @typedef {import('../model/Types').Element} Element
@@ -20,22 +14,21 @@ import {
  * @return {boolean}
  */
 export function isExpanded(element, di) {
-
-  if (is(element, 'bpmn:CallActivity')) {
+  if (is(element, "bpmn:CallActivity")) {
     return false;
   }
 
-  if (is(element, 'bpmn:SubProcess')) {
+  if (is(element, "bpmn:SubProcess")) {
     di = di || getDi(element);
 
-    if (di && is(di, 'bpmndi:BPMNPlane')) {
+    if (di && is(di, "bpmndi:BPMNPlane")) {
       return true;
     }
 
     return di && !!di.isExpanded;
   }
 
-  if (is(element, 'bpmn:Participant')) {
+  if (is(element, "bpmn:Participant")) {
     return !!getBusinessObject(element).processRef;
   }
 
@@ -48,8 +41,7 @@ export function isExpanded(element, di) {
  * @return {boolean}
  */
 export function isHorizontal(element) {
-
-  if (!is(element, 'bpmn:Participant') && !is(element, 'bpmn:Lane')) {
+  if (!is(element, "bpmn:Participant") && !is(element, "bpmn:Lane")) {
     return undefined;
   }
 
@@ -89,7 +81,7 @@ export function isEventSubProcess(element) {
 export function hasEventDefinition(element, eventType) {
   var eventDefinitions = getBusinessObject(element).eventDefinitions;
 
-  return some(eventDefinitions, function(event) {
+  return some(eventDefinitions, function (event) {
     return is(event, eventType);
   });
 }
@@ -100,7 +92,7 @@ export function hasEventDefinition(element, eventType) {
  * @return {boolean}
  */
 export function hasErrorEventDefinition(element) {
-  return hasEventDefinition(element, 'bpmn:ErrorEventDefinition');
+  return hasEventDefinition(element, "bpmn:ErrorEventDefinition");
 }
 
 /**
@@ -109,7 +101,7 @@ export function hasErrorEventDefinition(element) {
  * @return {boolean}
  */
 export function hasEscalationEventDefinition(element) {
-  return hasEventDefinition(element, 'bpmn:EscalationEventDefinition');
+  return hasEventDefinition(element, "bpmn:EscalationEventDefinition");
 }
 
 /**
@@ -118,5 +110,5 @@ export function hasEscalationEventDefinition(element) {
  * @return {boolean}
  */
 export function hasCompensateEventDefinition(element) {
-  return hasEventDefinition(element, 'bpmn:CompensateEventDefinition');
+  return hasEventDefinition(element, "bpmn:CompensateEventDefinition");
 }

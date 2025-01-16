@@ -1,22 +1,13 @@
-import {
-  getBusinessObject,
-  is
-} from '../context-pad-helper/ModelUtil';
+import { getBusinessObject, is } from "../context-pad-helper/ModelUtil";
 
-import {
-  forEach,
-  isArray,
-  isUndefined,
-  omit,
-  reduce
-} from 'min-dash';
+import { forEach, isArray, isUndefined, omit, reduce } from "min-dash";
 
 function copyProperties(source, target, properties) {
   if (!isArray(properties)) {
-    properties = [ properties ];
+    properties = [properties];
   }
 
-  forEach(properties, function(property) {
+  forEach(properties, function (property) {
     if (!isUndefined(source[property])) {
       target[property] = source[property];
     }
@@ -25,10 +16,10 @@ function copyProperties(source, target, properties) {
 
 function removeProperties(element, properties) {
   if (!isArray(properties)) {
-    properties = [ properties ];
+    properties = [properties];
   }
 
-  forEach(properties, function(property) {
+  forEach(properties, function (property) {
     if (element[property]) {
       delete element[property];
     }
@@ -38,16 +29,16 @@ function removeProperties(element, properties) {
 var LOW_PRIORITY = 750;
 
 export default function BpmnCopyPaste(eventBus, moddleCopy) {
-
-  eventBus.on('copyPaste.copyElement', LOW_PRIORITY, function(context) {
+  eventBus.on("copyPaste.copyElement", LOW_PRIORITY, function (context) {
     var descriptor = context.descriptor,
       element = context.element;
 
-    var businessObject = descriptor.oldBusinessObject = getBusinessObject(element);
+    var businessObject = (descriptor.oldBusinessObject =
+      getBusinessObject(element));
 
     descriptor.type = element.type;
 
-    copyProperties(businessObject, descriptor, 'name');
+    copyProperties(businessObject, descriptor, "name");
 
     if (isLabel(descriptor)) {
       return descriptor;
@@ -61,30 +52,38 @@ export default function BpmnCopyPaste(eventBus, moddleCopy) {
 
     // boundary events
     if (descriptor.host) {
-
       // relationship can be resolved immediately
-      getBusinessObject(descriptor).attachedToRef = getBusinessObject(cache[ descriptor.host ]);
+      getBusinessObject(descriptor).attachedToRef = getBusinessObject(
+        cache[descriptor.host],
+      );
     }
 
-    references = omit(references, reduce(references, function(array, reference, key) {
-      var element = reference.element,
-        property = reference.property;
+    references = omit(
+      references,
+      reduce(
+        references,
+        function (array, reference, key) {
+          var element = reference.element,
+            property = reference.property;
 
-      if (key === descriptor.id) {
-        element[ property ] = businessObject;
+          if (key === descriptor.id) {
+            element[property] = businessObject;
 
-        array.push(descriptor.id);
-      }
+            array.push(descriptor.id);
+          }
 
-      return array;
-    }, []));
+          return array;
+        },
+        [],
+      ),
+    );
   }
 
-  eventBus.on('copyPaste.pasteElements', function() {
+  eventBus.on("copyPaste.pasteElements", function () {
     references = {};
   });
 
-  eventBus.on('copyPaste.pasteElement', function(context) {
+  eventBus.on("copyPaste.pasteElement", function (context) {
     var cache = context.cache,
       descriptor = context.descriptor,
       oldBusinessObject = descriptor.oldBusinessObject,
@@ -92,34 +91,32 @@ export default function BpmnCopyPaste(eventBus, moddleCopy) {
 
     // do NOT copy business object if external label
     if (isLabel(descriptor)) {
-      descriptor.businessObject = getBusinessObject(cache[ descriptor.labelTarget ]);
+      descriptor.businessObject = getBusinessObject(
+        cache[descriptor.labelTarget],
+      );
 
       return;
     }
 
-    newBusinessObject = moddleCopy.createDefaultElement(oldBusinessObject.$type);
+    newBusinessObject = moddleCopy.createDefaultElement(
+      oldBusinessObject.$type,
+    );
 
     descriptor.businessObject = moddleCopy.copyElement(
       oldBusinessObject,
-      newBusinessObject
+      newBusinessObject,
     );
 
     // resolve references e.g. default sequence flow
     resolveReferences(descriptor, cache);
 
-    copyProperties(descriptor, newBusinessObject, [
-      'name'
-    ]);
+    copyProperties(descriptor, newBusinessObject, ["name"]);
 
-    removeProperties(descriptor, 'oldBusinessObject');
+    removeProperties(descriptor, "oldBusinessObject");
   });
-
 }
 
-BpmnCopyPaste.$inject = [
-  'eventBus',
-  'moddleCopy'
-];
+BpmnCopyPaste.$inject = ["eventBus", "moddleCopy"];
 
 // helpers //////////
 

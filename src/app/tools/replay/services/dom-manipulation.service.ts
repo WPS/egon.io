@@ -94,8 +94,9 @@ export class DomManipulationService {
         '[data-element-id=' + activity.id + ']',
       );
       if (querySelector) {
-        const activityDomObject =
-          querySelector.getElementsByTagName(CONNECTION_PATH_DOM_SELECTOR)[0];
+        const activityDomObject = querySelector.getElementsByTagName(
+          CONNECTION_PATH_DOM_SELECTOR,
+        )[0];
 
         activityDomObject.style.stroke =
           activity.businessObject.pickedColor || 'black';
@@ -130,8 +131,9 @@ export class DomManipulationService {
           '[data-element-id=' + activity.id + ']',
         );
         if (querySelector) {
-          const activityDomObject =
-            querySelector.getElementsByTagName(CONNECTION_PATH_DOM_SELECTOR)[0];
+          const activityDomObject = querySelector.getElementsByTagName(
+            CONNECTION_PATH_DOM_SELECTOR,
+          )[0];
 
           activityDomObject.style.strokeWidth = HIGHLIGHT_STROKE_WIDTH;
 

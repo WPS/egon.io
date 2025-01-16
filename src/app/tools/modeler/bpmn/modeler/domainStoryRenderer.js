@@ -732,17 +732,17 @@ export default function DomainStoryRenderer(
     return componentsToPath(rectangle);
   };
 
-  eventBus.on("bendpoint.move.start",200, function (event) {
+  eventBus.on("bendpoint.move.start", 200, function (event) {
     // the bendpoint which we are dragging will otherwise be displayed with 0.3 opacity
-    svgClasses(event.context.draggerGfx).remove('djs-dragging');
-    svgClasses(event.context.draggerGfx).add('bendpoint-dragging');
+    svgClasses(event.context.draggerGfx).remove("djs-dragging");
+    svgClasses(event.context.draggerGfx).add("bendpoint-dragging");
     // the old path of the activity will otherwise be displayed in gray
-    canvas.addMarker(event.context.connection, 'djs-element-hidden');
+    canvas.addMarker(event.context.connection, "djs-element-hidden");
   });
 
-  eventBus.on("bendpoint.move.end",200, function (event) {
+  eventBus.on("bendpoint.move.end", 200, function (event) {
     // the acitvity will not be displayed if we don't remove the marker we added during bendpoint.move.start
-    canvas.removeMarker(event.context.connection, 'djs-element-hidden');
+    canvas.removeMarker(event.context.connection, "djs-element-hidden");
   });
 }
 

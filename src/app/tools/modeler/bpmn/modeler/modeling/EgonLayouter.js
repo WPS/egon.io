@@ -1,30 +1,23 @@
-import inherits from 'inherits-browser';
+import inherits from "inherits-browser";
 
-import {
-  assign
-} from 'min-dash';
+import { assign } from "min-dash";
 
-import BaseLayouter from 'diagram-js/lib/layout/BaseLayouter';
+import BaseLayouter from "diagram-js/lib/layout/BaseLayouter";
 import CroppingConnectionDocking from "diagram-js/lib/layout/CroppingConnectionDocking";
 
 import {
   repairConnection,
-  withoutRedundantPoints
-} from 'diagram-js/lib/layout/ManhattanLayout';
+  withoutRedundantPoints,
+} from "diagram-js/lib/layout/ManhattanLayout";
 
-import {
-  getMid,
-  getOrientation
-} from 'diagram-js/lib/layout/LayoutUtil';
+import { getMid, getOrientation } from "diagram-js/lib/layout/LayoutUtil";
 
 //TODO-RIP-BPMN do we need any of the commented code here?
-import {
-  isExpanded
-} from '../context-pad-helper/DiUtil';
+import { isExpanded } from "../context-pad-helper/DiUtil";
 
-import { is } from '../context-pad-helper/ModelUtil';
+import { is } from "../context-pad-helper/ModelUtil";
 
-import { isDirectionHorizontal } from '../context-pad-helper/ModelingUtil';
+import { isDirectionHorizontal } from "../context-pad-helper/ModelingUtil";
 
 // /**
 //  * @typedef {import('diagram-js/lib/core/ElementRegistry').default} ElementRegistry
@@ -113,10 +106,13 @@ import { isDirectionHorizontal } from '../context-pad-helper/ModelingUtil';
 //
 export default function EgonLayouter(elementRegistry, graphicsFactory) {
   //this._elementRegistry = elementRegistry;
-  this._croppingConnectionDocking = new CroppingConnectionDocking(elementRegistry, graphicsFactory);
+  this._croppingConnectionDocking = new CroppingConnectionDocking(
+    elementRegistry,
+    graphicsFactory,
+  );
 }
 
- inherits(EgonLayouter, BaseLayouter);
+inherits(EgonLayouter, BaseLayouter);
 //
 // /**
 //  * Returns waypoints of laid out connection.
@@ -126,7 +122,7 @@ export default function EgonLayouter(elementRegistry, graphicsFactory) {
 //  *
 //  *
 //  */
-EgonLayouter.prototype.layoutConnection = function(connection, hints) {
+EgonLayouter.prototype.layoutConnection = function (connection, hints) {
   if (!hints) {
     hints = {};
   }
@@ -135,18 +131,21 @@ EgonLayouter.prototype.layoutConnection = function(connection, hints) {
     target = hints.target || connection.target,
     waypoints = hints.waypoints || connection.waypoints,
     connectionStart = hints.connectionStart,
-    connectionEnd = hints.connectionEnd //,
+    connectionEnd = hints.connectionEnd; //,
   //   elementRegistry = this._elementRegistry;
   //
   // var manhattanOptions,
   //   updatedWaypoints;
 
   if (!connectionStart) {
-    connectionStart = getConnectionDocking(waypoints && waypoints[ 0 ], source);
+    connectionStart = getConnectionDocking(waypoints && waypoints[0], source);
   }
 
   if (!connectionEnd) {
-    connectionEnd = getConnectionDocking(waypoints && waypoints[ waypoints.length - 1 ], target);
+    connectionEnd = getConnectionDocking(
+      waypoints && waypoints[waypoints.length - 1],
+      target,
+    );
   }
 
   // if (is(connection, 'bpmn:Association') ||
@@ -219,9 +218,12 @@ EgonLayouter.prototype.layoutConnection = function(connection, hints) {
     connection.waypoints[connection.waypoints.length - 1] = getMid(targetShape);
   }
 
-  return this._croppingConnectionDocking.getCroppedWaypoints(connection, sourceShape, targetShape);
+  return this._croppingConnectionDocking.getCroppedWaypoints(
+    connection,
+    sourceShape,
+    targetShape,
+  );
 };
-
 
 // helpers //////////
 
@@ -275,7 +277,7 @@ EgonLayouter.prototype.layoutConnection = function(connection, hints) {
 // }
 //
 function getConnectionDocking(point, shape) {
-  return point ? (point.original || point) : getMid(shape);
+  return point ? point.original || point : getMid(shape);
 }
 //
 // function isCompensationAssociation(source, target) {
@@ -503,4 +505,4 @@ function getConnectionDocking(point, shape) {
 //   }
 // }
 
-EgonLayouter.$inject = [ 'elementRegistry' , 'graphicsFactory' ];
+EgonLayouter.$inject = ["elementRegistry", "graphicsFactory"];

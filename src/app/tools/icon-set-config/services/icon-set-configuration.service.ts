@@ -207,7 +207,11 @@ export class IconSetConfigurationService {
     fileConfiguration: FileConfiguration,
   ): IconSet {
     if (fileConfiguration === undefined) {
-      return {name: "", actors: new Dictionary(), workObjects: new Dictionary()}
+      return {
+        name: '',
+        actors: new Dictionary(),
+        workObjects: new Dictionary(),
+      };
       // TODO-RIP-BPMN
     }
 

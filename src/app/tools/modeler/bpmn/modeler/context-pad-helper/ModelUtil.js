@@ -1,6 +1,4 @@
-import {
-  some
-} from 'min-dash';
+import { some } from "min-dash";
 
 /**
  * @typedef { import('../model/Types').Element } Element
@@ -18,9 +16,8 @@ import {
 export function is(element, type) {
   var bo = getBusinessObject(element);
 
-  return bo && (typeof bo.$instanceOf === 'function') && bo.$instanceOf(type);
+  return bo && typeof bo.$instanceOf === "function" && bo.$instanceOf(type);
 }
-
 
 /**
  * Return true if element has any of the given types.
@@ -31,7 +28,7 @@ export function is(element, type) {
  * @return {boolean}
  */
 export function isAny(element, types) {
-  return some(types, function(t) {
+  return some(types, function (t) {
     return is(element, t);
   });
 }

@@ -1,6 +1,6 @@
 "use strict";
 
-import { assign, isArray} from "min-dash";
+import { assign, isArray } from "min-dash";
 import { generateAutomaticNumber } from "../numbering/numbering";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import {
@@ -8,7 +8,7 @@ import {
   isHexWithAlpha,
   rgbaToHex,
 } from "../../../../../utils/colorConverter";
-import {hasPrimaryModifier} from "diagram-js/lib/util/Mouse";
+import { hasPrimaryModifier } from "diagram-js/lib/util/Mouse";
 
 let dirtyFlagService;
 let iconDictionaryService;
@@ -38,7 +38,7 @@ export default function DomainStoryContextPadProvider(
   let _selectedElement;
   let startConnect;
 
-  eventBus.on('create.end', 250, function(event) {
+  eventBus.on("create.end", 250, function (event) {
     var context = event.context,
       shape = context.shape;
 
@@ -114,15 +114,17 @@ export default function DomainStoryContextPadProvider(
     return actions;
   };
 
-  this.getMultiElementContextPadEntries = function(elements) {
+  this.getMultiElementContextPadEntries = function (elements) {
     let actions = {};
     addDelete(actions, elements);
     return actions;
-  }
+  };
 
   function addDelete(actions, element) {
     // delete element entry, only show if allowed by rules
-    var deleteAllowed = rules.allowed('elements.delete', { elements: {element} });
+    var deleteAllowed = rules.allowed("elements.delete", {
+      elements: { element },
+    });
 
     if (isArray(deleteAllowed)) {
       // was the element returned as a deletion candidate?
@@ -132,23 +134,27 @@ export default function DomainStoryContextPadProvider(
     if (deleteAllowed) {
       assign(actions, {
         delete: {
-          group: 'edit',
-          className: 'bpmn-icon-trash',
-          title: translate('Remove'),
+          group: "edit",
+          className: "bpmn-icon-trash",
+          title: translate("Remove"),
           action: {
             click: function (event, element) {
               if (isArray(element)) {
-                const groups = element.filter(el => el.type.includes(ElementTypes.GROUP));
-                const otherElements = element.filter(el => !el.type.includes(ElementTypes.GROUP));
-                groups.forEach(group => modeling.removeGroup(group));
+                const groups = element.filter((el) =>
+                  el.type.includes(ElementTypes.GROUP),
+                );
+                const otherElements = element.filter(
+                  (el) => !el.type.includes(ElementTypes.GROUP),
+                );
+                groups.forEach((group) => modeling.removeGroup(group));
                 modeling.removeElements(otherElements.slice());
               } else {
-                modeling.removeElements({element});
+                modeling.removeElements({ element });
               }
               dirtyFlagService.makeDirty();
             },
-          }
-        }
+          },
+        },
       });
     }
   }

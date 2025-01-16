@@ -4,30 +4,22 @@
  *
  * @see http://bpmn.io/license for more information.
  */
-import {
-  assign,
-  find,
-  isNumber,
-  omit
-} from 'min-dash';
+import { assign, find, isNumber, omit } from "min-dash";
 
 import {
   domify,
   assignStyle,
   query as domQuery,
-  remove as domRemove
-} from 'min-dom';
+  remove as domRemove,
+} from "min-dom";
 
-import {
-  innerSVG
-} from 'tiny-svg';
+import { innerSVG } from "tiny-svg";
 
-import Diagram from 'diagram-js';
+import Diagram from "diagram-js";
 
-import inherits from 'inherits-browser';
+import inherits from "inherits-browser";
 
 export default function BaseViewer(options) {
-
   options = assign({}, DEFAULT_OPTIONS, options);
 
   this._container = this._createContainer(options);
@@ -82,37 +74,50 @@ inherits(BaseViewer, Diagram);
 // };
 
 BaseViewer.prototype.saveSVG = async function saveSVG() {
-  this._emit('saveSVG.start');
+  this._emit("saveSVG.start");
 
   let svg, err;
 
   try {
-    const canvas = this.get('canvas');
+    const canvas = this.get("canvas");
 
     const contentNode = canvas.getActiveLayer(),
-      defsNode = domQuery(':scope > defs', canvas._svg);
+      defsNode = domQuery(":scope > defs", canvas._svg);
 
     const contents = innerSVG(contentNode),
-      defs = defsNode ? '<defs>' + innerSVG(defsNode) + '</defs>' : '';
+      defs = defsNode ? "<defs>" + innerSVG(defsNode) + "</defs>" : "";
 
     const bbox = contentNode.getBBox();
 
     svg =
       '<?xml version="1.0" encoding="utf-8"?>\n' +
-      '<!-- created with bpmn-js / http://bpmn.io -->\n' + //TODO-RIP-BPMN
+      "<!-- created with bpmn-js / http://bpmn.io -->\n" + //TODO-RIP-BPMN
       '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n' +
       '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ' +
-      'width="' + bbox.width + '" height="' + bbox.height + '" ' +
-      'viewBox="' + bbox.x + ' ' + bbox.y + ' ' + bbox.width + ' ' + bbox.height + '" version="1.1">' +
-      defs + contents +
-      '</svg>';
+      'width="' +
+      bbox.width +
+      '" height="' +
+      bbox.height +
+      '" ' +
+      'viewBox="' +
+      bbox.x +
+      " " +
+      bbox.y +
+      " " +
+      bbox.width +
+      " " +
+      bbox.height +
+      '" version="1.1">' +
+      defs +
+      contents +
+      "</svg>";
   } catch (e) {
     err = e;
   }
 
-  this._emit('saveSVG.done', {
+  this._emit("saveSVG.done", {
     error: err,
-    svg: svg
+    svg: svg,
   });
 
   if (err) {
@@ -128,13 +133,12 @@ BaseViewer.prototype.saveSVG = async function saveSVG() {
 //   this._definitions = definitions;
 // };
 
-BaseViewer.prototype.getModules = function() {
+BaseViewer.prototype.getModules = function () {
   return this._modules;
 };
 
-BaseViewer.prototype.clear = function() {
+BaseViewer.prototype.clear = function () {
   if (!this.getDefinitions()) {
-
     // no diagram to clear
     return;
   }
@@ -143,8 +147,7 @@ BaseViewer.prototype.clear = function() {
   Diagram.prototype.clear.call(this);
 };
 
-BaseViewer.prototype.destroy = function() {
-
+BaseViewer.prototype.destroy = function () {
   // diagram destroy
   Diagram.prototype.destroy.call(this);
 
@@ -152,18 +155,17 @@ BaseViewer.prototype.destroy = function() {
   domRemove(this._container);
 };
 
-BaseViewer.prototype.on = function(events, priority, callback, that) {
-  return this.get('eventBus').on(events, priority, callback, that);
+BaseViewer.prototype.on = function (events, priority, callback, that) {
+  return this.get("eventBus").on(events, priority, callback, that);
 };
 
-BaseViewer.prototype.off = function(events, callback) {
-  this.get('eventBus').off(events, callback);
+BaseViewer.prototype.off = function (events, callback) {
+  this.get("eventBus").off(events, callback);
 };
 
-BaseViewer.prototype.attachTo = function(parentNode) {
-
+BaseViewer.prototype.attachTo = function (parentNode) {
   if (!parentNode) {
-    throw new Error('parentNode required');
+    throw new Error("parentNode required");
   }
 
   // ensure we detach from the
@@ -175,15 +177,15 @@ BaseViewer.prototype.attachTo = function(parentNode) {
     parentNode = parentNode.get(0);
   }
 
-  if (typeof parentNode === 'string') {
+  if (typeof parentNode === "string") {
     parentNode = domQuery(parentNode);
   }
 
   parentNode.appendChild(this._container);
 
-  this._emit('attach', {});
+  this._emit("attach", {});
 
-  this.get('canvas').resized();
+  this.get("canvas").resized();
 };
 
 //TODO-RIP_BPMN do we need this?
@@ -192,34 +194,36 @@ BaseViewer.prototype.attachTo = function(parentNode) {
 //   return this._definitions;
 // };
 
-BaseViewer.prototype.detach = function() {
-
+BaseViewer.prototype.detach = function () {
   const container = this._container,
     parentNode = container.parentNode;
 
   if (!parentNode) {
     return;
   }
-  this._emit('detach', {});
+  this._emit("detach", {});
 
   parentNode.removeChild(container);
 };
 
-BaseViewer.prototype._init = function(container, options) {
-
+BaseViewer.prototype._init = function (container, options) {
   const baseModules = options.modules || this.getModules(options),
     additionalModules = options.additionalModules || [],
     staticModules = [
       {
-        bpmnjs: [ 'value', this ]
-      }
+        bpmnjs: ["value", this],
+      },
     ];
 
-  const diagramModules = [].concat(staticModules, baseModules, additionalModules);
+  const diagramModules = [].concat(
+    staticModules,
+    baseModules,
+    additionalModules,
+  );
 
-  const diagramOptions = assign(omit(options, [ 'additionalModules' ]), {
+  const diagramOptions = assign(omit(options, ["additionalModules"]), {
     canvas: assign({}, options.canvas, { container: container }),
-    modules: diagramModules
+    modules: diagramModules,
   });
 
   // invoke diagram constructor
@@ -230,18 +234,17 @@ BaseViewer.prototype._init = function(container, options) {
   }
 };
 
-BaseViewer.prototype._emit = function(type, event) {
-  return this.get('eventBus').fire(type, event);
+BaseViewer.prototype._emit = function (type, event) {
+  return this.get("eventBus").fire(type, event);
 };
 
-BaseViewer.prototype._createContainer = function(options) {
-
+BaseViewer.prototype._createContainer = function (options) {
   const container = domify('<div class="egon-container"></div>');
 
   assignStyle(container, {
     width: ensureUnit(options.width),
     height: ensureUnit(options.height),
-    position: options.position
+    position: options.position,
   });
 
   return container;
@@ -257,7 +260,6 @@ function addWarningsToError(err, warningsAry) {
 }
 
 function checkValidationError(err) {
-
   // check if we can help the user by indicating wrong BPMN 2.0 xml
   // (in case he or the exporting tool did not get that right)
 
@@ -266,25 +268,27 @@ function checkValidationError(err) {
 
   if (match) {
     err.message =
-      'unparsable content <' + match[1] + '> detected; ' +
-      'this may indicate an invalid BPMN 2.0 diagram file' + match[2];
+      "unparsable content <" +
+      match[1] +
+      "> detected; " +
+      "this may indicate an invalid BPMN 2.0 diagram file" +
+      match[2];
   }
 
   return err;
 }
 
 const DEFAULT_OPTIONS = {
-  width: '100%',
-  height: '100%',
-  position: 'relative'
+  width: "100%",
+  height: "100%",
+  position: "relative",
 };
-
 
 /**
  * Ensure the passed argument is a proper unit (defaulting to px)
  */
 function ensureUnit(val) {
-  return val + (isNumber(val) ? 'px' : '');
+  return val + (isNumber(val) ? "px" : "");
 }
 
 //TODO-RIP_BPMN do we need this?
@@ -307,19 +311,16 @@ function ensureUnit(val) {
 //   }) || null;
 // }
 
-
 /* <project-logo> */
 
 import {
   open as openPoweredBy,
   BPMNIO_IMG,
   LOGO_STYLES,
-  LINK_STYLES
-} from './copiedClasses/PoweredByUtil';
+  LINK_STYLES,
+} from "./copiedClasses/PoweredByUtil";
 
-import {
-  event as domEvent
-} from 'min-dom';
+import { event as domEvent } from "min-dom";
 
 /**
  * Adds the project logo to the diagram container as
@@ -337,23 +338,23 @@ function addProjectLogo(container) {
     'target="_blank" ' +
     'class="bjs-powered-by" ' +
     'title="Powered by bpmn.io" ' +
-    '>' +
+    ">" +
     img +
-    '</a>';
+    "</a>";
 
   const linkElement = domify(linkMarkup);
 
-  assignStyle(domQuery('svg', linkElement), LOGO_STYLES);
+  assignStyle(domQuery("svg", linkElement), LOGO_STYLES);
   assignStyle(linkElement, LINK_STYLES, {
-    position: 'absolute',
-    bottom: '15px',
-    right: '15px',
-    zIndex: '100'
+    position: "absolute",
+    bottom: "15px",
+    right: "15px",
+    zIndex: "100",
   });
 
   container.appendChild(linkElement);
 
-  domEvent.bind(linkElement, 'click', function(event) {
+  domEvent.bind(linkElement, "click", function (event) {
     openPoweredBy();
 
     event.preventDefault();

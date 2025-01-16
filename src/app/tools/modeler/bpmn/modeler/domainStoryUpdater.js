@@ -18,7 +18,11 @@ import { ElementTypes } from "../../../../domain/entities/elementTypes";
  * a handler responsible for updating the custom element's businessObject
  * once changes on the diagram happen.
  */
-export default function DomainStoryUpdater(eventBus, bpmnjs, connectionDocking) {
+export default function DomainStoryUpdater(
+  eventBus,
+  bpmnjs,
+  connectionDocking,
+) {
   CommandInterceptor.call(this, eventBus);
 
   function updateCustomElement(e) {
@@ -145,12 +149,9 @@ export default function DomainStoryUpdater(eventBus, bpmnjs, connectionDocking) 
 
   // cropping must be done before updateCustomElement
   // do not change the order of these .executed calls
-  this.executed([
-    'connection.layout',
-    'connection.create'
-  ], cropConnection);
+  this.executed(["connection.layout", "connection.create"], cropConnection);
 
-  this.reverted([ 'connection.layout' ], function(e) {
+  this.reverted(["connection.layout"], function (e) {
     delete e.context.cropped;
   });
 

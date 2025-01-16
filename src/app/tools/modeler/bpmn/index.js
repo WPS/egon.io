@@ -8,8 +8,8 @@ import LabelEditingModule from "./modeler/labeling";
 import ModelingModule from "./modeler/modeling";
 import { ElementTypes } from "../../../domain/entities/elementTypes";
 
-import MoveCanvasModule from 'diagram-js/lib/navigation/movecanvas';
-import KeyboardMoveModule from 'diagram-js/lib/navigation/keyboard-move';
+import MoveCanvasModule from "diagram-js/lib/navigation/movecanvas";
+import KeyboardMoveModule from "diagram-js/lib/navigation/keyboard-move";
 import ZoomScrollModule from "diagram-js/lib/navigation/zoomscroll";
 
 import MoveModule from "diagram-js/lib/features/move";
@@ -40,7 +40,7 @@ DomainStoryModeler.prototype._modules = [].concat(
   [MoveCanvasModule, KeyboardMoveModule, ZoomScrollModule], // Navigation on Canvas
   [MoveModule, Bendpoints, ConnectionPreview, CopyPasteModule, ConnectModule], // Move/Create/Alter Elements
   [KeyboardModule, EditorActionsModule, AdditionalShortcuts], // Shortcuts
-  [SnappingModule] // Alignment
+  [SnappingModule], // Alignment
 );
 
 /**

@@ -4,4 +4,4 @@
 //   __init__: [ 'textRenderer' ],
 //   textRenderer: [ 'type', TextRenderer ]
 // };
-export { default } from './TextRenderer';
+export { default } from "./TextRenderer";

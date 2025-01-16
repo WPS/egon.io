@@ -5,33 +5,30 @@ import {
   isObject,
   reduce,
   has,
-  sortBy
-} from 'min-dash';
+  sortBy,
+} from "min-dash";
 
-var DISALLOWED_PROPERTIES = [
-  'incoming',
-  'outgoing'
-];
+var DISALLOWED_PROPERTIES = ["incoming", "outgoing"];
 
 export default function ModdleCopy(eventBus) {
   this._eventBus = eventBus;
 
   // copy extension elements last
-  eventBus.on('moddleCopy.canCopyProperties', function(context) {
+  eventBus.on("moddleCopy.canCopyProperties", function (context) {
     var propertyNames = context.propertyNames;
 
     if (!propertyNames || !propertyNames.length) {
       return;
     }
 
-    return sortBy(propertyNames, function(propertyName) {
-      return propertyName === 'extensionElements';
+    return sortBy(propertyNames, function (propertyName) {
+      return propertyName === "extensionElements";
     });
   });
 
   // default check whether property can be copied
-  eventBus.on('moddleCopy.canCopyProperty', function(context) {
-    var  propertyName = context.propertyName;
+  eventBus.on("moddleCopy.canCopyProperty", function (context) {
+    var propertyName = context.propertyName;
 
     if (propertyName && DISALLOWED_PROPERTIES.indexOf(propertyName) !== -1) {
       // disallow copying property
@@ -40,21 +37,23 @@ export default function ModdleCopy(eventBus) {
   });
 }
 
-ModdleCopy.$inject = [
-  'eventBus',
-];
+ModdleCopy.$inject = ["eventBus"];
 
-ModdleCopy.prototype.copyElement = function(sourceElement, targetElement, propertyNames) {
+ModdleCopy.prototype.copyElement = function (
+  sourceElement,
+  targetElement,
+  propertyNames,
+) {
   var self = this;
 
   if (propertyNames && !isArray(propertyNames)) {
-    propertyNames = [ propertyNames ];
+    propertyNames = [propertyNames];
   }
 
-  var canCopyProperties = this._eventBus.fire('moddleCopy.canCopyProperties', {
+  var canCopyProperties = this._eventBus.fire("moddleCopy.canCopyProperties", {
     propertyNames: propertyNames,
     sourceElement: sourceElement,
-    targetElement: targetElement
+    targetElement: targetElement,
   });
 
   if (canCopyProperties === false) {
@@ -66,20 +65,27 @@ ModdleCopy.prototype.copyElement = function(sourceElement, targetElement, proper
   }
 
   // copy properties
-  forEach(propertyNames, function(propertyName) {
+  forEach(propertyNames, function (propertyName) {
     var sourceProperty;
 
     if (has(sourceElement, propertyName)) {
       sourceProperty = sourceElement.get(propertyName);
     }
 
-    var copiedProperty = self.copyProperty(sourceProperty, targetElement, propertyName);
+    var copiedProperty = self.copyProperty(
+      sourceProperty,
+      targetElement,
+      propertyName,
+    );
 
-    var canSetProperty = self._eventBus.fire('moddleCopy.canSetCopiedProperty', {
-      parent: targetElement,
-      property: copiedProperty,
-      propertyName: propertyName
-    });
+    var canSetProperty = self._eventBus.fire(
+      "moddleCopy.canSetCopiedProperty",
+      {
+        parent: targetElement,
+        property: copiedProperty,
+        propertyName: propertyName,
+      },
+    );
 
     if (canSetProperty === false) {
       return;
@@ -93,14 +99,14 @@ ModdleCopy.prototype.copyElement = function(sourceElement, targetElement, proper
   return targetElement;
 };
 
-ModdleCopy.prototype.copyProperty = function(property, parent, propertyName) {
+ModdleCopy.prototype.copyProperty = function (property, parent, propertyName) {
   var self = this;
 
   // allow others to copy property
-  var copiedProperty = this._eventBus.fire('moddleCopy.canCopyProperty', {
+  var copiedProperty = this._eventBus.fire("moddleCopy.canCopyProperty", {
     parent: parent,
     property: property,
-    propertyName: propertyName
+    propertyName: propertyName,
   });
 
   // return if copying is NOT allowed
@@ -109,7 +115,11 @@ ModdleCopy.prototype.copyProperty = function(property, parent, propertyName) {
   }
 
   if (copiedProperty) {
-    if (isObject(copiedProperty) && copiedProperty.$type && !copiedProperty.$parent) {
+    if (
+      isObject(copiedProperty) &&
+      copiedProperty.$type &&
+      !copiedProperty.$parent
+    ) {
       copiedProperty.$parent = parent;
     }
 
@@ -118,25 +128,27 @@ ModdleCopy.prototype.copyProperty = function(property, parent, propertyName) {
 
   // copy arrays
   if (isArray(property)) {
-    return reduce(property, function(childProperties, childProperty) {
+    return reduce(
+      property,
+      function (childProperties, childProperty) {
+        // recursion
+        copiedProperty = self.copyProperty(childProperty, parent, propertyName);
 
-      // recursion
-      copiedProperty = self.copyProperty(childProperty, parent, propertyName);
+        // copying might NOT be allowed
+        if (copiedProperty) {
+          copiedProperty.$parent = parent;
 
-      // copying might NOT be allowed
-      if (copiedProperty) {
-        copiedProperty.$parent = parent;
+          return childProperties.concat(copiedProperty);
+        }
 
-        return childProperties.concat(copiedProperty);
-      }
-
-      return childProperties;
-    }, []);
+        return childProperties;
+      },
+      [],
+    );
   }
 
   // copy model elements
   if (isObject(property) && property.$type) {
-
     copiedProperty = self.createDefaultElement(property.$type);
 
     copiedProperty.$parent = parent;
@@ -154,6 +166,6 @@ ModdleCopy.prototype.copyProperty = function(property, parent, propertyName) {
 ModdleCopy.prototype.createDefaultElement = function (type) {
   return {
     $type: type,
-    $descriptor: new Object()
-  }
-}
+    $descriptor: new Object(),
+  };
+};
