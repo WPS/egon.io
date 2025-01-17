@@ -410,9 +410,10 @@ mat-dialog-actions.mdc-dialog__actions {
   stroke: black;
 }
 
-.djs-bendpoint.bendpoint-dragging {
+g.djs-bendpoint.djs-dragging.bendpoint-dragging,
+g.djs-bendpoint.djs-dragging.bendpoint-dragging > * {
   display: block;
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .djs-segment-dragger.djs-dragging .djs-visual,
