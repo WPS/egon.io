@@ -79,27 +79,23 @@ Domain Storytelling is a modeling language and we wanted to build a proper model
 - was flexible enough to support the Domain Storytelling modeling language 
 - and fulfilled the [architectural constraints](#section-architecture-constraints).
 
-## Decision: Using bpmn-js as Modeling Framework
+## Decision: Using diagram-js as Modeling Framework
 
-[bpmn-js](https://github.com/bpmn-io/bpmn-js) checked all the boxes. It is a JavaScript modeling library for the BPMN language. For version 1.x.x. of Egon, we replaced BPMN with the Domain Storytelling modeling language and stayed close to the tech stack used by bpmn-js: JavaScript as programming language, tools for building and testing, etc.
+[diagram-js](https://github.com/bpmn-io/diagram-js) checked all the boxes. It is a JavaScript modeling library, originally developed for the [bpmn-js BPMN editor](https://github.com/bpmn-io/bpmn-js) but now language-agnostic. 
 
-However, the decision for using bpmn-js had tradeoffs: For some features, Egon developers had to dive deep into the inner workings of bpmn-js and work around the framework's behavior. At the same time, bpmn-js offers a lot of features that are not relevant for Domain Storytelling.
+Older versions of Egon (v1 and v2) depended on bpmn-js which had tradeoffs: For some features, Egon developers had to dive deep into the inner workings of bpmn-js and work around the framework's behavior. At the same time, bpmn-js offers a lot of features that are not relevant for Domain Storytelling. Egon v3 marked the shift from using bpmn-js to diagram-js as our modeling framework.
 
-> The decision for using bpmn-js was revisited several times, but until now, we are not aware of an alternative modeling framework that fulfilles the [architectural constraints](#section-architecture-constraints).
+## Decision: Separation Between Egon and diagram-js
 
-## Decision: Separation Between Egon and bpmn-js
+Many of Egon's features do not depend on the diagram-js framework. The architecture should reflect that by clearly distinguishing between
+- code that deals with core modeling activities and requires knowledge of diagram-js
+- and code that is independent of diagram-js
 
-After a few years of development, we had built features that had little to no connection to the bpmn-js framework. However, the architecture made it difficult to distinguish...
-- code that deals with core modeling activities and requires knowledge of bpmn-js
-- and code that is independent of bpmn-js
+This separation flattens the learning curve for new developers. 
 
-We wanted to flatten the learning curve for new developers by better separating Egon and bpmn-js. This went hand in hand with migration to a different tech stack (Typescript and Angular, see below) that helped us to better express the intended architecture.
+## Decision: Typescript and Angular
 
-## Decision: Migrate to Typescript and Angular
-
-Since all developers share a common background (see [Stakeholders](#_stakeholders)) which includes experience with Typescript and Angular, we decided to migrate most of our code to this tech stack. This lowered the learning curve for new developers, enabling them to work on new features without detailed knowledge of bpmn-js.
-
-The result of this migration is Egon v2.x.x
+Since all developers share a common background (see [Stakeholders](#_stakeholders)) which includes experience with Typescript and Angular, this tech stack has been used since Egon v2. It also enabled us to  express this intended architecture.
 
 ## Decision: No Touch Support, no Multi-User Support
 
@@ -312,22 +308,22 @@ TODO: complete diagram
 
 ## Level 3: Tools
 
-TODO: Show vertical slices and usage of bmpn-js. The folder structure resembles the vertical slices. 
+TODO: Show vertical slices and usage of diagram-js. The folder structure resembles the vertical slices. 
 
-## bpmn-js
+## diagram-js
 
-This section is based on the [bpmn-js documentation](https://bpmn.io/toolkit/bpmn-js/walkthrough/) and aims at giving a brief introduction to the library. This should be helpful when working on the `modeler` tool.
+Unfortunately, diagram-js comes with little documentation. We recommend reading the "Diagram Interaction / Modeling (diagram-js)" section in the [bpmn-js documentation](https://bpmn.io/toolkit/bpmn-js/walkthrough/). In short, diagram-js renders diagrams and offers extensible infrastructure (plug-in system, event bus, command stack, and service loop). It handles user interaction (move, connect, hover, select, add, remove) and provides the *canvas*, *palette*, and *context pad*. 
 
-bpmn-js is built on top of diagram-js and bpmn-moddle. bpmn-js ties both together and provides the *palette* and the *context pad*. 
+Some more useful information for working on the `modeler` tool:
 
-The *canvas* contains graphical *elements* of different *types* (*shape*, *label*, *connection*, possibly more). Thereby it ties both the BPMN elements and the graphical elements together. The graphical elements can contain *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `bpmn:ExclusiveGateway` (for the BPMN modeling language ) or `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in `elementTypes.ts`.
+The *canvas* contains graphical *elements* of different *types* (*shape*, *label*, *connection*, possibly more). The graphical elements can contain *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in `elementTypes.ts`.
 
 Element positions on the canvas work as shown in this diagram:
 
 ```mermaid
 %%{init: {"themeVariables": {"quadrant4Fill": "#a4d7e1"} }}%%
 quadrantChart
-    title Coordinate Plane of the bpmn-js Canvas
+    title Coordinate Plane of the diagram-js Canvas
     x-axis "-x" --> "+x"
     y-axis "+y" --> "-y"
     quadrant-1 "angle: 1° to 90°"
