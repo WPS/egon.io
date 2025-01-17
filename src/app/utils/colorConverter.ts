@@ -1,4 +1,7 @@
 export function rgbaToHex(rgba: string) {
+  if (isValidHex(rgba)) {
+    return rgba;
+  }
   const [r, g, b, a] = rgba.match(/\d+(\.\d+)?/g)!.map((it) => +it);
   const red = r.toString(16).padStart(2, '0');
   const green = g.toString(16).padStart(2, '0');

@@ -305,6 +305,9 @@ export class ImportDomainStoryService
       this.importRepairService.removeWhitespacesFromIcons(
         domainStory.businessObjects,
       );
+      this.importRepairService.removeUnnecessaryBpmnProperties(
+        domainStory.businessObjects,
+      );
 
       this.checkConfigForChanges(iconSetConfig);
 

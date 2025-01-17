@@ -36,7 +36,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "node_modules/diagram-js/assets/diagram-js.css",
-              "node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css",
+              "node_modules/bpmn-font/dist/css/bpmn.css",
               "src/styles.scss"
             ],
             "scripts": [],

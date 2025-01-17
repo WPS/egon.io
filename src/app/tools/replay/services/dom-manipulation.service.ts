@@ -10,6 +10,7 @@ import {
   NUMBER_BACKGROUND_COLOR,
   NUMBER_COLOR,
   STROKE_WIDTH,
+  CONNECTION_PATH_DOM_SELECTOR,
 } from '../domain/replayConstants';
 
 @Injectable({
@@ -73,7 +74,7 @@ export class DomManipulationService {
     });
   }
 
-  getNumberDomForActivity(activity: SVGPolylineElement): any {
+  getNumberDomForActivity(activity: SVGPathElement): any {
     const numberText =
       activity.parentElement?.getElementsByClassName('djs-labelNumber')[0] ??
       '';
@@ -93,8 +94,9 @@ export class DomManipulationService {
         '[data-element-id=' + activity.id + ']',
       );
       if (querySelector) {
-        const activityDomObject =
-          querySelector.getElementsByTagName('polyline')[0];
+        const activityDomObject = querySelector.getElementsByTagName(
+          CONNECTION_PATH_DOM_SELECTOR,
+        )[0];
 
         activityDomObject.style.stroke =
           activity.businessObject.pickedColor || 'black';
@@ -113,7 +115,7 @@ export class DomManipulationService {
       // @ts-ignore
       const connectionDomObject = document
         .querySelector('[data-element-id=' + connection.id + ']')
-        .getElementsByTagName('polyline')[0];
+        .getElementsByTagName(CONNECTION_PATH_DOM_SELECTOR)[0];
 
       connectionDomObject.style.stroke =
         connection.businessObject.pickedColor || 'black';
@@ -129,8 +131,9 @@ export class DomManipulationService {
           '[data-element-id=' + activity.id + ']',
         );
         if (querySelector) {
-          const activityDomObject =
-            querySelector.getElementsByTagName('polyline')[0];
+          const activityDomObject = querySelector.getElementsByTagName(
+            CONNECTION_PATH_DOM_SELECTOR,
+          )[0];
 
           activityDomObject.style.strokeWidth = HIGHLIGHT_STROKE_WIDTH;
 

@@ -13,6 +13,10 @@ describe('colorConverter Test', () => {
     it('case3', () => {
       expect(rgbaToHex('rgba(255, 15, 15, 1)')).toEqual('#ff0f0fff');
     });
+
+    it('was already hex', () => {
+      expect(rgbaToHex('#0fff00ff')).toEqual('#0fff00ff');
+    });
   });
 
   describe('hexToRGBA Test', () => {

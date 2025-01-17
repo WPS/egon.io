@@ -67,4 +67,24 @@ export class ImportRepairService {
       }
     });
   }
+
+  removeUnnecessaryBpmnProperties(elements: BusinessObject[]) {
+    elements.forEach((bo) => {
+      // @ts-ignore
+      if (bo.$type) {
+        // @ts-ignore
+        bo.$type = undefined;
+      }
+      // @ts-ignore
+      if (bo.$descriptor) {
+        // @ts-ignore
+        bo.$descriptor = undefined;
+      }
+      // @ts-ignore
+      if (bo.di) {
+        // @ts-ignore
+        bo.di = undefined;
+      }
+    });
+  }
 }

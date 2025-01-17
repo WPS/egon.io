@@ -25,7 +25,7 @@ export class IconDictionaryService {
   private workObjectDictionary = new Dictionary();
 
   private builtInIconsDictionary = new Dictionary();
-  private iconDictionaryForBPMN = new Dictionary();
+  private iconDictionaryForMenu = new Dictionary();
 
   private customConfiguration?: IconSet;
 
@@ -74,7 +74,7 @@ export class IconDictionaryService {
     }
 
     dictionary.keysArray().forEach((name) => {
-      this.registerIconForBPMN(
+      this.registerIconForMenu(
         name,
         ICON_PREFIX + sanitizeIconName(name.toLowerCase()),
         elementType,
@@ -82,7 +82,7 @@ export class IconDictionaryService {
     });
   }
 
-  getCurrentIconConfigurationForBPMN(): Configuration {
+  getCurrentIconConfigurationForMenu(): Configuration {
     if (this.customConfiguration) {
       return this.iconConfig.createCustomConf(this.customConfiguration);
     }
@@ -131,7 +131,7 @@ export class IconDictionaryService {
         const src = allTypes.get(name);
         if (src) {
           this.registerIconForType(dictionaryType, name, src);
-          this.registerIconForBPMN(
+          this.registerIconForMenu(
             name,
             sanitizeIconName(ICON_PREFIX + name.toLowerCase()),
             dictionaryType,
@@ -142,7 +142,7 @@ export class IconDictionaryService {
   }
 
   /** Add Icon(s) to Dictionary **/
-  private registerIconForBPMN(
+  private registerIconForMenu(
     name: string,
     src: string,
     elementType: ElementTypes,
@@ -151,7 +151,7 @@ export class IconDictionaryService {
       throw new Error('Should not include elementType');
     }
 
-    this.iconDictionaryForBPMN.set(`${elementType}${name}`, src);
+    this.iconDictionaryForMenu.set(`${elementType}${name}`, src);
   }
 
   addIconsToTypeDictionary(
@@ -241,7 +241,7 @@ export class IconDictionaryService {
         } else {
           elementType = ElementTypes.WORKOBJECT;
         }
-        this.registerIconForBPMN(
+        this.registerIconForMenu(
           ICON_PREFIX + name.toLowerCase(),
           getIconId(element.type),
           elementType,
@@ -344,8 +344,8 @@ export class IconDictionaryService {
     return null;
   }
 
-  getIconForBPMN(elementType: ElementTypes, name: string): string | null {
-    return this.iconDictionaryForBPMN.get(`${elementType}${name}`);
+  getIconForMenu(elementType: ElementTypes, name: string): string | null {
+    return this.iconDictionaryForMenu.get(`${elementType}${name}`);
   }
 
   getIconSource(name: string): string | null {

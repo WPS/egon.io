@@ -10,18 +10,18 @@ import { ActivityCanvasObject } from '../../../domain/entities/activityCanvasObj
 import { positionsMatch } from '../../../utils/mathExtensions';
 import { CommandStackService } from '../../../domain/services/command-stack.service';
 
-import { toggleStashUse } from '../bpmn/modeler/labeling/dsLabelEditingProvider';
+import { toggleStashUse } from 'src/app/tools/modeler/diagram-js/features/labeling/dsLabelEditingProvider';
 import {
   getMultipleNumberRegistry,
   getNumberRegistry,
   setNumberIsMultiple,
   updateExistingNumbersAtEditing,
-} from '../bpmn/modeler/numbering/numbering';
-import activityUpdateHandler from '../bpmn/modeler/updateHandler/activityUpdateHandlers';
+} from 'src/app/tools/modeler/diagram-js/features/numbering/numbering';
+import activityUpdateHandler from 'src/app/tools/modeler/diagram-js/features/updateHandler/activityUpdateHandlers';
 
-import massRenameHandler from '../bpmn/modeler/updateHandler/massRenameHandler';
-import elementUpdateHandler from '../bpmn/modeler/updateHandler/elementUpdateHandler';
-import headlineAndDescriptionUpdateHandler from '../bpmn/modeler/updateHandler/headlineAndDescriptionUpdateHandler';
+import massRenameHandler from 'src/app/tools/modeler/diagram-js/features/updateHandler/massRenameHandler';
+import elementUpdateHandler from 'src/app/tools/modeler/diagram-js/features/updateHandler/elementUpdateHandler';
+import headlineAndDescriptionUpdateHandler from 'src/app/tools/modeler/diagram-js/features/updateHandler/headlineAndDescriptionUpdateHandler';
 import { ReplayService } from '../../replay/services/replay.service';
 
 @Injectable({

@@ -210,7 +210,7 @@ mat-dialog-actions.mdc-dialog__actions {
 
 /* context pad */
 
-.djs-overlay-context-pad {
+.djs-context-pad {
   min-width: 7.5rem;
   height: auto;
 }
@@ -403,10 +403,17 @@ mat-dialog-actions.mdc-dialog__actions {
 .djs-segment-dragger:hover .djs-visual,
 .djs-segment-dragger.djs-dragging .djs-visual,
 .djs-bendpoint:hover .djs-visual,
-.djs-bendpoint.floating .djs-visual {
+.djs-bendpoint.floating .djs-visual,
+.djs-bendpoint.bendpoint-dragging .djs-visual {
   fill: #a4d7e1;
   stroke-opacity: 0.5;
   stroke: black;
+}
+
+g.djs-bendpoint.djs-dragging.bendpoint-dragging,
+g.djs-bendpoint.djs-dragging.bendpoint-dragging > * {
+  display: block;
+  opacity: 1 !important;
 }
 
 .djs-segment-dragger.djs-dragging .djs-visual,
