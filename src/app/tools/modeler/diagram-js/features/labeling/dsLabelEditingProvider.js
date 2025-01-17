@@ -7,6 +7,7 @@ import { autocomplete, getLabel } from "./dsLabelUtil";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { sanitizeTextForSVGExport } from "src/app/utils/sanitizer";
 import { is } from "../util/util";
+import { isBackground } from "../domainStoryRules";
 
 let dictionaryService;
 
@@ -157,7 +158,7 @@ DSLabelEditingProvider.$inject = [
  */
 DSLabelEditingProvider.prototype.activate = function (element) {
   // text
-  if (element.id === "__implicitrootbase") {
+  if (isBackground(element)) {
     return;
   }
   let text = getLabel(element);

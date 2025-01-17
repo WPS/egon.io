@@ -39,7 +39,8 @@ function isAnnotation(element) {
   return element && /^domainStory:textAnnotation/.test(element.type);
 }
 
-function isBackground(element) {
+// indirect usage of IMPLICIT_ROOT_ID, constant not used because of Regex
+export function isBackground(element) {
   return element && /^__implicitroot/.test(element.id);
 }
 
