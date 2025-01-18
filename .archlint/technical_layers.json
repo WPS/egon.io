@@ -5,7 +5,6 @@
   "exclude": [
     "node_modules**",
     "**.spec.ts",
-    "tools/modeler/bpmn/**",
     "material.module.ts",
     "../environments/**",
     "app.*.ts",

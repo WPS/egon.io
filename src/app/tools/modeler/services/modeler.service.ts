@@ -55,13 +55,6 @@ export class ModelerService {
       keyboard: {
         bind: true,
       },
-
-      // Disable BPMN-SearchModule and re-enable browser Search
-      additionalModules: [
-        {
-          bpmnSearch: ['value', 'foo'],
-        },
-      ],
     });
 
     if (this.modeler.get) {
