@@ -28,7 +28,7 @@ Top quality goals are:
 | distributed under liberal open source license | increases adoption by providing Egon free of charge (even for "commercial" use), without risk of vendor lock-in; while Egon is open source, the domain stories created with Egon do *not* fall under an open source license |
 | no registration or log-in required | increases adoption; ease of use; avoids security problems; lowers maintenance effort |
 | no centralized storage | avoids security problems; lowers maintenance effort |
-| can by hosted locally or within company network | avoids vendor lock-in; increases adoption by companies |
+| can be hosted locally or within company network | avoids vendor lock-in; increases adoption by companies |
 | when run locally: can be used without internet connection  | increases robustness       |
 
 # System Scope and Context {#section-system-scope-and-context}
