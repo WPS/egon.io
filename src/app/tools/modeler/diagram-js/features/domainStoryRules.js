@@ -181,11 +181,11 @@ DomainStoryRules.$inject = ["eventBus"];
 
 DomainStoryRules.prototype.init = function () {
   /**
-   * can a shape be created on target container?
+   * can a shape be created on target?
    */
   function canCreate(shape, target) {
-    // allow creation just on groups
-    return isBackground(target) || isGroup(target);
+    // allow creation on canvas ||  allow groups on everything || allow everything on groups
+    return isBackground(target) || isGroup(shape) || isGroup(target);
   }
 
   this.addRule("elements.create", function (context) {

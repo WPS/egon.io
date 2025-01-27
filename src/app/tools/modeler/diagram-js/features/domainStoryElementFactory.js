@@ -104,7 +104,7 @@ DomainStoryElementFactory.prototype._getCustomElementSize = function (type) {
   let shapes = {
     __default: { width: 75, height: 75 },
     [ElementTypes.TEXTANNOTATION]: { width: 100, height: 30 },
-    [ElementTypes.GROUP]: { width: 525, height: 275 },
+    [ElementTypes.GROUP]: { width: 300, height: 200 },
   };
 
   return shapes[type] || shapes.__default;
