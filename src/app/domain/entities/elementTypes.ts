@@ -5,7 +5,6 @@ export enum ElementTypes {
   WORKOBJECT = 'domainStory:workObject',
   GROUP = 'domainStory:group',
   TEXTANNOTATION = 'domainStory:textAnnotation',
-  DOMAINSTORY = 'domainStory:',
 }
 
 export namespace ElementTypes {

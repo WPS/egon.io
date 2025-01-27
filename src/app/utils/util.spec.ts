@@ -120,11 +120,5 @@ describe('naming', () => {
 
       expect(getIconId(type)).toEqual(testType);
     });
-    it('should get clear string for Unknown input', () => {
-      const testType = '_test';
-      const type = ElementTypes.DOMAINSTORY + testType;
-
-      expect(getIconId(type)).toEqual('');
-    });
   });
 });
