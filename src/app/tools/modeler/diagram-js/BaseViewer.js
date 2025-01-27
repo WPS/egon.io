@@ -1,9 +1,3 @@
-/**
- * The code in the <project-logo></project-logo> area
- * must not be changed.
- *
- * @see http://bpmn.io/license for more information.
- */
 import { assign, isNumber, omit } from "min-dash";
 
 import {
@@ -21,13 +15,7 @@ import inherits from "inherits-browser";
 
 export default function BaseViewer(options) {
   options = assign({}, DEFAULT_OPTIONS, options);
-
   this._container = this._createContainer(options);
-
-  /* <project-logo> */
-  addProjectLogo(this._container);
-  /* </project-logo> */
-
   this._init(this._container, options);
 }
 
@@ -202,11 +190,6 @@ BaseViewer.prototype._modules = [];
 
 // helpers ///////////////
 
-function addWarningsToError(err, warningsAry) {
-  err.warnings = warningsAry;
-  return err;
-}
-
 const DEFAULT_OPTIONS = {
   width: "100%",
   height: "100%",
@@ -219,53 +202,3 @@ const DEFAULT_OPTIONS = {
 function ensureUnit(val) {
   return val + (isNumber(val) ? "px" : "");
 }
-
-import {
-  open as openPoweredBy,
-  BPMNIO_IMG,
-  LOGO_STYLES,
-  LINK_STYLES,
-} from "./features/util/PoweredByUtil";
-
-import { event as domEvent } from "min-dom";
-
-/**
- * Adds the project logo to the diagram container as
- * required by the bpmn.io license.
- *
- * @see http://bpmn.io/license
- *
- * @param {Element} container
- */
-function addProjectLogo(container) {
-  const img = BPMNIO_IMG;
-
-  const linkMarkup =
-    '<a href="http://bpmn.io" ' +
-    'target="_blank" ' +
-    'class="bjs-powered-by" ' +
-    'title="Powered by bpmn.io" ' +
-    ">" +
-    img +
-    "</a>";
-
-  const linkElement = domify(linkMarkup);
-
-  assignStyle(domQuery("svg", linkElement), LOGO_STYLES);
-  assignStyle(linkElement, LINK_STYLES, {
-    position: "absolute",
-    bottom: "15px",
-    right: "15px",
-    zIndex: "100",
-  });
-
-  container.appendChild(linkElement);
-
-  domEvent.bind(linkElement, "click", function (event) {
-    openPoweredBy();
-
-    event.preventDefault();
-  });
-}
-
-/* </project-logo> */
