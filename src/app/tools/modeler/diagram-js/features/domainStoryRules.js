@@ -11,11 +11,7 @@ import { is } from "./util/util";
 const HIGH_PRIORITY = 1500;
 const MIN_SIZE = 125;
 
-function isDomainStory(element) {
-  return element && /^domainStory:/.test(element.type);
-}
-
-function isDomainStoryGroup(element) {
+function isGroup(element) {
   return element && /^domainStory:group/.test(element.type);
 }
 
@@ -63,17 +59,12 @@ function canStartConnection(element) {
  * can source and target be connected?
  */
 function canConnect(source, target) {
-  // never connect to background
-  if (isBackground(target)) {
+  // never connect to background; since the direction of the activity can get reversed during dragging, we also have to check if the source
+  if (isBackground(target) || isBackground(source)) {
     return false;
   }
 
-  // only judge about two custom elements
-  if (
-    isDomainStoryGroup(target) ||
-    !isDomainStory(source) ||
-    !isDomainStory(target)
-  ) {
+  if (isGroup(target)) {
     return false;
   }
 
@@ -154,34 +145,6 @@ function canResize(shape, newBounds) {
   return false;
 }
 
-function canAttach(elements, target, source) {
-  if (!Array.isArray(elements)) {
-    elements = [elements];
-  }
-
-  // disallow appending as boundary event
-  if (source) {
-    return false;
-  }
-
-  // only (re-)attach one element at a time
-  if (elements.length !== 1) {
-    return false;
-  }
-
-  // allow default move operation
-  if (!target) {
-    return true;
-  }
-
-  // only allow drop on DomainStory Elements
-  if (!isDomainStory(target)) {
-    return false;
-  }
-
-  return "attach";
-}
-
 function canConnectToAnnotation(source, target, connection) {
   // do not allow an activity connect to an annotation
   if (isActivity(connection) && isAnnotation(target)) {
@@ -218,21 +181,15 @@ DomainStoryRules.$inject = ["eventBus"];
 
 DomainStoryRules.prototype.init = function () {
   /**
-   * can shape be created on target container?
+   * can a shape be created on target?
    */
   function canCreate(shape, target) {
-    // only judge about custom elements
-    if (!isDomainStory(shape)) {
-      return;
-    }
-
-    // allow creation just on groups
-    return !isDomainStory(target) || isDomainStoryGroup(target);
+    // allow creation on canvas ||  allow groups on everything || allow everything on groups
+    return isBackground(target) || isGroup(shape) || isGroup(target);
   }
 
   this.addRule("elements.create", function (context) {
     const elements = context.elements,
-      position = context.position,
       target = context.target;
 
     return every(elements, function (element) {
@@ -240,11 +197,7 @@ DomainStoryRules.prototype.init = function () {
         return canConnect(element.source, element.target, element);
       }
 
-      if (element.host) {
-        return canAttach(element, element.host, null, position);
-      }
-
-      return canCreate(element, target, null, position);
+      return canCreate(element, target);
     });
   });
 
@@ -252,24 +205,17 @@ DomainStoryRules.prototype.init = function () {
     let target = context.target,
       shapes = context.shapes;
 
-    let type;
-
-    // do not allow mixed movements of custom / diagram-js shapes
-    // if any shape cannot be moved, the group cannot be moved, too
-
-    // reject, if we have at least one
-    // custom element that cannot be moved
+    // The idea of this code is to make sure that if any of the selected shapes cannot be moved,
+    // then the whole selection cannot be moved. However, it actually only checks
+    // if the shape that is under the mouse cursor is over another shape.
+    // This is probably enough as a full detection over overlapping shapes might make it hard
+    // to move large selections
     return reduce(
       shapes,
       function (result, s) {
-        if (type === undefined) {
-          type = isDomainStory(s);
-        }
-
-        if (type !== isDomainStory(s) || result === false) {
+        if (result === false) {
           return false;
         }
-
         return canCreate(s, target);
       },
       undefined,
@@ -295,14 +241,11 @@ DomainStoryRules.prototype.init = function () {
       source = context.hover || context.source,
       target = context.target;
 
-    // --------------------------------------------------------------
     let result = canConnectToAnnotation(source, target, connection);
 
     if (!result) {
       return;
     }
-
-    // --------------------------------------------------------------
 
     return canConnect(source, target, connection);
   });
@@ -333,6 +276,4 @@ DomainStoryRules.prototype.init = function () {
 };
 
 DomainStoryRules.prototype.canConnect = canConnect;
-DomainStoryRules.prototype.canAttach = canAttach;
-DomainStoryRules.prototype.isDomainStory = isDomainStory;
 DomainStoryRules.prototype.canResize = canResize;

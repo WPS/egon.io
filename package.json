@@ -1,6 +1,6 @@
 {
   "name": "egon",
-  "version": "2.4.0 ",
+  "version": "3.0.0 ",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

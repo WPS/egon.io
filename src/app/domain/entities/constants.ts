@@ -21,9 +21,6 @@ export const SNACKBAR_SUCCESS = 'snackbar_success';
 export const SNACKBAR_ERROR = 'snackbar_error';
 export const SNACKBAR_INFO = 'snackbar_info';
 
-/** BPMN_RELEVANT_CONSTANTS **/
-export const IMPLICIT_ROOT_ID = '__implicitroot';
-
 /** COLOR PICKER DEFAULT COLORS **/
 export const YELLOW = '#FDD835';
 export const ORANGE = '#FB8C00';

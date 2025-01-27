@@ -644,11 +644,11 @@ export default function DomainStoryRenderer(
     let id = type + "-" + fill + "-" + stroke + "-" + rendererId;
 
     if (type === "activity") {
-      let sequenceflowEnd = svgCreate("path");
-      svgAttr(sequenceflowEnd, { d: "M 1 5 L 11 10 L 1 15 Z" });
+      let activityArrow = svgCreate("path");
+      svgAttr(activityArrow, { d: "M 1 5 L 11 10 L 1 15 Z" });
 
       addMarker(id, {
-        element: sequenceflowEnd,
+        element: activityArrow,
         ref: { x: 11, y: 10 },
         scale: 0.5,
         attrs: {
