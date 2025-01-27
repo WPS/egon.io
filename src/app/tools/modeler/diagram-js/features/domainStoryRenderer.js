@@ -104,9 +104,7 @@ export default function DomainStoryRenderer(
     };
   }
 
-  // render functions
-  // render label associated with actors and workobjects
-  function renderEmbeddedLabel(parentGfx, element, align, padding) {
+  function renderActorAndWorkObjectLabel(parentGfx, element, align, padding) {
     let businessObject = element.businessObject;
     return renderLabel(
       parentGfx,
@@ -123,8 +121,7 @@ export default function DomainStoryRenderer(
     );
   }
 
-  // render label associated with activities
-  function renderExternalLabel(parentGfx, element) {
+  function renderActivityLabel(parentGfx, element) {
     let semantic = element.businessObject;
     let waypoints = element.waypoints;
     let lines = countLines(semantic.name);
@@ -315,7 +312,7 @@ export default function DomainStoryRenderer(
         element.attrs,
       ),
     );
-    renderEmbeddedLabel(parentGfx, element, "left-top", 8);
+    renderActorAndWorkObjectLabel(parentGfx, element, "left-top", 8);
 
     return rect;
   };
@@ -389,7 +386,7 @@ export default function DomainStoryRenderer(
     svgAttr(actor, svgDynamicSizeAttributes);
     svgAppend(parent, actor);
 
-    renderEmbeddedLabel(parent, element, "center", -5);
+    renderActorAndWorkObjectLabel(parent, element, "center", -5);
     return actor;
   };
 
@@ -410,7 +407,7 @@ export default function DomainStoryRenderer(
 
     svgAttr(workObject, svgDynamicSizeAttributes);
     svgAppend(parent, workObject);
-    renderEmbeddedLabel(parent, element, "center", -5);
+    renderActorAndWorkObjectLabel(parent, element, "center", -5);
 
     return workObject;
   };
@@ -440,7 +437,7 @@ export default function DomainStoryRenderer(
       let attrs = useColorForActivity(element);
 
       let x = svgAppend(p, createLine(element.waypoints, attrs));
-      renderExternalLabel(p, element);
+      renderActivityLabel(p, element);
       renderExternalNumber(p, element);
 
       // just adjusting the start- and endpoint of the connection-element moves only the drawn connection,
