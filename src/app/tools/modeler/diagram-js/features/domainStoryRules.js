@@ -11,11 +11,7 @@ import { is } from "./util/util";
 const HIGH_PRIORITY = 1500;
 const MIN_SIZE = 125;
 
-function isDomainStory(element) {
-  return element && /^domainStory:/.test(element.type);
-}
-
-function isDomainStoryGroup(element) {
+function isGroup(element) {
   return element && /^domainStory:group/.test(element.type);
 }
 
@@ -63,17 +59,12 @@ function canStartConnection(element) {
  * can source and target be connected?
  */
 function canConnect(source, target) {
-  // never connect to background
-  if (isBackground(target)) {
+  // never connect to background; since the direction of the activity can get reversed during dragging, we also have to check if the source
+  if (isBackground(target) || isBackground(source)) {
     return false;
   }
 
-  // only judge about two custom elements
-  if (
-    isDomainStoryGroup(target) ||
-    !isDomainStory(source) ||
-    !isDomainStory(target)
-  ) {
+  if (isGroup(target)) {
     return false;
   }
 
@@ -190,21 +181,15 @@ DomainStoryRules.$inject = ["eventBus"];
 
 DomainStoryRules.prototype.init = function () {
   /**
-   * can shape be created on target container?
+   * can a shape be created on target container?
    */
   function canCreate(shape, target) {
-    // only judge about custom elements
-    if (!isDomainStory(shape)) {
-      return;
-    }
-
     // allow creation just on groups
-    return !isDomainStory(target) || isDomainStoryGroup(target);
+    return isBackground(target) || isGroup(target);
   }
 
   this.addRule("elements.create", function (context) {
     const elements = context.elements,
-      position = context.position,
       target = context.target;
 
     return every(elements, function (element) {
@@ -212,11 +197,7 @@ DomainStoryRules.prototype.init = function () {
         return canConnect(element.source, element.target, element);
       }
 
-      if (element.host) {
-        return canAttach(element, element.host, null, position);
-      }
-
-      return canCreate(element, target, null, position);
+      return canCreate(element, target);
     });
   });
 
@@ -224,24 +205,9 @@ DomainStoryRules.prototype.init = function () {
     let target = context.target,
       shapes = context.shapes;
 
-    let type;
-
-    // do not allow mixed movements of custom / diagram-js shapes
-    // if any shape cannot be moved, the group cannot be moved, too
-
-    // reject, if we have at least one
-    // custom element that cannot be moved
     return reduce(
       shapes,
       function (result, s) {
-        if (type === undefined) {
-          type = isDomainStory(s);
-        }
-
-        if (type !== isDomainStory(s) || result === false) {
-          return false;
-        }
-
         return canCreate(s, target);
       },
       undefined,
@@ -302,5 +268,4 @@ DomainStoryRules.prototype.init = function () {
 };
 
 DomainStoryRules.prototype.canConnect = canConnect;
-DomainStoryRules.prototype.isDomainStory = isDomainStory;
 DomainStoryRules.prototype.canResize = canResize;
