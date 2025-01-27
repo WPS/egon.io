@@ -249,7 +249,7 @@ describe("domainStory modeling", function () {
       expect(waypoint2.y).toEqual(157);
     }));
 
-    it("should remove deleted connection from _customElements", inject(function (
+    it("should remove deleted connection from _elements", inject(function (
       bpmnjs,
       elementRegistry,
       modeling,
