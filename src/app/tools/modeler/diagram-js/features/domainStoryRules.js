@@ -154,34 +154,6 @@ function canResize(shape, newBounds) {
   return false;
 }
 
-function canAttach(elements, target, source) {
-  if (!Array.isArray(elements)) {
-    elements = [elements];
-  }
-
-  // disallow appending as boundary event
-  if (source) {
-    return false;
-  }
-
-  // only (re-)attach one element at a time
-  if (elements.length !== 1) {
-    return false;
-  }
-
-  // allow default move operation
-  if (!target) {
-    return true;
-  }
-
-  // only allow drop on DomainStory Elements
-  if (!isDomainStory(target)) {
-    return false;
-  }
-
-  return "attach";
-}
-
 function canConnectToAnnotation(source, target, connection) {
   // do not allow an activity connect to an annotation
   if (isActivity(connection) && isAnnotation(target)) {
@@ -295,14 +267,11 @@ DomainStoryRules.prototype.init = function () {
       source = context.hover || context.source,
       target = context.target;
 
-    // --------------------------------------------------------------
     let result = canConnectToAnnotation(source, target, connection);
 
     if (!result) {
       return;
     }
-
-    // --------------------------------------------------------------
 
     return canConnect(source, target, connection);
   });
@@ -333,6 +302,5 @@ DomainStoryRules.prototype.init = function () {
 };
 
 DomainStoryRules.prototype.canConnect = canConnect;
-DomainStoryRules.prototype.canAttach = canAttach;
 DomainStoryRules.prototype.isDomainStory = isDomainStory;
 DomainStoryRules.prototype.canResize = canResize;
