@@ -316,7 +316,18 @@ Unfortunately, diagram-js comes with little documentation. We recommend reading 
 
 Some more useful information for working on the `modeler` tool:
 
-The *canvas* contains graphical *elements* of different *types* (*shape*, *label*, *connection*, possibly more). The graphical elements can contain *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in `elementTypes.ts`.
+The *canvas* contains graphical *elements* of different *types* (of which Egon only uses the ones mentioned in the table below). The graphical elements can contain *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in `elementTypes.ts`.
+
+| Domain Story Element Types | represented as diagram-js type |
+|----------------------------|--------------------------------|
+| Actor | shape |
+| Work Object | shape |
+| Group | shape |
+| Textannotation | shape |
+| Activity | connection |
+| Connection* | connection |
+
+*) This refers to the dashed line that connects annotations with actors, work objects, or groups.
 
 Element positions on the canvas work as shown in this diagram:
 
