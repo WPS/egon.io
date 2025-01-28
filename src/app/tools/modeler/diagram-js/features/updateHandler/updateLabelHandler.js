@@ -23,7 +23,7 @@ export default function UpdateLabelHandler(
   textRenderer,
   commandStack,
 ) {
-  commandStack.registerHandler("element.updateCustomLabel", handlerFunction);
+  commandStack.registerHandler("element.updateLabel", handlerFunction);
 
   function handlerFunction() {
     this.execute = function (ctx) {
