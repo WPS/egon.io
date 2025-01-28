@@ -158,7 +158,7 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
       "shape.resize",
       "shape.removeGroupWithChildren",
     ],
-    ifDomainStoryElement(updateElement),
+    updateElement,
   );
 
   this.reverted(
@@ -169,7 +169,7 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
       "shape.resize",
       "shape.removeGroupWithChildren",
     ],
-    ifDomainStoryElement(updateElement),
+    updateElement,
   );
 
   this.executed(
@@ -181,7 +181,7 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
       "connection.layout",
       "connection.move",
     ],
-    ifDomainStoryElement(updateConnection),
+    updateConnection,
   );
 
   this.reverted(
@@ -193,24 +193,8 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
       "connection.layout",
       "connection.move",
     ],
-    ifDomainStoryElement(updateConnection),
+    updateConnection,
   );
-}
-
-// check if element in the context of an event is a domainStory element
-function ifDomainStoryElement(fn) {
-  return (event) => {
-    const context = event.context;
-    const element = context.shape || context.connection;
-
-    if (isDomainStory(element)) {
-      fn(event);
-    }
-  };
-}
-
-function isDomainStory(element) {
-  return element && /domainStory:/.test(element.type);
 }
 
 inherits(DomainStoryUpdater, CommandInterceptor);

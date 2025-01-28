@@ -32,9 +32,6 @@ let RENDERER_IDS = new Ids();
 let numbers = [];
 const DEFAULT_COLOR = "#000000";
 
-/**
- * a renderer that knows how to render custom elements.
- */
 let _iconDictionaryService;
 let _elementRegistryService;
 let _dirtyFlagService;
