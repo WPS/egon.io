@@ -24,6 +24,7 @@ import KeyboardModule from "diagram-js/lib/features/keyboard";
 import EditorActionsModule from "diagram-js/lib/features/editor-actions";
 import SnappingModule from "diagram-js/lib/features/snapping";
 import AdditionalShortcuts from "./features/shortcuts";
+import minimapModule from "diagram-js-minimap";
 
 export default function DomainStoryModeler(options) {
   BaseViewer.call(this, options);
@@ -41,6 +42,7 @@ DomainStoryModeler.prototype._modules = [].concat(
   [MoveModule, Bendpoints, ConnectionPreview, CopyPasteModule, ConnectModule], // Move/Create/Alter Elements
   [KeyboardModule, EditorActionsModule, AdditionalShortcuts], // Shortcuts
   [SnappingModule], // Alignment
+  [minimapModule],
 );
 
 DomainStoryModeler.prototype._createElementFromBusinessObject = function (bo) {
