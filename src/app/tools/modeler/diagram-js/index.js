@@ -24,10 +24,11 @@ import KeyboardModule from "diagram-js/lib/features/keyboard";
 import EditorActionsModule from "diagram-js/lib/features/editor-actions";
 import SnappingModule from "diagram-js/lib/features/snapping";
 import AdditionalShortcuts from "./features/shortcuts";
+import minimapModule from "diagram-js-minimap";
 
 export default function DomainStoryModeler(options) {
   BaseViewer.call(this, options);
-  this._customElements = [];
+  this._elements = [];
   this._groupElements = [];
 }
 
@@ -41,116 +42,95 @@ DomainStoryModeler.prototype._modules = [].concat(
   [MoveModule, Bendpoints, ConnectionPreview, CopyPasteModule, ConnectModule], // Move/Create/Alter Elements
   [KeyboardModule, EditorActionsModule, AdditionalShortcuts], // Shortcuts
   [SnappingModule], // Alignment
+  [minimapModule],
 );
 
-/**
- * add a single custom element to the underlying diagram
- *
- * @param {Object} customElement
- */
-DomainStoryModeler.prototype._addCustomShape = function (customElement) {
-  let parentId = customElement.parent;
-  delete customElement.children;
-  delete customElement.parent;
-  this._customElements.push(customElement);
+DomainStoryModeler.prototype._createElementFromBusinessObject = function (bo) {
+  let parentId = bo.parent;
+  delete bo.children;
+  delete bo.parent;
+  this._elements.push(bo);
 
   let canvas = this.get("canvas"),
     elementFactory = this.get("elementFactory");
 
-  let customAttrs = assign({ businessObject: customElement }, customElement);
-  let customShape = elementFactory.create("shape", customAttrs);
+  let attributes = assign({ businessObject: bo }, bo);
+  let shape = elementFactory.create("shape", attributes);
 
-  if (isGroup(customElement)) {
-    this._groupElements[customElement.id] = customShape;
+  if (isOfTypeGroup(bo)) {
+    this._groupElements[bo.id] = shape;
   }
 
   if (parentId) {
     let parentShape = this._groupElements[parentId];
 
-    if (isGroup(parentShape)) {
-      return canvas.addShape(customShape, parentShape, parentShape.id);
+    if (isOfTypeGroup(parentShape)) {
+      return canvas.addShape(shape, parentShape, parentShape.id);
     }
   }
-  return canvas.addShape(customShape);
+  return canvas.addShape(shape);
 };
 
-DomainStoryModeler.prototype._addCustomConnection = function (customElement) {
-  this._customElements.push(customElement);
+DomainStoryModeler.prototype._addConnection = function (element) {
+  this._elements.push(element);
 
   let canvas = this.get("canvas"),
     elementFactory = this.get("elementFactory"),
     elementRegistry = this.get("elementRegistry");
 
-  let customAttrs = assign({ businessObject: customElement }, customElement);
+  let attributes = assign({ businessObject: element }, element);
 
   let connection = elementFactory.create(
     "connection",
-    assign(customAttrs, {
-      source: elementRegistry.get(customElement.source),
-      target: elementRegistry.get(customElement.target),
+    assign(attributes, {
+      source: elementRegistry.get(element.source),
+      target: elementRegistry.get(element.target),
     }),
-    elementRegistry.get(customElement.source).parent,
+    elementRegistry.get(element.source).parent,
   );
 
   return canvas.addConnection(connection);
 };
 
-//** We import BusinessObjects, not the whole Canvas Object!!!!!!!!
-DomainStoryModeler.prototype.importCustomElements = function (elements) {
+DomainStoryModeler.prototype.importBusinessObjects = function (
+  businessObjects,
+) {
   this.get("eventBus").fire("diagram.clear", {});
-  this._customElements = [];
+  this._elements = [];
   this._groupElements = [];
 
-  this.addCustomElements(elements);
-};
-
-/**
- * add a number of custom elements and connections to the underlying diagram.
- *
- * @param {Array<Object>} customElements
- */
-DomainStoryModeler.prototype.addCustomElements = function (customElements) {
-  if (!isArray(customElements)) {
+  if (!isArray(businessObjects)) {
     throw new Error("argument must be an array");
   }
 
-  let shapes = [],
-    connections = [],
-    groups = [];
+  let connections = [],
+    groups = [],
+    otherElementTypes = [];
 
-  customElements.forEach(function (customElement) {
-    if (isConnection(customElement)) {
-      connections.push(customElement);
-    } else if (isGroup(customElement)) {
-      groups.push(customElement);
+  businessObjects.forEach(function (bo) {
+    if (isOfTypeConnection(bo)) {
+      connections.push(bo);
+    } else if (isOfTypeGroup(bo)) {
+      groups.push(bo);
     } else {
-      shapes.push(customElement);
+      otherElementTypes.push(bo);
     }
   });
 
-  // add groups before shapes and shapes before connections so that connections
+  // add groups before shapes and other element types before connections so that connections
   // can already rely on the shapes being part of the diagram
-  groups.forEach(this._addCustomShape, this);
-  shapes.forEach(this._addCustomShape, this);
-  connections.forEach(this._addCustomConnection, this);
+  groups.forEach(this._createElementFromBusinessObject, this);
+  otherElementTypes.forEach(this._createElementFromBusinessObject, this);
+  connections.forEach(this._addConnection, this);
 };
 
-/**
- * get custom elements with their current status.
- *
- * @return {Array<Object>} custom elements on the diagram
- */
-DomainStoryModeler.prototype.getCustomElements = function () {
-  return this._customElements;
-};
-
-function isConnection(element) {
+function isOfTypeConnection(element) {
   return (
     element.type === ElementTypes.ACTIVITY ||
     element.type === ElementTypes.CONNECTION
   );
 }
 
-function isGroup(element) {
+function isOfTypeGroup(element) {
   return element && element.type === ElementTypes.GROUP;
 }

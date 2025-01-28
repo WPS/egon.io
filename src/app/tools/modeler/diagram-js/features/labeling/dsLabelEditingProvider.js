@@ -53,7 +53,7 @@ export default function DSLabelEditingProvider(
 
   // listen to dblclick on non-root elements
   eventBus.on("element.dblclick", function (event) {
-    activateDirectEdit(event.element, true);
+    activateDirectEdit(event.element);
     if (is(event.element, ElementTypes.ACTIVITY)) {
       // if we edit an activity, we do not want the standard editing box
       numberStash = event.element.businessObject.number;
@@ -93,12 +93,7 @@ export default function DSLabelEditingProvider(
 
   eventBus.on("create.end", 500, function (event) {
     let element = event.shape,
-      canExecute = event.context.canExecute,
-      isTouch = event.isTouch;
-
-    if (isTouch) {
-      return;
-    }
+      canExecute = event.context.canExecute;
 
     if (!canExecute) {
       return;
@@ -116,13 +111,8 @@ export default function DSLabelEditingProvider(
     activateDirectEdit(event.shape);
   });
 
-  function activateDirectEdit(element, force) {
-    if (
-      force ||
-      element.businessObject.type.includes(ElementTypes.DOMAINSTORY)
-    ) {
-      directEditing.activate(element);
-    }
+  function activateDirectEdit(element) {
+    directEditing.activate(element);
   }
 
   function createAutocomplete(element) {

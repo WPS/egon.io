@@ -143,7 +143,7 @@ export class ModelerService {
         .filter((bo) => bo.number !== null),
     );
     if (currentStory && this.modeler.get) {
-      this.modeler.importCustomElements(currentStory);
+      this.modeler.importBusinessObjects(currentStory);
     }
   }
 

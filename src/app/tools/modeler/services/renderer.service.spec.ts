@@ -68,7 +68,7 @@ describe('RendererService', () => {
   describe('renderStory', () => {
     beforeEach(() => {
       modelerServiceSpy.getModeler.and.returnValue({
-        importCustomElements: (story: any) => {},
+        importBusinessObjects: (story: any) => {},
       });
     });
 
@@ -87,7 +87,7 @@ describe('RendererService', () => {
 
     beforeEach(() => {
       modelerServiceSpy.getModeler.and.returnValue({
-        importCustomElements: (story: any) => {},
+        importBusinessObjects: (story: any) => {},
       });
       modelerServiceSpy.restart.and.returnValue();
       elementRegistryServiceSpy.correctInitialize.and.returnValue();

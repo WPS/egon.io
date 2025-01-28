@@ -16,7 +16,7 @@ export class RendererService {
   ) {}
 
   renderStory(domainStory: BusinessObject[]): void {
-    this.modelerService.getModeler().importCustomElements(domainStory);
+    this.modelerService.getModeler().importBusinessObjects(domainStory);
   }
 
   reset(): void {

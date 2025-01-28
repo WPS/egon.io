@@ -15,35 +15,34 @@ import { reworkGroupElements } from "./util/util";
 import { ElementTypes } from "../../../../domain/entities/elementTypes";
 
 /**
- * a handler responsible for updating the custom element's businessObject
+ * a handler responsible for updating the element's businessObject
  * once changes on the diagram happen.
  */
 export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
   CommandInterceptor.call(this, eventBus);
 
-  function updateCustomElement(e) {
+  function updateElement(e) {
     let context = e.context,
-      shape = context.shape,
-      businessObject = shape.businessObject;
+      shape = context.shape;
 
-    if (!shape || !shape.type.includes(ElementTypes.DOMAINSTORY)) {
+    if (!shape) {
       return;
     }
-
+    let businessObject = shape.businessObject;
     let parent = shape.parent;
-    let customElements = egon._customElements;
+    let elements = egon._elements;
 
-    // make sure element is added / removed from egon.customElements
+    // make sure element is added / removed from egon._elements
     if (!parent) {
-      collectionRemove(customElements, businessObject);
+      collectionRemove(elements, businessObject);
     } else {
-      collectionAdd(customElements, businessObject);
+      collectionAdd(elements, businessObject);
     }
 
-    // save custom element position
+    // save element position
     assign(businessObject, pick(shape, ["x", "y"]));
 
-    // save custom element size if resizable
+    // save element size if resizable
     if (shape.type === ElementTypes.GROUP) {
       assign(businessObject, pick(shape, ["height", "width"]));
 
@@ -65,7 +64,7 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
     }
   }
 
-  function updateCustomConnection(e) {
+  function updateConnection(e) {
     let context = e.context,
       connection = context.connection,
       source = connection.source,
@@ -80,13 +79,13 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
     }
 
     let parent = connection.parent;
-    let customElements = egon._customElements;
+    let elements = egon._elements;
 
-    // make sure element is added / removed from egon.customElements
+    // make sure element is added / removed from egon._elements
     if (!parent) {
-      collectionRemove(customElements, businessObject);
+      collectionRemove(elements, businessObject);
     } else {
-      collectionAdd(customElements, businessObject);
+      collectionAdd(elements, businessObject);
     }
 
     // update waypoints
@@ -143,7 +142,7 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
     }
   }
 
-  // cropping must be done before updateCustomElement
+  // cropping must be done before updateElement
   // do not change the order of these .executed calls
   this.executed(["connection.layout", "connection.create"], cropConnection);
 
@@ -159,7 +158,7 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
       "shape.resize",
       "shape.removeGroupWithChildren",
     ],
-    ifDomainStoryElement(updateCustomElement),
+    ifDomainStoryElement(updateElement),
   );
 
   this.reverted(
@@ -170,7 +169,7 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
       "shape.resize",
       "shape.removeGroupWithChildren",
     ],
-    ifDomainStoryElement(updateCustomElement),
+    ifDomainStoryElement(updateElement),
   );
 
   this.executed(
@@ -182,7 +181,7 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
       "connection.layout",
       "connection.move",
     ],
-    ifDomainStoryElement(updateCustomConnection),
+    ifDomainStoryElement(updateConnection),
   );
 
   this.reverted(
@@ -194,7 +193,7 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
       "connection.layout",
       "connection.move",
     ],
-    ifDomainStoryElement(updateCustomConnection),
+    ifDomainStoryElement(updateConnection),
   );
 }
 
