@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { RendererService } from './renderer.service';
 import { ModelerService } from './modeler.service';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
-import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { IconSet } from '../../../domain/entities/iconSet';
@@ -28,10 +27,6 @@ describe('RendererService', () => {
     const dirtyFlagServiceMock = jasmine.createSpyObj('DirtyFlagService', [
       'makeClean',
     ]);
-    const iconSetConfigurationServiceMock = jasmine.createSpyObj(
-      IconSetImportExportService.name,
-      ['getNewIconConfiguration'],
-    );
 
     TestBed.configureTestingModule({
       providers: [

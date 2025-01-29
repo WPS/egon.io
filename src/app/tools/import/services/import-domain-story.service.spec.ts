@@ -9,11 +9,7 @@ import { TitleService } from '../../title/services/title.service';
 import { RendererService } from '../../modeler/services/renderer.service';
 import { MockService } from 'ng-mocks';
 import { DialogService } from '../../../domain/services/dialog.service';
-import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
-import { Dictionary } from '../../../domain/entities/dictionary';
-import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IconSet } from '../../../domain/entities/iconSet';
 
 describe('ImportDomainStoryService', () => {
   let service: ImportDomainStoryService;
