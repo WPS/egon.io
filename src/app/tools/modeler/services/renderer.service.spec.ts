@@ -96,8 +96,8 @@ describe('RendererService', () => {
       dirtyFlagServiceSpy.makeClean.and.returnValue();
     });
 
-    it('should call correct functions - configHasChanged and makeClean', () => {
-      service.importStory([], true, iconSetConfig);
+    it('should call correct functions - makeClean', () => {
+      service.importStory([], iconSetConfig);
 
       expect(modelerServiceSpy.restart).toHaveBeenCalled();
       expect(elementRegistryServiceSpy.correctInitialize).toHaveBeenCalledTimes(
@@ -108,8 +108,8 @@ describe('RendererService', () => {
       expect(dirtyFlagServiceSpy.makeClean).toHaveBeenCalled();
     });
 
-    it('should call correct functions - configHasChanged and not makeClean', () => {
-      service.importStory([], true, iconSetConfig, false);
+    it('should call correct functions - not makeClean', () => {
+      service.importStory([], iconSetConfig, false);
 
       expect(modelerServiceSpy.restart).toHaveBeenCalled();
       expect(elementRegistryServiceSpy.correctInitialize).toHaveBeenCalledTimes(
@@ -120,8 +120,8 @@ describe('RendererService', () => {
       expect(dirtyFlagServiceSpy.makeClean).toHaveBeenCalledTimes(0);
     });
 
-    it('should call correct functions - not configHasChanged and makeClean', () => {
-      service.importStory([], false);
+    it('should call correct functions - makeClean', () => {
+      service.importStory([]);
 
       expect(modelerServiceSpy.getModeler).toHaveBeenCalled();
       expect(modelerServiceSpy.restart).toHaveBeenCalledTimes(1);

@@ -26,7 +26,6 @@ export class RendererService {
 
   importStory(
     domainStory: BusinessObject[],
-    configurationChange: boolean,
     config?: IconSet,
     makeClean = true,
   ): void {

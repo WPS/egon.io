@@ -74,7 +74,7 @@ export class AutosaveService {
       workObjectIcons,
       config,
     );
-    this.rendererService.importStory(story, true, config, false);
+    this.rendererService.importStory(story, config, false);
   }
 
   removeAllDrafts() {

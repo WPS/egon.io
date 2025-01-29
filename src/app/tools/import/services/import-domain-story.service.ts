@@ -296,8 +296,6 @@ export class ImportDomainStoryService
       this.importRepairService.removeWhitespacesFromIcons(elements);
       this.importRepairService.removeUnnecessaryBpmnProperties(elements);
 
-      const configChanged = this.checkConfigForChanges(iconSetConfig);
-
       let lastElement = elements[elements.length - 1];
       if (!lastElement.id) {
         lastElement = elements.pop();
@@ -333,7 +331,7 @@ export class ImportDomainStoryService
       );
 
       this.updateIconRegistries(elements, iconSetConfig);
-      this.rendererService.importStory(elements, configChanged, iconSetConfig);
+      this.rendererService.importStory(elements, iconSetConfig);
     }
   }
 
@@ -385,53 +383,6 @@ export class ImportDomainStoryService
     xmlText = xmlText.replace('<DST>', '');
     xmlText = xmlText.replace('</DST>', '');
     return xmlText;
-  }
-
-  checkConfigForChanges(iconSetConfiguration: IconSet): boolean {
-    const newActorKeys = iconSetConfiguration.actors.keysArray();
-    const newWorkObjectKeys = iconSetConfiguration.workObjects.keysArray();
-
-    const currentActorKeys =
-      this.iconDictionaryService.getNamesOfIconsAssignedAs(ElementTypes.ACTOR);
-    const currentWorkobjectKeys =
-      this.iconDictionaryService.getNamesOfIconsAssignedAs(
-        ElementTypes.WORKOBJECT,
-      );
-
-    let changed = false;
-
-    if (
-      newActorKeys.length !== currentActorKeys.length ||
-      newWorkObjectKeys.length !== currentWorkobjectKeys.length
-    ) {
-      return true;
-    }
-
-    for (let i = 0; i < newActorKeys.length; i++) {
-      changed =
-        this.clearName(currentActorKeys[i]) !== this.clearName(newActorKeys[i]);
-      if (changed) {
-        i = newActorKeys.length;
-      }
-    }
-    if (changed) {
-      return changed;
-    }
-    for (let i = 0; i < newWorkObjectKeys.length; i++) {
-      changed =
-        this.clearName(currentWorkobjectKeys[i]) !==
-        this.clearName(newWorkObjectKeys[i]);
-      if (changed) {
-        i = newWorkObjectKeys.length;
-      }
-    }
-    return changed;
-  }
-
-  private clearName(name: string): string {
-    return name
-      .replace(ElementTypes.ACTOR, '')
-      .replace(ElementTypes.WORKOBJECT, '');
   }
 
   private updateIconRegistries(
