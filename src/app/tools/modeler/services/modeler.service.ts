@@ -4,7 +4,7 @@ import DomainStoryModeler from 'src/app/tools/modeler/diagram-js';
 import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
-import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
+import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { BusinessObject } from '../../../domain/entities/businessObject';
 import { ActivityBusinessObject } from '../../../domain/entities/activityBusinessObject';
 import { updateMultipleNumberRegistry } from 'src/app/tools/modeler/diagram-js/features/numbering/numbering';
@@ -26,7 +26,7 @@ export class ModelerService {
     private initializerService: InitializerService,
     private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService,
-    private iconSetConfigurationService: IconSetConfigurationService,
+    private iconSetConfigurationService: IconSetImportExportService,
     private storageService: StorageService,
     private snackbar: MatSnackBar,
   ) {}

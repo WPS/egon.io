@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IconSetConfigurationComponent } from 'src/app/tools/icon-set-config/presentation/icon-set-configuration/icon-set-configuration.component';
 import { MockModule, MockProvider, MockProviders } from 'ng-mocks';
-import { IconSetConfigurationService } from '../../services/icon-set-configuration.service';
+import { IconSetImportExportService } from '../../services/icon-set-import-export.service';
 import { IconDictionaryService } from '../../services/icon-dictionary.service';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 import { BehaviorSubject } from 'rxjs';
@@ -27,7 +27,7 @@ describe(IconSetConfigurationComponent.name, () => {
       imports: [MockModule(MaterialModule)],
       declarations: [IconSetConfigurationComponent, IconSetDetailsComponent],
       providers: [
-        MockProviders(IconSetConfigurationService),
+        MockProviders(IconSetImportExportService),
         MockProvider(IconDictionaryService, {
           getFullDictionary(): Dictionary {
             return new Dictionary();

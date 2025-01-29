@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { IconSetConfigurationService } from 'src/app/tools/icon-set-config/services/icon-set-configuration.service';
+import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { sanitizeForDesktop } from 'src/app/utils/sanitizer';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ConfigAndDST } from 'src/app/tools/export/domain/export/configAndDst';
@@ -37,7 +37,7 @@ export class ExportService implements OnDestroy {
   description = '';
 
   constructor(
-    private configurationService: IconSetConfigurationService,
+    private importExportService: IconSetImportExportService,
     private titleService: TitleService,
     private dirtyFlagService: DirtyFlagService,
     private pngService: PngService,
@@ -71,7 +71,7 @@ export class ExportService implements OnDestroy {
 
   createConfigAndDST(DomainStory: any): ConfigAndDST {
     return new ConfigAndDST(
-      this.configurationService.getCurrentConfigurationForExport(),
+      this.importExportService.getCurrentConfigurationForExport(),
       DomainStory,
     );
   }

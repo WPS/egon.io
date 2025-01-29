@@ -24,7 +24,7 @@ export interface FileConfiguration {
 @Injectable({
   providedIn: 'root',
 })
-export class IconSetConfigurationService {
+export class IconSetImportExportService {
   private iconSetNameSubject = new BehaviorSubject<string>(
     INITIAL_ICON_SET_NAME,
   );

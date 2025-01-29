@@ -19,7 +19,7 @@ import {
   SNACKBAR_INFO,
   SNACKBAR_SUCCESS,
 } from '../../../domain/entities/constants';
-import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
+import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetChangedService } from '../../icon-set-config/services/icon-set-customization.service';
@@ -48,7 +48,7 @@ export class ImportDomainStoryService
     private titleService: TitleService,
     private rendererService: RendererService,
     private dialogService: DialogService,
-    private iconSetConfigurationService: IconSetConfigurationService,
+    private iconSetConfigurationService: IconSetImportExportService,
     private modelerService: ModelerService,
     private snackbar: MatSnackBar,
   ) {

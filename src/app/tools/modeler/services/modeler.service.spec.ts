@@ -4,7 +4,7 @@ import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
-import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
+import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { createTestCanvasObjects } from '../../../utils/testHelpers.spec';
 import { BusinessObject } from '../../../domain/entities/businessObject';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
@@ -18,7 +18,7 @@ describe('ModelerService', () => {
 
   let elementRegistrySpy: jasmine.SpyObj<ElementRegistryService>;
   let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
-  let iconSetConfigurationSpy: jasmine.SpyObj<IconSetConfigurationService>;
+  let iconSetConfigurationSpy: jasmine.SpyObj<IconSetImportExportService>;
   let initializerSpy: jasmine.SpyObj<InitializerService>;
 
   let testDomainStory: BusinessObject[] = createTestCanvasObjects(1).map(
@@ -47,7 +47,7 @@ describe('ModelerService', () => {
       ['setCustomConfiguration', 'createIconConfiguration'],
     );
     const iconSetConfigurationMock = jasmine.createSpyObj(
-      IconSetConfigurationService.name,
+      IconSetImportExportService.name,
       [
         'loadConfiguration',
         'getStoredIconSetConfiguration',
@@ -76,7 +76,7 @@ describe('ModelerService', () => {
           useValue: iconDictionaryMock,
         },
         {
-          provide: IconSetConfigurationService,
+          provide: IconSetImportExportService,
           useValue: iconSetConfigurationMock,
         },
       ],
@@ -93,8 +93,8 @@ describe('ModelerService', () => {
       IconDictionaryService,
     ) as jasmine.SpyObj<IconDictionaryService>;
     iconSetConfigurationSpy = TestBed.inject(
-      IconSetConfigurationService,
-    ) as jasmine.SpyObj<IconSetConfigurationService>;
+      IconSetImportExportService,
+    ) as jasmine.SpyObj<IconSetImportExportService>;
     initializerSpy = TestBed.inject(
       InitializerService,
     ) as jasmine.SpyObj<InitializerService>;

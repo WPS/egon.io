@@ -17,7 +17,7 @@ import {
   SNACKBAR_INFO,
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
+import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +34,7 @@ export class AutosaveService {
     private snackbar: MatSnackBar,
     private storageService: StorageService,
     private titleService: TitleService,
-    private iconSetConfigurationService: IconSetConfigurationService,
+    private iconSetConfigurationService: IconSetImportExportService,
   ) {
     this.autosaveConfiguration.configuration$.subscribe((configuration) =>
       this.updateConfiguration(configuration),

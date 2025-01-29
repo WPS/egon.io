@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { AutosaveService } from './autosave.service';
 import { MockProviders } from 'ng-mocks';
 import { RendererService } from '../../modeler/services/renderer.service';
-import { IconSetConfigurationService } from '../../icon-set-config/services/icon-set-configuration.service';
+import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { ExportService } from '../../export/services/export.service';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { Draft } from '../domain/draft';
@@ -19,7 +19,7 @@ describe('AutosaveService', () => {
   let rendererServiceSpy: jasmine.SpyObj<RendererService>;
   let autosaveStateSpy: jasmine.SpyObj<AutosaveConfigurationService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let iconSetConfigurationService: jasmine.SpyObj<IconSetConfigurationService>;
+  let iconSetConfigurationService: jasmine.SpyObj<IconSetImportExportService>;
 
   beforeEach(() => {
     const renderServiceMock = jasmine.createSpyObj(RendererService.name, [
@@ -36,7 +36,7 @@ describe('AutosaveService', () => {
       'set',
     ]);
     const iconSetConfigurationServiceMock = jasmine.createSpyObj(
-      IconSetConfigurationService.name,
+      IconSetImportExportService.name,
       ['createIconSetConfiguration'],
     );
 
@@ -55,7 +55,7 @@ describe('AutosaveService', () => {
           useValue: storageServiceMock,
         },
         {
-          priovide: IconSetConfigurationService,
+          priovide: IconSetImportExportService,
           useValue: iconSetConfigurationServiceMock,
         },
         MockProviders(ExportService, MatSnackBar),
@@ -71,8 +71,8 @@ describe('AutosaveService', () => {
       StorageService,
     ) as jasmine.SpyObj<StorageService>;
     iconSetConfigurationService = TestBed.inject(
-      IconSetConfigurationService,
-    ) as jasmine.SpyObj<IconSetConfigurationService>;
+      IconSetImportExportService,
+    ) as jasmine.SpyObj<IconSetImportExportService>;
 
     service = TestBed.inject(AutosaveService);
   });

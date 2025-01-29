@@ -15,7 +15,7 @@ import { AppComponent } from 'src/app/app.component';
 import { ImportDomainStoryService } from 'src/app/tools/import/services/import-domain-story.service';
 import { LabelDictionaryService } from 'src/app/tools/label-dictionary/services/label-dictionary.service';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
-import { IconSetConfigurationService } from 'src/app/tools/icon-set-config/services/icon-set-configuration.service';
+import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { UntypedFormBuilder } from '@angular/forms';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { AutosaveService } from './tools/autosave/services/autosave.service';
@@ -72,7 +72,7 @@ import { DragDirective } from './tools/import/directive/dragDrop.directive';
       deps: [
         DirtyFlagService,
         IconDictionaryService,
-        IconSetConfigurationService,
+        IconSetImportExportService,
         ElementRegistryService,
         LabelDictionaryService,
       ],
@@ -98,7 +98,7 @@ export class AppModule implements DoBootstrap {
 function initialize(
   dirtyFlagService: DirtyFlagService,
   iconDictionaryService: IconDictionaryService,
-  configurationService: IconSetConfigurationService,
+  importExportService: IconSetImportExportService,
   elementRegistryService: ElementRegistryService,
   labelDictionaryService: LabelDictionaryService,
 ) {

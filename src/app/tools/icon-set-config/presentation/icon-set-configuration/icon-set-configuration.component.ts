@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
-import { IconSetConfigurationService } from 'src/app/tools/icon-set-config/services/icon-set-configuration.service';
+import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import {
   ICON_PREFIX,
   IconDictionaryService,
@@ -31,7 +31,7 @@ export class IconSetConfigurationComponent implements OnInit {
   allFilteredIconNames = new BehaviorSubject<string[]>([]);
 
   constructor(
-    private iconSetConfigurationService: IconSetConfigurationService,
+    private iconSetConfigurationService: IconSetImportExportService,
     private iconDictionaryService: IconDictionaryService,
     private iconSetCustomizationService: IconSetCustomizationService,
     private elementRegistryService: ElementRegistryService,

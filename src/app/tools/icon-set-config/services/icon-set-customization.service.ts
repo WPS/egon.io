@@ -13,7 +13,7 @@ import {
 import { Dictionary } from '../../../domain/entities/dictionary';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { IconListItem } from '../domain/iconListItem';
-import { IconSetConfigurationService } from './icon-set-configuration.service';
+import { IconSetImportExportService } from './icon-set-import-export.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
@@ -42,7 +42,7 @@ export class IconSetCustomizationService {
   private changedIconSetConfiguration: IconSet | undefined;
 
   constructor(
-    private iconSetConfigurationService: IconSetConfigurationService,
+    private iconSetConfigurationService: IconSetImportExportService,
     private iconDictionaryService: IconDictionaryService,
     iconSetChangedService: IconSetChangedService,
     private elementRegistryService: ElementRegistryService,
