@@ -168,9 +168,6 @@ function canConnectToAnnotation(source, target, connection) {
   );
 }
 
-/**
- * specific rules for custom elements
- */
 export default function DomainStoryRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }

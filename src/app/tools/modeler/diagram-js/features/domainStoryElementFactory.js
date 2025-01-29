@@ -9,82 +9,68 @@ import BaseElementFactory from "diagram-js/lib/core/ElementFactory";
 import DomainStoryIdFactory from "./domainStoryIdFactory";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 
-const DEFAULT_LABEL_SIZE = {
-  width: 90,
-  height: 20,
-};
-
 export default function DomainStoryElementFactory() {
   let self = this;
   let domainStoryIdFactory = new DomainStoryIdFactory();
 
   /**
-   * create a diagram-js element with the given type (any of shape, connection, label).
+   * create a diagram-js element
    *
-   * @param  {String} elementType
+   * @param  {String} djsElementType
    * @param  {Object} attrs
    *
    * @return {djs.model.Base}
    */
-  this.create = function (elementType, attrs) {
-    let type = attrs.type;
+  this.create = function (djsElementType, attrs) {
+    let dstElementType = attrs.type;
 
-    if (elementType === "label") {
-      return self.baseCreate(
-        elementType,
-        assign({ type: "label" }, DEFAULT_LABEL_SIZE, attrs),
-      );
+    if (!attrs.businessObject) {
+      attrs.businessObject = {
+        type: dstElementType,
+        name: attrs.name ? attrs.name : "",
+      };
     }
 
-    // add type to businessObject if custom
-    if (/^domainStory:/.test(type)) {
-      if (!attrs.businessObject) {
-        attrs.businessObject = {
-          type: type,
-          name: attrs.name ? attrs.name : "",
-        };
-      }
+    if (attrs.id) {
+      domainStoryIdFactory.registerId(attrs.id);
+    } else {
+      attrs.id = domainStoryIdFactory.getId(djsElementType);
+    }
+    assign(attrs.businessObject, {
+      id: attrs.id,
+    });
 
-      if (attrs.id) {
-        domainStoryIdFactory.registerId(attrs.id);
-      } else {
-        attrs.id = domainStoryIdFactory.getId(elementType);
+    let id = attrs.id;
+    attrs.businessObject.get = function (key) {
+      if (key === "id") {
+        return id;
       }
-      assign(attrs.businessObject, {
-        id: attrs.id,
+    };
+    attrs.businessObject.set = function (key, value) {
+      if (key === "id") {
+        assign(attrs.businessObject, { id: value });
+      }
+    };
+
+    // add width and height if shape
+    if (djsElementType === "shape") {
+      let alreadyHasSize = attrs.height || attrs.width; // if a story is imported, groups and annotations already have dimensions; we must not overwrite them with default values
+
+      if (!alreadyHasSize) {
+        assign(attrs, self._getShapeSize(dstElementType));
+      }
+    }
+
+    if (!("$instanceOf" in attrs.businessObject)) {
+      // ensure we can use ModelUtil#is for type checks
+      Object.defineProperty(attrs.businessObject, "$instanceOf", {
+        value: function (type) {
+          return this.type === type;
+        },
       });
-
-      let id = attrs.id;
-      attrs.businessObject.get = function (key) {
-        if (key === "id") {
-          return id;
-        }
-      };
-      attrs.businessObject.set = function (key, value) {
-        if (key === "id") {
-          assign(attrs.businessObject, { id: value });
-        }
-      };
-
-      // add width and height if shape
-      if (
-        (!/:activity$/.test(type) || !/:connection$/.test(type)) &&
-        !((/:group$/.test(type) && attrs.height) || attrs.width)
-      ) {
-        assign(attrs, self._getCustomElementSize(type));
-      }
-
-      if (!("$instanceOf" in attrs.businessObject)) {
-        // ensure we can use ModelUtil#is for type checks
-        Object.defineProperty(attrs.businessObject, "$instanceOf", {
-          value: function (type) {
-            return this.type === type;
-          },
-        });
-      }
-
-      return self.baseCreate(elementType, attrs);
     }
+
+    return self.baseCreate(djsElementType, attrs);
   };
 }
 
@@ -94,20 +80,20 @@ DomainStoryElementFactory.prototype.baseCreate =
   BaseElementFactory.prototype.create;
 
 /**
- * returns the default size of custom shapes.
+ * returns the default size for shapes.
  * *
- * @param {String} type
+ * @param {String} dstElementType
  *
  * @return {Dimensions} a {width, height} object representing the size of the element
  */
-DomainStoryElementFactory.prototype._getCustomElementSize = function (type) {
+DomainStoryElementFactory.prototype._getShapeSize = function (dstElementType) {
   let shapes = {
     __default: { width: 75, height: 75 },
     [ElementTypes.TEXTANNOTATION]: { width: 100, height: 30 },
     [ElementTypes.GROUP]: { width: 300, height: 200 },
   };
 
-  return shapes[type] || shapes.__default;
+  return shapes[dstElementType] || shapes.__default;
 };
 
 class Dimensions {

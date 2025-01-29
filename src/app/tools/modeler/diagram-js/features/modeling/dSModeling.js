@@ -19,19 +19,11 @@ Modeling.prototype.updateLabel = function (element, newLabel, newBounds) {
       ? newLabel !== element.businessObject.name
       : newLabel !== element.name
   ) {
-    if (/^domainStory:/.test(element.type)) {
-      this._commandStack.execute("element.updateCustomLabel", {
-        element: element,
-        newLabel: newLabel,
-        newBounds: newBounds,
-      });
-    } else {
-      this._commandStack.execute("element.updateLabel", {
-        element: element,
-        newLabel: newLabel,
-        newBounds: newBounds,
-      });
-    }
+    this._commandStack.execute("element.updateLabel", {
+      element: element,
+      newLabel: newLabel,
+      newBounds: newBounds,
+    });
   }
 };
 
@@ -41,19 +33,11 @@ Modeling.prototype.updateNumber = function (element, newNumber, newBounds) {
       ? newNumber !== element.businessObject.number
       : newNumber !== element.number
   ) {
-    if (/^domainStory:/.test(element.type)) {
-      this._commandStack.execute("element.updateCustomLabel", {
-        element: element,
-        newNumber: newNumber,
-        newBounds: newBounds,
-      });
-    } else {
-      this._commandStack.execute("element.updateLabel", {
-        element: element,
-        newNumber: newNumber,
-        newBounds: newBounds,
-      });
-    }
+    this._commandStack.execute("element.updateLabel", {
+      element: element,
+      newNumber: newNumber,
+      newBounds: newBounds,
+    });
   }
 };
 
