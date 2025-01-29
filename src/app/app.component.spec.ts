@@ -42,7 +42,6 @@ describe('AppComponent', () => {
 
   it('should load latest draft', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
     fixture.detectChanges();
     expect(autosaveService.loadLatestDraft).toHaveBeenCalled();
   });
