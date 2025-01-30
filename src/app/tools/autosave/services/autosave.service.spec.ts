@@ -19,7 +19,7 @@ describe('AutosaveService', () => {
   let rendererServiceSpy: jasmine.SpyObj<RendererService>;
   let autosaveStateSpy: jasmine.SpyObj<AutosaveConfigurationService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let iconSetConfigurationService: jasmine.SpyObj<IconSetImportExportService>;
+  let iconSetImportExportService: jasmine.SpyObj<IconSetImportExportService>;
 
   beforeEach(() => {
     const renderServiceMock = jasmine.createSpyObj(RendererService.name, [
@@ -35,7 +35,7 @@ describe('AutosaveService', () => {
       'get',
       'set',
     ]);
-    const iconSetConfigurationServiceMock = jasmine.createSpyObj(
+    const iconSetImportExportServiceMock = jasmine.createSpyObj(
       IconSetImportExportService.name,
       ['createIconSetConfiguration'],
     );
@@ -56,7 +56,7 @@ describe('AutosaveService', () => {
         },
         {
           priovide: IconSetImportExportService,
-          useValue: iconSetConfigurationServiceMock,
+          useValue: iconSetImportExportServiceMock,
         },
         MockProviders(ExportService, MatSnackBar),
       ],
@@ -70,7 +70,7 @@ describe('AutosaveService', () => {
     storageServiceSpy = TestBed.inject(
       StorageService,
     ) as jasmine.SpyObj<StorageService>;
-    iconSetConfigurationService = TestBed.inject(
+    iconSetImportExportService = TestBed.inject(
       IconSetImportExportService,
     ) as jasmine.SpyObj<IconSetImportExportService>;
 

@@ -26,7 +26,7 @@ export class ModelerService {
     private initializerService: InitializerService,
     private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService,
-    private iconSetConfigurationService: IconSetImportExportService,
+    private iconSetImportExportService: IconSetImportExportService,
     private storageService: StorageService,
     private snackbar: MatSnackBar,
   ) {}
@@ -41,12 +41,12 @@ export class ModelerService {
     this.checkCurrentVersion();
 
     const storedIconSetConfiguration =
-      this.iconSetConfigurationService.getStoredIconSetConfiguration();
+      this.iconSetImportExportService.getStoredIconSetConfiguration();
     if (storedIconSetConfiguration) {
       this.iconDictionaryService.setCustomConfiguration(
         storedIconSetConfiguration,
       );
-      this.iconSetConfigurationService.loadConfiguration(
+      this.iconSetImportExportService.loadConfiguration(
         storedIconSetConfiguration,
       );
     }
@@ -123,14 +123,14 @@ export class ModelerService {
             .map((e) => e.businessObject);
     if (!iconSetConfiguration) {
       iconSetConfiguration =
-        this.iconSetConfigurationService.getStoredIconSetConfiguration();
+        this.iconSetImportExportService.getStoredIconSetConfiguration();
     }
     if (iconSetConfiguration) {
-      this.iconSetConfigurationService.setStoredIconSetConfiguration(
+      this.iconSetImportExportService.setStoredIconSetConfiguration(
         iconSetConfiguration,
       );
       this.iconDictionaryService.setCustomConfiguration(iconSetConfiguration);
-      this.iconSetConfigurationService.loadConfiguration(iconSetConfiguration);
+      this.iconSetImportExportService.loadConfiguration(iconSetConfiguration);
     }
 
     this.elementRegistryService.clear();

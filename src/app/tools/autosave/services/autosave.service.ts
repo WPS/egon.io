@@ -34,7 +34,7 @@ export class AutosaveService {
     private snackbar: MatSnackBar,
     private storageService: StorageService,
     private titleService: TitleService,
-    private iconSetConfigurationService: IconSetImportExportService,
+    private iconSetImportExportService: IconSetImportExportService,
   ) {
     this.autosaveConfiguration.configuration$.subscribe((configuration) =>
       this.updateConfiguration(configuration),
@@ -50,7 +50,7 @@ export class AutosaveService {
   loadDraft(draft: Draft): void {
     const configFromFile = draft.configAndDST.domain;
     const config =
-      this.iconSetConfigurationService.createIconSetConfiguration(
+      this.iconSetImportExportService.createIconSetConfiguration(
         configFromFile,
       );
     const story = JSON.parse(draft.configAndDST.dst);

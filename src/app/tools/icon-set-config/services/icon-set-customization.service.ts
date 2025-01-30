@@ -42,14 +42,14 @@ export class IconSetCustomizationService {
   private changedIconSetConfiguration: IconSet | undefined;
 
   constructor(
-    private iconSetConfigurationService: IconSetImportExportService,
+    private iconSetImportExportService: IconSetImportExportService,
     private iconDictionaryService: IconDictionaryService,
     iconSetChangedService: IconSetChangedService,
     private elementRegistryService: ElementRegistryService,
     private snackbar: MatSnackBar,
   ) {
     this.iconSetConfigurationTypes = new BehaviorSubject(
-      this.iconSetConfigurationService.getCurrentConfigurationNamesWithoutPrefix(),
+      this.iconSetImportExportService.getCurrentConfigurationNamesWithoutPrefix(),
     );
 
     this.selectedWorkobjects$.next(
@@ -69,7 +69,7 @@ export class IconSetCustomizationService {
     });
 
     const storedIconSetConfiguration =
-      this.iconSetConfigurationService.getStoredIconSetConfiguration();
+      this.iconSetImportExportService.getStoredIconSetConfiguration();
     if (storedIconSetConfiguration) {
       this.importConfiguration(storedIconSetConfiguration, false);
     }
@@ -146,7 +146,7 @@ export class IconSetCustomizationService {
   }
 
   changeName(iconSetName: string): void {
-    this.iconSetConfigurationService.setIconSetName(iconSetName);
+    this.iconSetImportExportService.setIconSetName(iconSetName);
     const changedIconSet = this.iconSetConfigurationTypes.value;
     changedIconSet.name = iconSetName;
     this.iconSetConfigurationTypes.next(changedIconSet);
@@ -257,7 +257,7 @@ export class IconSetCustomizationService {
   /** Revert Icon Set **/
   resetIconSet(): void {
     const defaultConfig =
-      this.iconSetConfigurationService.createMinimalConfigurationWithDefaultIcons();
+      this.iconSetImportExportService.createMinimalConfigurationWithDefaultIcons();
 
     this.selectedWorkobjects$.value.forEach((workObjectName) => {
       if (!defaultConfig.workObjects.has(workObjectName)) {
@@ -281,7 +281,7 @@ export class IconSetCustomizationService {
 
   cancel(): void {
     this.iconSetConfigurationTypes.next(
-      this.iconSetConfigurationService.getCurrentConfigurationNamesWithoutPrefix(),
+      this.iconSetImportExportService.getCurrentConfigurationNamesWithoutPrefix(),
     );
     this.updateAllIconBehaviourSubjects();
     this.resetToInitialConfiguration();
@@ -323,7 +323,7 @@ export class IconSetCustomizationService {
 
         this.updateIcons(changedIconSet);
 
-        this.iconSetConfigurationService.setStoredIconSetConfiguration(
+        this.iconSetImportExportService.setStoredIconSetConfiguration(
           this.changedIconSetConfiguration,
         );
         this.snackbar.open(

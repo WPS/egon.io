@@ -48,7 +48,7 @@ export class ImportDomainStoryService
     private titleService: TitleService,
     private rendererService: RendererService,
     private dialogService: DialogService,
-    private iconSetConfigurationService: IconSetImportExportService,
+    private iconSetImportExportService: IconSetImportExportService,
     private modelerService: ModelerService,
     private snackbar: MatSnackBar,
   ) {
@@ -270,7 +270,7 @@ export class ImportDomainStoryService
           ? storyAndIconSet.domain
           : JSON.parse(storyAndIconSet.domain);
         iconSetConfig =
-          this.iconSetConfigurationService.createIconSetConfiguration(
+          this.iconSetImportExportService.createIconSetConfiguration(
             iconSetFromFile,
           );
         elements = isEgnFormat
@@ -281,7 +281,7 @@ export class ImportDomainStoryService
         if (storyAndIconSet.config) {
           iconSetFromFile = JSON.parse(storyAndIconSet.config);
           iconSetConfig =
-            this.iconSetConfigurationService.createIconSetConfiguration(
+            this.iconSetImportExportService.createIconSetConfiguration(
               iconSetFromFile,
             );
           elements = JSON.parse(storyAndIconSet.dst);
@@ -289,7 +289,7 @@ export class ImportDomainStoryService
           // even older legacy implementation (prior to configurable icon set):
           elements = JSON.parse(contentAsJson);
           iconSetConfig =
-            this.iconSetConfigurationService.createMinimalConfigurationWithDefaultIcons();
+            this.iconSetImportExportService.createMinimalConfigurationWithDefaultIcons();
         }
       }
 

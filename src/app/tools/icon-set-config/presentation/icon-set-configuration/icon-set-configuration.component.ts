@@ -31,7 +31,7 @@ export class IconSetConfigurationComponent implements OnInit {
   allFilteredIconNames = new BehaviorSubject<string[]>([]);
 
   constructor(
-    private iconSetConfigurationService: IconSetImportExportService,
+    private iconSetImportExportService: IconSetImportExportService,
     private iconDictionaryService: IconDictionaryService,
     private iconSetCustomizationService: IconSetCustomizationService,
     private elementRegistryService: ElementRegistryService,
@@ -123,10 +123,10 @@ export class IconSetConfigurationComponent implements OnInit {
         workObjects: { [key: string]: any };
       };
       const config =
-        this.iconSetConfigurationService.createIconSetConfiguration(
+        this.iconSetImportExportService.createIconSetConfiguration(
           configFromFile,
         );
-      this.iconSetConfigurationService.loadConfiguration(config, false);
+      this.iconSetImportExportService.loadConfiguration(config, false);
 
       this.iconSetCustomizationService.importConfiguration(config);
 
