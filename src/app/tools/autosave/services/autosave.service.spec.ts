@@ -55,7 +55,7 @@ describe('AutosaveService', () => {
           useValue: storageServiceMock,
         },
         {
-          priovide: IconSetImportExportService,
+          provide: IconSetImportExportService,
           useValue: iconSetImportExportServiceMock,
         },
         MockProviders(ExportService, MatSnackBar),
@@ -81,50 +81,46 @@ describe('AutosaveService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('applyAutosave', () => {
+  describe('loadDraft', () => {
     beforeEach(() => {
       rendererServiceSpy.importStory.and.returnValue();
     });
 
     it('should call rendererService.importStory', () => {
-      service.loadDraft(
-        createEmptyAutosave(Date.now().toString().slice(0, 25)),
-      );
+      service.loadDraft(createDraft(Date.now().toString().slice(0, 25)));
       expect(rendererServiceSpy.importStory).toHaveBeenCalled();
     });
   });
 
-  describe('loadCurrentAutosaves', () => {
-    let autosaves: Draft[] = [];
+  describe('getDrafts', () => {
+    let drafts: Draft[] = [];
 
     beforeEach(() => {
-      autosaves = [
-        createEmptyAutosave(
-          Date.UTC(2000, 1, 1, 1, 1, 1).toString().slice(0, 25),
-        ),
-        createEmptyAutosave(Date.now().toString().slice(0, 25)),
+      drafts = [
+        createDraft(Date.UTC(2000, 1, 1, 1, 1, 1).toString().slice(0, 25)),
+        createDraft(Date.now().toString().slice(0, 25)),
       ];
     });
 
     it('should getItem from local Storage', () => {
       storageServiceSpy.get.withArgs(DRAFTS_KEY).and.returnValue([]);
-      const loadedAutosaves = service.loadCurrentDrafts();
+      const loadedDrafts = service.getDrafts();
 
       expect(storageServiceSpy.get).toHaveBeenCalledWith(DRAFTS_KEY);
-      expect(loadedAutosaves).toEqual([]);
+      expect(loadedDrafts).toEqual([]);
     });
 
-    it('should return sorted autosaves', () => {
-      storageServiceSpy.get.withArgs(DRAFTS_KEY).and.returnValue(autosaves);
+    it('should return sorted drafts', () => {
+      storageServiceSpy.get.withArgs(DRAFTS_KEY).and.returnValue(drafts);
 
-      const loadedAutosaves = service.loadCurrentDrafts();
+      const loadedDrafts = service.getDrafts();
 
       expect(storageServiceSpy.get).toHaveBeenCalledWith(DRAFTS_KEY);
-      expect(loadedAutosaves).toEqual(autosaves);
+      expect(loadedDrafts).toEqual(drafts);
     });
   });
 
-  function createEmptyAutosave(date: string): Draft {
+  function createDraft(date: string): Draft {
     return {
       description: 'desc',
       title: 'title',

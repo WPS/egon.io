@@ -3,8 +3,6 @@ import { RendererService } from '../../modeler/services/renderer.service';
 import { ExportService } from '../../export/services/export.service';
 import { Draft } from '../domain/draft';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
-import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
-import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { StorageService } from '../../../domain/services/storage.service';
 import { TitleService } from '../../title/services/title.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
@@ -29,7 +27,6 @@ export class AutosaveService {
   constructor(
     private autosaveConfiguration: AutosaveConfigurationService,
     private exportService: ExportService,
-    private iconDictionaryService: IconDictionaryService,
     private rendererService: RendererService,
     private snackbar: MatSnackBar,
     private storageService: StorageService,
@@ -41,7 +38,7 @@ export class AutosaveService {
     );
   }
 
-  loadCurrentDrafts(): Draft[] {
+  getDrafts(): Draft[] {
     const drafts = this.readDrafts();
     this.sortDrafts(drafts);
     return drafts;
@@ -61,19 +58,6 @@ export class AutosaveService {
       false,
     );
 
-    const actorIcons = this.iconDictionaryService.getElementsOfType(
-      story,
-      ElementTypes.ACTOR,
-    );
-    const workObjectIcons = this.iconDictionaryService.getElementsOfType(
-      story,
-      ElementTypes.WORKOBJECT,
-    );
-    this.iconDictionaryService.updateIconRegistries(
-      actorIcons,
-      workObjectIcons,
-      config,
-    );
     this.rendererService.importStory(story, config, false);
   }
 
@@ -107,7 +91,7 @@ export class AutosaveService {
 
   private startTimer(interval: number, maxDrafts: number): void {
     this.autosaveTimer = setInterval(() => {
-      const savedDrafts = this.loadCurrentDrafts();
+      const savedDrafts = this.getDrafts();
       const newDraft = this.createDraft();
       let isChanged = maxDrafts > 0;
       if (savedDrafts.length > 0) {

@@ -21,7 +21,7 @@ describe('AutosavedDraftsComponent', () => {
 
   const autosaveServiceMock = jasmine.createSpyObj(
     'AutosaveService',
-    ['loadCurrentDrafts', 'loadDraft', 'removeAllDrafts'],
+    ['getDrafts', 'loadDraft', 'removeAllDrafts'],
     { autosavedDraftsChanged$: of() },
   );
 
@@ -45,7 +45,7 @@ describe('AutosavedDraftsComponent', () => {
     autosaveServiceSpy = TestBed.inject(
       AutosaveService,
     ) as jasmine.SpyObj<AutosaveService>;
-    autosaveServiceSpy.loadCurrentDrafts.and.returnValue([]);
+    autosaveServiceSpy.getDrafts.and.returnValue([]);
   });
 
   beforeEach(() => {

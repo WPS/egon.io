@@ -31,7 +31,7 @@ export class AutosavedDraftsComponent implements OnInit {
   }
 
   initDrafts() {
-    this.drafts = this.autosaveService.loadCurrentDrafts();
+    this.drafts = this.autosaveService.getDrafts();
   }
 
   loadDraft(draft: Draft): void {
