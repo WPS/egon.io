@@ -2,13 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
-import {
-  ICON_PREFIX,
-  IconDictionaryService,
-} from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
+import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { sanitizeIconName } from 'src/app/utils/sanitizer';
-import { ElementTypes } from '../../../../domain/entities/elementTypes';
 import { IconFilterOptions } from '../../domain/iconFilterOptions';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 import { CustomIconSetConfiguration } from '../../../../domain/entities/custom-icon-set-configuration';
