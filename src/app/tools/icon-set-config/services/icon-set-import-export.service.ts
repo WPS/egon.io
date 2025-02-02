@@ -4,7 +4,6 @@ import { ElementRegistryService } from 'src/app/domain/services/element-registry
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
-import { namesOfDefaultIcons } from '../domain/iconConfiguration';
 import {
   ICON_SET_CONFIGURATION_KEY,
   INITIAL_ICON_SET_NAME,
@@ -14,6 +13,7 @@ import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set
 import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
 import { StorageService } from '../../../domain/services/storage.service';
 import { sanitizeIconName } from '../../../utils/sanitizer';
+import { namesOfDefaultIcons } from 'src/app/domain/entities/namesOfSelectedIcons';
 
 export interface FileConfiguration {
   name: string;
@@ -80,10 +80,6 @@ export class IconSetImportExportService {
     const workObjectKeys = workObjectDict.keysArray();
 
     this.iconDictionaryService.updateIconRegistries([], [], customConfig);
-
-    this.iconDictionaryService
-      .getIconConfiguration()
-      .addCustomIcons(actorKeys, actorDict, workObjectKeys, workObjectDict);
 
     this.iconDictionaryService.addIconsFromIconSetConfiguration(
       ElementTypes.ACTOR,

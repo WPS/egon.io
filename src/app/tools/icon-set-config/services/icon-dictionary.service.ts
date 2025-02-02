@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
-import { Configuration } from 'src/app/domain/entities/configuration';
+import {
+  NamesOfSelectedIcons,
+  namesOfDefaultIcons,
+} from 'src/app/domain/entities/namesOfSelectedIcons';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
-import {
-  namesOfDefaultIcons,
-  IconConfiguration,
-} from 'src/app/tools/icon-set-config/domain/iconConfiguration';
 import {
   builtInIcons,
   customIcons,
@@ -34,26 +33,20 @@ export class IconDictionaryService {
 
   private customIconSet?: IconSet;
 
-  private readonly iconConfig: IconConfiguration;
-
   constructor() {
     this.builtInIconsDictionary.addBuiltInIcons(builtInIcons);
-    this.iconConfig = new IconConfiguration(this.builtInIconsDictionary);
   }
 
   initTypeDictionaries(): void {
-    let config: Configuration;
-    let actors: string[], workObjects: string[];
+    let namesOfIcons: NamesOfSelectedIcons;
 
-    config = this.iconConfig.getNamesOfIcons(this.customIconSet);
-    actors = config.actors;
-    workObjects = config.workObjects;
-
-    if (!actors || actors.length == 0) {
-      actors = namesOfDefaultIcons.actors;
-    }
-    if (!workObjects || workObjects.length == 0) {
-      workObjects = namesOfDefaultIcons.workObjects;
+    if (typeof this.customIconSet == 'undefined') {
+      namesOfIcons = namesOfDefaultIcons;
+    } else {
+      namesOfIcons = new NamesOfSelectedIcons(
+        this.customIconSet.actors.keysArray(),
+        this.customIconSet.workObjects.keysArray(),
+      );
     }
 
     const allTypes = new Dictionary();
@@ -61,13 +54,13 @@ export class IconDictionaryService {
     allTypes.appendDict(this.getCustomIcons());
 
     this.initDictionary(
-      actors,
+      namesOfIcons.actors,
       allTypes,
       this.selectedActorsDictionary,
       ElementTypes.ACTOR,
     );
     this.initDictionary(
-      workObjects,
+      namesOfIcons.workObjects,
       allTypes,
       this.selectedWorkObjectsDictionary,
       ElementTypes.WORKOBJECT,
@@ -384,10 +377,6 @@ export class IconDictionaryService {
 
   getWorkObjectsDictionary(): Dictionary {
     return this.selectedWorkObjectsDictionary;
-  }
-
-  getIconConfiguration(): IconConfiguration {
-    return this.iconConfig;
   }
 
   setIconSet(iconSet: IconSet): void {
