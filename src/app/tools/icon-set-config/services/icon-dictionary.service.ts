@@ -4,7 +4,7 @@ import { Configuration } from 'src/app/domain/entities/configuration';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import {
-  defaultIconSet,
+  namesOfDefaultIcons,
   IconConfiguration,
 } from 'src/app/tools/icon-set-config/domain/iconConfiguration';
 import {
@@ -21,13 +21,18 @@ export const ICON_PREFIX = 'icon-domain-story-';
   providedIn: 'root',
 })
 export class IconDictionaryService {
-  private actorIconDictionary = new Dictionary();
-  private workObjectDictionary = new Dictionary();
+  // The dictionaries holds icons (as SVG) and icon names as key-value pairs:
 
+  // these dictionaries make up the current icon set:
+  private selectedActorsDictionary = new Dictionary();
+  private selectedWorkObjectsDictionary = new Dictionary();
+
+  // this holds the selectable icons (without custom icons)
   private builtInIconsDictionary = new Dictionary();
+
   private iconDictionaryForMenu = new Dictionary();
 
-  private customConfiguration?: IconSet;
+  private customIconSet?: IconSet;
 
   private readonly iconConfig: IconConfiguration;
 
@@ -36,12 +41,19 @@ export class IconDictionaryService {
     this.iconConfig = new IconConfiguration(this.builtInIconsDictionary);
   }
 
-  initTypeDictionaries(actors: string[], workObjects: string[]): void {
+  initTypeDictionaries(): void {
+    let config: Configuration;
+    let actors: string[], workObjects: string[];
+
+    config = this.iconConfig.getNamesOfIcons(this.customIconSet);
+    actors = config.actors;
+    workObjects = config.workObjects;
+
     if (!actors || actors.length == 0) {
-      actors = defaultIconSet.actors;
+      actors = namesOfDefaultIcons.actors;
     }
     if (!workObjects || workObjects.length == 0) {
-      workObjects = defaultIconSet.workObjects;
+      workObjects = namesOfDefaultIcons.workObjects;
     }
 
     const allTypes = new Dictionary();
@@ -51,13 +63,13 @@ export class IconDictionaryService {
     this.initDictionary(
       actors,
       allTypes,
-      this.actorIconDictionary,
+      this.selectedActorsDictionary,
       ElementTypes.ACTOR,
     );
     this.initDictionary(
       workObjects,
       allTypes,
-      this.workObjectDictionary,
+      this.selectedWorkObjectsDictionary,
       ElementTypes.WORKOBJECT,
     );
   }
@@ -82,19 +94,12 @@ export class IconDictionaryService {
     });
   }
 
-  getCurrentIconConfigurationForMenu(): Configuration {
-    if (this.customConfiguration) {
-      return this.iconConfig.createCustomConf(this.customConfiguration);
-    }
-    return this.iconConfig.getDefaultConf();
-  }
-
   allInTypeDictionary(type: ElementTypes, elements: BusinessObject[]): boolean {
     let collection: Dictionary;
     if (type === ElementTypes.ACTOR) {
-      collection = this.actorIconDictionary;
+      collection = this.selectedActorsDictionary;
     } else if (type === ElementTypes.WORKOBJECT) {
-      collection = this.workObjectDictionary;
+      collection = this.selectedWorkObjectsDictionary;
     }
 
     let allIn = true;
@@ -117,9 +122,9 @@ export class IconDictionaryService {
   ): void {
     let collection: Dictionary;
     if (dictionaryType === ElementTypes.ACTOR) {
-      collection = this.actorIconDictionary;
+      collection = this.selectedActorsDictionary;
     } else if (dictionaryType === ElementTypes.WORKOBJECT) {
-      collection = this.workObjectDictionary;
+      collection = this.selectedWorkObjectsDictionary;
     }
 
     const allTypes = new Dictionary();
@@ -179,9 +184,9 @@ export class IconDictionaryService {
 
     let collection = new Dictionary();
     if (type === ElementTypes.ACTOR) {
-      collection = this.actorIconDictionary;
+      collection = this.selectedActorsDictionary;
     } else if (type === ElementTypes.WORKOBJECT) {
-      collection = this.workObjectDictionary;
+      collection = this.selectedWorkObjectsDictionary;
     }
     collection.add(src, name);
   }
@@ -193,9 +198,9 @@ export class IconDictionaryService {
 
     let collection = new Dictionary();
     if (type === ElementTypes.ACTOR) {
-      collection = this.actorIconDictionary;
+      collection = this.selectedActorsDictionary;
     } else if (type === ElementTypes.WORKOBJECT) {
-      collection = this.workObjectDictionary;
+      collection = this.selectedWorkObjectsDictionary;
     }
     collection.delete(name);
   }
@@ -324,9 +329,9 @@ export class IconDictionaryService {
 
   getIconsAssignedAs(type: ElementTypes): Dictionary {
     if (type === ElementTypes.ACTOR) {
-      return this.actorIconDictionary;
+      return this.selectedActorsDictionary;
     } else if (type === ElementTypes.WORKOBJECT) {
-      return this.workObjectDictionary;
+      return this.selectedWorkObjectsDictionary;
     }
     return new Dictionary();
   }
@@ -337,9 +342,9 @@ export class IconDictionaryService {
 
   getTypeIconSRC(type: ElementTypes, name: string): string | null {
     if (type === ElementTypes.ACTOR) {
-      return this.actorIconDictionary.get(name);
+      return this.selectedActorsDictionary.get(name);
     } else if (type === ElementTypes.WORKOBJECT) {
-      return this.workObjectDictionary.get(name);
+      return this.selectedWorkObjectsDictionary.get(name);
     }
     return null;
   }
@@ -375,18 +380,18 @@ export class IconDictionaryService {
   }
 
   getActorsDictionary(): Dictionary {
-    return this.actorIconDictionary;
+    return this.selectedActorsDictionary;
   }
 
   getWorkObjectsDictionary(): Dictionary {
-    return this.workObjectDictionary;
+    return this.selectedWorkObjectsDictionary;
   }
 
   getIconConfiguration(): IconConfiguration {
     return this.iconConfig;
   }
 
-  setCustomConfiguration(customConfiguration: IconSet): void {
-    this.customConfiguration = customConfiguration;
+  setIconSet(iconSet: IconSet): void {
+    this.customIconSet = iconSet;
   }
 }

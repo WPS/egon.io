@@ -4,7 +4,7 @@ import { ElementRegistryService } from 'src/app/domain/services/element-registry
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
-import { defaultIconSet } from '../domain/iconConfiguration';
+import { namesOfDefaultIcons } from '../domain/iconConfiguration';
 import {
   ICON_SET_CONFIGURATION_KEY,
   INITIAL_ICON_SET_NAME,
@@ -157,13 +157,13 @@ export class IconSetImportExportService {
   createMinimalConfigurationWithDefaultIcons(): IconSet {
     const minimalConfig = this.createConfigFromCanvas();
 
-    defaultIconSet.actors.forEach((iconName) => {
+    namesOfDefaultIcons.actors.forEach((iconName) => {
       minimalConfig.actors.add(
         this.iconDictionaryService.getIconSource(iconName),
         iconName,
       );
     });
-    defaultIconSet.workObjects.forEach((iconName) => {
+    namesOfDefaultIcons.workObjects.forEach((iconName) => {
       minimalConfig.workObjects.add(
         this.iconDictionaryService.getIconSource(iconName),
         iconName,

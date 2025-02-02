@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
-import { defaultIconSet } from '../domain/iconConfiguration';
+import { namesOfDefaultIcons } from '../domain/iconConfiguration';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 import { Dictionary } from '../../../domain/entities/dictionary';
@@ -25,11 +25,8 @@ describe('IconDictionaryService', () => {
   });
 
   describe('initTypeDictionaries', () => {
-    const actors = ['Person', 'Dollar'];
-    const workObjects = ['Document', 'Gavel'];
-
-    it('should initialize Dictionaries with default icons', () => {
-      service.initTypeDictionaries([], []);
+    it('should initialize Dictionaries with default icon set', () => {
+      service.initTypeDictionaries();
 
       const actorsDictionary = service.getActorsDictionary();
       const workObjectsDictionary = service.getWorkObjectsDictionary();
@@ -38,56 +35,41 @@ describe('IconDictionaryService', () => {
         actorsDictionary
           .keysArray()
           .map((e) => e.replace(ElementTypes.ACTOR, '')),
-      ).toEqual(defaultIconSet.actors);
+      ).toEqual(namesOfDefaultIcons.actors);
       expect(
         workObjectsDictionary
           .keysArray()
           .map((e) => e.replace(ElementTypes.WORKOBJECT, '')),
-      ).toEqual(defaultIconSet.workObjects);
+      ).toEqual(namesOfDefaultIcons.workObjects);
     });
 
-    it('should initialize Dictionaries with provided icons', () => {
-      service.initTypeDictionaries(actors, workObjects);
+    it('should initialize Dictionaries with customized icon set', () => {
+      const actor = structuredClone(testBusinessObject);
+      actor.type = ElementTypes.ACTOR + 'Dollar';
 
-      const actorsDictionary = service.getActorsDictionary();
-      const workObjectsDictionary = service.getWorkObjectsDictionary();
+      const workObject = structuredClone(testBusinessObject);
+      workObject.type = ElementTypes.WORKOBJECT + 'Gavel';
 
-      expect(
-        actorsDictionary
-          .keysArray()
-          .map((e) => e.replace(ElementTypes.ACTOR, '')),
-      ).toEqual(actors);
-      expect(
-        workObjectsDictionary
-          .keysArray()
-          .map((e) => e.replace(ElementTypes.WORKOBJECT, '')),
-      ).toEqual(workObjects);
-    });
-  });
+      const actorsDict = new Dictionary();
+      const workObjectsDict = new Dictionary();
 
-  describe('getCurrentIconConfigurationForMenu', () => {
-    it('should return default Configuration', () => {
-      const configuration = service.getCurrentIconConfigurationForMenu();
-      expect(configuration.actors).toEqual(defaultIconSet.actors);
-      expect(configuration.workObjects).toEqual(defaultIconSet.workObjects);
-    });
+      actorsDict.add(actor, 'Dollar');
+      workObjectsDict.add(workObject, 'Gavel');
 
-    it('should return current Configuration', () => {
-      const actors = new Dictionary();
-      actors.add('', 'Dollar');
-      const workObjects = new Dictionary();
-      workObjects.add('', 'Gavel');
-
-      const customConfig: IconSet = {
+      const customizedIconSet: IconSet = {
         name: INITIAL_ICON_SET_NAME,
-        actors,
-        workObjects,
+        actors: actorsDict,
+        workObjects: workObjectsDict,
       };
-      service.setCustomConfiguration(customConfig);
 
-      const configuration = service.getCurrentIconConfigurationForMenu();
-      expect(configuration.actors).toEqual(['Dollar']);
-      expect(configuration.workObjects).toEqual(['Gavel']);
+      service.setIconSet(customizedIconSet);
+      service.initTypeDictionaries();
+
+      const actorsDictionary = service.getActorsDictionary();
+      const workObjectsDictionary = service.getWorkObjectsDictionary();
+
+      expect(actorsDictionary.keysArray).toEqual(actorsDict.keysArray);
+      expect(workObjectsDictionary.keysArray).toEqual(workObjectsDict.keysArray);
     });
   });
 

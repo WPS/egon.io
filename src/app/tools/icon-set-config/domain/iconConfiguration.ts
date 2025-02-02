@@ -13,10 +13,6 @@ export class IconConfiguration {
     this.allIconDictionary = allIconDictionary;
   }
 
-  getDefaultConf(): Configuration {
-    return defaultIconSet;
-  }
-
   addCustomIcons(
     actors: string[],
     actorsDict: Dictionary,
@@ -45,11 +41,14 @@ export class IconConfiguration {
     addCustomIcons(customIcons);
   }
 
-  createCustomConf(iconSetConfiguration: IconSet): Configuration {
-    this.iconSetName = iconSetConfiguration.name;
+  getNamesOfIcons(iconSet?: IconSet): Configuration {
+    if (typeof iconSet == 'undefined') {
+      return namesOfDefaultIcons;
+    }
+    this.iconSetName = iconSet.name;
 
-    let actors = iconSetConfiguration.actors;
-    let workObjects = iconSetConfiguration.workObjects;
+    let actors = iconSet.actors;
+    let workObjects = iconSet.workObjects;
 
     this.addCustomIcons(
       actors.keysArray(),
@@ -62,7 +61,7 @@ export class IconConfiguration {
   }
 }
 
-export const defaultIconSet = {
+export const namesOfDefaultIcons = {
   actors: ['Person', 'Group', 'System'],
   workObjects: ['Document', 'Folder', 'Call', 'Email', 'Conversation', 'Info'],
 };

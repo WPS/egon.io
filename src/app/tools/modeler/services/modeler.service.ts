@@ -43,9 +43,7 @@ export class ModelerService {
     const storedIconSetConfiguration =
       this.iconSetImportExportService.getStoredIconSetConfiguration();
     if (storedIconSetConfiguration) {
-      this.iconDictionaryService.setCustomConfiguration(
-        storedIconSetConfiguration,
-      );
+      this.iconDictionaryService.setIconSet(storedIconSetConfiguration);
       this.iconSetImportExportService.loadConfiguration(
         storedIconSetConfiguration,
       );
@@ -129,7 +127,7 @@ export class ModelerService {
       this.iconSetImportExportService.setStoredIconSetConfiguration(
         iconSetConfiguration,
       );
-      this.iconDictionaryService.setCustomConfiguration(iconSetConfiguration);
+      this.iconDictionaryService.setIconSet(iconSetConfiguration);
       this.iconSetImportExportService.loadConfiguration(iconSetConfiguration);
     }
 

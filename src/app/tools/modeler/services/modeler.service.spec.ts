@@ -44,7 +44,7 @@ describe('ModelerService', () => {
     );
     const iconDictionaryMock = jasmine.createSpyObj(
       IconDictionaryService.name,
-      ['setCustomConfiguration', 'createIconConfiguration'],
+      ['setIconSet', 'createIconConfiguration'],
     );
     const iconSetConfigurationMock = jasmine.createSpyObj(
       IconSetImportExportService.name,
@@ -136,7 +136,7 @@ describe('ModelerService', () => {
       expect(
         elementRegistrySpy.createObjectListForDSTDownload,
       ).toHaveBeenCalledTimes(0);
-      expect(iconDictionarySpy.setCustomConfiguration).toHaveBeenCalledTimes(0);
+      expect(iconDictionarySpy.setIconSet).toHaveBeenCalledTimes(0);
       expect(iconSetConfigurationSpy.loadConfiguration).toHaveBeenCalledTimes(
         0,
       );
@@ -157,7 +157,7 @@ describe('ModelerService', () => {
       expect(
         elementRegistrySpy.createObjectListForDSTDownload,
       ).toHaveBeenCalled();
-      expect(iconDictionarySpy.setCustomConfiguration).toHaveBeenCalledWith(
+      expect(iconDictionarySpy.setIconSet).toHaveBeenCalledWith(
         testConfiguration,
       );
       expect(iconSetConfigurationSpy.loadConfiguration).toHaveBeenCalledWith(
@@ -180,7 +180,7 @@ describe('ModelerService', () => {
       expect(
         elementRegistrySpy.createObjectListForDSTDownload,
       ).toHaveBeenCalled();
-      expect(iconDictionarySpy.setCustomConfiguration).toHaveBeenCalledTimes(0);
+      expect(iconDictionarySpy.setIconSet).toHaveBeenCalledTimes(0);
       expect(iconSetConfigurationSpy.loadConfiguration).toHaveBeenCalledTimes(
         0,
       );

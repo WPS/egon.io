@@ -68,9 +68,7 @@ PaletteProvider.prototype.getPaletteEntries = function () {
 };
 
 function initPalette(actions, spaceTool, lassoTool, createAction) {
-  let config = iconDictionary?.getCurrentIconConfigurationForMenu();
-
-  iconDictionary?.initTypeDictionaries(config.actors, config.workObjects);
+  iconDictionary?.initTypeDictionaries();
 
   let actorTypes = iconDictionary?.getIconsAssignedAs(ElementTypes.ACTOR);
 
