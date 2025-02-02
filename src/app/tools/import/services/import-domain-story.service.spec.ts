@@ -17,9 +17,6 @@ describe('ImportDomainStoryService', () => {
   let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
 
   beforeEach(() => {
-    const iconDictionaryMock = jasmine.createSpyObj('iconDictionaryService', [
-      'getNamesOfIconsAssignedAs',
-    ]);
     TestBed.configureTestingModule({
       providers: [
         {
@@ -28,7 +25,7 @@ describe('ImportDomainStoryService', () => {
         },
         {
           provide: IconDictionaryService,
-          useValue: iconDictionaryMock,
+          useValue: MockService(IconDictionaryService),
         },
         {
           provide: DirtyFlagService,

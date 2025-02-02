@@ -94,7 +94,10 @@ export class IconDictionaryService {
     });
   }
 
-  allInTypeDictionary(type: ElementTypes, elements: BusinessObject[]): boolean {
+  private allInTypeDictionary(
+    type: ElementTypes,
+    elements: BusinessObject[],
+  ): boolean {
     let collection: Dictionary;
     if (type === ElementTypes.ACTOR) {
       collection = this.selectedActorsDictionary;
@@ -334,10 +337,6 @@ export class IconDictionaryService {
       return this.selectedWorkObjectsDictionary;
     }
     return new Dictionary();
-  }
-
-  getNamesOfIconsAssignedAs(type: ElementTypes): string[] {
-    return this.getIconsAssignedAs(type).keysArray();
   }
 
   getTypeIconSRC(type: ElementTypes, name: string): string | null {

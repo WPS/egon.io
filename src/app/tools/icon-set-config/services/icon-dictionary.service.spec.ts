@@ -69,7 +69,9 @@ describe('IconDictionaryService', () => {
       const workObjectsDictionary = service.getWorkObjectsDictionary();
 
       expect(actorsDictionary.keysArray).toEqual(actorsDict.keysArray);
-      expect(workObjectsDictionary.keysArray).toEqual(workObjectsDict.keysArray);
+      expect(workObjectsDictionary.keysArray).toEqual(
+        workObjectsDict.keysArray,
+      );
     });
   });
 
