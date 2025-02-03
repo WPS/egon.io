@@ -18,10 +18,7 @@ export function actorReplaceOptions(name) {
       replaceOption[i] = {
         label: "Change to " + typeName,
         actionName: "replace-with-actor-" + typeName.toLowerCase(),
-        className: iconDictionaryService.getIconForMenu(
-          ElementTypes.ACTOR,
-          actorType,
-        ),
+        className: iconDictionaryService.getCSSClassOfIcon(actorType),
         target: {
           type: `${ElementTypes.ACTOR}${actorType}`,
         },
@@ -46,10 +43,7 @@ export function workObjectReplaceOptions(name) {
       replaceOption[i] = {
         label: "Change to " + typeName,
         actionName: "replace-with-actor-" + typeName,
-        className: iconDictionaryService.getIconForMenu(
-          ElementTypes.WORKOBJECT,
-          workObjectType,
-        ),
+        className: iconDictionaryService.getCSSClassOfIcon(workObjectType),
         target: {
           type: `${ElementTypes.WORKOBJECT}${workObjectType}`,
         },

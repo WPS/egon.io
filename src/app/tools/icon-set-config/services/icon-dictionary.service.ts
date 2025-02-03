@@ -14,7 +14,7 @@ import { sanitizeIconName } from '../../../utils/sanitizer';
 import getIconId = ElementTypes.getIconId;
 import { IconSet } from '../../../domain/entities/iconSet';
 
-export const ICON_PREFIX = 'icon-domain-story-';
+export const ICON_CSS_CLASS_PREFIX = 'icon-domain-story-';
 
 @Injectable({
   providedIn: 'root',
@@ -28,8 +28,6 @@ export class IconDictionaryService {
 
   // this holds the selectable icons (without custom icons)
   private builtInIconsDictionary = new Dictionary();
-
-  private iconDictionaryForMenu = new Dictionary();
 
   private customIconSet?: IconSet;
 
@@ -57,13 +55,11 @@ export class IconDictionaryService {
       namesOfIcons.actors,
       allTypes,
       this.selectedActorsDictionary,
-      ElementTypes.ACTOR,
     );
     this.initDictionary(
       namesOfIcons.workObjects,
       allTypes,
       this.selectedWorkObjectsDictionary,
-      ElementTypes.WORKOBJECT,
     );
   }
 
@@ -71,20 +67,11 @@ export class IconDictionaryService {
     selectedIconNames: string[],
     allIcons: Dictionary,
     dictionary: Dictionary,
-    elementType: ElementTypes,
   ) {
     dictionary.clear();
     for (const key of selectedIconNames) {
       dictionary.add(allIcons.get(key), key);
     }
-
-    dictionary.keysArray().forEach((name) => {
-      this.registerIconForMenu(
-        name,
-        ICON_PREFIX + sanitizeIconName(name.toLowerCase()),
-        elementType,
-      );
-    });
   }
 
   private allInTypeDictionary(
@@ -132,27 +119,9 @@ export class IconDictionaryService {
         const src = allTypes.get(name);
         if (src) {
           this.registerIconForType(dictionaryType, name, src);
-          this.registerIconForMenu(
-            name,
-            sanitizeIconName(ICON_PREFIX + name.toLowerCase()),
-            dictionaryType,
-          );
         }
       }
     });
-  }
-
-  /** Add Icon(s) to Dictionary **/
-  private registerIconForMenu(
-    name: string,
-    src: string,
-    elementType: ElementTypes,
-  ): void {
-    if (name.includes(elementType)) {
-      throw new Error('Should not include elementType');
-    }
-
-    this.iconDictionaryForMenu.set(`${elementType}${name}`, src);
   }
 
   addIconsToTypeDictionary(
@@ -224,32 +193,6 @@ export class IconDictionaryService {
 
     this.extractCustomIconsFromDictionary(actorsDict, customIcons);
     this.extractCustomIconsFromDictionary(workObjectsDict, customIcons);
-
-    elements.forEach((element) => {
-      const name = sanitizeIconName(
-        element.type
-          .replace(ElementTypes.ACTOR, '')
-          .replace(ElementTypes.WORKOBJECT, ''),
-      );
-      if (
-        (element.type.includes(ElementTypes.ACTOR) ||
-          element.type.includes(ElementTypes.WORKOBJECT)) &&
-        !this.getFullDictionary().has(name)
-      ) {
-        let elementType;
-        if (element.type.includes(ElementTypes.ACTOR)) {
-          elementType = ElementTypes.ACTOR;
-        } else {
-          elementType = ElementTypes.WORKOBJECT;
-        }
-        this.registerIconForMenu(
-          ICON_PREFIX + name.toLowerCase(),
-          getIconId(element.type),
-          elementType,
-        );
-      }
-    });
-
     this.addNewIconsToDictionary(customIcons);
     this.addIconsToTypeDictionary(actors, workObjects);
   }
@@ -286,7 +229,7 @@ export class IconDictionaryService {
       const src = customIcons.get(key);
       const iconStyle =
         '.' +
-        ICON_PREFIX +
+        ICON_CSS_CLASS_PREFIX +
         sanitizeIconName(key.toLowerCase()) +
         '::before{ content: url("data:image/svg+xml;utf8,' +
         this.wrapSRCInSVG(src) +
@@ -341,8 +284,8 @@ export class IconDictionaryService {
     return null;
   }
 
-  getIconForMenu(elementType: ElementTypes, name: string): string | null {
-    return this.iconDictionaryForMenu.get(`${elementType}${name}`);
+  getCSSClassOfIcon(name: string): string | null {
+    return ICON_CSS_CLASS_PREFIX + sanitizeIconName(name.toLowerCase());
   }
 
   getIconSource(name: string): string | null {

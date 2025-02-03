@@ -150,7 +150,7 @@ function addCanvasObjectTypes(
   className,
   elementType,
 ) {
-  let icon = iconDictionary.getIconForMenu(elementType, name);
+  let icon = iconDictionary.getCSSClassOfIcon(name);
 
   let action = [];
   action["domainStory-" + className + name] = createAction(
