@@ -8,7 +8,7 @@ import {
   BusinessObject,
   testBusinessObject,
 } from '../../../domain/entities/businessObject';
-import { builtInIcons } from '../domain/allIcons';
+import { builtInIcons, customIcons } from '../domain/allIcons';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { namesOfDefaultIcons } from 'src/app/domain/entities/namesOfSelectedIcons';
 
@@ -143,8 +143,8 @@ describe('IconDictionaryService', () => {
     const actorsDict = new Dictionary();
     const workObjectsDict = new Dictionary();
 
-    actorsDict.add(actor, 'TestCustomActor');
-    workObjectsDict.add(workObject, 'TestCustomWorkObject');
+    actorsDict.add('svg1', 'TestCustomActor');
+    workObjectsDict.add('svg2', 'TestCustomWorkObject');
 
     const config: IconSet = {
       name: INITIAL_ICON_SET_NAME,
@@ -156,14 +156,12 @@ describe('IconDictionaryService', () => {
       service.updateIconRegistries(actors, workObjects, config);
 
       expect(service.getActorsDictionary().keysArray()).toContain('Person');
-      expect(service.getCustomIcons().keysArray()).toContain('TestCustomActor');
+      expect(customIcons.keysArray()).toContain('TestCustomActor');
 
       expect(service.getWorkObjectsDictionary().keysArray()).toContain(
         'Document',
       );
-      expect(service.getCustomIcons().keysArray()).toContain(
-        'TestCustomWorkObject',
-      );
+      expect(customIcons.keysArray()).toContain('TestCustomWorkObject');
     });
   });
 });

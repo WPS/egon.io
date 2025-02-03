@@ -44,7 +44,7 @@ export class IconDictionaryService {
 
     const allTypes = new Dictionary();
     allTypes.addBuiltInIcons(builtInIcons);
-    allTypes.appendDict(this.getCustomIcons());
+    allTypes.appendDict(customIcons);
 
     this.initDictionary(
       namesOfIcons.actors,
@@ -165,25 +165,17 @@ export class IconDictionaryService {
     collection.delete(name);
   }
 
+  // TODO: why are Business Objects required to update icon registries?
   updateIconRegistries(
     actors: BusinessObject[],
     workObjects: BusinessObject[],
     config: IconSet,
   ): void {
-    const customIcons = new Dictionary();
+    const newIcons = new Dictionary();
+    this.extractCustomIconsFromDictionary(config.actors, newIcons);
+    this.extractCustomIconsFromDictionary(config.workObjects, newIcons);
+    this.addNewIconsToDictionary(newIcons);
 
-    const actorsDict = new Dictionary();
-    const workObjectsDict = new Dictionary();
-    config.actors.keysArray().forEach((key) => {
-      actorsDict.set(key, config.actors.get(key));
-    });
-    config.workObjects.keysArray().forEach((key) => {
-      workObjectsDict.set(key, config.workObjects.get(key));
-    });
-
-    this.extractCustomIconsFromDictionary(actorsDict, customIcons);
-    this.extractCustomIconsFromDictionary(workObjectsDict, customIcons);
-    this.addNewIconsToDictionary(customIcons);
     this.addIconsToTypeDictionary(actors, workObjects);
   }
 
@@ -242,18 +234,8 @@ export class IconDictionaryService {
   getFullDictionary(): Dictionary {
     const fullDictionary = new Dictionary();
     fullDictionary.appendDict(builtInIcons);
-    fullDictionary.appendDict(this.getCustomIcons());
+    fullDictionary.appendDict(customIcons);
     return fullDictionary;
-  }
-
-  getCustomIcons(): Dictionary {
-    const appendedDict = new Dictionary();
-    customIcons.keysArray().forEach((key) => {
-      if (!builtInIcons.has(key)) {
-        appendedDict.set(key, customIcons.get(key));
-      }
-    });
-    return appendedDict;
   }
 
   getIconsAssignedAs(type: ElementTypes): Dictionary {
