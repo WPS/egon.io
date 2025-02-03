@@ -26,14 +26,9 @@ export class IconDictionaryService {
   private selectedActorsDictionary = new Dictionary();
   private selectedWorkObjectsDictionary = new Dictionary();
 
-  // this holds the selectable icons (without custom icons)
-  private builtInIconsDictionary = new Dictionary();
-
   private customIconSet?: IconSet;
 
-  constructor() {
-    this.builtInIconsDictionary.addBuiltInIcons(builtInIcons);
-  }
+  constructor() {}
 
   initTypeDictionaries(): void {
     let namesOfIcons: NamesOfSelectedIcons;
@@ -251,7 +246,7 @@ export class IconDictionaryService {
 
   getFullDictionary(): Dictionary {
     const fullDictionary = new Dictionary();
-    fullDictionary.appendDict(this.builtInIconsDictionary);
+    fullDictionary.appendDict(builtInIcons);
     fullDictionary.appendDict(this.getCustomIcons());
     return fullDictionary;
   }
@@ -259,7 +254,7 @@ export class IconDictionaryService {
   getCustomIcons(): Dictionary {
     const appendedDict = new Dictionary();
     customIcons.keysArray().forEach((key) => {
-      if (!this.builtInIconsDictionary.has(key)) {
+      if (!builtInIcons.has(key)) {
         appendedDict.set(key, customIcons.get(key));
       }
     });
@@ -289,8 +284,8 @@ export class IconDictionaryService {
   }
 
   getIconSource(name: string): string | null {
-    if (this.builtInIconsDictionary.has(name)) {
-      return this.builtInIconsDictionary.get(name);
+    if (builtInIcons.has(name)) {
+      return builtInIcons.get(name);
     } else if (customIcons.has(name)) {
       return customIcons.get(name);
     }
@@ -308,10 +303,6 @@ export class IconDictionaryService {
       }
     });
     return elementOfType;
-  }
-
-  getAllIconDictionary(): Dictionary {
-    return this.builtInIconsDictionary;
   }
 
   getActorsDictionary(): Dictionary {

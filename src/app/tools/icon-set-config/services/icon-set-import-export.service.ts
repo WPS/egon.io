@@ -96,7 +96,7 @@ export class IconSetImportExportService {
     }
   }
 
-  getCurrentConfiguration(): IconSet | undefined {
+  private getCurrentConfiguration(): IconSet | undefined {
     const actors = this.iconDictionaryService.getActorsDictionary();
     const workObjects = this.iconDictionaryService.getWorkObjectsDictionary();
 

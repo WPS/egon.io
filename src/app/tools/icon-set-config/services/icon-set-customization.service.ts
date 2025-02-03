@@ -17,6 +17,7 @@ import { IconSetImportExportService } from './icon-set-import-export.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
+import { builtInIcons } from 'src/app/tools/icon-set-config/domain/allIcons';
 
 /**
  * We are not allowed to call ImportDomainStoryService directly,
@@ -57,12 +58,9 @@ export class IconSetCustomizationService {
     );
     this.selectedActors$.next(this.iconSetConfigurationTypes.value.actors);
 
-    iconDictionaryService
-      .getAllIconDictionary()
-      .keysArray()
-      .forEach((iconName) => {
-        this.addIconToAllIconList(iconName);
-      });
+    builtInIcons.keysArray().forEach((iconName) => {
+      this.addIconToAllIconList(iconName);
+    });
 
     iconSetChangedService.iconConfigrationChanged().subscribe((config) => {
       this.importConfiguration(config);
