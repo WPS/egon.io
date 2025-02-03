@@ -251,8 +251,8 @@ export class ImportDomainStoryService
         contentAsJson = text;
       }
 
-      let elements: any[];
-      let iconSetConfig: IconSet;
+      let domainStoryElements: any[];
+      let iconSet: IconSet;
       let iconSetFromFile: {
         name: string;
         actors: { [key: string]: any };
@@ -269,42 +269,44 @@ export class ImportDomainStoryService
         iconSetFromFile = isEgnFormat
           ? storyAndIconSet.domain
           : JSON.parse(storyAndIconSet.domain);
-        iconSetConfig =
+        iconSet =
           this.iconSetImportExportService.createIconSetConfiguration(
             iconSetFromFile,
           );
-        elements = isEgnFormat
+        domainStoryElements = isEgnFormat
           ? storyAndIconSet.dst
           : JSON.parse(storyAndIconSet.dst);
       } else {
         // legacy implementation
         if (storyAndIconSet.config) {
           iconSetFromFile = JSON.parse(storyAndIconSet.config);
-          iconSetConfig =
+          iconSet =
             this.iconSetImportExportService.createIconSetConfiguration(
               iconSetFromFile,
             );
-          elements = JSON.parse(storyAndIconSet.dst);
+          domainStoryElements = JSON.parse(storyAndIconSet.dst);
         } else {
           // even older legacy implementation (prior to configurable icon set):
-          elements = JSON.parse(contentAsJson);
-          iconSetConfig =
+          domainStoryElements = JSON.parse(contentAsJson);
+          iconSet =
             this.iconSetImportExportService.createMinimalConfigurationWithDefaultIcons();
         }
       }
 
-      this.importRepairService.removeWhitespacesFromIcons(elements);
-      this.importRepairService.removeUnnecessaryBpmnProperties(elements);
+      this.importRepairService.removeWhitespacesFromIcons(domainStoryElements);
+      this.importRepairService.removeUnnecessaryBpmnProperties(
+        domainStoryElements,
+      );
 
-      let lastElement = elements[elements.length - 1];
+      let lastElement = domainStoryElements[domainStoryElements.length - 1];
       if (!lastElement.id) {
-        lastElement = elements.pop();
+        lastElement = domainStoryElements.pop();
         let importVersionNumber = lastElement;
 
         // if the last element has the tag 'version',
         // then there exists another tag 'info' for the description
         if (importVersionNumber.version) {
-          lastElement = elements.pop();
+          lastElement = domainStoryElements.pop();
           importVersionNumber = importVersionNumber.version as string;
         } else {
           importVersionNumber = '?';
@@ -313,12 +315,15 @@ export class ImportDomainStoryService
             panelClass: SNACKBAR_ERROR,
           });
         }
-        elements = this.handleVersionNumber(importVersionNumber, elements);
+        domainStoryElements = this.handleVersionNumber(
+          importVersionNumber,
+          domainStoryElements,
+        );
       }
 
       if (
         !this.importRepairService.checkForUnreferencedElementsInActivitiesAndRepair(
-          elements,
+          domainStoryElements,
         )
       ) {
         this.showBrokenImportDialog();
@@ -330,8 +335,8 @@ export class ImportDomainStoryService
         false,
       );
 
-      this.updateIconRegistries(elements, iconSetConfig);
-      this.rendererService.importStory(elements, iconSetConfig);
+      this.updateIconRegistries(domainStoryElements, iconSet);
+      this.rendererService.importStory(domainStoryElements, iconSet);
     }
   }
 
@@ -386,24 +391,37 @@ export class ImportDomainStoryService
   }
 
   private updateIconRegistries(
-    elements: BusinessObject[],
-    config: IconSet,
+    domainStoryElements: BusinessObject[],
+    iconSet: IconSet,
   ): void {
-    const actorIcons = this.iconDictionaryService.getElementsOfType(
-      elements,
+    const actorIcons = this.getElementsOfType(
+      domainStoryElements,
       ElementTypes.ACTOR,
     );
-    const workObjectIcons = this.iconDictionaryService.getElementsOfType(
-      elements,
+    const workObjectIcons = this.getElementsOfType(
+      domainStoryElements,
       ElementTypes.WORKOBJECT,
     );
     this.iconDictionaryService.updateIconRegistries(
       actorIcons,
       workObjectIcons,
-      config,
+      iconSet,
     );
 
-    this.setImportedConfigurationAndEmit(config);
+    this.setImportedConfigurationAndEmit(iconSet);
+  }
+
+  private getElementsOfType(
+    elements: BusinessObject[],
+    type: ElementTypes,
+  ): BusinessObject[] {
+    const elementOfType: any = [];
+    elements.forEach((element) => {
+      if (element.type.includes(type)) {
+        elementOfType.push(element);
+      }
+    });
+    return elementOfType;
   }
 
   private showPreviousV050Dialog(version: number): void {

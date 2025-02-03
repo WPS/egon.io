@@ -170,11 +170,6 @@ export class IconDictionaryService {
     workObjects: BusinessObject[],
     config: IconSet,
   ): void {
-    const elements: BusinessObject[] = [];
-
-    actors.forEach((a) => elements.push(a));
-    workObjects.forEach((w) => elements.push(w));
-
     const customIcons = new Dictionary();
 
     const actorsDict = new Dictionary();
@@ -290,19 +285,6 @@ export class IconDictionaryService {
       return customIcons.get(name);
     }
     return null;
-  }
-
-  getElementsOfType(
-    elements: BusinessObject[],
-    type: ElementTypes,
-  ): BusinessObject[] {
-    const elementOfType: any = [];
-    elements.forEach((element) => {
-      if (element.type.includes(type)) {
-        elementOfType.push(element);
-      }
-    });
-    return elementOfType;
   }
 
   getActorsDictionary(): Dictionary {
