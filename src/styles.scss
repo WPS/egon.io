@@ -378,6 +378,11 @@ mat-dialog-actions.mdc-dialog__actions {
   stroke: #e1aea4;
 }
 
+.djs-palette {
+  left: 4px;
+  top: 12px;
+}
+
 .djs-palette .entry:hover {
   color: #a4d7e1;
 }
@@ -430,8 +435,8 @@ g.djs-bendpoint.djs-dragging.bendpoint-dragging > * {
 
 .djs-minimap {
   position: absolute;
-  bottom: 46px;
-  right: 4px;
+  bottom: 4px;
+  left: 4px;
   overflow: hidden;
   background-color: #f7f7f8;
   border: solid 1px #b9bcc6;
@@ -470,7 +475,7 @@ g.djs-bendpoint.djs-dragging.bendpoint-dragging > * {
 }
 
 .djs-minimap.open .toggle:before {
-  content: "Hide map";
+  content: "Hide";
 }
 
 .djs-minimap.open .toggle {
