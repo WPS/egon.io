@@ -461,21 +461,21 @@ g.djs-bendpoint.djs-dragging.bendpoint-dragging > * {
 }
 
 .djs-minimap .map {
-  width: 320px;
-  height: 180px;
+  width: 300px;
+  height: 150px;
 }
 
 .djs-minimap:not(.open) .toggle {
-  padding: 10px;
+  padding: 9px;
   text-align: center;
 }
 
 .djs-minimap .toggle:before {
-  content: "Show map";
+  content: "Map";
 }
 
 .djs-minimap.open .toggle:before {
-  content: "Hide";
+  content: "X";
 }
 
 .djs-minimap.open .toggle {
