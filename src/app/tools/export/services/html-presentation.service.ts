@@ -4,7 +4,6 @@ import { ReplayService } from '../../replay/services/replay.service';
 // @ts-ignore
 import doT from 'dot';
 import { TitleService } from '../../title/services/title.service';
-import { StoryCreatorService } from '../../replay/services/story-creator.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +15,6 @@ export class HtmlPresentationService {
   constructor(
     private replayService: ReplayService,
     private titleService: TitleService,
-    private storyCreatorService: StoryCreatorService,
   ) {}
 
   private multiplexSecret: any;
