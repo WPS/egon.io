@@ -124,6 +124,13 @@ DomainStoryModeler.prototype.importBusinessObjects = function (
   connections.forEach(this._addConnection, this);
 };
 
+/**
+ * Scrolls canvas and adjusts zoom so that the whole story is visible
+ */
+DomainStoryModeler.prototype.fitStoryToScreen = function () {
+  this.get("canvas")._fitViewport({ x: 0, y: 0 });
+};
+
 function isOfTypeConnection(element) {
   return (
     element.type === ElementTypes.ACTIVITY ||

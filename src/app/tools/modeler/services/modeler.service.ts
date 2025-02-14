@@ -145,6 +145,10 @@ export class ModelerService {
     }
   }
 
+  fitStoryToScreen() {
+    this.modeler.fitStoryToScreen();
+  }
+
   /** Interactions with the Modeler **/
   getModeler(): any {
     return this.modeler;

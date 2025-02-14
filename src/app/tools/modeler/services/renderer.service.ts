@@ -15,7 +15,7 @@ export class RendererService {
     private dirtyFlagService: DirtyFlagService,
   ) {}
 
-  renderStory(domainStory: BusinessObject[]): void {
+  private renderStory(domainStory: BusinessObject[]): void {
     this.modelerService.getModeler().importBusinessObjects(domainStory);
   }
 
@@ -31,9 +31,8 @@ export class RendererService {
   ): void {
     this.modelerService.restart(config, domainStory);
     this.renderStory(domainStory);
-
+    this.modelerService.fitStoryToScreen();
     this.elementRegistryService.correctInitialize();
-
     this.modelerService.commandStackChanged();
     this.modelerService.startDebounce();
 

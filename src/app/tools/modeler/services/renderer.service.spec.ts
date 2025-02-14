@@ -19,6 +19,7 @@ describe('RendererService', () => {
       'restart',
       'commandStackChanged',
       'startDebounce',
+      'fitStoryToScreen',
     ]);
     const elementRegistryServiceMock = jasmine.createSpyObj(
       'ElementRegistryService',
@@ -58,19 +59,6 @@ describe('RendererService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  describe('renderStory', () => {
-    beforeEach(() => {
-      modelerServiceSpy.getModeler.and.returnValue({
-        importBusinessObjects: (story: any) => {},
-      });
-    });
-
-    it('should call modelerService', () => {
-      service.renderStory([]);
-      expect(modelerServiceSpy.getModeler).toHaveBeenCalled();
-    });
   });
 
   describe('importStory', () => {
