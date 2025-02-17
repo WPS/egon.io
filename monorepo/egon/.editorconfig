@@ -1,0 +1,31 @@
+# Editor configuration, see http://editorconfig.org
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+max_line_length = 89
+trim_trailing_whitespace = false
+
+# intellij ( ij_programming-language_setting )
+ij_any_line_comment_add_space_on_reformat = true
+# spaces
+ij_any_spaces_within_method_parentheses = true
+ij_any_spaces_within_method_call_parentheses = true
+ij_any_spaces_within_if_parentheses = true
+ij_any_spaces_within_for_parentheses = true
+ij_any_spaces_within_while_parentheses = true
+ij_any_spaces_within_switch_parentheses = true
+ij_any_spaces_within_catch_parentheses = true
+# braces
+ij_any_class_brace_style = next_line
+ij_any_method_brace_style = next_line
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*{json,yml,yaml}]
+indent_size = 2
