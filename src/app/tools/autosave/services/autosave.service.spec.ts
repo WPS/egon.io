@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AutosaveService } from './autosave.service';
 import { MockProviders } from 'ng-mocks';
-import { RendererService } from '../../modeler/services/renderer.service';
+import { ModelerService } from '../../modeler/services/modeler.service';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { ExportService } from '../../export/services/export.service';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
@@ -16,13 +16,13 @@ import { DRAFTS_KEY } from 'src/app/domain/entities/constants';
 describe('AutosaveService', () => {
   let service: AutosaveService;
 
-  let rendererServiceSpy: jasmine.SpyObj<RendererService>;
+  let modelerServiceSpy: jasmine.SpyObj<ModelerService>;
   let autosaveStateSpy: jasmine.SpyObj<AutosaveConfigurationService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let iconSetImportExportService: jasmine.SpyObj<IconSetImportExportService>;
 
   beforeEach(() => {
-    const renderServiceMock = jasmine.createSpyObj(RendererService.name, [
+    const modelerServiceMock = jasmine.createSpyObj(ModelerService.name, [
       'importStory',
       'getStory',
     ]);
@@ -43,8 +43,8 @@ describe('AutosaveService', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: RendererService,
-          useValue: renderServiceMock,
+          provide: ModelerService,
+          useValue: modelerServiceMock,
         },
         {
           provide: AutosaveConfigurationService,
@@ -61,9 +61,9 @@ describe('AutosaveService', () => {
         MockProviders(ExportService, MatSnackBar),
       ],
     });
-    rendererServiceSpy = TestBed.inject(
-      RendererService,
-    ) as jasmine.SpyObj<RendererService>;
+    modelerServiceSpy = TestBed.inject(
+      ModelerService,
+    ) as jasmine.SpyObj<ModelerService>;
     autosaveStateSpy = TestBed.inject(
       AutosaveConfigurationService,
     ) as jasmine.SpyObj<AutosaveConfigurationService>;
@@ -83,12 +83,12 @@ describe('AutosaveService', () => {
 
   describe('loadDraft', () => {
     beforeEach(() => {
-      rendererServiceSpy.importStory.and.returnValue();
+      modelerServiceSpy.importStory.and.returnValue();
     });
 
-    it('should call rendererService.importStory', () => {
+    it('should call ModelerService.importStory', () => {
       service.loadDraft(createDraft(Date.now().toString().slice(0, 25)));
-      expect(rendererServiceSpy.importStory).toHaveBeenCalled();
+      expect(modelerServiceSpy.importStory).toHaveBeenCalled();
     });
   });
 

@@ -7,7 +7,6 @@ import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
 import { PngService } from 'src/app/tools/export/services/png.service';
 import { SvgService } from 'src/app/tools/export/services/svg.service';
 import { Subscription } from 'rxjs';
-import { RendererService } from '../../modeler/services/renderer.service';
 import { HtmlPresentationService } from './html-presentation.service';
 import { formatDate } from '@angular/common';
 import { environment } from '../../../../environments/environment';
@@ -43,7 +42,6 @@ export class ExportService implements OnDestroy {
     private pngService: PngService,
     private svgService: SvgService,
     private htmlPresentationService: HtmlPresentationService,
-    private rendererService: RendererService,
     private modelerService: ModelerService,
     private dialogService: DialogService,
     private snackbar: MatSnackBar,
@@ -66,7 +64,7 @@ export class ExportService implements OnDestroy {
   }
 
   isDomainStoryExportable(): boolean {
-    return this.rendererService.getStory().length >= 1;
+    return this.modelerService.getStory().length >= 1;
   }
 
   createConfigAndDST(DomainStory: any): ConfigAndDST {
@@ -218,7 +216,7 @@ export class ExportService implements OnDestroy {
   }
 
   private getStoryForDownload(): unknown[] {
-    let story = this.rendererService
+    let story = this.modelerService
       .getStory()
       .sort((objA: BusinessObject, objB: BusinessObject) => {
         if (objA.id !== undefined && objB.id !== undefined) {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RendererService } from '../../modeler/services/renderer.service';
+import { ModelerService } from '../../modeler/services/modeler.service';
 import { ExportService } from '../../export/services/export.service';
 import { Draft } from '../domain/draft';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
@@ -27,7 +27,7 @@ export class AutosaveService {
   constructor(
     private autosaveConfiguration: AutosaveConfigurationService,
     private exportService: ExportService,
-    private rendererService: RendererService,
+    private modelerService: ModelerService,
     private snackbar: MatSnackBar,
     private storageService: StorageService,
     private titleService: TitleService,
@@ -58,7 +58,7 @@ export class AutosaveService {
       false,
     );
 
-    this.rendererService.importStory(story, config, false);
+    this.modelerService.importStory(story, config);
   }
 
   removeAllDrafts() {
@@ -138,7 +138,7 @@ export class AutosaveService {
   }
 
   private createDraft(): Draft {
-    const dst = JSON.stringify(this.rendererService.getStory(), null, 2);
+    const dst = JSON.stringify(this.modelerService.getStory(), null, 2);
     const configAndDST = this.exportService.createConfigAndDST(dst);
 
     const date = new Date().toString().slice(0, 25);

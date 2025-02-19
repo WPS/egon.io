@@ -6,12 +6,17 @@ import { ElementRegistryService } from '../../../domain/services/element-registr
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { createTestCanvasObjects } from '../../../utils/testHelpers.spec';
-import { BusinessObject } from '../../../domain/entities/businessObject';
+import {
+  BusinessObject,
+  testBusinessObject,
+} from '../../../domain/entities/businessObject';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { IconSet } from '../../../domain/entities/iconSet';
 import BaseViewer from '../diagram-js/BaseViewer';
+import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
+import DomainStoryModeler from '../diagram-js';
 
 describe('ModelerService', () => {
   let service: ModelerService;
@@ -20,21 +25,25 @@ describe('ModelerService', () => {
   let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
   let iconSetConfigurationSpy: jasmine.SpyObj<IconSetImportExportService>;
   let initializerSpy: jasmine.SpyObj<InitializerService>;
+  let dirtyFlagSpy: jasmine.SpyObj<DirtyFlagService>;
 
-  let testDomainStory: BusinessObject[] = createTestCanvasObjects(1).map(
-    (e) => e.businessObject,
-  );
   const actorsDict = new Dictionary();
   actorsDict.add('', ElementTypes.ACTOR);
 
   const workObjectsDict = new Dictionary();
   workObjectsDict.add('', ElementTypes.WORKOBJECT);
 
-  let testConfiguration: IconSet = {
+  let testIconSet: IconSet = {
     name: INITIAL_ICON_SET_NAME,
     actors: actorsDict,
     workObjects: workObjectsDict,
   };
+
+  const actor = structuredClone(testBusinessObject);
+  actor.type = ElementTypes.ACTOR + 'Person';
+  const workObject = structuredClone(testBusinessObject);
+  workObject.type = ElementTypes.WORKOBJECT + 'Document';
+  let storyToImport: BusinessObject[] = [actor, workObject];
 
   beforeEach(() => {
     BaseViewer.prototype.get = undefined;
@@ -60,6 +69,9 @@ describe('ModelerService', () => {
       'propagateDomainStoryModelerClassesToServices',
       'initiateEventBusListeners',
     ]);
+    const dirtyFlagServiceMock = jasmine.createSpyObj('DirtyFlagService', [
+      'makeClean',
+    ]);
 
     TestBed.configureTestingModule({
       providers: [
@@ -78,6 +90,10 @@ describe('ModelerService', () => {
         {
           provide: IconSetImportExportService,
           useValue: iconSetConfigurationMock,
+        },
+        {
+          provide: DirtyFlagService,
+          useValue: dirtyFlagServiceMock,
         },
       ],
     });
@@ -98,6 +114,9 @@ describe('ModelerService', () => {
     initializerSpy = TestBed.inject(
       InitializerService,
     ) as jasmine.SpyObj<InitializerService>;
+    dirtyFlagSpy = TestBed.inject(
+      DirtyFlagService,
+    ) as jasmine.SpyObj<DirtyFlagService>;
     service = TestBed.inject(ModelerService);
 
     spyOn(document, 'getElementById').and.returnValue({
@@ -131,7 +150,7 @@ describe('ModelerService', () => {
 
   describe('restart', () => {
     it('with story and no configuration', () => {
-      service.restart(undefined, testDomainStory);
+      service.restart(undefined, storyToImport);
 
       expect(
         elementRegistrySpy.createObjectListForDSTDownload,
@@ -152,16 +171,14 @@ describe('ModelerService', () => {
     });
 
     it('with configuration and no story', () => {
-      service.restart(testConfiguration);
+      service.restart(testIconSet);
 
       expect(
         elementRegistrySpy.createObjectListForDSTDownload,
       ).toHaveBeenCalled();
-      expect(iconDictionarySpy.setIconSet).toHaveBeenCalledWith(
-        testConfiguration,
-      );
+      expect(iconDictionarySpy.setIconSet).toHaveBeenCalledWith(testIconSet);
       expect(iconSetConfigurationSpy.loadConfiguration).toHaveBeenCalledWith(
-        testConfiguration,
+        testIconSet,
       );
       expect(elementRegistrySpy.clear).toHaveBeenCalled();
 
@@ -195,4 +212,27 @@ describe('ModelerService', () => {
       expect(initializerSpy.initiateEventBusListeners).toHaveBeenCalled();
     });
   });
+
+  // TODO: find a way to Mock this or initialize the ModelerService properly
+  // describe('importStory', () => {
+  //   beforeEach(() => {
+  //     DomainStoryModeler.prototype.importBusinessObjects = function (story: any) { };
+  //     DomainStoryModeler.prototype.fitStoryToScreen = function () { };
+  //     elementRegistrySpy.correctInitialize.and.returnValue();
+  //     dirtyFlagSpy.makeClean.and.returnValue();
+  //   });
+
+  //   it('should return imported story', () => {
+  //     service.importStory(storyToImport, testIconSet);
+
+  //     expect(service.restart).toHaveBeenCalled();
+  //     expect(elementRegistrySpy.correctInitialize).toHaveBeenCalledTimes(1);
+  //     expect(service.commandStackChanged).toHaveBeenCalledTimes(1);
+  //     expect(service.startDebounce).toHaveBeenCalledTimes(1);
+  //     expect(dirtyFlagSpy.makeClean).toHaveBeenCalledTimes(1);
+
+  //     let result = service.getStory();
+  //     expect(result).toEqual(storyToImport);
+  //   });
+  // });
 });

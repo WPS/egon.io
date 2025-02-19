@@ -6,7 +6,6 @@ import { IconDictionaryService } from '../../icon-set-config/services/icon-dicti
 import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
 import { ImportRepairService } from './import-repair.service';
 import { TitleService } from '../../title/services/title.service';
-import { RendererService } from '../../modeler/services/renderer.service';
 import { MockService } from 'ng-mocks';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -36,10 +35,6 @@ describe('ImportDomainStoryService', () => {
         },
         {
           provide: TitleService,
-        },
-        {
-          provide: RendererService,
-          useValue: MockService(RendererService),
         },
         {
           provide: DialogService,

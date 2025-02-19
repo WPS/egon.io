@@ -5,7 +5,6 @@ import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
 import { Observable, Subscription } from 'rxjs';
-import { RendererService } from 'src/app/tools/modeler/services/renderer.service';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { MatDialogConfig } from '@angular/material/dialog';
@@ -46,7 +45,6 @@ export class ImportDomainStoryService
     private iconDictionaryService: IconDictionaryService,
     private importRepairService: ImportRepairService,
     private titleService: TitleService,
-    private rendererService: RendererService,
     private dialogService: DialogService,
     private iconSetImportExportService: IconSetImportExportService,
     private modelerService: ModelerService,
@@ -336,7 +334,7 @@ export class ImportDomainStoryService
       );
 
       this.updateIconRegistries(domainStoryElements, iconSet);
-      this.rendererService.importStory(domainStoryElements, iconSet);
+      this.modelerService.importStory(domainStoryElements, iconSet);
     }
   }
 

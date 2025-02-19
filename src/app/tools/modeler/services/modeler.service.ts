@@ -17,6 +17,7 @@ import {
 } from '../../../domain/entities/constants';
 import { environment } from '../../../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +28,7 @@ export class ModelerService {
     private elementRegistryService: ElementRegistryService,
     private iconDictionaryService: IconDictionaryService,
     private iconSetImportExportService: IconSetImportExportService,
+    private dirtyFlagService: DirtyFlagService,
     private storageService: StorageService,
     private snackbar: MatSnackBar,
   ) {}
@@ -141,7 +143,7 @@ export class ModelerService {
         .filter((bo) => bo.number !== null),
     );
     if (currentStory && this.modeler.get) {
-      this.modeler.importBusinessObjects(currentStory);
+      this.renderStory(currentStory);
     }
   }
 
@@ -149,7 +151,6 @@ export class ModelerService {
     this.modeler.fitStoryToScreen();
   }
 
-  /** Interactions with the Modeler **/
   getModeler(): any {
     return this.modeler;
   }
@@ -192,5 +193,30 @@ export class ModelerService {
     } catch (err) {
       alert('There was an error saving the SVG.\n' + err);
     }
+  }
+
+  reset(): void {
+    this.renderStory([]);
+    this.dirtyFlagService.makeClean();
+  }
+
+  importStory(domainStory: BusinessObject[], config: IconSet): void {
+    this.restart(config, domainStory);
+    this.renderStory(domainStory); //TODO: not needed because this was already called in restart()
+    this.fitStoryToScreen();
+    this.elementRegistryService.correctInitialize();
+    this.commandStackChanged();
+    this.startDebounce();
+    this.dirtyFlagService.makeClean();
+  }
+
+  getStory(): BusinessObject[] {
+    return this.elementRegistryService
+      .createObjectListForDSTDownload()
+      .map((c) => c.businessObject);
+  }
+
+  private renderStory(domainStory: BusinessObject[]): void {
+    this.modeler.importBusinessObjects(domainStory);
   }
 }

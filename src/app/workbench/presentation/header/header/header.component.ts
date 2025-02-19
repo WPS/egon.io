@@ -4,11 +4,11 @@ import { TitleService } from '../../../../tools/title/services/title.service';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
 import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
 import { SettingsService } from '../../../services/settings/settings.service';
-import { RendererService } from '../../../../tools/modeler/services/renderer.service';
 import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
 import { DialogService } from '../../../../domain/services/dialog.service';
 import { ExportService } from '../../../../tools/export/services/export.service';
 import { LabelDictionaryService } from '../../../../tools/label-dictionary/services/label-dictionary.service';
+import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 
 @Component({
   selector: 'app-header',
@@ -30,7 +30,7 @@ export class HeaderComponent {
     private replayService: ReplayService,
     private importService: ImportDomainStoryService,
     private settingsService: SettingsService,
-    private renderService: RendererService,
+    private modelerService: ModelerService,
     private dirtyFlagService: DirtyFlagService,
     private dialogService: DialogService,
     private exportService: ExportService,
@@ -58,11 +58,11 @@ export class HeaderComponent {
     if (this.dirtyFlagService.dirty) {
       this.importService.openUnsavedChangesReminderDialog(() => {
         this.titleService.reset();
-        this.renderService.reset();
+        this.modelerService.reset();
       });
     } else {
       this.titleService.reset();
-      this.renderService.reset();
+      this.modelerService.reset();
     }
   }
 

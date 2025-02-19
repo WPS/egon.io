@@ -6,7 +6,6 @@ import { MockModule, MockService } from 'ng-mocks';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { PngService } from './png.service';
 import { SvgService } from './svg.service';
-import { RendererService } from '../../modeler/services/renderer.service';
 import { MatDialogModule } from '@angular/material/dialog';
 
 describe('ExportService', () => {
@@ -31,10 +30,6 @@ describe('ExportService', () => {
         {
           provide: SvgService,
           useValue: MockService(SvgService),
-        },
-        {
-          provide: RendererService,
-          useValue: MockService(RendererService),
         },
       ],
     });
