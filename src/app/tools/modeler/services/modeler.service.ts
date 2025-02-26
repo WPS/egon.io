@@ -55,6 +55,9 @@ export class ModelerService {
       keyboard: {
         bind: true,
       },
+      canvas: {
+        autoFocus: true, // see https://github.com/bpmn-io/diagram-js/pull/956 (setting autoFocus to 'true' might cause problems with future integrations)
+      },
     });
 
     if (this.modeler.get) {

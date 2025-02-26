@@ -148,7 +148,7 @@ export class InitializerService {
       }
     });
 
-    // when in replay, do not allow any interaction on the canvas
+    // while replaying, we do not allow changes (to avoid accidentally modeling on top of hidden model elements)
     eventBus.on(
       [
         'element.click',
