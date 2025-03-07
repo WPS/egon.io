@@ -150,7 +150,7 @@ export class ModelerService {
     }
   }
 
-  fitStoryToScreen() {
+  private fitStoryToScreen() {
     this.modeler.fitStoryToScreen();
   }
 
@@ -205,7 +205,6 @@ export class ModelerService {
 
   importStory(domainStory: BusinessObject[], config: IconSet): void {
     this.restart(config, domainStory);
-    this.renderStory(domainStory); //TODO: not needed because this was already called in restart()
     this.fitStoryToScreen();
     this.elementRegistryService.correctInitialize();
     this.commandStackChanged();
