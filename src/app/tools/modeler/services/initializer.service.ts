@@ -148,16 +148,21 @@ export class InitializerService {
       }
     });
 
-    // while replaying, we do not allow changes (to avoid accidentally modeling on top of hidden model elements)
+    // while replaying, we only allow editing labels but no other changes (to avoid accidentally modeling on top of hidden model elements)
     eventBus.on(
       [
-        'element.click',
-        'element.dblclick',
-        'element.mousedown',
-        'drag.init',
-        'canvas.viewbox.changing',
-        'autoPlace',
-        'popupMenu.open',
+        'shape.move.start', // move existing shapes
+        'bendpoint.move.start', // move and create bendpoints
+        'connectionSegment.move.start', // move horizontal/vertical segments of connections
+        'element.click', // click on existing element (opens context pad if element is actor or work object)
+        'element.hover', // show outline around element
+        'interactionEvents.createHit', // use palette to create new element
+        'spaceTool.selection.start', // use space tool
+        'lasso.selection.start', // use lasso tool
+        // TODO:
+        // 1. instead of preventing lasso & space tools from selecting anything, they should be disabled.
+        //    Right now, they can still be activated and the palette shows them as active (even after replay ended)
+        // 2. enable editing of connection labels
       ],
       10000000000,
       (event: any) => {
