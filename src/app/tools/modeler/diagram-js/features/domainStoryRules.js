@@ -11,7 +11,7 @@ import { is } from "./util/util";
 const HIGH_PRIORITY = 1500;
 const MIN_SIZE = 125;
 
-function isGroup(element) {
+export function isGroup(element) {
   return element && /^domainStory:group/.test(element.type);
 }
 
