@@ -162,7 +162,7 @@ function canConnectToAnnotation(source: Element, target: Element, connection: El
 }
 
 export class DomainStoryRules extends RuleProvider {
-    constructor(private readonly eventBus: EventBus) {
+    constructor(eventBus: EventBus) {
         super(eventBus);
     }
 
@@ -268,7 +268,7 @@ export class DomainStoryRules extends RuleProvider {
         });
 
         // CopyPaste.js requires this empty-looking rule to exist
-        this.addRule("element.copy", function (context: any) {
+        this.addRule("element.copy", function () {
             return true;
         });
     }

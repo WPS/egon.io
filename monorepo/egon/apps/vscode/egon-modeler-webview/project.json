@@ -5,17 +5,6 @@
   "sourceRoot": "apps/vscode/egon-modeler-webview/src",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/vite:build",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "defaultConfiguration": "production",
-      "options": {
-        "outputPath": "dist/apps/vscode/egon-modeler-webview",
-        "configFile": "apps/vscode/egon-modeler-webview/vite.config.ts"
-      }
-    },
     "serve": {
       "executor": "@nx/vite:dev-server",
       "defaultConfiguration": "development",

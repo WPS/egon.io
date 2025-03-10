@@ -75,7 +75,6 @@ export class ElementRegistryService {
         // for each memorized group, remove it from the group-array and check its children, whether they are groups or not
         // if a child is a group, memorize it in the group-array
         // other children should already be in the allObjects list
-        let i = groupObjects.length - 1;
         while (groupObjects.length >= 1) {
             const currentGroup = groupObjects.pop();
             currentGroup?.children?.forEach((child: CanvasObject) => {
@@ -84,7 +83,6 @@ export class ElementRegistryService {
                     groupObjects.push(child as GroupCanvasObject);
                 }
             });
-            i = groupObjects.length - 1;
         }
         return allObjects;
     }

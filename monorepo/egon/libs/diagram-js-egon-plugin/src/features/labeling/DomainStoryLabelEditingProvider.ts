@@ -1,7 +1,7 @@
 import { Element, Shape } from "diagram-js/lib/model/Types";
 import Canvas from "diagram-js/lib/core/Canvas";
 import EventBus from "diagram-js/lib/core/EventBus";
-import { DirectEditing } from "diagram-js-direct-editing/lib";
+import { DirectEditing } from "diagram-js-direct-editing";
 import ResizeHandles from "diagram-js/lib/features/resize/ResizeHandles";
 import { Rect } from "diagram-js/lib/util/Types";
 import { assign } from "min-dash";
@@ -250,7 +250,7 @@ export class DomainStoryLabelEditingProvider {
         return { bounds: bounds, style: style };
     }
 
-    update(element: Shape, newLabel: string, activeContextText: string, bounds: Rect) {
+    update(element: Shape, newLabel: string, bounds: Rect) {
         const bbox = this.canvas.getAbsoluteBBox(element);
 
         let newBounds: Rect | undefined;

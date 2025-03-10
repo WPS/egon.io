@@ -78,7 +78,6 @@ export function isCustomSvgIcon(icon: string) {
  * Also there are use cases where only some parts of a path should be
  * scaled.</p>
  *
- * @param {string} pathId The ID of the path.
  * @param {Object} param <p>
  *   Example param object scales the path to 60% size of the container (data.width, data.height).
  *   <pre>
@@ -180,14 +179,14 @@ function format(str: string, obj: any) {
 }
 
 // copied and adjusted from https://github.com/adobe-webplatform/Snap.svg/blob/master/src/svg.js
-const tokenRegex = /\{([^{}]+)\}/g,
-    objNotationRegex = /(?:(?:^|\.)(.+?)(?=\[|\.|$|\()|\[('|")(.+?)\2\])(\(\))?/g; // matches .xxxxx or ["xxxxx"] to run over object properties
+const tokenRegex = /\{([^{}]+)}/g,
+    objNotationRegex = /(?:(?:^|\.)(.+?)(?=\[|\.|$|\()|\[(['"])(.+?)\2])(\(\))?/g; // matches .xxxxx or ["xxxxx"] to run over object properties
 
 function replacer(all: any, key: any, obj: any) {
     let res = obj;
     key.replace(
         objNotationRegex,
-        function (all: any, name: any, quote: any, quotedName: any, isFunc: boolean) {
+        function (_all: any, name: any, _quote: any, quotedName: any, isFunc: boolean) {
             name = name || quotedName;
             if (res) {
                 if (name in res) {

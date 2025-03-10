@@ -179,7 +179,7 @@ export class DomainStoryContextPadProvider implements ContextPadProvider<Element
                     className: "bpmn-icon-trash",
                     title: this.translate("Remove"),
                     action: {
-                        click: (event: any, element: Element) => {
+                        click: (_event: any, element: Element) => {
                             if (isArray(element)) {
                                 const groups = element.filter((el) =>
                                     el.type.includes(ElementTypes.GROUP),
@@ -212,7 +212,7 @@ export class DomainStoryContextPadProvider implements ContextPadProvider<Element
                 className: "bpmn-icon-trash",
                 title: this.translate("Remove Group without Child-Elements"),
                 action: {
-                    click: (event, element: Element) => {
+                    click: (_event, element: Element) => {
                         this.modeling.removeGroup(element);
                         this.dirtyFlagService.makeDirty();
                     },
@@ -230,7 +230,7 @@ export class DomainStoryContextPadProvider implements ContextPadProvider<Element
                 title: this.translate("Change direction"),
                 action: {
                     // event needs to be addressed
-                    click: (event: any, element: Connection) => {
+                    click: (_event: any, element: Connection) => {
                         this.changeDirection(element);
                         this.dirtyFlagService.makeDirty();
                     },
@@ -266,7 +266,7 @@ export class DomainStoryContextPadProvider implements ContextPadProvider<Element
                 className: "icon-domain-story-color-picker",
                 title: this.translate("Change color"),
                 action: {
-                    click: function (event, element) {
+                    click: function () {
                         document.dispatchEvent(new CustomEvent("openColorPicker"));
                     },
                 },

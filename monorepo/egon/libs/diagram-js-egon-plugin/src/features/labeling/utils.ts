@@ -244,9 +244,9 @@ export function autocomplete(
      */
     function removeActive(autocompleteList: HTMLCollectionOf<HTMLDivElement>) {
         if (autocompleteList.length > 1) {
-            for (const item of autocompleteList) {
+            Array.from(autocompleteList).forEach((item) => {
                 item.classList.remove("autocomplete-active");
-            }
+            });
         }
     }
 
@@ -256,11 +256,11 @@ export function autocomplete(
      */
     function closeAllLists(survivor?: any) {
         const autocompleteList = document.getElementsByClassName("autocomplete-items");
-        for (const item of autocompleteList) {
+        Array.from(autocompleteList).forEach((item) => {
             if (survivor != item && survivor != input) {
                 item.parentNode?.removeChild(item);
             }
-        }
+        });
     }
 
     /* execute a function when someone clicks in the document:*/

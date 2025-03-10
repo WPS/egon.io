@@ -1,4 +1,4 @@
-declare module "diagram-js-direct-editing/lib" {
+declare module "diagram-js-direct-editing" {
     import { Element } from "diagram-js/lib/model/Types";
 
     export class DirectEditing {

@@ -1,5 +1,5 @@
 import ResizeModule from "diagram-js/lib/features/resize";
-import DirectEditingModule from "diagram-js-direct-editing/lib";
+import DirectEditingModule from "diagram-js-direct-editing";
 import CommandStack from "diagram-js/lib/command";
 
 import DomainStoryModeling from "../modeling";

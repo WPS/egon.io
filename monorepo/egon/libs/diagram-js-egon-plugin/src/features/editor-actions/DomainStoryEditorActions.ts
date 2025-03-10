@@ -6,7 +6,7 @@ import SpaceTool from "diagram-js/lib/features/space-tool/SpaceTool";
 import Selection from "diagram-js/lib/features/selection/Selection";
 import LassoTool from "diagram-js/lib/features/lasso-tool/LassoTool";
 import HandTool from "diagram-js/lib/features/hand-tool/HandTool";
-import { DirectEditing } from "diagram-js-direct-editing/lib";
+import { DirectEditing } from "diagram-js-direct-editing";
 
 export class DomainStoryEditorActions {
     static $inject: string[] = [];
