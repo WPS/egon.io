@@ -1,82 +1,94 @@
-# Egon
+<div id="top"></div>
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+<!-- PROJECT SHIELDS -->
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+<!-- END OF PROJECT SHIELDS -->
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+    <a href="https://wsp-consulting.de/en/home-en/">
+        <img src="images/wps-icon.ico" alt="WPS Logo" height="180">
+    </a>
+    <h3>Egon - The Domain Story Modeler</h3>
+    <p>
+        <i>A tool to visualize Domain Stories in your browser.</i>
+        <br />
+        <a href="https://github.com/WPS/egon.io/issues">Report Bug</a>
+        ·
+        <a href="https://github.com/WPS/egon.io/pulls">Request Feature</a>
+    </p>
+</div>
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## About The Project
 
-## Finish your CI setup
+- See http://domainstorytelling.org for more information on Domain Storytelling.
+- The [Egon.io Website](https://egon.io/) contains a user manual.
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/VkMHt5nVdZ)
+## Getting started
 
+We use [Nx](https://nx.dev/) as our monorepo management tool.
+To test the application locally, follow these steps:
 
-## Run tasks
+1. Install dependencies:
+   ```shell
+   yarn
+   ```
+2. Start a development server:
+   ```shell
+   yarn nx run diagram-js-egon-plugin:build # has to be run once because of css
+   yarn nx run egon-modeler-webview:serve
+   ```
 
-To run the dev server for your app, use:
+## Documentation
 
-```sh
-npx nx serve egon
-```
+## Contributing
 
-To create a production bundle:
+Contributions are what make the open source community such an amazing place to learn,
+inspire, and create.
+Any contributions you make are **greatly appreciated**.
 
-```sh
-npx nx build egon
-```
+If you have a suggestion that would make this better, please open an issue with the tag
+`enhancement`, fork the repo and create a pull request.
+You can also simply open an issue with the tag `enhancement`.
+Please use semantic commit messages as described
+in [here](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716).  
+Don't forget to give the project a star! Thanks again!
 
-To see all available targets to run for a project, run:
+1. Open an issue with the tag "enhancement"
+2. Fork the Project
+3. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+4. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+5. Push to the Branch (`git push origin feature/AmazingFeature`)
+6. Open a Pull Request
 
-```sh
-npx nx show project egon
-```
+## License
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+Distributed under this [license](LICENSE).
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-## Add new projects
+[contributors-shield]: https://img.shields.io/github/contributors/wps/egon.io.svg?style=for-the-badge
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+[contributors-url]: https://github.com/wps/egon.io/graphs/contributors
 
-Use the plugin's generator to create new projects.
+[forks-shield]: https://img.shields.io/github/forks/wps/egon.io.svg?style=for-the-badge
 
-To generate a new application, use:
+[forks-url]: https://github.com/wps/egon.io/network/members
 
-```sh
-npx nx g @nx/angular:app demo
-```
+[stars-shield]: https://img.shields.io/github/stars/wps/egon.io.svg?style=for-the-badge
 
-To generate a new library, use:
+[stars-url]: https://github.com/wps/egon.io/stargazers
 
-```sh
-npx nx g @nx/angular:lib mylib
-```
+[issues-shield]: https://img.shields.io/github/issues/wps/egon.io.svg?style=for-the-badge
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+[issues-url]: https://github.com/wps/egon.io/issues
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+[license-shield]: https://img.shields.io/github/license/wps/egon.io.svg?style=for-the-badge
 
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+[license-url]: https://github.com/wps/egon.io/blob/main/LICENSE
