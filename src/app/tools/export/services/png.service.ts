@@ -41,7 +41,7 @@ export class PngService {
   }
 
   /** Needed for an SVG-Fix in CHrome where the # needs to be replaced by %23 **/
-  URIHashtagFix(svg: string): string {
+  private URIHashtagFix(svg: string): string {
     let fix = false;
 
     const browser = this.browserSpecs();
@@ -68,7 +68,7 @@ export class PngService {
     return svg;
   }
 
-  findMostOuterElements(
+  private findMostOuterElements(
     svg: HTMLElement,
     includeSpaceForDescription: boolean,
   ): Box {
