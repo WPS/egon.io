@@ -1,7 +1,7 @@
 @import "diagram-js/assets/diagram-js.css";
+/* TODO: Find a better way to import the css files */
 @import "../../../../dist/libs/diagram-js-egon-plugin/style.css";
 
-/* You can add global styles to this file, and also import other style files */
 html, body {
     height: 100%;
     width: 100%;
