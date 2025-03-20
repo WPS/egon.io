@@ -188,7 +188,7 @@ export class PngService {
     const bounds = this.createBounds(box, withTitle ? dynamicHeightOffset : 0);
 
     const dataStart = svg.substring(0, viewBoxIndex);
-    viewBoxIndex = svg.indexOf('style="');
+    viewBoxIndex = svg.indexOf('tabindex="');
 
     const dataEnd = svg.substring(viewBoxIndex);
     dataEnd.substring(viewBoxIndex);

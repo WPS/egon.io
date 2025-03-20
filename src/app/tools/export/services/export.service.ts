@@ -148,7 +148,7 @@ export class ExportService implements OnDestroy {
       const svgElements = container[0].getElementsByTagName('svg');
       const outerSVGElement = svgElements[0];
       const viewport = outerSVGElement.getElementsByClassName('viewport')[0];
-      const layerBase = viewport.getElementsByClassName('layer-base')[0];
+      const layerBase = viewport.getElementsByClassName('layer-root-1')[0];
 
       const image = document.createElement('img');
 
