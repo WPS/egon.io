@@ -1,8 +1,8 @@
-import { ElementRegistryService } from "@egon/diagram-js-egon-plugin";
 import { CommandContext } from "diagram-js/lib/command/CommandStack";
 import EventBus from "diagram-js/lib/core/EventBus";
 import CommandHandler from "diagram-js/lib/command/CommandHandler";
 import { Connection, Element, ElementLike } from "diagram-js/lib/model/Types";
+import { ElementRegistryService } from "../../../domain/service/ElementRegistryService";
 import { ActivityCanvasObject } from "../../../domain/entities/activityCanvasObject";
 import { DomainStoryModeling } from "../../modeling/DomainStoryModeling";
 import { getNumbersAndIDs } from "../../../utils/numbering";

@@ -1,43 +1,88 @@
-import Diagram from "diagram-js";
-import Canvas from "diagram-js/lib/core/Canvas";
-import ElementFactory from "diagram-js/lib/core/ElementFactory";
+import { getVsCodeApi } from "./vscode/api";
+import { debounce } from "lodash";
+import {
+    createDomainStoryModeler,
+    exportStory,
+    getDomainStoryModeler,
+    importStory,
+    NoModelerError,
+    onCommandStackChanged,
+} from "./modeler";
+import {
+    Command,
+    DisplayDomainStoryCommand,
+    InitializeWebviewCommand,
+    SyncDocumentCommand,
+} from "@egon/data-transfer-objects";
 
-import EgonIo, {
-    DirtyFlagService,
-    ElementRegistryService,
-    IconDictionaryService,
-    LabelDictionaryService,
-} from "@egon/diagram-js-egon-plugin";
+const vscode = getVsCodeApi();
 
-const additionalModules = [EgonIo];
+/**
+ * Debounce the update of the diagram content to avoid too many updates.
+ * @param bpmn
+ * @throws NoModelerError if the modeler is not available
+ */
+const updateStory = debounce(importStory, 100);
 
-const editor = new Diagram({
-    container: document.getElementById("domainStoryEditor"),
-    width: "100%",
-    height: "100%",
-    position: "relative",
-    modules: [...additionalModules],
-});
+/**
+ * The Main function that gets executed after the webview is fully loaded.
+ * This way we can ensure that when the backend sends a message, it is caught.
+ * There are two reasons why a webview gets build:
+ * 1. A new .egn file was opened
+ * 2. User switched to another tab and now switched back
+ */
+window.onload = function () {
+    window.addEventListener("message", onReceiveMessage);
 
-const canvas: Canvas = editor.get("canvas");
-const elementFactory: ElementFactory = editor.get("elementFactory");
+    let editorId: string;
+    try {
+        editorId = vscode.getState().editorId;
+    } catch (error: unknown) {
+        editorId = "";
+    }
 
-const root = elementFactory.createRoot();
+    vscode.postMessage(new InitializeWebviewCommand(editorId));
 
-canvas.setRootElement(root);
+    console.debug("[DEBUG] Modeler is initialized...");
+};
 
-const elementRegistryService: ElementRegistryService = editor.get(
-    "domainStoryElementRegistryService",
-);
-const dirtyFlagService: DirtyFlagService = editor.get("domainStoryDirtyFlagService");
-const iconDictionaryService: IconDictionaryService = editor.get(
-    "domainStoryIconDictionaryService",
-);
-const labelDictionaryService: LabelDictionaryService = editor.get(
-    "domainStoryLabelDictionaryService",
-);
+/**
+ * Send the changed story to the backend to update the .bpmn file.
+ */
+function sendStoryChanges() {
+    const egn = exportStory();
+    vscode.postMessage(new SyncDocumentCommand(vscode.getState().editorId, egn));
+}
 
-console.log("elementRegistryService", elementRegistryService);
-console.log("dirtyFlagService", dirtyFlagService);
-console.log("iconDictionaryService", iconDictionaryService);
-console.log("labelDictionaryService", labelDictionaryService);
+/**
+ * Listen to messages from the backend.
+ */
+function onReceiveMessage(message: MessageEvent<Command>) {
+    const command = message.data;
+
+    switch (true) {
+        case command.TYPE === DisplayDomainStoryCommand.name: {
+            const c = command as DisplayDomainStoryCommand;
+            try {
+                getDomainStoryModeler();
+                updateStory(c.text);
+            } catch (error: unknown) {
+                if (error instanceof NoModelerError) {
+                    initializeDomainStoryModeler(c.text);
+                    vscode.setState({
+                        editorId: c.editorId,
+                    });
+                }
+            }
+            break;
+        }
+    }
+}
+
+function initializeDomainStoryModeler(story: string) {
+    createDomainStoryModeler();
+    if (story) {
+        importStory(story);
+    }
+    onCommandStackChanged(debounce(sendStoryChanges, 100));
+}

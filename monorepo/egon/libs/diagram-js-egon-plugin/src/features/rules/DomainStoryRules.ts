@@ -34,7 +34,7 @@ function isAnnotation(element: Element) {
 
 // indirect usage of IMPLICIT_ROOT_ID, constant not used because of Regex
 export function isBackground(element: Element) {
-    return element && /^root.*/.test(element.id);
+    return element && /^__implicitroot/.test(element.id);
 }
 
 export function isLabel(element: Element): element is Label {
@@ -183,22 +183,6 @@ export class DomainStoryRules extends RuleProvider {
             });
         });
 
-        this.addRule("elements.create", (context: any) => {
-            const elements = context.elements,
-                target = context.target;
-
-            return every(elements, (element: Element) => {
-                if (isConnection(element)) {
-                    if (!element.source || !element.target) {
-                        return false;
-                    }
-                    return canConnect(element.source, element.target);
-                }
-
-                return this.canCreate(element, target);
-            });
-        });
-
         this.addRule("elements.move", HIGH_PRIORITY, (context: any) => {
             const target = context.target,
                 shapes = context.shapes;
@@ -242,7 +226,7 @@ export class DomainStoryRules extends RuleProvider {
             const result = canConnectToAnnotation(source, target, connection);
 
             if (!result) {
-                return;
+                return undefined;
             }
 
             return canConnect(source, target);

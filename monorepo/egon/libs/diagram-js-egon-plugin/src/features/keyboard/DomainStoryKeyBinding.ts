@@ -87,7 +87,7 @@ export class DomainStoryKeyBinding {
                 const event = context.keyEvent;
 
                 if (this.keyboard.hasModifier(event)) {
-                    return;
+                    return undefined;
                 }
 
                 if (this.keyboard.isKey(["h", "H"], event)) {
@@ -107,7 +107,7 @@ export class DomainStoryKeyBinding {
                 const event = context.keyEvent;
 
                 if (this.keyboard.hasModifier(event)) {
-                    return;
+                    return undefined;
                 }
 
                 if (this.keyboard.isKey(["e", "E"], event)) {

@@ -1,0 +1,97 @@
+{
+  "name": "egon-modeler-plugin",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/vscode/egon-modeler-plugin/src",
+  "tags": [],
+  "implicitDependencies": [
+    "egon-modeler-webview"
+  ],
+  "targets": {
+    "observe-all": {
+      "executor": "nx:run-commands",
+      "parallel": true,
+      "options": {
+        "commands": [
+          {
+            "command": "npx nx observe egon-modeler-plugin",
+            "prefix": "egon-modeler-plugin",
+            "color": "blue"
+          },
+          {
+            "command": "npx nx observe egon-modeler-webview",
+            "prefix": "egon-modeler-webview",
+            "color": "green"
+          }
+        ]
+      }
+    },
+    "observe": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "development",
+      "options": {
+        "watch": true,
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/vscode/egon-io",
+        "deleteOutputPath": false,
+        "main": "apps/vscode/egon-modeler-plugin/src/main.ts",
+        "tsConfig": "apps/vscode/egon-modeler-plugin/tsconfig.app.json",
+        "generatePackageJson": true,
+        "webpackConfig": "apps/vscode/egon-modeler-plugin/webpack.config.js",
+        "babelUpwardRootMode": true,
+        "assets": [
+          {
+            "glob": "style.css",
+            "input": "apps/vscode/egon-modeler-plugin/src",
+            "output": "/assets"
+          }
+        ]
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true
+        }
+      }
+    },
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/vscode/egon-io",
+        "deleteOutputPath": false,
+        "main": "apps/vscode/egon-modeler-plugin/src/main.ts",
+        "tsConfig": "apps/vscode/egon-modeler-plugin/tsconfig.app.json",
+        "generatePackageJson": true,
+        "webpackConfig": "apps/vscode/egon-modeler-plugin/webpack.config.js",
+        "babelUpwardRootMode": true,
+        "assets": [
+          {
+            "glob": "style.css",
+            "input": "apps/vscode/egon-modeler-plugin/src",
+            "output": "/assets"
+          }
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/vscode/egon-modeler-plugin/jest.config.ts"
+      }
+    }
+  }
+}

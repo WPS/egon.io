@@ -19,6 +19,8 @@ import DomainStoryLabelEditing from "./features/labeling";
 import DomainStoryUpdateHandler from "./features/update-handler";
 import DomainStoryCopyPaste from "./features/copy-paste";
 import DomainStoryKeyBinding from "./features/keyboard";
+import DomainStoryExportService from "./export/service";
+import DomainStoryImportService from "./import/service";
 
 const buildInModules = [
     EditorActionsModule,
@@ -44,6 +46,8 @@ const domainStoryModules = [
     DomainStoryLabelEditing,
     DomainStoryCopyPaste,
     DomainStoryKeyBinding,
+    DomainStoryExportService,
+    DomainStoryImportService,
 ];
 
 export default {

@@ -1,0 +1,47 @@
+{
+  "name": "egon-modeler-plugin",
+  "displayName": "Egon.io: Domain Story Modeler",
+  "description": "",
+  "license": "SEE LICENSE IN LICENSE",
+  "version": "0.1.0",
+  "publisher": "",
+  "homepage": "https://egon.io/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WPS/egon.io.git"
+  },
+  "bugs": {
+    "url": "https://github.com/WPS/egon.io/issues"
+  },
+  "engines": {
+    "vscode": "^1.76.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "DDD",
+    "Domain Driven Design",
+    "Domain Storytelling",
+    "diagram-js"
+  ],
+  "main": "main.js",
+  "contributes": {
+    "customEditors": [
+      {
+        "id": "egon.io",
+        "viewType": "egon.io",
+        "displayName": "Egon.io: Domain Story Modeler",
+        "selector": [
+          {
+            "filenamePattern": "*.egn"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "menus": {},
+    "configuration": {}
+  }
+}
