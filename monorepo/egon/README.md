@@ -12,7 +12,7 @@
 <br />
 <div align="center">
     <a href="https://wsp-consulting.de/en/home-en/">
-        <img src="images/wps-icon.ico" alt="WPS Logo" height="180">
+        <img src="https://raw.githubusercontent.com/Miragon/egon.io/refs/heads/build-vsce-package/monorepo/egon/images/wps-icon.ico" alt="WPS Logo" height="180">
     </a>
     <h3>Egon - The Domain Story Modeler</h3>
     <p>

@@ -1,7 +1,7 @@
 {
   "name": "egon-modeler-plugin",
   "displayName": "Egon.io: Domain Story Modeler",
-  "description": "",
+  "description": "A tool to visualize Domain Stories in VS Code.",
   "license": "SEE LICENSE IN LICENSE",
   "version": "0.1.0",
   "publisher": "",
@@ -16,6 +16,7 @@
   "engines": {
     "vscode": "^1.76.0"
   },
+  "icon": "assets/wps-icon.png",
   "categories": [
     "Visualization",
     "Other"

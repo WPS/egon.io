@@ -19,7 +19,6 @@
       "{workspaceRoot}/.github/workflows/ci.yml"
     ]
   },
-  "nxCloudId": "67b2fddcfbcfd65be1fe0a8c",
   "neverConnectToCloud": true,
   "targetDefaults": {
     "build": {

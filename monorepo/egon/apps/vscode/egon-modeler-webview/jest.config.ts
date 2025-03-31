@@ -1,10 +1,16 @@
 export default {
     displayName: "egon-modeler-webview",
     preset: "../../../jest.preset.js",
-    setupFilesAfterEnv: ["<rootDir>/src/test-setup.ts"],
-    // transform: {
-    //     '^.+\\.[tj]s$': '@swc/jest',
-    // },
+    globals: {},
+    testEnvironment: "node",
+    transform: {
+        "^.+\\.[tj]s$": [
+            "ts-jest",
+            {
+                tsconfig: "<rootDir>/tsconfig.spec.json",
+            },
+        ],
+    },
     moduleFileExtensions: ["ts", "js", "html"],
     coverageDirectory: "../../../coverage/apps/vscode/egon-modeler-webview",
 };

@@ -81,8 +81,15 @@ function onReceiveMessage(message: MessageEvent<Command>) {
 
 function initializeDomainStoryModeler(story: string) {
     createDomainStoryModeler();
-    if (story) {
+    if (story !== "") {
         importStory(story);
+    } else {
+        importStory(emptyStory);
     }
     onCommandStackChanged(debounce(sendStoryChanges, 100));
 }
+
+const emptyStory = JSON.stringify({
+    domain: {},
+    dst: [],
+});

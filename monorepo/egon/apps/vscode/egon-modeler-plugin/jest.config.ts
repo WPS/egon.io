@@ -1,9 +1,15 @@
 export default {
     displayName: "egon-modeler-plugin",
     preset: "../../../jest.preset.js",
-    setupFilesAfterEnv: ["<rootDir>/src/test-setup.ts"],
+    globals: {},
+    testEnvironment: "node",
     transform: {
-        "^.+\\.[tj]s$": "@swc/jest",
+        "^.+\\.[tj]s$": [
+            "ts-jest",
+            {
+                tsconfig: "<rootDir>/tsconfig.spec.json",
+            },
+        ],
     },
     moduleFileExtensions: ["ts", "js", "html"],
     coverageDirectory: "../../../coverage/apps/vscode/egon-modeler-plugin",

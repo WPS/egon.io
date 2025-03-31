@@ -4,6 +4,11 @@
   "license": "MIT",
   "private": true,
   "packageManager": "yarn@4.6.0",
+  "scripts": {
+    "build": "npx nx run-many --target build --all --prod",
+    "test": "npx nx run-many --target test --all --parallel --coverage --coverageReporters=clover",
+    "lint": "npx nx run-many --target lint --all  --parallel"
+  },
   "dependencies": {
     "@angular/animations": "^18.2.13",
     "@angular/common": "^18.2.13",

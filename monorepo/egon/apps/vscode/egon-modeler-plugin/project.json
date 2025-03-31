@@ -77,8 +77,28 @@
         "babelUpwardRootMode": true,
         "assets": [
           {
+            "glob": "LICENSE",
+            "input": "{workspaceRoot}",
+            "output": "/"
+          },
+          {
+            "glob": "README.md",
+            "input": "{workspaceRoot}",
+            "output": "/"
+          },
+          {
+            "glob": "wps-icon.png",
+            "input": "{workspaceRoot}/images",
+            "output": "/assets"
+          },
+          {
+            "glob": "vscodeignore",
+            "input": "{workspaceRoot}/apps/vscode/egon-modeler-plugin",
+            "output": "/"
+          },
+          {
             "glob": "style.css",
-            "input": "apps/vscode/egon-modeler-plugin/src",
+            "input": "{workspaceRoot}/apps/vscode/egon-modeler-plugin/src",
             "output": "/assets"
           }
         ]

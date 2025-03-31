@@ -1,0 +1,65 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+    types: [ opened, reopened ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Corepack enable
+        run: corepack enable
+
+      - name: Setup NodeJS 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Test
+        run: yarn test
+
+      - name: Build
+        run: yarn build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+  vsce-package:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+
+      - name: Setup NodeJS 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install vsce
+        run: npm install -g @vscode/vsce@latest
+
+      - name: Build vsix egon-io
+        working-directory: apps/vscode/egon-io
+        run: vsce package --out egon-io.vsix --yarn --no-dependencies
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vsix-packages
+          path: vsix-packages

@@ -30,6 +30,7 @@ export class DomainStoryImportService {
      * @param story
      */
     import(story: string) {
+        console.log("[DEBUG] import()", story);
         const configAndDST: ConfigAndDST = JSON.parse(story);
 
         const domainStoryElements = configAndDST.dst;
