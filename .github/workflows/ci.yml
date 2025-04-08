@@ -129,7 +129,7 @@ jobs:
           git config --global user.name "Egon.io Bot"
           git clone --single-branch --branch main "https://x-access-token:${{ secrets.EGON_IO_DEPLOYMENT_PAT }}@github.com/WPS/egon.io-website.git" "${CLONE_DIR}"
 
-          rm -r "${CLONE_DIR}/app-v3"
+          rm -rf "${CLONE_DIR}/app-v3"
           mkdir "${CLONE_DIR}/app-v3"
           cp -r dist_build/egon/* "${CLONE_DIR}/app-v3"
 
