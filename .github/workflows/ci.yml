@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       deploy_prod:
-        description: "Deploy v2 prod"
+        description: "Deploy v3 prod"
         required: true
         type: boolean
 
