@@ -79,8 +79,6 @@ Domain Storytelling is a modeling language and we wanted to build a proper model
 - was flexible enough to support the Domain Storytelling modeling language 
 - and fulfilled the [architectural constraints](#section-architecture-constraints).
 
-## Decision: Using diagram-js as Modeling Framework
-
 [diagram-js](https://github.com/bpmn-io/diagram-js) checked all the boxes. It is a JavaScript modeling library, originally developed for the [bpmn-js BPMN editor](https://github.com/bpmn-io/bpmn-js) but now language-agnostic. 
 
 Older versions of Egon (v1 and v2) depended on bpmn-js which had tradeoffs: For some features, Egon developers had to dive deep into the inner workings of bpmn-js and work around the framework's behavior. At the same time, bpmn-js offers a lot of features that are not relevant for Domain Storytelling. Egon v3 marked the shift from using bpmn-js to diagram-js as our modeling framework.
