@@ -4,13 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "nx serve",
-    "format": "prettier --write ./src",
-    "format:check": "prettier --check ./src",
+    "format": "prettier --write apps/egon/src",
+    "format:check": "prettier --check apps/egon/src",
     "test": "nx test",
     "build": "nx build",
     "build-prod": "nx build --configuration production",
     "zip": "zip-build dist_build/ dist/ --template '%NAME%-%VERSION%.%EXT%'",
-    "archlint": "node ./node_modules/ts-archlint/dist/index.js ./src/app"
+    "archlint": "node ./node_modules/ts-archlint/dist/index.js apps/egon/src/app"
   },
   "private": true,
   "dependencies": {
