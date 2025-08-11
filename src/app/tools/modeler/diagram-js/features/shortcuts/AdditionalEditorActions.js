@@ -1,6 +1,6 @@
-import inherits from "inherits-browser";
+import inherits from 'inherits-browser';
 
-import EditorActions from "diagram-js/lib/features/editor-actions/EditorActions";
+import EditorActions from 'diagram-js/lib/features/editor-actions/EditorActions';
 
 export default function AdditionalEditorActions(injector) {
   injector.invoke(EditorActions, this);
@@ -8,7 +8,7 @@ export default function AdditionalEditorActions(injector) {
 
 inherits(AdditionalEditorActions, EditorActions);
 
-AdditionalEditorActions.$inject = ["injector"];
+AdditionalEditorActions.$inject = ['injector'];
 
 /**
  * Register default actions.
@@ -24,16 +24,16 @@ AdditionalEditorActions.prototype._registerDefaultActions = function (
 
   // (1) retrieve optional components to integrate with
 
-  var canvas = injector.get("canvas", false);
-  var elementRegistry = injector.get("elementRegistry", false);
-  var selection = injector.get("selection", false);
-  var spaceTool = injector.get("spaceTool", false);
-  var lassoTool = injector.get("lassoTool", false);
-  var handTool = injector.get("handTool", false);
-  var directEditing = injector.get("directEditing", false);
+  var canvas = injector.get('canvas', false);
+  var elementRegistry = injector.get('elementRegistry', false);
+  var selection = injector.get('selection', false);
+  var spaceTool = injector.get('spaceTool', false);
+  var lassoTool = injector.get('lassoTool', false);
+  var handTool = injector.get('handTool', false);
+  var directEditing = injector.get('directEditing', false);
 
   if (canvas && elementRegistry && selection) {
-    this._registerAction("selectElements", function () {
+    this._registerAction('selectElements', function () {
       // select all elements except for the invisible
       // root element
       var rootElement = canvas.getRootElement();
@@ -49,25 +49,25 @@ AdditionalEditorActions.prototype._registerDefaultActions = function (
   }
 
   if (spaceTool) {
-    this._registerAction("spaceTool", function () {
+    this._registerAction('spaceTool', function () {
       spaceTool.toggle();
     });
   }
 
   if (lassoTool) {
-    this._registerAction("lassoTool", function () {
+    this._registerAction('lassoTool', function () {
       lassoTool.toggle();
     });
   }
 
   if (handTool) {
-    this._registerAction("handTool", function () {
+    this._registerAction('handTool', function () {
       handTool.toggle();
     });
   }
 
   if (selection && directEditing) {
-    this._registerAction("directEditing", function () {
+    this._registerAction('directEditing', function () {
       var currentSelection = selection.get();
 
       if (currentSelection.length) {

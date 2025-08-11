@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 
-import { assign } from "min-dash";
+import { assign } from 'min-dash';
 
-import inherits from "inherits";
+import inherits from 'inherits';
 
-import BaseElementFactory from "diagram-js/lib/core/ElementFactory";
+import BaseElementFactory from 'diagram-js/lib/core/ElementFactory';
 
-import DomainStoryIdFactory from "./domainStoryIdFactory";
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
+import DomainStoryIdFactory from './domainStoryIdFactory';
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 
 export default function DomainStoryElementFactory() {
   let self = this;
@@ -27,7 +27,7 @@ export default function DomainStoryElementFactory() {
     if (!attrs.businessObject) {
       attrs.businessObject = {
         type: dstElementType,
-        name: attrs.name ? attrs.name : "",
+        name: attrs.name ? attrs.name : '',
       };
     }
 
@@ -42,18 +42,18 @@ export default function DomainStoryElementFactory() {
 
     let id = attrs.id;
     attrs.businessObject.get = function (key) {
-      if (key === "id") {
+      if (key === 'id') {
         return id;
       }
     };
     attrs.businessObject.set = function (key, value) {
-      if (key === "id") {
+      if (key === 'id') {
         assign(attrs.businessObject, { id: value });
       }
     };
 
     // add width and height if shape
-    if (djsElementType === "shape") {
+    if (djsElementType === 'shape') {
       let alreadyHasSize = attrs.height || attrs.width; // if a story is imported, groups and annotations already have dimensions; we must not overwrite them with default values
 
       if (!alreadyHasSize) {
@@ -61,9 +61,9 @@ export default function DomainStoryElementFactory() {
       }
     }
 
-    if (!("$instanceOf" in attrs.businessObject)) {
+    if (!('$instanceOf' in attrs.businessObject)) {
       // ensure we can use ModelUtil#is for type checks
-      Object.defineProperty(attrs.businessObject, "$instanceOf", {
+      Object.defineProperty(attrs.businessObject, '$instanceOf', {
         value: function (type) {
           return this.type === type;
         },

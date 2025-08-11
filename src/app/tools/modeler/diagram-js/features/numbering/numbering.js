@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-import { angleBetween } from "src/app/utils/mathExtensions";
+import { angleBetween } from 'src/app/utils/mathExtensions';
 
 let numberRegistry = [];
 let multipleNumberRegistry = [false];
@@ -21,7 +21,7 @@ export function updateMultipleNumberRegistry(activityBusinessObjects) {
 
 // defines the box for activity numbers
 export function numberBoxDefinitions(element) {
-  let alignment = "center";
+  let alignment = 'center';
   let boxWidth = 30;
   let boxHeight = 30;
   let angle = 0;
@@ -130,7 +130,7 @@ export function updateExistingNumbersAtGeneration(
     if (number >= wantedNumber) {
       wantedNumber++;
       setTimeout(function () {
-        commandStack.execute("activity.changed", {
+        commandStack.execute('activity.changed', {
           businessObject: element.businessObject,
           newLabel: element.businessObject.name,
           newNumber: number,
@@ -217,7 +217,7 @@ function setNumberOfActivity(elementArray, wantedNumber, eventBus) {
         if (businessObject) {
           businessObject.number = wantedNumber;
         }
-        eventBus.fire("element.changed", { element });
+        eventBus.fire('element.changed', { element });
       }
     });
   }

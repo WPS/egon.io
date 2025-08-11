@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
-import Modeling from "diagram-js/lib/features/modeling/Modeling";
+import Modeling from 'diagram-js/lib/features/modeling/Modeling';
 
-import { inherits } from "util";
+import { inherits } from 'util';
 
 export default function DSModeling(
   eventBus,
@@ -19,7 +19,7 @@ Modeling.prototype.updateLabel = function (element, newLabel, newBounds) {
       ? newLabel !== element.businessObject.name
       : newLabel !== element.name
   ) {
-    this._commandStack.execute("element.updateLabel", {
+    this._commandStack.execute('element.updateLabel', {
       element: element,
       newLabel: newLabel,
       newBounds: newBounds,
@@ -33,7 +33,7 @@ Modeling.prototype.updateNumber = function (element, newNumber, newBounds) {
       ? newNumber !== element.businessObject.number
       : newNumber !== element.number
   ) {
-    this._commandStack.execute("element.updateLabel", {
+    this._commandStack.execute('element.updateLabel', {
       element: element,
       newNumber: newNumber,
       newBounds: newBounds,
@@ -48,12 +48,12 @@ Modeling.prototype.replaceShape = function (oldShape, newShape, hints) {
     hints: hints || {},
   };
 
-  this._commandStack.execute("shape.replace", context);
+  this._commandStack.execute('shape.replace', context);
   return context.newShape;
 };
 
 Modeling.prototype.removeGroup = function (element) {
-  this._commandStack.execute("shape.removeGroupWithoutChildren", {
+  this._commandStack.execute('shape.removeGroupWithoutChildren', {
     element: element,
   });
   this.removeElements({ element });
@@ -62,8 +62,8 @@ Modeling.prototype.removeGroup = function (element) {
 inherits(DSModeling, Modeling);
 
 DSModeling.$inject = [
-  "eventBus",
-  "elementFactory",
-  "commandStack",
-  "domainStoryRules",
+  'eventBus',
+  'elementFactory',
+  'commandStack',
+  'domainStoryRules',
 ];

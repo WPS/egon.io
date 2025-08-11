@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
 export default function DSMassRenameHandler(commandStack, eventBus) {
-  commandStack.registerHandler("domainStoryObjects.massRename", massRename);
+  commandStack.registerHandler('domainStoryObjects.massRename', massRename);
 
   function massRename(modeling) {
     this.preExecute = function (context) {
@@ -20,7 +20,7 @@ export default function DSMassRenameHandler(commandStack, eventBus) {
         let semantic = element.businessObject;
         semantic.name = context.newValue;
 
-        eventBus.fire("element.changed", { element });
+        eventBus.fire('element.changed', { element });
       });
     };
 
@@ -30,7 +30,7 @@ export default function DSMassRenameHandler(commandStack, eventBus) {
         let semantic = element.businessObject;
         semantic.name = context.oldLabel;
 
-        eventBus.fire("element.changed", { element });
+        eventBus.fire('element.changed', { element });
       });
     };
   }

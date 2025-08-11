@@ -1,30 +1,30 @@
-import BaseViewer from "./BaseViewer";
-import ResizeModule from "diagram-js/lib/features/resize";
-import { assign, isArray } from "min-dash";
-import inherits from "inherits";
+import BaseViewer from './BaseViewer';
+import ResizeModule from 'diagram-js/lib/features/resize';
+import { assign, isArray } from 'min-dash';
+import inherits from 'inherits';
 
-import DomainStoryModule from "./features";
-import LabelEditingModule from "./features/labeling";
-import ModelingModule from "./features/modeling";
-import { ElementTypes } from "../../../domain/entities/elementTypes";
+import DomainStoryModule from './features';
+import LabelEditingModule from './features/labeling';
+import ModelingModule from './features/modeling';
+import { ElementTypes } from '../../../domain/entities/elementTypes';
 
-import MoveCanvasModule from "diagram-js/lib/navigation/movecanvas";
-import KeyboardMoveModule from "diagram-js/lib/navigation/keyboard-move";
-import ZoomScrollModule from "diagram-js/lib/navigation/zoomscroll";
+import MoveCanvasModule from 'diagram-js/lib/navigation/movecanvas';
+import KeyboardMoveModule from 'diagram-js/lib/navigation/keyboard-move';
+import ZoomScrollModule from 'diagram-js/lib/navigation/zoomscroll';
 
-import MoveModule from "diagram-js/lib/features/move";
-import Bendpoints from "diagram-js/lib/features/bendpoints";
-import ConnectionPreview from "diagram-js/lib/features/connection-preview";
-import CopyPasteModule from "./features/copyPaste";
-import SpaceToolModule from "diagram-js/lib/features/space-tool";
-import LassoToolModule from "diagram-js/lib/features/lasso-tool";
-import HandToolModule from "diagram-js/lib/features/hand-tool";
-import ConnectModule from "diagram-js/lib/features/connect";
-import KeyboardModule from "diagram-js/lib/features/keyboard";
-import EditorActionsModule from "diagram-js/lib/features/editor-actions";
-import SnappingModule from "diagram-js/lib/features/snapping";
-import AdditionalShortcuts from "./features/shortcuts";
-import minimapModule from "diagram-js-minimap";
+import MoveModule from 'diagram-js/lib/features/move';
+import Bendpoints from 'diagram-js/lib/features/bendpoints';
+import ConnectionPreview from 'diagram-js/lib/features/connection-preview';
+import CopyPasteModule from './features/copyPaste';
+import SpaceToolModule from 'diagram-js/lib/features/space-tool';
+import LassoToolModule from 'diagram-js/lib/features/lasso-tool';
+import HandToolModule from 'diagram-js/lib/features/hand-tool';
+import ConnectModule from 'diagram-js/lib/features/connect';
+import KeyboardModule from 'diagram-js/lib/features/keyboard';
+import EditorActionsModule from 'diagram-js/lib/features/editor-actions';
+import SnappingModule from 'diagram-js/lib/features/snapping';
+import AdditionalShortcuts from './features/shortcuts';
+import minimapModule from 'diagram-js-minimap';
 
 export default function DomainStoryModeler(options) {
   BaseViewer.call(this, options);
@@ -51,11 +51,11 @@ DomainStoryModeler.prototype._createElementFromBusinessObject = function (bo) {
   delete bo.parent;
   this._elements.push(bo);
 
-  let canvas = this.get("canvas"),
-    elementFactory = this.get("elementFactory");
+  let canvas = this.get('canvas'),
+    elementFactory = this.get('elementFactory');
 
   let attributes = assign({ businessObject: bo }, bo);
-  let shape = elementFactory.create("shape", attributes);
+  let shape = elementFactory.create('shape', attributes);
 
   if (isOfTypeGroup(bo)) {
     this._groupElements[bo.id] = shape;
@@ -74,14 +74,14 @@ DomainStoryModeler.prototype._createElementFromBusinessObject = function (bo) {
 DomainStoryModeler.prototype._addConnection = function (element) {
   this._elements.push(element);
 
-  let canvas = this.get("canvas"),
-    elementFactory = this.get("elementFactory"),
-    elementRegistry = this.get("elementRegistry");
+  let canvas = this.get('canvas'),
+    elementFactory = this.get('elementFactory'),
+    elementRegistry = this.get('elementRegistry');
 
   let attributes = assign({ businessObject: element }, element);
 
   let connection = elementFactory.create(
-    "connection",
+    'connection',
     assign(attributes, {
       source: elementRegistry.get(element.source),
       target: elementRegistry.get(element.target),
@@ -95,12 +95,12 @@ DomainStoryModeler.prototype._addConnection = function (element) {
 DomainStoryModeler.prototype.importBusinessObjects = function (
   businessObjects,
 ) {
-  this.get("eventBus").fire("diagram.clear", {});
+  this.get('eventBus').fire('diagram.clear', {});
   this._elements = [];
   this._groupElements = [];
 
   if (!isArray(businessObjects)) {
-    throw new Error("argument must be an array");
+    throw new Error('argument must be an array');
   }
 
   let connections = [],
@@ -128,7 +128,7 @@ DomainStoryModeler.prototype.importBusinessObjects = function (
  * Scrolls canvas and adjusts zoom so that the whole story is visible
  */
 DomainStoryModeler.prototype.fitStoryToScreen = function () {
-  this.get("canvas")._fitViewport({ x: 0, y: 0 });
+  this.get('canvas')._fitViewport({ x: 0, y: 0 });
 };
 
 function isOfTypeConnection(element) {

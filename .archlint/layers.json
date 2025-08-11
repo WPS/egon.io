@@ -12,78 +12,56 @@
   "artifacts": [
     {
       "name": "workbench",
-      "include": [
-        "workbench/**"
-      ],
+      "include": ["workbench/**"],
       "mayUseAllBelow": true
     },
     {
       "name": "tools",
-      "include": [
-        "tools/**"
-      ],
+      "include": ["tools/**"],
       "children": [
         {
           "name": "label-dictionary",
-          "include": [
-            "*/label-dictionary/**"
-          ],
+          "include": ["*/label-dictionary/**"],
           "mayUseAllBelow": true
         },
         {
           "name": "autosave",
-          "include": [
-            "*/autosave/**"
-          ],
+          "include": ["*/autosave/**"],
           "mayUseAllBelow": true
         },
         {
           "name": "export",
-          "include": [
-            "*/export/**"
-          ],
+          "include": ["*/export/**"],
           "mayUseAllBelow": true
         },
         {
           "name": "import",
-          "include": [
-            "*/import/**"
-          ],
+          "include": ["*/import/**"],
           "mayUseAllBelow": true
         },
         {
           "name": "modeler",
-          "include": [
-            "*/modeler/**"
-          ],
+          "include": ["*/modeler/**"],
           "mayUseAllBelow": true
         },
         {
           "name": "icon-set-config",
-          "include": [
-            "*/icon-set-config/**"
-          ],
+          "include": ["*/icon-set-config/**"],
           "mayUseAllBelow": true
         },
         {
           "name": "title",
-          "include": [
-            "*/title/**"
-          ],
+          "include": ["*/title/**"],
           "mayUseAllBelow": true
         },
         {
           "name": "replay",
-          "include": [
-            "*/replay/**"
-          ],
+          "include": ["*/replay/**"],
           "mayUseAllBelow": true
         },
         {
           "name": "unsavedChangesReminder",
-          "include": [
-            "*/unsavedChangesReminder/**"
-          ],
+          "include": ["*/unsavedChangesReminder/**"],
           "mayUseAllBelow": true
         }
       ],
@@ -91,16 +69,12 @@
     },
     {
       "name": "domain",
-      "include": [
-        "domain/**"
-      ],
+      "include": ["domain/**"],
       "mayUseAllBelow": true
     },
     {
       "name": "utils",
-      "include": [
-        "utils/**"
-      ],
+      "include": ["utils/**"],
       "mayUseAllBelow": true
     }
   ]

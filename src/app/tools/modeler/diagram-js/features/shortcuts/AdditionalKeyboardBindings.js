@@ -1,6 +1,6 @@
-import inherits from "inherits-browser";
+import inherits from 'inherits-browser';
 
-import KeyboardBindings from "diagram-js/lib/features/keyboard/KeyboardBindings";
+import KeyboardBindings from 'diagram-js/lib/features/keyboard/KeyboardBindings';
 
 export default function AdditionalKeyboardBindings(injector) {
   injector.invoke(KeyboardBindings, this);
@@ -8,7 +8,7 @@ export default function AdditionalKeyboardBindings(injector) {
 
 inherits(AdditionalKeyboardBindings, KeyboardBindings);
 
-AdditionalKeyboardBindings.$inject = ["injector"];
+AdditionalKeyboardBindings.$inject = ['injector'];
 
 AdditionalKeyboardBindings.prototype.registerBindings = function (
   keyboard,
@@ -29,11 +29,11 @@ AdditionalKeyboardBindings.prototype.registerBindings = function (
 
   // select all elements
   // CTRL + A
-  addListener("selectElements", function (context) {
+  addListener('selectElements', function (context) {
     var event = context.keyEvent;
 
-    if (keyboard.isKey(["a", "A"], event) && keyboard.isCmd(event)) {
-      editorActions.trigger("selectElements");
+    if (keyboard.isKey(['a', 'A'], event) && keyboard.isCmd(event)) {
+      editorActions.trigger('selectElements');
 
       return true;
     }
@@ -41,15 +41,15 @@ AdditionalKeyboardBindings.prototype.registerBindings = function (
 
   // activate space tool
   // S
-  addListener("spaceTool", function (context) {
+  addListener('spaceTool', function (context) {
     var event = context.keyEvent;
 
     if (keyboard.hasModifier(event)) {
       return;
     }
 
-    if (keyboard.isKey(["s", "S"], event)) {
-      editorActions.trigger("spaceTool");
+    if (keyboard.isKey(['s', 'S'], event)) {
+      editorActions.trigger('spaceTool');
 
       return true;
     }
@@ -57,15 +57,15 @@ AdditionalKeyboardBindings.prototype.registerBindings = function (
 
   // activate lasso tool
   // L
-  addListener("lassoTool", function (context) {
+  addListener('lassoTool', function (context) {
     var event = context.keyEvent;
 
     if (keyboard.hasModifier(event)) {
       return;
     }
 
-    if (keyboard.isKey(["l", "L"], event)) {
-      editorActions.trigger("lassoTool");
+    if (keyboard.isKey(['l', 'L'], event)) {
+      editorActions.trigger('lassoTool');
 
       return true;
     }
@@ -73,15 +73,15 @@ AdditionalKeyboardBindings.prototype.registerBindings = function (
 
   // activate hand tool
   // H
-  addListener("handTool", function (context) {
+  addListener('handTool', function (context) {
     var event = context.keyEvent;
 
     if (keyboard.hasModifier(event)) {
       return;
     }
 
-    if (keyboard.isKey(["h", "H"], event)) {
-      editorActions.trigger("handTool");
+    if (keyboard.isKey(['h', 'H'], event)) {
+      editorActions.trigger('handTool');
 
       return true;
     }
@@ -89,15 +89,15 @@ AdditionalKeyboardBindings.prototype.registerBindings = function (
 
   // activate direct editing
   // E
-  addListener("directEditing", function (context) {
+  addListener('directEditing', function (context) {
     var event = context.keyEvent;
 
     if (keyboard.hasModifier(event)) {
       return;
     }
 
-    if (keyboard.isKey(["e", "E"], event)) {
-      editorActions.trigger("directEditing");
+    if (keyboard.isKey(['e', 'E'], event)) {
+      editorActions.trigger('directEditing');
 
       return true;
     }

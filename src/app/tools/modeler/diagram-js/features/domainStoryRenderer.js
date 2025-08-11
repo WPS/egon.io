@@ -1,36 +1,36 @@
-"use strict";
+'use strict';
 
-import inherits from "inherits-browser";
-import BaseRenderer from "diagram-js/lib/draw/BaseRenderer";
-import Ids from "ids";
-import { componentsToPath, createLine } from "diagram-js/lib/util/RenderUtil";
+import inherits from 'inherits-browser';
+import BaseRenderer from 'diagram-js/lib/draw/BaseRenderer';
+import Ids from 'ids';
+import { componentsToPath, createLine } from 'diagram-js/lib/util/RenderUtil';
 import {
   append as svgAppend,
   attr as svgAttr,
   classes as svgClasses,
   create as svgCreate,
-} from "tiny-svg";
-import { query as domQuery } from "min-dom";
-import { assign, isObject } from "min-dash";
-import { getNumberStash } from "src/app/tools/modeler/diagram-js/features/labeling/dsLabelEditingProvider";
+} from 'tiny-svg';
+import { query as domQuery } from 'min-dom';
+import { assign, isObject } from 'min-dash';
+import { getNumberStash } from 'src/app/tools/modeler/diagram-js/features/labeling/dsLabelEditingProvider';
 import {
   addNumberToRegistry,
   generateAutomaticNumber,
   numberBoxDefinitions,
-} from "src/app/tools/modeler/diagram-js/features/numbering/numbering";
+} from 'src/app/tools/modeler/diagram-js/features/numbering/numbering';
 
-import { calculateTextWidth } from "src/app/tools/modeler/diagram-js/features/labeling/dsLabelUtil";
+import { calculateTextWidth } from 'src/app/tools/modeler/diagram-js/features/labeling/dsLabelUtil';
 import {
   countLines,
   labelPosition,
-} from "src/app/tools/modeler/diagram-js/features/labeling/position";
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { angleBetween } from "../../../../utils/mathExtensions";
-import { isCustomIcon, isCustomSvgIcon, getScaledPath } from "./util/util";
+} from 'src/app/tools/modeler/diagram-js/features/labeling/position';
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import { angleBetween } from '../../../../utils/mathExtensions';
+import { isCustomIcon, isCustomSvgIcon, getScaledPath } from './util/util';
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
-const DEFAULT_COLOR = "#000000";
+const DEFAULT_COLOR = '#000000';
 
 let _iconDictionaryService;
 let _elementRegistryService;
@@ -95,8 +95,8 @@ export default function DomainStoryRenderer(
       box: box,
       fitBox: true,
       style: assign({}, textRenderer.getExternalStyle(), {
-        fill: "black",
-        position: "absolute",
+        fill: 'black',
+        position: 'absolute',
       }),
     };
   }
@@ -111,7 +111,7 @@ export default function DomainStoryRenderer(
         align: align,
         padding: padding ? padding : 0,
         style: {
-          fill: "#000000",
+          fill: '#000000',
         },
       },
       element.type,
@@ -128,14 +128,14 @@ export default function DomainStoryRenderer(
       let startPoint = element.waypoints[position.selected];
       let endPoint = element.waypoints[position.selected + 1];
       let angle = angleBetween(startPoint, endPoint);
-      let alignment = "left";
+      let alignment = 'left';
       let boxWidth = 500;
       let xStart = position.x;
 
       // if the activity is horizontal, we want to center the label
       if (angle === 0 || angle === 180) {
         boxWidth = Math.abs(startPoint.x - endPoint.x);
-        alignment = "center";
+        alignment = 'center';
         xStart =
           (startPoint.x + endPoint.x) / 2 - calculateTextWidth(semantic.name);
       }
@@ -156,10 +156,10 @@ export default function DomainStoryRenderer(
             box: box,
             fitBox: true,
             style: assign({}, textRenderer.getExternalStyle(), {
-              fill: "black",
-              wordWrap: "break-word",
-              overflowWrap: "break-word",
-              hyphens: "auto",
+              fill: 'black',
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
+              hyphens: 'auto',
             }),
           },
           element.type,
@@ -198,17 +198,17 @@ export default function DomainStoryRenderer(
       number = String(number);
     }
     number = String(number);
-    let text = textRenderer.createText(number || "", options);
+    let text = textRenderer.createText(number || '', options);
     let height = 0;
 
-    svgClasses(text).add("djs-labelNumber");
+    svgClasses(text).add('djs-labelNumber');
 
     setCoordinates(type, text, options, height, parentGfx);
 
     // !IMPORTANT!
     // When converting svg-files via Inkscape or Photoshop the svg-circle is converted to a black dot that obscures the number.
     // To circumvent this, we draw an arc.
-    let circle = svgCreate("path");
+    let circle = svgCreate('path');
     let radius = 11;
     let x = options.box.x + 18 + (number > 9 ? 3 : 0);
     let y = options.box.y - radius + 7;
@@ -219,8 +219,8 @@ export default function DomainStoryRenderer(
       a ${radius},${radius} 0 1,0 ${-radius * 2},0
       a ${radius},${radius} 0 1,0 ${radius * 2},0
       `,
-      fill: "white",
-      stroke: "black",
+      fill: 'white',
+      stroke: 'black',
     });
 
     svgAppend(parentGfx, circle);
@@ -253,10 +253,10 @@ export default function DomainStoryRenderer(
 
   // render a label on the canvas
   function renderLabel(parentGfx, label, options, type) {
-    let text = textRenderer.createText(label || "", options);
+    let text = textRenderer.createText(label || '', options);
     let height = 0;
 
-    svgClasses(text).add("djs-label");
+    svgClasses(text).add('djs-label');
     setCoordinates(type, text, options, height, parentGfx);
 
     svgAppend(parentGfx, text);
@@ -266,7 +266,7 @@ export default function DomainStoryRenderer(
   // determine the Y-coordinate of the label / number to be rendered
   function manipulateInnerHTMLYLabel(children, y, offset) {
     if (children) {
-      let result = "";
+      let result = '';
       for (let i = 0; i < children.length; i++) {
         result += children[i].outerHTML.replace(
           /y="-?\d*.\d*"/,
@@ -280,7 +280,7 @@ export default function DomainStoryRenderer(
   // determine the X-coordinate of the label / number to be rendered
   function manipulateInnerHTMLXLabel(children, x, offset) {
     if (children) {
-      let result = "";
+      let result = '';
       for (let i = 0; i < children.length; i++) {
         result += children[i].outerHTML.replace(
           /x="-?\d*.\d*"/,
@@ -303,13 +303,13 @@ export default function DomainStoryRenderer(
       0,
       assign(
         {
-          fill: "none",
+          fill: 'none',
           stroke: element.businessObject.pickedColor,
         },
         element.attrs,
       ),
     );
-    renderActorAndWorkObjectLabel(parentGfx, element, "left-top", 8);
+    renderActorAndWorkObjectLabel(parentGfx, element, 'left-top', 8);
 
     return rect;
   };
@@ -318,11 +318,11 @@ export default function DomainStoryRenderer(
     if (!pickedColor) {
       return iconSvg;
     }
-    const [rest, base64Svg] = iconSvg.split("base64,");
+    const [rest, base64Svg] = iconSvg.split('base64,');
     const svg = atob(base64Svg);
     const coloredSvg = applyColorToIcon(pickedColor, svg);
     const encodedColoredSvg = btoa(coloredSvg);
-    return rest + "base64," + encodedColoredSvg;
+    return rest + 'base64,' + encodedColoredSvg;
   }
 
   function applyColorToIcon(pickedColor = DEFAULT_COLOR, iconSvg) {
@@ -334,7 +334,7 @@ export default function DomainStoryRenderer(
         .replaceAll(/fill=\s*"(?!none).*?"/g, `fill="${pickedColor} "`)
         .replaceAll(/fill:\s*[#r]\w*[;\s]{1}/g, `fill:${pickedColor};`);
     } else {
-      const index = iconSvg.indexOf("<svg ") + 5;
+      const index = iconSvg.indexOf('<svg ') + 5;
       return (
         iconSvg.substring(0, index) +
         ' fill=" ' +
@@ -354,7 +354,7 @@ export default function DomainStoryRenderer(
       } else {
         dataURL = icon;
         if (pickedColor && pickedColor !== DEFAULT_COLOR) {
-          document.dispatchEvent(new CustomEvent("errorColoringOnlySvg"));
+          document.dispatchEvent(new CustomEvent('errorColoringOnlySvg'));
         }
       }
       return (
@@ -383,7 +383,7 @@ export default function DomainStoryRenderer(
     svgAttr(actor, svgDynamicSizeAttributes);
     svgAppend(parent, actor);
 
-    renderActorAndWorkObjectLabel(parent, element, "center", -5);
+    renderActorAndWorkObjectLabel(parent, element, 'center', -5);
     return actor;
   };
 
@@ -404,24 +404,24 @@ export default function DomainStoryRenderer(
 
     svgAttr(workObject, svgDynamicSizeAttributes);
     svgAppend(parent, workObject);
-    renderActorAndWorkObjectLabel(parent, element, "center", -5);
+    renderActorAndWorkObjectLabel(parent, element, 'center', -5);
 
     return workObject;
   };
 
   function useColorForActivity(element) {
     if (!element.businessObject.pickedColor) {
-      element.businessObject.pickedColor = "black";
+      element.businessObject.pickedColor = 'black';
     }
-    let attrs = "";
+    let attrs = '';
     return computeStyle(attrs, {
       stroke: element.businessObject.pickedColor,
-      fill: "none",
+      fill: 'none',
       strokeWidth: 1.5,
-      strokeLinejoin: "round",
+      strokeLinejoin: 'round',
       markerEnd: marker(
-        "activity",
-        "black",
+        'activity',
+        'black',
         element.businessObject.pickedColor,
       ),
     });
@@ -444,9 +444,9 @@ export default function DomainStoryRenderer(
       fixConnectionInHTML(p.parentElement);
 
       // changes the color of the moved activity back to original instead of blue
-      if (p.className.baseVal === "djs-dragger") {
-        svgClasses(p).remove("djs-dragger");
-        svgClasses(p).add("djs-connection-preview");
+      if (p.className.baseVal === 'djs-dragger') {
+        svgClasses(p).remove('djs-dragger');
+        svgClasses(p).add('djs-connection-preview');
       }
 
       return x;
@@ -482,15 +482,15 @@ export default function DomainStoryRenderer(
     let id = element.id;
     let offset = 0;
 
-    let objects = document.getElementsByClassName("djs-element djs-shape");
+    let objects = document.getElementsByClassName('djs-element djs-shape');
     for (let i = 0; i < objects.length; i++) {
-      let data_id = objects.item(i).getAttribute("data-element-id");
+      let data_id = objects.item(i).getAttribute('data-element-id');
       if (data_id === id) {
         let object = objects.item(i);
-        let text = object.getElementsByTagName("text")[0];
-        let tspans = text.getElementsByTagName("tspan");
+        let text = object.getElementsByTagName('text')[0];
+        let tspans = text.getElementsByTagName('tspan');
         let tspan = tspans[tspans.length - 1];
-        offset = tspan.getAttribute("y");
+        offset = tspan.getAttribute('y');
       }
     }
     return offset - 70;
@@ -498,23 +498,23 @@ export default function DomainStoryRenderer(
 
   function fixConnectionInHTML(wantedConnection) {
     if (wantedConnection) {
-      let polylines = wantedConnection.getElementsByTagName("polyline");
+      let polylines = wantedConnection.getElementsByTagName('polyline');
       if (polylines.length > 1) {
         polylines[1].setAttribute(
-          "points",
-          polylines[0].getAttribute("points"),
+          'points',
+          polylines[0].getAttribute('points'),
         );
       }
     }
   }
 
   this.drawDSConnection = function (p, element) {
-    let attrs = "";
+    let attrs = '';
     attrs = computeStyle(attrs, {
-      stroke: element.businessObject.pickedColor ?? "black",
+      stroke: element.businessObject.pickedColor ?? 'black',
       strokeWidth: 1.5,
-      strokeLinejoin: "round",
-      strokeDasharray: "5, 5",
+      strokeLinejoin: 'round',
+      strokeDasharray: '5, 5',
     });
 
     return svgAppend(p, createLine(element.waypoints, attrs));
@@ -522,11 +522,11 @@ export default function DomainStoryRenderer(
 
   this.drawAnnotation = function (parentGfx, element) {
     let style = {
-      fill: "none",
-      stroke: "none",
+      fill: 'none',
+      stroke: 'none',
     };
 
-    let text = element.businessObject.text || "";
+    let text = element.businessObject.text || '';
     if (element.businessObject.text) {
       let height = element.height ?? 0;
 
@@ -564,15 +564,15 @@ export default function DomainStoryRenderer(
     });
 
     drawPath(parentGfx, textPathData, {
-      stroke: element.businessObject.pickedColor ?? "black",
+      stroke: element.businessObject.pickedColor ?? 'black',
     });
 
     renderLabel(parentGfx, text, {
       box: element,
-      align: "left-top",
+      align: 'left-top',
       padding: 5,
       style: {
-        fill: element.businessObject.pickedColor ?? "black",
+        fill: element.businessObject.pickedColor ?? 'black',
       },
     });
 
@@ -581,12 +581,12 @@ export default function DomainStoryRenderer(
 
   // draw helper functions
   function drawPath(parentGfx, d, attrs) {
-    attrs = computeStyle(attrs, ["no-fill"], {
+    attrs = computeStyle(attrs, ['no-fill'], {
       strokeWidth: 2,
-      stroke: "black",
+      stroke: 'black',
     });
 
-    let path = svgCreate("path");
+    let path = svgCreate('path');
     svgAttr(path, { d: d });
     svgAttr(path, attrs);
 
@@ -603,12 +603,12 @@ export default function DomainStoryRenderer(
 
     offset = offset || 0;
     attrs = computeStyle(attrs, {
-      stroke: "black",
+      stroke: 'black',
       strokeWidth: 2,
-      fill: "white",
+      fill: 'white',
     });
 
-    let rect = svgCreate("rect");
+    let rect = svgCreate('rect');
     svgAttr(rect, {
       x: offset,
       y: offset,
@@ -626,20 +626,20 @@ export default function DomainStoryRenderer(
 
   // marker functions ("markers" are arrowheads of activities)
   function marker(type, fill, stroke) {
-    let id = type + "-" + fill + "-" + stroke + "-" + rendererId;
+    let id = type + '-' + fill + '-' + stroke + '-' + rendererId;
 
     if (!markers[id]) {
       createMarker(type, fill, stroke);
     }
-    return "url(#" + id + ")";
+    return 'url(#' + id + ')';
   }
 
   function createMarker(type, fill, stroke) {
-    let id = type + "-" + fill + "-" + stroke + "-" + rendererId;
+    let id = type + '-' + fill + '-' + stroke + '-' + rendererId;
 
-    if (type === "activity") {
-      let activityArrow = svgCreate("path");
-      svgAttr(activityArrow, { d: "M 1 5 L 11 10 L 1 15 Z" });
+    if (type === 'activity') {
+      let activityArrow = svgCreate('path');
+      svgAttr(activityArrow, { d: 'M 1 5 L 11 10 L 1 15 Z' });
 
       addMarker(id, {
         element: activityArrow,
@@ -656,10 +656,10 @@ export default function DomainStoryRenderer(
   function addMarker(id, options) {
     let attrs = assign(
       {
-        fill: "black",
+        fill: 'black',
         strokeWidth: 1,
-        strokeLinecap: "round",
-        strokeDasharray: "none",
+        strokeLinecap: 'round',
+        strokeDasharray: 'none',
       },
       options.attrs,
     );
@@ -668,27 +668,27 @@ export default function DomainStoryRenderer(
     let scale = options.scale || 1;
 
     // resetting stroke dash array
-    if (attrs.strokeDasharray === "none") {
+    if (attrs.strokeDasharray === 'none') {
       attrs.strokeDasharray = [10000, 1];
     }
 
-    let marker = svgCreate("marker");
+    let marker = svgCreate('marker');
 
     svgAttr(options.element, attrs);
     svgAppend(marker, options.element);
     svgAttr(marker, {
       id: id,
-      viewBox: "0 0 20 20",
+      viewBox: '0 0 20 20',
       refX: ref.x,
       refY: ref.y,
       markerWidth: 20 * scale,
       markerHeight: 20 * scale,
-      orient: "auto",
+      orient: 'auto',
     });
 
-    let defs = domQuery("defs", canvas._svg);
+    let defs = domQuery('defs', canvas._svg);
     if (!defs) {
-      defs = svgCreate("defs");
+      defs = svgCreate('defs');
       svgAppend(canvas._svg, defs);
     }
     svgAppend(defs, marker);
@@ -711,11 +711,11 @@ export default function DomainStoryRenderer(
       return p.original || p;
     });
 
-    let activityPath = [["M", waypoints[0].x, waypoints[0].y]];
+    let activityPath = [['M', waypoints[0].x, waypoints[0].y]];
 
     waypoints.forEach(function (waypoint, index) {
       if (index !== 0) {
-        activityPath.push(["L", waypoint.x, waypoint.y]);
+        activityPath.push(['L', waypoint.x, waypoint.y]);
       }
     });
     return componentsToPath(activityPath);
@@ -726,29 +726,29 @@ export default function DomainStoryRenderer(
     return componentsToPath(rectangle);
   };
 
-  eventBus.on("bendpoint.move.start", 200, function (event) {
+  eventBus.on('bendpoint.move.start', 200, function (event) {
     // the bendpoint which we are dragging will otherwise be displayed with 0.3 opacity
     // through bendpoint-dragging we match the css class more specificly, hence our style applies
-    svgClasses(event.context.draggerGfx).add("bendpoint-dragging");
+    svgClasses(event.context.draggerGfx).add('bendpoint-dragging');
     // the old path of the activity will otherwise be displayed in gray
-    canvas.addMarker(event.context.connection, "djs-element-hidden");
+    canvas.addMarker(event.context.connection, 'djs-element-hidden');
   });
 
-  eventBus.on("bendpoint.move.end", 2000, function (event) {
+  eventBus.on('bendpoint.move.end', 2000, function (event) {
     // the acitvity will not be displayed if we don't remove the marker we added during bendpoint.move.start
     // high priority is neccessary, so we come before something that might stop the execution
-    canvas.removeMarker(event.context.connection, "djs-element-hidden");
+    canvas.removeMarker(event.context.connection, 'djs-element-hidden');
   });
 }
 
 inherits(DomainStoryRenderer, BaseRenderer);
 
 DomainStoryRenderer.$inject = [
-  "eventBus",
-  "styles",
-  "canvas",
-  "textRenderer",
-  "commandStack",
+  'eventBus',
+  'styles',
+  'canvas',
+  'textRenderer',
+  'commandStack',
 ];
 
 DomainStoryRenderer.prototype.canRender = function (element) {
@@ -758,7 +758,7 @@ DomainStoryRenderer.prototype.canRender = function (element) {
 DomainStoryRenderer.prototype.drawShape = function (p, element) {
   // polyfill for tests
   if (!String.prototype.startsWith) {
-    Object.defineProperty(String.prototype, "startsWith", {
+    Object.defineProperty(String.prototype, 'startsWith', {
       value: function (search, pos) {
         pos = !pos || pos < 0 ? 0 : +pos;
         return this.substring(pos, pos + search.length) === search;
@@ -820,11 +820,11 @@ function getRectPath(shape) {
     height = shape.height / 2 + offset;
 
   return [
-    ["M", x, y],
-    ["l", width, 0],
-    ["l", width, height],
-    ["l", -width, height],
-    ["l", -width, 0],
-    ["z"],
+    ['M', x, y],
+    ['l', width, 0],
+    ['l', width, height],
+    ['l', -width, height],
+    ['l', -width, 0],
+    ['z'],
   ];
 }

@@ -1,18 +1,18 @@
-"use strict";
+'use strict';
 
 import {
   append as svgAppend,
   attr as svgAttr,
   create as svgCreate,
   remove as svgRemove,
-} from "tiny-svg";
+} from 'tiny-svg';
 
-import { translate } from "diagram-js/lib/util/SvgTransformUtil";
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { is, getScaledPath } from "../util/util";
+import { translate } from 'diagram-js/lib/util/SvgTransformUtil';
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import { is, getScaledPath } from '../util/util';
 
-const MARKER_HIDDEN = "djs-element-hidden",
-  MARKER_LABEL_HIDDEN = "djs-label-hidden";
+const MARKER_HIDDEN = 'djs-element-hidden',
+  MARKER_LABEL_HIDDEN = 'djs-label-hidden';
 
 export default function DSLabelEditingPreview(eventBus, canvas) {
   let self = this;
@@ -20,14 +20,14 @@ export default function DSLabelEditingPreview(eventBus, canvas) {
   let defaultLayer = canvas.getDefaultLayer();
   let element, absoluteElementBBox, gfx;
 
-  eventBus.on("directEditing.activate", function (context) {
+  eventBus.on('directEditing.activate', function (context) {
     let activeProvider = context.active;
 
     element = activeProvider.element.label || activeProvider.element;
 
     if (is(element, ElementTypes.TEXTANNOTATION)) {
       absoluteElementBBox = canvas.getAbsoluteBBox(element);
-      gfx = svgCreate("g");
+      gfx = svgCreate('g');
 
       let textPathData = getScaledPath({
         xScaleFactor: 1,
@@ -40,12 +40,12 @@ export default function DSLabelEditingPreview(eventBus, canvas) {
         },
       });
 
-      let path = (self.path = svgCreate("path"));
+      let path = (self.path = svgCreate('path'));
 
       svgAttr(path, {
         d: textPathData,
         strokeWidth: 2,
-        stroke: "black",
+        stroke: 'black',
       });
 
       svgAppend(gfx, path);
@@ -67,7 +67,7 @@ export default function DSLabelEditingPreview(eventBus, canvas) {
     }
   });
 
-  eventBus.on("directEditing.resize", function (context) {
+  eventBus.on('directEditing.resize', function (context) {
     if (is(element, ElementTypes.TEXTANNOTATION)) {
       let height = context.height,
         dy = context.dy;
@@ -95,7 +95,7 @@ export default function DSLabelEditingPreview(eventBus, canvas) {
   });
 
   eventBus.on(
-    ["directEditing.complete", "directEditing.cancel"],
+    ['directEditing.complete', 'directEditing.cancel'],
     function (context) {
       let activeProvider = context.active;
 
@@ -119,4 +119,4 @@ export default function DSLabelEditingPreview(eventBus, canvas) {
   );
 }
 
-DSLabelEditingPreview.$inject = ["eventBus", "canvas"];
+DSLabelEditingPreview.$inject = ['eventBus', 'canvas'];

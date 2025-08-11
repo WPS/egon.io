@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-import { assign } from "min-dash";
+import { assign } from 'min-dash';
 
 /**
  * service that allow replacing of elements.

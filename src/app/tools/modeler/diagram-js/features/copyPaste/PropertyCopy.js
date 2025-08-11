@@ -6,15 +6,15 @@ import {
   reduce,
   has,
   sortBy,
-} from "min-dash";
+} from 'min-dash';
 
-var DISALLOWED_PROPERTIES = ["incoming", "outgoing"];
+var DISALLOWED_PROPERTIES = ['incoming', 'outgoing'];
 
 export default function PropertyCopy(eventBus) {
   this._eventBus = eventBus;
 
   // copy extension elements last
-  eventBus.on("propertyCopy.canCopyProperties", function (context) {
+  eventBus.on('propertyCopy.canCopyProperties', function (context) {
     var propertyNames = context.propertyNames;
 
     if (!propertyNames || !propertyNames.length) {
@@ -22,12 +22,12 @@ export default function PropertyCopy(eventBus) {
     }
 
     return sortBy(propertyNames, function (propertyName) {
-      return propertyName === "extensionElements";
+      return propertyName === 'extensionElements';
     });
   });
 
   // default check whether property can be copied
-  eventBus.on("propertyCopy.canCopyProperty", function (context) {
+  eventBus.on('propertyCopy.canCopyProperty', function (context) {
     var propertyName = context.propertyName;
 
     if (propertyName && DISALLOWED_PROPERTIES.indexOf(propertyName) !== -1) {
@@ -37,7 +37,7 @@ export default function PropertyCopy(eventBus) {
   });
 }
 
-PropertyCopy.$inject = ["eventBus"];
+PropertyCopy.$inject = ['eventBus'];
 
 PropertyCopy.prototype.copyElement = function (
   sourceElement,
@@ -51,7 +51,7 @@ PropertyCopy.prototype.copyElement = function (
   }
 
   var canCopyProperties = this._eventBus.fire(
-    "propertyCopy.canCopyProperties",
+    'propertyCopy.canCopyProperties',
     {
       propertyNames: propertyNames,
       sourceElement: sourceElement,
@@ -82,7 +82,7 @@ PropertyCopy.prototype.copyElement = function (
     );
 
     var canSetProperty = self._eventBus.fire(
-      "propertyCopy.canSetCopiedProperty",
+      'propertyCopy.canSetCopiedProperty',
       {
         parent: targetElement,
         property: copiedProperty,
@@ -110,7 +110,7 @@ PropertyCopy.prototype.copyProperty = function (
   var self = this;
 
   // allow others to copy property
-  var copiedProperty = this._eventBus.fire("propertyCopy.canCopyProperty", {
+  var copiedProperty = this._eventBus.fire('propertyCopy.canCopyProperty', {
     parent: parent,
     property: property,
     propertyName: propertyName,

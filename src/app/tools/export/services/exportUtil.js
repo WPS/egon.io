@@ -3,7 +3,7 @@ import {
   TEXTSPAN_DESCRIPTION_HEIGHT,
   TEXTSPAN_TITLE_HEIGHT,
   X_OFFSET_UTIL,
-} from "../domain/export/exportConstants";
+} from '../domain/export/exportConstants';
 
 let dynamicHeightOffset = 0;
 
@@ -18,11 +18,11 @@ export function createTitleAndDescriptionSVGElement(
 ) {
   dynamicHeightOffset = initDynamicHeightOffset;
 
-  title = title.replace("&lt;", "").replace("&gt;", "");
+  title = title.replace('&lt;', '').replace('&gt;', '');
 
   let titleElement = createTitle(title, width);
 
-  let descriptionElement = "";
+  let descriptionElement = '';
   if (description) {
     descriptionElement = createDescription(description, width);
   }
@@ -32,30 +32,30 @@ export function createTitleAndDescriptionSVGElement(
   let insertText =
     '<g class="djs-group"><g class="djs-element djs-shape" style = "display:block" transform="translate(' +
     (min_x - 10) +
-    " " +
+    ' ' +
     (min_y - dynamicHeightOffset) +
     ')"><g class="djs-visual">' +
     titleElement +
     descriptionElement +
-    "</g></g></g>";
+    '</g></g></g>';
   return { insertText, dynamicHeightOffset: dynamicHeightOffset };
 }
 
 function createTitle(text, width) {
-  let tempCanvas = document.createElement("canvas");
-  let ctx = tempCanvas.getContext("2d");
-  ctx.font = "30px Arial";
+  let tempCanvas = document.createElement('canvas');
+  let ctx = tempCanvas.getContext('2d');
+  ctx.font = '30px Arial';
 
   return createTextSpans(text, width, ctx, 10, TEXTSPAN_TITLE_HEIGHT, 30);
 }
 
 function createDescription(text, width) {
-  let description = "";
-  let descriptionParts = text.split("<br>");
+  let description = '';
+  let descriptionParts = text.split('<br>');
 
-  let tempCanvas = document.createElement("canvas");
-  let ctx = tempCanvas.getContext("2d");
-  ctx.font = "12px Arial";
+  let tempCanvas = document.createElement('canvas');
+  let ctx = tempCanvas.getContext('2d');
+  ctx.font = '12px Arial';
 
   for (let i = 0; i < descriptionParts.length; i++) {
     description += createTextSpans(
@@ -71,8 +71,8 @@ function createDescription(text, width) {
 }
 
 function createTextSpans(text, width, ctx, yOffset, heightOffset, fontSize) {
-  let textSpans = "";
-  let words = text.split(" ");
+  let textSpans = '';
+  let words = text.split(' ');
 
   // every leading empty strings in the array must be removed, otherwise the text elements
   // will not be filled with text
@@ -83,42 +83,42 @@ function createTextSpans(text, width, ctx, yOffset, heightOffset, fontSize) {
     fontSize +
     '; font-weight: normal; fill: rgb(0, 0, 0);">';
 
-  let textSpan = document.createElementNS(SVG_LINK, "tspan");
+  let textSpan = document.createElementNS(SVG_LINK, 'tspan');
   let textNode = document.createTextNode(words[0]);
 
-  textSpan.setAttribute("x", X_OFFSET_UTIL);
-  textSpan.setAttribute("y", yOffset + dynamicHeightOffset);
-  textSpan.setAttribute("font-size", fontSize);
+  textSpan.setAttribute('x', X_OFFSET_UTIL);
+  textSpan.setAttribute('y', yOffset + dynamicHeightOffset);
+  textSpan.setAttribute('font-size', fontSize);
   textSpan.appendChild(textNode);
 
   for (let j = 1; j < words.length; j++) {
     if (textSpan.firstChild && textSpan.firstChild.data) {
       let len = textSpan.firstChild.data.length;
-      textNode.data += " " + words[j];
+      textNode.data += ' ' + words[j];
 
       if (ctx.measureText(textNode.data).width > width - 16) {
         dynamicHeightOffset += heightOffset;
         textSpan.firstChild.data = textSpan.firstChild.data.slice(0, len); // remove overflow word
 
-        textSpans += textTag + textSpan.outerHTML + "</text>"; // append line
+        textSpans += textTag + textSpan.outerHTML + '</text>'; // append line
 
         // create new textspan for line break
-        textSpan = document.createElementNS(SVG_LINK, "tspan");
+        textSpan = document.createElementNS(SVG_LINK, 'tspan');
         textNode = document.createTextNode(words[j]);
-        textSpan.setAttribute("x", X_OFFSET_UTIL);
-        textSpan.setAttribute("y", yOffset + dynamicHeightOffset);
+        textSpan.setAttribute('x', X_OFFSET_UTIL);
+        textSpan.setAttribute('y', yOffset + dynamicHeightOffset);
         textSpan.appendChild(textNode);
       }
     }
   }
   dynamicHeightOffset += heightOffset;
 
-  textSpans += textTag + textSpan.outerHTML + "</text>";
+  textSpans += textTag + textSpan.outerHTML + '</text>';
   return textSpans;
 }
 
 function removeLeadingEmptyStrings(stringArray) {
-  const firstNonEmptyIndex = stringArray.findIndex((string) => string !== "");
+  const firstNonEmptyIndex = stringArray.findIndex((string) => string !== '');
   return stringArray.slice(
     firstNonEmptyIndex === -1 ? stringArray.length : firstNonEmptyIndex,
   );

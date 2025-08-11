@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 export const jsonString =
   '[{"type":"domainStory:actorPerson","name":"","id":"shape_3050","x":178,"y":133,"width":30,"height":30,"pickedColor":"black"},' +
@@ -126,7 +126,7 @@ export const intricateConfig = {
 };
 
 export const intricateV0_6_0_JSONString =
-  "[" +
+  '[' +
   '{"type":"domainStory:workObjectFlag","name":"","id":"shape_2670","x":795,"y":-51},' +
   '{"type":"domainStory:actorPet","name":"","id":"shape_4433","x":474,"y":-51},' +
   '{"type":"domainStory:actorPerson","name":"movie-goer","id":"shape_9977","x":214,"y":164},' +

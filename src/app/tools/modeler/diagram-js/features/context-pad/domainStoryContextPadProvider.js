@@ -1,14 +1,14 @@
-"use strict";
+'use strict';
 
-import { assign, isArray } from "min-dash";
-import { generateAutomaticNumber } from "../numbering/numbering";
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
+import { assign, isArray } from 'min-dash';
+import { generateAutomaticNumber } from '../numbering/numbering';
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import {
   hexToRGBA,
   isHexWithAlpha,
   rgbaToHex,
-} from "../../../../../utils/colorConverter";
-import { hasPrimaryModifier } from "diagram-js/lib/util/Mouse";
+} from '../../../../../utils/colorConverter';
+import { hasPrimaryModifier } from 'diagram-js/lib/util/Mouse';
 
 let dirtyFlagService;
 let iconDictionaryService;
@@ -33,12 +33,12 @@ export default function DomainStoryContextPadProvider(
   rules,
 ) {
   contextPad.registerProvider(this);
-  popupMenu.registerProvider("ds-replace", replaceMenuProvider);
+  popupMenu.registerProvider('ds-replace', replaceMenuProvider);
 
   let _selectedElement;
   let startConnect;
 
-  eventBus.on("create.end", 250, function (event) {
+  eventBus.on('create.end', 250, function (event) {
     var context = event.context,
       shape = context.shape;
 
@@ -53,7 +53,7 @@ export default function DomainStoryContextPadProvider(
     }
   });
 
-  document.addEventListener("pickedColor", (event) => {
+  document.addEventListener('pickedColor', (event) => {
     if (_selectedElement) {
       executeCommandStack(event);
     }
@@ -68,9 +68,9 @@ export default function DomainStoryContextPadProvider(
       pickedColor = hexToRGBA(pickedColor);
     }
     document.dispatchEvent(
-      new CustomEvent("defaultColor", {
+      new CustomEvent('defaultColor', {
         detail: {
-          color: pickedColor ?? "#000000",
+          color: pickedColor ?? '#000000',
         },
       }),
     );
@@ -122,7 +122,7 @@ export default function DomainStoryContextPadProvider(
 
   function addDelete(actions, element) {
     // delete element entry, only show if allowed by rules
-    var deleteAllowed = rules.allowed("elements.delete", {
+    var deleteAllowed = rules.allowed('elements.delete', {
       elements: { element },
     });
 
@@ -134,9 +134,9 @@ export default function DomainStoryContextPadProvider(
     if (deleteAllowed) {
       assign(actions, {
         delete: {
-          group: "edit",
-          className: "bpmn-icon-trash",
-          title: translate("Remove"),
+          group: 'edit',
+          className: 'bpmn-icon-trash',
+          title: translate('Remove'),
           action: {
             click: function (event, element) {
               if (isArray(element)) {
@@ -162,9 +162,9 @@ export default function DomainStoryContextPadProvider(
   function addDeleteGroupWithoutChildren(actions, element) {
     assign(actions, {
       deleteGroup: {
-        group: "edit",
-        className: "bpmn-icon-trash",
-        title: translate("Remove Group without Child-Elements"),
+        group: 'edit',
+        className: 'bpmn-icon-trash',
+        title: translate('Remove Group without Child-Elements'),
         action: {
           click: function (event, element) {
             modeling.removeGroup(element);
@@ -178,9 +178,9 @@ export default function DomainStoryContextPadProvider(
   function addChangeDirection(actions) {
     assign(actions, {
       changeDirection: {
-        group: "edit",
-        className: "icon-domain-story-changeDirection",
-        title: translate("Change direction"),
+        group: 'edit',
+        className: 'icon-domain-story-changeDirection',
+        title: translate('Change direction'),
         action: {
           // event needs to be addressed
           click: function (event, element) {
@@ -195,15 +195,15 @@ export default function DomainStoryContextPadProvider(
   function addChangeActorTypeMenu(actions) {
     assign(actions, {
       replace: {
-        group: "edit",
-        className: "bpmn-icon-screw-wrench",
-        title: translate("Change type"),
+        group: 'edit',
+        className: 'bpmn-icon-screw-wrench',
+        title: translate('Change type'),
         action: {
           click: function (event, element) {
             let position = assign(getReplaceMenuPosition(element), {
               cursor: { x: event.x, y: event.y },
             });
-            popupMenu.open(element, "ds-replace", position);
+            popupMenu.open(element, 'ds-replace', position);
           },
         },
       },
@@ -213,12 +213,12 @@ export default function DomainStoryContextPadProvider(
   function addColorChange(actions) {
     assign(actions, {
       colorChange: {
-        group: "edit",
-        className: "icon-domain-story-color-picker",
-        title: translate("Change color"),
+        group: 'edit',
+        className: 'icon-domain-story-color-picker',
+        title: translate('Change color'),
         action: {
           click: function (event, element) {
-            document.dispatchEvent(new CustomEvent("openColorPicker"));
+            document.dispatchEvent(new CustomEvent('openColorPicker'));
           },
         },
       },
@@ -227,11 +227,11 @@ export default function DomainStoryContextPadProvider(
 
   function addTextAnnotation(actions) {
     assign(actions, {
-      "append.text-annotation": appendAction(
+      'append.text-annotation': appendAction(
         ElementTypes.TEXTANNOTATION,
-        "bpmn-icon-text-annotation",
-        "textannotation",
-        "connect",
+        'bpmn-icon-text-annotation',
+        'textannotation',
+        'connect',
       ),
     });
   }
@@ -239,9 +239,9 @@ export default function DomainStoryContextPadProvider(
   function addConnectWithActivity(actions, startConnect) {
     assign(actions, {
       connect: {
-        group: "connect",
-        className: "bpmn-icon-connection",
-        title: translate("Connect with activity"),
+        group: 'connect',
+        className: 'bpmn-icon-connection',
+        title: translate('Connect with activity'),
         action: {
           click: startConnect,
           dragstart: startConnect,
@@ -258,11 +258,11 @@ export default function DomainStoryContextPadProvider(
       let name = workObjectType;
       let icon = iconDictionaryService.getCSSClassOfIcon(workObjectType);
       let action = [];
-      action["append.workObject" + name] = appendAction(
+      action['append.workObject' + name] = appendAction(
         `${ElementTypes.WORKOBJECT}${workObjectType}`,
         icon,
         name,
-        "workObjects",
+        'workObjects',
       );
       assign(actions, action);
     });
@@ -274,11 +274,11 @@ export default function DomainStoryContextPadProvider(
       let name = actorType;
       let icon = iconDictionaryService.getCSSClassOfIcon(actorType);
       let action = [];
-      action["append.actor" + name] = appendAction(
+      action['append.actor' + name] = appendAction(
         `${ElementTypes.ACTOR}${actorType}`,
         icon,
         name,
-        "actors",
+        'actors',
       );
       assign(actions, action);
     });
@@ -287,15 +287,15 @@ export default function DomainStoryContextPadProvider(
   function addChangeWorkObjectTypeMenu(actions) {
     assign(actions, {
       replace: {
-        group: "edit",
-        className: "bpmn-icon-screw-wrench",
-        title: translate("Change type"),
+        group: 'edit',
+        className: 'bpmn-icon-screw-wrench',
+        title: translate('Change type'),
         action: {
           click: function (event, element) {
             let position = assign(getReplaceMenuPosition(element), {
               cursor: { x: event.x, y: event.y },
             });
-            popupMenu.open(element, "ds-replace", position);
+            popupMenu.open(element, 'ds-replace', position);
           },
         },
       },
@@ -317,7 +317,7 @@ export default function DomainStoryContextPadProvider(
       newNumber: newNumber,
       element: element,
     };
-    commandStack.execute("activity.directionChange", context);
+    commandStack.execute('activity.directionChange', context);
   }
 
   function getReplaceMenuPosition(element) {
@@ -339,9 +339,9 @@ export default function DomainStoryContextPadProvider(
   }
 
   function appendAction(type, className, title, group, options) {
-    if (typeof title !== "string") {
+    if (typeof title !== 'string') {
       options = title;
-      title = translate("{type}", { type: type.replace(/^domainStory:/, "") });
+      title = translate('{type}', { type: type.replace(/^domainStory:/, '') });
     }
 
     function appendStart(event, element) {
@@ -357,7 +357,7 @@ export default function DomainStoryContextPadProvider(
     return {
       group: group,
       className: className,
-      title: "Append " + title,
+      title: 'Append ' + title,
       action: {
         dragstart: startConnect,
         click: appendStart,
@@ -382,22 +382,22 @@ export default function DomainStoryContextPadProvider(
   function executeCommandStack(event) {
     const selectedBusinessObject = getSelectedBusinessObject(event);
 
-    commandStack.execute("element.colorChange", selectedBusinessObject);
+    commandStack.execute('element.colorChange', selectedBusinessObject);
     dirtyFlagService.makeDirty();
   }
 }
 
 DomainStoryContextPadProvider.$inject = [
-  "connect",
-  "translate",
-  "elementFactory",
-  "create",
-  "canvas",
-  "contextPad",
-  "popupMenu",
-  "replaceMenuProvider",
-  "commandStack",
-  "eventBus",
-  "modeling",
-  "rules",
+  'connect',
+  'translate',
+  'elementFactory',
+  'create',
+  'canvas',
+  'contextPad',
+  'popupMenu',
+  'replaceMenuProvider',
+  'commandStack',
+  'eventBus',
+  'modeling',
+  'rules',
 ];

@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-import { assign } from "min-dash";
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
+import { assign } from 'min-dash';
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 
 let iconDictionary;
 
@@ -25,12 +25,12 @@ export default function PaletteProvider(
 }
 
 PaletteProvider.$inject = [
-  "palette",
-  "create",
-  "elementFactory",
-  "spaceTool",
-  "lassoTool",
-  "modeling",
+  'palette',
+  'create',
+  'elementFactory',
+  'spaceTool',
+  'lassoTool',
+  'modeling',
 ];
 
 PaletteProvider.prototype.getPaletteEntries = function () {
@@ -51,12 +51,12 @@ PaletteProvider.prototype.getPaletteEntries = function () {
       create.start(event, shape);
     }
 
-    let shortType = type.replace(/^domainStory:/, "");
+    let shortType = type.replace(/^domainStory:/, '');
 
     return {
       group: group,
       className: className,
-      title: "Create " + title || "Create " + shortType,
+      title: 'Create ' + title || 'Create ' + shortType,
       action: {
         dragstart: createListener,
         click: createListener,
@@ -77,14 +77,14 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
       name,
       createAction,
       actions,
-      "actor",
+      'actor',
       ElementTypes.ACTOR,
     );
   });
 
   assign(actions, {
-    "actor-separator": {
-      group: "actor",
+    'actor-separator': {
+      group: 'actor',
       separator: true,
     },
   });
@@ -98,40 +98,40 @@ function initPalette(actions, spaceTool, lassoTool, createAction) {
       name,
       createAction,
       actions,
-      "actor",
+      'actor',
       ElementTypes.WORKOBJECT,
     );
   });
 
   assign(actions, {
-    "workObject-separator": {
-      group: "workObject",
+    'workObject-separator': {
+      group: 'workObject',
       separator: true,
     },
-    "domainStory-group": createAction(
+    'domainStory-group': createAction(
       ElementTypes.GROUP,
-      "group",
-      "icon-domain-story-tool-group",
-      "group",
+      'group',
+      'icon-domain-story-tool-group',
+      'group',
     ),
-    "group-separator": {
-      group: "group",
+    'group-separator': {
+      group: 'group',
       separator: true,
     },
-    "lasso-tool": {
-      group: "tools",
-      className: "bpmn-icon-lasso-tool",
-      title: "Activate the lasso tool",
+    'lasso-tool': {
+      group: 'tools',
+      className: 'bpmn-icon-lasso-tool',
+      title: 'Activate the lasso tool',
       action: {
         click: function (event) {
           lassoTool.activateSelection(event);
         },
       },
     },
-    "space-tool": {
-      group: "tools",
-      className: "bpmn-icon-space-tool",
-      title: "Activate the create/remove space tool",
+    'space-tool': {
+      group: 'tools',
+      className: 'bpmn-icon-space-tool',
+      title: 'Activate the create/remove space tool',
       action: {
         click: function (event) {
           spaceTool.activateSelection(event);
@@ -153,7 +153,7 @@ function addCanvasObjectTypes(
   let icon = iconDictionary.getCSSClassOfIcon(name);
 
   let action = [];
-  action["domainStory-" + className + name] = createAction(
+  action['domainStory-' + className + name] = createAction(
     `${elementType}${name}`,
     className,
     icon,

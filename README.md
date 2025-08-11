@@ -13,6 +13,7 @@ A tool to visualize Domain Stories in your browser.
 2. Build and run Egon on a local development server via `npm run start`. Egon.io is accessible at http://localhost:4200.
 
 Before committing any changes/creating pull requests, you should:
+
 - Run tests via `npm run test`
 - Run formatter via `npm run format`
 - Check architecture rules via `npm run archlint`
@@ -37,7 +38,7 @@ There are several deployment options:
 2. Run the command **ng build --configuration production**
    - This should create (or update the contents of) the folder **dist_build**
 3. Run the command **npm run zip**
-   - This should create (or update the contents of) the folder **dist** containing a zip.file named *egon-xxx*, where xxx is the name in the version-tag of the package.json
+   - This should create (or update the contents of) the folder **dist** containing a zip.file named _egon-xxx_, where xxx is the name in the version-tag of the package.json
 
 ### Build Docker Container
 
@@ -51,6 +52,7 @@ Adapt container name ("egon-dev" in the above example) and port ("8080") as need
 Egon - The Domain Story Modeler is licensed under GPLv3.0.
 
 Egon uses...
+
 - [diagram-js](https://github.com/bpmn-io/diagram-js): Copyright (c) 2014—present Camunda Services GmbH
 - [ngx-color-picker](https://www.npmjs.com/package/ngx-color-picker): Copyright (c) 2016 Zef Oy
 
@@ -80,4 +82,3 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-

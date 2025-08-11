@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 
-import { assign, every, reduce } from "min-dash";
+import { assign, every, reduce } from 'min-dash';
 
-import inherits from "inherits";
+import inherits from 'inherits';
 
-import RuleProvider from "diagram-js/lib/features/rules/RuleProvider";
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { is } from "./util/util";
+import RuleProvider from 'diagram-js/lib/features/rules/RuleProvider';
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import { is } from './util/util';
 
 const HIGH_PRIORITY = 1500;
 const MIN_SIZE = 125;
@@ -174,7 +174,7 @@ export default function DomainStoryRules(eventBus) {
 
 inherits(DomainStoryRules, RuleProvider);
 
-DomainStoryRules.$inject = ["eventBus"];
+DomainStoryRules.$inject = ['eventBus'];
 
 DomainStoryRules.prototype.init = function () {
   /**
@@ -185,7 +185,7 @@ DomainStoryRules.prototype.init = function () {
     return isBackground(target) || isGroup(shape) || isGroup(target);
   }
 
-  this.addRule("elements.create", function (context) {
+  this.addRule('elements.create', function (context) {
     const elements = context.elements,
       target = context.target;
 
@@ -198,7 +198,7 @@ DomainStoryRules.prototype.init = function () {
     });
   });
 
-  this.addRule("elements.move", HIGH_PRIORITY, function (context) {
+  this.addRule('elements.move', HIGH_PRIORITY, function (context) {
     let target = context.target,
       shapes = context.shapes;
 
@@ -219,21 +219,21 @@ DomainStoryRules.prototype.init = function () {
     );
   });
 
-  this.addRule("shape.create", HIGH_PRIORITY, function (context) {
+  this.addRule('shape.create', HIGH_PRIORITY, function (context) {
     let target = context.target,
       shape = context.shape;
 
     return canCreate(shape, target);
   });
 
-  this.addRule("connection.create", HIGH_PRIORITY, function (context) {
+  this.addRule('connection.create', HIGH_PRIORITY, function (context) {
     let source = context.source,
       target = context.target;
 
     return canConnect(source, target);
   });
 
-  this.addRule("connection.reconnect", HIGH_PRIORITY, function (context) {
+  this.addRule('connection.reconnect', HIGH_PRIORITY, function (context) {
     let connection = context.connection,
       source = context.hover || context.source,
       target = context.target;
@@ -247,27 +247,27 @@ DomainStoryRules.prototype.init = function () {
     return canConnect(source, target, connection);
   });
 
-  this.addRule("shape.resize", function (context) {
+  this.addRule('shape.resize', function (context) {
     let shape = context.shape,
       newBounds = context.newBounds;
 
     return canResize(shape, newBounds);
   });
 
-  this.addRule("connection.start", function (context) {
+  this.addRule('connection.start', function (context) {
     var source = context.source;
 
     return canStartConnection(source);
   });
 
-  this.addRule("connection.updateWaypoints", function (context) {
+  this.addRule('connection.updateWaypoints', function (context) {
     return {
       type: context.connection.type,
     };
   });
 
   // CopyPaste.js requires this empty-looking rule to exist
-  this.addRule("element.copy", function (context) {
+  this.addRule('element.copy', function (context) {
     return true;
   });
 };

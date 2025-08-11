@@ -1,14 +1,14 @@
-"use strict";
+'use strict';
 
 import {
   setLabel,
   getLabel,
   setNumber,
   getNumber,
-} from "../labeling/dsLabelUtil";
+} from '../labeling/dsLabelUtil';
 
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { getBusinessObject, is } from "../util/util";
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import { getBusinessObject, is } from '../util/util';
 
 const NULL_DIMENSIONS = {
   width: 0,
@@ -23,7 +23,7 @@ export default function UpdateLabelHandler(
   textRenderer,
   commandStack,
 ) {
-  commandStack.registerHandler("element.updateLabel", handlerFunction);
+  commandStack.registerHandler('element.updateLabel', handlerFunction);
 
   function handlerFunction() {
     this.execute = function (ctx) {
@@ -53,7 +53,7 @@ export default function UpdateLabelHandler(
         }
 
         // resize element based on label _or_ pre-defined bounds
-        if (typeof newBounds === "undefined") {
+        if (typeof newBounds === 'undefined') {
           newBounds = textRenderer.getLayoutedBounds(label, text);
         }
 
@@ -81,4 +81,4 @@ function setText(element, text, textNumber) {
   return [label, labelTarget, number, numberTarget];
 }
 
-UpdateLabelHandler.$inject = ["modeling", "textRenderer", "commandStack"];
+UpdateLabelHandler.$inject = ['modeling', 'textRenderer', 'commandStack'];

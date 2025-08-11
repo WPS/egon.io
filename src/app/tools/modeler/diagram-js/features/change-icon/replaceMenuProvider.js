@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import Replace from "./replace";
-import * as replaceOptions from "./replaceOptions";
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import Replace from './replace';
+import * as replaceOptions from './replaceOptions';
 
-import { forEach } from "min-dash";
+import { forEach } from 'min-dash';
 
 /**
  * This module is an element agnostic replace menu provider for the popup menu.
@@ -14,7 +14,7 @@ export default function ReplaceMenuProvider(modeling) {
   this._modeling = modeling;
 }
 
-ReplaceMenuProvider.$inject = ["modeling"];
+ReplaceMenuProvider.$inject = ['modeling'];
 
 /**
  * Get all entries from replaceOptions for the given element and apply filters

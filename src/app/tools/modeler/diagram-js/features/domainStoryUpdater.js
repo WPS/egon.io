@@ -1,19 +1,19 @@
-"use strict";
+'use strict';
 
-import inherits from "inherits";
+import inherits from 'inherits';
 
-import { pick, assign } from "min-dash";
+import { pick, assign } from 'min-dash';
 
-import CommandInterceptor from "diagram-js/lib/command/CommandInterceptor";
+import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
 import {
   add as collectionAdd,
   remove as collectionRemove,
-} from "diagram-js/lib/util/Collections";
+} from 'diagram-js/lib/util/Collections';
 
-import { reworkGroupElements } from "./util/util";
-import { isBackground, isGroup } from "./domainStoryRules";
-import { ElementTypes } from "../../../../domain/entities/elementTypes";
+import { reworkGroupElements } from './util/util';
+import { isBackground, isGroup } from './domainStoryRules';
+import { ElementTypes } from '../../../../domain/entities/elementTypes';
 
 /**
  * a handler responsible for updating the element's businessObject
@@ -41,11 +41,11 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
     }
 
     // save element position
-    assign(businessObject, pick(shape, ["x", "y"]));
+    assign(businessObject, pick(shape, ['x', 'y']));
 
     if (shape.type === ElementTypes.GROUP) {
       // save element size if resizable
-      assign(businessObject, pick(shape, ["height", "width"]));
+      assign(businessObject, pick(shape, ['height', 'width']));
 
       // rework the child-parent relations if a group was moved, such that all Objects that are visually in the group are also associated with it
       if (isBackground(parent) || isGroup(parent)) {
@@ -59,7 +59,7 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
     if (
       shape &&
       shape.parent &&
-      "type" in shape.parent &&
+      'type' in shape.parent &&
       shape.parent.type === ElementTypes.GROUP
     ) {
       assign(businessObject, {
@@ -148,54 +148,54 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
 
   // cropping must be done before updateElement
   // do not change the order of these .executed calls
-  this.executed(["connection.layout", "connection.create"], cropConnection);
+  this.executed(['connection.layout', 'connection.create'], cropConnection);
 
-  this.reverted(["connection.layout"], function (e) {
+  this.reverted(['connection.layout'], function (e) {
     delete e.context.cropped;
   });
 
   this.executed(
     [
-      "shape.create",
-      "shape.move",
-      "shape.delete",
-      "shape.resize",
-      "shape.removeGroupWithChildren",
+      'shape.create',
+      'shape.move',
+      'shape.delete',
+      'shape.resize',
+      'shape.removeGroupWithChildren',
     ],
     updateElement,
   );
 
   this.reverted(
     [
-      "shape.create",
-      "shape.move",
-      "shape.delete",
-      "shape.resize",
-      "shape.removeGroupWithChildren",
+      'shape.create',
+      'shape.move',
+      'shape.delete',
+      'shape.resize',
+      'shape.removeGroupWithChildren',
     ],
     updateElement,
   );
 
   this.executed(
     [
-      "connection.create",
-      "connection.reconnect",
-      "connection.updateWaypoints",
-      "connection.delete",
-      "connection.layout",
-      "connection.move",
+      'connection.create',
+      'connection.reconnect',
+      'connection.updateWaypoints',
+      'connection.delete',
+      'connection.layout',
+      'connection.move',
     ],
     updateConnection,
   );
 
   this.reverted(
     [
-      "connection.create",
-      "connection.reconnect",
-      "connection.updateWaypoints",
-      "connection.delete",
-      "connection.layout",
-      "connection.move",
+      'connection.create',
+      'connection.reconnect',
+      'connection.updateWaypoints',
+      'connection.delete',
+      'connection.layout',
+      'connection.move',
     ],
     updateConnection,
   );
@@ -203,4 +203,4 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
 
 inherits(DomainStoryUpdater, CommandInterceptor);
 
-DomainStoryUpdater.$inject = ["eventBus", "egon", "connectionDocking"];
+DomainStoryUpdater.$inject = ['eventBus', 'egon', 'connectionDocking'];

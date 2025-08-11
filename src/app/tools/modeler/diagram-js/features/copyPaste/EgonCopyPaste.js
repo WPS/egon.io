@@ -1,6 +1,6 @@
-import { getBusinessObject } from "../util/util";
+import { getBusinessObject } from '../util/util';
 
-import { forEach, isArray, isUndefined, omit, reduce } from "min-dash";
+import { forEach, isArray, isUndefined, omit, reduce } from 'min-dash';
 
 function copyProperties(source, target, properties) {
   if (!isArray(properties)) {
@@ -29,7 +29,7 @@ function removeProperties(element, properties) {
 var LOW_PRIORITY = 750;
 
 export default function EgonCopyPaste(eventBus, propertyCopy) {
-  eventBus.on("copyPaste.copyElement", LOW_PRIORITY, function (context) {
+  eventBus.on('copyPaste.copyElement', LOW_PRIORITY, function (context) {
     var descriptor = context.descriptor,
       element = context.element;
 
@@ -38,7 +38,7 @@ export default function EgonCopyPaste(eventBus, propertyCopy) {
 
     descriptor.type = element.type;
 
-    copyProperties(businessObject, descriptor, "name");
+    copyProperties(businessObject, descriptor, 'name');
 
     if (isLabel(descriptor)) {
       return descriptor;
@@ -79,11 +79,11 @@ export default function EgonCopyPaste(eventBus, propertyCopy) {
     );
   }
 
-  eventBus.on("copyPaste.pasteElements", function () {
+  eventBus.on('copyPaste.pasteElements', function () {
     references = {};
   });
 
-  eventBus.on("copyPaste.pasteElement", function (context) {
+  eventBus.on('copyPaste.pasteElement', function (context) {
     var cache = context.cache,
       descriptor = context.descriptor,
       oldBusinessObject = descriptor.oldBusinessObject,
@@ -108,13 +108,13 @@ export default function EgonCopyPaste(eventBus, propertyCopy) {
     // resolve references e.g. default sequence flow
     resolveReferences(descriptor, cache);
 
-    copyProperties(descriptor, newBusinessObject, ["name"]);
+    copyProperties(descriptor, newBusinessObject, ['name']);
 
-    removeProperties(descriptor, "oldBusinessObject");
+    removeProperties(descriptor, 'oldBusinessObject');
   });
 }
 
-EgonCopyPaste.$inject = ["eventBus", "propertyCopy"];
+EgonCopyPaste.$inject = ['eventBus', 'propertyCopy'];
 
 // helpers //////////
 

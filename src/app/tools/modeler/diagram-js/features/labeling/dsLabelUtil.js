@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { is } from "../util/util";
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import { is } from '../util/util';
 
 function getLabelAttr(semantic) {
   if (
@@ -10,16 +10,16 @@ function getLabelAttr(semantic) {
     semantic.type.includes(ElementTypes.ACTIVITY) ||
     semantic.type.includes(ElementTypes.GROUP)
   ) {
-    return "name";
+    return 'name';
   }
   if (semantic.type.includes(ElementTypes.TEXTANNOTATION)) {
-    return "text";
+    return 'text';
   }
 }
 
 function getNumberAttr(semantic) {
   if (is(semantic, ElementTypes.ACTIVITY)) {
-    return "number";
+    return 'number';
   }
 }
 
@@ -32,7 +32,7 @@ export function getLabel(element) {
   }
   let attr = getLabelAttr(semantic);
   if (attr && semantic) {
-    return semantic[attr] || "";
+    return semantic[attr] || '';
   }
 }
 
@@ -41,7 +41,7 @@ export function getNumber(element) {
     attr = getNumberAttr(semantic);
 
   if (attr) {
-    return semantic[attr] || "";
+    return semantic[attr] || '';
   }
 }
 
@@ -112,7 +112,7 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
   let currentFocus, filteredWorkObjectNames;
 
   /* execute a function when someone writes in the text field:*/
-  input.addEventListener("input", function () {
+  input.addEventListener('input', function () {
     if (workObjectNames.length === 0) {
       return;
     }
@@ -130,9 +130,9 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
     currentFocus = -1;
 
     /* create a DIV element that will contain the items (values):*/
-    autocompleteList = document.createElement("DIV");
-    autocompleteList.setAttribute("id", "autocomplete-list");
-    autocompleteList.setAttribute("class", "autocomplete-items");
+    autocompleteList = document.createElement('DIV');
+    autocompleteList.setAttribute('id', 'autocomplete-list');
+    autocompleteList.setAttribute('class', 'autocomplete-items');
 
     /* append the DIV element as a child of the autocomplete container:*/
     this.parentNode.appendChild(autocompleteList);
@@ -144,13 +144,13 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
       if (val) {
         if (name.substring(0, val.length).toUpperCase() === val.toUpperCase()) {
           /* create a DIV element for each matching element:*/
-          autocompleteItem = document.createElement("DIV");
+          autocompleteItem = document.createElement('DIV');
 
           /* make the matching letters bold:*/
           autocompleteItem.innerHTML =
-            "<strong>" +
+            '<strong>' +
             name.substring(0, val.length) +
-            "</strong>" +
+            '</strong>' +
             name.substring(val.length);
 
           /* insert an input field that will hold the current name:*/
@@ -165,15 +165,15 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
 
     // if we edit an actor, we do not want auto-complete, since actors generally are unique
     if (element.type.includes(ElementTypes.ACTOR)) {
-      autocompleteList.style.visibility = "hidden";
+      autocompleteList.style.visibility = 'hidden';
     }
   });
 
   /* execute a function presses a key on the keyboard:*/
   input.onkeydown = function (e) {
-    let autocompleteList = document.getElementById("autocomplete-list");
+    let autocompleteList = document.getElementById('autocomplete-list');
     if (autocompleteList) {
-      autocompleteList = autocompleteList.getElementsByTagName("div");
+      autocompleteList = autocompleteList.getElementsByTagName('div');
     }
     if (e.keyCode === 40) {
       /* If the arrow DOWN key is pressed,
@@ -195,7 +195,7 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
       /* If the ENTER key is pressed, prevent the form from being submitted,*/
       if (currentFocus > -1) {
         element.businessObject.name = filteredWorkObjectNames[currentFocus];
-        eventBus.fire("element.changed", { element });
+        eventBus.fire('element.changed', { element });
       }
     }
   };
@@ -210,14 +210,14 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
     if (currentFocus < 0) currentFocus = autocompleteList.length - 1;
 
     /* add class "autocomplete-active":*/
-    autocompleteList[currentFocus].classList.add("autocomplete-active");
+    autocompleteList[currentFocus].classList.add('autocomplete-active');
   }
 
   function removeActive(autocompleteList) {
     /* a function to remove the "active" class from all autocomplete items:*/
     if (autocompleteList.length > 1) {
       for (const item of autocompleteList) {
-        item.classList.remove("autocomplete-active");
+        item.classList.remove('autocomplete-active');
       }
     }
   }
@@ -226,7 +226,7 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
     /* close all autocomplete lists in the document,
     except the one passed as an argument:*/
     let autocompleteList =
-      document.getElementsByClassName("autocomplete-items");
+      document.getElementsByClassName('autocomplete-items');
     for (const item of autocompleteList) {
       if (survivor != item && survivor != input) {
         item.parentNode.removeChild(item);
@@ -235,7 +235,7 @@ export function autocomplete(input, workObjectNames, element, eventBus) {
   }
 
   /* execute a function when someone clicks in the document:*/
-  document.addEventListener("click", function (e) {
+  document.addEventListener('click', function (e) {
     closeAllLists(e.target);
   });
 }

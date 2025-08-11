@@ -1,8 +1,8 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@use "@angular/material" as mat;
-@import "@angular/material";
-@import "material-icons/iconfont/material-icons.css";
+@use '@angular/material' as mat;
+@import '@angular/material';
+@import 'material-icons/iconfont/material-icons.css';
 // Plus imports for other components in your app.
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -105,7 +105,7 @@ $egon-theme: mat.m2-define-light-theme(
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
-  src: local("Roboto-Regular"), url("~src/assets/font/Roboto-Regular.woff");
+  src: local('Roboto-Regular'), url('~src/assets/font/Roboto-Regular.woff');
 }
 
 /* You can add global styles to this file, and also import other style files */
@@ -117,7 +117,7 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 .smallScrollbar {
@@ -273,7 +273,7 @@ mat-dialog-actions.mdc-dialog__actions {
 }
 
 .djs-palette .djs-palette-entries:after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
@@ -471,11 +471,11 @@ g.djs-bendpoint.djs-dragging.bendpoint-dragging > * {
 }
 
 .djs-minimap .toggle:before {
-  content: "Map";
+  content: 'Map';
 }
 
 .djs-minimap.open .toggle:before {
-  content: "X";
+  content: 'X';
 }
 
 .djs-minimap.open .toggle {

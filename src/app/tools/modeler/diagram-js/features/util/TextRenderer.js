@@ -1,6 +1,6 @@
-import { assign } from "min-dash";
+import { assign } from 'min-dash';
 
-import TextUtil from "diagram-js/lib/util/Text";
+import TextUtil from 'diagram-js/lib/util/Text';
 
 var DEFAULT_FONT_SIZE = 12;
 var LINE_HEIGHT_RATIO = 1.2;
@@ -33,9 +33,9 @@ var MIN_TEXT_ANNOTATION_HEIGHT = 30;
 export default function TextRenderer(config) {
   var defaultStyle = assign(
     {
-      fontFamily: "Arial, sans-serif",
+      fontFamily: 'Arial, sans-serif',
       fontSize: DEFAULT_FONT_SIZE,
-      fontWeight: "normal",
+      fontWeight: 'normal',
       lineHeight: LINE_HEIGHT_RATIO,
     },
     (config && config.defaultStyle) || {},
@@ -95,7 +95,7 @@ export default function TextRenderer(config) {
     var layoutedDimensions = textUtil.getDimensions(text, {
       box: bounds,
       style: defaultStyle,
-      align: "left-top",
+      align: 'left-top',
       padding: 5,
     });
 
@@ -137,4 +137,4 @@ export default function TextRenderer(config) {
   };
 }
 
-TextRenderer.$inject = ["config.textRenderer"];
+TextRenderer.$inject = ['config.textRenderer'];

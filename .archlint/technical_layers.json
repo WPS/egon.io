@@ -18,44 +18,32 @@
   "artifacts": [
     {
       "name": "presentation",
-      "include": [
-        "**/presentation/**"
-      ],
+      "include": ["**/presentation/**"],
       "mayUseAllBelow": true
     },
     {
       "name": "directive",
-      "include": [
-        "**/directive/**"
-      ],
+      "include": ["**/directive/**"],
       "mayUseAllBelow": true
     },
     {
       "name": "service",
-      "include": [
-        "**/services/**"
-      ],
+      "include": ["**/services/**"],
       "mayUseAllBelow": true
     },
     {
       "name": "domain",
-      "include": [
-        "**/domain/**"
-      ],
+      "include": ["**/domain/**"],
       "mayUseAllBelow": true
     },
     {
       "name": "entities",
-      "include": [
-        "**/entities/**"
-      ],
+      "include": ["**/entities/**"],
       "mayUseAllBelow": true
     },
     {
       "name": "utils",
-      "include": [
-        "utils/**"
-      ],
+      "include": ["utils/**"],
       "mayUseAllBelow": true
     }
   ]

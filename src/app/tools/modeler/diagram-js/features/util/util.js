@@ -36,7 +36,7 @@ export function undoGroupRework(parent, shape) {
   shape.parent = superParent;
 
   const svgShape = document.querySelector(
-    "[data-element-id=" + shape.id + "]",
+    '[data-element-id=' + shape.id + ']',
   ).parentElement;
   const svgGroup = svgShape.parentElement;
   const svgGroupParent = svgGroup.parentElement.parentElement;
@@ -47,13 +47,13 @@ export function undoGroupRework(parent, shape) {
 export function isCustomIcon(icon) {
   // default icons are provided as SVG
   // custom icons are provided as "Data URL" with a base64-encoded image as payload
-  return icon.startsWith("data");
+  return icon.startsWith('data');
 }
 
 export function isCustomSvgIcon(icon) {
   // default icons are provided as SVG
   // custom icons are provided as "Data URL" with a base64-encoded image as payload
-  return icon.startsWith("data:image/svg");
+  return icon.startsWith('data:image/svg');
 }
 
 /**
@@ -109,7 +109,7 @@ export function isCustomSvgIcon(icon) {
  */
 export function getScaledPath(param) {
   const rawPath = {
-    d: "m {mx}, {my} m 10,0 l -10,0 l 0,{e.y0} l 10,0",
+    d: 'm {mx}, {my} m 10,0 l -10,0 l 0,{e.y0} l 10,0',
     height: 30,
     width: 10,
     heightElements: [30],
@@ -142,7 +142,7 @@ export function getScaledPath(param) {
       heightIndex < rawPath.heightElements.length;
       heightIndex++
     ) {
-      coordinates["y" + heightIndex] =
+      coordinates['y' + heightIndex] =
         rawPath.heightElements[heightIndex] * heightRatio;
     }
 
@@ -152,7 +152,7 @@ export function getScaledPath(param) {
       widthIndex < rawPath.widthElements.length;
       widthIndex++
     ) {
-      coordinates["x" + widthIndex] =
+      coordinates['x' + widthIndex] =
         rawPath.widthElements[widthIndex] * widthRatio;
     }
   }
@@ -186,11 +186,11 @@ function replacer(all, key, obj) {
         if (name in res) {
           res = res[name];
         }
-        typeof res == "function" && isFunc && (res = res());
+        typeof res == 'function' && isFunc && (res = res());
       }
     },
   );
-  res = (res == null || res == obj ? all : res) + "";
+  res = (res == null || res == obj ? all : res) + '';
 
   return res;
 }

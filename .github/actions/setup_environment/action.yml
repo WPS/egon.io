@@ -1,7 +1,7 @@
 name: 'Setup environment'
 description: 'Sets up environment and loads dependencies'
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - uses: actions/setup-node@v4
       with:

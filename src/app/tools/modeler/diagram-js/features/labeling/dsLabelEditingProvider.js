@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 
-import { assign } from "min-dash";
+import { assign } from 'min-dash';
 
-import { autocomplete, getLabel } from "./dsLabelUtil";
+import { autocomplete, getLabel } from './dsLabelUtil';
 
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { sanitizeTextForSVGExport } from "src/app/utils/sanitizer";
-import { is } from "../util/util";
-import { isBackground } from "../domainStoryRules";
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import { sanitizeTextForSVGExport } from 'src/app/utils/sanitizer';
+import { is } from '../util/util';
+import { isBackground } from '../domainStoryRules';
 
 let dictionaryService;
 
@@ -52,7 +52,7 @@ export default function DSLabelEditingProvider(
   directEditing.registerProvider(this);
 
   // listen to dblclick on non-root elements
-  eventBus.on("element.dblclick", function (event) {
+  eventBus.on('element.dblclick', function (event) {
     activateDirectEdit(event.element);
     if (is(event.element, ElementTypes.ACTIVITY)) {
       // if we edit an activity, we do not want the standard editing box
@@ -65,11 +65,11 @@ export default function DSLabelEditingProvider(
   // complete on followup canvas operation
   eventBus.on(
     [
-      "element.mousedown",
-      "drag.init",
-      "canvas.viewbox.changing",
-      "autoPlace",
-      "popupMenu.open",
+      'element.mousedown',
+      'drag.init',
+      'canvas.viewbox.changing',
+      'autoPlace',
+      'popupMenu.open',
     ],
     function () {
       if (directEditing.isActive()) {
@@ -79,19 +79,19 @@ export default function DSLabelEditingProvider(
   );
 
   // cancel on command stack changes
-  eventBus.on(["commandStack.changed"], function () {
+  eventBus.on(['commandStack.changed'], function () {
     if (directEditing.isActive()) {
       directEditing.cancel();
     }
   });
 
-  eventBus.on("directEditing.activate", function (event) {
+  eventBus.on('directEditing.activate', function (event) {
     resizeHandles.removeResizers();
     let element = event.active.element;
     createAutocomplete(element);
   });
 
-  eventBus.on("create.end", 500, function (event) {
+  eventBus.on('create.end', 500, function (event) {
     let element = event.shape,
       canExecute = event.context.canExecute;
 
@@ -102,12 +102,12 @@ export default function DSLabelEditingProvider(
       activateDirectEdit(element);
     }
     let editingBox = document.getElementsByClassName(
-      "djs-direct-editing-content",
+      'djs-direct-editing-content',
     );
     focusElement(editingBox.item(0));
   });
 
-  eventBus.on("autoPlace.end", 500, function (event) {
+  eventBus.on('autoPlace.end', 500, function (event) {
     activateDirectEdit(event.shape);
   });
 
@@ -117,7 +117,7 @@ export default function DSLabelEditingProvider(
 
   function createAutocomplete(element) {
     let editingBox = document.getElementsByClassName(
-      "djs-direct-editing-content",
+      'djs-direct-editing-content',
     );
     focusElement(editingBox.item(0));
     autocomplete(
@@ -130,13 +130,13 @@ export default function DSLabelEditingProvider(
 }
 
 DSLabelEditingProvider.$inject = [
-  "eventBus",
-  "canvas",
-  "directEditing",
-  "modeling",
-  "resizeHandles",
-  "textRenderer",
-  "updateLabelHandler",
+  'eventBus',
+  'canvas',
+  'directEditing',
+  'modeling',
+  'resizeHandles',
+  'textRenderer',
+  'updateLabelHandler',
 ];
 
 /**
@@ -225,13 +225,13 @@ DSLabelEditingProvider.prototype.getEditingBBox = function (element) {
     });
 
     assign(style, {
-      fontSize: defaultFontSize + "px",
+      fontSize: defaultFontSize + 'px',
       lineHeight: defaultLineHeight,
-      paddingTop: 7 * zoom + "px",
-      paddingBottom: 7 * zoom + "px",
-      paddingLeft: 5 * zoom + "px",
-      paddingRight: 5 * zoom + "px",
-      textAlign: "left",
+      paddingTop: 7 * zoom + 'px',
+      paddingBottom: 7 * zoom + 'px',
+      paddingLeft: 5 * zoom + 'px',
+      paddingRight: 5 * zoom + 'px',
+      textAlign: 'left',
     });
   }
 
@@ -248,12 +248,12 @@ DSLabelEditingProvider.prototype.getEditingBBox = function (element) {
     });
 
     assign(style, {
-      fontSize: defaultFontSize + "px",
+      fontSize: defaultFontSize + 'px',
       lineHeight: defaultLineHeight,
-      paddingTop: 7 * zoom + "px",
-      paddingBottom: 7 * zoom + "px",
-      paddingLeft: 5 * zoom + "px",
-      paddingRight: 5 * zoom + "px",
+      paddingTop: 7 * zoom + 'px',
+      paddingBottom: 7 * zoom + 'px',
+      paddingLeft: 5 * zoom + 'px',
+      paddingRight: 5 * zoom + 'px',
     });
   }
 
@@ -267,12 +267,12 @@ DSLabelEditingProvider.prototype.getEditingBBox = function (element) {
     });
 
     assign(style, {
-      textAlign: "left",
-      paddingTop: 7 * zoom + "px",
-      paddingBottom: 7 * zoom + "px",
-      paddingLeft: 5 * zoom + "px",
-      paddingRight: 5 * zoom + "px",
-      fontSize: defaultFontSize + "px",
+      textAlign: 'left',
+      paddingTop: 7 * zoom + 'px',
+      paddingBottom: 7 * zoom + 'px',
+      paddingLeft: 5 * zoom + 'px',
+      paddingRight: 5 * zoom + 'px',
+      fontSize: defaultFontSize + 'px',
       lineHeight: defaultLineHeight,
     });
   }

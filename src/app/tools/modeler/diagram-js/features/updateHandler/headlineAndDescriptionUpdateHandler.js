@@ -1,11 +1,11 @@
-import { sanitizeTextForSVGExport } from "src/app/utils/sanitizer";
+import { sanitizeTextForSVGExport } from 'src/app/utils/sanitizer';
 
 export default function headlineAndDescriptionUpdateHandler(
   commandStack,
   titleService,
 ) {
   commandStack.registerHandler(
-    "story.updateHeadlineAndDescription",
+    'story.updateHeadlineAndDescription',
     handlerFunction,
   );
 

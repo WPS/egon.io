@@ -1,4 +1,4 @@
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 
 let iconDictionaryService;
 
@@ -16,8 +16,8 @@ export function actorReplaceOptions(name) {
     if (!name.includes(actorType)) {
       const typeName = actorType;
       replaceOption[i] = {
-        label: "Change to " + typeName,
-        actionName: "replace-with-actor-" + typeName.toLowerCase(),
+        label: 'Change to ' + typeName,
+        actionName: 'replace-with-actor-' + typeName.toLowerCase(),
         className: iconDictionaryService.getCSSClassOfIcon(actorType),
         target: {
           type: `${ElementTypes.ACTOR}${actorType}`,
@@ -41,8 +41,8 @@ export function workObjectReplaceOptions(name) {
     if (!name.includes(workObjectType)) {
       const typeName = workObjectType;
       replaceOption[i] = {
-        label: "Change to " + typeName,
-        actionName: "replace-with-actor-" + typeName,
+        label: 'Change to ' + typeName,
+        actionName: 'replace-with-actor-' + typeName,
         className: iconDictionaryService.getCSSClassOfIcon(workObjectType),
         target: {
           type: `${ElementTypes.WORKOBJECT}${workObjectType}`,
