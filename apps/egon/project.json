@@ -10,6 +10,7 @@
       "strict": true
     }
   },
+  "root": "apps/egon",
   "sourceRoot": "apps/egon/src",
   "prefix": "app",
   "targets": {
@@ -29,16 +30,16 @@
           "inherits",
           "dot"
         ],
-        "outputPath": "dist_build/egon",
-        "index": "src/index.html",
-        "main": "src/main.ts",
-        "polyfills": "src/polyfills.ts",
-        "tsConfig": "tsconfig.app.json",
-        "assets": ["src/favicon.ico", "src/assets"],
+        "outputPath": "dist/apps/egon",
+        "index": "apps/egon/src/index.html",
+        "main": "apps/egon/src/main.ts",
+        "polyfills": "apps/egon/src/polyfills.ts",
+        "tsConfig": "apps/egon/tsconfig.app.json",
+        "assets": ["apps/egon/src/favicon.ico", "apps/egon/src/assets"],
         "styles": [
           "node_modules/diagram-js/assets/diagram-js.css",
           "node_modules/bpmn-font/dist/css/bpmn.css",
-          "src/styles.scss"
+          "apps/egon/src/styles.scss"
         ],
         "scripts": [],
         "vendorChunk": true,

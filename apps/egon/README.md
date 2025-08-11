@@ -20,7 +20,7 @@ Before committing any changes/creating pull requests, you should:
 
 ## Architecture
 
-See [architecture documentation](/architecture.md).
+See [architecture documentation](/apps/egon/architecture.mdtecture.md).
 
 ## Deployment
 

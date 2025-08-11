@@ -2,7 +2,7 @@
 FROM node:18-alpine AS build-stage
 WORKDIR /app
 
-COPY . .
+COPY ../.. .
 RUN npm ci
 
 RUN npm run build-prod

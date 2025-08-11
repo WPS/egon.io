@@ -1,5 +1,5 @@
 {
-  "$schema": "../node_modules/ts-archlint/dist/schema.json",
+  "$schema": "../../../node_modules/ts-archlint/dist/schema.json",
   "name": "layers",
   "failOnUnassigned": false,
   "exclude": [

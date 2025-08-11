@@ -1,3 +1,4 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -17,19 +18,13 @@
     "target": "ES2022",
     "module": "es2020",
     "lib": ["es2018", "dom"],
-    "useDefineForClassFields": false,
-    "paths": {},
-    "rootDir": "."
+    "useDefineForClassFields": false
   },
-  "include": [
-    "./apps/egon/src/**/*"
-  ],
+  "include": ["./src/**/*"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  },
-  "exclude": [
-    "./node_modules", "tmp"]
+  }
 }
