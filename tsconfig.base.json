@@ -22,7 +22,7 @@
     "rootDir": "."
   },
   "include": [
-    "./apps/egon/src/**/*"
+    "./apps/web/src/**/*"
   ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

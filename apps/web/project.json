@@ -1,5 +1,5 @@
 {
-  "name": "egon",
+  "name": "web",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "generators": {
@@ -10,8 +10,8 @@
       "strict": true
     }
   },
-  "root": "apps/egon",
-  "sourceRoot": "apps/egon/src",
+  "root": "apps/web",
+  "sourceRoot": "apps/web/src",
   "prefix": "app",
   "targets": {
     "build": {
@@ -30,16 +30,16 @@
           "inherits",
           "dot"
         ],
-        "outputPath": "dist/apps/egon",
-        "index": "apps/egon/src/index.html",
-        "main": "apps/egon/src/main.ts",
-        "polyfills": "apps/egon/src/polyfills.ts",
-        "tsConfig": "apps/egon/tsconfig.app.json",
-        "assets": ["apps/egon/src/favicon.ico", "apps/egon/src/assets"],
+        "outputPath": "dist/apps/web",
+        "index": "apps/web/src/index.html",
+        "main": "apps/web/src/main.ts",
+        "polyfills": "apps/web/src/polyfills.ts",
+        "tsConfig": "apps/web/tsconfig.app.json",
+        "assets": ["apps/web/src/favicon.ico", "apps/web/src/assets"],
         "styles": [
           "node_modules/diagram-js/assets/diagram-js.css",
           "node_modules/bpmn-font/dist/css/bpmn.css",
-          "apps/egon/src/styles.scss"
+          "apps/web/src/styles.scss"
         ],
         "scripts": [],
         "vendorChunk": true,
@@ -82,18 +82,18 @@
     "serve": {
       "executor": "@angular-builders/custom-webpack:dev-server",
       "options": {
-        "buildTarget": "egon:build"
+        "buildTarget": "web:build"
       },
       "configurations": {
         "production": {
-          "buildTarget": "egon:build:production"
+          "buildTarget": "web:build:production"
         }
       }
     },
     "extract-i18n": {
       "executor": "@angular/build:extract-i18n",
       "options": {
-        "buildTarget": "egon:build"
+        "buildTarget": "web:build"
       }
     },
     "test": {

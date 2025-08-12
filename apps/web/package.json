@@ -1,16 +1,16 @@
 {
-  "name": "egon",
+  "name": "web",
   "version": "3.0.0 ",
   "scripts": {
     "ng": "ng",
     "start": "nx serve",
-    "format": "prettier --write apps/egon/src",
-    "format:check": "prettier --check apps/egon/src",
+    "format": "prettier --write ./src",
+    "format:check": "prettier --check ./src",
     "test": "nx test",
     "build": "nx build",
     "build-prod": "nx build --configuration production",
     "zip": "zip-build dist_build/ dist/ --template '%NAME%-%VERSION%.%EXT%'",
-    "archlint": "node ./node_modules/ts-archlint/dist/index.js apps/egon/src/app"
+    "archlint": "node ./node_modules/ts-archlint/dist/index.js ./src/app"
   },
   "private": true,
   "dependencies": {
