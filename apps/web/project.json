@@ -103,12 +103,12 @@
           "path": "./polyfill-webpack.config.js",
           "replaceDuplicatePlugins": true
         },
-        "main": "src/test.ts",
-        "polyfills": "src/polyfills.ts",
-        "tsConfig": "tsconfig.spec.json",
-        "karmaConfig": "karma.conf.js",
-        "assets": ["src/favicon.ico", "src/assets"],
-        "styles": ["src/styles.scss"],
+        "main": "apps/web/src/test.ts",
+        "polyfills": "apps/web/src/polyfills.ts",
+        "tsConfig": "apps/web/tsconfig.spec.json",
+        "karmaConfig": "apps/web/karma.conf.js",
+        "assets": ["apps/web/src/favicon.ico", "apps/web/src/assets"],
+        "styles": ["apps/web/src/styles.scss"],
         "scripts": []
       }
     }
