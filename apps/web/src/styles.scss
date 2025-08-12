@@ -105,7 +105,7 @@ $egon-theme: mat.m2-define-light-theme(
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
-  src: local('Roboto-Regular'), url('~apps/web/src/assets/font/Roboto-Regular.woff');
+  src: local('Roboto-Regular'), url('./assets/font/Roboto-Regular.woff');
 }
 
 /* You can add global styles to this file, and also import other style files */
