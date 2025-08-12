@@ -3,14 +3,14 @@
   "version": "3.0.0 ",
   "scripts": {
     "ng": "ng",
-    "start": "nx serve",
-    "format": "prettier --write ./src",
-    "format:check": "prettier --check ./src",
-    "test": "nx test",
-    "build": "nx build",
-    "build-prod": "nx build --configuration production",
+    "start": "nx serve web",
+    "format": "prettier --write apps/web/src",
+    "format:check": "prettier --check apps/web/src",
+    "test": "nx test web",
+    "build": "nx build web",
+    "build-prod": "nx build web --configuration production",
     "zip": "zip-build dist_build/ dist/ --template '%NAME%-%VERSION%.%EXT%'",
-    "archlint": "node ./node_modules/ts-archlint/dist/index.js ./src/app"
+    "archlint": "node ./node_modules/ts-archlint/dist/index.js apps/web/src/app"
   },
   "private": true,
   "dependencies": {
