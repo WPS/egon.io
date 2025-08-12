@@ -10,7 +10,8 @@
     "build": "nx build web",
     "build-prod": "nx build web --configuration production",
     "zip": "zip-build dist_build/ dist/ --template '%NAME%-%VERSION%.%EXT%'",
-    "archlint": "node ./node_modules/ts-archlint/dist/index.js apps/web/src/app"
+    "archlint": "node ./node_modules/ts-archlint/dist/index.js apps/web/src/app",
+    "start-prod": "nx serve web --configuration production"
   },
   "private": true,
   "dependencies": {
