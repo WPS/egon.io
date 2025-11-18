@@ -4,9 +4,11 @@ import { ElementRegistryService } from 'src/app/domain/services/element-registry
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { StorySentence } from 'src/app/tools/replay/domain/storySentence';
 import {
+  HIGHLIGHT_LABEL_FONT_WEIGHT,
   HIGHLIGHT_NUMBER_BACKGROUND_COLOR,
   HIGHLIGHT_NUMBER_COLOR,
   HIGHLIGHT_STROKE_WIDTH,
+  LABEL_FONT_WEIGHT,
   NUMBER_BACKGROUND_COLOR,
   NUMBER_COLOR,
   STROKE_WIDTH,
@@ -74,7 +76,7 @@ export class DomManipulationService {
     });
   }
 
-  getNumberDomForActivity(activity: SVGPathElement): any {
+  private getNumberDomForActivity(activity: SVGPathElement): any {
     const numberText =
       activity.parentElement?.getElementsByClassName('djs-labelNumber')[0] ??
       '';
@@ -83,6 +85,10 @@ export class DomManipulationService {
       numberBackgroundDom: circle,
       numberTextDom: numberText,
     };
+  }
+
+  private getLabelDomForActivity(activity: SVGPathElement): any {
+    return activity.parentElement?.getElementsByClassName('djs-label')[0] ?? '';
   }
 
   private removeHighlights(): void {
@@ -101,6 +107,11 @@ export class DomManipulationService {
         activityDomObject.style.stroke =
           activity.businessObject.pickedColor || 'black';
         activityDomObject.style.strokeWidth = STROKE_WIDTH;
+
+        const activityLabelDom = this.getLabelDomForActivity(activityDomObject);
+        if (activityLabelDom) {
+          activityLabelDom.style.fontWeight = LABEL_FONT_WEIGHT;
+        }
 
         const { numberBackgroundDom, numberTextDom } =
           this.getNumberDomForActivity(activityDomObject);
@@ -136,6 +147,12 @@ export class DomManipulationService {
           )[0];
 
           activityDomObject.style.strokeWidth = HIGHLIGHT_STROKE_WIDTH;
+
+          const activityLabelDom =
+            this.getLabelDomForActivity(activityDomObject);
+          if (activityLabelDom) {
+            activityLabelDom.style.fontWeight = HIGHLIGHT_LABEL_FONT_WEIGHT;
+          }
 
           const { numberBackgroundDom, numberTextDom } =
             this.getNumberDomForActivity(activityDomObject);
