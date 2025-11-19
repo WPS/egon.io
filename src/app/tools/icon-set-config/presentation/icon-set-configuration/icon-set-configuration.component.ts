@@ -13,6 +13,7 @@ import { CustomIconSetConfiguration } from '../../../../domain/entities/custom-i
   selector: 'app-icon-set-configuration',
   templateUrl: './icon-set-configuration.component.html',
   styleUrls: ['./icon-set-configuration.component.scss'],
+  standalone: false,
 })
 export class IconSetConfigurationComponent implements OnInit {
   private iconSetConfigurationTypes: CustomIconSetConfiguration;

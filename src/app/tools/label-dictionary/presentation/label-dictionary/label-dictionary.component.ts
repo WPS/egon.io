@@ -14,6 +14,7 @@ import { LabelDictionaryService } from '../../services/label-dictionary.service'
   selector: 'app-label-dictionary',
   templateUrl: './label-dictionary.component.html',
   styleUrls: ['./label-dictionary.component.scss'],
+  standalone: false,
 })
 export class LabelDictionaryComponent implements AfterViewInit {
   workobjectEntriesSubject: BehaviorSubject<WorkObjectLabelEntry[]>;

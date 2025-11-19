@@ -5,6 +5,7 @@ import { IconListItem } from '../../domain/iconListItem';
   selector: 'app-details-list-item',
   templateUrl: './details-list-item.component.html',
   styleUrls: ['./details-list-item.component.scss'],
+  standalone: false,
 })
 export class DetailsListItemComponent implements AfterViewChecked {
   @Input()

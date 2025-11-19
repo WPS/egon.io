@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -7,20 +6,14 @@ import {
   MatDialogContent,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-unsaved-changes-reminder',
   standalone: true,
   imports: [
-    AsyncPipe,
     MatButton,
     MatDialogActions,
     MatDialogContent,
-    MatFormField,
-    MatInput,
-    MatLabel,
   ],
   templateUrl: './unsaved-changes-reminder.component.html',
   styleUrl: './unsaved-changes-reminder.component.scss',

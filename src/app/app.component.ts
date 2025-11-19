@@ -38,6 +38,7 @@ import { DirtyFlagService } from './domain/services/dirty-flag.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  standalone: false,
 })
 export class AppComponent implements OnInit, AfterViewInit {
   showSettings$: Observable<boolean> | BehaviorSubject<boolean>;

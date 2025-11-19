@@ -8,6 +8,7 @@ import { IconListItem } from 'src/app/tools/icon-set-config/domain/iconListItem'
   selector: 'app-icon-set-details',
   templateUrl: './icon-set-details.component.html',
   styleUrls: ['./icon-set-details.component.scss'],
+  standalone: false,
 })
 export class IconSetDetailsComponent implements OnInit {
   iconSetName: Observable<string>;

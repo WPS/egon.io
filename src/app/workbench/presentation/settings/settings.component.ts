@@ -9,6 +9,7 @@ import { IconSet } from '../../../domain/entities/iconSet';
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
+  standalone: false,
 })
 export class SettingsComponent {
   iconSetConfiguration: IconSet | undefined;

@@ -11,6 +11,7 @@ import {
   selector: 'app-autosave-options',
   templateUrl: './autosave-options.component.html',
   styleUrls: ['./autosave-options.component.scss'],
+  standalone: false,
 })
 export class AutosaveOptionsComponent {
   constructor(

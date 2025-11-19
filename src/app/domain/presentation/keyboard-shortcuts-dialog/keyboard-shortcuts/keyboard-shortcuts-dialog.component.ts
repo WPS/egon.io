@@ -9,6 +9,7 @@ import {
   selector: 'app-keyboard-shortcuts-dialog',
   templateUrl: './keyboard-shortcuts-dialog.component.html',
   styleUrl: './keyboard-shortcuts-dialog.component.scss',
+  standalone: false,
 })
 export class KeyboardShortcutsDialogComponent {
   title: string;

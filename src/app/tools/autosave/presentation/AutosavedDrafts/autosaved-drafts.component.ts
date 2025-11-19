@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-autosaved-drafts',
   templateUrl: './autosaved-drafts.component.html',
   styleUrls: ['./autosaved-drafts.component.scss'],
+  standalone: false,
 })
 export class AutosavedDraftsComponent implements OnInit {
   drafts: Draft[] = [];

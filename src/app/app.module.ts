@@ -1,8 +1,9 @@
 import {
-  APP_INITIALIZER,
   ApplicationRef,
   DoBootstrap,
   NgModule,
+  inject,
+  provideAppInitializer,
 } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {
@@ -65,18 +66,16 @@ import { DragDirective } from './tools/import/directive/dragDrop.directive';
       provide: MAT_CHECKBOX_DEFAULT_OPTIONS,
       useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions,
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initialize,
-      multi: true,
-      deps: [
-        DirtyFlagService,
-        IconDictionaryService,
-        IconSetImportExportService,
-        ElementRegistryService,
-        LabelDictionaryService,
-      ],
-    },
+     provideAppInitializer(() => {
+      const initializerFn = initialize(
+        inject(DirtyFlagService),
+        inject(IconDictionaryService),
+        inject(IconSetImportExportService),
+        inject(ElementRegistryService),
+        inject(LabelDictionaryService),
+      );
+      return initializerFn();
+    }),
     {
       provide: IconSetChangedService,
       useExisting: ImportDomainStoryService,

@@ -14,6 +14,7 @@ import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  standalone: false,
 })
 export class HeaderComponent {
   title$ = this.titleService.title$;
