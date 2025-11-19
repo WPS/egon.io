@@ -66,7 +66,7 @@ import { DragDirective } from './tools/import/directive/dragDrop.directive';
       provide: MAT_CHECKBOX_DEFAULT_OPTIONS,
       useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions,
     },
-     provideAppInitializer(() => {
+    provideAppInitializer(() => {
       const initializerFn = initialize(
         inject(DirtyFlagService),
         inject(IconDictionaryService),

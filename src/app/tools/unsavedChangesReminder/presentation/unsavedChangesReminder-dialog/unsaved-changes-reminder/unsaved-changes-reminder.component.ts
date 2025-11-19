@@ -10,11 +10,7 @@ import {
 @Component({
   selector: 'app-unsaved-changes-reminder',
   standalone: true,
-  imports: [
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-  ],
+  imports: [MatButton, MatDialogActions, MatDialogContent],
   templateUrl: './unsaved-changes-reminder.component.html',
   styleUrl: './unsaved-changes-reminder.component.scss',
 })
