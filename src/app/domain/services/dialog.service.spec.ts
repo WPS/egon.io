@@ -18,7 +18,7 @@ describe('DialogService', () => {
     TestBed.configureTestingModule({
       providers: [MockProvider(MatDialog)],
     });
-    matDialogSpy = spyOn(TestBed.get(MatDialog), 'open');
+    matDialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
 
     service = TestBed.inject(DialogService);
   });
