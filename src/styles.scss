@@ -8,7 +8,8 @@
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
 @include mat.all-component-typographies();
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 :root {
   --borderGray10: #e8e9ed;
@@ -187,20 +188,20 @@ mat-dialog-actions.mdc-dialog__actions {
 
 .mat-mdc-snack-bar-container {
   &.snackbar_success {
-    --mdc-snackbar-container-color: #a4d7e1;
+    --mat-snackbar-container-color: #a4d7e1;
     --mat-mdc-snack-bar-button-color: black;
-    --mdc-snackbar-supporting-text-color: black;
+    --mat-snackbar-supporting-text-color: black;
   }
   &.snackbar_error {
-    --mdc-snackbar-container-color: #b64435;
+    --mat-snackbar-container-color: #b64435;
     --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
+    --mat-snackbar-supporting-text-color: #fff;
   }
   &.snackbar_info {
-    --mdc-snackbar-container-color: #f7f7f8;
+    --mat-snackbar-container-color: #f7f7f8;
     --mat-mdc-snack-bar-button-color: black;
     --mat-snack-bar-button-color: black;
-    --mdc-snackbar-supporting-text-color: black;
+    --mat-snackbar-supporting-text-color: black;
   }
 }
 
