@@ -33,7 +33,7 @@
     "material-icons": "^1.13.14",
     "min-dash": "^4.2.3",
     "ngx-color-picker": "^17.0.0",
-    "rxjs": "7.4.0",
+    "rxjs": "^7.4.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -55,7 +55,7 @@
     "prettier": "^3.6.2",
     "ts-archlint": "^0.21.0",
     "ts-node": "^10.9.2",
-    "typescript": "5.6.3",
+    "typescript": "^5.9.0",
     "zip-build": "^1.8.0"
   }
 }
