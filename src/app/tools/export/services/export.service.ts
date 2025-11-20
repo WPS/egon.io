@@ -231,7 +231,7 @@ export class ExportService implements OnDestroy {
   }
 
   private getCurrentDateString(): string {
-    return formatDate(new Date(), 'YYYY-MM-dd', 'en-GB');
+    return formatDate(new Date(), 'yyyy-MM-dd', 'en-GB');
   }
 
   openDownloadDialog() {
