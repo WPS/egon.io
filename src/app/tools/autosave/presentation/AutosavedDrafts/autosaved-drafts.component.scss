@@ -4,7 +4,7 @@
   background-color: #f7f7f8;
   margin-top: 8px;
   margin-left: 8px;
-  margin-right: 8px;
+  margin-right: 16px;
 }
 
 .history {
@@ -32,12 +32,22 @@ button {
 }
 
 mat-list {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.draftsList {
+  height: calc(100vh - 54px - 4rem);
+  margin-top: 8px;
   margin-left: 8px;
   margin-right: 8px;
+  /* for scrollbar: */
+  overflow: auto;
+  padding-right: 8px;
 }
 
 mat-list-item {
-  margin-top: 8px;
+  margin-bottom: 4px;
   border: 1px solid #b9bcc6;
 }
 

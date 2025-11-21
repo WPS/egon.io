@@ -16,17 +16,20 @@
   </div>
 </div>
 @if (drafts.length) {
-  <mat-list>
-    @for (draft of drafts; track draft) {
-      <mat-list-item>
-        <div class="draft">
-          <div class="item-title">{{ draft.title }}</div>
-          <div class="item-date">{{ draft.date }}</div>
-          <button mat-stroked-button (click)="loadDraft(draft)">
-            Load draft
-          </button>
-        </div>
-      </mat-list-item>
-    }
-  </mat-list>
+  <!-- scrollable container for long lists -->
+  <div class="draftsList smallScrollbar">
+    <mat-list>
+      @for (draft of drafts; track draft) {
+        <mat-list-item>
+          <div class="draft">
+            <div class="item-title">{{ draft.title }}</div>
+            <div class="item-date">{{ draft.date }}</div>
+            <button mat-stroked-button (click)="loadDraft(draft)">
+              Load draft
+            </button>
+          </div>
+        </mat-list-item>
+      }
+    </mat-list>
+  </div>
 }
