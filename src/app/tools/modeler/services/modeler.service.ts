@@ -173,9 +173,6 @@ export class ModelerService {
   debounce(fn: any, timeout: number): any {
     return () => {
       let timer;
-      if (timer) {
-        clearTimeout(timer);
-      }
       timer = setTimeout(() => {
         // tslint:disable-next-line:no-unused-expression
         fn(this.modeler).then((svg: string) => {
