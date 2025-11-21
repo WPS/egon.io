@@ -84,7 +84,7 @@ DomainStoryElementFactory.prototype.baseCreate =
  * *
  * @param {String} dstElementType
  *
- * @return {Dimensions} a {width, height} object representing the size of the element
+ * @return {width, height} object representing the size of the element
  */
 DomainStoryElementFactory.prototype._getShapeSize = function (dstElementType) {
   let shapes = {
@@ -95,8 +95,3 @@ DomainStoryElementFactory.prototype._getShapeSize = function (dstElementType) {
 
   return shapes[dstElementType] || shapes.__default;
 };
-
-class Dimensions {
-  width;
-  height;
-}

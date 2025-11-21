@@ -16,7 +16,6 @@ import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { IconSet } from '../../../domain/entities/iconSet';
 import BaseViewer from '../diagram-js/BaseViewer';
 import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
-import DomainStoryModeler from '../diagram-js';
 
 describe('ModelerService', () => {
   let service: ModelerService;

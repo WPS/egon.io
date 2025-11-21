@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/overlay';
 import { KeyboardShortcutsDialogComponent } from '../presentation/keyboard-shortcuts-dialog/keyboard-shortcuts/keyboard-shortcuts-dialog.component';
-import { ShortCut, ShortcutDialogData } from '../entities/shortcut-dialog-data';
+import { ShortCut } from '../entities/shortcut-dialog-data';
 
 @Injectable({
   providedIn: 'root',

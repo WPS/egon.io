@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AutosavedDraftsComponent } from './autosaved-drafts.component';
-import { MockModule, MockProviders, MockService } from 'ng-mocks';
+import { MockModule, MockProviders } from 'ng-mocks';
 import { AutosaveService } from '../../services/autosave.service';
 import { AutosaveConfigurationService } from '../../services/autosave-configuration.service';
 import { MaterialModule } from 'src/app/material.module';

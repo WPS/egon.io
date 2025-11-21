@@ -5,7 +5,6 @@ import { MockModule, MockProvider } from 'ng-mocks';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 import { IconListItem } from '../../domain/iconListItem';
 import { BehaviorSubject } from 'rxjs';
-import { MatButtonModule } from '@angular/material/button';
 import { MaterialModule } from 'src/app/material.module';
 
 describe('IconListItemComponent', () => {
