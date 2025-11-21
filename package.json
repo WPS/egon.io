@@ -32,7 +32,7 @@
     "inherits-browser": "^0.1.0",
     "material-icons": "^1.13.14",
     "min-dash": "^4.2.3",
-    "ngx-color-picker": "^17.0.0",
+    "ngx-color-picker": "^20.1.1",
     "rxjs": "^7.4.0",
     "tslib": "^2.8.1",
     "zone.js": "~0.15.0"

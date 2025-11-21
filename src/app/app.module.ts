@@ -21,7 +21,7 @@ import { UntypedFormBuilder } from '@angular/forms';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { AutosaveService } from './tools/autosave/services/autosave.service';
 import { MaterialModule } from './material.module';
-import { ColorPickerModule } from 'ngx-color-picker';
+import { ColorPickerDirective } from 'ngx-color-picker';
 import { DirtyFlagService } from './domain/services/dirty-flag.service';
 import { IconSetChangedService } from './tools/icon-set-config/services/icon-set-customization.service';
 import { initializeContextPadProvider } from './tools/modeler/diagram-js/features/context-pad/domainStoryContextPadProvider';
@@ -48,7 +48,7 @@ import { DragDirective } from './tools/import/directive/dragDrop.directive';
     BrowserModule,
     NoopAnimationsModule,
     MaterialModule,
-    ColorPickerModule,
+    ColorPickerDirective,
     WorkbenchModule,
     AutosaveModule,
     ExportModule,
