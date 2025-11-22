@@ -25,6 +25,7 @@ import EditorActionsModule from "diagram-js/lib/features/editor-actions";
 import SnappingModule from "diagram-js/lib/features/snapping";
 import AdditionalShortcuts from "./features/shortcuts";
 import minimapModule from "diagram-js-minimap";
+import AlignToOrigin from "@bpmn-io/align-to-origin";
 
 export default function DomainStoryModeler(options) {
   BaseViewer.call(this, options);
@@ -42,6 +43,7 @@ DomainStoryModeler.prototype._modules = [].concat(
   [MoveModule, Bendpoints, ConnectionPreview, CopyPasteModule, ConnectModule], // Move/Create/Alter Elements
   [KeyboardModule, EditorActionsModule, AdditionalShortcuts], // Shortcuts
   [SnappingModule], // Alignment
+  [AlignToOrigin], // places diagram in the lower right quadrant (+x/+y) of the canvas
   [minimapModule],
 );
 
@@ -125,9 +127,11 @@ DomainStoryModeler.prototype.importBusinessObjects = function (
 };
 
 /**
- * Scrolls canvas and adjusts zoom so that the whole story is visible
+ * Changes element coordinates so that coordinate 0/0 is in the top left corner (avoids problems with HTML export)
+ * Then scrolls canvas and adjusts zoom so that the whole story is visible.
  */
 DomainStoryModeler.prototype.fitStoryToScreen = function () {
+  this.get("alignToOrigin").align();
   this.get("canvas")._fitViewport({ x: 0, y: 0 });
 };
 
