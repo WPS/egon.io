@@ -37,6 +37,7 @@ export class HtmlPresentationService {
     filename: string,
     modeler: any,
   ): Promise<void> {
+    modeler.fitStoryToScreen(); // fixes problem with HTML export when story is not in the visible area of the canvas
     const svgData = [];
     // export all sentences of domain story
     this.replayService.startReplay();

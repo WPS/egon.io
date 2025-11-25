@@ -127,8 +127,9 @@ DomainStoryModeler.prototype.importBusinessObjects = function (
 };
 
 /**
- * Changes element coordinates so that coordinate 0/0 is in the top left corner (avoids problems with HTML export)
- * Then scrolls canvas and adjusts zoom so that the whole story is visible.
+ * Make sure that the whole story is in the visible quadrant of the canvas.
+ * To achieve this, the element coordinates are manipulated so that coordinate 0/0 is in the top left corner (avoids problems with HTML export)
+ * Then, the canvas is scrolled and zoom level adjusted so that the whole story is visible.
  */
 DomainStoryModeler.prototype.fitStoryToScreen = function () {
   this.get("alignToOrigin").align();
