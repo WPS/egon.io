@@ -26,7 +26,11 @@ import {
 } from "src/app/tools/modeler/diagram-js/features/labeling/position";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { angleBetween } from "../../../../utils/mathExtensions";
-import { isCustomIcon, isCustomSvgIcon, getScaledPath } from "./util/util";
+import {
+  isCustomIcon,
+  isCustomSvgIcon,
+  getAnnotationBracketSvg,
+} from "./util/util";
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
@@ -552,18 +556,9 @@ export default function DomainStoryRenderer(
       0,
       style,
     );
-    let textPathData = getScaledPath({
-      xScaleFactor: 1,
-      yScaleFactor: 1,
-      containerWidth: element.width,
-      containerHeight: element.height,
-      position: {
-        mx: 0.0,
-        my: 0.0,
-      },
-    });
+    let bracketPath = getAnnotationBracketSvg(element.height);
 
-    drawPath(parentGfx, textPathData, {
+    drawPath(parentGfx, bracketPath, {
       stroke: element.businessObject.pickedColor ?? "black",
     });
 

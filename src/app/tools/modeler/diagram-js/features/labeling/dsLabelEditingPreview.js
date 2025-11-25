@@ -9,7 +9,7 @@ import {
 
 import { translate } from "diagram-js/lib/util/SvgTransformUtil";
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { is, getScaledPath } from "../util/util";
+import { is, getAnnotationBracketSvg } from "../util/util";
 
 const MARKER_HIDDEN = "djs-element-hidden",
   MARKER_LABEL_HIDDEN = "djs-label-hidden";
@@ -29,21 +29,11 @@ export default function DSLabelEditingPreview(eventBus, canvas) {
       absoluteElementBBox = canvas.getAbsoluteBBox(element);
       gfx = svgCreate("g");
 
-      let textPathData = getScaledPath({
-        xScaleFactor: 1,
-        yScaleFactor: 1,
-        containerWidth: element.width,
-        containerHeight: element.height,
-        position: {
-          mx: 0.0,
-          my: 0.0,
-        },
-      });
-
+      let bracketPath = getAnnotationBracketSvg(element.height);
       let path = (self.path = svgCreate("path"));
 
       svgAttr(path, {
-        d: textPathData,
+        d: bracketPath,
         strokeWidth: 2,
         stroke: "black",
       });
@@ -77,19 +67,10 @@ export default function DSLabelEditingPreview(eventBus, canvas) {
         0,
       );
 
-      let textPathData = getScaledPath({
-        xScaleFactor: 1,
-        yScaleFactor: 1,
-        containerWidth: element.width,
-        containerHeight: newElementHeight,
-        position: {
-          mx: 0.0,
-          my: 0.0,
-        },
-      });
+      let bracketPath = getAnnotationBracketSvg(newElementHeight);
 
       svgAttr(self.path, {
-        d: textPathData,
+        d: bracketPath,
       });
     }
   });
