@@ -60,21 +60,6 @@ export default function DomainStoryContextPadProvider(
   });
 
   this.getContextPadEntries = function (element) {
-    _selectedElement = element;
-
-    let pickedColor = _selectedElement.businessObject.pickedColor;
-
-    if (isHexWithAlpha(pickedColor)) {
-      pickedColor = hexToRGBA(pickedColor);
-    }
-    document.dispatchEvent(
-      new CustomEvent("defaultColor", {
-        detail: {
-          color: pickedColor ?? "#000000",
-        },
-      }),
-    );
-
     let actions = {};
 
     startConnect = function (event, element, autoActivate) {
@@ -83,7 +68,7 @@ export default function DomainStoryContextPadProvider(
 
     if (element.type.includes(ElementTypes.WORKOBJECT)) {
       addDelete(actions, element);
-      addColorChange(actions);
+      addColorChange(actions, element);
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
       addActors(appendAction, actions);
@@ -91,7 +76,7 @@ export default function DomainStoryContextPadProvider(
       addChangeWorkObjectTypeMenu(actions);
     } else if (element.type.includes(ElementTypes.ACTOR)) {
       addDelete(actions, element);
-      addColorChange(actions);
+      addColorChange(actions, element);
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
       addWorkObjects(appendAction, actions);
@@ -99,24 +84,43 @@ export default function DomainStoryContextPadProvider(
     } else if (element.type.includes(ElementTypes.GROUP)) {
       addTextAnnotation(actions);
       addDeleteGroupWithoutChildren(actions, element);
-      addColorChange(actions);
+      addColorChange(actions, element);
     } else if (element.type.includes(ElementTypes.ACTIVITY)) {
       addChangeDirection(actions);
-      addColorChange(actions);
+      addColorChange(actions, element);
       addDelete(actions, element);
     } else if (element.type.includes(ElementTypes.TEXTANNOTATION)) {
       addDelete(actions, element);
-      addColorChange(actions);
+      addColorChange(actions, element);
     } else if (element.type.includes(ElementTypes.CONNECTION)) {
       addDelete(actions, element);
     }
 
+    notifyColorPickerOfCurrentElementColor();
+
     return actions;
+
+    /* When the color picker is opened, the current element color should be selected. */
+    function notifyColorPickerOfCurrentElementColor() {
+      let currentColor = _selectedElement.businessObject.pickedColor;
+
+      if (isHexWithAlpha(currentColor)) {
+        currentColor = hexToRGBA(currentColor);
+      }
+      document.dispatchEvent(
+        new CustomEvent("defaultColor", {
+          detail: {
+            color: currentColor ?? "#000000",
+          },
+        }),
+      );
+    }
   };
 
   this.getMultiElementContextPadEntries = function (elements) {
     let actions = {};
     addDelete(actions, elements);
+    addColorChange(actions, elements);
     return actions;
   };
 
@@ -210,7 +214,8 @@ export default function DomainStoryContextPadProvider(
     });
   }
 
-  function addColorChange(actions) {
+  function addColorChange(actions, elements) {
+    _selectedElement = elements;
     assign(actions, {
       colorChange: {
         group: "edit",
@@ -365,24 +370,38 @@ export default function DomainStoryContextPadProvider(
     };
   }
 
-  function getSelectedBusinessObject(event) {
-    const oldColor = _selectedElement.businessObject.pickedColor;
-    let newColor = event.detail.color;
+  /* builds a payload describing a color change */
+  function getColorChangeDescription(element, newColor) {
+    const oldColor = element.businessObject.pickedColor;
     if (isHexWithAlpha(oldColor)) {
       newColor = rgbaToHex(newColor);
     }
 
     return {
-      businessObject: _selectedElement.businessObject,
+      businessObject: element.businessObject,
       newColor: newColor,
-      element: _selectedElement,
+      element: element,
     };
   }
 
-  function executeCommandStack(event) {
-    const selectedBusinessObject = getSelectedBusinessObject(event);
+  function executeCommandStack(colorChangedEvent) {
+    const commandName = "element.colorChange";
+    let newColor = colorChangedEvent.detail.color;
+    if (isArray(_selectedElement)) {
+      _selectedElement.forEach((el) =>
+        commandStack.execute(
+          commandName,
+          getColorChangeDescription(el, newColor),
+        ),
+      );
+    } else {
+      const colorChangeDescription = getColorChangeDescription(
+        _selectedElement,
+        newColor,
+      );
+      commandStack.execute(commandName, colorChangeDescription);
+    }
 
-    commandStack.execute("element.colorChange", selectedBusinessObject);
     dirtyFlagService.makeDirty();
   }
 }
