@@ -84,7 +84,7 @@ import { DragDirective } from './tools/import/directive/dragDrop.directive';
 })
 export class AppModule implements DoBootstrap {
   constructor(private autosaveService: AutosaveService) {
-    // autosaveService wird so automatisch initialisiert, auf keinen Fall entfernen!
+    // Needed to initialize autosaveService. Do not remove!
   }
 
   ngDoBootstrap(app: ApplicationRef): void {
