@@ -2,12 +2,12 @@ import { AfterViewChecked, Component, Input } from '@angular/core';
 import { IconListItem } from '../../domain/iconListItem';
 
 @Component({
-  selector: 'app-details-list-item',
-  templateUrl: './details-list-item.component.html',
-  styleUrls: ['./details-list-item.component.scss'],
+  selector: 'app-selected-icon',
+  templateUrl: './selected-icon.component.html',
+  styleUrls: ['./selected-icon.component.scss'],
   standalone: false,
 })
-export class DetailsListItemComponent implements AfterViewChecked {
+export class SelectedIconComponent implements AfterViewChecked {
   @Input()
   icon!: IconListItem;
 

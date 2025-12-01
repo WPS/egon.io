@@ -38,7 +38,7 @@
           (dragstart)="onDragStart(i, 'actorList')"
           (drop)="onDrop($event, iconName, true, i)"
         >
-          <app-details-list-item [icon]="getIconForName(iconName)" />
+          <app-selected-icon [icon]="getIconForName(iconName)" />
         </mat-list-item>
       }
     </mat-list>
@@ -58,7 +58,7 @@
           (dragstart)="onDragStart(i, 'workobjectList')"
           (drop)="onDrop($event, iconName, false, i)"
         >
-          <app-details-list-item [icon]="getIconForName(iconName)" />
+          <app-selected-icon [icon]="getIconForName(iconName)" />
         </mat-list-item>
       }
     </mat-list>

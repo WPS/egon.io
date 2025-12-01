@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DetailsListItemComponent } from './details-list-item.component';
+import { SelectedIconComponent } from './selected-icon.component';
 import { IconListItem } from '../../domain/iconListItem';
 import { ElementTypes } from '../../../../domain/entities/elementTypes';
 import { MaterialModule } from '../../../../material.module';
@@ -13,19 +13,19 @@ const icon: IconListItem = {
   name: ElementTypes.ACTOR + 'testName',
 };
 
-describe('DetailsListItemComponent', () => {
-  let component: DetailsListItemComponent;
-  let fixture: ComponentFixture<DetailsListItemComponent>;
+describe('SelectedIconComponent', () => {
+  let component: SelectedIconComponent;
+  let fixture: ComponentFixture<SelectedIconComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DetailsListItemComponent],
+      declarations: [SelectedIconComponent],
       imports: [MockModule(MaterialModule)],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DetailsListItemComponent);
+    fixture = TestBed.createComponent(SelectedIconComponent);
     component = fixture.componentInstance;
     component.icon = icon;
     fixture.detectChanges();
