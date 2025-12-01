@@ -18,7 +18,7 @@
       id="buttonImport"
       class="headerButton"
       title="Import story from file"
-      onclick="document.getElementById('import').click();"
+      onclick="document.getElementById('import').click()"
     >
       <span class="material-icons-outlined materialIconButton">
         file_upload
@@ -43,7 +43,7 @@
       accept=".dst, .svg, .egn, .svg"
       style="display: none"
       id="import"
-      onclick="this.value=null;"
+      onclick="this.value = null"
       (change)="import.emit()"
     />
     <button
