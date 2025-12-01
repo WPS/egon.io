@@ -16,7 +16,7 @@ jobs:
   dependencies:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup_environment
       - name: Install latest updates
         run: npm ci
@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: dependencies
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup_environment
       - run: npm run test
 
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: dependencies
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup_environment
       - run: npm run format:check
 
@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: dependencies
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup_environment
       - run: npm run archlint
 
@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ test, format, archlint ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup_environment
       - run: npm run build-prod
       - name: Cache build
@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ build-prod ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup_environment
       - name: Load build cache
         uses: actions/cache/restore@v4
@@ -93,7 +93,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ test, format, archlint  ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup_environment
       - run: |
           npm run build
@@ -118,7 +118,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ test, format, archlint  ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup_environment
       - run: |
           npm run build-prod
@@ -146,7 +146,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup_environment
 
       - name: Set up QEMU
