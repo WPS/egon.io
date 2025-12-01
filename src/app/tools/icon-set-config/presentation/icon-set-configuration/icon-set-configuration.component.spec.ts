@@ -6,7 +6,7 @@ import { IconSetImportExportService } from '../../services/icon-set-import-expor
 import { IconDictionaryService } from '../../services/icon-dictionary.service';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 import { BehaviorSubject } from 'rxjs';
-import { IconSetDetailsComponent } from '../icon-set-details/icon-set-details.component';
+import { IconSetComponent } from '../icon-set/icon-set.component';
 import { MaterialModule } from 'src/app/material.module';
 import { CustomIconSetConfiguration } from '../../../../domain/entities/custom-icon-set-configuration';
 import { INITIAL_ICON_SET_NAME } from '../../../../domain/entities/constants';
@@ -25,7 +25,7 @@ describe(IconSetConfigurationComponent.name, () => {
 
     await TestBed.configureTestingModule({
       imports: [MockModule(MaterialModule)],
-      declarations: [IconSetConfigurationComponent, IconSetDetailsComponent],
+      declarations: [IconSetConfigurationComponent, IconSetComponent],
       providers: [
         MockProviders(IconSetImportExportService),
         MockProvider(IconDictionaryService, {

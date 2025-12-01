@@ -5,12 +5,12 @@ import { IconSetImportExportService } from 'src/app/tools/icon-set-config/servic
 import { IconListItem } from 'src/app/tools/icon-set-config/domain/iconListItem';
 
 @Component({
-  selector: 'app-icon-set-details',
-  templateUrl: './icon-set-details.component.html',
-  styleUrls: ['./icon-set-details.component.scss'],
+  selector: 'app-icon-set',
+  templateUrl: './icon-set.component.html',
+  styleUrls: ['./icon-set.component.scss'],
   standalone: false,
 })
-export class IconSetDetailsComponent implements OnInit {
+export class IconSetComponent implements OnInit {
   iconSetName: Observable<string>;
 
   private draggedList: string = '';
