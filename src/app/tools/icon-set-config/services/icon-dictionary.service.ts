@@ -247,15 +247,6 @@ export class IconDictionaryService {
     return new Dictionary();
   }
 
-  getTypeIconSRC(type: ElementTypes, name: string): string | null {
-    if (type === ElementTypes.ACTOR) {
-      return this.selectedActorsDictionary.get(name);
-    } else if (type === ElementTypes.WORKOBJECT) {
-      return this.selectedWorkObjectsDictionary.get(name);
-    }
-    return null;
-  }
-
   getCSSClassOfIcon(name: string): string | null {
     return ICON_CSS_CLASS_PREFIX + sanitizeIconName(name.toLowerCase());
   }

@@ -377,8 +377,7 @@ export default function DomainStoryRenderer(
       width: element.width,
       height: element.height,
     };
-    let iconSRC = _iconDictionaryService.getTypeIconSRC(
-      ElementTypes.ACTOR,
+    let iconSRC = _iconDictionaryService.getIconSource(
       ElementTypes.getIconId(element.type),
     );
     iconSRC = getIconSvg(iconSRC, element);
@@ -399,8 +398,7 @@ export default function DomainStoryRenderer(
         y: element.height / 2 - 25,
       },
       workObject;
-    let iconSRC = _iconDictionaryService.getTypeIconSRC(
-      ElementTypes.WORKOBJECT,
+    let iconSRC = _iconDictionaryService.getIconSource(
       ElementTypes.getIconId(element.type),
     );
     iconSRC = getIconSvg(iconSRC, element);
