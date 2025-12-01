@@ -7,7 +7,6 @@ import { ElementRegistryService } from 'src/app/domain/services/element-registry
 import { sanitizeIconName } from 'src/app/utils/sanitizer';
 import { IconFilterOptions } from '../../domain/iconFilterOptions';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
-import { CustomIconSetConfiguration } from '../../../../domain/entities/custom-icon-set-configuration';
 
 @Component({
   selector: 'app-icon-set-configuration',
@@ -16,8 +15,6 @@ import { CustomIconSetConfiguration } from '../../../../domain/entities/custom-i
   standalone: false,
 })
 export class IconSetConfigurationComponent implements OnInit {
-  private iconSetConfigurationTypes: CustomIconSetConfiguration;
-
   filter = new BehaviorSubject<IconFilterOptions>(IconFilterOptions.NO_FILTER);
 
   selectedActors = new BehaviorSubject<string[]>([]);
@@ -33,9 +30,6 @@ export class IconSetConfigurationComponent implements OnInit {
     private iconSetCustomizationService: IconSetCustomizationService,
     private elementRegistryService: ElementRegistryService,
   ) {
-    this.iconSetConfigurationTypes =
-      this.iconSetCustomizationService.getIconSetConfiguration().value;
-
     this.allIcons = new BehaviorSubject<Dictionary>(
       this.iconDictionaryService.getFullDictionary(),
     );
