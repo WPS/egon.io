@@ -112,7 +112,7 @@ export class SvgService {
         domainStorySvg.slice(svgIndex);
     }
 
-    return this.appendDST(domainStorySvg, dst);
+    return this.appendSourceCode(domainStorySvg, dst);
   }
 
   private createAnimatedSvg(
@@ -216,7 +216,7 @@ export class SvgService {
     return { width: 0, height: 0, viewBox: '' };
   }
 
-  private appendDST(data: string, dst: ConfigAndDST): string {
+  private appendSourceCode(data: string, dst: ConfigAndDST): string {
     data +=
       '\n<!-- <DST>\n' +
       sanitizeTextForSVGExport(JSON.stringify(dst, null, 2)) +
