@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SelectableIconComponent } from './selectable-icon.component';
 import { MockModule, MockProvider } from 'ng-mocks';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
-import { IconListItem } from '../../domain/iconListItem';
+import { SelectableIcon } from '../../domain/selectableIcon';
 import { BehaviorSubject } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
 
@@ -18,7 +18,7 @@ describe('SelectableIconComponent', () => {
       providers: [
         MockProvider(IconSetCustomizationService, {
           getIconForName: () => {
-            return new BehaviorSubject<IconListItem>({} as IconListItem);
+            return new BehaviorSubject<SelectableIcon>({} as SelectableIcon);
           },
         }),
       ],

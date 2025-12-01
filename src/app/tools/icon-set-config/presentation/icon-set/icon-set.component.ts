@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IconSetCustomizationService } from 'src/app/tools/icon-set-config/services/icon-set-customization.service';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
-import { IconListItem } from 'src/app/tools/icon-set-config/domain/iconListItem';
+import { SelectableIcon } from 'src/app/tools/icon-set-config/domain/selectableIcon';
 
 @Component({
   selector: 'app-icon-set',
@@ -33,7 +33,7 @@ export class IconSetComponent implements OnInit {
     this.customizationService.changeName(event.target.value);
   }
 
-  getIconForName(iconName: string): IconListItem {
+  getIconForName(iconName: string): SelectableIcon {
     return this.customizationService.getIconForName(iconName).value;
   }
 

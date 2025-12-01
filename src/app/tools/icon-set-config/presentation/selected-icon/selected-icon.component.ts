@@ -1,5 +1,5 @@
 import { AfterViewChecked, Component, Input } from '@angular/core';
-import { IconListItem } from '../../domain/iconListItem';
+import { SelectableIcon } from '../../domain/selectableIcon';
 
 @Component({
   selector: 'app-selected-icon',
@@ -9,7 +9,7 @@ import { IconListItem } from '../../domain/iconListItem';
 })
 export class SelectedIconComponent implements AfterViewChecked {
   @Input()
-  icon!: IconListItem;
+  icon!: SelectableIcon;
 
   private iconInitiated = false;
 

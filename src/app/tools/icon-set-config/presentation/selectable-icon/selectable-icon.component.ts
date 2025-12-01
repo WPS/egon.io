@@ -1,5 +1,5 @@
 import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
-import { IconListItem } from '../../domain/iconListItem';
+import { SelectableIcon } from '../../domain/selectableIcon';
 import { BehaviorSubject } from 'rxjs';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 
@@ -16,7 +16,7 @@ export class SelectableIconComponent implements OnInit, AfterViewChecked {
   private iconInitiated = false;
 
   // @ts-ignore
-  icon = new BehaviorSubject<IconListItem>({});
+  icon = new BehaviorSubject<SelectableIcon>({});
 
   isActor: boolean = false;
   isWorkobject: boolean = false;

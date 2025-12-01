@@ -12,7 +12,7 @@ import {
 } from '../../../domain/entities/constants';
 import { Dictionary } from '../../../domain/entities/dictionary';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
-import { IconListItem } from '../domain/iconListItem';
+import { SelectableIcon } from '../domain/selectableIcon';
 import { IconSetImportExportService } from './icon-set-import-export.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { IconSet } from '../../../domain/entities/iconSet';
@@ -123,7 +123,7 @@ export class IconSetCustomizationService {
     return this.iconSetConfigurationTypes;
   }
 
-  getIconForName(iconName: string): BehaviorSubject<IconListItem> {
+  getIconForName(iconName: string): BehaviorSubject<SelectableIcon> {
     return this.allIconListItems.get(iconName);
   }
 
