@@ -4,12 +4,12 @@ import { BehaviorSubject } from 'rxjs';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 
 @Component({
-  selector: 'app-icon-list-item',
-  templateUrl: './icon-list-item.component.html',
-  styleUrls: ['./icon-list-item.component.scss'],
+  selector: 'app-selectable-icon',
+  templateUrl: './selectable-icon.component.html',
+  styleUrls: ['./selectable-icon.component.scss'],
   standalone: false,
 })
-export class IconListItemComponent implements OnInit, AfterViewChecked {
+export class SelectableIconComponent implements OnInit, AfterViewChecked {
   @Input()
   iconName: string = '';
 

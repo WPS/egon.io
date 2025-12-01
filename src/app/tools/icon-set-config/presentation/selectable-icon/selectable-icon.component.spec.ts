@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IconListItemComponent } from './icon-list-item.component';
+import { SelectableIconComponent } from './selectable-icon.component';
 import { MockModule, MockProvider } from 'ng-mocks';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 import { IconListItem } from '../../domain/iconListItem';
 import { BehaviorSubject } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
 
-describe('IconListItemComponent', () => {
-  let component: IconListItemComponent;
-  let fixture: ComponentFixture<IconListItemComponent>;
+describe('SelectableIconComponent', () => {
+  let component: SelectableIconComponent;
+  let fixture: ComponentFixture<SelectableIconComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MockModule(MaterialModule)],
-      declarations: [IconListItemComponent],
+      declarations: [SelectableIconComponent],
       providers: [
         MockProvider(IconSetCustomizationService, {
           getIconForName: () => {
@@ -26,7 +26,7 @@ describe('IconListItemComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IconListItemComponent);
+    fixture = TestBed.createComponent(SelectableIconComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

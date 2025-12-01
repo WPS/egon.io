@@ -104,7 +104,7 @@
     </div>
     <div class="iconList smallScrollbar">
       @for (iconName of allFilteredIconNames | async; track iconName) {
-        <app-icon-list-item [iconName]="iconName"></app-icon-list-item>
+        <app-selectable-icon [iconName]="iconName"></app-selectable-icon>
       }
     </div>
   </div>
