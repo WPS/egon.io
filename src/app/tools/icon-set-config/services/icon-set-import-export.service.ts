@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
-import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
+import {
+  IconDictionaryService,
+  NAMES_OF_DEFAULT_ICONS,
+} from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import {
@@ -13,7 +16,6 @@ import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set
 import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
 import { StorageService } from '../../../domain/services/storage.service';
 import { sanitizeIconName } from '../../../utils/sanitizer';
-import { namesOfDefaultIcons } from 'src/app/domain/entities/namesOfSelectedIcons';
 
 export interface FileConfiguration {
   name: string;
@@ -153,13 +155,13 @@ export class IconSetImportExportService {
   createMinimalConfigurationWithDefaultIcons(): IconSet {
     const minimalConfig = this.createConfigFromCanvas();
 
-    namesOfDefaultIcons.actors.forEach((iconName) => {
+    NAMES_OF_DEFAULT_ICONS.actors.forEach((iconName) => {
       minimalConfig.actors.add(
         this.iconDictionaryService.getIconSource(iconName),
         iconName,
       );
     });
-    namesOfDefaultIcons.workObjects.forEach((iconName) => {
+    NAMES_OF_DEFAULT_ICONS.workObjects.forEach((iconName) => {
       minimalConfig.workObjects.add(
         this.iconDictionaryService.getIconSource(iconName),
         iconName,

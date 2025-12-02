@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
-import {
-  NamesOfSelectedIcons,
-  namesOfDefaultIcons,
-} from 'src/app/domain/entities/namesOfSelectedIcons';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import {
@@ -15,6 +11,10 @@ import getIconId = ElementTypes.getIconId;
 import { IconSet } from '../../../domain/entities/iconSet';
 
 export const ICON_CSS_CLASS_PREFIX = 'icon-domain-story-';
+export const NAMES_OF_DEFAULT_ICONS = {
+  actors: ['Person', 'Group', 'System'],
+  workObjects: ['Document', 'Folder', 'Call', 'Email', 'Conversation', 'Info'],
+};
 
 @Injectable({
   providedIn: 'root',
@@ -26,36 +26,28 @@ export class IconDictionaryService {
   private selectedActorsDictionary = new Dictionary();
   private selectedWorkObjectsDictionary = new Dictionary();
 
-  private customIconSet?: IconSet;
-
   constructor() {}
 
   initTypeDictionaries(): void {
-    let namesOfIcons: NamesOfSelectedIcons;
+    if (
+      this.selectedActorsDictionary.isEmpty() &&
+      this.selectedWorkObjectsDictionary.isEmpty()
+    ) {
+      const allTypes = new Dictionary();
+      allTypes.addBuiltInIcons(builtInIcons);
+      allTypes.appendDict(customIcons);
 
-    if (typeof this.customIconSet == 'undefined') {
-      namesOfIcons = namesOfDefaultIcons;
-    } else {
-      namesOfIcons = new NamesOfSelectedIcons(
-        this.customIconSet.actors.keysArray(),
-        this.customIconSet.workObjects.keysArray(),
+      this.initDictionary(
+        NAMES_OF_DEFAULT_ICONS.actors,
+        allTypes,
+        this.selectedActorsDictionary,
+      );
+      this.initDictionary(
+        NAMES_OF_DEFAULT_ICONS.workObjects,
+        allTypes,
+        this.selectedWorkObjectsDictionary,
       );
     }
-
-    const allTypes = new Dictionary();
-    allTypes.addBuiltInIcons(builtInIcons);
-    allTypes.appendDict(customIcons);
-
-    this.initDictionary(
-      namesOfIcons.actors,
-      allTypes,
-      this.selectedActorsDictionary,
-    );
-    this.initDictionary(
-      namesOfIcons.workObjects,
-      allTypes,
-      this.selectedWorkObjectsDictionary,
-    );
   }
 
   private initDictionary(
@@ -269,6 +261,7 @@ export class IconDictionaryService {
   }
 
   setIconSet(iconSet: IconSet): void {
-    this.customIconSet = iconSet;
+    this.selectedActorsDictionary = iconSet.actors;
+    this.selectedWorkObjectsDictionary = iconSet.workObjects;
   }
 }

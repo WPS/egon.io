@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
-import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
+import {
+  IconDictionaryService,
+  NAMES_OF_DEFAULT_ICONS,
+} from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 import { Dictionary } from '../../../domain/entities/dictionary';
@@ -10,7 +13,6 @@ import {
 } from '../../../domain/entities/businessObject';
 import { builtInIcons, customIcons } from '../domain/allIcons';
 import { IconSet } from '../../../domain/entities/iconSet';
-import { namesOfDefaultIcons } from 'src/app/domain/entities/namesOfSelectedIcons';
 
 describe('IconDictionaryService', () => {
   let service: IconDictionaryService;
@@ -35,12 +37,12 @@ describe('IconDictionaryService', () => {
         actorsDictionary
           .keysArray()
           .map((e) => e.replace(ElementTypes.ACTOR, '')),
-      ).toEqual(namesOfDefaultIcons.actors);
+      ).toEqual(NAMES_OF_DEFAULT_ICONS.actors);
       expect(
         workObjectsDictionary
           .keysArray()
           .map((e) => e.replace(ElementTypes.WORKOBJECT, '')),
-      ).toEqual(namesOfDefaultIcons.workObjects);
+      ).toEqual(NAMES_OF_DEFAULT_ICONS.workObjects);
     });
 
     it('should initialize Dictionaries with customized icon set', () => {
