@@ -196,12 +196,12 @@ export class IconDictionaryService {
   private addNewIconsToDictionary(customIcons: Dictionary) {
     customIcons.keysArray().forEach((key) => {
       const custom = customIcons.get(key);
-      this.addIMGToIconDictionary(custom, key);
+      this.addToCustomIconsDictionary(custom, key);
     });
     this.addIconsToCss(customIcons);
   }
 
-  addIMGToIconDictionary(input: string, name: string): void {
+  addToCustomIconsDictionary(input: string, name: string): void {
     customIcons.set(name, input);
   }
 

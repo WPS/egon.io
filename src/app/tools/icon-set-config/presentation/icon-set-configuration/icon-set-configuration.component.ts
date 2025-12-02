@@ -69,11 +69,12 @@ export class IconSetConfigurationComponent implements OnInit {
     );
   }
 
-  /** Add Custom Icon **/
+  /** Open dialog for uploading custom icon **/
   startIconUpload(): void {
     document.getElementById('importIcon')?.click();
   }
 
+  /** Read icon from file and store it **/
   importIcon(): void {
     // @ts-ignore
     const files = document.getElementById('importIcon').files;
@@ -85,7 +86,7 @@ export class IconSetConfigurationComponent implements OnInit {
       reader.onloadend = (e: ProgressEvent<FileReader>) => {
         if (e.target) {
           const src: string = e.target.result as unknown as string;
-          this.iconDictionaryService.addIMGToIconDictionary(src, iconName);
+          this.iconDictionaryService.addToCustomIconsDictionary(src, iconName);
           this.allIcons.next(this.iconDictionaryService.getFullDictionary());
           this.filter.next(this.filter.value);
           this.iconSetCustomizationService.addNewIcon(iconName);
@@ -97,12 +98,12 @@ export class IconSetConfigurationComponent implements OnInit {
 
   /** Import Icon Set **/
   startIconSetImport(): void {
-    document.getElementById('importDomain')?.click();
+    document.getElementById('importIconSet')?.click();
   }
 
   importIconSet(): void {
     // @ts-ignore
-    const iconSetInputFile = document.getElementById('importDomain').files[0];
+    const iconSetInputFile = document.getElementById('importIconSet').files[0];
     const reader = new FileReader();
 
     reader.onloadend = (e: ProgressEvent<FileReader>) => {
