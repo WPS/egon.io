@@ -9,12 +9,9 @@ import {
 import { sanitizeIconName } from '../../../utils/sanitizer';
 import getIconId = ElementTypes.getIconId;
 import { IconSet } from '../../../domain/entities/iconSet';
+import { INITIAL_ICON_SET_NAME } from 'src/app/domain/entities/constants';
 
 export const ICON_CSS_CLASS_PREFIX = 'icon-domain-story-';
-export const NAMES_OF_DEFAULT_ICONS = {
-  actors: ['Person', 'Group', 'System'],
-  workObjects: ['Document', 'Folder', 'Call', 'Email', 'Conversation', 'Info'],
-};
 
 @Injectable({
   providedIn: 'root',
@@ -26,27 +23,46 @@ export class IconDictionaryService {
   private selectedActorsDictionary = new Dictionary();
   private selectedWorkObjectsDictionary = new Dictionary();
 
-  constructor() {}
+  // default icon sets:
+  private NAMES_OF_DEFAULT_ICONS = {
+    actors: ['Person', 'Group', 'System'],
+    workObjects: [
+      'Document',
+      'Folder',
+      'Call',
+      'Email',
+      'Conversation',
+      'Info',
+    ],
+  };
+  private defaultActorsDictionary = new Dictionary();
+  private defaultWorkObjectsDictionary = new Dictionary();
+  private defaultIconSet: IconSet;
+
+  constructor() {
+    this.initDictionary(
+      this.NAMES_OF_DEFAULT_ICONS.actors,
+      builtInIcons,
+      this.defaultActorsDictionary,
+    );
+    this.initDictionary(
+      this.NAMES_OF_DEFAULT_ICONS.workObjects,
+      builtInIcons,
+      this.defaultWorkObjectsDictionary,
+    );
+    this.defaultIconSet = {
+      name: INITIAL_ICON_SET_NAME,
+      actors: this.defaultActorsDictionary,
+      workObjects: this.defaultWorkObjectsDictionary,
+    };
+  }
 
   initTypeDictionaries(): void {
     if (
       this.selectedActorsDictionary.isEmpty() &&
       this.selectedWorkObjectsDictionary.isEmpty()
     ) {
-      const allTypes = new Dictionary();
-      allTypes.addBuiltInIcons(builtInIcons);
-      allTypes.appendDict(customIcons);
-
-      this.initDictionary(
-        NAMES_OF_DEFAULT_ICONS.actors,
-        allTypes,
-        this.selectedActorsDictionary,
-      );
-      this.initDictionary(
-        NAMES_OF_DEFAULT_ICONS.workObjects,
-        allTypes,
-        this.selectedWorkObjectsDictionary,
-      );
+      this.setIconSet(this.defaultIconSet);
     }
   }
 
@@ -85,7 +101,6 @@ export class IconDictionaryService {
     return allIn;
   }
 
-  /** Load Icons from Configuration **/
   addIconsFromIconSetConfiguration(
     dictionaryType: ElementTypes,
     iconTypes: string[],
@@ -263,5 +278,9 @@ export class IconDictionaryService {
   setIconSet(iconSet: IconSet): void {
     this.selectedActorsDictionary = iconSet.actors;
     this.selectedWorkObjectsDictionary = iconSet.workObjects;
+  }
+
+  getDefaultIconSet(): IconSet {
+    return this.defaultIconSet;
   }
 }

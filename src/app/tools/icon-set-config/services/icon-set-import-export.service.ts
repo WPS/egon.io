@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
-import {
-  IconDictionaryService,
-  NAMES_OF_DEFAULT_ICONS,
-} from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
+import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import {
@@ -40,7 +37,7 @@ export class IconSetImportExportService {
   ) {}
 
   setIconSetName(name: string): void {
-    this.iconSetNameSubject.next(name); // ? name : INITIAL_ICON_SET_NAME);
+    this.iconSetNameSubject.next(name);
   }
 
   exportConfiguration(): void {
@@ -152,25 +149,6 @@ export class IconSetImportExportService {
     };
   }
 
-  createMinimalConfigurationWithDefaultIcons(): IconSet {
-    const minimalConfig = this.createConfigFromCanvas();
-
-    NAMES_OF_DEFAULT_ICONS.actors.forEach((iconName) => {
-      minimalConfig.actors.add(
-        this.iconDictionaryService.getIconSource(iconName),
-        iconName,
-      );
-    });
-    NAMES_OF_DEFAULT_ICONS.workObjects.forEach((iconName) => {
-      minimalConfig.workObjects.add(
-        this.iconDictionaryService.getIconSource(iconName),
-        iconName,
-      );
-    });
-
-    return minimalConfig;
-  }
-
   private createConfigFromDictionaries(
     actorsDict: Dictionary,
     workObjectsDict: Dictionary,
@@ -277,33 +255,6 @@ export class IconSetImportExportService {
       ICON_SET_CONFIGURATION_KEY,
       JSON.stringify(configForStorage, null, 2),
     );
-  }
-
-  private createConfigFromCanvas(): IconSet {
-    const config = {
-      name: INITIAL_ICON_SET_NAME,
-      actors: new Dictionary(),
-      workObjects: new Dictionary(),
-    };
-
-    let allCanvasObjects = this.elementRegistryService.getAllCanvasObjects();
-
-    allCanvasObjects
-      .map((e) => e.businessObject)
-      .forEach((element) => {
-        const type = element.type
-          .replace(ElementTypes.ACTOR, '')
-          .replace(ElementTypes.WORKOBJECT, '');
-        if (element.type.includes(ElementTypes.ACTOR)) {
-          let src = this.iconDictionaryService.getIconSource(type) || '';
-          config.actors.add(src, type);
-        } else if (element.type.includes(ElementTypes.WORKOBJECT)) {
-          let src = this.iconDictionaryService.getIconSource(type) || '';
-          config.workObjects.add(src, type);
-        }
-      });
-
-    return config;
   }
 
   private checkValidityOfConfiguration(iconSetConfiguration: IconSet) {

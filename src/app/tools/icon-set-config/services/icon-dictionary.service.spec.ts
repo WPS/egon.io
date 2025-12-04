@@ -1,9 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import {
-  IconDictionaryService,
-  NAMES_OF_DEFAULT_ICONS,
-} from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
+import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 import { Dictionary } from '../../../domain/entities/dictionary';
@@ -37,12 +34,19 @@ describe('IconDictionaryService', () => {
         actorsDictionary
           .keysArray()
           .map((e) => e.replace(ElementTypes.ACTOR, '')),
-      ).toEqual(NAMES_OF_DEFAULT_ICONS.actors);
+      ).toEqual(['Person', 'Group', 'System']);
       expect(
         workObjectsDictionary
           .keysArray()
           .map((e) => e.replace(ElementTypes.WORKOBJECT, '')),
-      ).toEqual(NAMES_OF_DEFAULT_ICONS.workObjects);
+      ).toEqual([
+        'Document',
+        'Folder',
+        'Call',
+        'Email',
+        'Conversation',
+        'Info',
+      ]);
     });
 
     it('should initialize Dictionaries with customized icon set', () => {

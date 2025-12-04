@@ -286,8 +286,7 @@ export class ImportDomainStoryService
         } else {
           // even older legacy implementation (prior to configurable icon set):
           domainStoryElements = JSON.parse(contentAsJson);
-          iconSet =
-            this.iconSetImportExportService.createMinimalConfigurationWithDefaultIcons();
+          iconSet = this.iconDictionaryService.getDefaultIconSet();
         }
       }
 

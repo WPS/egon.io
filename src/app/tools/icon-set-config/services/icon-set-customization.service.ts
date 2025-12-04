@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { UsedIconList } from 'src/app/domain/entities/UsedIconList';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import {
+  INITIAL_ICON_SET_NAME,
   SNACKBAR_DURATION,
   SNACKBAR_DURATION_LONGER,
   SNACKBAR_ERROR,
@@ -252,29 +253,78 @@ export class IconSetCustomizationService {
     this.configurationHasChanged = true;
   }
 
-  /** Revert Icon Set **/
   resetIconSet(): void {
-    const defaultConfig =
-      this.iconSetImportExportService.createMinimalConfigurationWithDefaultIcons();
+    const currentIconSet = this.createMinimalIconSet();
 
     this.selectedWorkobjects$.value.forEach((workObjectName) => {
-      if (!defaultConfig.workObjects.has(workObjectName)) {
+      if (!currentIconSet.workObjects.has(workObjectName)) {
         this.deselectWorkobject(workObjectName);
       }
     });
     this.selectedActors$.value.forEach((actorName) => {
-      if (!defaultConfig.actors.has(actorName)) {
+      if (!currentIconSet.actors.has(actorName)) {
         this.deselectActor(actorName);
       }
     });
 
     this.iconSetConfigurationTypes.next({
-      name: defaultConfig.name,
-      actors: defaultConfig.actors.keysArray(),
-      workObjects: defaultConfig.workObjects.keysArray(),
+      name: currentIconSet.name,
+      actors: currentIconSet.actors.keysArray(),
+      workObjects: currentIconSet.workObjects.keysArray(),
     } as CustomIconSetConfiguration);
 
     this.updateAllIconBehaviourSubjects();
+  }
+
+  /* creates an icon set that contains the default icons
+     AND all other icons that are actually used on the canvas. */
+  private createMinimalIconSet(): IconSet {
+    const usedIconSet = this.createIconSetFromCanvas();
+
+    let defaultIconSet = this.iconDictionaryService.getDefaultIconSet();
+
+    defaultIconSet.actors.keysArray().forEach((iconName) => {
+      usedIconSet.actors.add(
+        this.iconDictionaryService.getIconSource(iconName),
+        iconName,
+      );
+    });
+    defaultIconSet.workObjects.keysArray().forEach((iconName) => {
+      usedIconSet.workObjects.add(
+        this.iconDictionaryService.getIconSource(iconName),
+        iconName,
+      );
+    });
+
+    return usedIconSet;
+  }
+
+  /* finds out which icons are actually used on the canvas */
+  private createIconSetFromCanvas(): IconSet {
+    const config = {
+      name: INITIAL_ICON_SET_NAME,
+      actors: new Dictionary(),
+      workObjects: new Dictionary(),
+    };
+
+    let allCanvasObjects = this.elementRegistryService.getAllCanvasObjects();
+
+    allCanvasObjects
+      .map((e) => e.businessObject)
+      .forEach((element) => {
+        const type = element.type
+          .replace(ElementTypes.ACTOR, '')
+          .replace(ElementTypes.WORKOBJECT, '');
+        if (element.type.includes(ElementTypes.ACTOR)) {
+          let src = this.iconDictionaryService.getIconSource(type) || '';
+          config.actors.add(src, type);
+        } else if (element.type.includes(ElementTypes.WORKOBJECT)) {
+          let src = this.iconDictionaryService.getIconSource(type) || '';
+          config.workObjects.add(src, type);
+        }
+      });
+
+    return config;
   }
 
   cancel(): void {
@@ -290,7 +340,6 @@ export class IconSetCustomizationService {
     this.updateWorkObjectSubject();
   }
 
-  /** Persist Icon Set **/
   saveIconSet(usedIcons: UsedIconList, imported = false): void {
     const changedActors: string[] = [];
     const changedWorkobjects: string[] = [];
