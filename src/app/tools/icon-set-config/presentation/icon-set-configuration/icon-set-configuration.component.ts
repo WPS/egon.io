@@ -86,7 +86,7 @@ export class IconSetConfigurationComponent implements OnInit {
       reader.onloadend = (e: ProgressEvent<FileReader>) => {
         if (e.target) {
           const src: string = e.target.result as unknown as string;
-          this.iconDictionaryService.addToCustomIconsDictionary(src, iconName);
+          this.iconDictionaryService.addCustomIcon(src, iconName);
           this.allIcons.next(this.iconDictionaryService.getFullDictionary());
           this.filter.next(this.filter.value);
           this.iconSetCustomizationService.addNewIcon(iconName);

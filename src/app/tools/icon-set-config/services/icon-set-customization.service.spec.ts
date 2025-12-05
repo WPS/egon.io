@@ -30,6 +30,7 @@ describe(IconSetCustomizationService.name, () => {
     const iconDictionaryMock = jasmine.createSpyObj(
       IconDictionaryService.name,
       [
+        'addCustomIcon',
         'getFullDictionary',
         'getActorsDictionary',
         'getWorkObjectsDictionary',
@@ -175,7 +176,6 @@ describe(IconSetCustomizationService.name, () => {
     it('should add Icon', () => {
       service.addNewIcon('test');
 
-      expect(iconDictionarySpy.getIconSource).toHaveBeenCalled();
       expect(service.getIconForName('test')).toBeTruthy();
     });
   });

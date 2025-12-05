@@ -181,8 +181,7 @@ export class IconDictionaryService {
     const newIcons = new Dictionary();
     this.extractCustomIconsFromDictionary(config.actors, newIcons);
     this.extractCustomIconsFromDictionary(config.workObjects, newIcons);
-    this.addNewIconsToDictionary(newIcons);
-
+    this.addCustomIcons(newIcons);
     this.addIconsToTypeDictionary(actors, workObjects);
   }
 
@@ -198,34 +197,30 @@ export class IconDictionaryService {
     });
   }
 
-  /** Add new Icon(s) **/
+  addCustomIcon(iconSrc: string, name: string) {
+    customIcons.set(name, iconSrc);
+    this.addIconsToCss(iconSrc, name);
+  }
 
-  private addNewIconsToDictionary(customIcons: Dictionary) {
+  private addCustomIcons(customIcons: Dictionary) {
     customIcons.keysArray().forEach((key) => {
       const custom = customIcons.get(key);
-      this.addToCustomIconsDictionary(custom, key);
+      this.addCustomIcon(custom, key);
     });
-    this.addIconsToCss(customIcons);
   }
 
-  addToCustomIconsDictionary(input: string, name: string): void {
-    customIcons.set(name, input);
-  }
-
-  addIconsToCss(customIcons: Dictionary) {
+  private addIconsToCss(iconSrc: string, iconName: string) {
     const sheetEl = document.getElementById('iconsCss');
-    customIcons.keysArray().forEach((key) => {
-      const src = customIcons.get(key);
-      const iconStyle =
-        '.' +
-        ICON_CSS_CLASS_PREFIX +
-        sanitizeIconName(key.toLowerCase()) +
-        '::before{ content: url("data:image/svg+xml;utf8,' +
-        this.wrapSRCInSVG(src) +
-        '"); margin: 3px;}';
-      // @ts-ignore
-      sheetEl?.sheet?.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
-    });
+
+    const iconStyle =
+      '.' +
+      ICON_CSS_CLASS_PREFIX +
+      sanitizeIconName(iconName.toLowerCase()) +
+      '::before{ content: url("data:image/svg+xml;utf8,' +
+      this.wrapSRCInSVG(iconSrc) +
+      '"); margin: 3px;}';
+    // @ts-ignore
+    sheetEl?.sheet?.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
   }
 
   private wrapSRCInSVG(src: string): string {

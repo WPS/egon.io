@@ -447,11 +447,11 @@ export class IconSetCustomizationService {
     };
   }
 
-  /** Update Icons **/
   addNewIcon(iconName: string): void {
-    const iconDict = new Dictionary();
-    iconDict.add(this.getDataUrlForIcon(iconName), iconName);
-    this.iconDictionaryService.addIconsToCss(iconDict);
+    this.iconDictionaryService.addCustomIcon(
+      this.getDataUrlForIcon(iconName),
+      iconName,
+    );
     this.addIconToAllIconList(iconName);
   }
 
