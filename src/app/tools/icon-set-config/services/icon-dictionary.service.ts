@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
-import {
-  builtInIcons,
-  customIcons,
-} from 'src/app/tools/icon-set-config/domain/allIcons';
+import { builtInIcons } from 'src/app/tools/icon-set-config/domain/builtInIcons';
 import { sanitizeIconName } from '../../../utils/sanitizer';
 import getIconId = ElementTypes.getIconId;
 import { IconSet } from '../../../domain/entities/iconSet';
@@ -17,7 +14,9 @@ export const ICON_CSS_CLASS_PREFIX = 'icon-domain-story-';
   providedIn: 'root',
 })
 export class IconDictionaryService {
-  // The dictionaries holds icons (as SVG) and icon names as key-value pairs:
+  // The dictionaries hold icons (as SVG) and icon names as key-value pairs
+
+  private customIcons = new Dictionary();
 
   // these dictionaries make up the current icon set:
   private selectedActorsDictionary = new Dictionary();
@@ -114,7 +113,7 @@ export class IconDictionaryService {
 
     const allTypes = new Dictionary();
     allTypes.addBuiltInIcons(builtInIcons);
-    allTypes.appendDict(customIcons);
+    allTypes.appendDict(this.customIcons);
 
     iconTypes.forEach((name) => {
       if (!collection.has(name)) {
@@ -198,7 +197,7 @@ export class IconDictionaryService {
   }
 
   addCustomIcon(iconSrc: string, name: string) {
-    customIcons.set(name, iconSrc);
+    this.customIcons.set(name, iconSrc);
     this.addIconsToCss(iconSrc, name);
   }
 
@@ -236,7 +235,7 @@ export class IconDictionaryService {
   getFullDictionary(): Dictionary {
     const fullDictionary = new Dictionary();
     fullDictionary.appendDict(builtInIcons);
-    fullDictionary.appendDict(customIcons);
+    fullDictionary.appendDict(this.customIcons);
     return fullDictionary;
   }
 
@@ -256,8 +255,8 @@ export class IconDictionaryService {
   getIconSource(name: string): string | null {
     if (builtInIcons.has(name)) {
       return builtInIcons.get(name);
-    } else if (customIcons.has(name)) {
-      return customIcons.get(name);
+    } else if (this.customIcons.has(name)) {
+      return this.customIcons.get(name);
     }
     return null;
   }

@@ -18,7 +18,7 @@ import { IconSetImportExportService } from './icon-set-import-export.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
-import { builtInIcons } from 'src/app/tools/icon-set-config/domain/allIcons';
+import { builtInIcons } from 'src/app/tools/icon-set-config/domain/builtInIcons';
 
 /**
  * We are not allowed to call ImportDomainStoryService directly,

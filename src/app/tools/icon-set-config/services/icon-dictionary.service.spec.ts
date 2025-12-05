@@ -8,7 +8,7 @@ import {
   BusinessObject,
   testBusinessObject,
 } from '../../../domain/entities/businessObject';
-import { builtInIcons, customIcons } from '../domain/allIcons';
+import { builtInIcons } from '../domain/builtInIcons';
 import { IconSet } from '../../../domain/entities/iconSet';
 
 describe('IconDictionaryService', () => {
@@ -162,12 +162,16 @@ describe('IconDictionaryService', () => {
       service.updateIconRegistries(actors, workObjects, config);
 
       expect(service.getActorsDictionary().keysArray()).toContain('Person');
-      expect(customIcons.keysArray()).toContain('TestCustomActor');
+      expect(service.getFullDictionary().keysArray()).toContain(
+        'TestCustomActor',
+      );
 
       expect(service.getWorkObjectsDictionary().keysArray()).toContain(
         'Document',
       );
-      expect(customIcons.keysArray()).toContain('TestCustomWorkObject');
+      expect(service.getFullDictionary().keysArray()).toContain(
+        'TestCustomWorkObject',
+      );
     });
   });
 });
