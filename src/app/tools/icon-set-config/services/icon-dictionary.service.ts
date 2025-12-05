@@ -202,9 +202,9 @@ export class IconDictionaryService {
     this.addIconsToCss(iconSrc, name);
   }
 
-  private addCustomIcons(customIcons: Dictionary) {
-    customIcons.keysArray().forEach((key) => {
-      const custom = customIcons.get(key);
+  private addCustomIcons(icons: Dictionary) {
+    icons.keysArray().forEach((key) => {
+      const custom = icons.get(key);
       this.addCustomIcon(custom, key);
     });
   }
