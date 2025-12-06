@@ -118,7 +118,7 @@ export class IconSetConfigurationComponent implements OnInit {
         this.iconSetImportExportService.createIconSetConfiguration(
           configFromFile,
         );
-      this.iconSetImportExportService.loadConfiguration(config, false);
+      this.iconSetImportExportService.loadIconSet(config, false);
 
       this.iconSetCustomizationService.importConfiguration(config);
 

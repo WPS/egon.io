@@ -46,9 +46,7 @@ export class ModelerService {
       this.iconSetImportExportService.getStoredIconSetConfiguration();
     if (storedIconSetConfiguration) {
       this.iconDictionaryService.setIconSet(storedIconSetConfiguration);
-      this.iconSetImportExportService.loadConfiguration(
-        storedIconSetConfiguration,
-      );
+      this.iconSetImportExportService.loadIconSet(storedIconSetConfiguration);
     }
     this.modeler = new DomainStoryModeler({
       container: '#canvas',
@@ -133,7 +131,7 @@ export class ModelerService {
         iconSetConfiguration,
       );
       this.iconDictionaryService.setIconSet(iconSetConfiguration);
-      this.iconSetImportExportService.loadConfiguration(iconSetConfiguration);
+      this.iconSetImportExportService.loadIconSet(iconSetConfiguration);
     }
 
     this.elementRegistryService.clear();

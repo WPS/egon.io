@@ -66,12 +66,11 @@ export class IconSetImportExportService {
     document.body.removeChild(element);
   }
 
-  loadConfiguration(customConfig: IconSet, updateIconSetName = true): void {
-    this.iconDictionaryService.updateIconRegistries(customConfig);
+  loadIconSet(iconSet: IconSet, updateIconSetName = true): void {
+    this.iconDictionaryService.updateIconRegistries(iconSet);
 
     if (updateIconSetName) {
-      const configurationName = customConfig.name;
-      this.setIconSetName(configurationName);
+      this.setIconSetName(iconSet.name);
     }
   }
 
