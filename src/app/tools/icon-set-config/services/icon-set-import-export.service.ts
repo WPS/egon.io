@@ -67,17 +67,6 @@ export class IconSetImportExportService {
   }
 
   loadConfiguration(customConfig: IconSet, updateIconSetName = true): void {
-    let actorDict = new Dictionary();
-    let workObjectDict = new Dictionary();
-
-    if (customConfig.actors.keysArray()) {
-      actorDict = customConfig.actors;
-      workObjectDict = customConfig.workObjects;
-    } else {
-      actorDict.addEach(customConfig.actors);
-      workObjectDict.addEach(customConfig.workObjects);
-    }
-
     this.iconDictionaryService.updateIconRegistries(customConfig);
 
     if (updateIconSetName) {
