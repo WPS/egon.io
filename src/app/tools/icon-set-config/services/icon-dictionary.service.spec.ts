@@ -4,10 +4,7 @@ import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/ic
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 import { Dictionary } from '../../../domain/entities/dictionary';
-import {
-  BusinessObject,
-  testBusinessObject,
-} from '../../../domain/entities/businessObject';
+import { testBusinessObject } from '../../../domain/entities/businessObject';
 import { builtInIcons } from '../domain/builtInIcons';
 import { IconSet } from '../../../domain/entities/iconSet';
 
@@ -81,39 +78,6 @@ describe('IconDictionaryService', () => {
     });
   });
 
-  describe('addIconsFromIconSetConfiguration', () => {
-    it('add icons to ActorDictionary', () => {
-      const type = 'Hotel';
-      expect(service.getActorsDictionary().has(type)).toBeFalsy();
-      service.addIconsFromIconSetConfiguration(ElementTypes.ACTOR, [type]);
-
-      expect(service.getActorsDictionary().has(type)).toBeTruthy();
-    });
-
-    it('add icons to WorkObjectDictionary', () => {
-      const type = 'Hotel';
-      expect(service.getWorkObjectsDictionary().has(type)).toBeFalsy();
-      service.addIconsFromIconSetConfiguration(ElementTypes.WORKOBJECT, [type]);
-
-      expect(service.getWorkObjectsDictionary().has(type)).toBeTruthy();
-    });
-  });
-
-  describe('addIconsToTypeDictionary', () => {
-    it('', () => {
-      const actor = structuredClone(testBusinessObject);
-      actor.type = ElementTypes.ACTOR + 'Hotel';
-
-      const workObject = structuredClone(testBusinessObject);
-      workObject.type = ElementTypes.WORKOBJECT + 'Dining';
-
-      service.addIconsToTypeDictionary([actor], [workObject]);
-
-      expect(service.getActorsDictionary().has('Hotel')).toBeTruthy();
-      expect(service.getWorkObjectsDictionary().has('Dining')).toBeTruthy();
-    });
-  });
-
   describe('registerIconForType', () => {
     it('register Icon for WorkObjects', () => {
       service.registerIconForType(
@@ -137,15 +101,6 @@ describe('IconDictionaryService', () => {
   });
 
   describe('updateIconRegistries', () => {
-    const actor = structuredClone(testBusinessObject);
-    actor.type = ElementTypes.ACTOR + 'Person';
-
-    const workObject = structuredClone(testBusinessObject);
-    workObject.type = ElementTypes.WORKOBJECT + 'Document';
-
-    const actors: BusinessObject[] = [actor];
-    const workObjects: BusinessObject[] = [workObject];
-
     const actorsDict = new Dictionary();
     const workObjectsDict = new Dictionary();
 
@@ -158,20 +113,21 @@ describe('IconDictionaryService', () => {
       workObjects: workObjectsDict,
     };
 
-    it('With elements and Config', () => {
-      service.updateIconRegistries(actors, workObjects, config);
+    it('from iconset file', () => {
+      expect(service.getActorsDictionary().isEmpty());
+      expect(service.getWorkObjectsDictionary().isEmpty());
 
-      expect(service.getActorsDictionary().keysArray()).toContain('Person');
+      service.updateIconRegistries(config);
+
+      expect(service.getActorsDictionary().has('Person')).toBeFalse;
       expect(service.getFullDictionary().keysArray()).toContain(
         'TestCustomActor',
-      );
-
-      expect(service.getWorkObjectsDictionary().keysArray()).toContain(
-        'Document',
       );
       expect(service.getFullDictionary().keysArray()).toContain(
         'TestCustomWorkObject',
       );
+
+      service.updateIconRegistries(service.getDefaultIconSet());
     });
   });
 });

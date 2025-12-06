@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { builtInIcons } from 'src/app/tools/icon-set-config/domain/builtInIcons';
 import { sanitizeIconName } from '../../../utils/sanitizer';
-import getIconId = ElementTypes.getIconId;
 import { IconSet } from '../../../domain/entities/iconSet';
 import { INITIAL_ICON_SET_NAME } from 'src/app/domain/entities/constants';
 
@@ -76,73 +74,6 @@ export class IconDictionaryService {
     }
   }
 
-  private allInTypeDictionary(
-    type: ElementTypes,
-    elements: BusinessObject[],
-  ): boolean {
-    let collection: Dictionary;
-    if (type === ElementTypes.ACTOR) {
-      collection = this.selectedActorsDictionary;
-    } else if (type === ElementTypes.WORKOBJECT) {
-      collection = this.selectedWorkObjectsDictionary;
-    }
-
-    let allIn = true;
-    if (elements) {
-      elements.forEach((element) => {
-        if (!collection.has(getIconId(element.type))) {
-          allIn = false;
-        }
-      });
-    } else {
-      return false;
-    }
-    return allIn;
-  }
-
-  addIconsFromIconSetConfiguration(
-    dictionaryType: ElementTypes,
-    iconTypes: string[],
-  ): void {
-    let collection: Dictionary;
-    if (dictionaryType === ElementTypes.ACTOR) {
-      collection = this.selectedActorsDictionary;
-    } else if (dictionaryType === ElementTypes.WORKOBJECT) {
-      collection = this.selectedWorkObjectsDictionary;
-    }
-
-    const allTypes = new Dictionary();
-    allTypes.addBuiltInIcons(builtInIcons);
-    allTypes.appendDict(this.customIcons);
-
-    iconTypes.forEach((name) => {
-      if (!collection.has(name)) {
-        const src = allTypes.get(name);
-        if (src) {
-          this.registerIconForType(dictionaryType, name, src);
-        }
-      }
-    });
-  }
-
-  addIconsToTypeDictionary(
-    actorIcons: BusinessObject[],
-    workObjectIcons: BusinessObject[],
-  ) {
-    if (!this.allInTypeDictionary(ElementTypes.ACTOR, actorIcons)) {
-      this.addIconsFromIconSetConfiguration(
-        ElementTypes.ACTOR,
-        actorIcons.map((element) => getIconId(element.type)),
-      );
-    }
-    if (!this.allInTypeDictionary(ElementTypes.WORKOBJECT, workObjectIcons)) {
-      this.addIconsFromIconSetConfiguration(
-        ElementTypes.WORKOBJECT,
-        workObjectIcons.map((element) => getIconId(element.type)),
-      );
-    }
-  }
-
   registerIconForType(type: ElementTypes, name: string, src: string): void {
     if (name.includes(type)) {
       throw new Error('Name should not include type!');
@@ -171,17 +102,16 @@ export class IconDictionaryService {
     collection.delete(name);
   }
 
-  // TODO: why are Business Objects required to update icon registries?
-  updateIconRegistries(
-    actors: BusinessObject[],
-    workObjects: BusinessObject[],
-    config: IconSet,
-  ): void {
+  // When an icon set or a domain story (which includes its icon set) are imported,
+  // we need to...:
+  // 1. add new custom icons (if any)
+  // 2. update which icons are selected as actors/work objects
+  updateIconRegistries(config: IconSet): void {
     const newIcons = new Dictionary();
     this.extractCustomIconsFromDictionary(config.actors, newIcons);
     this.extractCustomIconsFromDictionary(config.workObjects, newIcons);
     this.addCustomIcons(newIcons);
-    this.addIconsToTypeDictionary(actors, workObjects);
+    this.setIconSet(config);
   }
 
   private extractCustomIconsFromDictionary(

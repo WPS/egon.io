@@ -75,19 +75,7 @@ export class IconSetImportExportService {
       workObjectDict.addEach(customConfig.workObjects);
     }
 
-    const actorKeys = actorDict.keysArray();
-    const workObjectKeys = workObjectDict.keysArray();
-
-    this.iconDictionaryService.updateIconRegistries([], [], customConfig);
-
-    this.iconDictionaryService.addIconsFromIconSetConfiguration(
-      ElementTypes.ACTOR,
-      actorKeys.map((a) => ElementTypes.ACTOR + a),
-    );
-    this.iconDictionaryService.addIconsFromIconSetConfiguration(
-      ElementTypes.WORKOBJECT,
-      workObjectKeys.map((w) => ElementTypes.WORKOBJECT + w),
-    );
+    this.iconDictionaryService.updateIconRegistries(customConfig);
 
     if (updateIconSetName) {
       const configurationName = customConfig.name;

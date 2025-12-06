@@ -1,7 +1,6 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
-import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
 import { Observable, Subscription } from 'rxjs';
@@ -332,7 +331,7 @@ export class ImportDomainStoryService
         false,
       );
 
-      this.updateIconRegistries(domainStoryElements, iconSet);
+      this.updateIconRegistries(iconSet);
       this.modelerService.importStory(domainStoryElements, iconSet);
     }
   }
@@ -387,38 +386,10 @@ export class ImportDomainStoryService
     return xmlText;
   }
 
-  private updateIconRegistries(
-    domainStoryElements: BusinessObject[],
-    iconSet: IconSet,
-  ): void {
-    const actorIcons = this.getElementsOfType(
-      domainStoryElements,
-      ElementTypes.ACTOR,
-    );
-    const workObjectIcons = this.getElementsOfType(
-      domainStoryElements,
-      ElementTypes.WORKOBJECT,
-    );
-    this.iconDictionaryService.updateIconRegistries(
-      actorIcons,
-      workObjectIcons,
-      iconSet,
-    );
+  private updateIconRegistries(iconSet: IconSet): void {
+    this.iconDictionaryService.updateIconRegistries(iconSet);
 
     this.setImportedConfigurationAndEmit(iconSet);
-  }
-
-  private getElementsOfType(
-    elements: BusinessObject[],
-    type: ElementTypes,
-  ): BusinessObject[] {
-    const elementOfType: any = [];
-    elements.forEach((element) => {
-      if (element.type.includes(type)) {
-        elementOfType.push(element);
-      }
-    });
-    return elementOfType;
   }
 
   private showPreviousV050Dialog(version: number): void {
