@@ -17,7 +17,6 @@ import { SelectableIcon } from '../domain/selectableIcon';
 import { IconSetImportExportService } from './icon-set-import-export.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { IconSet } from '../../../domain/entities/iconSet';
-import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
 import { builtInIcons } from 'src/app/tools/icon-set-config/domain/builtInIcons';
 
 /**
@@ -27,6 +26,13 @@ import { builtInIcons } from 'src/app/tools/icon-set-config/domain/builtInIcons'
 export abstract class IconSetChangedService {
   public abstract iconConfigrationChanged(): Observable<IconSet>;
   public abstract getConfiguration(): IconSet;
+}
+
+// can be used instead of IconSet whenever only the icon names are needed
+interface CustomIconSetConfiguration {
+  name: string;
+  actors: string[];
+  workObjects: string[];
 }
 
 @Injectable({
@@ -51,7 +57,7 @@ export class IconSetCustomizationService {
     private snackbar: MatSnackBar,
   ) {
     this.iconSetConfigurationTypes = new BehaviorSubject(
-      this.iconSetImportExportService.getCurrentConfigurationNamesWithoutPrefix(),
+      this.getCurrentConfigurationNamesWithoutPrefix(),
     );
 
     this.selectedWorkobjects$.next(
@@ -120,10 +126,6 @@ export class IconSetCustomizationService {
   }
 
   /** Getter & Setter **/
-  getIconSetConfiguration(): BehaviorSubject<CustomIconSetConfiguration> {
-    return this.iconSetConfigurationTypes;
-  }
-
   getIconForName(iconName: string): BehaviorSubject<SelectableIcon> {
     return this.allIconListItems.get(iconName);
   }
@@ -329,10 +331,26 @@ export class IconSetCustomizationService {
 
   cancel(): void {
     this.iconSetConfigurationTypes.next(
-      this.iconSetImportExportService.getCurrentConfigurationNamesWithoutPrefix(),
+      this.getCurrentConfigurationNamesWithoutPrefix(),
     );
     this.updateAllIconBehaviourSubjects();
     this.resetToInitialConfiguration();
+  }
+
+  private getCurrentConfigurationNamesWithoutPrefix(): CustomIconSetConfiguration {
+    return {
+      name:
+        this.iconSetImportExportService.getIconSetName() ||
+        INITIAL_ICON_SET_NAME,
+      actors: this.iconDictionaryService
+        .getActorsDictionary()
+        .keysArray()
+        .map((a) => a.replace(ElementTypes.ACTOR, '')),
+      workObjects: this.iconDictionaryService
+        .getWorkObjectsDictionary()
+        .keysArray()
+        .map((w) => w.replace(ElementTypes.WORKOBJECT, '')),
+    };
   }
 
   private resetToInitialConfiguration(): void {

@@ -10,7 +10,6 @@ import {
 } from '../../../domain/entities/constants';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set-configuration-for-export';
-import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
 import { StorageService } from '../../../domain/services/storage.service';
 import { sanitizeIconName } from '../../../utils/sanitizer';
 
@@ -38,6 +37,10 @@ export class IconSetImportExportService {
 
   setIconSetName(name: string): void {
     this.iconSetNameSubject.next(name);
+  }
+
+  getIconSetName(): string {
+    return this.iconSetNameSubject.getValue();
   }
 
   exportConfiguration(): void {
@@ -121,20 +124,6 @@ export class IconSetImportExportService {
       };
     }
     return;
-  }
-
-  getCurrentConfigurationNamesWithoutPrefix(): CustomIconSetConfiguration {
-    return {
-      name: this.iconSetNameSubject.value || INITIAL_ICON_SET_NAME,
-      actors: this.iconDictionaryService
-        .getActorsDictionary()
-        .keysArray()
-        .map((a) => a.replace(ElementTypes.ACTOR, '')),
-      workObjects: this.iconDictionaryService
-        .getWorkObjectsDictionary()
-        .keysArray()
-        .map((w) => w.replace(ElementTypes.WORKOBJECT, '')),
-    };
   }
 
   private createConfigFromDictionaries(
