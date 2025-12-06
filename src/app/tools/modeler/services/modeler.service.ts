@@ -42,11 +42,10 @@ export class ModelerService {
   postInit(): void {
     this.checkCurrentVersion();
 
-    const storedIconSetConfiguration =
+    const lastUsedIconSet =
       this.iconSetImportExportService.getStoredIconSetConfiguration();
-    if (storedIconSetConfiguration) {
-      this.iconDictionaryService.setIconSet(storedIconSetConfiguration);
-      this.iconSetImportExportService.loadIconSet(storedIconSetConfiguration);
+    if (lastUsedIconSet) {
+      this.iconSetImportExportService.loadIconSet(lastUsedIconSet);
     }
     this.modeler = new DomainStoryModeler({
       container: '#canvas',
