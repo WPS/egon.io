@@ -64,7 +64,7 @@ export class ImportDomainStoryService
     this.descriptionSubscription.unsubscribe();
   }
 
-  iconConfigrationChanged(): Observable<IconSet> {
+  iconConfigurationChanged(): Observable<IconSet> {
     return this.importedConfigurationEmitter.asObservable();
   }
 
