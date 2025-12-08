@@ -24,7 +24,7 @@ import { builtInIcons } from 'src/app/tools/icon-set-config/domain/builtInIcons'
  * so we use this "interface" instead.
  */
 export abstract class IconSetChangedService {
-  public abstract iconConfigrationChanged(): Observable<IconSet>;
+  public abstract iconConfigurationChanged(): Observable<IconSet>;
 }
 
 // can be used instead of IconSet whenever only the icon names are needed
@@ -68,7 +68,7 @@ export class IconSetCustomizationService {
       this.addIconToAllIconList(iconName);
     });
 
-    iconSetChangedService.iconConfigrationChanged().subscribe((config) => {
+    iconSetChangedService.iconConfigurationChanged().subscribe((config) => {
       this.importConfiguration(config);
     });
 

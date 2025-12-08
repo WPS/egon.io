@@ -80,10 +80,14 @@ export class ImportDomainStoryService
       this.import(file, file.name);
       this.modelerService.commandStackChanged();
     } else {
-      this.snackbar.open('No file selected or invalid input element.', undefined, {
-        duration: SNACKBAR_DURATION_LONG,
-        panelClass: SNACKBAR_ERROR,
-      });
+      this.snackbar.open(
+        'No file selected or invalid input element.',
+        undefined,
+        {
+          duration: SNACKBAR_DURATION_LONG,
+          panelClass: SNACKBAR_ERROR,
+        },
+      );
     }
   }
 
