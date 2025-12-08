@@ -64,15 +64,31 @@ export class ImportDomainStoryService
     this.descriptionSubscription.unsubscribe();
   }
 
-  iconConfigrationChanged(): Observable<IconSet> {
+  iconConfigurationChanged(): Observable<IconSet> {
     return this.importedConfigurationEmitter.asObservable();
   }
 
   performImport(): void {
-    // @ts-ignore
-    const file = document.getElementById('import').files[0];
-    this.import(file, file.name);
-    this.modelerService.commandStackChanged();
+    const inputElement = document.getElementById('import');
+    if (
+      inputElement &&
+      inputElement instanceof HTMLInputElement &&
+      inputElement.files &&
+      inputElement.files.length > 0
+    ) {
+      const file = inputElement.files[0];
+      this.import(file, file.name);
+      this.modelerService.commandStackChanged();
+    } else {
+      this.snackbar.open(
+        'No file selected or invalid input element.',
+        undefined,
+        {
+          duration: SNACKBAR_DURATION_LONG,
+          panelClass: SNACKBAR_ERROR,
+        },
+      );
+    }
   }
 
   performDropImport(file: File): void {
@@ -285,13 +301,14 @@ export class ImportDomainStoryService
       let lastElement = domainStoryElements[domainStoryElements.length - 1];
       if (!lastElement.id) {
         lastElement = domainStoryElements.pop();
-        let importVersionNumber = lastElement;
+        let versionInfo = lastElement;
 
         // if the last element has the tag 'version',
         // then there exists another tag 'info' for the description
-        if (importVersionNumber.version) {
+        let importVersionNumber: string;
+        if (versionInfo.version) {
           lastElement = domainStoryElements.pop();
-          importVersionNumber = importVersionNumber.version as string;
+          importVersionNumber = versionInfo.version as string;
         } else {
           importVersionNumber = '?';
           this.snackbar.open(`The version number is unreadable.`, undefined, {

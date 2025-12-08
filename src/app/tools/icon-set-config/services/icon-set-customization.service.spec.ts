@@ -63,7 +63,7 @@ describe(IconSetCustomizationService.name, () => {
         },
         MockProvider(ImportDomainStoryService),
         MockProvider(IconSetChangedService, {
-          iconConfigrationChanged(): Observable<IconSet> {
+          iconConfigurationChanged(): Observable<IconSet> {
             const iconSetConfiguration: IconSet =
               INITIAL_ICON_SET_CONFIGURATION;
             return of(iconSetConfiguration);
