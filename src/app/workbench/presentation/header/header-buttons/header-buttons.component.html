@@ -40,7 +40,7 @@
 
     <input
       type="file"
-      accept=".dst, .svg, .egn, .svg"
+      accept=".dst, .egn, .svg"
       style="display: none"
       id="import"
       onclick="this.value = null"
@@ -64,13 +64,10 @@
       [disabled]="!hasDomainStory"
       [class.disabled]="!hasDomainStory"
       class="headerButton"
-      title="Label Dictionary"
+      title="Change multiple labels at once"
       (click)="openLabelDictionary.emit()"
     >
-      <span
-        class="material-icons-outlined materialIconButton"
-        title="Label Dictionary"
-      >
+      <span class="material-icons-outlined materialIconButton">
         spellcheck
       </span>
       <div class="button-label">Dictionary</div>
@@ -85,13 +82,12 @@
       <div class="button-label">New story</div>
     </button>
 
-    <button class="headerButton" title="Settings" (click)="openSettings.emit()">
-      <span
-        class="material-icons-outlined materialIconButton"
-        title="Change Icons and Settings"
-      >
-        settings
-      </span>
+    <button
+      class="headerButton"
+      title="Change Icons and Settings"
+      (click)="openSettings.emit()"
+    >
+      <span class="material-icons-outlined materialIconButton"> settings </span>
       <div class="button-label">Settings</div>
     </button>
 
