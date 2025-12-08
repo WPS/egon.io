@@ -69,10 +69,22 @@ export class ImportDomainStoryService
   }
 
   performImport(): void {
-    // @ts-ignore
-    const file = document.getElementById('import').files[0];
-    this.import(file, file.name);
-    this.modelerService.commandStackChanged();
+    const inputElement = document.getElementById('import');
+    if (
+      inputElement &&
+      inputElement instanceof HTMLInputElement &&
+      inputElement.files &&
+      inputElement.files.length > 0
+    ) {
+      const file = inputElement.files[0];
+      this.import(file, file.name);
+      this.modelerService.commandStackChanged();
+    } else {
+      this.snackbar.open('No file selected or invalid input element.', undefined, {
+        duration: SNACKBAR_DURATION_LONG,
+        panelClass: SNACKBAR_ERROR,
+      });
+    }
   }
 
   performDropImport(file: File): void {
