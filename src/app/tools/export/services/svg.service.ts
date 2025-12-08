@@ -90,7 +90,6 @@ export class SvgService {
     viewBoxIndex = domainStorySvg.indexOf('" version');
 
     const dataEnd = domainStorySvg.substring(viewBoxIndex);
-    dataEnd.substring(viewBoxIndex);
 
     domainStorySvg = dataStart + bounds + dataEnd;
 
