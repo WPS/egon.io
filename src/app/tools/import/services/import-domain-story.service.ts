@@ -285,13 +285,14 @@ export class ImportDomainStoryService
       let lastElement = domainStoryElements[domainStoryElements.length - 1];
       if (!lastElement.id) {
         lastElement = domainStoryElements.pop();
-        let importVersionNumber = lastElement;
+        let versionInfo = lastElement;
 
         // if the last element has the tag 'version',
         // then there exists another tag 'info' for the description
-        if (importVersionNumber.version) {
+        let importVersionNumber: string;
+        if (versionInfo.version) {
           lastElement = domainStoryElements.pop();
-          importVersionNumber = importVersionNumber.version as string;
+          importVersionNumber = versionInfo.version as string;
         } else {
           importVersionNumber = '?';
           this.snackbar.open(`The version number is unreadable.`, undefined, {
