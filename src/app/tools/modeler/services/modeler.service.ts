@@ -151,7 +151,7 @@ export class ModelerService {
     this.modeler.fitStoryToScreen();
   }
 
-  getModeler(): any {
+  getModeler(): DomainStoryModeler {
     return this.modeler;
   }
 
