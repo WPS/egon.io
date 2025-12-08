@@ -35,7 +35,7 @@ export class ModelerService {
 
   private modeler: any;
   private elementRegistry: any;
-  private commandStack: any;
+  private commandStack: CommandStack;
   private eventBus: any;
 
   private encoded: string | undefined;
