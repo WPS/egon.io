@@ -68,9 +68,6 @@ describe(IconSetCustomizationService.name, () => {
               INITIAL_ICON_SET_CONFIGURATION;
             return of(iconSetConfiguration);
           },
-          getConfiguration(): IconSet {
-            return INITIAL_ICON_SET_CONFIGURATION;
-          },
         }),
         {
           provide: IconDictionaryService,

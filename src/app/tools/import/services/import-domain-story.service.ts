@@ -1,6 +1,5 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
-import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
 import { Observable, Subscription } from 'rxjs';
@@ -36,7 +35,6 @@ export class ImportDomainStoryService
 
   title = INITIAL_TITLE;
   description = INITIAL_DESCRIPTION;
-  private importedConfiguration: IconSet | null = null;
 
   private importedConfigurationEmitter = new EventEmitter<IconSet>();
 
@@ -68,16 +66,6 @@ export class ImportDomainStoryService
 
   iconConfigrationChanged(): Observable<IconSet> {
     return this.importedConfigurationEmitter.asObservable();
-  }
-
-  getConfiguration(): IconSet {
-    const config: IconSet = {
-      name: this.importedConfiguration?.name || '',
-      actors: this.importedConfiguration?.actors || new Dictionary(),
-      workObjects: this.importedConfiguration?.workObjects || new Dictionary(),
-    };
-    this.importedConfiguration = null;
-    return config;
   }
 
   performImport(): void {
@@ -388,8 +376,7 @@ export class ImportDomainStoryService
 
   private updateIconRegistries(iconSet: IconSet): void {
     this.iconDictionaryService.updateIconRegistries(iconSet);
-
-    this.setImportedConfigurationAndEmit(iconSet);
+    this.importedConfigurationEmitter.emit(iconSet);
   }
 
   private showPreviousV050Dialog(version: number): void {
@@ -400,11 +387,6 @@ export class ImportDomainStoryService
       duration: SNACKBAR_DURATION_LONGER,
       panelClass: SNACKBAR_INFO,
     });
-  }
-
-  private setImportedConfigurationAndEmit(config: IconSet) {
-    this.importedConfiguration = config;
-    this.importedConfigurationEmitter.emit(config);
   }
 
   private showBrokenImportDialog() {
