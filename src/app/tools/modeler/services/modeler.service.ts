@@ -33,9 +33,9 @@ export class ModelerService {
     private snackbar: MatSnackBar,
   ) {}
 
-  private modeler: any;
+  private modeler: DomainStoryModeler;
   private elementRegistry: any;
-  private commandStack: any;
+  private commandStack: CommandStack;
   private eventBus: any;
 
   private encoded: string | undefined;
@@ -151,7 +151,7 @@ export class ModelerService {
     this.modeler.fitStoryToScreen();
   }
 
-  getModeler(): any {
+  getModeler(): DomainStoryModeler {
     return this.modeler;
   }
 
