@@ -33,7 +33,7 @@ export class ModelerService {
     private snackbar: MatSnackBar,
   ) {}
 
-  private modeler: any;
+  private modeler: DomainStoryModeler;
   private elementRegistry: any;
   private commandStack: CommandStack;
   private eventBus: any;
