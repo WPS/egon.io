@@ -13,6 +13,7 @@ module.exports = function (config) {
       require("@angular-devkit/build-angular/plugins/karma"),
     ],
     client: {
+      captureConsole: true,
       jasmine: {
         // you can add configuration options for Jasmine here
         // the possible options are listed at https://jasmine.github.io/api/edge/Configuration.html

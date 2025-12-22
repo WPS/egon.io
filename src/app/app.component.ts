@@ -34,11 +34,23 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModelerService } from './tools/modeler/services/modeler.service';
 import { DirtyFlagService } from './domain/services/dirty-flag.service';
 
+import { CommonModule } from '@angular/common';
+import { HeaderComponent } from './workbench/presentation/header/header/header.component';
+import { SettingsComponent } from './workbench/presentation/settings/settings.component';
+import { DragDirective } from './tools/import/directive/dragDrop.directive';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    SettingsComponent,
+    DragDirective,
+    ColorPickerDirective,
+  ],
 })
 export class AppComponent implements OnInit, AfterViewInit {
   showSettings$: Observable<boolean> | BehaviorSubject<boolean>;

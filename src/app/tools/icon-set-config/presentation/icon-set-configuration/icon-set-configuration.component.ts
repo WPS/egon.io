@@ -7,12 +7,26 @@ import { ElementRegistryService } from 'src/app/domain/services/element-registry
 import { sanitizeIconName } from 'src/app/utils/sanitizer';
 import { IconFilterOptions } from '../../domain/iconFilterOptions';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { SelectableIconComponent } from '../selectable-icon/selectable-icon.component';
+import { IconSetComponent } from '../icon-set/icon-set.component';
 
 @Component({
   selector: 'app-icon-set-configuration',
   templateUrl: './icon-set-configuration.component.html',
   styleUrls: ['./icon-set-configuration.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    SelectableIconComponent,
+    IconSetComponent,
+  ],
 })
 export class IconSetConfigurationComponent implements OnInit {
   filter = new BehaviorSubject<IconFilterOptions>(IconFilterOptions.NO_FILTER);

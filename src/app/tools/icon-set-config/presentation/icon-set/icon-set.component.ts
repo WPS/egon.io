@@ -4,11 +4,26 @@ import { IconSetCustomizationService } from 'src/app/tools/icon-set-config/servi
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { SelectableIcon } from 'src/app/tools/icon-set-config/domain/selectableIcon';
 
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { SelectedIconComponent } from '../selected-icon/selected-icon.component';
+
 @Component({
   selector: 'app-icon-set',
   templateUrl: './icon-set.component.html',
   styleUrls: ['./icon-set.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatListModule,
+    SelectedIconComponent,
+  ],
 })
 export class IconSetComponent implements OnInit {
   iconSetName: Observable<string>;

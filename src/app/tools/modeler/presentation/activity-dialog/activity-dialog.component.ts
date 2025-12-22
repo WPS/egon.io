@@ -1,15 +1,32 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormGroup } from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivityDialogData } from 'src/app/tools/modeler/domain/activityDialogData';
 import { ActivityCanvasObject } from '../../../../domain/entities/activityCanvasObject';
 import { ActivityDialogForm } from '../../domain/activity-dialog-form';
+
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-activity-dialog',
   templateUrl: './activity-dialog.component.html',
   styleUrls: ['./activity-dialog.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
 })
 export class ActivityDialogComponent {
   form: FormGroup<ActivityDialogForm>;

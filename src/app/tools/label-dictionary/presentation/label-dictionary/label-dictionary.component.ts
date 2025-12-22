@@ -9,12 +9,26 @@ import { BehaviorSubject } from 'rxjs';
 import { WorkObjectLabelEntry } from '../../domain/workObjectLabelEntry';
 import { LabelEntry } from '../../domain/labelEntry';
 import { LabelDictionaryService } from '../../services/label-dictionary.service';
+import { CommonModule } from '@angular/common';
+import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-label-dictionary',
   templateUrl: './label-dictionary.component.html',
   styleUrls: ['./label-dictionary.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatListModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatButtonModule,
+  ],
 })
 export class LabelDictionaryComponent implements AfterViewInit {
   workobjectEntriesSubject: BehaviorSubject<WorkObjectLabelEntry[]>;

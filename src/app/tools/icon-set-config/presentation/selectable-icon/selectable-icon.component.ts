@@ -3,11 +3,15 @@ import { SelectableIcon } from '../../domain/selectableIcon';
 import { BehaviorSubject } from 'rxjs';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 
+import { CommonModule } from '@angular/common';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
 @Component({
   selector: 'app-selectable-icon',
   templateUrl: './selectable-icon.component.html',
   styleUrls: ['./selectable-icon.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, MatButtonToggleModule],
 })
 export class SelectableIconComponent implements OnInit, AfterViewChecked {
   @Input()

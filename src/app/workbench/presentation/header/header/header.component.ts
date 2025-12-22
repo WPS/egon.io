@@ -10,11 +10,22 @@ import { ExportService } from '../../../../tools/export/services/export.service'
 import { LabelDictionaryService } from '../../../../tools/label-dictionary/services/label-dictionary.service';
 import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 
+import { CommonModule } from '@angular/common';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
+import { HeaderButtonsComponent } from '../header-buttons/header-buttons.component';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatCardModule,
+    HeaderButtonsComponent,
+  ],
 })
 export class HeaderComponent {
   title$ = this.titleService.title$;

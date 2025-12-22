@@ -6,6 +6,7 @@
   <span class="spacer"></span>
   <div class="buttons">
     <button
+      type="button"
       mat-stroked-button
       class="mr-1"
       [disabled]="!drafts.length"
@@ -24,7 +25,7 @@
           <div class="draft">
             <div class="item-title">{{ draft.title }}</div>
             <div class="item-date">{{ draft.date }}</div>
-            <button mat-stroked-button (click)="loadDraft(draft)">
+            <button type="button" mat-stroked-button (click)="loadDraft(draft)">
               Load draft
             </button>
           </div>

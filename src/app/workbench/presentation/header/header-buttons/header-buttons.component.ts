@@ -2,11 +2,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
 
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-header-buttons',
   templateUrl: './header-buttons.component.html',
   styleUrls: ['./header-buttons.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
 })
 export class HeaderButtonsComponent {
   sentenceDescription$: Observable<string>;

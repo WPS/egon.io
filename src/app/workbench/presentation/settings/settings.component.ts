@@ -5,11 +5,24 @@ import { BehaviorSubject } from 'rxjs';
 import { IconSetCustomizationService } from '../../../tools/icon-set-config/services/icon-set-customization.service';
 import { IconSet } from '../../../domain/entities/iconSet';
 
+import { CommonModule } from '@angular/common';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { AutosaveSettingsComponent } from '../../../tools/autosave/presentation/AutosaveSettings/autosave-settings.component';
+import { IconSetConfigurationComponent } from '../../../tools/icon-set-config/presentation/icon-set-configuration/icon-set-configuration.component';
+
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatButtonModule,
+    AutosaveSettingsComponent,
+    IconSetConfigurationComponent,
+  ],
 })
 export class SettingsComponent {
   iconSetConfiguration: IconSet | undefined;

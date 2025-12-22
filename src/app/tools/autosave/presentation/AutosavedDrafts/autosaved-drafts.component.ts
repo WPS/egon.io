@@ -8,11 +8,16 @@ import {
 } from 'src/app/domain/entities/constants';
 import { Subscription } from 'rxjs';
 
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+
 @Component({
   selector: 'app-autosaved-drafts',
   templateUrl: './autosaved-drafts.component.html',
   styleUrls: ['./autosaved-drafts.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatListModule],
 })
 export class AutosavedDraftsComponent implements OnInit {
   drafts: Draft[] = [];

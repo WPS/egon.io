@@ -3,8 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TitleDialogComponent } from 'src/app/tools/title/presentation/title-dialog/title-dialog.component';
 import { MockModule, MockProviders, MockService } from 'ng-mocks';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MaterialModule } from 'src/app/material.module';
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { TitleService } from '../../services/title.service';
 import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
 import {
@@ -22,8 +28,14 @@ describe('HeaderDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TitleDialogComponent],
-      imports: [MockModule(MaterialModule), MockModule(ReactiveFormsModule)],
+      imports: [
+        TitleDialogComponent,
+        MockModule(MatDialogModule),
+        MockModule(MatFormFieldModule),
+        MockModule(MatInputModule),
+        MockModule(MatButtonModule),
+        MockModule(ReactiveFormsModule),
+      ],
       providers: [
         {
           provide: TitleService,

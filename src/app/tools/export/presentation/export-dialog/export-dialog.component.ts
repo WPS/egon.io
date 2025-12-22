@@ -1,15 +1,20 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ExportDialogData } from 'src/app/tools/export/domain/dialog/exportDialogData';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Component, Inject }                               from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, } from '@angular/material/dialog';
+import { ExportDialogData }                                from 'src/app/tools/export/domain/dialog/exportDialogData';
+import { BehaviorSubject }                                 from 'rxjs/internal/BehaviorSubject';
+
+import { CommonModule }    from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule }     from '@angular/forms';
 
 @Component({
   selector: 'app-export-dialog',
   templateUrl: './export-dialog.component.html',
   styleUrls: ['./export-dialog.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, MatDialogModule, MatButtonModule, FormsModule],
 })
-export class ExportDialogComponent implements OnInit {
+export class ExportDialogComponent {
   title: string;
   options: {
     text: string;
@@ -30,8 +35,6 @@ export class ExportDialogComponent implements OnInit {
     this.title = data.title;
     this.options = data.options;
   }
-
-  ngOnInit(): void {}
 
   doOption(i: number): void {
     if (this.isAnimatedSvgExport) {

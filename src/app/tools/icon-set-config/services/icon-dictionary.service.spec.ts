@@ -114,12 +114,12 @@ describe('IconDictionaryService', () => {
     };
 
     it('from iconset file', () => {
-      expect(service.getActorsDictionary().isEmpty());
-      expect(service.getWorkObjectsDictionary().isEmpty());
+      expect(service.getActorsDictionary().isEmpty()).toBeTrue();
+      expect(service.getWorkObjectsDictionary().isEmpty()).toBeTrue();
 
       service.updateIconRegistries(config);
 
-      expect(service.getActorsDictionary().has('Person')).toBeFalse;
+      expect(service.getActorsDictionary().has('Person')).toBeFalse();
       expect(service.getFullDictionary().keysArray()).toContain(
         'TestCustomActor',
       );
