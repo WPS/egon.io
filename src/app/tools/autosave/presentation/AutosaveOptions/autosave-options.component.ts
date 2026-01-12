@@ -1,12 +1,16 @@
-import { Component, inject }                                    from '@angular/core';
-import { AutosaveConfigurationService }                         from '../../services/autosave-configuration.service';
-import { MatSnackBar }                                          from '@angular/material/snack-bar';
-import { SNACKBAR_DURATION, SNACKBAR_ERROR, SNACKBAR_SUCCESS, } from 'src/app/domain/entities/constants';
-import { CommonModule }                                         from '@angular/common';
-import { MatFormFieldModule }                                   from '@angular/material/form-field';
-import { MatInputModule }                                       from '@angular/material/input';
-import { MatButtonModule }                                      from '@angular/material/button';
-import { FormsModule }                                          from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { AutosaveConfigurationService } from '../../services/autosave-configuration.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  SNACKBAR_DURATION,
+  SNACKBAR_ERROR,
+  SNACKBAR_SUCCESS,
+} from 'src/app/domain/entities/constants';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-autosave-options',
@@ -22,7 +26,9 @@ import { FormsModule }                                          from '@angular/f
   ],
 })
 export class AutosaveOptionsComponent {
-  protected readonly autosaveConfiguration = inject(AutosaveConfigurationService);
+  protected readonly autosaveConfiguration = inject(
+    AutosaveConfigurationService,
+  );
   private readonly snackbar = inject(MatSnackBar);
 
   save(activated: boolean, maxDrafts: number, interval: number) {

@@ -1,7 +1,7 @@
-import { Component, inject }             from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { CommonModule }                  from '@angular/common';
-import { LabelDictionaryComponent }      from '../label-dictionary/label-dictionary.component';
+import { CommonModule } from '@angular/common';
+import { LabelDictionaryComponent } from '../label-dictionary/label-dictionary.component';
 
 @Component({
   selector: 'app-label-dictionary-dialog',
@@ -11,7 +11,9 @@ import { LabelDictionaryComponent }      from '../label-dictionary/label-diction
   imports: [CommonModule, MatDialogModule, LabelDictionaryComponent],
 })
 export class LabelDictionaryDialogComponent {
-  private readonly dialogRef = inject(MatDialogRef<LabelDictionaryDialogComponent>);
+  private readonly dialogRef = inject(
+    MatDialogRef<LabelDictionaryDialogComponent>,
+  );
 
   close(): void {
     this.dialogRef.close();

@@ -1,9 +1,15 @@
-import { AfterViewChecked, Component, inject, Input, OnInit, } from '@angular/core';
-import { SelectableIcon }                                      from '../../domain/selectableIcon';
-import { BehaviorSubject }                                     from 'rxjs';
-import { IconSetCustomizationService }                         from '../../services/icon-set-customization.service';
+import {
+  AfterViewChecked,
+  Component,
+  inject,
+  Input,
+  OnInit,
+} from '@angular/core';
+import { SelectableIcon } from '../../domain/selectableIcon';
+import { BehaviorSubject } from 'rxjs';
+import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 
-import { CommonModule }          from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
