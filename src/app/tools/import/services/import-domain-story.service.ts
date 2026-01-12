@@ -1,13 +1,12 @@
-import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
+import { EventEmitter, inject, Injectable } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import {
-  INITIAL_DESCRIPTION,
   INITIAL_TITLE,
   SNACKBAR_DURATION,
   SNACKBAR_DURATION_LONG,
@@ -23,46 +22,27 @@ import { IconSetChangedService } from '../../icon-set-config/services/icon-set-c
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ImportDialogComponent } from '../presentation/import-dialog/import-dialog.component';
 import { UnsavedChangesReminderComponent } from '../../unsavedChangesReminder/presentation/unsavedChangesReminder-dialog/unsaved-changes-reminder/unsaved-changes-reminder.component';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ImportDomainStoryService
-  implements OnDestroy, IconSetChangedService
-{
-  titleSubscription: Subscription;
-  descriptionSubscription: Subscription;
+export class ImportDomainStoryService implements IconSetChangedService {
+  private readonly iconDictionaryService = inject(IconDictionaryService);
+  private readonly importRepairService = inject(ImportRepairService);
+  private readonly titleService = inject(TitleService);
+  private readonly dialogService = inject(DialogService);
+  private readonly iconSetImportExportService = inject(
+    IconSetImportExportService,
+  );
+  private readonly modelerService = inject(ModelerService);
+  private readonly snackbar = inject(MatSnackBar);
 
-  title = INITIAL_TITLE;
-  description = INITIAL_DESCRIPTION;
+  private readonly title = toSignal(this.titleService.title$, {
+    initialValue: INITIAL_TITLE,
+  });
 
-  private importedConfigurationEmitter = new EventEmitter<IconSet>();
-
-  constructor(
-    private iconDictionaryService: IconDictionaryService,
-    private importRepairService: ImportRepairService,
-    private titleService: TitleService,
-    private dialogService: DialogService,
-    private iconSetImportExportService: IconSetImportExportService,
-    private modelerService: ModelerService,
-    private snackbar: MatSnackBar,
-  ) {
-    this.titleSubscription = this.titleService.title$.subscribe(
-      (title: string) => {
-        this.title = title;
-      },
-    );
-    this.descriptionSubscription = this.titleService.description$.subscribe(
-      (description: string) => {
-        this.description = description;
-      },
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.titleSubscription.unsubscribe();
-    this.descriptionSubscription.unsubscribe();
-  }
+  private readonly importedConfigurationEmitter = new EventEmitter<IconSet>();
 
   iconConfigurationChanged(): Observable<IconSet> {
     return this.importedConfigurationEmitter.asObservable();
@@ -228,7 +208,7 @@ export class ImportDomainStoryService
       this.titleService.updateTitleAndDescription(titleText, null, false);
 
       fileReader.onloadend = (e) => {
-        if (e && e.target) {
+        if (e?.target) {
           this.fileReaderFunction(e.target.result, isSVG, isEGN);
         }
       };
@@ -331,7 +311,7 @@ export class ImportDomainStoryService
       }
 
       this.titleService.updateTitleAndDescription(
-        this.title,
+        this.title(),
         lastElement.info,
         false,
       );

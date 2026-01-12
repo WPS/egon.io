@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { MatDialogConfig } from '@angular/material/dialog';
@@ -28,13 +28,11 @@ import { ReplayService } from '../../replay/services/replay.service';
   providedIn: 'root',
 })
 export class InitializerService {
-  constructor(
-    private elementRegistryService: ElementRegistryService,
-    private replayService: ReplayService,
-    private dialogService: DialogService,
-    private commandStackService: CommandStackService,
-    private titleService: TitleService,
-  ) {}
+  private readonly elementRegistryService = inject(ElementRegistryService);
+  private readonly replayService = inject(ReplayService);
+  private readonly dialogService = inject(DialogService);
+  private readonly commandStackService = inject(CommandStackService);
+  private readonly titleService = inject(TitleService);
 
   propagateDomainStoryModelerClassesToServices(
     commandStack: any,

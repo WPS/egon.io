@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TitleService } from 'src/app/tools/title/services/title.service';
@@ -26,11 +26,9 @@ import { MatButtonModule } from '@angular/material/button';
 export class TitleDialogComponent implements OnInit {
   form!: FormGroup<TitleDialogForm>;
 
-  constructor(
-    private dialogRef: MatDialogRef<TitleDialogComponent>,
-    private titleService: TitleService,
-    private dirtyFlagService: DirtyFlagService,
-  ) {}
+  private dialogRef = inject(MatDialogRef<TitleDialogComponent>);
+  private titleService = inject(TitleService);
+  private dirtyFlagService = inject(DirtyFlagService);
 
   ngOnInit(): void {
     const title = this.titleService.getTitle();

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SettingsService } from 'src/app/workbench/services/settings/settings.service';
 import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 import { BehaviorSubject } from 'rxjs';
@@ -26,14 +26,14 @@ import { IconSetConfigurationComponent } from '../../../tools/icon-set-config/pr
 })
 export class SettingsComponent {
   iconSetConfiguration: IconSet | undefined;
-  showAutosaveSettings = new BehaviorSubject<boolean>(false);
-  showIconSetCustomization = new BehaviorSubject<boolean>(true);
+  readonly showAutosaveSettings = new BehaviorSubject<boolean>(false);
+  readonly showIconSetCustomization = new BehaviorSubject<boolean>(true);
 
-  constructor(
-    private settingsService: SettingsService,
-    private modelerService: ModelerService,
-    private iconSetCustomizationService: IconSetCustomizationService,
-  ) {}
+  private readonly settingsService = inject(SettingsService);
+  private readonly modelerService = inject(ModelerService);
+  private readonly iconSetCustomizationService = inject(
+    IconSetCustomizationService,
+  );
 
   close(): void {
     const savedConfiguration =

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { sanitizeForDesktop } from '../../../utils/sanitizer';
 import { ReplayService } from '../../replay/services/replay.service';
 // @ts-ignore
@@ -12,10 +12,8 @@ import { TitleService } from '../../title/services/title.service';
  * Initial idea and PR from https://github.com/indika-dev
  */
 export class HtmlPresentationService {
-  constructor(
-    private replayService: ReplayService,
-    private titleService: TitleService,
-  ) {}
+  private readonly replayService = inject(ReplayService);
+  private readonly titleService = inject(TitleService);
 
   private multiplexSecret: any;
   private multiplexId: any;
@@ -96,7 +94,7 @@ export class HtmlPresentationService {
     element.style.display = 'none';
     document.body.appendChild(element);
     element.click();
-    document.body.removeChild(element);
+    element.remove();
   }
 
   private fixMalformedHtmlScript(
@@ -196,7 +194,7 @@ export class HtmlPresentationService {
           idToReplace.slice(0, id.length - 5) +
           'customId' +
           sectionIndex +
-          idToReplace.slice(idToReplace.length - 2);
+          idToReplace.slice(-2);
         // @ts-ignore
         result.svg = result.svg.replaceAll(idToReplace, newId);
       });

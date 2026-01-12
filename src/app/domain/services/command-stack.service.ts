@@ -6,8 +6,6 @@ import { Injectable } from '@angular/core';
 export class CommandStackService {
   private commandStack: any;
 
-  constructor() {}
-
   setCommandStack(commandStack: any): void {
     this.commandStack = commandStack;
   }

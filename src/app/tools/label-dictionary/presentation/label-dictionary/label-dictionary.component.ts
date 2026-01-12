@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  inject,
   Output,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
@@ -31,19 +32,19 @@ import { MatButtonModule } from '@angular/material/button';
   ],
 })
 export class LabelDictionaryComponent implements AfterViewInit {
-  workobjectEntriesSubject: BehaviorSubject<WorkObjectLabelEntry[]>;
-  activityEntriesSubject: BehaviorSubject<LabelEntry[]>;
+  readonly workobjectEntriesSubject: BehaviorSubject<WorkObjectLabelEntry[]>;
+  readonly activityEntriesSubject: BehaviorSubject<LabelEntry[]>;
 
   workObjectEntries: WorkObjectLabelEntry[];
   activityEntries: LabelEntry[];
 
   @Output()
-  closeEmitter: EventEmitter<void> = new EventEmitter<void>();
+  readonly closeEmitter: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(
-    private labelDictionaryService: LabelDictionaryService,
-    private cd: ChangeDetectorRef,
-  ) {
+  private readonly labelDictionaryService = inject(LabelDictionaryService);
+  private readonly cd = inject(ChangeDetectorRef);
+
+  constructor() {
     this.labelDictionaryService.createLabelDictionaries();
     this.workObjectEntries = this.labelDictionaryService.getWorkObjectLabels();
     this.activityEntries = this.labelDictionaryService.getActivityLabels();
@@ -109,20 +110,20 @@ export class LabelDictionaryComponent implements AfterViewInit {
   }
 
   updateActivityEntry($event: Event, activityEntry: LabelEntry) {
+    const target = $event.target as HTMLInputElement;
     let entries = this.activityEntriesSubject.value;
     entries.filter(
       (e) => e.originalName === activityEntry.originalName,
-      // @ts-ignore
-    )[0].name = $event.target.value;
+    )[0].name = target.value;
     this.activityEntriesSubject.next(entries);
   }
 
   updateWorkobjectEntry($event: Event, workobjectEntry: LabelEntry) {
+    const target = $event.target as HTMLInputElement;
     let entries = this.workobjectEntriesSubject.value;
     entries.filter(
       (e) => e.originalName === workobjectEntry.originalName,
-      // @ts-ignore
-    )[0].name = $event.target.value;
+    )[0].name = target.value;
     this.workobjectEntriesSubject.next(entries);
   }
 

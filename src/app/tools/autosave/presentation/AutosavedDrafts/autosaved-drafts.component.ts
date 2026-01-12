@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AutosaveService } from '../../services/autosave.service';
 import { Draft } from '../../domain/draft';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -23,10 +23,10 @@ export class AutosavedDraftsComponent implements OnInit {
   drafts: Draft[] = [];
   subscription: Subscription;
 
-  constructor(
-    private autosaveService: AutosaveService,
-    private snackbar: MatSnackBar,
-  ) {
+  private autosaveService = inject(AutosaveService);
+  private snackbar = inject(MatSnackBar);
+
+  constructor() {
     this.subscription = this.autosaveService.autosavedDraftsChanged$.subscribe(
       () => this.initDrafts(),
     );

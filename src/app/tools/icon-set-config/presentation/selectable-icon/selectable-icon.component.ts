@@ -1,9 +1,9 @@
-import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
-import { SelectableIcon } from '../../domain/selectableIcon';
-import { BehaviorSubject } from 'rxjs';
-import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
+import { AfterViewChecked, Component, inject, Input, OnInit, } from '@angular/core';
+import { SelectableIcon }                                      from '../../domain/selectableIcon';
+import { BehaviorSubject }                                     from 'rxjs';
+import { IconSetCustomizationService }                         from '../../services/icon-set-customization.service';
 
-import { CommonModule } from '@angular/common';
+import { CommonModule }          from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
@@ -34,9 +34,9 @@ export class SelectableIconComponent implements OnInit, AfterViewChecked {
     return 'domain-configuration-icon-' + this.iconName;
   }
 
-  constructor(
-    private iconSetCustomizationService: IconSetCustomizationService,
-  ) {}
+  private readonly iconSetCustomizationService = inject(
+    IconSetCustomizationService,
+  );
 
   ngOnInit(): void {
     this.icon = this.iconSetCustomizationService.getIconForName(this.iconName);

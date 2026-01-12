@@ -7,13 +7,8 @@ import { Box } from 'src/app/tools/export/domain/export/box';
   providedIn: 'root',
 })
 export class PngService {
-  private width: number;
-  private height: number;
-
-  constructor() {
-    this.width = 0;
-    this.height = 0;
-  }
+  private width: number = 0;
+  private height: number = 0;
 
   private browserSpecs(): BrowserSpecs {
     const ua = navigator.userAgent;
@@ -191,7 +186,6 @@ export class PngService {
     viewBoxIndex = svg.indexOf('tabindex="');
 
     const dataEnd = svg.substring(viewBoxIndex);
-    dataEnd.substring(viewBoxIndex);
 
     svg = dataStart + bounds + dataEnd;
 
@@ -272,10 +266,10 @@ export class PngService {
     const translate = viewport.getAttribute('translate');
 
     if (layerResizers[0]) {
-      layerResizers[0].parentNode.removeChild(layerResizers[0]);
+      layerResizers[0].remove();
     }
     if (layerOverlays[0]) {
-      layerOverlays[0].parentNode.removeChild(layerOverlays[0]);
+      layerOverlays[0].remove();
     }
 
     // remove canvas scrolling and scaling before serializeToString of SVG

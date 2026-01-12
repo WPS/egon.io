@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DomManipulationService } from 'src/app/tools/replay/services/dom-manipulation.service';
 import { StorySentence } from 'src/app/tools/replay/domain/storySentence';
 import { StoryCreatorService } from './story-creator.service';
@@ -15,20 +15,19 @@ import {
 })
 export class ReplayService {
   private story: StorySentence[] = [];
-  private currentSentence = new BehaviorSubject<number>(-1);
-  private maxSentenceNumber = new BehaviorSubject<number>(0);
-  private replayOnSubject = new BehaviorSubject<boolean>(false);
+  private readonly currentSentence = new BehaviorSubject<number>(-1);
+  private readonly maxSentenceNumber = new BehaviorSubject<number>(0);
+  private readonly replayOnSubject = new BehaviorSubject<boolean>(false);
 
-  currentSentence$: Observable<number> = this.currentSentence.asObservable();
-  maxSentenceNumber$: Observable<number> =
+  readonly currentSentence$: Observable<number> =
+    this.currentSentence.asObservable();
+  readonly maxSentenceNumber$: Observable<number> =
     this.maxSentenceNumber.asObservable();
-  replayOn$ = this.replayOnSubject.asObservable();
+  readonly replayOn$ = this.replayOnSubject.asObservable();
 
-  constructor(
-    private domManipulationService: DomManipulationService,
-    private storyCreatorService: StoryCreatorService,
-    private snackbar: MatSnackBar,
-  ) {}
+  private readonly domManipulationService = inject(DomManipulationService);
+  private readonly storyCreatorService = inject(StoryCreatorService);
+  private readonly snackbar = inject(MatSnackBar);
 
   setReplayState(state: boolean): void {
     this.replayOnSubject.next(state);

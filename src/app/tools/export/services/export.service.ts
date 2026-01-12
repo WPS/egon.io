@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { sanitizeForDesktop } from 'src/app/utils/sanitizer';
 import { TitleService } from 'src/app/tools/title/services/title.service';
@@ -6,7 +6,6 @@ import { ConfigAndDST } from 'src/app/tools/export/domain/export/configAndDst';
 import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
 import { PngService } from 'src/app/tools/export/services/png.service';
 import { SvgService } from 'src/app/tools/export/services/svg.service';
-import { Subscription } from 'rxjs';
 import { HtmlPresentationService } from './html-presentation.service';
 import { formatDate } from '@angular/common';
 import { environment } from '../../../../environments/environment';
@@ -24,44 +23,28 @@ import { ModelerService } from '../../modeler/services/modeler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { BusinessObject } from '../../../domain/entities/businessObject';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExportService implements OnDestroy {
-  titleSubscription: Subscription;
-  descriptionSubscription: Subscription;
+export class ExportService {
+  private readonly importExportService = inject(IconSetImportExportService);
+  private readonly titleService = inject(TitleService);
+  private readonly dirtyFlagService = inject(DirtyFlagService);
+  private readonly pngService = inject(PngService);
+  private readonly svgService = inject(SvgService);
+  private readonly htmlPresentationService = inject(HtmlPresentationService);
+  private readonly modelerService = inject(ModelerService);
+  private readonly dialogService = inject(DialogService);
+  private readonly snackbar = inject(MatSnackBar);
 
-  title = '';
-  description = '';
-
-  constructor(
-    private importExportService: IconSetImportExportService,
-    private titleService: TitleService,
-    private dirtyFlagService: DirtyFlagService,
-    private pngService: PngService,
-    private svgService: SvgService,
-    private htmlPresentationService: HtmlPresentationService,
-    private modelerService: ModelerService,
-    private dialogService: DialogService,
-    private snackbar: MatSnackBar,
-  ) {
-    this.titleSubscription = this.titleService.title$.subscribe(
-      (title: string) => {
-        this.title = title;
-      },
-    );
-    this.descriptionSubscription = this.titleService.description$.subscribe(
-      (description: string) => {
-        this.description = description;
-      },
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.titleSubscription.unsubscribe();
-    this.descriptionSubscription.unsubscribe();
-  }
+  private readonly title = toSignal(this.titleService.title$, {
+    initialValue: this.titleService.getTitle(),
+  });
+  private readonly description = toSignal(this.titleService.description$, {
+    initialValue: this.titleService.getDescription(),
+  });
 
   isDomainStoryExportable(): boolean {
     return this.modelerService.getStory().length >= 1;
@@ -92,29 +75,6 @@ export class ExportService implements OnDestroy {
     );
   }
 
-  private downloadFile(
-    data: string,
-    datatype: string,
-    filename: string,
-    fileEnding: string,
-    makeClean: boolean,
-  ) {
-    const element = document.createElement('a');
-    element.setAttribute('href', datatype + encodeURIComponent(data));
-    element.setAttribute('download', filename + fileEnding);
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    if (makeClean) {
-      this.dirtyFlagService.makeClean();
-    }
-
-    document.body.removeChild(element);
-  }
-
   downloadSVG(
     withTitle: boolean,
     useWhiteBackground: boolean,
@@ -124,8 +84,8 @@ export class ExportService implements OnDestroy {
     const dst = this.createConfigAndDST(story);
 
     const svgData = this.svgService.createSVGData(
-      this.title,
-      this.description,
+      this.title(),
+      this.description(),
       dst,
       withTitle,
       useWhiteBackground,
@@ -158,8 +118,8 @@ export class ExportService implements OnDestroy {
       svg = this.pngService.prepareSVG(
         svg,
         layerBase,
-        this.description,
-        this.title,
+        this.description(),
+        this.title(),
         withTitle,
       );
 
@@ -184,7 +144,7 @@ export class ExportService implements OnDestroy {
         const ele = document.createElement('a');
         ele.setAttribute(
           'download',
-          sanitizeForDesktop(this.title) +
+          sanitizeForDesktop(this.title()) +
             '_' +
             this.getCurrentDateString() +
             '.png',
@@ -204,34 +164,6 @@ export class ExportService implements OnDestroy {
 
       image.src = 'data:image/svg+xml,' + svg;
     }
-  }
-
-  downloadHTMLPresentation(modeler: any): void {
-    const filename = sanitizeForDesktop(
-      this.title + '_' + this.getCurrentDateString(),
-    );
-    this.htmlPresentationService
-      .downloadHTMLPresentation(filename, modeler)
-      .then();
-  }
-
-  private getStoryForDownload(): unknown[] {
-    let story = this.modelerService
-      .getStory()
-      .sort((objA: BusinessObject, objB: BusinessObject) => {
-        if (objA.id !== undefined && objB.id !== undefined) {
-          return objA.id.localeCompare(objB.id);
-        } else {
-          return 0;
-        }
-      }) as unknown[];
-    story.push({ info: this.titleService.getDescription() });
-    story.push({ version: environment.version });
-    return story;
-  }
-
-  private getCurrentDateString(): string {
-    return formatDate(new Date(), 'yyyy-MM-dd', 'en-GB');
   }
 
   openDownloadDialog() {
@@ -278,5 +210,56 @@ export class ExportService implements OnDestroy {
         panelClass: SNACKBAR_INFO,
       });
     }
+  }
+
+  downloadHTMLPresentation(modeler: any): void {
+    const filename = sanitizeForDesktop(
+      this.title + '_' + this.getCurrentDateString(),
+    );
+    this.htmlPresentationService
+      .downloadHTMLPresentation(filename, modeler)
+      .then();
+  }
+
+  private downloadFile(
+    data: string,
+    datatype: string,
+    filename: string,
+    fileEnding: string,
+    makeClean: boolean,
+  ) {
+    const element = document.createElement('a');
+    element.setAttribute('href', datatype + encodeURIComponent(data));
+    element.setAttribute('download', filename + fileEnding);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    if (makeClean) {
+      this.dirtyFlagService.makeClean();
+    }
+
+    document.body.removeChild(element);
+  }
+
+  private getStoryForDownload(): unknown[] {
+    let story = this.modelerService
+      .getStory()
+      .sort((objA: BusinessObject, objB: BusinessObject) => {
+        if (objA.id !== undefined && objB.id !== undefined) {
+          return objA.id.localeCompare(objB.id);
+        } else {
+          return 0;
+        }
+      }) as unknown[];
+    story.push({ info: this.titleService.getDescription() });
+    story.push({ version: environment.version });
+    return story;
+  }
+
+  private getCurrentDateString(): string {
+    return formatDate(new Date(), 'yyyy-MM-dd', 'en-GB');
   }
 }

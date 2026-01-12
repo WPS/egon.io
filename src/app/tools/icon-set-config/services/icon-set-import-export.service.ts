@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
@@ -23,17 +22,14 @@ export interface FileConfiguration {
   providedIn: 'root',
 })
 export class IconSetImportExportService {
-  private iconSetNameSubject = new BehaviorSubject<string>(
+  private readonly iconDictionaryService = inject(IconDictionaryService);
+  private readonly storageService = inject(StorageService);
+
+  private readonly iconSetNameSubject = new BehaviorSubject<string>(
     INITIAL_ICON_SET_NAME,
   );
 
-  iconSetName$ = this.iconSetNameSubject.asObservable();
-
-  constructor(
-    private iconDictionaryService: IconDictionaryService,
-    private elementRegistryService: ElementRegistryService,
-    private storageService: StorageService,
-  ) {}
+  readonly iconSetName$ = this.iconSetNameSubject.asObservable();
 
   setIconSetName(name: string): void {
     this.iconSetNameSubject.next(name);

@@ -34,9 +34,7 @@ export class IconDictionaryService {
   };
   private readonly defaultActorsDictionary = new Dictionary();
   private readonly defaultWorkObjectsDictionary = new Dictionary();
-  private readonly defaultIconSet: IconSet;
-
-  constructor() {
+  private readonly defaultIconSet: IconSet = (() => {
     this.initDictionary(
       this.NAMES_OF_DEFAULT_ICONS.actors,
       builtInIcons,
@@ -47,12 +45,12 @@ export class IconDictionaryService {
       builtInIcons,
       this.defaultWorkObjectsDictionary,
     );
-    this.defaultIconSet = {
+    return {
       name: INITIAL_ICON_SET_NAME,
       actors: this.defaultActorsDictionary,
       workObjects: this.defaultWorkObjectsDictionary,
     };
-  }
+  })();
 
   initTypeDictionaries(): void {
     if (

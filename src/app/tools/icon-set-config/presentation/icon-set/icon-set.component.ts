@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IconSetCustomizationService } from 'src/app/tools/icon-set-config/services/icon-set-customization.service';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
@@ -25,8 +25,11 @@ import { SelectedIconComponent } from '../selected-icon/selected-icon.component'
     SelectedIconComponent,
   ],
 })
-export class IconSetComponent implements OnInit {
-  iconSetName: Observable<string>;
+export class IconSetComponent {
+  private readonly customizationService = inject(IconSetCustomizationService);
+  private readonly importExportService = inject(IconSetImportExportService);
+
+  iconSetName: Observable<string> = this.importExportService.iconSetName$;
 
   private draggedList: string = '';
   private draggedIndex = 0;
@@ -34,18 +37,9 @@ export class IconSetComponent implements OnInit {
   selectedActors$ = this.customizationService.selectedActors$;
   selectedWorkobjects$ = this.customizationService.selectedWorkobjects$;
 
-  constructor(
-    private customizationService: IconSetCustomizationService,
-    private importExportService: IconSetImportExportService,
-  ) {
-    this.iconSetName = importExportService.iconSetName$;
-  }
-
-  ngOnInit(): void {}
-
   changeName(event: Event): void {
-    // @ts-ignore
-    this.customizationService.changeName(event.target.value);
+    const target = event.target as HTMLInputElement;
+    this.customizationService.changeName(target.value);
   }
 
   getIconForName(iconName: string): SelectableIcon {

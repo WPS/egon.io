@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   HostListener,
+  inject,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -64,7 +65,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   skipNextColorUpdate = false;
 
   // define preset colors that have good contrast on white background and are compatible to EventStorming notation
-  colorBox: string[] = [
+  readonly colorBox: string[] = [
     YELLOW,
     ORANGE,
     RED,
@@ -79,17 +80,17 @@ export class AppComponent implements OnInit, AfterViewInit {
     BLACK,
   ];
 
-  constructor(
-    private settingsService: SettingsService,
-    private titleService: TitleService,
-    private exportService: ExportService,
-    private autosaveService: AutosaveService,
-    private cd: ChangeDetectorRef,
-    private snackbar: MatSnackBar,
-    replayService: ReplayService,
-    private modelerService: ModelerService,
-    private dirtyFlagService: DirtyFlagService,
-  ) {
+  private readonly settingsService = inject(SettingsService);
+  private readonly titleService = inject(TitleService);
+  private readonly exportService = inject(ExportService);
+  private readonly autosaveService = inject(AutosaveService);
+  private readonly cd = inject(ChangeDetectorRef);
+  private readonly snackbar = inject(MatSnackBar);
+  private readonly replayService = inject(ReplayService);
+  private readonly modelerService = inject(ModelerService);
+  private readonly dirtyFlagService = inject(DirtyFlagService);
+
+  constructor() {
     this.showSettings$ = new BehaviorSubject(false);
     this.showDescription$ = new BehaviorSubject(true);
 
@@ -117,19 +118,19 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
       if (
         (e.key === 'ArrowRight' || e.key === 'ArrowUp') &&
-        replayService.getReplayOn()
+        this.replayService.getReplayOn()
       ) {
         e.preventDefault();
         e.stopPropagation();
-        replayService.nextSentence();
+        this.replayService.nextSentence();
       }
       if (
         (e.key === 'ArrowLeft' || e.key === 'ArrowDown') &&
-        replayService.getReplayOn()
+        this.replayService.getReplayOn()
       ) {
         e.preventDefault();
         e.stopPropagation();
-        replayService.previousSentence();
+        this.replayService.previousSentence();
       }
       if (e.key === 'Escape') {
         e.preventDefault();

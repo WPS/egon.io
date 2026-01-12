@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import {
   ShortCut,
@@ -17,7 +17,8 @@ export class KeyboardShortcutsDialogComponent {
   title: string;
   shortCuts: ShortCut[] = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) data: ShortcutDialogData) {
+  constructor() {
+    const data = inject<ShortcutDialogData>(MAT_DIALOG_DATA);
     this.title = data.title;
     this.shortCuts = data.shortCuts ?? [];
   }

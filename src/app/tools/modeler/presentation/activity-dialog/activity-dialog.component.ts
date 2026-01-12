@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
@@ -38,10 +38,10 @@ export class ActivityDialogComponent {
 
   saveFN: any;
 
-  constructor(
-    private dialogRef: MatDialogRef<ActivityDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: ActivityDialogData,
-  ) {
+  private dialogRef = inject(MatDialogRef<ActivityDialogComponent>);
+
+  constructor() {
+    const data = inject<ActivityDialogData>(MAT_DIALOG_DATA);
     this.activity = data.activity;
     this.activityLabel = data.activity.businessObject.name;
     this.numberIsAllowedMultipleTimes = data.numberIsAllowedMultipleTimes;

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ConfigAndDST } from 'src/app/tools/export/domain/export/configAndDst';
 import { createTitleAndDescriptionSVGElement } from 'src/app/tools/export/services/exportUtil';
 import { ModelerService } from '../../modeler/services/modeler.service';
@@ -16,10 +16,8 @@ import { sanitizeTextForSVGExport } from 'src/app/utils/sanitizer';
 export class SvgService {
   private cacheData = '';
 
-  constructor(
-    private modelerService: ModelerService,
-    private storyCreatorService: StoryCreatorService,
-  ) {}
+  private readonly modelerService = inject(ModelerService);
+  private readonly storyCreatorService = inject(StoryCreatorService);
 
   createSVGData(
     title: string,

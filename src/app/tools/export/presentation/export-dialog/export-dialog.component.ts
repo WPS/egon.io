@@ -1,11 +1,18 @@
-import { Component, Inject }                               from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, } from '@angular/material/dialog';
-import { ExportDialogData }                                from 'src/app/tools/export/domain/dialog/exportDialogData';
-import { BehaviorSubject }                                 from 'rxjs/internal/BehaviorSubject';
+import { Component, inject } from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import {
+  ExportDialogData,
+  ExportOption,
+} from 'src/app/tools/export/domain/dialog/exportDialogData';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
-import { CommonModule }    from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule }     from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-export-dialog',
@@ -15,28 +22,20 @@ import { FormsModule }     from '@angular/forms';
   imports: [CommonModule, MatDialogModule, MatButtonModule, FormsModule],
 })
 export class ExportDialogComponent {
-  title: string;
-  options: {
-    text: string;
-    tooltip: string;
-    fn: any;
-  }[];
-  withTitle: BehaviorSubject<boolean>;
-  useWhiteBackground: BehaviorSubject<boolean>;
-  isAnimatedSvgExport: boolean = false;
-  animationSpeed: number = 2;
+  private readonly dialogRef: MatDialogRef<ExportDialogComponent> = inject(
+    MatDialogRef<ExportDialogComponent>,
+  );
+  private readonly data: ExportDialogData = inject(MAT_DIALOG_DATA);
 
-  constructor(
-    private dialogRef: MatDialogRef<ExportDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: ExportDialogData,
-  ) {
-    this.withTitle = new BehaviorSubject<boolean>(true);
-    this.useWhiteBackground = new BehaviorSubject<boolean>(true);
-    this.title = data.title;
-    this.options = data.options;
-  }
+  protected readonly title: string = this.data.title;
+  protected readonly options: ExportOption[] = this.data.options;
 
-  doOption(i: number): void {
+  protected readonly withTitle = new BehaviorSubject<boolean>(true);
+  protected readonly useWhiteBackground = new BehaviorSubject<boolean>(true);
+  protected readonly animationSpeed: number = 2;
+  protected isAnimatedSvgExport: boolean = false;
+
+  protected doOption(i: number): void {
     if (this.isAnimatedSvgExport) {
       this.options[i].fn(
         this.withTitle.value,
@@ -49,21 +48,21 @@ export class ExportDialogComponent {
     this.close();
   }
 
-  close(): void {
+  protected close(): void {
     this.dialogRef.close();
   }
 
-  updateWithTitle($event: Event) {
-    // @ts-ignore
-    this.withTitle.next($event.target.checked);
+  protected updateWithTitle($event: Event) {
+    const target = $event.target as HTMLInputElement;
+    this.withTitle.next(target.checked);
   }
 
-  updateUseWhiteBackground($event: Event) {
-    // @ts-ignore
-    this.useWhiteBackground.next($event.target.checked);
+  protected updateUseWhiteBackground($event: Event) {
+    const target = $event.target as HTMLInputElement;
+    this.useWhiteBackground.next(target.checked);
   }
 
-  onExportAnimatedSvg(): void {
+  protected onExportAnimatedSvg(): void {
     this.isAnimatedSvgExport = !this.isAnimatedSvgExport;
   }
 }

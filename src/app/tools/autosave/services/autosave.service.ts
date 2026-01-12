@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ExportService } from '../../export/services/export.service';
 import { Draft } from '../domain/draft';
@@ -22,17 +22,19 @@ import { IconSetImportExportService } from '../../icon-set-config/services/icon-
 })
 export class AutosaveService {
   private autosaveTimer: any;
-  autosavedDraftsChanged$ = new Subject<void>();
+  readonly autosavedDraftsChanged$ = new Subject<void>();
 
-  constructor(
-    private autosaveConfiguration: AutosaveConfigurationService,
-    private exportService: ExportService,
-    private modelerService: ModelerService,
-    private snackbar: MatSnackBar,
-    private storageService: StorageService,
-    private titleService: TitleService,
-    private iconSetImportExportService: IconSetImportExportService,
-  ) {
+  private readonly autosaveConfiguration = inject(AutosaveConfigurationService);
+  private readonly exportService = inject(ExportService);
+  private readonly modelerService = inject(ModelerService);
+  private readonly snackbar = inject(MatSnackBar);
+  private readonly storageService = inject(StorageService);
+  private readonly titleService = inject(TitleService);
+  private readonly iconSetImportExportService = inject(
+    IconSetImportExportService,
+  );
+
+  constructor() {
     this.autosaveConfiguration.configuration$.subscribe((configuration) =>
       this.updateConfiguration(configuration),
     );
