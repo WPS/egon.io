@@ -63,7 +63,7 @@ export class ExportService {
     const json = JSON.stringify(configAndDST, null, 2);
 
     const filename = sanitizeForDesktop(
-      this.title + '_' + this.getCurrentDateString(),
+      this.title() + '_' + this.getCurrentDateString(),
     );
 
     this.downloadFile(
@@ -95,7 +95,7 @@ export class ExportService {
     this.downloadFile(
       svgData,
       'data:application/bpmn20-xml;charset=UTF-8,',
-      sanitizeForDesktop(this.title + '_' + this.getCurrentDateString()),
+      sanitizeForDesktop(this.title() + '_' + this.getCurrentDateString()),
       '.egn.svg',
       true,
     );
@@ -214,7 +214,7 @@ export class ExportService {
 
   downloadHTMLPresentation(modeler: any): void {
     const filename = sanitizeForDesktop(
-      this.title + '_' + this.getCurrentDateString(),
+      this.title() + '_' + this.getCurrentDateString(),
     );
     this.htmlPresentationService
       .downloadHTMLPresentation(filename, modeler)
