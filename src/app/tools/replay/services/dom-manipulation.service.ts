@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { StorySentence } from 'src/app/tools/replay/domain/storySentence';
 import {
+  CONNECTION_PATH_DOM_SELECTOR,
   HIGHLIGHT_LABEL_FONT_WEIGHT,
   HIGHLIGHT_NUMBER_BACKGROUND_COLOR,
   HIGHLIGHT_NUMBER_COLOR,
@@ -12,7 +13,6 @@ import {
   NUMBER_BACKGROUND_COLOR,
   NUMBER_COLOR,
   STROKE_WIDTH,
-  CONNECTION_PATH_DOM_SELECTOR,
 } from '../domain/replayConstants';
 
 @Injectable({
@@ -22,7 +22,7 @@ import {
  * Manipulates the DOM during replay to only show the elements of the current Sentence
  */
 export class DomManipulationService {
-  constructor(private elementRegistryService: ElementRegistryService) {}
+  private readonly elementRegistryService = inject(ElementRegistryService);
 
   showAll(): void {
     this.removeHighlights();

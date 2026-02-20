@@ -1,24 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { FormGroup } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { TitleDialogForm } from '../../domain/title-dialog-form';
 import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-header-dialog',
   templateUrl: './title-dialog.component.html',
   styleUrls: ['./title-dialog.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
 })
 export class TitleDialogComponent implements OnInit {
   form!: FormGroup<TitleDialogForm>;
 
-  constructor(
-    private dialogRef: MatDialogRef<TitleDialogComponent>,
-    private titleService: TitleService,
-    private dirtyFlagService: DirtyFlagService,
-  ) {}
+  private dialogRef = inject(MatDialogRef<TitleDialogComponent>);
+  private titleService = inject(TitleService);
+  private dirtyFlagService = inject(DirtyFlagService);
 
   ngOnInit(): void {
     const title = this.titleService.getTitle();

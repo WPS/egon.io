@@ -42,7 +42,7 @@ describe('HeaderButtonsComponent', () => {
     snackbar = jasmine.createSpyObj('snackbar', ['open']);
 
     await TestBed.configureTestingModule({
-      declarations: [HeaderButtonsComponent],
+      imports: [HeaderButtonsComponent],
       providers: [
         { provide: StoryCreatorService, useValue: storyCreatorService },
         { provide: ReplayService, useValue: replayService },

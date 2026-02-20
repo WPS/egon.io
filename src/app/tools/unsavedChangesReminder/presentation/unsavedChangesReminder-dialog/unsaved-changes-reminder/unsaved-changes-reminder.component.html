@@ -8,8 +8,13 @@
 <mat-dialog-actions>
   <br />
   <div>
-    <button mat-flat-button (click)="close()">Cancel</button>
-    <button mat-flat-button color="primary" (click)="continueAction()">
+    <button type="button" mat-flat-button (click)="close()">Cancel</button>
+    <button
+      type="button"
+      mat-flat-button
+      color="primary"
+      (click)="continueAction()"
+    >
       Discard changes
     </button>
   </div>

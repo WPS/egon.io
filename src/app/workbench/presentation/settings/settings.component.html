@@ -1,13 +1,19 @@
 <div class="settings">
   <mat-toolbar color="primary">
     <mat-toolbar-row class="firstRow">
-      <button class="headerButton tab-small" mat-button (click)="close()">
+      <button
+        type="button"
+        class="headerButton tab-small"
+        mat-button
+        (click)="close()"
+      >
         <span class="material-icons-outlined alignedWithText"
           >chevron_left</span
         >
         Back
       </button>
       <button
+        type="button"
         class="headerButton tab-like"
         [class.highlight]="showIconSetCustomization | async"
         mat-button
@@ -16,6 +22,7 @@
         <span class="headline">Customize Icon Set</span>
       </button>
       <button
+        type="button"
         class="headerButton tab-like"
         [class.highlight]="showAutosaveSettings | async"
         mat-button

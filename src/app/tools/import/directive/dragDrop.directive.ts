@@ -1,4 +1,4 @@
-import { Directive, HostBinding, HostListener } from '@angular/core';
+import { Directive, HostBinding, HostListener, inject } from '@angular/core';
 import { ImportDomainStoryService } from '../services/import-domain-story.service';
 import {
   SNACKBAR_DURATION_LONG,
@@ -14,11 +14,9 @@ import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
 export class DragDirective {
   @HostBinding('style.background') private background = '';
 
-  constructor(
-    private importDomainStoryService: ImportDomainStoryService,
-    private snackbar: MatSnackBar,
-    private dirtyFlagService: DirtyFlagService,
-  ) {}
+  private readonly importDomainStoryService = inject(ImportDomainStoryService);
+  private readonly snackbar = inject(MatSnackBar);
+  private readonly dirtyFlagService = inject(DirtyFlagService);
 
   @HostListener('dragover', ['$event']) public onDragOver(evt: DragEvent) {
     evt.preventDefault();

@@ -5,8 +5,8 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class DirtyFlagService {
-  private isDirtySubject = new BehaviorSubject<boolean>(false);
-  dirty$ = this.isDirtySubject.asObservable();
+  private readonly isDirtySubject = new BehaviorSubject<boolean>(false);
+  readonly dirty$ = this.isDirtySubject.asObservable();
 
   makeDirty(): void {
     this.isDirtySubject.next(true);

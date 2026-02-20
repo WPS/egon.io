@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/overlay';
 import { KeyboardShortcutsDialogComponent } from '../presentation/keyboard-shortcuts-dialog/keyboard-shortcuts/keyboard-shortcuts-dialog.component';
@@ -8,7 +8,7 @@ import { ShortCut } from '../entities/shortcut-dialog-data';
   providedIn: 'root',
 })
 export class DialogService {
-  constructor(private matDialog: MatDialog) {}
+  private readonly matDialog = inject(MatDialog);
 
   openDialog(dialog: ComponentType<any>, config: MatDialogConfig): void {
     this.matDialog.open(dialog, config);

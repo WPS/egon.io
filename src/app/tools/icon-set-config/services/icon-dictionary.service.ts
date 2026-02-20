@@ -14,14 +14,14 @@ export const ICON_CSS_CLASS_PREFIX = 'icon-domain-story-';
 export class IconDictionaryService {
   // The dictionaries hold icons (as SVG) and icon names as key-value pairs
 
-  private customIcons = new Dictionary();
+  private readonly customIcons = new Dictionary();
 
   // these dictionaries make up the current icon set:
   private selectedActorsDictionary = new Dictionary();
   private selectedWorkObjectsDictionary = new Dictionary();
 
   // default icon sets:
-  private NAMES_OF_DEFAULT_ICONS = {
+  private readonly NAMES_OF_DEFAULT_ICONS = {
     actors: ['Person', 'Group', 'System'],
     workObjects: [
       'Document',
@@ -32,11 +32,9 @@ export class IconDictionaryService {
       'Info',
     ],
   };
-  private defaultActorsDictionary = new Dictionary();
-  private defaultWorkObjectsDictionary = new Dictionary();
-  private defaultIconSet: IconSet;
-
-  constructor() {
+  private readonly defaultActorsDictionary = new Dictionary();
+  private readonly defaultWorkObjectsDictionary = new Dictionary();
+  private readonly defaultIconSet: IconSet = (() => {
     this.initDictionary(
       this.NAMES_OF_DEFAULT_ICONS.actors,
       builtInIcons,
@@ -47,12 +45,12 @@ export class IconDictionaryService {
       builtInIcons,
       this.defaultWorkObjectsDictionary,
     );
-    this.defaultIconSet = {
+    return {
       name: INITIAL_ICON_SET_NAME,
       actors: this.defaultActorsDictionary,
       workObjects: this.defaultWorkObjectsDictionary,
     };
-  }
+  })();
 
   initTypeDictionaries(): void {
     if (

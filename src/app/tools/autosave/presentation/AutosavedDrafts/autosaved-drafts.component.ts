@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AutosaveService } from '../../services/autosave.service';
 import { Draft } from '../../domain/draft';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,20 +8,25 @@ import {
 } from 'src/app/domain/entities/constants';
 import { Subscription } from 'rxjs';
 
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+
 @Component({
   selector: 'app-autosaved-drafts',
   templateUrl: './autosaved-drafts.component.html',
   styleUrls: ['./autosaved-drafts.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatListModule],
 })
 export class AutosavedDraftsComponent implements OnInit {
   drafts: Draft[] = [];
   subscription: Subscription;
 
-  constructor(
-    private autosaveService: AutosaveService,
-    private snackbar: MatSnackBar,
-  ) {
+  private autosaveService = inject(AutosaveService);
+  private snackbar = inject(MatSnackBar);
+
+  constructor() {
     this.subscription = this.autosaveService.autosavedDraftsChanged$.subscribe(
       () => this.initDrafts(),
     );

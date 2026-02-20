@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import {
@@ -14,18 +14,18 @@ import { TitleDialogComponent } from '../presentation/title-dialog/title-dialog.
   providedIn: 'root',
 })
 export class TitleService {
-  private titleSubject = new BehaviorSubject<string>(INITIAL_TITLE);
-  private descriptionSubject = new BehaviorSubject<string>(INITIAL_DESCRIPTION);
-  private showDescriptionSubject = new BehaviorSubject<boolean>(true);
+  private readonly commandStackService = inject(CommandStackService);
+  private readonly dialogService = inject(DialogService);
 
-  title$ = this.titleSubject.asObservable();
-  description$ = this.descriptionSubject.asObservable();
-  showDescription$ = this.showDescriptionSubject.asObservable();
+  private readonly titleSubject = new BehaviorSubject<string>(INITIAL_TITLE);
+  private readonly descriptionSubject = new BehaviorSubject<string>(
+    INITIAL_DESCRIPTION,
+  );
+  private readonly showDescriptionSubject = new BehaviorSubject<boolean>(true);
 
-  constructor(
-    private commandStackService: CommandStackService,
-    private dialogService: DialogService,
-  ) {}
+  readonly title$ = this.titleSubject.asObservable();
+  readonly description$ = this.descriptionSubject.asObservable();
+  readonly showDescription$ = this.showDescriptionSubject.asObservable();
 
   openHeaderDialog(): void {
     const config = new MatDialogConfig();

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UsedIconList } from 'src/app/domain/entities/UsedIconList';
@@ -40,21 +40,22 @@ interface CustomIconSetConfiguration {
 export class IconSetCustomizationService {
   private readonly iconSetConfigurationTypes: BehaviorSubject<CustomIconSetConfiguration>;
 
-  private allIconListItems = new Dictionary();
+  private readonly allIconListItems = new Dictionary();
 
   private configurationHasChanged = false;
 
-  selectedActors$ = new BehaviorSubject<string[]>([]);
-  selectedWorkobjects$ = new BehaviorSubject<string[]>([]);
+  readonly selectedActors$ = new BehaviorSubject<string[]>([]);
+  readonly selectedWorkobjects$ = new BehaviorSubject<string[]>([]);
   private changedIconSetConfiguration: IconSet | undefined;
 
-  constructor(
-    private iconSetImportExportService: IconSetImportExportService,
-    private iconDictionaryService: IconDictionaryService,
-    iconSetChangedService: IconSetChangedService,
-    private elementRegistryService: ElementRegistryService,
-    private snackbar: MatSnackBar,
-  ) {
+  private readonly iconSetImportExportService = inject(
+    IconSetImportExportService,
+  );
+  private readonly iconDictionaryService = inject(IconDictionaryService);
+  private readonly elementRegistryService = inject(ElementRegistryService);
+  private readonly snackbar = inject(MatSnackBar);
+
+  constructor(iconSetChangedService: IconSetChangedService) {
     this.iconSetConfigurationTypes = new BehaviorSubject(
       this.getCurrentConfigurationNamesWithoutPrefix(),
     );

@@ -3,8 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SelectedIconComponent } from './selected-icon.component';
 import { SelectableIcon } from '../../domain/selectableIcon';
 import { ElementTypes } from '../../../../domain/entities/elementTypes';
-import { MaterialModule } from '../../../../material.module';
-import { MockModule } from 'ng-mocks';
 
 const icon: SelectableIcon = {
   svg: '',
@@ -19,8 +17,7 @@ describe('SelectedIconComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SelectedIconComponent],
-      imports: [MockModule(MaterialModule)],
+      imports: [SelectedIconComponent],
     }).compileComponents();
   });
 

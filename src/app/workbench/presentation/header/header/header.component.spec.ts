@@ -1,14 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TitleService } from '../../../../tools/title/services/title.service';
-import { MockComponent, MockModule, MockService } from 'ng-mocks';
+import { MockService } from 'ng-mocks';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
 import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
 import { ExportService } from '../../../../tools/export/services/export.service';
 import { ModelerService } from '../../../../tools/modeler/services/modeler.service';
 import { ElementRegistryService } from '../../../../domain/services/element-registry.service';
 import { SettingsService } from '../../../services/settings/settings.service';
-import { HeaderButtonsComponent } from '../header-buttons/header-buttons.component';
-import { MaterialModule } from 'src/app/material.module';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -17,8 +15,8 @@ describe('HeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule(MaterialModule)],
-      declarations: [HeaderComponent, MockComponent(HeaderButtonsComponent)],
+      imports: [HeaderComponent],
+
       providers: [
         {
           provide: TitleService,

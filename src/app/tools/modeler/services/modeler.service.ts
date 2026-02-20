@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { assign } from 'min-dash';
 import DomainStoryModeler from 'src/app/tools/modeler/diagram-js';
 import { InitializerService } from './initializer.service';
@@ -23,15 +23,15 @@ import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
   providedIn: 'root',
 })
 export class ModelerService {
-  constructor(
-    private initializerService: InitializerService,
-    private elementRegistryService: ElementRegistryService,
-    private iconDictionaryService: IconDictionaryService,
-    private iconSetImportExportService: IconSetImportExportService,
-    private dirtyFlagService: DirtyFlagService,
-    private storageService: StorageService,
-    private snackbar: MatSnackBar,
-  ) {}
+  private readonly initializerService = inject(InitializerService);
+  private readonly elementRegistryService = inject(ElementRegistryService);
+  private readonly iconDictionaryService = inject(IconDictionaryService);
+  private readonly iconSetImportExportService = inject(
+    IconSetImportExportService,
+  );
+  private readonly dirtyFlagService = inject(DirtyFlagService);
+  private readonly storageService = inject(StorageService);
+  private readonly snackbar = inject(MatSnackBar);
 
   private modeler: any;
   private elementRegistry: any;
@@ -39,6 +39,7 @@ export class ModelerService {
   private eventBus: any;
 
   private encoded: string | undefined;
+
   postInit(): void {
     this.checkCurrentVersion();
 

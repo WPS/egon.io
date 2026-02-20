@@ -4,6 +4,7 @@
       <div class="searchbar">
         <div class="heading">Filter:</div>
         <button
+          type="button"
           mat-button
           [class.activeNone]="(filter | async) === 'ICON_FILTER_UNASSIGNED'"
           title="Unassigned Icons"
@@ -12,6 +13,7 @@
           <span>Unassigned</span>
         </button>
         <button
+          type="button"
           mat-button
           [class.activeActor]="(filter | async) === 'ICON_FILTER_ACTOR'"
           title="Icons used as actors"
@@ -20,6 +22,7 @@
           <span>Actors</span>
         </button>
         <button
+          type="button"
           mat-button
           [class.activeWorkObject]="
             (filter | async) === 'ICON_FILTER_WORKOBJECT'
@@ -41,6 +44,7 @@
       </div>
       <div class="buttons">
         <button
+          type="button"
           mat-stroked-button
           class="mr-1"
           title="Import icon set"
@@ -58,6 +62,7 @@
           />
         </button>
         <button
+          type="button"
           mat-stroked-button
           class="mr-1"
           title="Upload icon"
@@ -76,6 +81,7 @@
           />
         </button>
         <button
+          type="button"
           mat-stroked-button
           class="mr-1"
           title="Reset to default icon set"
@@ -84,6 +90,7 @@
           <span>Reset to default</span>
         </button>
         <button
+          type="button"
           mat-stroked-button
           class="mr-1"
           title="Cancel changes"
@@ -92,6 +99,7 @@
           <span>Cancel changes</span>
         </button>
         <button
+          type="button"
           mat-flat-button
           class="mr-1"
           title="Save changes"

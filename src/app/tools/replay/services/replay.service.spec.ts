@@ -3,6 +3,7 @@ import { StoryCreatorService } from './story-creator.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { preBuildTestStory } from '../../../utils/testHelpers.spec';
 import { DomManipulationService } from './dom-manipulation.service';
+import { TestBed } from '@angular/core/testing';
 
 describe(ReplayService.name, () => {
   let service: ReplayService;
@@ -26,11 +27,16 @@ describe(ReplayService.name, () => {
 
     snackbar = jasmine.createSpyObj('snackbar', ['open']);
 
-    service = new ReplayService(
-      domManipulationService,
-      storyCreatorService,
-      snackbar,
-    );
+    TestBed.configureTestingModule({
+      providers: [
+        ReplayService,
+        { provide: DomManipulationService, useValue: domManipulationService },
+        { provide: StoryCreatorService, useValue: storyCreatorService },
+        { provide: MatSnackBar, useValue: snackbar },
+      ],
+    });
+
+    service = TestBed.inject(ReplayService);
   });
 
   it('should be created', () => {

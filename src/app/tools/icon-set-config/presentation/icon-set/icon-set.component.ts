@@ -1,17 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IconSetCustomizationService } from 'src/app/tools/icon-set-config/services/icon-set-customization.service';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { SelectableIcon } from 'src/app/tools/icon-set-config/domain/selectableIcon';
 
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { SelectedIconComponent } from '../selected-icon/selected-icon.component';
+
 @Component({
   selector: 'app-icon-set',
   templateUrl: './icon-set.component.html',
   styleUrls: ['./icon-set.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatListModule,
+    SelectedIconComponent,
+  ],
 })
-export class IconSetComponent implements OnInit {
-  iconSetName: Observable<string>;
+export class IconSetComponent {
+  private readonly customizationService = inject(IconSetCustomizationService);
+  private readonly importExportService = inject(IconSetImportExportService);
+
+  iconSetName: Observable<string> = this.importExportService.iconSetName$;
 
   private draggedList: string = '';
   private draggedIndex = 0;
@@ -19,18 +37,9 @@ export class IconSetComponent implements OnInit {
   selectedActors$ = this.customizationService.selectedActors$;
   selectedWorkobjects$ = this.customizationService.selectedWorkobjects$;
 
-  constructor(
-    private customizationService: IconSetCustomizationService,
-    private importExportService: IconSetImportExportService,
-  ) {
-    this.iconSetName = importExportService.iconSetName$;
-  }
-
-  ngOnInit(): void {}
-
   changeName(event: Event): void {
-    // @ts-ignore
-    this.customizationService.changeName(event.target.value);
+    const target = event.target as HTMLInputElement;
+    this.customizationService.changeName(target.value);
   }
 
   getIconForName(iconName: string): SelectableIcon {

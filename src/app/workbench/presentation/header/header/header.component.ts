@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TitleService } from '../../../../tools/title/services/title.service';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
@@ -10,33 +10,44 @@ import { ExportService } from '../../../../tools/export/services/export.service'
 import { LabelDictionaryService } from '../../../../tools/label-dictionary/services/label-dictionary.service';
 import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 
+import { CommonModule } from '@angular/common';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
+import { HeaderButtonsComponent } from '../header-buttons/header-buttons.component';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatCardModule,
+    HeaderButtonsComponent,
+  ],
 })
 export class HeaderComponent {
-  title$ = this.titleService.title$;
-  description$ = this.titleService.description$;
-  showDescription$ = this.titleService.showDescription$;
+  private readonly titleService = inject(TitleService);
+  private readonly replayService = inject(ReplayService);
+  private readonly importService = inject(ImportDomainStoryService);
+  private readonly settingsService = inject(SettingsService);
+  private readonly modelerService = inject(ModelerService);
+  private readonly dirtyFlagService = inject(DirtyFlagService);
+  private readonly dialogService = inject(DialogService);
+  private readonly exportService = inject(ExportService);
+  private readonly labelDictionaryService = inject(LabelDictionaryService);
 
-  isReplay$: Observable<boolean>;
-  isDirty$: Observable<boolean>;
+  readonly title$ = this.titleService.title$;
+  readonly description$ = this.titleService.description$;
+  readonly showDescription$ = this.titleService.showDescription$;
 
-  showDescription: Observable<boolean>;
+  readonly isReplay$: Observable<boolean>;
+  readonly isDirty$: Observable<boolean>;
 
-  constructor(
-    private titleService: TitleService,
-    private replayService: ReplayService,
-    private importService: ImportDomainStoryService,
-    private settingsService: SettingsService,
-    private modelerService: ModelerService,
-    private dirtyFlagService: DirtyFlagService,
-    private dialogService: DialogService,
-    private exportService: ExportService,
-    private labelDictionaryService: LabelDictionaryService,
-  ) {
+  readonly showDescription: Observable<boolean>;
+
+  constructor() {
     this.isReplay$ = this.replayService.replayOn$;
     this.isDirty$ = this.dirtyFlagService.dirty$;
 

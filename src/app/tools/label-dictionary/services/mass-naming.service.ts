@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { CanvasObject } from 'src/app/domain/entities/canvasObject';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
@@ -8,10 +8,8 @@ import { CommandStackService } from '../../../domain/services/command-stack.serv
   providedIn: 'root',
 })
 export class MassNamingService {
-  constructor(
-    private elementRegistryService: ElementRegistryService,
-    private commandStackService: CommandStackService,
-  ) {}
+  private readonly elementRegistryService = inject(ElementRegistryService);
+  private readonly commandStackService = inject(CommandStackService);
 
   massChangeNames(
     oldValue: string,

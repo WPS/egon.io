@@ -1,11 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExportDialogComponent } from 'src/app/tools/export/presentation/export-dialog/export-dialog.component';
-import { MockModule, MockProvider } from 'ng-mocks';
+import { MockProvider } from 'ng-mocks';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ExportDialogData } from '../../domain/dialog/exportDialogData';
-import { MaterialModule } from 'src/app/material.module';
-import { FormsModule } from '@angular/forms';
 
 describe('ExportDialogComponent', () => {
   let component: ExportDialogComponent;
@@ -14,17 +12,32 @@ describe('ExportDialogComponent', () => {
   const exportData: ExportDialogData = {
     title: '',
     options: [
-      { text: '1', tooltip: '', fn: () => {} },
-      { text: '2', tooltip: '', fn: () => {} },
-      { text: '3', tooltip: '', fn: () => {} },
-      { text: '4', tooltip: '', fn: () => {} },
+      {
+        text: '1',
+        tooltip: '',
+        fn: () => {},
+      },
+      {
+        text: '2',
+        tooltip: '',
+        fn: () => {},
+      },
+      {
+        text: '3',
+        tooltip: '',
+        fn: () => {},
+      },
+      {
+        text: '4',
+        tooltip: '',
+        fn: () => {},
+      },
     ],
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule(MaterialModule), MockModule(FormsModule)],
-      declarations: [ExportDialogComponent],
+      imports: [ExportDialogComponent],
       providers: [
         MockProvider(MatDialogRef),
         {
