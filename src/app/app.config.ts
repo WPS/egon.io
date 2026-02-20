@@ -6,7 +6,7 @@ import {
 } from '@angular/material/checkbox';
 import { UntypedFormBuilder } from '@angular/forms';
 
-import { provideModeler } from './tools/modeler/modeler.providers';
+import { provideModeler } from './tools/modeler.providers';
 import { provideAutosave } from './tools/autosave/autosave.providers';
 import { provideImportDomainStory } from './tools/import/import.providers';
 

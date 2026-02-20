@@ -5,9 +5,9 @@
   "exclude": [
     "node_modules**",
     "**.spec.ts",
-    "material.module.ts",
     "../environments/**",
-    "app.*.ts"
+    "app.*.ts",
+    "**.providers.ts"
   ],
   "artifacts": [
     {
