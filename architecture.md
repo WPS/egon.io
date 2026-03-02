@@ -8,7 +8,7 @@ Egon is a modeling tool that implements the notation and syntactical rules of [D
 
 ## Stakeholders {#_stakeholders}
 
-- Users: Intended users are are already familiar with Domain Storytelling. They do not require a technical background.
+- Users: Intended users are already familiar with Domain Storytelling. They do not require a technical background.
 - Developers: Egon was initiated and developed by German software company *WPS - Workplace Solutions GmbH*. All active developers are employees of this company. Most developers are also users of Egon.
 - Contributors: Programmers from all around the world can contribute code to Egon via pull requests. We assume that contributors are also users of Egon.
 
@@ -99,7 +99,7 @@ Since all developers share a common background (see [Stakeholders](#_stakeholder
 
 Users of Egon facilitate Domain Storytelling workshops by modeling the participant's domain stories. They are supposed to share their screen with the participants so that everyone can see how the domain story evolves. In this setting, collaborative editing by multiple users is not relevant. 
 
-We assume that a users prefer to model with devices that have a keyboard and mouse/touch pad rather than on touch devices. Hence, touch support was not a requirement when selecting the framework.
+We assume that users prefer to model with devices that have a keyboard and mouse/touch pad rather than on touch devices. Hence, touch support was not a requirement when selecting the framework.
 
 # Building Block View {#section-building-block-view}
 
@@ -280,7 +280,7 @@ Alternatively, cookies could be used (and in fact were used in earlier Egon vers
 
 Since Egon does not use centralized storage (see [architectural constraints](#section-architecture-constraints)), users need to export their Domain Stories to their local file system as files. 
 
-The most simple way of doing that is to put one domain story into one file and make it self-contained, i.E. include the SVG of the icon set (including custom icons). This makes it easy to share domain stories with other users.
+The most simple way of doing that is to put one domain story into one file and make it self-contained, i.e. include the SVG of the icon set (including custom icons). This makes it easy to share domain stories with other users.
 
 Alternatively a one-to-many relationship (one file containing several Domain Stories) would enable references between Domain Stories. However, this would likely make it necessary to build more features for the export and import tools (e.g., export all stories or just specific ones).
 
