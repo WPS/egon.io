@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: ""
-labels: "bug"
+type: "bug"
 assignees: ""
 ---
 
@@ -26,6 +26,6 @@ Steps to reproduce the behavior:
 
 **Version**
 
-- Egon: v2.x.x
-- Browser: [e.g. chrome 71.0]
+- Egon: v3.x.x
+- Browser: [e.g. chrome 100.0]
 - OS: [e.g. Windows]
