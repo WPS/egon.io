@@ -62,9 +62,7 @@ export class ExportService {
     const configAndDST = this.createConfigAndDST(dst);
     const json = JSON.stringify(configAndDST, null, 2);
 
-    const filename = sanitizeForDesktop(
-      this.title() + '_' + this.getCurrentDateString(),
-    );
+    const filename = this.createFileName();
 
     this.downloadFile(
       json,
@@ -92,10 +90,12 @@ export class ExportService {
       animationSpeed,
     );
 
+    const filename = this.createFileName();
+
     this.downloadFile(
       svgData,
       'data:application/bpmn20-xml;charset=UTF-8,',
-      sanitizeForDesktop(this.title() + '_' + this.getCurrentDateString()),
+      filename,
       '.egn.svg',
       true,
     );
@@ -126,9 +126,9 @@ export class ExportService {
       image.onload = () => {
         const tempCanvas = document.createElement('canvas');
 
-        // add a 10px buffer to the right and lower boundary
-        tempCanvas.width = this.pngService.getWidth() + 10;
-        tempCanvas.height = this.pngService.getHeight() + 10;
+        const padding = 10;
+        tempCanvas.width = this.pngService.getWidth() + padding;
+        tempCanvas.height = this.pngService.getHeight() + padding;
 
         const ctx = tempCanvas.getContext('2d');
         if (ctx) {
@@ -213,9 +213,7 @@ export class ExportService {
   }
 
   downloadHTMLPresentation(modeler: any): void {
-    const filename = sanitizeForDesktop(
-      this.title() + '_' + this.getCurrentDateString(),
-    );
+    const filename = this.createFileName();
     this.htmlPresentationService
       .downloadHTMLPresentation(filename, modeler)
       .then();
@@ -261,5 +259,9 @@ export class ExportService {
 
   private getCurrentDateString(): string {
     return formatDate(new Date(), 'yyyy-MM-dd', 'en-GB');
+  }
+
+  private createFileName() {
+    return sanitizeForDesktop(this.title() + '_' + this.getCurrentDateString());
   }
 }
