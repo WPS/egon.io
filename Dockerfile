@@ -1,6 +1,5 @@
 # Build stage
-# Node version defined in .nvmrc
-FROM node:22-alpine AS build-stage
+FROM node:24-alpine AS build-stage
 WORKDIR /app
 
 COPY . .
