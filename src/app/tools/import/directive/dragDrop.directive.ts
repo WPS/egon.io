@@ -12,7 +12,7 @@ import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
   selector: '[appDrag]',
 })
 export class DragDirective {
-  @HostBinding('style.background') private background = '';
+  @HostBinding('style.background') background = '';
 
   private readonly importDomainStoryService = inject(ImportDomainStoryService);
   private readonly snackbar = inject(MatSnackBar);
