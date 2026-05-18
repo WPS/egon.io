@@ -28,6 +28,9 @@ export class ReplayService {
   private readonly domManipulationService = inject(DomManipulationService);
   private readonly storyCreatorService = inject(StoryCreatorService);
   private readonly snackbar = inject(MatSnackBar);
+  private contextPad: any;
+  private palette: any;
+  private selection: any;
 
   setReplayState(state: boolean): void {
     this.replayOnSubject.next(state);
@@ -81,6 +84,8 @@ export class ReplayService {
   startReplay(checkSequenceNumbers = false): void {
     const story = this.storyCreatorService.traceActivitiesAndCreateStory();
 
+    this.clearUserInteractionsOnCanvas();
+
     if (checkSequenceNumbers) {
       const missingSentences =
         this.storyCreatorService.getMissingSentences(story);
@@ -114,10 +119,25 @@ export class ReplayService {
     }
   }
 
+  private clearUserInteractionsOnCanvas() {
+    const selectedElements: any[] = this.selection._selectedElements;
+    selectedElements.forEach(element => this.selection.deselect(element));
+
+    this.contextPad.close();
+    this.palette.close();
+  }
+
   stopReplay(): void {
     this.currentSentence.next(-1);
     this.maxSentenceNumber.next(0);
     this.setReplayState(false);
     this.domManipulationService.showAll();
+    this.palette.open();
+  }
+
+  setModelerContext(contextPad: any, palette: any, selection: any) {
+    this.contextPad = contextPad;
+    this.palette = palette;
+    this.selection = selection;
   }
 }

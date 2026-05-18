@@ -35,11 +35,11 @@ export class InitializerService {
   private readonly titleService = inject(TitleService);
 
   propagateDomainStoryModelerClassesToServices(
-    commandStack: any,
-    elementRegistry: any,
+    commandStack: any, elementRegistry: any, contextPad: any, palette: any, selection: any
   ): void {
     this.commandStackService.setCommandStack(commandStack);
     this.elementRegistryService.setElementRegistry(elementRegistry);
+    this.replayService.setModelerContext(contextPad, palette, selection);
   }
 
   initializeDomainStoryModelerEventHandlers(

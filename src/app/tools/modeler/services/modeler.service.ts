@@ -36,7 +36,10 @@ export class ModelerService {
   private modeler: any;
   private elementRegistry: any;
   private commandStack: any;
+  private contextPad: any;
+  private palette: any;
   private eventBus: any;
+  private selection: any;
 
   private encoded: string | undefined;
 
@@ -62,6 +65,9 @@ export class ModelerService {
       this.elementRegistry = this.modeler.get('elementRegistry');
       this.eventBus = this.modeler.get('eventBus');
       this.commandStack = this.modeler.get('commandStack');
+      this.contextPad = this.modeler.get('contextPad');
+      this.palette = this.modeler.get('palette');
+      this.selection = this.modeler.get('selection');
     }
 
     this.initializerService.initializeDomainStoryModelerEventHandlers(
@@ -71,6 +77,9 @@ export class ModelerService {
     this.initializerService.propagateDomainStoryModelerClassesToServices(
       this.commandStack,
       this.elementRegistry,
+      this.contextPad,
+      this.palette,
+      this.selection
     );
 
     const exportArtifacts = this.debounce(this.saveSVG, 500);
