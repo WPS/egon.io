@@ -18,12 +18,15 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { IconSet } from '../../../domain/entities/iconSet';
+import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
+import { EventEmitter } from '@angular/core';
 
 describe(IconSetCustomizationService.name, () => {
   let service: IconSetCustomizationService;
 
   let matSnackbarSpy: jasmine.SpyObj<MatSnackBar>;
   let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
+  let iconSetImportExportServiceSpy: jasmine.SpyObj<IconSetImportExportService>
 
   beforeEach(() => {
     const matSnackbarMock = jasmine.createSpyObj(MatSnackBar.name, ['open']);
@@ -39,6 +42,20 @@ describe(IconSetCustomizationService.name, () => {
         'registerIconForType',
         'unregisterIconForType',
       ],
+    );
+    const iconSetImportExportServiceMock = jasmine.createSpyObj(
+      IconSetImportExportService.name,
+      [
+        'getStoredIconSetConfiguration',
+        'createIconSetConfiguration',
+        'getIconSetName',
+        'setIconSetName',
+        'setStoredIconSetConfiguration',
+        'saveTrigger',
+      ],
+      {
+        iconSetChangedEmitter: new EventEmitter(),
+      }
     );
 
     const elementRegistryServiceMock = jasmine.createSpyObj(
@@ -78,6 +95,10 @@ describe(IconSetCustomizationService.name, () => {
           provide: ElementRegistryService,
           useValue: elementRegistryServiceMock,
         },
+        {
+          provide: IconSetImportExportService,
+          useValue: iconSetImportExportServiceMock
+        }
       ],
     });
     matSnackbarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;
@@ -94,6 +115,11 @@ describe(IconSetCustomizationService.name, () => {
       actors: [],
       workobjects: [],
     });
+
+
+    iconSetImportExportServiceSpy = TestBed.inject(
+      IconSetImportExportService,
+    ) as jasmine.SpyObj<IconSetImportExportService>;
 
     service = TestBed.inject(IconSetCustomizationService);
   });
@@ -145,6 +171,7 @@ describe(IconSetCustomizationService.name, () => {
           panelClass: SNACKBAR_SUCCESS,
         },
       );
+      expect(iconSetImportExportServiceSpy.saveTrigger).toHaveBeenCalled();
     });
 
     // TODO: figure out a better way to test the saveIconSet() method than by spying on the snackbar

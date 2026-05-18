@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { EventEmitter, inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
@@ -28,6 +28,7 @@ export class IconSetImportExportService {
   private readonly iconSetNameSubject = new BehaviorSubject<string>(
     INITIAL_ICON_SET_NAME,
   );
+  readonly iconSetChangedEmitter: EventEmitter<void> = new EventEmitter<void>();
 
   readonly iconSetName$ = this.iconSetNameSubject.asObservable();
 
@@ -229,5 +230,9 @@ export class IconSetImportExportService {
         .all()
         .some((e) => typeof e.value !== 'string')
     );
+  }
+
+  saveTrigger() {
+    this.iconSetChangedEmitter.emit();
   }
 }

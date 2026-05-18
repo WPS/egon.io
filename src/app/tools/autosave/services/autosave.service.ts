@@ -23,6 +23,7 @@ import { IconSetImportExportService } from '../../icon-set-config/services/icon-
 export class AutosaveService {
   private autosaveTimer: any;
   readonly autosavedDraftsChanged$ = new Subject<void>();
+  private maxDrafts: number = 0;
 
   private readonly autosaveConfiguration = inject(AutosaveConfigurationService);
   private readonly exportService = inject(ExportService);
@@ -35,9 +36,13 @@ export class AutosaveService {
   );
 
   constructor() {
-    this.autosaveConfiguration.configuration$.subscribe((configuration) =>
-      this.updateConfiguration(configuration),
-    );
+    this.autosaveConfiguration.configuration$.subscribe((configuration) => {
+      this.updateConfiguration(configuration);
+      this.maxDrafts = configuration.maxDrafts;
+    });
+    this.iconSetImportExportService.iconSetChangedEmitter.asObservable().subscribe(() => {
+      this.autosave(this.maxDrafts, false);
+    })
   }
 
   getDrafts(): Draft[] {
@@ -92,26 +97,31 @@ export class AutosaveService {
   }
 
   private startTimer(interval: number, maxDrafts: number): void {
-    this.autosaveTimer = setInterval(() => {
-      const savedDrafts = this.getDrafts();
-      const newDraft = this.createDraft();
-      let isChanged = maxDrafts > 0;
-      if (savedDrafts.length > 0) {
-        isChanged = isChanged && !this.isSame(newDraft, savedDrafts[0]);
+    this.autosaveTimer = setInterval(() => this.autosave(maxDrafts, true), interval * 1000);
+  }
+
+  // non-private for testing purposes
+  autosave(maxDrafts: number, showAutosaveMessage: boolean) {
+    const savedDrafts = this.getDrafts();
+    const newDraft = this.createDraft();
+    let isChanged = maxDrafts > 0;
+    if (savedDrafts.length > 0) {
+      isChanged = isChanged && !this.isSame(newDraft, savedDrafts[0]);
+    }
+    if (isChanged && !this.isDraftEmpty(newDraft)) {
+      savedDrafts.unshift(newDraft);
+      while (savedDrafts.length > maxDrafts) {
+        savedDrafts.pop();
       }
-      if (isChanged && !this.isDraftEmpty(newDraft)) {
-        savedDrafts.unshift(newDraft);
-        while (savedDrafts.length > maxDrafts) {
-          savedDrafts.pop();
-        }
-        this.writeDrafts(savedDrafts);
+      this.writeDrafts(savedDrafts);
+      if(showAutosaveMessage) {
         this.snackbar.open('Draft Saved', undefined, {
           panelClass: SNACKBAR_INFO,
-          duration: SNACKBAR_DURATION,
+          duration: SNACKBAR_DURATION
         });
-        this.autosavedDraftsChanged$.next();
       }
-    }, interval * 1000);
+      this.autosavedDraftsChanged$.next();
+    }
   }
 
   private isDraftEmpty(draft: Draft) {

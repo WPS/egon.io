@@ -213,6 +213,7 @@ export class IconSetCustomizationService {
         workObjects: this.iconSetConfigurationTypes.value.workObjects,
       });
     }
+    this.iconDictionaryService.unregisterIconForType(ElementTypes.ACTOR, actor);
     this.updateActorSubject();
   }
 
@@ -226,6 +227,7 @@ export class IconSetCustomizationService {
         ),
       });
     }
+    this.iconDictionaryService.unregisterIconForType(ElementTypes.WORKOBJECT, workobject);
     this.updateWorkObjectSubject();
   }
 
@@ -385,7 +387,6 @@ export class IconSetCustomizationService {
 
       if (!changedActors.length && !changedWorkobjects.length) {
         this.changedIconSetConfiguration = changedIconSet;
-
         this.updateIcons(changedIconSet);
 
         this.iconSetImportExportService.setStoredIconSetConfiguration(
@@ -394,7 +395,7 @@ export class IconSetCustomizationService {
         this.snackbar.open(
           imported
             ? 'Configuration imported successfully'
-            : 'Configuration saved successfully',
+            : 'Configuration saved successfully & Autosave created',
           undefined,
           {
             duration: SNACKBAR_DURATION,
@@ -438,6 +439,7 @@ export class IconSetCustomizationService {
         );
       }
     }
+    this.iconSetImportExportService.saveTrigger();
   }
 
   getAndClearSavedConfiguration(): IconSet | undefined {

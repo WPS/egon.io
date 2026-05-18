@@ -12,6 +12,7 @@ import { StorageService } from '../../../domain/services/storage.service';
 import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DRAFTS_KEY } from 'src/app/domain/entities/constants';
+import { EventEmitter } from '@angular/core';
 
 describe('AutosaveService', () => {
   let service: AutosaveService;
@@ -38,6 +39,9 @@ describe('AutosaveService', () => {
     const iconSetImportExportServiceMock = jasmine.createSpyObj(
       IconSetImportExportService.name,
       ['createIconSetConfiguration'],
+      {
+        iconSetChangedEmitter: new EventEmitter(),
+      }
     );
 
     TestBed.configureTestingModule({
@@ -119,6 +123,16 @@ describe('AutosaveService', () => {
       expect(loadedDrafts).toEqual(drafts);
     });
   });
+
+  describe('autosave when iconSetChangedEmitter triggers', () => {
+    it('should call autosave', () => {
+      const serviceSpy = spyOn(service, 'autosave').and.callThrough();
+
+      iconSetImportExportService.iconSetChangedEmitter.emit();
+
+      expect(serviceSpy).toHaveBeenCalledWith(1, false);
+    })
+  })
 
   function createDraft(date: string): Draft {
     return {
