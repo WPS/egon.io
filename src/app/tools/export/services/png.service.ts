@@ -35,7 +35,7 @@ export class PngService {
     return { name: M[0], version: M[1] };
   }
 
-  /** Needed for an SVG-Fix in CHrome where the # needs to be replaced by %23 **/
+  /** Needed for an SVG-Fix in Chrome where the # needs to be replaced by %23 **/
   private URIHashtagFix(svg: string): string {
     let fix = false;
 
@@ -256,6 +256,7 @@ export class PngService {
       box.xLeft -= 150;
       box.xRight += 150;
     }
+    console.log(this.height, this.width);
     return [this.height, this.width];
   }
 

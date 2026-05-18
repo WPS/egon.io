@@ -67,6 +67,7 @@ function createDescription(text, width) {
       12,
     );
   }
+  console.log(description);
   return description;
 }
 
@@ -107,6 +108,7 @@ function createTextSpans(text, width, ctx, yOffset, heightOffset, fontSize) {
         textNode = document.createTextNode(words[j]);
         textSpan.setAttribute("x", X_OFFSET_UTIL);
         textSpan.setAttribute("y", yOffset + dynamicHeightOffset);
+        textSpan.setAttribute("font-size", fontSize);
         textSpan.appendChild(textNode);
       }
     }
