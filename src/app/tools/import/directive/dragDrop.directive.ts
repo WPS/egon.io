@@ -3,9 +3,9 @@ import { ImportDomainStoryService } from '../services/import-domain-story.servic
 import {
   SNACKBAR_DURATION_LONG,
   SNACKBAR_ERROR,
-} from '../../../domain/entities/constants';
+} from 'src/app/domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
+import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
 
 @Directive({
   standalone: true,
