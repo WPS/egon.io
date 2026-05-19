@@ -79,7 +79,7 @@ export class ModelerService {
       this.elementRegistry,
       this.contextPad,
       this.palette,
-      this.selection
+      this.selection,
     );
 
     const exportArtifacts = this.debounce(this.saveSVG, 500);

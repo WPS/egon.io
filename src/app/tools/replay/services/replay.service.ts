@@ -121,7 +121,7 @@ export class ReplayService {
 
   private clearUserInteractionsOnCanvas() {
     const selectedElements: any[] = this.selection._selectedElements;
-    selectedElements.forEach(element => this.selection.deselect(element));
+    selectedElements.forEach((element) => this.selection.deselect(element));
 
     this.contextPad.close();
     this.palette.close();

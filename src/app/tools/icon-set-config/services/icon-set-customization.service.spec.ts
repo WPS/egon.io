@@ -26,7 +26,7 @@ describe(IconSetCustomizationService.name, () => {
 
   let matSnackbarSpy: jasmine.SpyObj<MatSnackBar>;
   let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
-  let iconSetImportExportServiceSpy: jasmine.SpyObj<IconSetImportExportService>
+  let iconSetImportExportServiceSpy: jasmine.SpyObj<IconSetImportExportService>;
 
   beforeEach(() => {
     const matSnackbarMock = jasmine.createSpyObj(MatSnackBar.name, ['open']);
@@ -55,7 +55,7 @@ describe(IconSetCustomizationService.name, () => {
       ],
       {
         iconSetChangedEmitter: new EventEmitter(),
-      }
+      },
     );
 
     const elementRegistryServiceMock = jasmine.createSpyObj(
@@ -97,8 +97,8 @@ describe(IconSetCustomizationService.name, () => {
         },
         {
           provide: IconSetImportExportService,
-          useValue: iconSetImportExportServiceMock
-        }
+          useValue: iconSetImportExportServiceMock,
+        },
       ],
     });
     matSnackbarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;
@@ -115,7 +115,6 @@ describe(IconSetCustomizationService.name, () => {
       actors: [],
       workobjects: [],
     });
-
 
     iconSetImportExportServiceSpy = TestBed.inject(
       IconSetImportExportService,

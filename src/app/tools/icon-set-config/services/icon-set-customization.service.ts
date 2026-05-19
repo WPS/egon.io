@@ -227,7 +227,10 @@ export class IconSetCustomizationService {
         ),
       });
     }
-    this.iconDictionaryService.unregisterIconForType(ElementTypes.WORKOBJECT, workobject);
+    this.iconDictionaryService.unregisterIconForType(
+      ElementTypes.WORKOBJECT,
+      workobject,
+    );
     this.updateWorkObjectSubject();
   }
 

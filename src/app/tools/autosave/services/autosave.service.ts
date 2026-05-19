@@ -40,9 +40,11 @@ export class AutosaveService {
       this.updateConfiguration(configuration);
       this.maxDrafts = configuration.maxDrafts;
     });
-    this.iconSetImportExportService.iconSetChangedEmitter.asObservable().subscribe(() => {
-      this.autosave(this.maxDrafts, false);
-    })
+    this.iconSetImportExportService.iconSetChangedEmitter
+      .asObservable()
+      .subscribe(() => {
+        this.autosave(this.maxDrafts, false);
+      });
   }
 
   getDrafts(): Draft[] {
@@ -97,7 +99,10 @@ export class AutosaveService {
   }
 
   private startTimer(interval: number, maxDrafts: number): void {
-    this.autosaveTimer = setInterval(() => this.autosave(maxDrafts, true), interval * 1000);
+    this.autosaveTimer = setInterval(
+      () => this.autosave(maxDrafts, true),
+      interval * 1000,
+    );
   }
 
   // non-private for testing purposes
@@ -114,10 +119,10 @@ export class AutosaveService {
         savedDrafts.pop();
       }
       this.writeDrafts(savedDrafts);
-      if(showAutosaveMessage) {
+      if (showAutosaveMessage) {
         this.snackbar.open('Draft Saved', undefined, {
           panelClass: SNACKBAR_INFO,
-          duration: SNACKBAR_DURATION
+          duration: SNACKBAR_DURATION,
         });
       }
       this.autosavedDraftsChanged$.next();

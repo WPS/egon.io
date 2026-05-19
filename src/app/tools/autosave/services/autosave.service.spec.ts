@@ -41,7 +41,7 @@ describe('AutosaveService', () => {
       ['createIconSetConfiguration'],
       {
         iconSetChangedEmitter: new EventEmitter(),
-      }
+      },
     );
 
     TestBed.configureTestingModule({
@@ -131,8 +131,8 @@ describe('AutosaveService', () => {
       iconSetImportExportService.iconSetChangedEmitter.emit();
 
       expect(serviceSpy).toHaveBeenCalledWith(1, false);
-    })
-  })
+    });
+  });
 
   function createDraft(date: string): Draft {
     return {

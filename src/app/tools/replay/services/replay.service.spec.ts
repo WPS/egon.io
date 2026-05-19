@@ -14,7 +14,9 @@ describe(ReplayService.name, () => {
 
   const contextPadSpy = jasmine.createSpyObj('contextPadSpy', ['close']);
   const paletteSpy = jasmine.createSpyObj('paletteSpy', ['close', 'open']);
-  const selectionSpy = jasmine.createSpyObj('selectionSpy', ['deselect'], {"_selectedElements": ['test']} );
+  const selectionSpy = jasmine.createSpyObj('selectionSpy', ['deselect'], {
+    _selectedElements: ['test'],
+  });
 
   beforeEach(() => {
     storyCreatorService = jasmine.createSpyObj('StoryCreatorService', [
@@ -41,7 +43,7 @@ describe(ReplayService.name, () => {
     });
 
     service = TestBed.inject(ReplayService);
-    service.setModelerContext(contextPadSpy, paletteSpy, selectionSpy)
+    service.setModelerContext(contextPadSpy, paletteSpy, selectionSpy);
   });
 
   it('should be created', () => {

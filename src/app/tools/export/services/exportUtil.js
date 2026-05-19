@@ -67,7 +67,6 @@ function createDescription(text, width) {
       12,
     );
   }
-  console.log(description);
   return description;
 }
 

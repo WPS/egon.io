@@ -256,7 +256,6 @@ export class PngService {
       box.xLeft -= 150;
       box.xRight += 150;
     }
-    console.log(this.height, this.width);
     return [this.height, this.width];
   }
 
