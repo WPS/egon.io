@@ -1,6 +1,6 @@
 import '../../../../utils/mathExtensions';
 import {
-  calculateTextWidth,
+  approximateArialSize11TextWidthInPixel,
   selectPartOfActivity,
 } from '../features/labeling/dsLabelUtil';
 import { angleBetween } from '../../../../utils/mathExtensions';
@@ -96,25 +96,29 @@ describe('DSLabelUtil', function () {
 
 describe('calculateTextWidth', function () {
   it('returns 0 for empty text', function () {
-    expect(calculateTextWidth('')).toEqual(0);
+    expect(approximateArialSize11TextWidthInPixel('')).toEqual(0);
   });
 
   it('returns 0 for null', function () {
-    expect(calculateTextWidth(null)).toEqual(0);
+    expect(approximateArialSize11TextWidthInPixel(null)).toEqual(0);
   });
 
   it('returns 0 for undefined', function () {
-    expect(calculateTextWidth(undefined)).toEqual(0);
+    expect(approximateArialSize11TextWidthInPixel(undefined)).toEqual(0);
   });
 
   it('returns same value for same characters', function () {
-    expect(calculateTextWidth('AIW')).toEqual(calculateTextWidth('AIW'));
-    expect(calculateTextWidth('AIW')).toEqual(calculateTextWidth('IWA'));
+    expect(approximateArialSize11TextWidthInPixel('AIW')).toEqual(
+      approximateArialSize11TextWidthInPixel('AIW'),
+    );
+    expect(approximateArialSize11TextWidthInPixel('AIW')).toEqual(
+      approximateArialSize11TextWidthInPixel('IWA'),
+    );
   });
 
   it('distinguishes casing', function () {
-    expect(calculateTextWidth('abcdefghi')).toEqual(
-      calculateTextWidth('ABCDEFGHI'),
+    expect(approximateArialSize11TextWidthInPixel('abcdefghi')).toEqual(
+      approximateArialSize11TextWidthInPixel('ABCDEFGHI'),
     );
   });
 });

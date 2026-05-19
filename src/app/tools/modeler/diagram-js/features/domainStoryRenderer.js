@@ -19,7 +19,7 @@ import {
   numberBoxDefinitions,
 } from "src/app/tools/modeler/diagram-js/features/numbering/numbering";
 
-import { calculateTextWidth } from "src/app/tools/modeler/diagram-js/features/labeling/dsLabelUtil";
+import { approximateArialSize11TextWidthInPixel } from "src/app/tools/modeler/diagram-js/features/labeling/dsLabelUtil";
 import {
   countLines,
   labelPosition,
@@ -140,8 +140,10 @@ export default function DomainStoryRenderer(
       if (angle === 0 || angle === 180) {
         boxWidth = Math.abs(startPoint.x - endPoint.x);
         alignment = "center";
-        xStart =
-          (startPoint.x + endPoint.x) / 2 - calculateTextWidth(semantic.name);
+        const textWidthInPixel = approximateArialSize11TextWidthInPixel(
+          semantic.name,
+        );
+        xStart = (startPoint.x + endPoint.x) / 2 - (textWidthInPixel / 2 + 20);
       }
 
       let box = {
