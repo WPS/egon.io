@@ -120,9 +120,6 @@ export default function DSLabelEditingProvider(
       "djs-direct-editing-content",
     );
     focusElement(editingBox.item(0));
-    if (element.type.includes(ElementTypes.ACTOR)) {
-      return;
-    }
     createAutocompleteForEdit(
       editingBox[0],
       dictionaryService.getUniqueWorkObjectNames(),

@@ -202,7 +202,7 @@ export function createAutocompleteForEdit(
         target?.parentElement.id === "autocomplete-list"
       )
     ) {
-      oldAutocompleteList.parentNode.removeChild(oldAutocompleteList);
+      oldAutocompleteList.remove();
       return true;
     }
     return false;
@@ -233,7 +233,7 @@ export function createAutocompleteForEdit(
     if (clearOldAutocompleteList(e.target)) {
       // remove event listener
       // it is always added when opening the editingBox with the associated businessObject as Context
-      //editingBox.removeEventListener("input", inputFunction);
+      editingBox.removeEventListener("input", inputFunction);
     }
   });
 }
