@@ -101,7 +101,10 @@ export function createAutocompleteForEdit(
   eventBus,
 ) {
   clearOldAutocompleteList();
-  if (!businessElement || businessElement.type.includes(ElementTypes.ACTOR)) {
+  if (
+    !businessElement ||
+    !businessElement.type.includes(ElementTypes.WORKOBJECT)
+  ) {
     return;
   }
 
@@ -114,7 +117,7 @@ export function createAutocompleteForEdit(
       !workObjectNames ||
       workObjectNames.length === 0 ||
       !businessElement ||
-      businessElement.type.includes(ElementTypes.ACTOR)
+      !businessElement.type.includes(ElementTypes.WORKOBJECT)
     ) {
       return;
     }
@@ -124,7 +127,7 @@ export function createAutocompleteForEdit(
       this.value = this.innerHTML;
     }
 
-    let searchterm = this.value.toUpperCase();
+    let searchterm = this.value?.toUpperCase() | "";
     currentFocus = -1;
 
     clearOldAutocompleteList();
@@ -163,7 +166,10 @@ export function createAutocompleteForEdit(
   }
 
   editingBox.onkeydown = function onKeyDownListener(e) {
-    if (!businessElement || businessElement.type.includes(ElementTypes.ACTOR)) {
+    if (
+      !businessElement ||
+      !businessElement.type.includes(ElementTypes.WORKOBJECT)
+    ) {
       return;
     }
     if (e.keyCode === 40) {
@@ -178,7 +184,7 @@ export function createAutocompleteForEdit(
       currentFocus--;
 
       updateFocusOnAutocompleteList();
-    } else if (e.key === "Enter") {
+    } else if (e.key === "Enter" && !e.shiftKey) {
       // ENTER
       e.preventDefault();
       if (currentFocus > -1) {
