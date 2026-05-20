@@ -157,7 +157,7 @@ export class ModelerService {
     }
   }
 
-  private fitStoryToScreen() {
+  fitStoryToScreen() {
     this.modeler.fitStoryToScreen();
   }
 

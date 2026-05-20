@@ -11,6 +11,7 @@ import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set-configuration-for-export';
 import { StorageService } from '../../../domain/services/storage.service';
 import { sanitizeIconName } from '../../../utils/sanitizer';
+import { downloadFile } from 'src/app/utils/downloadFile';
 
 export interface FileConfiguration {
   name: string;
@@ -48,19 +49,13 @@ export class IconSetImportExportService {
 
     const configJSONString = JSON.stringify(iconSetConfiguration, null, 2);
     const filename = this.iconSetNameSubject.value;
-    const element = document.createElement('a');
 
-    element.setAttribute(
-      'href',
-      'data:text/plain;charset=utf-8,' + encodeURIComponent(configJSONString),
+    downloadFile(
+      configJSONString,
+      'data:text/plain;charset=utf-8,',
+      filename,
+      '.iconset',
     );
-    element.setAttribute('download', filename + '.iconset');
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
   }
 
   loadIconSet(iconSet: IconSet, updateIconSetName = true): void {

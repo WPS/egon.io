@@ -152,7 +152,7 @@ export class PngService {
     };
   }
 
-  prepareSVG(
+  private prepareSVG(
     svg: string,
     layerBase: any,
     description: string,
@@ -259,7 +259,7 @@ export class PngService {
     return [this.height, this.width];
   }
 
-  extractSVG(viewport: any, outerSVGElement: any): string {
+  private extractSVG(viewport: any, outerSVGElement: any): string {
     const layerResizers = viewport.getElementsByClassName('layer-resizers');
     const layerOverlays = viewport.getElementsByClassName('layer-overlays');
     const transform = viewport.getAttribute('transform');
@@ -298,5 +298,38 @@ export class PngService {
 
   getHeight(): number {
     return this.height;
+  }
+
+  createTempCanvas() {
+    const tempCanvas = document.createElement('canvas');
+
+    const padding = 10;
+    tempCanvas.width = this.getWidth() + padding;
+    tempCanvas.height = this.getHeight() + padding;
+    return tempCanvas;
+  }
+
+  createSvgAndImage(
+    canvas: any,
+    description: string,
+    title: string,
+    withTitle: boolean,
+  ) {
+    const container = canvas.getElementsByClassName('djs-container');
+    const svgElements = container[0].getElementsByTagName('svg');
+    const outerSVGElement = svgElements[0];
+    const viewport = outerSVGElement.getElementsByClassName('viewport')[0];
+    const layerBase = viewport.querySelector('[class^="layer-root-"]');
+
+    return {
+      svg: this.prepareSVG(
+        this.extractSVG(viewport, outerSVGElement), // removes unwanted black dots in image
+        layerBase,
+        description,
+        title,
+        withTitle,
+      ),
+      image: document.createElement('img'),
+    };
   }
 }

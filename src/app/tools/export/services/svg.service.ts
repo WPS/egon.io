@@ -1,6 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { ConfigAndDST } from 'src/app/tools/export/domain/export/configAndDst';
-import { createTitleAndDescriptionSVGElement } from 'src/app/tools/export/services/exportUtil';
+import {
+  createTitleAndDescriptionSVGElement,
+  ViewBoxCoordinateRegExp,
+} from 'src/app/tools/export/services/exportUtil';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import {
   DEFAULT_PADDING,
@@ -204,9 +207,7 @@ export class SvgService {
     height: number;
     viewBox: string;
   } {
-    const ViewBoxCoordinate =
-      /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)"/;
-    const match = svg.match(ViewBoxCoordinate);
+    const match = svg.match(ViewBoxCoordinateRegExp);
     if (match) {
       return { width: +match[1], height: +match[2], viewBox: match[3] };
     }

@@ -7,6 +7,9 @@ import {
 
 let dynamicHeightOffset = 0;
 
+export const ViewBoxCoordinateRegExp =
+  /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)"/;
+
 // Has to be js File so we can access te correct non-standard HTML-Properties without excessive usage of ts-ignore
 export function createTitleAndDescriptionSVGElement(
   initDynamicHeightOffset,

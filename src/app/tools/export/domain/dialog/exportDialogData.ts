@@ -10,10 +10,10 @@ export class ExportDialogData {
 
 export class ExportOption {
   text: string;
-  fn: any;
+  fn: (...args: any[]) => void;
   tooltip: string;
 
-  constructor(text: string, tooltip: string, fn: any) {
+  constructor(text: string, tooltip: string, fn: (...args: any[]) => void) {
     this.text = text;
     this.tooltip = tooltip;
     this.fn = fn;
