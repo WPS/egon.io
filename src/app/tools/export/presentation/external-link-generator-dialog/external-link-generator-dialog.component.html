@@ -1,0 +1,50 @@
+<mat-dialog-content>
+  <h1>Generate External Link</h1>
+
+  <p>
+    Generate a link to this Egon.io Website that loads a DomainStory from an
+    external URL on Startup.
+    <br>
+    Optionally you can specify whether the Modeler should start in Replay-Mode
+    or the normal Editing-Mode
+  </p>
+  <p>
+    This does NOT generate a Link to the current state of the Modeler, but to to an already exported and hosted Story (i.e. on GitHub etc.).
+  </p>
+
+  <mat-form-field class="form-width" color="accent">
+    <mat-label>URL</mat-label>
+    <input
+      matInput
+      class="dense-8"
+      type="url"
+      id="urlInput"
+      subscriptSizing="dynamic"
+      [value]="targetUrl"
+      (input)="updateUrl($event)"
+    />
+  </mat-form-field>
+
+  <br />
+  <label>
+    <input
+      type="checkbox"
+      id="replayMode"
+      (change)="updateReplayMode($event)"
+      [checked]="startReplay"
+    />
+    Start Replay
+  </label>
+
+  <br />
+  <br />
+  <label> Generated Link </label>
+
+  <br />
+  <label class="link-label" (click)="copyLink()">
+    {{ generatedLink$ | async }}
+    <span class="material-icons-outlined materialIconButton">
+      content_copy
+    </span>
+  </label>
+</mat-dialog-content>

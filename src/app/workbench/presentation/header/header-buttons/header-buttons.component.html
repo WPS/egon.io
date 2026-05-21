@@ -66,6 +66,15 @@
     </button>
     <button
       type="button"
+      class="headerButton"
+      title="Generate Link to a hosted DomainStory"
+      (click)="openExternalLinkGenerationDialog.emit()"
+    >
+      <span class="material-icons-outlined materialIconButton"> link </span>
+      <div class="button-label">Link</div>
+    </button>
+    <button
+      type="button"
       [disabled]="!hasDomainStory"
       [class.disabled]="!hasDomainStory"
       class="headerButton"

@@ -82,12 +82,10 @@ export class ReplayService {
   }
 
   startReplay(checkSequenceNumbers = false): void {
-    console.log('1');
     const story = this.storyCreatorService.traceActivitiesAndCreateStory();
 
     this.clearUserInteractionsOnCanvas();
 
-    console.log('2');
     if (checkSequenceNumbers) {
       const missingSentences =
         this.storyCreatorService.getMissingSentences(story);
@@ -106,14 +104,10 @@ export class ReplayService {
         return;
       }
     }
-    console.log('3');
 
     this.initializeReplay(story);
-    console.log('4');
     if (this.story.length > 0) {
-      console.log('5');
       this.setReplayState(true);
-      console.log('6');
       this.domManipulationService.showSentence(
         this.story[this.currentSentence.getValue() - 1],
       );
