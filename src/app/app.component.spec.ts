@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from 'src/app/app.component';
-import { MockComponent, MockProviders } from 'ng-mocks';
+import { MockComponent, MockProvider, MockProviders } from 'ng-mocks';
 import { SettingsService } from './workbench/services/settings/settings.service';
 import { TitleService } from './tools/title/services/title.service';
 import { ExportService } from './tools/export/services/export.service';
@@ -13,6 +13,8 @@ import { DirtyFlagService } from './domain/services/dirty-flag.service';
 import { ModelerService } from './tools/modeler/services/modeler.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs/internal/observable/of';
+import { Observable } from 'rxjs/internal/Observable';
+import { IconSet } from 'src/app/domain/entities/iconSet';
 
 describe('AppComponent', () => {
   let autosaveService: jasmine.SpyObj<AutosaveService>;
@@ -33,10 +35,14 @@ describe('AppComponent', () => {
           TitleService,
           ExportService,
           ReplayService,
-          ImportDomainStoryService,
           DirtyFlagService,
           ModelerService,
         ),
+        MockProvider(ImportDomainStoryService, {
+          automatedImportSuccessFull(): Observable<void> {
+            return of();
+          },
+        }),
         {
           provide: AutosaveService,
           useValue: autosaveService,

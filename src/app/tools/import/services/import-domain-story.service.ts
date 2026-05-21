@@ -44,6 +44,11 @@ export class ImportDomainStoryService implements IconSetChangedService {
   });
 
   private readonly importedConfigurationEmitter = new EventEmitter<IconSet>();
+  private readonly automatedImportSuccessFullEmitter = new EventEmitter<void>();
+
+  automatedImportSuccessFull(): Observable<void> {
+    return this.automatedImportSuccessFullEmitter.asObservable();
+  }
 
   iconConfigurationChanged(): Observable<IconSet> {
     return this.importedConfigurationEmitter.asObservable();
@@ -92,7 +97,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
     }
   }
 
-  importFromUrl(fileUrl: string): void {
+  importFromUrl(fileUrl: string, emitSuccess = false): void {
     if (!fileUrl.startsWith('http')) {
       this.snackbar.open('Url not valid', undefined, {
         duration: SNACKBAR_DURATION_LONG,
@@ -118,7 +123,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
         }
 
         if (this.isSupportedFileEnding(filename)) {
-          this.import(blob, filename);
+          this.import(blob, filename, emitSuccess);
         } else {
           this.snackbar.open('File type not supported', undefined, {
             duration: SNACKBAR_DURATION_LONG,
@@ -203,7 +208,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
     );
   }
 
-  import(input: Blob, filename: string): void {
+  import(input: Blob, filename: string, emitSuccess = false): void {
     const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
     const isSVG = filename.endsWith('.svg');
     let isEGN = filename.endsWith('.egn');
@@ -225,7 +230,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
         }
       };
       fileReader.readAsText(input);
-      this.importSuccessful();
+      this.importSuccessful(emitSuccess);
     } catch (error) {
       this.importFailed();
     }
@@ -333,11 +338,14 @@ export class ImportDomainStoryService implements IconSetChangedService {
     }
   }
 
-  private importSuccessful() {
+  private importSuccessful(emitSuccessExternally: boolean) {
     this.snackbar.open('Import successful', undefined, {
       duration: SNACKBAR_DURATION,
       panelClass: SNACKBAR_SUCCESS,
     });
+    if (emitSuccessExternally) {
+      this.automatedImportSuccessFullEmitter.next();
+    }
   }
 
   private importFailed() {
@@ -429,9 +437,9 @@ export class ImportDomainStoryService implements IconSetChangedService {
     return title;
   }
 
-  autoImportFromUrl(urlToLoad: string) {
+  autoImportFromUrl(urlToLoad: string, startReplay: boolean) {
     this.openExternalResourcesWarningDialog(() =>
-      this.importFromUrl(urlToLoad),
+      this.importFromUrl(urlToLoad, startReplay),
     );
   }
 }

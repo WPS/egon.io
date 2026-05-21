@@ -92,7 +92,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   private readonly replayService = inject(ReplayService);
   private readonly modelerService = inject(ModelerService);
   private readonly dirtyFlagService = inject(DirtyFlagService);
-  private readonly importService = inject(ImportDomainStoryService);
+  private readonly importDomainStoryService = inject(ImportDomainStoryService);
   private readonly activatedRoute = inject(ActivatedRoute);
 
   constructor() {
@@ -183,10 +183,17 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.importDomainStoryService.automatedImportSuccessFull().subscribe(() => {
+      // A timeout is needed to make sure that the import and all asynchronous tasks are finished before the replay is started.
+      setTimeout(() => {
+        this.replayService.startReplay(true);
+      }, 100);
+    });
     this.activatedRoute.queryParamMap.subscribe((queryParams) => {
       const urlToLoad = queryParams.get('storyUrl');
+      const startReplay = queryParams.get('startReplay') === 'true';
       if (urlToLoad) {
-        this.importService.autoImportFromUrl(urlToLoad);
+        this.importDomainStoryService.autoImportFromUrl(urlToLoad, startReplay);
       }
     });
 
