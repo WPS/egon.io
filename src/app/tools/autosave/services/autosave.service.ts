@@ -53,7 +53,8 @@ export class AutosaveService {
     return drafts;
   }
 
-  loadDraft(draft: Draft): void {
+  // if we fitToScreen while the AUtosave-Dialoge is open, the canvas is not on screen and the Zoom breaks
+  loadDraft(draft: Draft, fitToScreen = false): void {
     const configFromFile = draft.configAndDST.domain;
     const config =
       this.iconSetImportExportService.createIconSetConfiguration(
@@ -67,7 +68,7 @@ export class AutosaveService {
       false,
     );
 
-    this.modelerService.importStory(story, config);
+    this.modelerService.importStory(story, config, fitToScreen);
   }
 
   removeAllDrafts() {
@@ -80,7 +81,7 @@ export class AutosaveService {
     if (drafts.length === 0) {
       return;
     }
-    this.loadDraft(drafts[0]);
+    this.loadDraft(drafts[0], true);
   }
 
   private updateConfiguration(configuration: AutosaveConfiguration) {

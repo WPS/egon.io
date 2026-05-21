@@ -207,9 +207,15 @@ export class ModelerService {
     this.dirtyFlagService.makeClean();
   }
 
-  importStory(domainStory: BusinessObject[], config: IconSet): void {
+  importStory(
+    domainStory: BusinessObject[],
+    config: IconSet,
+    fitToScreen = true,
+  ): void {
     this.restart(config, domainStory);
-    this.fitStoryToScreen();
+    if (fitToScreen) {
+      this.fitStoryToScreen();
+    }
     this.elementRegistryService.correctInitialize();
     this.commandStackChanged();
     this.startDebounce();
