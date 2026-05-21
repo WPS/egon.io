@@ -1,4 +1,5 @@
 import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
 import { bootstrapApplication } from '@angular/platform-browser';
 
 import { AppComponent } from './app/app.component';
@@ -11,5 +12,9 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   ...appConfig,
-  providers: [provideZoneChangeDetection(), ...appConfig.providers],
+  providers: [
+    provideZoneChangeDetection(),
+    provideRouter([]),
+    ...appConfig.providers,
+  ],
 }).catch((err) => console.error(err));

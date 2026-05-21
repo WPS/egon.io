@@ -23,6 +23,7 @@
     "@angular/material": "^21.2.11",
     "@angular/platform-browser": "^21.2.13",
     "@angular/platform-browser-dynamic": "^21.2.13",
+    "@angular/router": "^21.2.13",
     "@bpmn-io/align-to-origin": "0.7.0",
     "bpmn-font": "^0.12.1",
     "diagram-js": "^15.4.0",
