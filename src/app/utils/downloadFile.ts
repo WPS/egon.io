@@ -3,7 +3,7 @@ export function downloadFile(
   datatype: string,
   filename: string,
   fileEnding: string,
-  encodeUri: boolean = true
+  encodeUri: boolean = true,
 ) {
   const element = document.createElement('a');
   const dataToAdd = encodeUri ? encodeURIComponent(data) : data;

@@ -89,7 +89,7 @@ export class HtmlPresentationService {
       'data:text/html;charset=UTF-8,',
       sanitizeForDesktop(filename),
       '.html',
-      false
+      false,
     );
   }
 
