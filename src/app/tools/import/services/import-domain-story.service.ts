@@ -23,6 +23,7 @@ import { ModelerService } from '../../modeler/services/modeler.service';
 import { ImportDialogComponent } from '../presentation/import-dialog/import-dialog.component';
 import { UnsavedChangesReminderComponent } from '../../unsavedChangesReminder/presentation/unsavedChangesReminder-dialog/unsaved-changes-reminder/unsaved-changes-reminder.component';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ExternalResourcesWarningDialogComponent } from 'src/app/tools/import/presentation/external-resources-warning-dialog/external-resources-warning-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -189,6 +190,17 @@ export class ImportDomainStoryService implements IconSetChangedService {
     config.autoFocus = true;
     config.data = fn;
     this.dialogService.openDialog(UnsavedChangesReminderComponent, config);
+  }
+
+  openExternalResourcesWarningDialog(fn: Function): void {
+    const config = new MatDialogConfig();
+    config.disableClose = false;
+    config.autoFocus = true;
+    config.data = fn;
+    this.dialogService.openDialog(
+      ExternalResourcesWarningDialogComponent,
+      config,
+    );
   }
 
   import(input: Blob, filename: string): void {
@@ -415,5 +427,11 @@ export class ImportDomainStoryService implements IconSetChangedService {
       .replace(egnSuffix, '');
     title = filenameWithoutDateSuffix;
     return title;
+  }
+
+  autoImportFromUrl(urlToLoad: string) {
+    this.openExternalResourcesWarningDialog(() =>
+      this.importFromUrl(urlToLoad),
+    );
   }
 }

@@ -186,7 +186,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.activatedRoute.queryParamMap.subscribe((queryParams) => {
       const urlToLoad = queryParams.get('storyUrl');
       if (urlToLoad) {
-        this.importService.importFromUrl(urlToLoad);
+        this.importService.autoImportFromUrl(urlToLoad);
       }
     });
 
