@@ -11,6 +11,8 @@ import { HeaderComponent } from './workbench/presentation/header/header/header.c
 import { ImportDomainStoryService } from './tools/import/services/import-domain-story.service';
 import { DirtyFlagService } from './domain/services/dirty-flag.service';
 import { ModelerService } from './tools/modeler/services/modeler.service';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs/internal/observable/of';
 
 describe('AppComponent', () => {
   let autosaveService: jasmine.SpyObj<AutosaveService>;
@@ -38,6 +40,12 @@ describe('AppComponent', () => {
         {
           provide: AutosaveService,
           useValue: autosaveService,
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParamMap: of({ get: () => null }),
+          },
         },
       ],
     }).compileComponents();

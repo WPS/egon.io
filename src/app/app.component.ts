@@ -36,10 +36,7 @@ import { ModelerService } from './tools/modeler/services/modeler.service';
 import { DirtyFlagService } from './domain/services/dirty-flag.service';
 
 import { CommonModule } from '@angular/common';
-import {
-  ActivatedRoute,
-  RouterModule,
-} from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HeaderComponent } from './workbench/presentation/header/header/header.component';
 import { SettingsComponent } from './workbench/presentation/settings/settings.component';
 import { DragDirective } from './tools/import/directive/dragDrop.directive';
