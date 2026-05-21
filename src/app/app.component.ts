@@ -36,9 +36,11 @@ import { ModelerService } from './tools/modeler/services/modeler.service';
 import { DirtyFlagService } from './domain/services/dirty-flag.service';
 
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HeaderComponent } from './workbench/presentation/header/header/header.component';
 import { SettingsComponent } from './workbench/presentation/settings/settings.component';
 import { DragDirective } from './tools/import/directive/dragDrop.directive';
+import { ImportDomainStoryService } from 'src/app/tools/import/services/import-domain-story.service';
 
 @Component({
   selector: 'app-root',
@@ -51,6 +53,7 @@ import { DragDirective } from './tools/import/directive/dragDrop.directive';
     SettingsComponent,
     DragDirective,
     ColorPickerDirective,
+    RouterModule,
   ],
 })
 export class AppComponent implements OnInit, AfterViewInit {
@@ -89,6 +92,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   private readonly replayService = inject(ReplayService);
   private readonly modelerService = inject(ModelerService);
   private readonly dirtyFlagService = inject(DirtyFlagService);
+  private readonly importDomainStoryService = inject(ImportDomainStoryService);
+  private readonly activatedRoute = inject(ActivatedRoute);
 
   constructor() {
     this.showSettings$ = new BehaviorSubject(false);
@@ -178,6 +183,20 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.importDomainStoryService.automatedImportSuccessFull().subscribe(() => {
+      // A timeout is needed to make sure that the import and all asynchronous tasks are finished before the replay is started.
+      setTimeout(() => {
+        this.replayService.startReplay(true);
+      }, 100);
+    });
+    this.activatedRoute.queryParamMap.subscribe((queryParams) => {
+      const urlToLoad = queryParams.get('storyUrl');
+      const startReplay = queryParams.get('startReplay') === 'true';
+      if (urlToLoad) {
+        this.importDomainStoryService.autoImportFromUrl(urlToLoad, startReplay);
+      }
+    });
+
     this.autosaveService.loadLatestDraft();
     this.cd.detectChanges();
   }
