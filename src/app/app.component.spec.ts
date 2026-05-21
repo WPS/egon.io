@@ -14,7 +14,6 @@ import { ModelerService } from './tools/modeler/services/modeler.service';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs/internal/observable/of';
 import { Observable } from 'rxjs/internal/Observable';
-import { IconSet } from 'src/app/domain/entities/iconSet';
 
 describe('AppComponent', () => {
   let autosaveService: jasmine.SpyObj<AutosaveService>;
