@@ -18,6 +18,7 @@ import { IconSetImportExportService } from './icon-set-import-export.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { builtInIcons } from 'src/app/tools/icon-set-config/domain/builtInIcons';
+import { AutosaveService } from 'src/app/tools/autosave/services/autosave.service';
 
 /**
  * We are not allowed to call ImportDomainStoryService directly,
@@ -53,9 +54,14 @@ export class IconSetCustomizationService {
   );
   private readonly iconDictionaryService = inject(IconDictionaryService);
   private readonly elementRegistryService = inject(ElementRegistryService);
+  private readonly autosaveService = inject(AutosaveService);
   private readonly snackbar = inject(MatSnackBar);
 
   constructor(iconSetChangedService: IconSetChangedService) {
+    this.autosaveService.importConfigChanged$.subscribe((config) => {
+      this.importConfiguration(config, false);
+      this.updateAllIconBehaviourSubjects();
+    });
     this.iconSetConfigurationTypes = new BehaviorSubject(
       this.getCurrentConfigurationNamesWithoutPrefix(),
     );
@@ -503,7 +509,7 @@ export class IconSetCustomizationService {
     iconBehaviourSubject.next(icon);
   }
 
-  private updateAllIconBehaviourSubjects(): void {
+  updateAllIconBehaviourSubjects(): void {
     const customIconSetConfiguration = this.iconSetConfigurationTypes.value;
     this.allIconListItems.keysArray().forEach((iconName) => {
       if (customIconSetConfiguration.actors.includes(iconName)) {

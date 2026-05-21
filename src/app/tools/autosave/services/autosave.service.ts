@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { EventEmitter, inject, Injectable } from '@angular/core';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ExportService } from '../../export/services/export.service';
 import { Draft } from '../domain/draft';
@@ -16,6 +16,8 @@ import {
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
+import { IconSet } from 'src/app/domain/entities/iconSet';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +26,11 @@ export class AutosaveService {
   private autosaveTimer: any;
   readonly autosavedDraftsChanged$ = new Subject<void>();
   private maxDrafts: number = 0;
+
+  private importConfigChanged: EventEmitter<IconSet> =
+    new EventEmitter<IconSet>();
+  importConfigChanged$: Observable<IconSet> =
+    this.importConfigChanged.asObservable();
 
   private readonly autosaveConfiguration = inject(AutosaveConfigurationService);
   private readonly exportService = inject(ExportService);
@@ -68,6 +75,7 @@ export class AutosaveService {
       false,
     );
 
+    this.importConfigChanged.emit(config);
     this.modelerService.importStory(story, config, fitToScreen);
   }
 

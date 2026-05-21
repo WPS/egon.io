@@ -20,6 +20,7 @@ import { ElementRegistryService } from 'src/app/domain/services/element-registry
 import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { EventEmitter } from '@angular/core';
+import { AutosaveService } from 'src/app/tools/autosave/services/autosave.service';
 
 describe(IconSetCustomizationService.name, () => {
   let service: IconSetCustomizationService;
@@ -43,6 +44,9 @@ describe(IconSetCustomizationService.name, () => {
         'unregisterIconForType',
       ],
     );
+    const autosaveServiceMock = jasmine.createSpyObj(AutosaveService.name, [], {
+      importConfigChanged$: of(),
+    });
     const iconSetImportExportServiceMock = jasmine.createSpyObj(
       IconSetImportExportService.name,
       [
@@ -77,6 +81,10 @@ describe(IconSetCustomizationService.name, () => {
         {
           provide: MatSnackBar,
           useValue: matSnackbarMock,
+        },
+        {
+          provide: AutosaveService,
+          useValue: autosaveServiceMock,
         },
         MockProvider(ImportDomainStoryService),
         MockProvider(IconSetChangedService, {
