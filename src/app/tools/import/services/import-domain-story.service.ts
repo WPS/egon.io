@@ -206,11 +206,10 @@ export class ImportDomainStoryService implements IconSetChangedService {
   import(input: Blob, filename: string, emitSuccess = false): void {
     const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
     const isSVG = filename.endsWith('.svg');
-    let isEGN = filename.endsWith('.egn');
 
-    if (isSVG) {
-      isEGN = filename.match(egnSvgPattern) != null;
-    }
+    const isEGN = isSVG
+      ? filename.match(egnSvgPattern) != null
+      : filename.endsWith('.egn');
 
     try {
       const fileReader = new FileReader();
@@ -222,7 +221,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
       fileReader.onloadend = (e) => {
         if (e?.target) {
           try {
-            this.fileReaderFunction(e.target.result, isSVG, isEGN);
+            this.processFileContent(e.target.result, isSVG, isEGN);
             this.importSuccessful(emitSuccess);
             this.modelerService.commandStackChanged();
           } catch (error) {
@@ -238,7 +237,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
     }
   }
 
-  private fileReaderFunction(
+  private processFileContent(
     text: string | ArrayBuffer | null,
     isSvgFile: boolean,
     isEgnFormat: boolean,
