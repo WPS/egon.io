@@ -1,4 +1,4 @@
-import { EventEmitter, inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
@@ -24,6 +24,7 @@ import { ImportDialogComponent } from '../presentation/import-dialog/import-dial
 import { UnsavedChangesReminderComponent } from '../../unsavedChangesReminder/presentation/unsavedChangesReminder-dialog/unsaved-changes-reminder/unsaved-changes-reminder.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ExternalResourcesWarningDialogComponent } from 'src/app/tools/import/presentation/external-resources-warning-dialog/external-resources-warning-dialog.component';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Injectable({
   providedIn: 'root',
@@ -43,8 +44,8 @@ export class ImportDomainStoryService implements IconSetChangedService {
     initialValue: INITIAL_TITLE,
   });
 
-  private readonly importedConfigurationEmitter = new EventEmitter<IconSet>();
-  private readonly automatedImportSuccessFullEmitter = new EventEmitter<void>();
+  private readonly importedConfigurationEmitter = new Subject<IconSet>();
+  private readonly automatedImportSuccessFullEmitter = new Subject<void>();
 
   automatedImportSuccessFull(): Observable<void> {
     return this.automatedImportSuccessFullEmitter.asObservable();
@@ -64,7 +65,6 @@ export class ImportDomainStoryService implements IconSetChangedService {
     ) {
       const file = inputElement.files[0];
       this.import(file, file.name);
-      this.modelerService.commandStackChanged();
     } else {
       this.snackbar.open(
         'No file selected or invalid input element.',
@@ -86,7 +86,6 @@ export class ImportDomainStoryService implements IconSetChangedService {
         panelClass: SNACKBAR_ERROR,
       });
     }
-    this.modelerService.commandStackChanged();
   }
 
   importNotDirtyFromUrl(fileUrl: string, isDirty: boolean) {
@@ -98,7 +97,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
   }
 
   importFromUrl(fileUrl: string, emitSuccess = false): void {
-    if (!fileUrl.startsWith('http')) {
+    if (!fileUrl.startsWith('http://') && !fileUrl.startsWith('https://')) {
       this.snackbar.open('Url not valid', undefined, {
         duration: SNACKBAR_DURATION_LONG,
         panelClass: SNACKBAR_ERROR,
@@ -110,13 +109,16 @@ export class ImportDomainStoryService implements IconSetChangedService {
 
     fetch(fileUrl)
       .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
         return response.blob();
       })
       .then((blob) => {
         const string = fileUrl.split('/');
         const filename = string[string.length - 1]
           .replace(/%20/g, ' ')
-          .replace(/(\.egn\.svg).*/, '$1');
+          .replace(/(\.egn\.svg|\.dst\.svg).*/, '$1');
 
         if (!filename) {
           throw new Error('Unable to extract filename from URL');
@@ -130,18 +132,17 @@ export class ImportDomainStoryService implements IconSetChangedService {
             panelClass: SNACKBAR_ERROR,
           });
         }
-        this.modelerService.commandStackChanged();
       })
-      .catch(() =>
+      .catch(() => {
         this.snackbar.open(
-          'Request blocked by server (CORS error)',
+          'Request blocked by server (CORS error) or Network error',
           undefined,
           {
-            duration: SNACKBAR_DURATION_LONG,
+            duration: SNACKBAR_DURATION_LONGER,
             panelClass: SNACKBAR_ERROR,
           },
-        ),
-      );
+        );
+      });
   }
 
   private convertToDownloadableUrl(fileUrl: string): string {
@@ -163,21 +164,15 @@ export class ImportDomainStoryService implements IconSetChangedService {
     return fileUrl;
   }
 
-  private isSupportedFileEnding(filename: string) {
-    let isSupported = false;
+  private isSupportedFileEnding(filename: string): boolean {
+    const supportedSvgPattern = /.*\.(dst|egn)(\s*\(\d+\))?\.svg$/;
 
-    const dstSvgPattern = /.*(.dst)(\s*\(\d+\)){0,1}\.svg/;
-    const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
-
-    if (filename != null) {
-      isSupported =
-        filename.endsWith('.dst') ||
+    return (
+      !!filename &&
+      (filename.endsWith('.dst') ||
         filename.endsWith('.egn') ||
-        filename.match(dstSvgPattern) != null ||
-        filename.match(egnSvgPattern) != null;
-    }
-
-    return isSupported;
+        supportedSvgPattern.test(filename))
+    );
   }
 
   openImportFromUrlDialog(isDirty: boolean): void {
@@ -189,7 +184,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
     this.dialogService.openDialog(ImportDialogComponent, config);
   }
 
-  openUnsavedChangesReminderDialog(fn: Function): void {
+  openUnsavedChangesReminderDialog(fn: () => void): void {
     const config = new MatDialogConfig();
     config.disableClose = false;
     config.autoFocus = true;
@@ -197,7 +192,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
     this.dialogService.openDialog(UnsavedChangesReminderComponent, config);
   }
 
-  openExternalResourcesWarningDialog(fn: Function): void {
+  openExternalResourcesWarningDialog(fn: () => void): void {
     const config = new MatDialogConfig();
     config.disableClose = false;
     config.autoFocus = true;
@@ -226,11 +221,18 @@ export class ImportDomainStoryService implements IconSetChangedService {
 
       fileReader.onloadend = (e) => {
         if (e?.target) {
-          this.fileReaderFunction(e.target.result, isSVG, isEGN);
+          try {
+            this.fileReaderFunction(e.target.result, isSVG, isEGN);
+            this.importSuccessful(emitSuccess);
+            this.modelerService.commandStackChanged();
+          } catch (error) {
+            this.importFailed();
+          }
+        } else {
+          this.importFailed();
         }
       };
       fileReader.readAsText(input);
-      this.importSuccessful(emitSuccess);
     } catch (error) {
       this.importFailed();
     }
@@ -393,7 +395,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
 
   private updateIconRegistries(iconSet: IconSet): void {
     this.iconDictionaryService.updateIconRegistries(iconSet);
-    this.importedConfigurationEmitter.emit(iconSet);
+    this.importedConfigurationEmitter.next(iconSet);
   }
 
   private showPreviousV050Dialog(version: number): void {
@@ -418,8 +420,8 @@ export class ImportDomainStoryService implements IconSetChangedService {
   private restoreTitleFromFileName(filename: string, isSVG: boolean): string {
     let title;
 
-    const domainStoryRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(.dst|.egn)/;
-    const svgRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(.dst|.egn).svg/;
+    const domainStoryRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(\.dst|\.egn)/;
+    const svgRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(\.dst|\.egn)\.svg/;
 
     const egnSuffix = '.egn';
     const dstSuffix = '.dst';
