@@ -26,6 +26,10 @@ import { BusinessObject } from '../../../domain/entities/businessObject';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { downloadFile } from 'src/app/utils/downloadFile';
 import { ExternalLinkGeneratorDialogComponent } from 'src/app/tools/export/presentation/external-link-generator-dialog/external-link-generator-dialog.component';
+import { EsdmService } from 'src/app/tools/export/services/esdm.service';
+import { EventSourceDomainYaml } from 'src/app/tools/export/domain/esdm/event-source-domain-model';
+
+import * as yaml from 'js-yaml';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +40,7 @@ export class ExportService {
   private readonly dirtyFlagService = inject(DirtyFlagService);
   private readonly pngService = inject(PngService);
   private readonly svgService = inject(SvgService);
+  private readonly esdmService = inject(EsdmService);
   private readonly htmlPresentationService = inject(HtmlPresentationService);
   private readonly modelerService = inject(ModelerService);
   private readonly dialogService = inject(DialogService);
@@ -56,6 +61,40 @@ export class ExportService {
     return new ConfigAndDST(
       this.importExportService.getCurrentConfigurationForExport(),
       DomainStory,
+    );
+  }
+
+  downloadEsdm(
+    asIs: boolean,
+    finegrained: boolean,
+    digitalized: boolean,
+  ): void {
+    const currentConfigurationForExport =
+      this.importExportService.getCurrentConfigurationForExport();
+
+    const esdm = this.esdmService.createEventSourceDomainModel(
+      this.title(), // TODO Check if domain-story-title is correct
+      this.description(),
+      currentConfigurationForExport ? currentConfigurationForExport.name : '',
+      asIs,
+      finegrained,
+      digitalized,
+    );
+
+    const esdmYamlFormat: EventSourceDomainYaml = {
+      apiVersion: 'schema.esdm.io/domain-storytelling/v1',
+      kind: 'domain-story',
+      ...esdm,
+    };
+
+    downloadFile(
+      yaml.dump(esdmYamlFormat, {
+        indent: 2,
+        lineWidth: 120,
+      }),
+      'data:text/yaml;charset=utf-8,',
+      this.createFileName(),
+      '.esdm',
     );
   }
 
