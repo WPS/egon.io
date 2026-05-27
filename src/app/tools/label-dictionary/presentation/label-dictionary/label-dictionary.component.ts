@@ -32,7 +32,7 @@ import { MatButtonModule } from '@angular/material/button';
   ],
 })
 export class LabelDictionaryComponent implements AfterViewInit {
-  readonly workobjectEntriesSubject: BehaviorSubject<WorkObjectLabelEntry[]>;
+  readonly workObjectEntriesSubject: BehaviorSubject<WorkObjectLabelEntry[]>;
   readonly activityEntriesSubject: BehaviorSubject<LabelEntry[]>;
 
   workObjectEntries: WorkObjectLabelEntry[];
@@ -49,13 +49,13 @@ export class LabelDictionaryComponent implements AfterViewInit {
     this.workObjectEntries = this.labelDictionaryService.getWorkObjectLabels();
     this.activityEntries = this.labelDictionaryService.getActivityLabels();
 
-    this.workobjectEntriesSubject = new BehaviorSubject(this.workObjectEntries);
+    this.workObjectEntriesSubject = new BehaviorSubject(this.workObjectEntries);
     this.activityEntriesSubject = new BehaviorSubject(this.activityEntries);
   }
 
   ngAfterViewInit(): void {
     this.labelDictionaryService.createLabelDictionaries();
-    this.workobjectEntriesSubject.next(
+    this.workObjectEntriesSubject.next(
       this.labelDictionaryService.getWorkObjectLabels(),
     );
     this.activityEntriesSubject.next(
@@ -65,7 +65,7 @@ export class LabelDictionaryComponent implements AfterViewInit {
   }
 
   save(): void {
-    this.workObjectEntries = this.workobjectEntriesSubject.value;
+    this.workObjectEntries = this.workObjectEntriesSubject.value;
     this.activityEntries = this.activityEntriesSubject.value;
 
     const activityNames: string[] = [];
@@ -83,9 +83,9 @@ export class LabelDictionaryComponent implements AfterViewInit {
 
     this.workObjectEntries
       .filter((w) => w.name !== w.originalName)
-      .forEach((workobject) => {
-        workObjectNames.push(workobject.name);
-        originalWorkObjectNames.push(workobject.originalName);
+      .forEach((workObject) => {
+        workObjectNames.push(workObject.name);
+        originalWorkObjectNames.push(workObject.originalName);
       });
 
     this.labelDictionaryService.massRenameLabels(
@@ -105,7 +105,7 @@ export class LabelDictionaryComponent implements AfterViewInit {
       a.name = a.originalName;
     });
 
-    this.workobjectEntriesSubject.next(this.workObjectEntries);
+    this.workObjectEntriesSubject.next(this.workObjectEntries);
     this.activityEntriesSubject.next(this.activityEntries);
   }
 
@@ -118,13 +118,13 @@ export class LabelDictionaryComponent implements AfterViewInit {
     this.activityEntriesSubject.next(entries);
   }
 
-  updateWorkobjectEntry($event: Event, workobjectEntry: LabelEntry) {
+  updateWorkobjectEntry($event: Event, workObjectEntry: LabelEntry) {
     const target = $event.target as HTMLInputElement;
-    let entries = this.workobjectEntriesSubject.value;
+    let entries = this.workObjectEntriesSubject.value;
     entries.filter(
-      (e) => e.originalName === workobjectEntry.originalName,
+      (e) => e.originalName === workObjectEntry.originalName,
     )[0].name = target.value;
-    this.workobjectEntriesSubject.next(entries);
+    this.workObjectEntriesSubject.next(entries);
   }
 
   preventDefault(event: Event): void {

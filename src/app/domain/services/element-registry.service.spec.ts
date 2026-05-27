@@ -78,7 +78,7 @@ describe('ElementRegistryService', () => {
     testActivity.name = 'activity';
 
     testWorkobject = structuredClone(testCanvasObject);
-    testWorkobject.name = 'workobject';
+    testWorkobject.name = 'workObject';
 
     testGroup = structuredClone(testGroupCanvasObject);
     testGroup.name = 'group';

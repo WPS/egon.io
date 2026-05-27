@@ -111,9 +111,9 @@ export class IconSetImportExportService {
     workObjectsDict: Dictionary,
   ): IconSet {
     const actorNames = actorsDict.keysArray();
-    const workobjectNames = workObjectsDict.keysArray();
+    const workObjectNames = workObjectsDict.keysArray();
     const newActors = new Dictionary();
-    const newWorkobjects = new Dictionary();
+    const newWorkObjects = new Dictionary();
 
     // Fill Configuration from Canvas-Objects
     actorNames.forEach((actor) => {
@@ -122,8 +122,8 @@ export class IconSetImportExportService {
         actor.replace(ElementTypes.ACTOR, ''),
       );
     });
-    workobjectNames.forEach((workObject) => {
-      newWorkobjects.add(
+    workObjectNames.forEach((workObject) => {
+      newWorkObjects.add(
         workObjectsDict.get(workObject),
         workObject.replace(ElementTypes.WORKOBJECT, ''),
       );
@@ -132,7 +132,7 @@ export class IconSetImportExportService {
     return {
       name: this.iconSetNameSubject.value,
       actors: newActors,
-      workObjects: newWorkobjects,
+      workObjects: newWorkObjects,
     };
   }
 

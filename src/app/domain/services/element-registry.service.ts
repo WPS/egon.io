@@ -193,11 +193,11 @@ export class ElementRegistryService {
 
   getUsedIcons(): UsedIconList {
     const actors = this.getAllActors();
-    const workobjects = this.getAllWorkobjects();
+    const workObjects = this.getAllWorkObjects();
 
     return {
       actors: actors.map((a) => a.type.replace(ElementTypes.ACTOR, '')),
-      workobjects: workobjects.map((w) =>
+      workObjects: workObjects.map((w) =>
         w.type.replace(ElementTypes.WORKOBJECT, ''),
       ),
     };
@@ -209,7 +209,7 @@ export class ElementRegistryService {
     );
   }
 
-  getAllWorkobjects() {
+  getAllWorkObjects() {
     return this.getAllCanvasObjects().filter((co) =>
       co.type.includes(ElementTypes.WORKOBJECT),
     );

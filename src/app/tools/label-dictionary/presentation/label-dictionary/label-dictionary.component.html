@@ -3,16 +3,16 @@
     <h3 class="listTitle">Work Objects</h3>
     <mat-list>
       @for (
-        workobjectEntry of workobjectEntriesSubject | async;
-        track workobjectEntry
+        workObjectEntry of workObjectEntriesSubject | async;
+        track workObjectEntry
       ) {
         <mat-list-item>
           <mat-form-field class="inputText dense-8" color="accent">
             <input
               matInput
               class="inputText"
-              [value]="workobjectEntry.name"
-              (change)="updateWorkobjectEntry($event, workobjectEntry)"
+              [value]="workObjectEntry.name"
+              (change)="updateWorkobjectEntry($event, workObjectEntry)"
             />
           </mat-form-field>
         </mat-list-item>

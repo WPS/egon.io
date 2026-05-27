@@ -121,7 +121,7 @@ describe(IconSetCustomizationService.name, () => {
     );
     elementRegistryServiceMock.getUsedIcons.and.returnValue({
       actors: [],
-      workobjects: [],
+      workObjects: [],
     });
 
     iconSetImportExportServiceSpy = TestBed.inject(
@@ -137,18 +137,18 @@ describe(IconSetCustomizationService.name, () => {
 
   describe('import icon set', () => {
     const actors = new Dictionary();
-    const workobjects = new Dictionary();
+    const workObjects = new Dictionary();
 
     actors.add('svg1', 'Person');
     actors.add('svg2', 'Pet');
 
-    workobjects.add('svg3', 'Document');
-    workobjects.add('svg3', 'Call');
+    workObjects.add('svg3', 'Document');
+    workObjects.add('svg3', 'Call');
 
     const customConfig: IconSet = {
       name: INITIAL_ICON_SET_NAME,
       actors: actors,
-      workObjects: workobjects,
+      workObjects: workObjects,
     };
 
     it('Should save icon set', () => {

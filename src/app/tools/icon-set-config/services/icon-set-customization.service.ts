@@ -121,7 +121,7 @@ export class IconSetCustomizationService {
     this.selectedWorkobjects$.value.forEach((iconName) => {
       if (
         !workObjectKeys.includes(iconName) &&
-        !usedIcons.workobjects.includes(iconName)
+        !usedIcons.workObjects.includes(iconName)
       ) {
         this.deselectWorkobject(iconName);
       }
@@ -180,14 +180,14 @@ export class IconSetCustomizationService {
     }
   }
 
-  setAsWorkobject(isWorkobject: boolean, workobject: string): void {
+  setAsWorkobject(isWorkobject: boolean, workObject: string): void {
     if (isWorkobject) {
-      this.updateIcon(false, true, workobject);
-      this.selectWorkObject(workobject);
-      this.deselectActor(workobject);
+      this.updateIcon(false, true, workObject);
+      this.selectWorkObject(workObject);
+      this.deselectActor(workObject);
     } else {
-      this.deselectWorkobject(workobject);
-      this.updateIcon(false, false, workobject);
+      this.deselectWorkobject(workObject);
+      this.updateIcon(false, false, workObject);
     }
   }
 
@@ -223,19 +223,19 @@ export class IconSetCustomizationService {
     this.updateActorSubject();
   }
 
-  deselectWorkobject(workobject: string): void {
+  deselectWorkobject(workObject: string): void {
     if (this.iconSetConfigurationTypes) {
       this.iconSetConfigurationTypes.next({
         name: this.iconSetConfigurationTypes.value.name,
         actors: this.iconSetConfigurationTypes.value.actors,
         workObjects: this.iconSetConfigurationTypes.value.workObjects.filter(
-          (w: string) => !w.includes(workobject),
+          (w: string) => !w.includes(workObject),
         ),
       });
     }
     this.iconDictionaryService.unregisterIconForType(
       ElementTypes.WORKOBJECT,
-      workobject,
+      workObject,
     );
     this.updateWorkObjectSubject();
   }
@@ -385,12 +385,12 @@ export class IconSetCustomizationService {
         }
       });
       const configurationWorkobjects = changedIconSet.workObjects.keysArray();
-      usedIcons?.workobjects.forEach((workobject) => {
+      usedIcons?.workObjects.forEach((workObject) => {
         if (
-          !configurationWorkobjects?.includes(workobject) &&
-          !changedWorkobjects.includes(workobject)
+          !configurationWorkobjects?.includes(workObject) &&
+          !changedWorkobjects.includes(workObject)
         ) {
-          changedWorkobjects.push(workobject);
+          changedWorkobjects.push(workObject);
         }
       });
 
@@ -437,9 +437,9 @@ export class IconSetCustomizationService {
         );
       }
       if (changedWorkobjects.length) {
-        const workobjects = changedWorkobjects.join(', ');
+        const workObjects = changedWorkobjects.join(', ');
         this.snackbar.open(
-          `The following icons are already in use as work objects and cannot be changed: ${workobjects}`,
+          `The following icons are already in use as work objects and cannot be changed: ${workObjects}`,
           undefined,
           {
             duration: SNACKBAR_DURATION_LONGER,
