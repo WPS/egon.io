@@ -58,7 +58,7 @@ export class ElementRegistryService {
         objectList.push(canvasElement);
       }
 
-      // ensure that Activities are always after Actors, Workobjects and Groups in .dst files
+      // ensure that Activities are always after Actors, WorkObjects and Groups in .dst files
       else {
         if (canvasElement.type === ElementTypes.TEXTANNOTATION) {
           canvasElement.businessObject.width = canvasElement.width;

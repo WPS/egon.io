@@ -47,11 +47,9 @@ export class AutosaveService {
       this.updateConfiguration(configuration);
       this.maxDrafts = configuration.maxDrafts;
     });
-    this.iconSetImportExportService.iconSetChangedEmitter
-      .asObservable()
-      .subscribe(() => {
-        this.autosave(this.maxDrafts, false);
-      });
+    this.iconSetImportExportService.iconSetChangedSubject.asObservable().subscribe(() => {
+      this.autosave(this.maxDrafts, false);
+    });
   }
 
   getDrafts(): Draft[] {

@@ -1,4 +1,4 @@
-import { EventEmitter, inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
@@ -10,8 +10,9 @@ import {
 import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set-configuration-for-export';
 import { StorageService } from '../../../domain/services/storage.service';
-import { sanitizeIconName } from '../../../utils/sanitizer';
 import { downloadFile } from 'src/app/utils/downloadFile';
+import { Observable } from 'rxjs/internal/Observable';
+import { Subject } from 'rxjs/internal/Subject';
 
 export interface FileConfiguration {
   name: string;
@@ -29,7 +30,7 @@ export class IconSetImportExportService {
   private readonly iconSetNameSubject = new BehaviorSubject<string>(
     INITIAL_ICON_SET_NAME,
   );
-  readonly iconSetChangedEmitter: EventEmitter<void> = new EventEmitter<void>();
+  readonly iconSetChangedSubject: Subject<void> = new Subject<void>();
 
   readonly iconSetName$ = this.iconSetNameSubject.asObservable();
 
@@ -67,8 +68,12 @@ export class IconSetImportExportService {
   }
 
   private getCurrentConfiguration(): IconSet | undefined {
-    const actors = this.iconDictionaryService.getActorsDictionary();
-    const workObjects = this.iconDictionaryService.getWorkObjectsDictionary();
+    const actors = this.iconDictionaryService.getIconsAssignedAs(
+      ElementTypes.ACTOR,
+    );
+    const workObjects = this.iconDictionaryService.getIconsAssignedAs(
+      ElementTypes.WORKOBJECT,
+    );
 
     let iconSetConfiguration;
 
@@ -117,15 +122,15 @@ export class IconSetImportExportService {
 
     // Fill Configuration from Canvas-Objects
     actorNames.forEach((actor) => {
-      newActors.add(
-        actorsDict.get(actor),
+      newActors.set(
         actor.replace(ElementTypes.ACTOR, ''),
+        actorsDict.get(actor),
       );
     });
     workObjectNames.forEach((workObject) => {
-      newWorkObjects.add(
-        workObjectsDict.get(workObject),
+      newWorkObjects.set(
         workObject.replace(ElementTypes.WORKOBJECT, ''),
+        workObjectsDict.get(workObject),
       );
     });
 
@@ -147,28 +152,10 @@ export class IconSetImportExportService {
       };
     }
 
-    const actorsDict = new Dictionary();
-    const workObjectsDict = new Dictionary();
-    Object.keys(fileConfiguration.actors).forEach((key) => {
-      let icon = fileConfiguration.actors[key];
-      if (icon) {
-        // make sure the actor has an icon
-        actorsDict.add(icon, sanitizeIconName(key));
-      }
-    });
-
-    Object.keys(fileConfiguration.workObjects).forEach((key) => {
-      let icon = fileConfiguration.workObjects[key];
-      if (icon) {
-        // make sure the work object has an icon
-        workObjectsDict.add(icon, sanitizeIconName(key));
-      }
-    });
-
     return {
       name: fileConfiguration.name,
-      actors: actorsDict,
-      workObjects: workObjectsDict,
+      actors: Dictionary.fromRecord(fileConfiguration.actors),
+      workObjects: Dictionary.fromRecord(fileConfiguration.workObjects),
     };
   }
 
@@ -189,23 +176,10 @@ export class IconSetImportExportService {
   }
 
   public setStoredIconSetConfiguration(config: IconSet): void {
-    const actors: {
-      [p: string]: any;
-    } = {};
-    config.actors.keysArray().forEach((key) => {
-      actors[key] = config.actors.get(key);
-    });
-    const workObjects: {
-      [p: string]: any;
-    } = {};
-    config.workObjects.keysArray().forEach((key) => {
-      workObjects[key] = config.workObjects.get(key);
-    });
-
     const configForStorage = {
       name: config.name,
-      actors: actors,
-      workObjects: workObjects,
+      actors: config.actors.toRecord(),
+      workObjects: config.workObjects.toRecord(),
     };
 
     this.storageService.set(
@@ -228,6 +202,6 @@ export class IconSetImportExportService {
   }
 
   saveTrigger() {
-    this.iconSetChangedEmitter.emit();
+    this.iconSetChangedSubject.next();
   }
 }

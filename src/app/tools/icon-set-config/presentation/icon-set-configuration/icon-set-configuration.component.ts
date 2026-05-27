@@ -34,7 +34,7 @@ export class IconSetConfigurationComponent implements OnInit {
   );
 
   selectedActors = new BehaviorSubject<string[]>([]);
-  selectedWorkobjects = new BehaviorSubject<string[]>([]);
+  selectedWorkObjects = new BehaviorSubject<string[]>([]);
 
   readonly allIcons: BehaviorSubject<Dictionary>;
   readonly allIconNames = new BehaviorSubject<string[]>([]);
@@ -58,8 +58,8 @@ export class IconSetConfigurationComponent implements OnInit {
     });
 
     this.selectedActors = this.iconSetCustomizationService.selectedActors$;
-    this.selectedWorkobjects =
-      this.iconSetCustomizationService.selectedWorkobjects$;
+    this.selectedWorkObjects =
+      this.iconSetCustomizationService.selectedWorkObjects$;
   }
 
   ngOnInit(): void {
@@ -161,7 +161,7 @@ export class IconSetConfigurationComponent implements OnInit {
     }
   }
 
-  filterForWorkobjects(): void {
+  filterForWorkObjects(): void {
     if (this.filter.value === IconFilterOptions.ONLY_WORKOBJECTS) {
       this.filter.next(IconFilterOptions.NO_FILTER);
     } else {

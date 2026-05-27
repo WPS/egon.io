@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { builtInIcons } from 'src/app/tools/icon-set-config/domain/builtInIcons';
 import { sanitizeIconName } from '../../../utils/sanitizer';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { INITIAL_ICON_SET_NAME } from 'src/app/domain/entities/constants';
+import { IconCssService } from 'src/app/tools/icon-set-config/services/icon-css.service';
 
 export const ICON_CSS_CLASS_PREFIX = 'icon-domain-story-';
 
@@ -12,6 +13,8 @@ export const ICON_CSS_CLASS_PREFIX = 'icon-domain-story-';
   providedIn: 'root',
 })
 export class IconDictionaryService {
+  private readonly iconCssService = inject(IconCssService);
+
   // The dictionaries hold icons (as SVG) and icon names as key-value pairs
 
   private readonly customIcons = new Dictionary();
@@ -68,7 +71,7 @@ export class IconDictionaryService {
   ) {
     dictionary.clear();
     for (const key of selectedIconNames) {
-      dictionary.add(allIcons.get(key), key);
+      dictionary.set(key, allIcons.get(key));
     }
   }
 
@@ -77,13 +80,7 @@ export class IconDictionaryService {
       throw new Error('Name should not include type!');
     }
 
-    let collection = new Dictionary();
-    if (type === ElementTypes.ACTOR) {
-      collection = this.selectedActorsDictionary;
-    } else if (type === ElementTypes.WORKOBJECT) {
-      collection = this.selectedWorkObjectsDictionary;
-    }
-    collection.add(src, name);
+    this.getDictionaryForType(type).set(name, src);
   }
 
   unregisterIconForType(type: ElementTypes, name: string): void {
@@ -91,13 +88,18 @@ export class IconDictionaryService {
       throw new Error('Name should not include type!');
     }
 
-    let collection = new Dictionary();
-    if (type === ElementTypes.ACTOR) {
-      collection = this.selectedActorsDictionary;
-    } else if (type === ElementTypes.WORKOBJECT) {
-      collection = this.selectedWorkObjectsDictionary;
+    this.getDictionaryForType(type).delete(name);
+  }
+
+  private getDictionaryForType(type: ElementTypes): Dictionary {
+    switch (type) {
+      case ElementTypes.ACTOR:
+        return this.selectedActorsDictionary;
+      case ElementTypes.WORKOBJECT:
+        return this.selectedWorkObjectsDictionary;
+      default:
+        return new Dictionary();
     }
-    collection.delete(name);
   }
 
   // When an icon set or a domain story (which includes its icon set) are imported,
@@ -119,14 +121,14 @@ export class IconDictionaryService {
     elementDictionary.keysArray().forEach((name) => {
       const sanitizedName = sanitizeIconName(name);
       if (!this.getFullDictionary().has(sanitizedName)) {
-        customIcons.add(elementDictionary.get(name), sanitizedName);
+        customIcons.set(sanitizedName, elementDictionary.get(name));
       }
     });
   }
 
   addCustomIcon(iconSrc: string, name: string) {
     this.customIcons.set(name, iconSrc);
-    this.addIconsToCss(iconSrc, name);
+    this.iconCssService.addIconsToCss(iconSrc, name);
   }
 
   private addCustomIcons(icons: Dictionary) {
@@ -134,28 +136,6 @@ export class IconDictionaryService {
       const custom = icons.get(key);
       this.addCustomIcon(custom, key);
     });
-  }
-
-  private addIconsToCss(iconSrc: string, iconName: string) {
-    const sheetEl = document.getElementById('iconsCss');
-
-    const iconStyle =
-      '.' +
-      ICON_CSS_CLASS_PREFIX +
-      sanitizeIconName(iconName.toLowerCase()) +
-      '::before{ content: url("data:image/svg+xml;utf8,' +
-      this.wrapSRCInSVG(iconSrc) +
-      '"); margin: 3px;}';
-    // @ts-ignore
-    sheetEl?.sheet?.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
-  }
-
-  private wrapSRCInSVG(src: string): string {
-    return (
-      "<svg viewBox='0 0 22 22' width='22' height='22' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><image width='22' height='22' xlink:href='" +
-      src +
-      "'/></svg>"
-    );
   }
 
   /** Getter & Setter **/
@@ -187,14 +167,6 @@ export class IconDictionaryService {
       return this.customIcons.get(name);
     }
     return null;
-  }
-
-  getActorsDictionary(): Dictionary {
-    return this.selectedActorsDictionary;
-  }
-
-  getWorkObjectsDictionary(): Dictionary {
-    return this.selectedWorkObjectsDictionary;
   }
 
   setIconSet(iconSet: IconSet): void {

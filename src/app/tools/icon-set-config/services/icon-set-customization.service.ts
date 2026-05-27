@@ -1,16 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UsedIconList } from 'src/app/domain/entities/UsedIconList';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
-import {
-  INITIAL_ICON_SET_NAME,
-  SNACKBAR_DURATION,
-  SNACKBAR_DURATION_LONGER,
-  SNACKBAR_ERROR,
-  SNACKBAR_INFO,
-  SNACKBAR_SUCCESS,
-} from '../../../domain/entities/constants';
+import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 import { Dictionary } from '../../../domain/entities/dictionary';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { SelectableIcon } from '../domain/selectableIcon';
@@ -19,6 +11,7 @@ import { IconDictionaryService } from './icon-dictionary.service';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { builtInIcons } from 'src/app/tools/icon-set-config/domain/builtInIcons';
 import { AutosaveService } from 'src/app/tools/autosave/services/autosave.service';
+import { IconSetNotificationService } from 'src/app/tools/icon-set-config/services/icon-set-notification.service';
 
 /**
  * We are not allowed to call ImportDomainStoryService directly,
@@ -29,7 +22,7 @@ export abstract class IconSetChangedService {
 }
 
 // can be used instead of IconSet whenever only the icon names are needed
-interface CustomIconSetConfiguration {
+interface IconSetSelection {
   name: string;
   actors: string[];
   workObjects: string[];
@@ -39,34 +32,36 @@ interface CustomIconSetConfiguration {
   providedIn: 'root',
 })
 export class IconSetCustomizationService {
-  private readonly iconSetConfigurationTypes: BehaviorSubject<CustomIconSetConfiguration>;
+  private readonly iconSetConfigurationTypes: BehaviorSubject<IconSetSelection>;
 
   private readonly allIconListItems = new Dictionary();
 
   private configurationHasChanged = false;
 
   readonly selectedActors$ = new BehaviorSubject<string[]>([]);
-  readonly selectedWorkobjects$ = new BehaviorSubject<string[]>([]);
+  readonly selectedWorkObjects$ = new BehaviorSubject<string[]>([]);
   private changedIconSetConfiguration: IconSet | undefined;
 
   private readonly iconSetImportExportService = inject(
     IconSetImportExportService,
   );
   private readonly iconDictionaryService = inject(IconDictionaryService);
+  private readonly iconSetNotificationServiceService = inject(
+    IconSetNotificationService,
+  );
   private readonly elementRegistryService = inject(ElementRegistryService);
   private readonly autosaveService = inject(AutosaveService);
-  private readonly snackbar = inject(MatSnackBar);
 
   constructor(iconSetChangedService: IconSetChangedService) {
     this.autosaveService.importConfigChanged$.subscribe((config) => {
       this.importConfiguration(config, false);
-      this.updateAllIconBehaviourSubjects();
+      this.updateAllIconBehaviorSubjects();
     });
     this.iconSetConfigurationTypes = new BehaviorSubject(
       this.getCurrentConfigurationNamesWithoutPrefix(),
     );
 
-    this.selectedWorkobjects$.next(
+    this.selectedWorkObjects$.next(
       this.iconSetConfigurationTypes.value.workObjects,
     );
     this.selectedActors$.next(this.iconSetConfigurationTypes.value.actors);
@@ -87,11 +82,45 @@ export class IconSetCustomizationService {
   }
 
   importConfiguration(customConfig: IconSet, saveIconSet = true): void {
-    const actorKeys = customConfig.actors.keysArray();
-    const workObjectKeys = customConfig.workObjects.keysArray();
+    this.changeName(customConfig.name);
+
     const usedIcons = this.elementRegistryService.getUsedIcons();
 
-    this.changeName(customConfig.name);
+    this.handleActorsAtImport(customConfig.actors.keysArray(), usedIcons);
+    this.handleWorkObjectsAtImport(
+      customConfig.workObjects.keysArray(),
+      usedIcons,
+    );
+
+    if (saveIconSet) {
+      this.saveIconSet(usedIcons, true);
+    }
+  }
+
+  private handleWorkObjectsAtImport(
+    workObjectKeys: string[],
+    usedIcons: UsedIconList,
+  ) {
+    workObjectKeys.forEach((iconName) => {
+      if (!this.allIconListItems.has(iconName)) {
+        this.addIconToAllIconList(iconName);
+      }
+      const selectedWorkObjectNames = this.selectedWorkObjects$.value;
+      if (!selectedWorkObjectNames.includes(iconName)) {
+        this.selectWorkObject(iconName);
+      }
+    });
+    this.selectedWorkObjects$.value.forEach((iconName) => {
+      if (
+        !workObjectKeys.includes(iconName) &&
+        !usedIcons.workObjects.includes(iconName)
+      ) {
+        this.deselectWorkObject(iconName);
+      }
+    });
+  }
+
+  private handleActorsAtImport(actorKeys: string[], usedIcons: UsedIconList) {
     actorKeys.forEach((iconName) => {
       if (!this.allIconListItems.has(iconName)) {
         this.addIconToAllIconList(iconName);
@@ -101,6 +130,7 @@ export class IconSetCustomizationService {
         this.selectActor(iconName);
       }
     });
+
     this.selectedActors$.value.forEach((iconName) => {
       if (
         !actorKeys.includes(iconName) &&
@@ -109,26 +139,6 @@ export class IconSetCustomizationService {
         this.deselectActor(iconName);
       }
     });
-    workObjectKeys.forEach((iconName) => {
-      if (!this.allIconListItems.has(iconName)) {
-        this.addIconToAllIconList(iconName);
-      }
-      const selectedWorkobjectNames = this.selectedWorkobjects$.value;
-      if (!selectedWorkobjectNames.includes(iconName)) {
-        this.selectWorkObject(iconName);
-      }
-    });
-    this.selectedWorkobjects$.value.forEach((iconName) => {
-      if (
-        !workObjectKeys.includes(iconName) &&
-        !usedIcons.workObjects.includes(iconName)
-      ) {
-        this.deselectWorkobject(iconName);
-      }
-    });
-    if (saveIconSet) {
-      this.saveIconSet(usedIcons, true);
-    }
   }
 
   /** Getter & Setter **/
@@ -137,19 +147,11 @@ export class IconSetCustomizationService {
   }
 
   isIconActor(iconName: string): boolean {
-    return (
-      this.iconSetConfigurationTypes.value.actors.filter(
-        (actor: string) => actor === iconName,
-      ).length > 0
-    );
+    return this.iconSetConfigurationTypes.value.actors.includes(iconName);
   }
 
   isIconWorkObject(iconName: string): boolean {
-    return (
-      this.iconSetConfigurationTypes.value.workObjects.filter(
-        (workObject: string) => workObject === iconName,
-      ).length > 0
-    );
+    return this.iconSetConfigurationTypes.value.workObjects.includes(iconName);
   }
 
   changeName(iconSetName: string): void {
@@ -164,7 +166,7 @@ export class IconSetCustomizationService {
     if (isActor) {
       this.deselectActor(iconName);
     } else {
-      this.deselectWorkobject(iconName);
+      this.deselectWorkObject(iconName);
     }
     this.updateIcon(false, false, iconName);
   }
@@ -173,20 +175,20 @@ export class IconSetCustomizationService {
     if (isActor) {
       this.updateIcon(true, false, actor);
       this.selectActor(actor);
-      this.deselectWorkobject(actor);
+      this.deselectWorkObject(actor);
     } else {
       this.deselectActor(actor);
       this.updateIcon(false, false, actor);
     }
   }
 
-  setAsWorkobject(isWorkobject: boolean, workObject: string): void {
-    if (isWorkobject) {
+  setAsWorkObject(isWorkObject: boolean, workObject: string): void {
+    if (isWorkObject) {
       this.updateIcon(false, true, workObject);
       this.selectWorkObject(workObject);
       this.deselectActor(workObject);
     } else {
-      this.deselectWorkobject(workObject);
+      this.deselectWorkObject(workObject);
       this.updateIcon(false, false, workObject);
     }
   }
@@ -214,7 +216,7 @@ export class IconSetCustomizationService {
       this.iconSetConfigurationTypes.next({
         name: this.iconSetConfigurationTypes.value.name,
         actors: this.iconSetConfigurationTypes.value.actors.filter(
-          (a: string) => !a.includes(actor),
+          (a: string) => a !== actor,
         ),
         workObjects: this.iconSetConfigurationTypes.value.workObjects,
       });
@@ -223,13 +225,13 @@ export class IconSetCustomizationService {
     this.updateActorSubject();
   }
 
-  deselectWorkobject(workObject: string): void {
+  deselectWorkObject(workObject: string): void {
     if (this.iconSetConfigurationTypes) {
       this.iconSetConfigurationTypes.next({
         name: this.iconSetConfigurationTypes.value.name,
         actors: this.iconSetConfigurationTypes.value.actors,
         workObjects: this.iconSetConfigurationTypes.value.workObjects.filter(
-          (w: string) => !w.includes(workObject),
+          (w: string) => w !== workObject,
         ),
       });
     }
@@ -260,7 +262,7 @@ export class IconSetCustomizationService {
   }
 
   private updateWorkObjectSubject(): void {
-    this.selectedWorkobjects$.next(
+    this.selectedWorkObjects$.next(
       this.iconSetConfigurationTypes.value.workObjects,
     );
     this.configurationHasChanged = true;
@@ -269,9 +271,9 @@ export class IconSetCustomizationService {
   resetIconSet(): void {
     const currentIconSet = this.createMinimalIconSet();
 
-    this.selectedWorkobjects$.value.forEach((workObjectName) => {
+    this.selectedWorkObjects$.value.forEach((workObjectName) => {
       if (!currentIconSet.workObjects.has(workObjectName)) {
-        this.deselectWorkobject(workObjectName);
+        this.deselectWorkObject(workObjectName);
       }
     });
     this.selectedActors$.value.forEach((actorName) => {
@@ -284,28 +286,27 @@ export class IconSetCustomizationService {
       name: currentIconSet.name,
       actors: currentIconSet.actors.keysArray(),
       workObjects: currentIconSet.workObjects.keysArray(),
-    } as CustomIconSetConfiguration);
+    } as IconSetSelection);
 
-    this.updateAllIconBehaviourSubjects();
+    this.updateAllIconBehaviorSubjects();
   }
 
   /* creates an icon set that contains the default icons
      AND all other icons that are actually used on the canvas. */
   private createMinimalIconSet(): IconSet {
     const usedIconSet = this.createIconSetFromCanvas();
-
-    let defaultIconSet = this.iconDictionaryService.getDefaultIconSet();
+    const defaultIconSet = this.iconDictionaryService.getDefaultIconSet();
 
     defaultIconSet.actors.keysArray().forEach((iconName) => {
-      usedIconSet.actors.add(
-        this.iconDictionaryService.getIconSource(iconName),
+      usedIconSet.actors.set(
         iconName,
+        this.iconDictionaryService.getIconSource(iconName),
       );
     });
     defaultIconSet.workObjects.keysArray().forEach((iconName) => {
-      usedIconSet.workObjects.add(
-        this.iconDictionaryService.getIconSource(iconName),
+      usedIconSet.workObjects.set(
         iconName,
+        this.iconDictionaryService.getIconSource(iconName),
       );
     });
 
@@ -320,7 +321,7 @@ export class IconSetCustomizationService {
       workObjects: new Dictionary(),
     };
 
-    let allCanvasObjects = this.elementRegistryService.getAllCanvasObjects();
+    const allCanvasObjects = this.elementRegistryService.getAllCanvasObjects();
 
     allCanvasObjects
       .map((e) => e.businessObject)
@@ -330,10 +331,10 @@ export class IconSetCustomizationService {
           .replace(ElementTypes.WORKOBJECT, '');
         if (element.type.includes(ElementTypes.ACTOR)) {
           let src = this.iconDictionaryService.getIconSource(type) || '';
-          config.actors.add(src, type);
+          config.actors.set(type, src);
         } else if (element.type.includes(ElementTypes.WORKOBJECT)) {
           let src = this.iconDictionaryService.getIconSource(type) || '';
-          config.workObjects.add(src, type);
+          config.workObjects.set(type, src);
         }
       });
 
@@ -344,21 +345,21 @@ export class IconSetCustomizationService {
     this.iconSetConfigurationTypes.next(
       this.getCurrentConfigurationNamesWithoutPrefix(),
     );
-    this.updateAllIconBehaviourSubjects();
+    this.updateAllIconBehaviorSubjects();
     this.resetToInitialConfiguration();
   }
 
-  private getCurrentConfigurationNamesWithoutPrefix(): CustomIconSetConfiguration {
+  private getCurrentConfigurationNamesWithoutPrefix(): IconSetSelection {
     return {
       name:
         this.iconSetImportExportService.getIconSetName() ||
         INITIAL_ICON_SET_NAME,
       actors: this.iconDictionaryService
-        .getActorsDictionary()
+        .getIconsAssignedAs(ElementTypes.ACTOR)
         .keysArray()
         .map((a) => a.replace(ElementTypes.ACTOR, '')),
       workObjects: this.iconDictionaryService
-        .getWorkObjectsDictionary()
+        .getIconsAssignedAs(ElementTypes.WORKOBJECT)
         .keysArray()
         .map((w) => w.replace(ElementTypes.WORKOBJECT, '')),
     };
@@ -370,85 +371,82 @@ export class IconSetCustomizationService {
   }
 
   saveIconSet(usedIcons: UsedIconList, imported = false): void {
-    const changedActors: string[] = [];
-    const changedWorkobjects: string[] = [];
-    if (this.configurationHasChanged) {
-      const changedIconSet = this.createIconSetConfiguration();
-
-      const configurationActors = changedIconSet.actors.keysArray();
-      usedIcons?.actors.forEach((actor) => {
-        if (
-          !configurationActors?.includes(actor) &&
-          !changedActors.includes(actor)
-        ) {
-          changedActors.push(actor);
-        }
-      });
-      const configurationWorkobjects = changedIconSet.workObjects.keysArray();
-      usedIcons?.workObjects.forEach((workObject) => {
-        if (
-          !configurationWorkobjects?.includes(workObject) &&
-          !changedWorkobjects.includes(workObject)
-        ) {
-          changedWorkobjects.push(workObject);
-        }
-      });
-
-      if (!changedActors.length && !changedWorkobjects.length) {
-        this.changedIconSetConfiguration = changedIconSet;
-        this.updateIcons(changedIconSet);
-
-        this.iconSetImportExportService.setStoredIconSetConfiguration(
-          this.changedIconSetConfiguration,
+    const { changedActors, changedWorkObjects } = this.configurationHasChanged
+      ? this.handleChangedConfiguration(usedIcons, imported)
+      : this.iconSetNotificationServiceService.openNoImportOrNoSaveSnackbar(
+          imported,
         );
-        this.snackbar.open(
-          imported
-            ? 'Configuration imported successfully'
-            : 'Configuration saved successfully & Autosave created',
-          undefined,
-          {
-            duration: SNACKBAR_DURATION,
-            panelClass: SNACKBAR_SUCCESS,
-          },
-        );
-      }
-    } else {
-      this.snackbar.open(
-        imported
-          ? 'No configuration to be imported'
-          : 'No configuration to be saved',
-        undefined,
-        {
-          duration: SNACKBAR_DURATION,
-          panelClass: SNACKBAR_INFO,
-        },
+
+    if (changedActors.length || changedWorkObjects.length) {
+      this.iconSetNotificationServiceService.openAlreadyUsedIconsSnackbar(
+        changedActors,
+        changedWorkObjects,
       );
     }
-    if (changedActors.length || changedWorkobjects.length) {
-      if (changedActors.length) {
-        const actors = changedActors.join(', ');
-        this.snackbar.open(
-          `The following icons are already in use as actors and cannot be changed: ${actors}`,
-          undefined,
-          {
-            duration: SNACKBAR_DURATION_LONGER,
-            panelClass: SNACKBAR_ERROR,
-          },
-        );
-      }
-      if (changedWorkobjects.length) {
-        const workObjects = changedWorkobjects.join(', ');
-        this.snackbar.open(
-          `The following icons are already in use as work objects and cannot be changed: ${workObjects}`,
-          undefined,
-          {
-            duration: SNACKBAR_DURATION_LONGER,
-            panelClass: SNACKBAR_ERROR,
-          },
-        );
-      }
-    }
     this.iconSetImportExportService.saveTrigger();
+  }
+
+  private handleChangedConfiguration(
+    usedIcons: UsedIconList,
+    imported: boolean,
+  ): { changedActors: string[]; changedWorkObjects: string[] } {
+    const changedIconSet = this.createIconSetConfiguration();
+
+    const changedActors = this.determineChangedActors(
+      changedIconSet,
+      usedIcons,
+    );
+    const changedWorkObjects = this.determineChangedWorkObjects(
+      changedIconSet,
+      usedIcons,
+    );
+
+    if (!changedActors.length && !changedWorkObjects.length) {
+      this.changedIconSetConfiguration = changedIconSet;
+      this.updateIcons(changedIconSet);
+
+      this.iconSetImportExportService.setStoredIconSetConfiguration(
+        this.changedIconSetConfiguration,
+      );
+      this.iconSetNotificationServiceService.openConfigurationImportOrSavedSnackbar(
+        imported,
+      );
+    }
+    return { changedActors, changedWorkObjects };
+  }
+
+  private determineChangedWorkObjects(
+    changedIconSet: IconSet,
+    usedIcons: UsedIconList,
+  ): string[] {
+    const changedWorkObjects: string[] = [];
+    const configurationWorkObjects = changedIconSet.workObjects.keysArray();
+    usedIcons?.workObjects.forEach((workObject) => {
+      if (
+        !configurationWorkObjects?.includes(workObject) &&
+        !changedWorkObjects.includes(workObject)
+      ) {
+        changedWorkObjects.push(workObject);
+      }
+    });
+    return changedWorkObjects;
+  }
+
+  private determineChangedActors(
+    changedIconSet: IconSet,
+    usedIcons: UsedIconList,
+  ): string[] {
+    const changedActors: string[] = [];
+    const configurationActors = changedIconSet.actors.keysArray();
+    usedIcons?.actors.forEach((actor) => {
+      if (
+        !configurationActors?.includes(actor) &&
+        !changedActors.includes(actor)
+      ) {
+        changedActors.push(actor);
+      }
+    });
+    return changedActors;
   }
 
   getAndClearSavedConfiguration(): IconSet | undefined {
@@ -463,10 +461,10 @@ export class IconSetCustomizationService {
     const workObjects = new Dictionary();
 
     this.iconSetConfigurationTypes.value.actors.forEach((name: string) => {
-      actors.add(this.iconDictionaryService.getIconSource(name), name);
+      actors.set(name, this.iconDictionaryService.getIconSource(name));
     });
     this.iconSetConfigurationTypes.value.workObjects.forEach((name: string) => {
-      workObjects.add(this.iconDictionaryService.getIconSource(name), name);
+      workObjects.set(name, this.iconDictionaryService.getIconSource(name));
     });
 
     return {
@@ -485,31 +483,31 @@ export class IconSetCustomizationService {
   }
 
   private addIconToAllIconList(iconName: string): void {
-    this.allIconListItems.add(
+    this.allIconListItems.set(
+      iconName,
       new BehaviorSubject({
         name: iconName,
         svg: this.getDataUrlForIcon(iconName),
         isActor: this.isIconActor(iconName),
         isWorkObject: this.isIconWorkObject(iconName),
       }),
-      iconName,
     );
   }
 
   private updateIcon(
     isActor: boolean,
-    isWorkobject: boolean,
+    isWorkObject: boolean,
     iconName: string,
   ) {
     const iconBehaviourSubject = this.getIconForName(iconName);
     const icon = iconBehaviourSubject.value;
     icon.isActor = isActor;
-    icon.isWorkObject = isWorkobject;
+    icon.isWorkObject = isWorkObject;
 
     iconBehaviourSubject.next(icon);
   }
 
-  updateAllIconBehaviourSubjects(): void {
+  updateAllIconBehaviorSubjects(): void {
     const customIconSetConfiguration = this.iconSetConfigurationTypes.value;
     this.allIconListItems.keysArray().forEach((iconName) => {
       if (customIconSetConfiguration.actors.includes(iconName)) {
@@ -562,7 +560,7 @@ export class IconSetCustomizationService {
         ElementTypes.ACTOR,
         workObject,
       );
-      this.setAsWorkobject(true, workObject);
+      this.setAsWorkObject(true, workObject);
     });
   }
 }

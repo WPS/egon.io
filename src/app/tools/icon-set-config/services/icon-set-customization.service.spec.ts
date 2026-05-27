@@ -36,8 +36,7 @@ describe(IconSetCustomizationService.name, () => {
       [
         'addCustomIcon',
         'getFullDictionary',
-        'getActorsDictionary',
-        'getWorkObjectsDictionary',
+        'getIconsAssignedAs',
         'getIconSource',
         'addIconsToCss',
         'registerIconForType',
@@ -68,7 +67,7 @@ describe(IconSetCustomizationService.name, () => {
     );
 
     const actorDefaultDictionary = new Dictionary();
-    actorDefaultDictionary.add('actorSvg', 'actorkey');
+    actorDefaultDictionary.set('actorkey', 'actorSvg');
     const INITIAL_ICON_SET_CONFIGURATION = {
       name: INITIAL_ICON_SET_NAME,
       actors: actorDefaultDictionary,
@@ -115,10 +114,7 @@ describe(IconSetCustomizationService.name, () => {
     ) as jasmine.SpyObj<IconDictionaryService>;
 
     iconDictionarySpy.getFullDictionary.and.returnValue(new Dictionary());
-    iconDictionarySpy.getActorsDictionary.and.returnValue(new Dictionary());
-    iconDictionarySpy.getWorkObjectsDictionary.and.returnValue(
-      new Dictionary(),
-    );
+    iconDictionarySpy.getIconsAssignedAs.and.returnValue(new Dictionary());
     elementRegistryServiceMock.getUsedIcons.and.returnValue({
       actors: [],
       workObjects: [],
@@ -139,11 +135,11 @@ describe(IconSetCustomizationService.name, () => {
     const actors = new Dictionary();
     const workObjects = new Dictionary();
 
-    actors.add('svg1', 'Person');
-    actors.add('svg2', 'Pet');
+    actors.set('Person', 'svg1');
+    actors.set('Pet', 'svg2');
 
-    workObjects.add('svg3', 'Document');
-    workObjects.add('svg3', 'Call');
+    workObjects.set('Document', 'svg3');
+    workObjects.set('Call', 'svg3');
 
     const customConfig: IconSet = {
       name: INITIAL_ICON_SET_NAME,
@@ -158,7 +154,7 @@ describe(IconSetCustomizationService.name, () => {
       service.importConfiguration(customConfig);
 
       const selectedActors = service.selectedActors$.value;
-      const selectedWorkObjects = service.selectedWorkobjects$.value;
+      const selectedWorkObjects = service.selectedWorkObjects$.value;
 
       expect(selectedActors).toContain('Person');
       expect(selectedActors).toContain('Pet');
@@ -188,7 +184,7 @@ describe(IconSetCustomizationService.name, () => {
     //   service.importConfiguration(customConfig, false);
 
     //   const selectedActors = service.selectedActors$.value;
-    //   const selectedWorkObjects = service.selectedWorkobjects$.value;
+    //   const selectedWorkObjects = service.selectedWorkObjects$.value;
 
     //   expect(selectedActors).toContain('Person');
     //   expect(selectedActors).toContain('Pet');

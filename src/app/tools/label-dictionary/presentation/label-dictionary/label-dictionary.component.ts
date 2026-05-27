@@ -118,7 +118,7 @@ export class LabelDictionaryComponent implements AfterViewInit {
     this.activityEntriesSubject.next(entries);
   }
 
-  updateWorkobjectEntry($event: Event, workObjectEntry: LabelEntry) {
+  updateWorkObjectEntry($event: Event, workObjectEntry: LabelEntry) {
     const target = $event.target as HTMLInputElement;
     let entries = this.workObjectEntriesSubject.value;
     entries.filter(

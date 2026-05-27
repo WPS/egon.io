@@ -12,7 +12,7 @@ import { StorageService } from '../../../domain/services/storage.service';
 import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DRAFTS_KEY } from 'src/app/domain/entities/constants';
-import { EventEmitter } from '@angular/core';
+import { Subject } from 'rxjs/internal/Subject';
 
 describe('AutosaveService', () => {
   let service: AutosaveService;
@@ -40,7 +40,7 @@ describe('AutosaveService', () => {
       IconSetImportExportService.name,
       ['createIconSetConfiguration'],
       {
-        iconSetChangedEmitter: new EventEmitter(),
+        iconSetChangedSubject: new Subject<void>(),
       },
     );
 
@@ -124,11 +124,11 @@ describe('AutosaveService', () => {
     });
   });
 
-  describe('autosave when iconSetChangedEmitter triggers', () => {
+  describe('autosave when iconSetChanged triggers', () => {
     it('should call autosave', () => {
       const serviceSpy = spyOn(service, 'autosave').and.callThrough();
 
-      iconSetImportExportService.iconSetChangedEmitter.emit();
+      iconSetImportExportService.iconSetChangedSubject.next();
 
       expect(serviceSpy).toHaveBeenCalledWith(1, false);
     });

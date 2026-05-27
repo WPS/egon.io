@@ -120,7 +120,7 @@ describe('LabelDictionaryComponent', () => {
     let input: EventTarget = { value: 'UNO' } as HTMLInputElement;
     let event: Event = { target: input } as Event;
     let workObjectEntry: LabelEntry = { originalName: 'ONE', name: 'ONE' };
-    component.updateWorkobjectEntry(event, workObjectEntry);
+    component.updateWorkObjectEntry(event, workObjectEntry);
 
     expect(component.workObjectEntries.map((entry) => entry.name)).toEqual([
       'UNO',

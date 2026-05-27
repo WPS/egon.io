@@ -48,7 +48,7 @@
     <h3>Order of Work Objects:</h3>
     <mat-list>
       @for (
-        iconName of selectedWorkobjects$ | async;
+        iconName of selectedWorkObjects$ | async;
         track iconName;
         let i = $index
       ) {
