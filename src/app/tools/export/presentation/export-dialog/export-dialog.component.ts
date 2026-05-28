@@ -8,7 +8,7 @@ import {
   ExportDialogData,
   ExportOption,
 } from 'src/app/tools/export/domain/dialog/exportDialogData';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';

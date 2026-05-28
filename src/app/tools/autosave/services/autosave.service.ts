@@ -1,4 +1,4 @@
-import { EventEmitter, inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ExportService } from '../../export/services/export.service';
 import { Draft } from '../domain/draft';
@@ -17,7 +17,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { IconSet } from 'src/app/domain/entities/iconSet';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -27,9 +27,8 @@ export class AutosaveService {
   readonly autosavedDraftsChanged$ = new Subject<void>();
   private maxDrafts: number = 0;
 
-  private importConfigChanged: EventEmitter<IconSet> =
-    new EventEmitter<IconSet>();
-  importConfigChanged$: Observable<IconSet> =
+  private importConfigChanged: Subject<IconSet> = new Subject<IconSet>();
+  readonly importConfigChanged$: Observable<IconSet> =
     this.importConfigChanged.asObservable();
 
   private readonly autosaveConfiguration = inject(AutosaveConfigurationService);
@@ -47,11 +46,9 @@ export class AutosaveService {
       this.updateConfiguration(configuration);
       this.maxDrafts = configuration.maxDrafts;
     });
-    this.iconSetImportExportService.iconSetChangedSubject
-      .asObservable()
-      .subscribe(() => {
-        this.autosave(this.maxDrafts, false);
-      });
+    this.iconSetImportExportService.iconSetChanged$.subscribe(() => {
+      this.autosave(this.maxDrafts, false);
+    });
   }
 
   getDrafts(): Draft[] {
@@ -75,7 +72,7 @@ export class AutosaveService {
       false,
     );
 
-    this.importConfigChanged.emit(config);
+    this.importConfigChanged.next(config);
     this.modelerService.importStory(story, config, fitToScreen);
   }
 
@@ -107,10 +104,10 @@ export class AutosaveService {
     }
   }
 
-  private startTimer(interval: number, maxDrafts: number): void {
+  private startTimer(intervalInMs: number, maxDrafts: number): void {
     this.autosaveTimer = setInterval(
       () => this.autosave(maxDrafts, true),
-      interval * 1000,
+      intervalInMs * 1000,
     );
   }
 
@@ -181,7 +178,7 @@ export class AutosaveService {
     drafts.sort((a: Draft, b: Draft) => {
       const aDate = Date.parse(a.date);
       const bDate = Date.parse(b.date);
-      return aDate > bDate ? 0 : 1;
+      return aDate === bDate ? 0 : aDate > bDate ? -1 : 1;
     });
   }
 }

@@ -11,7 +11,7 @@ import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set-configuration-for-export';
 import { StorageService } from '../../../domain/services/storage.service';
 import { downloadFile } from 'src/app/utils/downloadFile';
-import { Subject } from 'rxjs/internal/Subject';
+import { Subject, Observable } from 'rxjs';
 
 export interface FileConfiguration {
   name: string;
@@ -30,6 +30,8 @@ export class IconSetImportExportService {
     INITIAL_ICON_SET_NAME,
   );
   readonly iconSetChangedSubject: Subject<void> = new Subject<void>();
+  readonly iconSetChanged$: Observable<void> =
+    this.iconSetChangedSubject.asObservable();
 
   readonly iconSetName$ = this.iconSetNameSubject.asObservable();
 

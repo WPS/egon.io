@@ -108,8 +108,7 @@ export class ElementRegistryService {
     // other children should already be in the allObjects list
     while (groupObjects.length >= 1) {
       const currentGroup = groupObjects.pop();
-      // @ts-ignore
-      currentGroup.children.forEach((child: CanvasObject) => {
+      currentGroup?.children?.forEach((child: CanvasObject) => {
         const type = child.type;
         if (type.includes(ElementTypes.GROUP)) {
           groupObjects.push(child as GroupCanvasObject);

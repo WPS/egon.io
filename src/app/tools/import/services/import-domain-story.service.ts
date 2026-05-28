@@ -24,7 +24,7 @@ import { ImportDialogComponent } from '../presentation/import-dialog/import-dial
 import { UnsavedChangesReminderComponent } from '../../unsavedChangesReminder/presentation/unsavedChangesReminder-dialog/unsaved-changes-reminder/unsaved-changes-reminder.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ExternalResourcesWarningDialogComponent } from 'src/app/tools/import/presentation/external-resources-warning-dialog/external-resources-warning-dialog.component';
-import { Subject } from 'rxjs/internal/Subject';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

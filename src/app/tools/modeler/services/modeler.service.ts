@@ -80,6 +80,7 @@ export class ModelerService {
       this.contextPad,
       this.palette,
       this.selection,
+      this.eventBus,
     );
 
     const exportArtifacts = this.debounce(this.saveSVG, 500);
@@ -87,10 +88,7 @@ export class ModelerService {
       this.modeler.on('commandStack.changed', exportArtifacts);
     }
 
-    this.initializerService.initiateEventBusListeners(
-      this.eventBus,
-      this.commandStack,
-    );
+    this.initializerService.initiateEventBusListeners(this.eventBus);
 
     // expose modeler to window for debugging purposes
     assign(window, { egon: this.modeler });
@@ -179,8 +177,7 @@ export class ModelerService {
 
   debounce(fn: any, timeout: number): any {
     return () => {
-      let timer;
-      timer = setTimeout(() => {
+      let timer = setTimeout(() => {
         // tslint:disable-next-line:no-unused-expression
         fn(this.modeler).then((svg: string) => {
           this.encoded = svg;

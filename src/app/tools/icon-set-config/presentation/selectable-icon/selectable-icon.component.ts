@@ -25,8 +25,12 @@ export class SelectableIconComponent implements OnInit, AfterViewChecked {
 
   private iconInitiated = false;
 
-  // @ts-ignore
-  icon = new BehaviorSubject<SelectableIcon>({});
+  icon = new BehaviorSubject<SelectableIcon>({
+    isActor: false,
+    isWorkObject: false,
+    name: '',
+    svg: '',
+  });
 
   isActor: boolean = false;
   isWorkObject: boolean = false;

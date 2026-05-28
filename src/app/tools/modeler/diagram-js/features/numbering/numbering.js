@@ -2,6 +2,7 @@
 
 import { angleBetween } from "src/app/utils/mathExtensions";
 
+// TODO with the current approach occurring multipleNumbers override each Other, a proper handling of multiple numbers is needed for the registry
 let numberRegistry = [];
 let multipleNumberRegistry = [false];
 

@@ -2,7 +2,7 @@ import { AfterViewInit, Component } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { MatDialogContent } from '@angular/material/dialog';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-external-link-generator-dialogue',

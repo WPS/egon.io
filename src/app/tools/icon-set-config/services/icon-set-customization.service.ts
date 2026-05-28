@@ -188,19 +188,25 @@ export class IconSetCustomizationService {
   }
 
   selectActor(actor: string): void {
-    const value = this.iconSetConfigurationTypes.value;
-    if (!value.actors.includes(actor)) {
-      value.actors.push(actor);
-      this.iconSetConfigurationTypes.next(value);
+    const currentIconSetSelection = this.iconSetConfigurationTypes.value;
+    if (!currentIconSetSelection.actors.includes(actor)) {
+      this.iconSetConfigurationTypes.next({
+        actors: [actor, ...currentIconSetSelection.actors],
+        workObjects: currentIconSetSelection.workObjects,
+        name: currentIconSetSelection.name,
+      });
       this.updateActorSubject();
     }
   }
 
   selectWorkObject(workObject: string): void {
-    const value = this.iconSetConfigurationTypes.value;
-    if (!value.workObjects.includes(workObject)) {
-      value.workObjects.push(workObject);
-      this.iconSetConfigurationTypes.next(value);
+    const currentIconSetSelection = this.iconSetConfigurationTypes.value;
+    if (!currentIconSetSelection.workObjects.includes(workObject)) {
+      this.iconSetConfigurationTypes.next({
+        actors: currentIconSetSelection.actors,
+        workObjects: [workObject, ...currentIconSetSelection.workObjects],
+        name: currentIconSetSelection.name,
+      });
       this.updateWorkObjectSubject();
     }
   }
@@ -422,14 +428,14 @@ export class IconSetCustomizationService {
     usedIcons: string[],
     changedIconSet: string[],
   ): string[] {
-    const changedIcons: string[] = [];
+    const changedIcons = new Set<string>();
 
     usedIcons?.forEach((icon) => {
-      if (!changedIconSet.includes(icon) && !changedIcons.includes(icon)) {
-        changedIcons.push(icon);
+      if (!changedIconSet.includes(icon)) {
+        changedIcons.add(icon);
       }
     });
-    return changedIcons;
+    return Array.from(changedIcons);
   }
 
   getAndClearSavedConfiguration(): IconSet | undefined {

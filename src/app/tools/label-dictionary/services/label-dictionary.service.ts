@@ -19,8 +19,8 @@ import { CanvasObject } from '../../../domain/entities/canvasObject';
   providedIn: 'root',
 })
 export class LabelDictionaryService {
-  activityLabels: LabelEntry[] = [];
-  workObjektLabels: WorkObjectLabelEntry[] = [];
+  private activityLabels: LabelEntry[] = [];
+  private workObjektLabels: WorkObjectLabelEntry[] = [];
 
   private readonly massNamingService = inject(MassNamingService);
   private readonly elementRegistryService = inject(ElementRegistryService);
