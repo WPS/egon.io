@@ -35,7 +35,7 @@ export class IconSetComponent {
   private draggedIndex = 0;
 
   selectedActors$ = this.customizationService.selectedActors$;
-  selectedWorkobjects$ = this.customizationService.selectedWorkobjects$;
+  selectedWorkObjects$ = this.customizationService.selectedWorkObjects$;
 
   changeName(event: Event): void {
     const target = event.target as HTMLInputElement;
@@ -57,7 +57,7 @@ export class IconSetComponent {
     if (actors) {
       list = this.selectedActors$;
     } else {
-      list = this.selectedWorkobjects$;
+      list = this.selectedWorkObjects$;
     }
     const sortedList = list.value;
     const item = sortedList[this.draggedIndex];

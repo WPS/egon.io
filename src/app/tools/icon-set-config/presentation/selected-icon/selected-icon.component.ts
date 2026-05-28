@@ -22,7 +22,7 @@ export class SelectedIconComponent implements AfterViewChecked {
       'domain-configuration-details-icon-' +
       this.icon.name.toLowerCase() +
       '-' +
-      (this.icon.isWorkObject ? 'workobject' : 'actor')
+      (this.icon.isWorkObject ? 'workObject' : 'actor')
     );
   }
 

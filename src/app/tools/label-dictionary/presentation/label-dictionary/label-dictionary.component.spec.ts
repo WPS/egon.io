@@ -113,14 +113,14 @@ describe('LabelDictionaryComponent', () => {
     ]);
   });
 
-  it('should update workobject entries', () => {
+  it('should update workObject entries', () => {
     // in order to reset the new names:
     component.cancel();
 
     let input: EventTarget = { value: 'UNO' } as HTMLInputElement;
     let event: Event = { target: input } as Event;
-    let workobjectEntry: LabelEntry = { originalName: 'ONE', name: 'ONE' };
-    component.updateWorkobjectEntry(event, workobjectEntry);
+    let workObjectEntry: LabelEntry = { originalName: 'ONE', name: 'ONE' };
+    component.updateWorkObjectEntry(event, workObjectEntry);
 
     expect(component.workObjectEntries.map((entry) => entry.name)).toEqual([
       'UNO',

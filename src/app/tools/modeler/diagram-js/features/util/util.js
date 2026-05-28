@@ -31,7 +31,7 @@ export function undoGroupRework(parent, shape) {
   const superParent = parent.parent;
 
   parent.children.remove(shape);
-  superParent.children.add(shape);
+  superParent.children.set(undefined, shape);
 
   shape.parent = superParent;
 

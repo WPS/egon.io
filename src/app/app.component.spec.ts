@@ -12,8 +12,7 @@ import { ImportDomainStoryService } from './tools/import/services/import-domain-
 import { DirtyFlagService } from './domain/services/dirty-flag.service';
 import { ModelerService } from './tools/modeler/services/modeler.service';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs/internal/observable/of';
-import { Observable } from 'rxjs/internal/Observable';
+import { of, Observable } from 'rxjs';
 
 describe('AppComponent', () => {
   let autosaveService: jasmine.SpyObj<AutosaveService>;

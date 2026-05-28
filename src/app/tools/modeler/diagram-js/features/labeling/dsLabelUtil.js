@@ -122,7 +122,7 @@ export function createAutocompleteForEdit(
       return;
     }
 
-    // the direct editing field of actors and workobjects is a recycled html-element and has old values that need to be overridden
+    // the direct editing field of actors and workObjects is a recycled html-element and has old values that need to be overridden
     if (businessElement.type.includes(ElementTypes.WORKOBJECT)) {
       this.value = this.innerHTML;
     }

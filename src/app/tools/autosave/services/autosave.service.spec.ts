@@ -9,10 +9,9 @@ import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { Draft } from '../domain/draft';
 import { testConfigAndDst } from '../../export/domain/export/configAndDst';
 import { StorageService } from '../../../domain/services/storage.service';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DRAFTS_KEY } from 'src/app/domain/entities/constants';
-import { EventEmitter } from '@angular/core';
 
 describe('AutosaveService', () => {
   let service: AutosaveService;
@@ -36,11 +35,13 @@ describe('AutosaveService', () => {
       'get',
       'set',
     ]);
+    const iconSetChangedSubject = new Subject<void>();
     const iconSetImportExportServiceMock = jasmine.createSpyObj(
       IconSetImportExportService.name,
       ['createIconSetConfiguration'],
       {
-        iconSetChangedEmitter: new EventEmitter(),
+        iconSetChangedSubject: iconSetChangedSubject,
+        iconSetChanged$: iconSetChangedSubject.asObservable(),
       },
     );
 
@@ -124,11 +125,11 @@ describe('AutosaveService', () => {
     });
   });
 
-  describe('autosave when iconSetChangedEmitter triggers', () => {
+  describe('autosave when iconSetChanged triggers', () => {
     it('should call autosave', () => {
       const serviceSpy = spyOn(service, 'autosave').and.callThrough();
 
-      iconSetImportExportService.iconSetChangedEmitter.emit();
+      iconSetImportExportService.iconSetChangedSubject.next();
 
       expect(serviceSpy).toHaveBeenCalledWith(1, false);
     });

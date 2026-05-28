@@ -58,7 +58,7 @@ export class ElementRegistryService {
         objectList.push(canvasElement);
       }
 
-      // ensure that Activities are always after Actors, Workobjects and Groups in .dst files
+      // ensure that Activities are always after Actors, WorkObjects and Groups in .dst files
       else {
         if (canvasElement.type === ElementTypes.TEXTANNOTATION) {
           canvasElement.businessObject.width = canvasElement.width;
@@ -108,8 +108,7 @@ export class ElementRegistryService {
     // other children should already be in the allObjects list
     while (groupObjects.length >= 1) {
       const currentGroup = groupObjects.pop();
-      // @ts-ignore
-      currentGroup.children.forEach((child: CanvasObject) => {
+      currentGroup?.children?.forEach((child: CanvasObject) => {
         const type = child.type;
         if (type.includes(ElementTypes.GROUP)) {
           groupObjects.push(child as GroupCanvasObject);
@@ -193,11 +192,11 @@ export class ElementRegistryService {
 
   getUsedIcons(): UsedIconList {
     const actors = this.getAllActors();
-    const workobjects = this.getAllWorkobjects();
+    const workObjects = this.getAllWorkObjects();
 
     return {
       actors: actors.map((a) => a.type.replace(ElementTypes.ACTOR, '')),
-      workobjects: workobjects.map((w) =>
+      workObjects: workObjects.map((w) =>
         w.type.replace(ElementTypes.WORKOBJECT, ''),
       ),
     };
@@ -209,7 +208,7 @@ export class ElementRegistryService {
     );
   }
 
-  getAllWorkobjects() {
+  getAllWorkObjects() {
     return this.getAllCanvasObjects().filter((co) =>
       co.type.includes(ElementTypes.WORKOBJECT),
     );

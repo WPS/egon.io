@@ -44,19 +44,19 @@
       }
     </mat-list>
   </div>
-  <div class="workobjectList">
+  <div class="workObjectList">
     <h3>Order of Work Objects:</h3>
     <mat-list>
       @for (
-        iconName of selectedWorkobjects$ | async;
+        iconName of selectedWorkObjects$ | async;
         track iconName;
         let i = $index
       ) {
         <mat-list-item
           class="compactItem"
           draggable="true"
-          (dragover)="allowDrop($event, 'workobjectList')"
-          (dragstart)="onDragStart(i, 'workobjectList')"
+          (dragover)="allowDrop($event, 'workObjectList')"
+          (dragstart)="onDragStart(i, 'workObjectList')"
           (drop)="onDrop($event, iconName, false, i)"
         >
           <app-selected-icon [icon]="getIconForName(iconName)" />

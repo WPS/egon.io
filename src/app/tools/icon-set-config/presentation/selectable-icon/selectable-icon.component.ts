@@ -25,11 +25,15 @@ export class SelectableIconComponent implements OnInit, AfterViewChecked {
 
   private iconInitiated = false;
 
-  // @ts-ignore
-  icon = new BehaviorSubject<SelectableIcon>({});
+  icon = new BehaviorSubject<SelectableIcon>({
+    isActor: false,
+    isWorkObject: false,
+    name: '',
+    svg: '',
+  });
 
   isActor: boolean = false;
-  isWorkobject: boolean = false;
+  isWorkObject: boolean = false;
   isNone: boolean = true;
 
   get name(): string {
@@ -52,11 +56,11 @@ export class SelectableIconComponent implements OnInit, AfterViewChecked {
 
     this.icon.subscribe((value) => {
       this.isActor = value.isActor;
-      this.isWorkobject = value.isWorkObject;
+      this.isWorkObject = value.isWorkObject;
       this.isNone = !(value.isActor || value.isWorkObject);
     });
     this.isActor = this.icon.value.isActor;
-    this.isWorkobject = this.icon.value.isWorkObject;
+    this.isWorkObject = this.icon.value.isWorkObject;
     this.isNone = !(this.icon.value.isActor || this.icon.value.isWorkObject);
   }
 
@@ -72,18 +76,15 @@ export class SelectableIconComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  toggleNone() {
-    this.iconSetCustomizationService.setAsUnassigned(
-      this.iconName,
-      this.icon.value.isActor,
-    );
+  setAsUnassigned() {
+    this.iconSetCustomizationService.setAsUnassigned(this.iconName);
   }
 
-  toggleActor(): void {
-    this.iconSetCustomizationService.setAsActor(true, this.iconName);
+  setAsActor(): void {
+    this.iconSetCustomizationService.setAsActor(this.iconName);
   }
 
-  toggleWorkobject(): void {
-    this.iconSetCustomizationService.setAsWorkobject(true, this.iconName);
+  setAsWorkObject(): void {
+    this.iconSetCustomizationService.setAsWorkObject(this.iconName);
   }
 }

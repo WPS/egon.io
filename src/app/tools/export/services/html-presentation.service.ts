@@ -191,7 +191,6 @@ export class HtmlPresentationService {
           'customId' +
           sectionIndex +
           idToReplace.slice(-2);
-        // @ts-ignore
         result.svg = result.svg.replaceAll(idToReplace, newId);
       });
       newDefs += '<marker display= "block !important"; ' + split[i];

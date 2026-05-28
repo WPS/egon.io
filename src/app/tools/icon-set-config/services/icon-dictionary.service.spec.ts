@@ -24,8 +24,10 @@ describe('IconDictionaryService', () => {
     it('should initialize Dictionaries with default icon set', () => {
       service.initTypeDictionaries();
 
-      const actorsDictionary = service.getActorsDictionary();
-      const workObjectsDictionary = service.getWorkObjectsDictionary();
+      const actorsDictionary = service.getIconsAssignedAs(ElementTypes.ACTOR);
+      const workObjectsDictionary = service.getIconsAssignedAs(
+        ElementTypes.WORKOBJECT,
+      );
 
       expect(
         actorsDictionary
@@ -56,8 +58,8 @@ describe('IconDictionaryService', () => {
       const actorsDict = new Dictionary();
       const workObjectsDict = new Dictionary();
 
-      actorsDict.add(actor, 'Dollar');
-      workObjectsDict.add(workObject, 'Gavel');
+      actorsDict.set('Dollar', actor);
+      workObjectsDict.set('Gavel', workObject);
 
       const customizedIconSet: IconSet = {
         name: INITIAL_ICON_SET_NAME,
@@ -68,8 +70,10 @@ describe('IconDictionaryService', () => {
       service.setIconSet(customizedIconSet);
       service.initTypeDictionaries();
 
-      const actorsDictionary = service.getActorsDictionary();
-      const workObjectsDictionary = service.getWorkObjectsDictionary();
+      const actorsDictionary = service.getIconsAssignedAs(ElementTypes.ACTOR);
+      const workObjectsDictionary = service.getIconsAssignedAs(
+        ElementTypes.WORKOBJECT,
+      );
 
       expect(actorsDictionary.keysArray).toEqual(actorsDict.keysArray);
       expect(workObjectsDictionary.keysArray).toEqual(
@@ -86,7 +90,9 @@ describe('IconDictionaryService', () => {
         builtInIcons.get('Hotel'),
       );
 
-      expect(service.getWorkObjectsDictionary().has('Hotel')).toBeTruthy();
+      expect(
+        service.getIconsAssignedAs(ElementTypes.WORKOBJECT).has('Hotel'),
+      ).toBeTruthy();
     });
 
     it('register Icon for Actors', () => {
@@ -96,7 +102,9 @@ describe('IconDictionaryService', () => {
         builtInIcons.get('Hotel'),
       );
 
-      expect(service.getActorsDictionary().has('Hotel')).toBeTruthy();
+      expect(
+        service.getIconsAssignedAs(ElementTypes.ACTOR).has('Hotel'),
+      ).toBeTruthy();
     });
   });
 
@@ -104,8 +112,8 @@ describe('IconDictionaryService', () => {
     const actorsDict = new Dictionary();
     const workObjectsDict = new Dictionary();
 
-    actorsDict.add('svg1', 'TestCustomActor');
-    workObjectsDict.add('svg2', 'TestCustomWorkObject');
+    actorsDict.set('TestCustomActor', 'svg1');
+    workObjectsDict.set('TestCustomWorkObject', 'svg2');
 
     const config: IconSet = {
       name: INITIAL_ICON_SET_NAME,
@@ -114,12 +122,18 @@ describe('IconDictionaryService', () => {
     };
 
     it('from iconset file', () => {
-      expect(service.getActorsDictionary().isEmpty()).toBeTrue();
-      expect(service.getWorkObjectsDictionary().isEmpty()).toBeTrue();
+      expect(
+        service.getIconsAssignedAs(ElementTypes.ACTOR).isEmpty(),
+      ).toBeTrue();
+      expect(
+        service.getIconsAssignedAs(ElementTypes.WORKOBJECT).isEmpty(),
+      ).toBeTrue();
 
       service.updateIconRegistries(config);
 
-      expect(service.getActorsDictionary().has('Person')).toBeFalse();
+      expect(
+        service.getIconsAssignedAs(ElementTypes.ACTOR).has('Person'),
+      ).toBeFalse();
       expect(service.getFullDictionary().keysArray()).toContain(
         'TestCustomActor',
       );
