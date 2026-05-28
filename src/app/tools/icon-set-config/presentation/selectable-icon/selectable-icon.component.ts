@@ -72,18 +72,15 @@ export class SelectableIconComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  toggleNone() {
-    this.iconSetCustomizationService.setAsUnassigned(
-      this.iconName,
-      this.icon.value.isActor,
-    );
+  setAsUnassigned() {
+    this.iconSetCustomizationService.setAsUnassigned(this.iconName);
   }
 
-  toggleActor(): void {
-    this.iconSetCustomizationService.setAsActor(true, this.iconName);
+  setAsActor(): void {
+    this.iconSetCustomizationService.setAsActor(this.iconName);
   }
 
-  toggleWorkObject(): void {
-    this.iconSetCustomizationService.setAsWorkObject(true, this.iconName);
+  setAsWorkObject(): void {
+    this.iconSetCustomizationService.setAsWorkObject(this.iconName);
   }
 }

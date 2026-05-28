@@ -19,8 +19,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
-import { EventEmitter } from '@angular/core';
 import { AutosaveService } from 'src/app/tools/autosave/services/autosave.service';
+import { Subject } from 'rxjs/internal/Subject';
 
 describe(IconSetCustomizationService.name, () => {
   let service: IconSetCustomizationService;
@@ -54,10 +54,10 @@ describe(IconSetCustomizationService.name, () => {
         'getIconSetName',
         'setIconSetName',
         'setStoredIconSetConfiguration',
-        'saveTrigger',
+        'notifyIconSetSaved',
       ],
       {
-        iconSetChangedEmitter: new EventEmitter(),
+        iconSetChangedSubject: new Subject<void>(),
       },
     );
 
@@ -203,7 +203,7 @@ describe(IconSetCustomizationService.name, () => {
 
   describe('addNewIcon', () => {
     it('should add Icon', () => {
-      service.addNewIcon('test');
+      service.addNewCustomIcon('test');
 
       expect(service.getIconForName('test')).toBeTruthy();
     });

@@ -106,7 +106,7 @@ export class IconSetConfigurationComponent implements OnInit {
       this.iconDictionaryService.addCustomIcon(src, iconName);
       this.allIcons.next(this.iconDictionaryService.getFullDictionary());
       this.filter.next(this.filter.value);
-      this.iconSetCustomizationService.addNewIcon(iconName);
+      this.iconSetCustomizationService.addNewCustomIcon(iconName);
     }
   }
 
