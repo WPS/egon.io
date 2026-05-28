@@ -371,11 +371,21 @@ export class IconSetCustomizationService {
   }
 
   saveIconSet(usedIcons: UsedIconList, imported = false): void {
-    const { changedActors, changedWorkObjects } = this.configurationHasChanged
-      ? this.handleChangedConfiguration(usedIcons, imported)
-      : this.iconSetNotificationServiceService.openNoImportOrNoSaveSnackbar(
-          imported,
-        );
+    let changedActors: string[] = [];
+    let changedWorkObjects: string[] = [];
+
+    if (this.configurationHasChanged) {
+      const changedObjects = this.handleChangedConfiguration(
+        usedIcons,
+        imported,
+      );
+      changedActors = changedObjects.changedActors;
+      changedWorkObjects = changedObjects.changedWorkObjects;
+    } else {
+      this.iconSetNotificationServiceService.openNoImportOrNoSaveSnackbar(
+        imported,
+      );
+    }
 
     if (changedActors.length || changedWorkObjects.length) {
       this.iconSetNotificationServiceService.openAlreadyUsedIconsSnackbar(
@@ -383,7 +393,7 @@ export class IconSetCustomizationService {
         changedWorkObjects,
       );
     }
-    this.iconSetImportExportService.saveTrigger();
+    this.iconSetImportExportService.notifyIconSetSaved();
   }
 
   private handleChangedConfiguration(

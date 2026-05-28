@@ -67,10 +67,7 @@ export class IconSetNotificationService {
     }
   }
 
-  public openNoImportOrNoSaveSnackbar(imported: boolean): {
-    changedActors: string[];
-    changedWorkObjects: string[];
-  } {
+  public openNoImportOrNoSaveSnackbar(imported: boolean): void {
     this.snackbar.open(
       imported
         ? 'No configuration to be imported'
@@ -81,6 +78,5 @@ export class IconSetNotificationService {
         panelClass: SNACKBAR_INFO,
       },
     );
-    return { changedActors: [], changedWorkObjects: [] };
   }
 }

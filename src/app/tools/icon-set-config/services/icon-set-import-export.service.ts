@@ -11,7 +11,6 @@ import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set-configuration-for-export';
 import { StorageService } from '../../../domain/services/storage.service';
 import { downloadFile } from 'src/app/utils/downloadFile';
-import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 
 export interface FileConfiguration {
@@ -201,7 +200,7 @@ export class IconSetImportExportService {
     );
   }
 
-  saveTrigger() {
+  notifyIconSetSaved() {
     this.iconSetChangedSubject.next();
   }
 }

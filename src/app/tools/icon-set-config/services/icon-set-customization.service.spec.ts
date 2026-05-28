@@ -174,7 +174,9 @@ describe(IconSetCustomizationService.name, () => {
           panelClass: SNACKBAR_SUCCESS,
         },
       );
-      expect(iconSetImportExportServiceSpy.saveTrigger).toHaveBeenCalled();
+      expect(
+        iconSetImportExportServiceSpy.notifyIconSetSaved,
+      ).toHaveBeenCalled();
     });
 
     // TODO: figure out a better way to test the saveIconSet() method than by spying on the snackbar
