@@ -1,6 +1,6 @@
 {
   "name": "egon",
-  "version": "3.1.1-dev",
+  "version": "3.2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -15,12 +15,12 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^21.2.13",
-    "@angular/cdk": "^21.2.11",
+    "@angular/cdk": "^21.2.13",
     "@angular/common": "^21.2.13",
     "@angular/compiler": "^21.2.13",
     "@angular/core": "^21.2.13",
     "@angular/forms": "^21.2.13",
-    "@angular/material": "^21.2.11",
+    "@angular/material": "^21.2.13",
     "@angular/platform-browser": "^21.2.13",
     "@angular/platform-browser-dynamic": "^21.2.13",
     "@angular/router": "^21.2.13",
@@ -42,8 +42,8 @@
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^21.0.3",
-    "@angular/build": "^21.2.11",
-    "@angular/cli": "^21.2.11",
+    "@angular/build": "^21.2.13",
+    "@angular/cli": "^21.2.13",
     "@angular/compiler-cli": "^21.2.13",
     "@types/jasmine": "^5.1.13",
     "@types/js-yaml": "^4.0.9",

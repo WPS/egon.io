@@ -25,7 +25,6 @@ import { DialogService } from '../../../domain/services/dialog.service';
 import { BusinessObject } from '../../../domain/entities/businessObject';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { downloadFile } from 'src/app/utils/downloadFile';
-import { ExternalLinkGeneratorDialogComponent } from 'src/app/tools/export/presentation/external-link-generator-dialog/external-link-generator-dialog.component';
 import { EsdmService } from 'src/app/tools/export/services/esdm.service';
 import { EventSourceDomainYaml } from 'src/app/tools/export/domain/esdm/event-source-domain-model';
 
@@ -220,10 +219,6 @@ export class ExportService {
         panelClass: SNACKBAR_INFO,
       });
     }
-  }
-
-  openExternalLinkGenerationDialog() {
-    this.dialogService.openDialog(ExternalLinkGeneratorDialogComponent, {});
   }
 
   downloadHTMLPresentation(): void {

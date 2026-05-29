@@ -13,6 +13,9 @@
               class="inputText"
               [value]="workObjectEntry.name"
               (change)="updateWorkObjectEntry($event, workObjectEntry)"
+              (keydown.enter)="preventDefault($event)"
+              (keyup.enter)="saveDirectFromWorkObject($event, workObjectEntry)"
+              (keyup.escape)="close()"
             />
           </mat-form-field>
         </mat-list-item>
@@ -37,7 +40,7 @@
               cdkAutosizeMinRows="1"
               cdkAutosizeMaxRows="3"
               (keydown.enter)="preventDefault($event)"
-              (keyup.enter)="save()"
+              (keyup.enter)="saveDirectFromActivity($event, activityEntry)"
               (keyup.escape)="close()"
             ></textarea>
           </mat-form-field>
