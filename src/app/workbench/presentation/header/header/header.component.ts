@@ -116,10 +116,6 @@ export class HeaderComponent {
     this.exportService.openDownloadDialog();
   }
 
-  openExternalLinkGenerationDialog(): void {
-    this.exportService.openExternalLinkGenerationDialog();
-  }
-
   openImportFromUrlDialog(): void {
     this.importService.openImportFromUrlDialog(this.dirtyFlagService.dirty);
   }
