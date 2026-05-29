@@ -109,6 +109,18 @@ export class LabelDictionaryComponent implements AfterViewInit {
     this.activityEntriesSubject.next(this.activityEntries);
   }
 
+  // The keydown in the input / textarea field is handled before the (change) event, thus we need to trigger the update manually
+  saveDirectFromActivity($event: Event, activityEntry: LabelEntry): void {
+    this.updateActivityEntry($event, activityEntry);
+    this.save();
+  }
+
+  // The keydown in the input / textarea field is handled before the (change) event, thus we need to trigger the update manually
+  saveDirectFromWorkObject($event: Event, workObjectEntry: LabelEntry): void {
+    this.updateWorkObjectEntry($event, workObjectEntry);
+    this.save();
+  }
+
   updateActivityEntry($event: Event, activityEntry: LabelEntry) {
     const target = $event.target as HTMLInputElement;
     let entries = this.activityEntriesSubject.value;
