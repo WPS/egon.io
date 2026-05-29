@@ -93,7 +93,7 @@ export class ExportService {
       }),
       'data:text/yaml;charset=utf-8,',
       this.createFileName(),
-      '.esdm',
+      '.esdm.yaml',
     );
   }
 

@@ -46,7 +46,7 @@ export class EsdmService {
       description,
       metadata: this.gatherMetadata(),
       scope: {
-        domain: domainName, // TODO Check if correct
+        domain: domainName,
       },
       pointInTime: asIs ? PointInTime.asIs : PointInTime.toBe,
       granularity: finegrained
@@ -79,11 +79,9 @@ export class EsdmService {
   ) {
     return actors.map((a) => {
       return {
-        name: this.toKebapCase(a.id), // TODO check if correct
-        annotation: this.getAnnotation(a.id, annotations), // TODO check if correct
-        groups: groups
-          .filter((g) => g.children.includes(a.id))
-          .map((g) => g.id),
+        name: this.toKebapCase(a.name),
+        annotation: this.getAnnotation(a.id, annotations),
+        groups: this.getGroupForBusinessObject(groups, a),
       };
     });
   }
@@ -128,6 +126,7 @@ export class EsdmService {
 
   private buildEdges(
     sentence: BusinessObject[],
+    groups: GroupBusinessObject[],
     annotations: { [p: string]: string },
   ): EventSourceDomainEdge[] {
     const activities: ActivityBusinessObject[] = sentence
@@ -140,13 +139,22 @@ export class EsdmService {
         sentence.find((b) => b.id === a.target)?.type === ElementTypes.ACTOR;
 
       return {
-        groups: [],
+        groups: this.getGroupForBusinessObject(groups, a),
         annotation: this.getAnnotation(a.id, annotations),
         label: a.name,
         to: toActor ? { actor: a.source } : { workObject: a.source },
         from: fromActor ? { actor: a.source } : { workObject: a.source },
       };
     });
+  }
+
+  private getGroupForBusinessObject(
+    groups: GroupBusinessObject[],
+    object: BusinessObject,
+  ) {
+    return groups
+      .filter((g) => g.children.includes(object.id))
+      .map((g) => g.id);
   }
 
   private createEsdmSentences(
@@ -167,18 +175,17 @@ export class EsdmService {
 
       const edges: EventSourceDomainEdge[] = this.buildEdges(
         sentence,
+        groups,
         annotations,
       );
 
       const workObjects: EventSourceDomainWorkObject[] = sentence
         .filter((o) => o.type === ElementTypes.WORKOBJECT)
-        .map((o) => {
+        .map((w) => {
           return {
-            name: this.toKebapCase(o.id),
-            groups: groups
-              .filter((g) => g.children.includes(o.id))
-              .map((g) => g.id),
-            annotation: this.getAnnotation(o.id, annotations),
+            name: this.toKebapCase(w.name),
+            groups: this.getGroupForBusinessObject(groups, w),
+            annotation: this.getAnnotation(w.id, annotations),
           };
         });
       esdmSentences.push({
