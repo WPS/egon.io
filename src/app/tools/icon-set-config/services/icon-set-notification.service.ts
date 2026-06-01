@@ -19,7 +19,7 @@ export class IconSetNotificationService {
     this.snackbar.open(
       imported
         ? 'Configuration imported successfully'
-        : 'Configuration saved successfully & Autosave created',
+        : 'Configuration saved successfully',
       undefined,
       {
         duration: SNACKBAR_DURATION,
