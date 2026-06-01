@@ -28,22 +28,29 @@ export class ExportDialogComponent {
   private readonly data: ExportDialogData = inject(MAT_DIALOG_DATA);
 
   protected readonly title: string = this.data.title;
+  protected readonly defaultFileName: string = this.data.defaultFilename;
   protected readonly options: ExportOption[] = this.data.options;
 
   protected readonly withTitle = new BehaviorSubject<boolean>(true);
   protected readonly useWhiteBackground = new BehaviorSubject<boolean>(true);
   protected readonly animationSpeed: number = 2;
   protected isAnimatedSvgExport: boolean = false;
+  protected filename: string = '';
 
   protected doOption(i: number): void {
     if (this.isAnimatedSvgExport) {
       this.options[i].fn(
+        this.filename,
         this.withTitle.value,
         this.useWhiteBackground.value,
         this.animationSpeed,
       );
     } else {
-      this.options[i].fn(this.withTitle.value, this.useWhiteBackground.value);
+      this.options[i].fn(
+        this.filename,
+        this.withTitle.value,
+        this.useWhiteBackground.value,
+      );
     }
     this.close();
   }
@@ -64,5 +71,10 @@ export class ExportDialogComponent {
 
   protected onExportAnimatedSvg(): void {
     this.isAnimatedSvgExport = !this.isAnimatedSvgExport;
+  }
+
+  protected updateFileName($event: Event) {
+    const target = $event.target as HTMLInputElement;
+    this.filename = target.value;
   }
 }

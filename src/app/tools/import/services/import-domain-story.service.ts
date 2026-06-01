@@ -220,21 +220,24 @@ export class ImportDomainStoryService implements IconSetChangedService {
     try {
       const fileReader = new FileReader();
 
-      const titleText = this.restoreTitleFromFileName(filename, isSVG);
-      // no need to put this on the commandStack
-      this.titleService.updateTitleAndDescription(titleText, null, false);
-
       let domainStory: DomainStory | null = null;
       fileReader.onloadend = (e) => {
         if (e?.target) {
           try {
             domainStory = this.processFileContent(
               e.target.result,
+              filename,
               isSVG,
               isEGN,
             );
             this.importSuccessful(emitSuccess);
             this.modelerService.commandStackChanged();
+
+            const titleText: string = this.hasTitle(domainStory)
+              ? domainStory.title
+              : this.restoreTitleFromFileName(filename, isSVG);
+            // no need to put this on the commandStack
+            this.titleService.updateTitleAndDescription(titleText, null, false);
           } catch (error) {
             this.importFailed();
           }
@@ -250,11 +253,16 @@ export class ImportDomainStoryService implements IconSetChangedService {
     }
   }
 
+  private hasTitle(domainStory: DomainStory | null) {
+    return domainStory !== null && !!domainStory.title;
+  }
+
   private processFileContent(
     text: string | ArrayBuffer | null,
+    filename: string,
     isSvgFile: boolean,
     isEgnFormat: boolean,
-  ): DomainStory | null {
+  ): DomainStory {
     let contentAsJson;
     if (typeof text === 'string') {
       if (isSvgFile) {
@@ -266,6 +274,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
         this.separateExportFileIntoIconSetAndStoryElements(
           isEgnFormat,
           contentAsJson,
+          filename,
         );
 
       this.handleLegacyVersion(domainStory);
@@ -288,7 +297,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
       this.modelerService.importStory(domainStory.businessObjects, iconSet);
       return domainStory;
     }
-    return null;
+    throw new Error('Failed to parse domain story from file');
   }
 
   private handleLegacyVersion(domainStory: DomainStory) {
@@ -309,6 +318,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
   private separateExportFileIntoIconSetAndStoryElements(
     isEgnFormat: boolean,
     contentAsJson: string,
+    filename: string,
   ): {
     iconSet: IconSet;
     domainStory: DomainStory;
@@ -324,7 +334,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
       throw new Error('Invalid import file');
     }
 
-    const domainStory = this.dstToDomainStory(storyAndIconSet);
+    const domainStory = this.dstToDomainStory(storyAndIconSet, filename);
     const iconSet = storyAndIconSet.domain
       ? this.extractStoryAndConfigurationFromCurrentFileFormat(
           isEgnFormat,
@@ -468,15 +478,16 @@ export class ImportDomainStoryService implements IconSetChangedService {
     );
   }
 
-  dstToDomainStory(parsedJson: any): DomainStory {
+  dstToDomainStory(parsedJson: any, filename: string): DomainStory {
     const domainStory: DomainStory = {
       businessObjects: [],
       version: '?',
       description: '',
+      title: filename,
     };
 
     if (!isPresent(parsedJson.dst)) {
-      return this.handleLegacyFormat(parsedJson);
+      return this.handleLegacyFormat(parsedJson, filename);
     }
 
     if (isPresent(parsedJson.dst.businessObjects)) {
@@ -487,6 +498,10 @@ export class ImportDomainStoryService implements IconSetChangedService {
 
       if (isPresent(parsedJson.dst.description)) {
         domainStory.description = parsedJson.dst.description;
+      }
+
+      if (isPresent(parsedJson.dst.title)) {
+        domainStory.title = parsedJson.dst.title;
       }
       return domainStory;
     } else if (!Array.isArray(parsedJson.dst)) {
@@ -515,11 +530,12 @@ export class ImportDomainStoryService implements IconSetChangedService {
     return domainStory;
   }
 
-  private handleLegacyFormat(oldFormat: any[]) {
+  private handleLegacyFormat(oldFormat: any[], filename: string) {
     const domainStory: DomainStory = {
       businessObjects: [],
       version: '?',
       description: '',
+      title: filename,
     };
 
     oldFormat.forEach((entry) => {

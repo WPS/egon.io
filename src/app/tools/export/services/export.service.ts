@@ -27,6 +27,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { downloadFile } from 'src/app/utils/downloadFile';
 import { DomainStory } from '../../../domain/entities/domainStory';
 import { isPresent } from '../../../utils/isPresent';
+import { Subject } from 'rxjs/internal/Subject';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +43,8 @@ export class ExportService {
   private readonly modelerService = inject(ModelerService);
   private readonly dialogService = inject(DialogService);
   private readonly snackbar = inject(MatSnackBar);
+
+  private readonly fileNameSubject = new BehaviorSubject<string>('');
 
   private readonly title = toSignal(this.titleService.title$, {
     initialValue: this.titleService.getTitle(),
@@ -60,22 +64,25 @@ export class ExportService {
     );
   }
 
-  downloadDST(): void {
+  downloadDST(filename: string): void {
+    this.fileNameSubject.next(filename);
+
     const dst = this.getStoryForDownload();
     const configAndDST = this.createConfigAndDST(dst);
     const json = JSON.stringify(configAndDST, null, 2);
-
-    const filename = this.createFileName();
 
     downloadFile(json, 'data:text/plain;charset=utf-8,', filename, '.egn');
     this.dirtyFlagService.makeClean();
   }
 
   downloadSVG(
+    filename: string,
     withTitle: boolean,
     useWhiteBackground: boolean,
     animationSpeed: number | undefined,
   ): void {
+    this.fileNameSubject.next(filename);
+
     const story: DomainStory = this.getStoryForDownload();
     const dst: ConfigAndDST = this.createConfigAndDST(story);
 
@@ -88,8 +95,6 @@ export class ExportService {
       animationSpeed,
     );
 
-    const filename = this.createFileName();
-
     downloadFile(
       svgData,
       'data:application/bpmn20-xml;charset=UTF-8,',
@@ -99,7 +104,9 @@ export class ExportService {
     this.dirtyFlagService.makeClean();
   }
 
-  downloadPNG(withTitle: boolean): void {
+  downloadPNG(filename: string, withTitle: boolean): void {
+    this.fileNameSubject.next(filename);
+
     const canvas = document.getElementById('canvas');
     if (canvas) {
       let { svg, image } = this.pngService.createSvgAndImage(
@@ -123,7 +130,6 @@ export class ExportService {
 
         const png64 = tempCanvas.toDataURL('image/png');
 
-        const filename = this.createFileName();
         downloadFile(png64, '', filename, '.png', false);
 
         // image source has to be removed to circumvent browser caching
@@ -147,28 +153,36 @@ export class ExportService {
           withTitle: boolean,
           useWhiteBackground: boolean,
           animationSpeed: number | undefined,
-        ) => this.downloadSVG(withTitle, useWhiteBackground, animationSpeed),
+          filename: string,
+        ) =>
+          this.downloadSVG(
+            filename,
+            withTitle,
+            useWhiteBackground,
+            animationSpeed,
+          ),
       );
       const EGNDownloadOption = new ExportOption(
         'EGN',
         'Download an EGN-File with the Domain-Story. Can be used to save and share your Domain-Story.',
-        () => this.downloadDST(),
+        (filename: string) => this.downloadDST(filename),
       );
       const PNGDownloadOption = new ExportOption(
         'PNG',
         'Download a PNG-Image of the Domain-Story. This does not include the Domain-Story!',
-        (withTitle: boolean) => this.downloadPNG(withTitle),
+        (withTitle: boolean, filename: string) =>
+          this.downloadPNG(filename, withTitle),
       );
       const HTMLDownloadOption = new ExportOption(
         'HTML-Presentation',
         'Download an HTML-Presentation. This does not include the Domain-Story!',
-        () => this.downloadHTMLPresentation(),
+        (filename: string) => this.downloadHTMLPresentation(filename),
       );
 
       const config = new MatDialogConfig();
       config.disableClose = false;
       config.autoFocus = true;
-      config.data = new ExportDialogData('Export', [
+      config.data = new ExportDialogData('Export', this.getFilename(), [
         SVGDownloadOption,
         EGNDownloadOption,
         PNGDownloadOption,
@@ -184,10 +198,8 @@ export class ExportService {
     }
   }
 
-  downloadHTMLPresentation(): void {
-    const filename = sanitizeForDesktop(
-      this.title + '_' + this.getCurrentDateString(),
-    );
+  downloadHTMLPresentation(filename: string): void {
+    this.fileNameSubject.next(filename);
     this.htmlPresentationService.downloadHTMLPresentation(filename).then();
   }
 
@@ -204,6 +216,7 @@ export class ExportService {
 
     return {
       businessObjects: story,
+      title: this.titleService.getTitle(),
       description: this.titleService.getDescription(),
       version: environment.version,
     };
@@ -215,5 +228,11 @@ export class ExportService {
 
   private createFileName() {
     return sanitizeForDesktop(this.title() + '_' + this.getCurrentDateString());
+  }
+
+  getFilename() {
+    return this.fileNameSubject.value
+      ? this.fileNameSubject.value
+      : this.createFileName();
   }
 }

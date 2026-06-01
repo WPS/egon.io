@@ -4,4 +4,5 @@ export interface DomainStory {
   businessObjects: BusinessObject[];
   description: string;
   version: string;
+  title: string;
 }

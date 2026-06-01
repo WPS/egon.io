@@ -171,6 +171,7 @@ export class AutosaveService {
       businessObjects: this.modelerService.getStory(),
       version: environment.version,
       description: this.titleService.getDescription(),
+      title: this.titleService.getTitle(),
     };
     const configAndDST = this.exportService.createConfigAndDST(domainStory);
 

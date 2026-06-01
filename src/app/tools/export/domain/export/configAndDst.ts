@@ -72,5 +72,6 @@ export const testConfigAndDst: ConfigAndDST = {
     ],
     description: 'new domain story',
     version: '2.2.1',
+    title: 'new domain story',
   },
 };

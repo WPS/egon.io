@@ -9,7 +9,6 @@ import { TitleService } from '../../title/services/title.service';
 import { MockService } from 'ng-mocks';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IconSet } from '../../../domain/entities/iconSet';
 import { DomainStory } from '../../../domain/entities/domainStory';
 
 import * as dst_v_1_0_0 from './test-files/dst_export_version_1_0_0.json';
@@ -147,6 +146,7 @@ describe('ImportDomainStoryService', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
         JSON.stringify(dst_v_1_0_0),
+        ""
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -159,6 +159,7 @@ describe('ImportDomainStoryService', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
         JSON.stringify(dst_v_1_1_0),
+        ""
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -171,6 +172,7 @@ describe('ImportDomainStoryService', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
         JSON.stringify(dst_v_1_2_0),
+        ""
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -183,6 +185,7 @@ describe('ImportDomainStoryService', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
         JSON.stringify(dst_v_1_3_0),
+        ""
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -195,6 +198,7 @@ describe('ImportDomainStoryService', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
         JSON.stringify(dst_v_1_4_0),
+        ""
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -207,6 +211,7 @@ describe('ImportDomainStoryService', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
         JSON.stringify(dst_v_1_5_0),
+        ""
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -219,6 +224,7 @@ describe('ImportDomainStoryService', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
         JSON.stringify(dst_v_2_2_0),
+        ""
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -231,6 +237,7 @@ describe('ImportDomainStoryService', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
         JSON.stringify(domain_story),
+        ""
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);

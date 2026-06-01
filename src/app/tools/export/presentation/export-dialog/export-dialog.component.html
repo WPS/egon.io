@@ -1,6 +1,18 @@
 <mat-dialog-content>
   <h1>{{ title }}</h1>
   <div class="card">
+    <div class="row">
+      <span>Filename: </span>
+      <input
+        style="width: 100%;"
+        type="text"
+        [(ngModel)]="filename"
+        [placeholder]="defaultFileName"
+        (change)="updateFileName($event)"
+      />
+    </div>
+  </div>
+  <div class="card">
     <span>Options for image export:</span>
     <label class="row">
       <input

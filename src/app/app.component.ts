@@ -101,11 +101,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     document.addEventListener('keydown', (e: KeyboardEvent) => {
       const modifierPressed = e.ctrlKey || e.metaKey;
+
+      const filename = this.exportService.getFilename();
       if (modifierPressed && e.key === 's' && !e.altKey) {
         e.preventDefault();
         e.stopPropagation();
         if (this.exportService.isDomainStoryExportable()) {
-          this.exportService.downloadDST();
+          this.exportService.downloadDST(filename);
         }
       }
 
@@ -113,7 +115,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         e.preventDefault();
         e.stopPropagation();
         if (this.exportService.isDomainStoryExportable()) {
-          this.exportService.downloadSVG(true, true, undefined);
+          this.exportService.downloadSVG(filename, true, true, undefined);
         }
       }
       if (modifierPressed && e.key === 'l') {
