@@ -75,13 +75,8 @@ export class AutosaveService {
       false,
     );
 
-    this.iconDictionaryService.updateIconRegistries(
-      actorIcons,
-      workObjectIcons,
-      config,
-    );
     this.importConfigChanged.next(config);
-    this.modelerService.importStory(story, config, fitToScreen);
+    this.modelerService.importStory(story.businessObjects, config, fitToScreen);
   }
 
   removeAllDrafts() {

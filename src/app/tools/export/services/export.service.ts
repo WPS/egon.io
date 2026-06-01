@@ -188,21 +188,19 @@ export class ExportService {
     const filename = sanitizeForDesktop(
       this.title + '_' + this.getCurrentDateString(),
     );
-    this.htmlPresentationService
-    .downloadHTMLPresentation(filename)
-    .then();
+    this.htmlPresentationService.downloadHTMLPresentation(filename).then();
   }
 
   private getStoryForDownload(): DomainStory {
     let story: BusinessObject[] = this.modelerService
-    .getStory()
-    .sort((objA: BusinessObject, objB: BusinessObject) => {
-      if (isPresent(objA.id) && isPresent(objB.id)) {
-        return objA.id.localeCompare(objB.id);
-      } else {
-        return 0;
-      }
-    });
+      .getStory()
+      .sort((objA: BusinessObject, objB: BusinessObject) => {
+        if (isPresent(objA.id) && isPresent(objB.id)) {
+          return objA.id.localeCompare(objB.id);
+        } else {
+          return 0;
+        }
+      });
 
     return {
       businessObjects: story,
@@ -212,7 +210,7 @@ export class ExportService {
   }
 
   private getCurrentDateString(): string {
-    return formatDate(new Date(), 'YYYY-MM-dd', 'en-GB');
+    return formatDate(new Date(), 'yyyy-MM-dd', 'en-GB');
   }
 
   private createFileName() {
