@@ -15,9 +15,12 @@ import {
   SNACKBAR_INFO,
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DomainStory } from '../../../domain/entities/domainStory';
+import { environment } from '../../../../environments/environment';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { IconSet } from 'src/app/domain/entities/iconSet';
 import { Observable } from 'rxjs';
+import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -64,7 +67,7 @@ export class AutosaveService {
       this.iconSetImportExportService.createIconSetConfiguration(
         configFromFile,
       );
-    const story = JSON.parse(draft.configAndDST.dst);
+    const story = draft.configAndDST.dst;
 
     this.titleService.updateTitleAndDescription(
       draft.title,
@@ -72,6 +75,11 @@ export class AutosaveService {
       false,
     );
 
+    this.iconDictionaryService.updateIconRegistries(
+      actorIcons,
+      workObjectIcons,
+      config,
+    );
     this.importConfigChanged.next(config);
     this.modelerService.importStory(story, config, fitToScreen);
   }
@@ -136,11 +144,14 @@ export class AutosaveService {
   }
 
   private isDraftEmpty(draft: Draft) {
-    const configAndDST = draft.configAndDST ?? { dst: '[]' };
+    const configAndDST = draft.configAndDST ?? {
+      domain: '',
+      dst: { businessObjects: [], description: '', version: '' },
+    };
     return (
       draft.title === INITIAL_TITLE &&
       draft.description === INITIAL_DESCRIPTION &&
-      JSON.parse(configAndDST.dst).length === 0
+      configAndDST.dst.businessObjects.length === 0
     );
   }
 
@@ -161,8 +172,12 @@ export class AutosaveService {
   }
 
   private createDraft(): Draft {
-    const dst = JSON.stringify(this.modelerService.getStory(), null, 2);
-    const configAndDST = this.exportService.createConfigAndDST(dst);
+    const domainStory: DomainStory = {
+      businessObjects: this.modelerService.getStory(),
+      version: environment.version,
+      description: this.titleService.getDescription(),
+    };
+    const configAndDST = this.exportService.createConfigAndDST(domainStory);
 
     const date = new Date().toString().slice(0, 25);
 

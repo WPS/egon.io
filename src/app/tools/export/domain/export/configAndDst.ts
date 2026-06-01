@@ -1,8 +1,10 @@
-export class ConfigAndDST {
-  domain: any;
-  dst: any;
+import { DomainStory } from '../../../../domain/entities/domainStory';
 
-  constructor(domain: any, dst: any) {
+export class ConfigAndDST {
+  domain: any; // TODO dh: sollte auch kein any mehr sein
+  dst: DomainStory;
+
+  constructor(domain: any, dst: DomainStory) {
     this.domain = domain;
     this.dst = dst;
   }
@@ -35,11 +37,40 @@ export const testConfigAndDst: ConfigAndDST = {
       '<path d=\\"M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z\\"/>' +
       '</svg>"}}',
   ),
-  dst:
-    '[' +
-    '{"type":"domainStory:workObjectDocument","name":"","id":"shape_3792","pickedColor":"black","x":302,"y":102},' +
-    '{"type":"domainStory:actorPerson","name":"","id":"shape_4666","pickedColor":"black","x":103,"y":93},' +
-    '{"type":"domainStory:activity","name":"","id":"connection_4884","pickedColor":"black","number":1,' +
-    '"waypoints":[{"original":{"x":141,"y":131},"x":186,"y":133},{"original":{"x":340,"y":140},"x":302,"y":138}],' +
-    '"source":"shape_4666","target":"shape_3792"}]',
+  dst: {
+    businessObjects: [
+      {
+        type: 'domainStory:workObjectDocument',
+        name: '',
+        id: 'shape_3792',
+        pickedColor: 'black',
+        x: 302,
+        y: 102,
+        height: undefined,
+        width: undefined,
+      },
+      {
+        type: 'domainStory:actorPerson',
+        name: '',
+        id: 'shape_4666',
+        pickedColor: 'black',
+        x: 103,
+        y: 93,
+        height: undefined,
+        width: undefined,
+      },
+      {
+        type: 'domainStory:activity',
+        name: '',
+        id: 'connection_4884',
+        pickedColor: 'black',
+        x: 0,
+        y: 0,
+        height: undefined,
+        width: undefined,
+      },
+    ],
+    description: 'new domain story',
+    version: '2.2.1',
+  },
 };

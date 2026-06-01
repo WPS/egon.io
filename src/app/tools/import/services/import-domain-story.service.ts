@@ -21,6 +21,8 @@ import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetChangedService } from '../../icon-set-config/services/icon-set-customization.service';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ImportDialogComponent } from '../presentation/import-dialog/import-dialog.component';
+import { DomainStory } from '../../../domain/entities/domainStory';
+import { isPresent } from '../../../utils/isPresent';
 import { UnsavedChangesReminderComponent } from '../../unsavedChangesReminder/presentation/unsavedChangesReminder-dialog/unsaved-changes-reminder/unsaved-changes-reminder.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ExternalResourcesWarningDialogComponent } from 'src/app/tools/import/presentation/external-resources-warning-dialog/external-resources-warning-dialog.component';
@@ -203,7 +205,8 @@ export class ImportDomainStoryService implements IconSetChangedService {
     );
   }
 
-  import(input: Blob, filename: string, emitSuccess = false): void {
+  import(input: Blob, filename: string, emitSuccess = false): DomainStory | null {
+    // return value is currently only used for tests
     const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
     const isSVG = filename.endsWith('.svg');
 
@@ -218,10 +221,11 @@ export class ImportDomainStoryService implements IconSetChangedService {
       // no need to put this on the commandStack
       this.titleService.updateTitleAndDescription(titleText, null, false);
 
+      let domainStory: DomainStory | null = null;
       fileReader.onloadend = (e) => {
         if (e?.target) {
           try {
-            this.processFileContent(e.target.result, isSVG, isEGN);
+            domainStory = this.processFileContent(e.target.result, isSVG, isEGN);
             this.importSuccessful(emitSuccess);
             this.modelerService.commandStackChanged();
           } catch (error) {
@@ -232,8 +236,10 @@ export class ImportDomainStoryService implements IconSetChangedService {
         }
       };
       fileReader.readAsText(input);
+      return domainStory;
     } catch (error) {
       this.importFailed();
+      return null;
     }
   }
 
@@ -241,7 +247,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
     text: string | ArrayBuffer | null,
     isSvgFile: boolean,
     isEgnFormat: boolean,
-  ): void {
+  ): DomainStory | null {
     let contentAsJson;
     if (typeof text === 'string') {
       if (isSvgFile) {
@@ -273,6 +279,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
       this.updateIconRegistries(iconSet);
       this.modelerService.importStory(domainStoryElements, iconSet);
     }
+    return null;
   }
 
   private separateExportFileIntoIconSetAndStoryElements(
@@ -415,9 +422,12 @@ export class ImportDomainStoryService implements IconSetChangedService {
     }
   }
 
-  private importFailed() {
-    this.snackbar.open('Import failed', undefined, {
-      duration: SNACKBAR_DURATION,
+  private importFailed(message?: string) {
+    const errorMessage: string = isPresent(message)
+      ? 'Import failed due to: ' + message
+      : 'Import failed';
+    this.snackbar.open(errorMessage, undefined, {
+      duration: SNACKBAR_DURATION_LONGER,
       panelClass: SNACKBAR_ERROR,
     });
   }
@@ -498,5 +508,51 @@ export class ImportDomainStoryService implements IconSetChangedService {
     this.openExternalResourcesWarningDialog(() =>
       this.importFromUrl(urlToLoad, startReplay),
     );
+  }
+
+  dstToDomainStory(contentAsJson: string): DomainStory {
+    const dst = JSON.parse(contentAsJson);
+    const domainStory: DomainStory = {
+      businessObjects: [],
+      version: '?',
+      description: '',
+    };
+
+    if (isPresent(dst.dst.businessObjects)) {
+      domainStory.businessObjects = dst.dst.businessObjects;
+      if (isPresent(dst.dst.version)) {
+        domainStory.version = dst.dst.version;
+      }
+
+      if (isPresent(dst.dst.description)) {
+        domainStory.description = dst.dst.description;
+      }
+      return domainStory;
+    } else if (!isPresent(dst.dst)) {
+      return domainStory;
+    } else if (!Array.isArray(dst.dst)) {
+      // for older versions where the dst.dst is a string
+      dst.dst = JSON.parse(dst.dst);
+    }
+
+    if (Array.isArray(dst.dst)) {
+      dst.dst.forEach((it: any) => {
+        let hasOwnProperty: boolean = it.hasOwnProperty('type');
+        if (it.type !== undefined || hasOwnProperty) {
+          const businessObject: BusinessObject = Object.assign(
+            {} as BusinessObject,
+            it,
+          );
+          domainStory.businessObjects.push(businessObject);
+        }
+        if (it.info !== undefined || it.hasOwnProperty('info')) {
+          domainStory.description = it.info;
+        }
+        if (it.version !== undefined || it.hasOwnProperty('version')) {
+          domainStory.version = it.version;
+        }
+      });
+    }
+    return domainStory;
   }
 }
