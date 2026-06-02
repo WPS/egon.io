@@ -224,20 +224,13 @@ export class ImportDomainStoryService implements IconSetChangedService {
       fileReader.onloadend = (e) => {
         if (e?.target) {
           try {
-            domainStory = this.processFileContent(
+            this.processDomainStoryImport(
               e.target.result,
               filename,
               isSVG,
               isEGN,
+              emitSuccess,
             );
-            this.importSuccessful(emitSuccess);
-            this.modelerService.commandStackChanged();
-
-            const titleText: string = this.hasTitle(domainStory)
-              ? domainStory.title
-              : this.restoreTitleFromFileName(filename, isSVG);
-            // no need to put this on the commandStack
-            this.titleService.updateTitleAndDescription(titleText, null, false);
           } catch (error) {
             this.importFailed();
           }
@@ -253,51 +246,46 @@ export class ImportDomainStoryService implements IconSetChangedService {
     }
   }
 
-  private hasTitle(domainStory: DomainStory | null) {
-    return domainStory !== null && !!domainStory.title;
-  }
-
-  private processFileContent(
+  processDomainStoryImport(
     text: string | ArrayBuffer | null,
     filename: string,
-    isSvgFile: boolean,
-    isEgnFormat: boolean,
+    isSVG: boolean,
+    isEGN: boolean,
+    emitSuccess: boolean,
   ): DomainStory {
-    let contentAsJson;
-    if (typeof text === 'string') {
-      if (isSvgFile) {
-        contentAsJson = this.extractJsonFromSvgComment(text);
-      } else {
-        contentAsJson = text;
-      }
-      const { iconSet, domainStory } =
-        this.separateExportFileIntoIconSetAndStoryElements(
-          isEgnFormat,
-          contentAsJson,
-          filename,
-        );
+    if (typeof text !== 'string') {
+      throw new Error('Failed to parse domain story from file');
+    }
 
-      this.handleLegacyVersion(domainStory);
+    const contentAsJson = isSVG ? this.extractJsonFromSvgComment(text) : text;
+    const sanitizedFileName = this.restoreTitleFromFileName(filename, isSVG);
 
-      if (
-        !this.importRepairService.checkForUnreferencedElementsInActivitiesAndRepair(
-          domainStory.businessObjects,
-        )
-      ) {
-        this.showBrokenImportDialog();
-      }
-
-      this.titleService.updateTitleAndDescription(
-        this.title(),
-        domainStory.description,
-        false,
+    const { iconSet, domainStory } =
+      this.separateExportFileIntoIconSetAndStoryElements(
+        isEGN,
+        contentAsJson,
+        sanitizedFileName,
       );
 
-      this.updateIconRegistries(iconSet);
-      this.modelerService.importStory(domainStory.businessObjects, iconSet);
-      return domainStory;
+    this.handleLegacyVersion(domainStory);
+
+    if (
+      !this.importRepairService.checkForUnreferencedElementsInActivitiesAndRepair(
+        domainStory.businessObjects,
+      )
+    ) {
+      this.showBrokenImportDialog();
     }
-    throw new Error('Failed to parse domain story from file');
+
+    this.updateIconRegistries(iconSet);
+    this.modelerService.importStory(domainStory.businessObjects, iconSet);
+
+    this.importSuccessful(emitSuccess);
+    this.modelerService.commandStackChanged();
+
+    // no need to put this on the commandStack
+    this.titleService.updateTitleAndDescription(domainStory.title, null, false);
+    return domainStory;
   }
 
   private handleLegacyVersion(domainStory: DomainStory) {
@@ -335,12 +323,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
     }
 
     const domainStory = this.dstToDomainStory(storyAndIconSet, filename);
-    const iconSet = storyAndIconSet.domain
-      ? this.extractStoryAndConfigurationFromCurrentFileFormat(
-          isEgnFormat,
-          storyAndIconSet,
-        )
-      : this.extractStoryAndConfigurationFromLegacyFileFormat(storyAndIconSet);
+    const iconSet = this.extractIconSet(storyAndIconSet, isEgnFormat);
 
     this.importRepairService.removeWhitespacesFromIcons(
       domainStory.businessObjects,
@@ -355,6 +338,18 @@ export class ImportDomainStoryService implements IconSetChangedService {
     };
   }
 
+  private extractIconSet(storyAndIconSet: any, isEgnFormat: boolean) {
+    const iconSetContent = storyAndIconSet.iconSet
+      ? storyAndIconSet.iconSet
+      : storyAndIconSet.domain;
+    return iconSetContent
+      ? this.extractStoryAndConfigurationFromCurrentFileFormat(
+          isEgnFormat,
+          iconSetContent,
+        )
+      : this.extractStoryAndConfigurationFromLegacyFileFormat(storyAndIconSet);
+  }
+
   private extractStoryAndConfigurationFromCurrentFileFormat(
     isEgnFormat: boolean,
     storyAndIconSet: any,
@@ -363,9 +358,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
       name: string;
       actors: { [key: string]: any };
       workObjects: { [key: string]: any };
-    } = isEgnFormat
-      ? storyAndIconSet.domain
-      : JSON.parse(storyAndIconSet.domain);
+    } = isEgnFormat ? storyAndIconSet : JSON.parse(storyAndIconSet);
 
     return this.iconSetImportExportService.createIconSetConfiguration(
       iconSetFromFile,
@@ -486,32 +479,36 @@ export class ImportDomainStoryService implements IconSetChangedService {
       title: filename,
     };
 
-    if (!isPresent(parsedJson.dst)) {
+    if (!isPresent(parsedJson.dst) && !isPresent(parsedJson.domainStory)) {
       return this.handleLegacyFormat(parsedJson, filename);
     }
 
-    if (isPresent(parsedJson.dst.businessObjects)) {
-      domainStory.businessObjects = parsedJson.dst.businessObjects;
-      if (isPresent(parsedJson.dst.version)) {
-        domainStory.version = parsedJson.dst.version;
+    let domainStoryContent = parsedJson.domainStory
+      ? parsedJson.domainStory
+      : parsedJson.dst;
+
+    if (isPresent(domainStoryContent.businessObjects)) {
+      domainStory.businessObjects = domainStoryContent.businessObjects;
+      if (isPresent(domainStoryContent.version)) {
+        domainStory.version = domainStoryContent.version;
       }
 
-      if (isPresent(parsedJson.dst.description)) {
-        domainStory.description = parsedJson.dst.description;
+      if (isPresent(domainStoryContent.description)) {
+        domainStory.description = domainStoryContent.description;
       }
 
-      if (isPresent(parsedJson.dst.title)) {
-        domainStory.title = parsedJson.dst.title;
+      if (isPresent(domainStoryContent.title)) {
+        domainStory.title = domainStoryContent.title;
       }
       return domainStory;
-    } else if (!Array.isArray(parsedJson.dst)) {
+    } else if (!Array.isArray(domainStoryContent)) {
       // for older versions where the dst.dst is a string
-      parsedJson.dst = JSON.parse(parsedJson.dst);
+      domainStoryContent = JSON.parse(domainStoryContent);
     }
 
-    if (Array.isArray(parsedJson.dst)) {
-      parsedJson.dst.forEach((it: any) => {
-        let hasOwnProperty: boolean = it.hasOwnProperty('type');
+    if (Array.isArray(domainStoryContent)) {
+      domainStoryContent.forEach((it: any) => {
+        const hasOwnProperty: boolean = it.hasOwnProperty('type');
         if (it.type !== undefined || hasOwnProperty) {
           const businessObject: BusinessObject = Object.assign(
             {} as BusinessObject,

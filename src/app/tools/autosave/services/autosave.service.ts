@@ -6,7 +6,7 @@ import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { StorageService } from '../../../domain/services/storage.service';
 import { TitleService } from '../../title/services/title.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {
   DRAFTS_KEY,
   INITIAL_DESCRIPTION,
@@ -19,8 +19,8 @@ import { DomainStory } from '../../../domain/entities/domainStory';
 import { environment } from '../../../../environments/environment';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { IconSet } from 'src/app/domain/entities/iconSet';
-import { Observable } from 'rxjs';
-import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import { isPresent } from 'src/app/utils/isPresent';
+import { BusinessObject } from 'src/app/domain/entities/businessObject';
 
 @Injectable({
   providedIn: 'root',
@@ -60,14 +60,12 @@ export class AutosaveService {
     return drafts;
   }
 
-  // if we fitToScreen while the AUtosave-Dialoge is open, the canvas is not on screen and the Zoom breaks
+  // if we fitToScreen while the Autosave-Dialoge is open, the canvas is not on screen and the Zoom breaks
   loadDraft(draft: Draft, fitToScreen = false): void {
-    const configFromFile = draft.configAndDST.domain;
-    const config =
-      this.iconSetImportExportService.createIconSetConfiguration(
-        configFromFile,
-      );
-    const story = draft.configAndDST.dst;
+    const iconSet = this.iconSetImportExportService.createIconSetConfiguration(
+      this.getIconSetFromAutosave(draft),
+    );
+    const businessObjects = this.getBusinessObjectsFromDraft(draft);
 
     this.titleService.updateTitleAndDescription(
       draft.title,
@@ -75,8 +73,8 @@ export class AutosaveService {
       false,
     );
 
-    this.importConfigChanged.next(config);
-    this.modelerService.importStory(story.businessObjects, config, fitToScreen);
+    this.importConfigChanged.next(iconSet);
+    this.modelerService.importStory(businessObjects, iconSet, fitToScreen);
   }
 
   removeAllDrafts() {
@@ -140,13 +138,13 @@ export class AutosaveService {
 
   private isDraftEmpty(draft: Draft) {
     const configAndDST = draft.configAndDST ?? {
-      domain: '',
-      dst: { businessObjects: [], description: '', version: '' },
+      iconSet: '',
+      domainStory: { businessObjects: [], description: '', version: '' },
     };
     return (
       draft.title === INITIAL_TITLE &&
       draft.description === INITIAL_DESCRIPTION &&
-      configAndDST.dst.businessObjects.length === 0
+      configAndDST.domainStory.businessObjects.length === 0
     );
   }
 
@@ -191,5 +189,24 @@ export class AutosaveService {
       const bDate = Date.parse(b.date);
       return aDate === bDate ? 0 : aDate > bDate ? -1 : 1;
     });
+  }
+
+  // Legacy Compatability - to be removed in version v5.0.0
+  //@ts-ignore
+  private getIconSetFromAutosave(draft: Draft): IconSet {
+    return isPresent(draft.configAndDST.iconSet)
+      ? //@ts-ignore
+        draft.configAndDST.iconSet
+      : //@ts-ignore
+        draft.configAndDST.domain;
+  }
+
+  //@ts-ignore
+  private getBusinessObjectsFromDraft(draft: Draft): BusinessObject[] {
+    return isPresent(draft.configAndDST.domainStory)
+      ? //@ts-ignore
+        draft.configAndDST.domainStory.businessObjects
+      : //@ts-ignore
+        JSON.parse(draft.configAndDST.dst);
   }
 }

@@ -6,6 +6,7 @@ import { IconDictionaryService } from '../../icon-set-config/services/icon-dicti
 import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
 import { ImportRepairService } from './import-repair.service';
 import { TitleService } from '../../title/services/title.service';
+import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 import { MockService } from 'ng-mocks';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,7 +19,7 @@ import * as dst_v_1_3_0 from './test-files/dst_export_version_1_3_0.json';
 import * as dst_v_1_4_0 from './test-files/dst_export_version_1_4_0.json';
 import * as dst_v_1_5_0 from './test-files/dst_export_version_1_5_0.json';
 import * as dst_v_2_2_0 from './test-files/dst_export_version_2_2_0.json';
-import * as domain_story from './test-files/dst_export_version_2_2_0_dev_new-domain-story.json';
+import * as domain_story from 'src/app/tools/import/services/test-files/dst_export_version_4_0_0.json';
 
 describe('ImportDomainStoryService', () => {
   let service: ImportDomainStoryService;
@@ -54,6 +55,10 @@ describe('ImportDomainStoryService', () => {
           provide: MatSnackBar,
           useValue: MockService(MatSnackBar),
         },
+        {
+          provide: ModelerService,
+          useValue: MockService(ModelerService),
+        },
       ],
     });
     iconDictionarySpy = TestBed.inject(
@@ -67,7 +72,8 @@ describe('ImportDomainStoryService', () => {
   });
 
   describe('should process title of story correctly', () => {
-    const input: Blob = new File([], '');
+    const input_with_title = JSON.stringify(domain_story);
+    const input_without_title = JSON.stringify(dst_v_2_2_0);
     let filename: string;
     let expectedTitle: string;
 
@@ -78,7 +84,13 @@ describe('ImportDomainStoryService', () => {
     it('.egn', () => {
       filename = 'meine domain story.egn';
       expectedTitle = 'meine domain story';
-      service.import(input, filename);
+      service.processDomainStoryImport(
+        input_without_title,
+        filename,
+        false,
+        true,
+        false,
+      );
       expect(
         TitleService.prototype.updateTitleAndDescription,
       ).toHaveBeenCalledWith(expectedTitle, null, false);
@@ -87,7 +99,13 @@ describe('ImportDomainStoryService', () => {
     it('.egn.svg', () => {
       filename = 'meine domain story.egn.svg';
       expectedTitle = 'meine domain story';
-      service.import(input, filename);
+      service.processDomainStoryImport(
+        input_without_title,
+        filename,
+        false,
+        true,
+        false,
+      );
       expect(
         TitleService.prototype.updateTitleAndDescription,
       ).toHaveBeenCalledWith(expectedTitle, null, false);
@@ -96,7 +114,13 @@ describe('ImportDomainStoryService', () => {
     it('.dst', () => {
       filename = 'meine domain story.dst';
       expectedTitle = 'meine domain story';
-      service.import(input, filename);
+      service.processDomainStoryImport(
+        input_without_title,
+        filename,
+        false,
+        true,
+        false,
+      );
       expect(
         TitleService.prototype.updateTitleAndDescription,
       ).toHaveBeenCalledWith(expectedTitle, null, false);
@@ -105,7 +129,13 @@ describe('ImportDomainStoryService', () => {
     it('.dst.svg', () => {
       filename = 'meine domain story.dst.svg';
       expectedTitle = 'meine domain story';
-      service.import(input, filename);
+      service.processDomainStoryImport(
+        input_without_title,
+        filename,
+        false,
+        true,
+        false,
+      );
       expect(
         TitleService.prototype.updateTitleAndDescription,
       ).toHaveBeenCalledWith(expectedTitle, null, false);
@@ -115,7 +145,13 @@ describe('ImportDomainStoryService', () => {
       filename =
         'alphorn-5a-riskassessment-fine-digitalized-tobe-colored_2024-08-08.egn';
       expectedTitle = 'alphorn-5a-riskassessment-fine-digitalized-tobe-colored';
-      service.import(input, filename);
+      service.processDomainStoryImport(
+        input_without_title,
+        filename,
+        false,
+        true,
+        false,
+      );
       expect(
         TitleService.prototype.updateTitleAndDescription,
       ).toHaveBeenCalledWith(expectedTitle, null, false);
@@ -125,7 +161,13 @@ describe('ImportDomainStoryService', () => {
       filename =
         'alphorn-1a-standardcase-withboundaries-coarse-pure-asis_2024-08-08.egn.svg';
       expectedTitle = 'alphorn-1a-standardcase-withboundaries-coarse-pure-asis';
-      service.import(input, filename);
+      service.processDomainStoryImport(
+        input_without_title,
+        filename,
+        false,
+        true,
+        false,
+      );
       expect(
         TitleService.prototype.updateTitleAndDescription,
       ).toHaveBeenCalledWith(expectedTitle, null, false);
@@ -134,7 +176,28 @@ describe('ImportDomainStoryService', () => {
     it('.dst mit Datum', () => {
       filename = 'Organizing an investment conference_2024-08-08.dst';
       expectedTitle = 'Organizing an investment conference';
-      service.import(input, filename);
+      service.processDomainStoryImport(
+        input_without_title,
+        filename,
+        false,
+        true,
+        false,
+      );
+      expect(
+        TitleService.prototype.updateTitleAndDescription,
+      ).toHaveBeenCalledWith(expectedTitle, null, false);
+    });
+
+    it('story with integrated title', () => {
+      filename = 'Organizing an investment conference_2024-08-08.dst';
+      expectedTitle = 'testTitle';
+      service.processDomainStoryImport(
+        input_with_title,
+        filename,
+        false,
+        true,
+        false,
+      );
       expect(
         TitleService.prototype.updateTitleAndDescription,
       ).toHaveBeenCalledWith(expectedTitle, null, false);
@@ -145,8 +208,8 @@ describe('ImportDomainStoryService', () => {
     it('dst file in version 1.0.0', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
-        JSON.stringify(dst_v_1_0_0),
-        ""
+        dst_v_1_0_0,
+        'test',
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -158,8 +221,8 @@ describe('ImportDomainStoryService', () => {
     it('dst file in version 1.1.0', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
-        JSON.stringify(dst_v_1_1_0),
-        ""
+        dst_v_1_1_0,
+        '',
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -171,8 +234,8 @@ describe('ImportDomainStoryService', () => {
     it('dst file in version 1.2.0', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
-        JSON.stringify(dst_v_1_2_0),
-        ""
+        dst_v_1_2_0,
+        '',
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -184,8 +247,8 @@ describe('ImportDomainStoryService', () => {
     it('dst file in version 1.3.0', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
-        JSON.stringify(dst_v_1_3_0),
-        ""
+        dst_v_1_3_0,
+        '',
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -197,8 +260,8 @@ describe('ImportDomainStoryService', () => {
     it('dst file in version 1.4.0', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
-        JSON.stringify(dst_v_1_4_0),
-        ""
+        dst_v_1_4_0,
+        '',
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -210,8 +273,8 @@ describe('ImportDomainStoryService', () => {
     it('dst file in version 1.5.0', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
-        JSON.stringify(dst_v_1_5_0),
-        ""
+        dst_v_1_5_0,
+        '',
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -223,8 +286,8 @@ describe('ImportDomainStoryService', () => {
     it('dst file in version 2.2.0', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
-        JSON.stringify(dst_v_2_2_0),
-        ""
+        dst_v_2_2_0,
+        '',
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
@@ -236,16 +299,17 @@ describe('ImportDomainStoryService', () => {
     it('dst file of domain story', () => {
       // This import represents the import of a dst file.
       const domainStory: DomainStory | null = service.dstToDomainStory(
-        JSON.stringify(domain_story),
-        ""
+        domain_story,
+        '',
       );
 
       expect(domainStory!.businessObjects.length).toBe(13);
       expect(domainStory!.businessObjects[0].id).toBe('connection_5930');
       expect(domainStory!.description).toBe(
-        'version 2.2.1-dev (implement new DomainStory model)',
+        'version 4.0.0 (implement new DomainStory model)',
       );
-      expect(domainStory!.version).toBe('2.2.1-dev');
+      expect(domainStory!.version).toBe('4.0.0');
+      expect(domainStory!.title).toBe('testTitle');
     });
   });
 });

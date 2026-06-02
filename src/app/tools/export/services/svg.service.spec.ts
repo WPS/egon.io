@@ -45,10 +45,10 @@ describe('SvgService', () => {
     );
     expect(svgData).toContain('<?xml version="1.0" encoding="utf-8"?>');
     expect(svgData).toContain('<svg xmlns="http://www.w3.org/2000/svg"');
-    expect(svgData).toContain('"dst":');
+    expect(svgData).toContain('"domainStory":');
     expect(svgData).toContain('domainStory:activity');
     expect(svgData).toContain('domainStory:workObjectDocument');
-    expect(svgData).toContain('"domain":');
+    expect(svgData).toContain('"iconSet":');
     expect(svgData).toContain('<!-- <DST>');
     expect(svgData).toContain('</DST> -->');
   });
@@ -73,8 +73,8 @@ describe('SvgService', () => {
       );
       expect(svgData).toContain('<?xml version="1.0" encoding="utf-8"?>');
       expect(svgData).toContain('<svg xmlns="http://www.w3.org/2000/svg"');
-      expect(svgData).toContain('"dst":');
-      expect(svgData).toContain('"domain":');
+      expect(svgData).toContain('"domainStory":');
+      expect(svgData).toContain('"iconSet":');
       expect(svgData).toContain('<!-- <DST>');
       expect(svgData).toContain('</DST> -->');
     });
