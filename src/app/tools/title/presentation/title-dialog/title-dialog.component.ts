@@ -8,6 +8,13 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import {
+  DomainPurity,
+  Granularity,
+  PointInTime,
+  Scope,
+} from 'src/app/domain/entities/scope';
+import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 
 @Component({
   selector: 'app-header-dialog',
@@ -21,6 +28,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatRadioGroup,
+    MatRadioButton,
   ],
 })
 export class TitleDialogComponent implements OnInit {
@@ -33,17 +42,35 @@ export class TitleDialogComponent implements OnInit {
   ngOnInit(): void {
     const title = this.titleService.getTitle();
     const description = this.titleService.getDescription();
+    const scope = this.titleService.getScope();
 
-    this.form = TitleDialogForm.create(title, description);
+    this.form = TitleDialogForm.create(
+      title,
+      description,
+      scope?.granularity ? scope.granularity : null,
+      scope?.pointInTime ? scope.pointInTime : null,
+      scope?.domainPurity ? scope.domainPurity : null,
+    );
   }
 
   save(): void {
     if (this.form.dirty) {
       this.dirtyFlagService.makeDirty();
 
-      this.titleService.updateTitleAndDescription(
+      const granularity = this.form.getRawValue().granularity;
+      const pointInTime = this.form.getRawValue().pointInTime;
+      const domainPurity = this.form.getRawValue().domainPurity;
+
+      const scope: Scope = {
+        granularity: granularity ? granularity : undefined,
+        pointInTime: pointInTime ? pointInTime : undefined,
+        domainPurity: domainPurity ? domainPurity : undefined,
+      };
+
+      this.titleService.updateTitleAndDescriptionAndScope(
         this.form.getRawValue().title,
         this.form.getRawValue().description,
+        scope,
         true,
       );
     }
@@ -57,4 +84,8 @@ export class TitleDialogComponent implements OnInit {
   preventDefault(event: Event) {
     event.preventDefault();
   }
+
+  protected readonly Granularity = Granularity;
+  protected readonly PointInTime = PointInTime;
+  protected readonly DomainPurity = DomainPurity;
 }

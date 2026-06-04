@@ -284,7 +284,12 @@ export class ImportDomainStoryService implements IconSetChangedService {
     this.modelerService.commandStackChanged();
 
     // no need to put this on the commandStack
-    this.titleService.updateTitleAndDescription(domainStory.title, null, false);
+    this.titleService.updateTitleAndDescriptionAndScope(
+      domainStory.title,
+      domainStory.description,
+      domainStory.scope,
+      false,
+    );
     return domainStory;
   }
 
@@ -499,6 +504,9 @@ export class ImportDomainStoryService implements IconSetChangedService {
 
       if (isPresent(domainStoryContent.title)) {
         domainStory.title = domainStoryContent.title;
+      }
+      if (isPresent(domainStoryContent.scope)) {
+        domainStory.scope = domainStoryContent.scope;
       }
       return domainStory;
     } else if (!Array.isArray(domainStoryContent)) {

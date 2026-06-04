@@ -9,6 +9,7 @@ import { CommandStackService } from '../../../domain/services/command-stack.serv
 import { DialogService } from '../../../domain/services/dialog.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { TitleDialogComponent } from '../presentation/title-dialog/title-dialog.component';
+import { Scope } from 'src/app/domain/entities/scope';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,9 @@ export class TitleService {
   private readonly dialogService = inject(DialogService);
 
   private readonly titleSubject = new BehaviorSubject<string>(INITIAL_TITLE);
+  private readonly scopeSubject = new BehaviorSubject<Scope | undefined>(
+    undefined,
+  );
   private readonly descriptionSubject = new BehaviorSubject<string>(
     INITIAL_DESCRIPTION,
   );
@@ -34,21 +38,28 @@ export class TitleService {
     this.dialogService.openDialog(TitleDialogComponent, config);
   }
 
-  updateTitleAndDescription(
+  updateTitleAndDescriptionAndScope(
     title: string | null,
     description: string | null,
+    scope: Scope | undefined,
     allowUndo: boolean,
   ): void {
     if (allowUndo) {
-      this.fireTitleAndDescriptionUpdate(title, description);
+      this.fireTitleAndDescriptionAndScopeUpdate(title, description, scope);
     } else {
       this.updateTitle(title);
       this.updateDescription(description);
+      this.updateScope(scope);
     }
   }
 
   reset(): void {
-    this.updateTitleAndDescription(INITIAL_TITLE, INITIAL_DESCRIPTION, false);
+    this.updateTitleAndDescriptionAndScope(
+      INITIAL_TITLE,
+      INITIAL_DESCRIPTION,
+      undefined,
+      false,
+    );
   }
 
   private updateTitle(inputTitle: string | null): void {
@@ -61,6 +72,10 @@ export class TitleService {
     document.title = title === INITIAL_TITLE ? 'egon.io' : title;
   }
 
+  private updateScope(scope: Scope | undefined): void {
+    this.scopeSubject.next(scope);
+  }
+
   private updateDescription(description: string | null): void {
     this.descriptionSubject.next(description ?? this.descriptionSubject.value);
   }
@@ -71,6 +86,10 @@ export class TitleService {
 
   getTitle(): string {
     return this.titleSubject.value;
+  }
+
+  getScope(): Scope | undefined {
+    return this.scopeSubject.value;
   }
 
   getDescription(): string {
@@ -90,16 +109,18 @@ export class TitleService {
     );
   }
 
-  private fireTitleAndDescriptionUpdate(
+  private fireTitleAndDescriptionAndScopeUpdate(
     newTitle: string | null,
     newDescription: string | null,
+    newScope: Scope | undefined,
   ): void {
     const context = {
       newTitle,
       newDescription,
+      newScope,
     };
     this.commandStackService.execute(
-      'story.updateHeadlineAndDescription',
+      'story.updateHeadlineAndDescriptionAndScope',
       context,
     );
   }

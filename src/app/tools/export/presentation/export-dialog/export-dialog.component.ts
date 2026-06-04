@@ -40,14 +40,14 @@ export class ExportDialogComponent {
   protected doOption(i: number): void {
     if (this.isAnimatedSvgExport) {
       this.options[i].fn(
-        this.filename,
+        this.determineFilename(),
         this.withTitle.value,
         this.useWhiteBackground.value,
         this.animationSpeed,
       );
     } else {
       this.options[i].fn(
-        this.filename,
+        this.determineFilename(),
         this.withTitle.value,
         this.useWhiteBackground.value,
       );
@@ -76,5 +76,12 @@ export class ExportDialogComponent {
   protected updateFileName($event: Event) {
     const target = $event.target as HTMLInputElement;
     this.filename = target.value;
+  }
+
+  private determineFilename() {
+    if (this.filename && this.filename.length > 0) {
+      return this.filename;
+    }
+    return this.defaultFileName;
   }
 }

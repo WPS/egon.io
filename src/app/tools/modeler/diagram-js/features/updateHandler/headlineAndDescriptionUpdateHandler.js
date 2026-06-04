@@ -5,7 +5,7 @@ export default function headlineAndDescriptionUpdateHandler(
   titleService,
 ) {
   commandStack.registerHandler(
-    "story.updateHeadlineAndDescription",
+    "story.updateHeadlineAndDescriptionAndScope",
     handlerFunction,
   );
 
@@ -13,10 +13,12 @@ export default function headlineAndDescriptionUpdateHandler(
     this.execute = function (ctx) {
       ctx.oldTitle = titleService.getTitle();
       ctx.oldDescription = titleService.getDescription();
+      ctx.oldScope = titleService.getScope();
 
-      titleService.updateTitleAndDescription(
+      titleService.updateTitleAndDescriptionAndScope(
         sanitizeTextForSVGExport(ctx.newTitle),
         sanitizeTextForSVGExport(ctx.newDescription),
+        ctx.newScope,
         false,
       );
     };
@@ -25,6 +27,7 @@ export default function headlineAndDescriptionUpdateHandler(
       titleService.updateTitleAndDescription(
         ctx.oldTitle,
         ctx.oldDescription,
+        ctx.oldScope,
         false,
       );
     };

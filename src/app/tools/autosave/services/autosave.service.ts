@@ -67,9 +67,10 @@ export class AutosaveService {
     );
     const businessObjects = this.getBusinessObjectsFromDraft(draft);
 
-    this.titleService.updateTitleAndDescription(
+    this.titleService.updateTitleAndDescriptionAndScope(
       draft.title,
       draft.description,
+      draft.scope,
       false,
     );
 
@@ -170,7 +171,9 @@ export class AutosaveService {
       version: environment.version,
       description: this.titleService.getDescription(),
       title: this.titleService.getTitle(),
+      scope: this.titleService.getScope(),
     };
+
     const configAndDST = this.exportService.createConfigAndDST(domainStory);
 
     const date = new Date().toString().slice(0, 25);
@@ -178,6 +181,7 @@ export class AutosaveService {
     return {
       title: this.titleService.getTitle(),
       description: this.titleService.getDescription(),
+      scope: this.titleService.getScope(),
       configAndDST,
       date,
     };

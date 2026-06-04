@@ -20,6 +20,12 @@ import * as dst_v_1_4_0 from './test-files/dst_export_version_1_4_0.json';
 import * as dst_v_1_5_0 from './test-files/dst_export_version_1_5_0.json';
 import * as dst_v_2_2_0 from './test-files/dst_export_version_2_2_0.json';
 import * as egn_v_4_0_0 from 'src/app/tools/import/services/test-files/egn_export_version_4_0_0.json';
+import {
+  DomainPurity,
+  Granularity,
+  PointInTime,
+  Scope,
+} from 'src/app/domain/entities/scope';
 
 describe('ImportDomainStoryService', () => {
   let service: ImportDomainStoryService;
@@ -78,7 +84,7 @@ describe('ImportDomainStoryService', () => {
     let expectedTitle: string;
 
     beforeEach(function () {
-      spyOn(TitleService.prototype, 'updateTitleAndDescription');
+      spyOn(TitleService.prototype, 'updateTitleAndDescriptionAndScope');
     });
 
     it('.egn', () => {
@@ -92,8 +98,8 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescription,
-      ).toHaveBeenCalledWith(expectedTitle, null, false);
+        TitleService.prototype.updateTitleAndDescriptionAndScope,
+      ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
     it('.egn.svg', () => {
@@ -107,8 +113,8 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescription,
-      ).toHaveBeenCalledWith(expectedTitle, null, false);
+        TitleService.prototype.updateTitleAndDescriptionAndScope,
+      ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
     it('.dst', () => {
@@ -122,8 +128,8 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescription,
-      ).toHaveBeenCalledWith(expectedTitle, null, false);
+        TitleService.prototype.updateTitleAndDescriptionAndScope,
+      ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
     it('.dst.svg', () => {
@@ -137,8 +143,8 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescription,
-      ).toHaveBeenCalledWith(expectedTitle, null, false);
+        TitleService.prototype.updateTitleAndDescriptionAndScope,
+      ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
     it('.egn mit Datum', () => {
@@ -153,8 +159,8 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescription,
-      ).toHaveBeenCalledWith(expectedTitle, null, false);
+        TitleService.prototype.updateTitleAndDescriptionAndScope,
+      ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
     it('.egn.svg mit Datum', () => {
@@ -169,8 +175,8 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescription,
-      ).toHaveBeenCalledWith(expectedTitle, null, false);
+        TitleService.prototype.updateTitleAndDescriptionAndScope,
+      ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
     it('.dst mit Datum', () => {
@@ -184,13 +190,18 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescription,
-      ).toHaveBeenCalledWith(expectedTitle, null, false);
+        TitleService.prototype.updateTitleAndDescriptionAndScope,
+      ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
     it('story with integrated title', () => {
       filename = 'Organizing an investment conference_2024-08-08.dst';
       expectedTitle = 'testTitle';
+      const expectedScope: Scope = {
+        granularity: Granularity.COARSE_GRAINED,
+        pointInTime: PointInTime.TO_BE,
+        domainPurity: DomainPurity.DIGITALIZED,
+      };
       service.processDomainStoryImport(
         input_with_title,
         filename,
@@ -199,8 +210,13 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescription,
-      ).toHaveBeenCalledWith(expectedTitle, null, false);
+        TitleService.prototype.updateTitleAndDescriptionAndScope,
+      ).toHaveBeenCalledWith(
+        expectedTitle,
+        'version 4.0.0 (implement new DomainStory model)',
+        expectedScope,
+        false,
+      );
     });
   });
 

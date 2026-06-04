@@ -81,8 +81,6 @@ export class ExportService {
     useWhiteBackground: boolean,
     animationSpeed: number | undefined,
   ): void {
-    this.fileNameSubject.next(filename);
-
     const story: DomainStory = this.getStoryForDownload();
     const dst: ConfigAndDST = this.createConfigAndDST(story);
 
@@ -150,10 +148,10 @@ export class ExportService {
         'SVG',
         'Download an SVG-Image with the Domain-Story embedded. Can be used to save and share your Domain-Story.',
         (
+          filename: string,
           withTitle: boolean,
           useWhiteBackground: boolean,
           animationSpeed: number | undefined,
-          filename: string,
         ) =>
           this.downloadSVG(
             filename,
@@ -170,7 +168,7 @@ export class ExportService {
       const PNGDownloadOption = new ExportOption(
         'PNG',
         'Download a PNG-Image of the Domain-Story. This does not include the Domain-Story!',
-        (withTitle: boolean, filename: string) =>
+        (filename: string, withTitle: boolean) =>
           this.downloadPNG(filename, withTitle),
       );
       const HTMLDownloadOption = new ExportOption(
@@ -219,6 +217,7 @@ export class ExportService {
       title: this.titleService.getTitle(),
       description: this.titleService.getDescription(),
       version: environment.version,
+      scope: this.titleService.getScope(),
     };
   }
 

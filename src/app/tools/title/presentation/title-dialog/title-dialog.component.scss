@@ -8,3 +8,13 @@
 .descriptionInput {
   min-height: 75px;
 }
+
+.radioGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.radioOption {
+  width: 100px;
+}

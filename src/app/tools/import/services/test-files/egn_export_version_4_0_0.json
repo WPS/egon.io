@@ -283,6 +283,11 @@
     ],
     "description": "version 4.0.0 (implement new DomainStory model)",
     "version": "4.0.0",
-    "title": "testTitle"
+    "title": "testTitle",
+    "scope": {
+      "granularity": "coarse_grained",
+      "pointInTime": "to_be",
+      "domainPurity": "digitalized"
+    }
   }
 }
