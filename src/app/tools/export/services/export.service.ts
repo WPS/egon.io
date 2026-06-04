@@ -64,7 +64,7 @@ export class ExportService {
     );
   }
 
-  downloadDST(filename: string): void {
+  downloadEGN(filename: string): void {
     this.fileNameSubject.next(filename);
 
     const dst = this.getStoryForDownload();
@@ -165,7 +165,7 @@ export class ExportService {
       const EGNDownloadOption = new ExportOption(
         'EGN',
         'Download an EGN-File with the Domain-Story. Can be used to save and share your Domain-Story.',
-        (filename: string) => this.downloadDST(filename),
+        (filename: string) => this.downloadEGN(filename),
       );
       const PNGDownloadOption = new ExportOption(
         'PNG',

@@ -107,7 +107,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         e.preventDefault();
         e.stopPropagation();
         if (this.exportService.isDomainStoryExportable()) {
-          this.exportService.downloadDST(filename);
+          this.exportService.downloadEGN(filename);
         }
       }
 

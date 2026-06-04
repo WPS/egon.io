@@ -322,7 +322,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
       throw new Error('Invalid import file');
     }
 
-    const domainStory = this.dstToDomainStory(storyAndIconSet, filename);
+    const domainStory = this.exportToDomainStory(storyAndIconSet, filename);
     const iconSet = this.extractIconSet(storyAndIconSet, isEgnFormat);
 
     this.importRepairService.removeWhitespacesFromIcons(
@@ -471,7 +471,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
     );
   }
 
-  dstToDomainStory(parsedJson: any, filename: string): DomainStory {
+  exportToDomainStory(parsedJson: any, filename: string): DomainStory {
     const domainStory: DomainStory = {
       businessObjects: [],
       version: '?',

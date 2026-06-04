@@ -19,7 +19,7 @@ import * as dst_v_1_3_0 from './test-files/dst_export_version_1_3_0.json';
 import * as dst_v_1_4_0 from './test-files/dst_export_version_1_4_0.json';
 import * as dst_v_1_5_0 from './test-files/dst_export_version_1_5_0.json';
 import * as dst_v_2_2_0 from './test-files/dst_export_version_2_2_0.json';
-import * as domain_story from 'src/app/tools/import/services/test-files/dst_export_version_4_0_0.json';
+import * as egn_v_4_0_0 from 'src/app/tools/import/services/test-files/egn_export_version_4_0_0.json';
 
 describe('ImportDomainStoryService', () => {
   let service: ImportDomainStoryService;
@@ -72,7 +72,7 @@ describe('ImportDomainStoryService', () => {
   });
 
   describe('should process title of story correctly', () => {
-    const input_with_title = JSON.stringify(domain_story);
+    const input_with_title = JSON.stringify(egn_v_4_0_0);
     const input_without_title = JSON.stringify(dst_v_2_2_0);
     let filename: string;
     let expectedTitle: string;
@@ -207,7 +207,7 @@ describe('ImportDomainStoryService', () => {
   describe('should create DomainStory from import of json-context of ', () => {
     it('dst file in version 1.0.0', () => {
       // This import represents the import of a dst file.
-      const domainStory: DomainStory | null = service.dstToDomainStory(
+      const domainStory: DomainStory | null = service.exportToDomainStory(
         dst_v_1_0_0,
         'test',
       );
@@ -220,7 +220,7 @@ describe('ImportDomainStoryService', () => {
 
     it('dst file in version 1.1.0', () => {
       // This import represents the import of a dst file.
-      const domainStory: DomainStory | null = service.dstToDomainStory(
+      const domainStory: DomainStory | null = service.exportToDomainStory(
         dst_v_1_1_0,
         '',
       );
@@ -233,7 +233,7 @@ describe('ImportDomainStoryService', () => {
 
     it('dst file in version 1.2.0', () => {
       // This import represents the import of a dst file.
-      const domainStory: DomainStory | null = service.dstToDomainStory(
+      const domainStory: DomainStory | null = service.exportToDomainStory(
         dst_v_1_2_0,
         '',
       );
@@ -246,7 +246,7 @@ describe('ImportDomainStoryService', () => {
 
     it('dst file in version 1.3.0', () => {
       // This import represents the import of a dst file.
-      const domainStory: DomainStory | null = service.dstToDomainStory(
+      const domainStory: DomainStory | null = service.exportToDomainStory(
         dst_v_1_3_0,
         '',
       );
@@ -259,7 +259,7 @@ describe('ImportDomainStoryService', () => {
 
     it('dst file in version 1.4.0', () => {
       // This import represents the import of a dst file.
-      const domainStory: DomainStory | null = service.dstToDomainStory(
+      const domainStory: DomainStory | null = service.exportToDomainStory(
         dst_v_1_4_0,
         '',
       );
@@ -272,7 +272,7 @@ describe('ImportDomainStoryService', () => {
 
     it('dst file in version 1.5.0', () => {
       // This import represents the import of a dst file.
-      const domainStory: DomainStory | null = service.dstToDomainStory(
+      const domainStory: DomainStory | null = service.exportToDomainStory(
         dst_v_1_5_0,
         '',
       );
@@ -285,7 +285,7 @@ describe('ImportDomainStoryService', () => {
 
     it('dst file in version 2.2.0', () => {
       // This import represents the import of a dst file.
-      const domainStory: DomainStory | null = service.dstToDomainStory(
+      const domainStory: DomainStory | null = service.exportToDomainStory(
         dst_v_2_2_0,
         '',
       );
@@ -298,8 +298,8 @@ describe('ImportDomainStoryService', () => {
 
     it('dst file of domain story', () => {
       // This import represents the import of a dst file.
-      const domainStory: DomainStory | null = service.dstToDomainStory(
-        domain_story,
+      const domainStory: DomainStory | null = service.exportToDomainStory(
+        egn_v_4_0_0,
         '',
       );
 
