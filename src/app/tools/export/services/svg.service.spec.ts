@@ -4,6 +4,7 @@ import { SvgService } from 'src/app/tools/export/services/svg.service';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { testConfigAndDst } from '../domain/export/configAndDst';
 import { MINIMAL_SVG, TEST_SVG } from './spec/testSVG';
+import { sanitizeTextForSVGExport } from 'src/app/utils/sanitizer';
 
 describe('SvgService', () => {
   let service: SvgService;
@@ -49,8 +50,10 @@ describe('SvgService', () => {
     expect(svgData).toContain('domainStory:activity');
     expect(svgData).toContain('domainStory:workObjectDocument');
     expect(svgData).toContain('"iconSet":');
-    expect(svgData).toContain('<!-- <DST>');
-    expect(svgData).toContain('</DST> -->');
+    expect(svgData).toContain("<text class='hiddenDomainStory'>");
+    expect(svgData).toContain('</text>');
+    expect(svgData).toContain(sanitizeTextForSVGExport('<DST>'));
+    expect(svgData).toContain(sanitizeTextForSVGExport('</DST>'));
   });
 
   describe('With minimal DST', () => {
@@ -75,8 +78,10 @@ describe('SvgService', () => {
       expect(svgData).toContain('<svg xmlns="http://www.w3.org/2000/svg"');
       expect(svgData).toContain('"domainStory":');
       expect(svgData).toContain('"iconSet":');
-      expect(svgData).toContain('<!-- <DST>');
-      expect(svgData).toContain('</DST> -->');
+      expect(svgData).toContain("<text class='hiddenDomainStory'>");
+      expect(svgData).toContain('</text>');
+      expect(svgData).toContain(sanitizeTextForSVGExport('<DST>'));
+      expect(svgData).toContain(sanitizeTextForSVGExport('</DST>'));
     });
   });
 });

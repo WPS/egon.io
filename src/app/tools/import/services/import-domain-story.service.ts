@@ -26,6 +26,7 @@ import { isPresent } from '../../../utils/isPresent';
 import { UnsavedChangesReminderComponent } from '../../unsavedChangesReminder/presentation/unsavedChangesReminder-dialog/unsaved-changes-reminder/unsaved-changes-reminder.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ExternalResourcesWarningDialogComponent } from 'src/app/tools/import/presentation/external-resources-warning-dialog/external-resources-warning-dialog.component';
+import { unsanitizeTextFromSvgExport } from 'src/app/utils/sanitizer';
 
 @Injectable({
   providedIn: 'root',
@@ -415,13 +416,21 @@ export class ImportDomainStoryService implements IconSetChangedService {
   }
 
   private extractJsonFromSvgComment(xmlText: string): string {
-    xmlText = xmlText.substring(xmlText.indexOf('<DST>'));
-    while (xmlText.includes('<!--') || xmlText.includes('-->')) {
-      xmlText = xmlText.replace('<!--', '').replace('-->', '');
+    const unsanitizedXml = unsanitizeTextFromSvgExport(xmlText);
+
+    let domainStory = unsanitizedXml
+      .substring(0, unsanitizedXml.indexOf('</DST>'))
+      .substring(unsanitizedXml.indexOf('<DST>'));
+
+    domainStory = domainStory.replace('<DST>', '');
+    domainStory = domainStory.replace('</DST>', '');
+
+    // legacy implementation where the SVG was embedded as a comment in the svg.
+    // Generally preferred method, however external Tools sometimes strip SVG Comments removing the DomainStory.
+    while (domainStory.includes('<!--') || domainStory.includes('-->')) {
+      domainStory = domainStory.replace('<!--', '').replace('-->', '');
     }
-    xmlText = xmlText.replace('<DST>', '');
-    xmlText = xmlText.replace('</DST>', '');
-    return xmlText;
+    return domainStory;
   }
 
   private updateIconRegistries(iconSet: IconSet): void {

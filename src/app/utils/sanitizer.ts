@@ -1,7 +1,17 @@
 'use strict';
 
 export function sanitizeTextForSVGExport(str: string): string {
-  return str.replaceAll('--', '––');
+  return str
+    .replaceAll('--', '––')
+    .replaceAll('<', '%3C')
+    .replaceAll('>', '%3E');
+}
+
+export function unsanitizeTextFromSvgExport(str: string): string {
+  return str
+    .replaceAll('––', '--')
+    .replaceAll('%3C', '<')
+    .replaceAll('%3E', '>');
 }
 
 // sanitize user-Input to be Desktop-Filename safe

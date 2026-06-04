@@ -215,10 +215,23 @@ export class SvgService {
   }
 
   private appendSourceCode(data: string, dst: ConfigAndDST): string {
-    data +=
-      '\n<!-- <DST>\n' +
+    const indexToAdd = data.length - '</svg>'.length;
+
+    let start = data.substring(0, indexToAdd);
+    let end = data.substring(indexToAdd);
+
+    const hiddenText = "\n<text class='hiddenDomainStory'>\n\n";
+    const textClose = '\n\n</text>\n';
+
+    const finalSvg =
+      start +
+      hiddenText +
+      sanitizeTextForSVGExport('<DST>') +
       sanitizeTextForSVGExport(JSON.stringify(dst, null, 2)) +
-      '\n </DST> -->';
-    return data;
+      sanitizeTextForSVGExport('</DST>') +
+      textClose +
+      end;
+
+    return finalSvg;
   }
 }
