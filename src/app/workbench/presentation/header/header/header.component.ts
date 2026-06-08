@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, Signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TitleService } from '../../../../tools/title/services/title.service';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
@@ -28,7 +28,7 @@ import { HeaderButtonsComponent } from '../header-buttons/header-buttons.compone
   ],
 })
 export class HeaderComponent {
-  private readonly titleService = inject(TitleService);
+  readonly titleService = inject(TitleService);
   private readonly replayService = inject(ReplayService);
   private readonly importService = inject(ImportDomainStoryService);
   private readonly settingsService = inject(SettingsService);
@@ -38,21 +38,11 @@ export class HeaderComponent {
   private readonly exportService = inject(ExportService);
   private readonly labelDictionaryService = inject(LabelDictionaryService);
 
-  readonly title$ = this.titleService.title$;
   readonly description$ = this.titleService.description$;
   readonly showDescription$ = this.titleService.showDescription$;
 
-  readonly isReplay$: Observable<boolean>;
-  readonly isDirty$: Observable<boolean>;
-
-  readonly showDescription: Observable<boolean>;
-
-  constructor() {
-    this.isReplay$ = this.replayService.replayOn$;
-    this.isDirty$ = this.dirtyFlagService.dirty$;
-
-    this.showDescription = this.titleService.showDescription$;
-  }
+  readonly isReplay$: Signal<boolean> = this.replayService.replayOn$;
+  readonly isDirty$: Signal<boolean> = this.dirtyFlagService.dirty$;
 
   openHeaderDialog(): void {
     this.titleService.openHeaderDialog();

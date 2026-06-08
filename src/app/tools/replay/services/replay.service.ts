@@ -1,8 +1,7 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { DomManipulationService } from 'src/app/tools/replay/services/dom-manipulation.service';
 import { StorySentence } from 'src/app/tools/replay/domain/storySentence';
 import { StoryCreatorService } from './story-creator.service';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION_LONG,
@@ -15,15 +14,13 @@ import {
 })
 export class ReplayService {
   private story: StorySentence[] = [];
-  private readonly currentSentence = new BehaviorSubject<number>(-1);
-  private readonly maxSentenceNumber = new BehaviorSubject<number>(0);
-  private readonly replayOnSubject = new BehaviorSubject<boolean>(false);
+  private readonly currentSentence = signal(-1);
+  private readonly maxSentenceNumber = signal(0);
+  private readonly replayOnSignal = signal(false);
 
-  readonly currentSentence$: Observable<number> =
-    this.currentSentence.asObservable();
-  readonly maxSentenceNumber$: Observable<number> =
-    this.maxSentenceNumber.asObservable();
-  readonly replayOn$ = this.replayOnSubject.asObservable();
+  readonly currentSentence$ = this.currentSentence.asReadonly();
+  readonly maxSentenceNumber$ = this.maxSentenceNumber.asReadonly();
+  readonly replayOn$ = this.replayOnSignal.asReadonly();
 
   private readonly domManipulationService = inject(DomManipulationService);
   private readonly storyCreatorService = inject(StoryCreatorService);
@@ -33,11 +30,11 @@ export class ReplayService {
   private selection: any;
 
   setReplayState(state: boolean): void {
-    this.replayOnSubject.next(state);
+    this.replayOnSignal.set(state);
   }
 
   getReplayOn(): boolean {
-    return this.replayOnSubject.value;
+    return this.replayOnSignal();
   }
 
   isReplayable(): boolean {
@@ -45,38 +42,38 @@ export class ReplayService {
   }
 
   initializeReplay(story: StorySentence[]): void {
-    this.currentSentence.next(1);
+    this.currentSentence.set(1);
     this.story = story;
-    this.maxSentenceNumber.next(this.story.length);
+    this.maxSentenceNumber.set(this.story.length);
   }
 
   getCurrentSentenceNumber(): number {
-    return this.currentSentence.value;
+    return this.currentSentence();
   }
 
   getMaxSentenceNumber(): number {
-    return this.maxSentenceNumber.value;
+    return this.maxSentenceNumber();
   }
 
   nextSentence(): void {
-    if (this.currentSentence.value < this.story.length) {
-      this.currentSentence.next(this.currentSentence.value + 1);
+    if (this.currentSentence() < this.story.length) {
+      this.currentSentence.set(this.currentSentence() + 1);
       this.showCurrentSentence();
     }
   }
 
   previousSentence(): void {
-    if (this.currentSentence.value > 1) {
-      this.currentSentence.next(this.currentSentence.value - 1);
+    if (this.currentSentence() > 1) {
+      this.currentSentence.set(this.currentSentence() - 1);
       this.showCurrentSentence();
     }
   }
 
   private showCurrentSentence() {
     this.domManipulationService.showSentence(
-      this.story[this.currentSentence.value - 1],
-      this.currentSentence.value > 1
-        ? this.story[this.currentSentence.value - 2]
+      this.story[this.currentSentence() - 1],
+      this.currentSentence() > 1
+        ? this.story[this.currentSentence() - 2]
         : undefined,
     );
   }
@@ -109,7 +106,7 @@ export class ReplayService {
     if (this.story.length > 0) {
       this.setReplayState(true);
       this.domManipulationService.showSentence(
-        this.story[this.currentSentence.getValue() - 1],
+        this.story[this.currentSentence() - 1],
       );
     } else {
       this.snackbar.open('You need a Domain Story for replay.', undefined, {
@@ -128,8 +125,8 @@ export class ReplayService {
   }
 
   stopReplay(): void {
-    this.currentSentence.next(-1);
-    this.maxSentenceNumber.next(0);
+    this.currentSentence.set(-1);
+    this.maxSentenceNumber.set(0);
     this.setReplayState(false);
     this.domManipulationService.showAll();
     this.palette.open();

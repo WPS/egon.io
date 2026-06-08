@@ -9,7 +9,6 @@ import { MockProvider, MockProviders } from 'ng-mocks';
 import { TitleService } from '../../title/services/title.service';
 import { ImportDomainStoryService } from '../../import/services/import-domain-story.service';
 import { Dictionary } from '../../../domain/entities/dictionary';
-import { Observable, of } from 'rxjs';
 import {
   INITIAL_ICON_SET_NAME,
   SNACKBAR_DURATION,
@@ -21,6 +20,9 @@ import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { AutosaveService } from 'src/app/tools/autosave/services/autosave.service';
 import { Subject } from 'rxjs';
+import { signal, Signal } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
+import { of } from 'rxjs/internal/observable/of';
 
 describe(IconSetCustomizationService.name, () => {
   let service: IconSetCustomizationService;
@@ -44,7 +46,7 @@ describe(IconSetCustomizationService.name, () => {
       ],
     );
     const autosaveServiceMock = jasmine.createSpyObj(AutosaveService.name, [], {
-      importConfigChanged$: of(),
+      importConfigChanged$: signal(undefined),
     });
     const iconSetImportExportServiceMock = jasmine.createSpyObj(
       IconSetImportExportService.name,
@@ -88,9 +90,7 @@ describe(IconSetCustomizationService.name, () => {
         MockProvider(ImportDomainStoryService),
         MockProvider(IconSetChangedService, {
           iconConfigurationChanged(): Observable<IconSet> {
-            const iconSetConfiguration: IconSet =
-              INITIAL_ICON_SET_CONFIGURATION;
-            return of(iconSetConfiguration);
+            return of(INITIAL_ICON_SET_CONFIGURATION);
           },
         }),
         {
@@ -153,8 +153,8 @@ describe(IconSetCustomizationService.name, () => {
 
       service.importConfiguration(customConfig);
 
-      const selectedActors = service.selectedActors$.value;
-      const selectedWorkObjects = service.selectedWorkObjects$.value;
+      const selectedActors = service.selectedActorsSignal();
+      const selectedWorkObjects = service.selectedWorkObjectsSignal();
 
       expect(selectedActors).toContain('Person');
       expect(selectedActors).toContain('Pet');

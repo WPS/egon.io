@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, inject, Signal } from '@angular/core';
 import { IconSetCustomizationService } from 'src/app/tools/icon-set-config/services/icon-set-customization.service';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { SelectableIcon } from 'src/app/tools/icon-set-config/domain/selectableIcon';
@@ -29,13 +28,13 @@ export class IconSetComponent {
   private readonly customizationService = inject(IconSetCustomizationService);
   private readonly importExportService = inject(IconSetImportExportService);
 
-  iconSetName: Observable<string> = this.importExportService.iconSetName$;
-
   private draggedList: string = '';
   private draggedIndex = 0;
 
-  selectedActors$ = this.customizationService.selectedActors$;
-  selectedWorkObjects$ = this.customizationService.selectedWorkObjects$;
+  iconSetName$: Signal<string> = this.importExportService.iconSetName$;
+  selectedActorsSignal = this.customizationService.selectedActorsSignal;
+  selectedWorkObjectsSignal =
+    this.customizationService.selectedWorkObjectsSignal;
 
   changeName(event: Event): void {
     const target = event.target as HTMLInputElement;
@@ -55,15 +54,15 @@ export class IconSetComponent {
   onDrop($event: DragEvent, iconName: string, actors: boolean, index: number) {
     let list;
     if (actors) {
-      list = this.selectedActors$;
+      list = this.selectedActorsSignal;
     } else {
-      list = this.selectedWorkObjects$;
+      list = this.selectedWorkObjectsSignal;
     }
-    const sortedList = list.value;
+    const sortedList = list();
     const item = sortedList[this.draggedIndex];
     sortedList.splice(this.draggedIndex, 1);
     sortedList.splice(index, 0, item);
-    list.next(sortedList);
+    list.set(sortedList);
 
     if (actors) {
       this.customizationService.setSelectedActors(sortedList);

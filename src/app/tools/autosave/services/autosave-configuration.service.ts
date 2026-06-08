@@ -1,5 +1,4 @@
-import { inject, Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { StorageService } from '../../../domain/services/storage.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
 import {
@@ -22,9 +21,9 @@ const defaultConfiguration: AutosaveConfiguration = {
 export class AutosaveConfigurationService {
   private configuration = defaultConfiguration;
 
-  private readonly configurationSubject =
-    new ReplaySubject<AutosaveConfiguration>(1);
-  readonly configuration$ = this.configurationSubject.asObservable();
+  readonly configurationSignal: WritableSignal<AutosaveConfiguration> =
+    signal(defaultConfiguration);
+  readonly configuration$ = this.configurationSignal.asReadonly();
 
   private readonly storageService = inject(StorageService);
 
@@ -34,14 +33,14 @@ export class AutosaveConfigurationService {
 
   private initializeConfiguration() {
     this.loadConfiguration();
-    this.configurationSubject.next(this.configuration);
+    this.configurationSignal.set(this.configuration);
   }
 
   setConfiguration(configuration: AutosaveConfiguration): boolean {
     try {
       this.configuration = configuration;
       this.saveConfiguration();
-      this.configurationSubject.next(configuration);
+      this.configurationSignal.set(configuration);
       return true;
     } catch {
       return false;

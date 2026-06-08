@@ -1,13 +1,11 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Signal, signal } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
-import { Observable, Subject } from 'rxjs';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import {
-  INITIAL_TITLE,
   SNACKBAR_DURATION,
   SNACKBAR_DURATION_LONG,
   SNACKBAR_DURATION_LONGER,
@@ -24,9 +22,10 @@ import { ImportDialogComponent } from '../presentation/import-dialog/import-dial
 import { DomainStory } from '../../../domain/entities/domainStory';
 import { isPresent } from '../../../utils/isPresent';
 import { UnsavedChangesReminderComponent } from '../../unsavedChangesReminder/presentation/unsavedChangesReminder-dialog/unsaved-changes-reminder/unsaved-changes-reminder.component';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { ExternalResourcesWarningDialogComponent } from 'src/app/tools/import/presentation/external-resources-warning-dialog/external-resources-warning-dialog.component';
 import { unsanitizeTextFromSvgExport } from 'src/app/utils/sanitizer';
+import { Subject } from 'rxjs/internal/Subject';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
   providedIn: 'root',
@@ -42,15 +41,12 @@ export class ImportDomainStoryService implements IconSetChangedService {
   private readonly modelerService = inject(ModelerService);
   private readonly snackbar = inject(MatSnackBar);
 
-  private readonly title = toSignal(this.titleService.title$, {
-    initialValue: INITIAL_TITLE,
-  });
-
   private readonly importedConfigurationEmitter = new Subject<IconSet>();
-  private readonly automatedImportSuccessFullEmitter = new Subject<void>();
+  private readonly automatedImportSuccessFullEmitterSubject =
+    new Subject<void>();
 
-  automatedImportSuccessFull(): Observable<void> {
-    return this.automatedImportSuccessFullEmitter.asObservable();
+  automatedImportSuccessFull$(): Observable<void> {
+    return this.automatedImportSuccessFullEmitterSubject.asObservable();
   }
 
   iconConfigurationChanged(): Observable<IconSet> {
@@ -401,7 +397,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
       panelClass: SNACKBAR_SUCCESS,
     });
     if (emitSuccessExternally) {
-      this.automatedImportSuccessFullEmitter.next();
+      this.automatedImportSuccessFullEmitterSubject.next();
     }
   }
 

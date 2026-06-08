@@ -3,7 +3,7 @@
     <h3 class="listTitle">Work Objects</h3>
     <mat-list>
       @for (
-        workObjectEntry of workObjectEntriesSubject | async;
+        workObjectEntry of workObjectEntriesSignal();
         track workObjectEntry
       ) {
         <mat-list-item>
@@ -25,10 +25,7 @@
   <div>
     <h3 class="listTitle">Activities</h3>
     <mat-list>
-      @for (
-        activityEntry of activityEntriesSubject | async;
-        track activityEntry
-      ) {
+      @for (activityEntry of activityEntriesSignal(); track activityEntry) {
         <mat-list-item>
           <mat-form-field class="inputText dense-8" color="accent">
             <textarea

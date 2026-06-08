@@ -1,5 +1,4 @@
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
@@ -11,7 +10,8 @@ import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set-configuration-for-export';
 import { StorageService } from '../../../domain/services/storage.service';
 import { downloadFile } from 'src/app/utils/downloadFile';
-import { Subject, Observable } from 'rxjs';
+import { Subject } from 'rxjs/internal/Subject';
+import { Observable } from 'rxjs/internal/Observable';
 
 export interface FileConfiguration {
   name: string;
@@ -26,21 +26,19 @@ export class IconSetImportExportService {
   private readonly iconDictionaryService = inject(IconDictionaryService);
   private readonly storageService = inject(StorageService);
 
-  private readonly iconSetNameSubject = new BehaviorSubject<string>(
-    INITIAL_ICON_SET_NAME,
-  );
-  readonly iconSetChangedSubject: Subject<void> = new Subject<void>();
+  private readonly iconSetNameSignal = signal(INITIAL_ICON_SET_NAME);
+  readonly iconSetChangedEmitterSubject: Subject<void> = new Subject<void>();
   readonly iconSetChanged$: Observable<void> =
-    this.iconSetChangedSubject.asObservable();
+    this.iconSetChangedEmitterSubject.asObservable();
 
-  readonly iconSetName$ = this.iconSetNameSubject.asObservable();
+  readonly iconSetName$ = this.iconSetNameSignal.asReadonly();
 
   setIconSetName(name: string): void {
-    this.iconSetNameSubject.next(name);
+    this.iconSetNameSignal.set(name);
   }
 
   getIconSetName(): string {
-    return this.iconSetNameSubject.getValue();
+    return this.iconSetNameSignal();
   }
 
   exportConfiguration(): void {
@@ -50,7 +48,7 @@ export class IconSetImportExportService {
     }
 
     const configJSONString = JSON.stringify(iconSetConfiguration, null, 2);
-    const filename = this.iconSetNameSubject.value;
+    const filename = this.iconSetNameSignal();
 
     downloadFile(
       configJSONString,
@@ -136,7 +134,7 @@ export class IconSetImportExportService {
     });
 
     return {
-      name: this.iconSetNameSubject.value,
+      name: this.iconSetNameSignal(),
       actors: newActors,
       workObjects: newWorkObjects,
     };
@@ -203,6 +201,6 @@ export class IconSetImportExportService {
   }
 
   notifyIconSetSaved() {
-    this.iconSetChangedSubject.next();
+    this.iconSetChangedEmitterSubject.next();
   }
 }

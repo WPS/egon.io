@@ -2,13 +2,13 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  effect,
   HostListener,
   inject,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { SettingsService } from 'src/app/workbench/services/settings/settings.service';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { TitleService } from './tools/title/services/title.service';
 import { ExportService } from './tools/export/services/export.service';
 import { ReplayService } from './tools/replay/services/replay.service';
@@ -57,8 +57,6 @@ import { ImportDomainStoryService } from 'src/app/tools/import/services/import-d
   ],
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  showSettings$: Observable<boolean> | BehaviorSubject<boolean>;
-  showDescription$: Observable<boolean>;
   version: string = environment.version;
   color: string = BLACK;
 
@@ -95,9 +93,18 @@ export class AppComponent implements OnInit, AfterViewInit {
   private readonly importDomainStoryService = inject(ImportDomainStoryService);
   private readonly activatedRoute = inject(ActivatedRoute);
 
+  showDescription$ = this.titleService.showDescription$;
+  showSettings$ = this.settingsService.showSettings$;
+
   constructor() {
-    this.showSettings$ = new BehaviorSubject(false);
-    this.showDescription$ = new BehaviorSubject(true);
+    this.importDomainStoryService
+      .automatedImportSuccessFull$()
+      .subscribe(() => {
+        // A timeout is needed to make sure that the import and all asynchronous tasks are finished before the replay is started.
+        setTimeout(() => {
+          this.replayService.startReplay(true);
+        }, 100);
+      });
 
     document.addEventListener('keydown', (e: KeyboardEvent) => {
       const modifierPressed = e.ctrlKey || e.metaKey;
@@ -170,8 +177,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.modelerService.postInit();
-    this.showDescription$ = this.titleService.showDescription$;
-    this.showSettings$ = this.settingsService.showSettings$;
   }
 
   onColorChanged(color: string) {
@@ -185,12 +190,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.importDomainStoryService.automatedImportSuccessFull().subscribe(() => {
-      // A timeout is needed to make sure that the import and all asynchronous tasks are finished before the replay is started.
-      setTimeout(() => {
-        this.replayService.startReplay(true);
-      }, 100);
-    });
     this.activatedRoute.queryParamMap.subscribe((queryParams) => {
       const urlToLoad = queryParams.get('storyUrl');
       const startReplay = queryParams.get('startReplay') === 'true';

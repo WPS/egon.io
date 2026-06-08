@@ -1,4 +1,13 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  Signal,
+} from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
 
@@ -14,13 +23,13 @@ import { CommonModule } from '@angular/common';
 export class HeaderButtonsComponent {
   private readonly replayService = inject(ReplayService);
 
-  readonly sentenceDescription$: Observable<string>;
+  readonly sentenceDescription$: Signal<string>;
 
   constructor() {
-    this.sentenceDescription$ = combineLatest([
-      this.replayService.currentSentence$,
-      this.replayService.maxSentenceNumber$,
-    ]).pipe(map(([sentence, count]) => `${sentence}/${count}`));
+    this.sentenceDescription$ = computed(
+      () =>
+        `${this.replayService.currentSentence$()}/${this.replayService.maxSentenceNumber$()}`,
+    );
   }
 
   @Input()

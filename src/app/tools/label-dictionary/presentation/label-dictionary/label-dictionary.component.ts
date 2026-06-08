@@ -5,8 +5,10 @@ import {
   EventEmitter,
   inject,
   Output,
+  Signal,
+  signal,
+  WritableSignal,
 } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { WorkObjectLabelEntry } from '../../domain/workObjectLabelEntry';
 import { LabelEntry } from '../../domain/labelEntry';
 import { LabelDictionaryService } from '../../services/label-dictionary.service';
@@ -32,8 +34,8 @@ import { MatButtonModule } from '@angular/material/button';
   ],
 })
 export class LabelDictionaryComponent implements AfterViewInit {
-  readonly workObjectEntriesSubject: BehaviorSubject<WorkObjectLabelEntry[]>;
-  readonly activityEntriesSubject: BehaviorSubject<LabelEntry[]>;
+  readonly workObjectEntriesSignal: WritableSignal<WorkObjectLabelEntry[]>;
+  readonly activityEntriesSignal: WritableSignal<LabelEntry[]>;
 
   workObjectEntries: WorkObjectLabelEntry[];
   activityEntries: LabelEntry[];
@@ -49,24 +51,24 @@ export class LabelDictionaryComponent implements AfterViewInit {
     this.workObjectEntries = this.labelDictionaryService.getWorkObjectLabels();
     this.activityEntries = this.labelDictionaryService.getActivityLabels();
 
-    this.workObjectEntriesSubject = new BehaviorSubject(this.workObjectEntries);
-    this.activityEntriesSubject = new BehaviorSubject(this.activityEntries);
+    this.workObjectEntriesSignal = signal(this.workObjectEntries);
+    this.activityEntriesSignal = signal(this.activityEntries);
   }
 
   ngAfterViewInit(): void {
     this.labelDictionaryService.createLabelDictionaries();
-    this.workObjectEntriesSubject.next(
+    this.workObjectEntriesSignal.set(
       this.labelDictionaryService.getWorkObjectLabels(),
     );
-    this.activityEntriesSubject.next(
+    this.activityEntriesSignal.set(
       this.labelDictionaryService.getActivityLabels(),
     );
     this.cd.detectChanges();
   }
 
   save(): void {
-    this.workObjectEntries = this.workObjectEntriesSubject.value;
-    this.activityEntries = this.activityEntriesSubject.value;
+    this.workObjectEntries = this.workObjectEntriesSignal();
+    this.activityEntries = this.activityEntriesSignal();
 
     const activityNames: string[] = [];
     const originalActivityNames: string[] = [];
@@ -105,8 +107,8 @@ export class LabelDictionaryComponent implements AfterViewInit {
       a.name = a.originalName;
     });
 
-    this.workObjectEntriesSubject.next(this.workObjectEntries);
-    this.activityEntriesSubject.next(this.activityEntries);
+    this.workObjectEntriesSignal.set(this.workObjectEntries);
+    this.activityEntriesSignal.set(this.activityEntries);
   }
 
   // The keydown in the input / textarea field is handled before the (change) event, thus we need to trigger the update manually
@@ -123,20 +125,20 @@ export class LabelDictionaryComponent implements AfterViewInit {
 
   updateActivityEntry($event: Event, activityEntry: LabelEntry) {
     const target = $event.target as HTMLInputElement;
-    let entries = this.activityEntriesSubject.value;
+    let entries = this.activityEntriesSignal();
     entries.filter(
       (e) => e.originalName === activityEntry.originalName,
     )[0].name = target.value;
-    this.activityEntriesSubject.next(entries);
+    this.activityEntriesSignal.set(entries);
   }
 
   updateWorkObjectEntry($event: Event, workObjectEntry: LabelEntry) {
     const target = $event.target as HTMLInputElement;
-    let entries = this.workObjectEntriesSubject.value;
+    let entries = this.workObjectEntriesSignal();
     entries.filter(
       (e) => e.originalName === workObjectEntry.originalName,
     )[0].name = target.value;
-    this.workObjectEntriesSubject.next(entries);
+    this.workObjectEntriesSignal.set(entries);
   }
 
   preventDefault(event: Event): void {

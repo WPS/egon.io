@@ -1,10 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { BehaviorSubject } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,10 +27,10 @@ export class ImportDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<ImportDialogComponent>);
   private readonly fn: any = inject(MAT_DIALOG_DATA);
 
-  protected readonly fileUrl = new BehaviorSubject<string>('');
+  protected readonly fileUrl = signal('');
 
   protected doImport(): void {
-    this.fn(this.fileUrl.value);
+    this.fn(this.fileUrl());
     this.close();
   }
 
@@ -41,6 +40,6 @@ export class ImportDialogComponent {
 
   protected updateUrl($event: Event) {
     const target = $event.target as HTMLInputElement;
-    this.fileUrl.next(target.value);
+    this.fileUrl.set(target.value);
   }
 }

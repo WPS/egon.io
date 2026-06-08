@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
@@ -8,7 +8,6 @@ import {
   ExportDialogData,
   ExportOption,
 } from 'src/app/tools/export/domain/dialog/exportDialogData';
-import { BehaviorSubject } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -41,8 +40,8 @@ export class ExportDialogComponent {
   protected readonly defaultFileName: string = this.data.defaultFilename;
   protected readonly options: ExportOption[] = this.data.options;
 
-  protected readonly withTitle = new BehaviorSubject<boolean>(true);
-  protected readonly useWhiteBackground = new BehaviorSubject<boolean>(true);
+  protected readonly withTitle$ = signal(true);
+  protected readonly useWhiteBackground$ = signal(true);
   protected readonly animationSpeed: number = 2;
   protected isAnimatedSvgExport: boolean = false;
   protected filename: string = '';
@@ -51,15 +50,15 @@ export class ExportDialogComponent {
     if (this.isAnimatedSvgExport) {
       this.options[i].fn(
         this.determineFilename(),
-        this.withTitle.value,
-        this.useWhiteBackground.value,
+        this.withTitle$(),
+        this.useWhiteBackground$(),
         this.animationSpeed,
       );
     } else {
       this.options[i].fn(
         this.determineFilename(),
-        this.withTitle.value,
-        this.useWhiteBackground.value,
+        this.withTitle$(),
+        this.useWhiteBackground$(),
       );
     }
     this.close();
@@ -71,12 +70,12 @@ export class ExportDialogComponent {
 
   protected updateWithTitle($event: Event) {
     const target = $event.target as HTMLInputElement;
-    this.withTitle.next(target.checked);
+    this.withTitle$.set(target.checked);
   }
 
   protected updateUseWhiteBackground($event: Event) {
     const target = $event.target as HTMLInputElement;
-    this.useWhiteBackground.next(target.checked);
+    this.useWhiteBackground$.set(target.checked);
   }
 
   protected onExportAnimatedSvg(): void {

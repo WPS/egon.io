@@ -1,5 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import {
+  Component,
+  effect,
+  inject,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
@@ -28,17 +33,17 @@ import { IconSetComponent } from '../icon-set/icon-set.component';
     IconSetComponent,
   ],
 })
-export class IconSetConfigurationComponent implements OnInit {
-  readonly filter = new BehaviorSubject<IconFilterOptions>(
+export class IconSetConfigurationComponent {
+  readonly filter: WritableSignal<IconFilterOptions> = signal(
     IconFilterOptions.NO_FILTER,
   );
 
-  selectedActors = new BehaviorSubject<string[]>([]);
-  selectedWorkObjects = new BehaviorSubject<string[]>([]);
+  selectedActors: WritableSignal<string[]>;
+  selectedWorkObjects: WritableSignal<string[]>;
 
-  readonly allIcons: BehaviorSubject<Dictionary>;
-  readonly allIconNames = new BehaviorSubject<string[]>([]);
-  readonly allFilteredIconNames = new BehaviorSubject<string[]>([]);
+  readonly allIcons: WritableSignal<Dictionary>;
+  readonly allIconNames: WritableSignal<string[]> = signal([]);
+  readonly allFilteredIconNames: WritableSignal<string[]> = signal([]);
 
   private readonly iconSetImportExportService = inject(
     IconSetImportExportService,
@@ -50,23 +55,18 @@ export class IconSetConfigurationComponent implements OnInit {
   private readonly elementRegistryService = inject(ElementRegistryService);
 
   constructor() {
-    this.allIcons = new BehaviorSubject<Dictionary>(
-      this.iconDictionaryService.getFullDictionary(),
-    );
-    this.allIcons.subscribe((allIcons) => {
-      this.allIconNames.next(allIcons.keysArray().sort(this.sortByName));
+    this.allIcons = signal(this.iconDictionaryService.getFullDictionary());
+    effect(() => {
+      this.allIconNames.set(this.allIcons().keysArray().sort(this.sortByName));
+    });
+    effect(() => {
+      const allFiltered = this.getFilteredNamesForType(this.filter());
+      this.allFilteredIconNames.set([...allFiltered].sort(this.sortByName));
     });
 
-    this.selectedActors = this.iconSetCustomizationService.selectedActors$;
+    this.selectedActors = this.iconSetCustomizationService.selectedActorsSignal;
     this.selectedWorkObjects =
-      this.iconSetCustomizationService.selectedWorkObjects$;
-  }
-
-  ngOnInit(): void {
-    this.filter.subscribe((type) => {
-      const allFiltered = this.getFilteredNamesForType(type);
-      this.allFilteredIconNames.next([...allFiltered].sort(this.sortByName));
-    });
+      this.iconSetCustomizationService.selectedWorkObjectsSignal;
   }
 
   private sortByName(a: string, b: string): number {
@@ -104,8 +104,8 @@ export class IconSetConfigurationComponent implements OnInit {
 
       const src = await this.readFileAsDataURL(iconInputFile);
       this.iconDictionaryService.addCustomIcon(src, iconName);
-      this.allIcons.next(this.iconDictionaryService.getFullDictionary());
-      this.filter.next(this.filter.value);
+      this.allIcons.set(this.iconDictionaryService.getFullDictionary());
+      this.filter.set(this.filter());
       this.iconSetCustomizationService.addNewCustomIcon(iconName);
     }
   }
@@ -148,37 +148,37 @@ export class IconSetConfigurationComponent implements OnInit {
 
     this.iconSetCustomizationService.importConfiguration(config);
 
-    this.allIcons.next(this.iconDictionaryService.getFullDictionary());
-    this.filter.next(this.filter.value);
+    this.allIcons.set(this.iconDictionaryService.getFullDictionary());
+    this.filter.set(this.filter());
   }
 
   /** Filter **/
   filterForActors(): void {
-    if (this.filter.value === IconFilterOptions.ONLY_ACTORS) {
-      this.filter.next(IconFilterOptions.NO_FILTER);
+    if (this.filter() === IconFilterOptions.ONLY_ACTORS) {
+      this.filter.set(IconFilterOptions.NO_FILTER);
     } else {
-      this.filter.next(IconFilterOptions.ONLY_ACTORS);
+      this.filter.set(IconFilterOptions.ONLY_ACTORS);
     }
   }
 
   filterForWorkObjects(): void {
-    if (this.filter.value === IconFilterOptions.ONLY_WORKOBJECTS) {
-      this.filter.next(IconFilterOptions.NO_FILTER);
+    if (this.filter() === IconFilterOptions.ONLY_WORKOBJECTS) {
+      this.filter.set(IconFilterOptions.NO_FILTER);
     } else {
-      this.filter.next(IconFilterOptions.ONLY_WORKOBJECTS);
+      this.filter.set(IconFilterOptions.ONLY_WORKOBJECTS);
     }
   }
 
   filterForUnassigned(): void {
-    if (this.filter.value === IconFilterOptions.ONLY_UNASSIGNED) {
-      this.filter.next(IconFilterOptions.NO_FILTER);
+    if (this.filter() === IconFilterOptions.ONLY_UNASSIGNED) {
+      this.filter.set(IconFilterOptions.NO_FILTER);
     } else {
-      this.filter.next(IconFilterOptions.ONLY_UNASSIGNED);
+      this.filter.set(IconFilterOptions.ONLY_UNASSIGNED);
     }
   }
 
   filterByNameAndType($event: any) {
-    const filteredByKeyWord = this.allIcons.value
+    const filteredByKeyWord = this.allIcons()
       .all()
       .filter((entry) =>
         entry.keyWords.some((key) => {
@@ -188,13 +188,13 @@ export class IconSetConfigurationComponent implements OnInit {
       .map((entry) => entry.key);
 
     const filteredByNameAndType = this.getFilteredNamesForType(
-      this.filter.value,
+      this.filter(),
     ).filter(
       (name) =>
         name.toLowerCase().includes($event.target.value.toLowerCase()) ||
         filteredByKeyWord.includes(name),
     );
-    this.allFilteredIconNames.next(
+    this.allFilteredIconNames.set(
       [...filteredByNameAndType].sort(this.sortByName),
     );
   }
@@ -203,20 +203,20 @@ export class IconSetConfigurationComponent implements OnInit {
     let allFiltered: string[] = [];
     switch (type) {
       case IconFilterOptions.NO_FILTER:
-        allFiltered = this.allIconNames.value;
+        allFiltered = this.allIconNames();
         break;
       case IconFilterOptions.ONLY_ACTORS:
-        allFiltered = this.allIconNames.value.filter((name) =>
+        allFiltered = this.allIconNames().filter((name) =>
           this.iconSetCustomizationService.isIconActor(name),
         );
         break;
       case IconFilterOptions.ONLY_WORKOBJECTS:
-        allFiltered = this.allIconNames.value.filter((name) =>
+        allFiltered = this.allIconNames().filter((name) =>
           this.iconSetCustomizationService.isIconWorkObject(name),
         );
         break;
       case IconFilterOptions.ONLY_UNASSIGNED:
-        allFiltered = this.allIconNames.value.filter(
+        allFiltered = this.allIconNames().filter(
           (name) =>
             !this.iconSetCustomizationService.isIconActor(name) &&
             !this.iconSetCustomizationService.isIconWorkObject(name),
