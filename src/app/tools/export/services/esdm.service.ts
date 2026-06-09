@@ -189,7 +189,7 @@ export class EsdmService {
           };
         });
       esdmSentences.push({
-        sequenceNumber: i,
+        sequenceNumber: i+1,
         edges: edges,
         workObjects,
       });
