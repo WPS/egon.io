@@ -2,10 +2,9 @@
   <div class="content">
     <div class="heading">Autosave Options</div>
     <div class="option">
-      <input
-        #activated
-        type="checkbox"
-        [checked]="autosaveConfiguration.configuration$().activated"
+      <mat-checkbox
+        [checked]="activated"
+        (change)="toggleAutosave($event.checked)"
       />
       Enabled
     </div>
@@ -43,7 +42,7 @@
         type="button"
         mat-flat-button
         color="primary"
-        (click)="save(activated.checked, +drafts.value, +interval.value)"
+        (click)="save(+drafts.value, +interval.value)"
       >
         Apply
       </button>

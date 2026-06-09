@@ -28,6 +28,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
     MatFormField,
     MatInput,
     MatLabel,
+    MatCheckbox,
     ReactiveFormsModule,
   ],
 })

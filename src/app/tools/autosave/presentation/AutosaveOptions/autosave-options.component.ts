@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-autosave-options',
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     MatButtonModule,
     FormsModule,
+    MatCheckbox,
   ],
 })
 export class AutosaveOptionsComponent {
@@ -30,11 +32,13 @@ export class AutosaveOptionsComponent {
     AutosaveConfigurationService,
   );
   private readonly snackbar = inject(MatSnackBar);
+  protected activated: boolean =
+    this.autosaveConfiguration.configuration$().activated;
 
-  save(activated: boolean, maxDrafts: number, interval: number) {
+  save(maxDrafts: number, interval: number) {
     if (
       this.autosaveConfiguration.setConfiguration({
-        activated,
+        activated: this.activated,
         maxDrafts,
         interval,
       })
@@ -53,5 +57,9 @@ export class AutosaveOptionsComponent {
         },
       );
     }
+  }
+
+  protected toggleAutosave(checked: boolean) {
+    this.activated = checked;
   }
 }

@@ -56,4 +56,8 @@ export class AutosaveConfigurationService {
   private saveConfiguration() {
     this.storageService.set(AUTOSAVE_CONFIGURATION_TAG, this.configuration);
   }
+
+  setAutosaveEnabled(checked: boolean) {
+    this.setConfiguration({ ...this.configuration, activated: checked });
+  }
 }

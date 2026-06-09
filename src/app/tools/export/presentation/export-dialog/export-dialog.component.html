@@ -13,41 +13,43 @@
   </div>
   <mat-label>Image Export Options</mat-label>
   <br />
-  <label class="row">
-    <input
-      type="checkbox"
-      [checked]="withTitle$()"
-      (change)="updateWithTitle(!withTitle$())"
-    />
-    Add title and description to image
-  </label>
-  <label class="row">
-    <input
-      type="checkbox"
-      [checked]="useWhiteBackground$()"
-      (change)="updateUseWhiteBackground(!useWhiteBackground$())"
-    />
-    Add white background to SVG (default: transparent)
-  </label>
   <div class="row">
-    <input type="checkbox" [(ngModel)]="isAnimatedSvgExport$" />
-    <span (click)="onExportAnimatedSvg(!isAnimatedSvgExport$())"
-      >Animated SVG</span
+    <mat-checkbox
+      [checked]="withTitle$()"
+      (change)="updateWithTitle($event.checked)"
     >
-    @if (isAnimatedSvgExport$()) {
-      <span> - animation speed:</span>
-      <input
-        class="number-input"
-        [(ngModel)]="animationSpeed"
-        [max]="9"
-        [min]="1"
-        [maxLength]="1"
-        oninput="this.value = this.value.replace(/[^1-9]/g, '')"
-      />
-      <span (click)="onExportAnimatedSvg(!isAnimatedSvgExport$())"
-        >seconds</span
-      >
-    }
+      Add title and description to image
+    </mat-checkbox>
+  </div>
+  <div class="row">
+    <mat-checkbox
+      [checked]="useWhiteBackground$()"
+      (change)="updateUseWhiteBackground($event.checked)"
+    >
+      Add white background to SVG (default: transparent)
+    </mat-checkbox>
+  </div>
+  <div class="row">
+    <mat-checkbox
+      [checked]="isAnimatedSvgExport$()"
+      (change)="onExportAnimatedSvg($event.checked)"
+    >
+      Animated SVG
+      @if (isAnimatedSvgExport$()) {
+        <span> - animation speed:</span>
+        <input
+          class="number-input"
+          [(ngModel)]="animationSpeed"
+          [max]="9"
+          [min]="1"
+          [maxLength]="1"
+          oninput="this.value = this.value.replace(/[^1-9]/g, '')"
+        />
+        <span (click)="onExportAnimatedSvg(!isAnimatedSvgExport$())"
+          >seconds</span
+        >
+      }
+    </mat-checkbox>
   </div>
 </mat-dialog-content>
 <br />

@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
     UntypedFormBuilder,
     {
       provide: MAT_CHECKBOX_DEFAULT_OPTIONS,
-      useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions,
+      useValue: { clickAction: 'check' } as MatCheckboxDefaultOptions,
     },
     provideModeler(),
     provideAutosave(),
