@@ -2,14 +2,15 @@
   <h1>{{ title }}</h1>
   <div class="card">
     <div class="row">
-      <span>Filename: </span>
-      <input
-        style="width: 100%"
-        type="text"
-        [(ngModel)]="filename"
-        [placeholder]="defaultFileName"
-        (change)="updateFileName($event)"
-      />
+      <mat-form-field class="dialogWidth" color="accent">
+        <mat-label>Filename</mat-label>
+        <input
+          matInput
+          type="text"
+          [placeholder]="defaultFileName"
+          (change)="updateFileName($event)"
+        />
+      </mat-form-field>
     </div>
   </div>
   <div class="card">

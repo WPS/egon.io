@@ -12,14 +12,24 @@ import { BehaviorSubject } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 
 @Component({
   selector: 'app-export-dialog',
   templateUrl: './export-dialog.component.html',
   styleUrls: ['./export-dialog.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule, FormsModule],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatButtonModule,
+    FormsModule,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    ReactiveFormsModule,
+  ],
 })
 export class ExportDialogComponent {
   private readonly dialogRef: MatDialogRef<ExportDialogComponent> = inject(

@@ -38,3 +38,10 @@ input {
   margin: 0;
   padding: 0;
 }
+
+.dialogWidth {
+  width: 50vw;
+  mat-label {
+    font-size: 12pt;
+  }
+}

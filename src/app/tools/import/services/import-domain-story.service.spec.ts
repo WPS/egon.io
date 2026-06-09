@@ -22,7 +22,6 @@ import * as dst_v_2_2_0 from './test-files/dst_export_version_2_2_0.json';
 import * as egn_v_4_0_0 from 'src/app/tools/import/services/test-files/egn_export_version_4_0_0.json';
 import {
   DomainPurity,
-  Granularity,
   PointInTime,
   Scope,
 } from 'src/app/domain/entities/scope';
@@ -198,7 +197,7 @@ describe('ImportDomainStoryService', () => {
       filename = 'Organizing an investment conference_2024-08-08.dst';
       expectedTitle = 'testTitle';
       const expectedScope: Scope = {
-        granularity: Granularity.COARSE_GRAINED,
+        granularity: 'coarse grained',
         pointInTime: PointInTime.TO_BE,
         domainPurity: DomainPurity.DIGITALIZED,
       };

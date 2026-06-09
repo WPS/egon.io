@@ -221,12 +221,8 @@ export class ExportService {
     };
   }
 
-  private getCurrentDateString(): string {
-    return formatDate(new Date(), 'yyyy-MM-dd', 'en-GB');
-  }
-
   private createFileName() {
-    return sanitizeForDesktop(this.title() + '_' + this.getCurrentDateString());
+    return sanitizeForDesktop(this.title());
   }
 
   getFilename() {

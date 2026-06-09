@@ -19,24 +19,16 @@
     </mat-form-field>
 
     <br />
-    <mat-label>Granularity</mat-label>
-    <br />
-    <mat-radio-group
-      formControlName="granularity"
-      class="radioGroup"
-      color="accent"
-    >
-      <mat-radio-button [value]="null">Not Specified</mat-radio-button>
-      <mat-radio-button [value]="Granularity.FINE_GRAINED"
-        >Fine</mat-radio-button
-      >
-      <mat-radio-button [value]="Granularity.COARSE_GRAINED"
-        >Coarse</mat-radio-button
-      >
-    </mat-radio-group>
 
+    <mat-form-field class="dialogWidth" color="accent">
+      <mat-label>Granularity</mat-label>
+      <input matInput type="text" formControlName="granularity" />
+    </mat-form-field>
+
+    <br />
     <mat-label>Point In Time</mat-label>
     <br />
+
     <mat-radio-group
       formControlName="pointInTime"
       class="radioGroup"

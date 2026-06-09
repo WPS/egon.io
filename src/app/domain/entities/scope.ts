@@ -1,12 +1,7 @@
 export interface Scope {
-  granularity?: Granularity;
+  granularity: string;
   pointInTime?: PointInTime;
   domainPurity?: DomainPurity;
-}
-
-export enum Granularity {
-  COARSE_GRAINED = 'coarse_grained',
-  FINE_GRAINED = 'fine_grained',
 }
 
 export enum PointInTime {

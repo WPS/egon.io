@@ -10,7 +10,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import {
   DomainPurity,
-  Granularity,
   PointInTime,
   Scope,
 } from 'src/app/domain/entities/scope';
@@ -47,7 +46,7 @@ export class TitleDialogComponent implements OnInit {
     this.form = TitleDialogForm.create(
       title,
       description,
-      scope?.granularity ? scope.granularity : null,
+      scope?.granularity ? scope.granularity : '',
       scope?.pointInTime ? scope.pointInTime : null,
       scope?.domainPurity ? scope.domainPurity : null,
     );
@@ -62,7 +61,7 @@ export class TitleDialogComponent implements OnInit {
       const domainPurity = this.form.getRawValue().domainPurity;
 
       const scope: Scope = {
-        granularity: granularity ? granularity : undefined,
+        granularity: granularity ? granularity : '',
         pointInTime: pointInTime ? pointInTime : undefined,
         domainPurity: domainPurity ? domainPurity : undefined,
       };
@@ -85,7 +84,6 @@ export class TitleDialogComponent implements OnInit {
     event.preventDefault();
   }
 
-  protected readonly Granularity = Granularity;
   protected readonly PointInTime = PointInTime;
   protected readonly DomainPurity = DomainPurity;
 }
