@@ -212,9 +212,7 @@ export class ExportService {
   }
 
   private createFileName() {
-    return sanitizeForDesktop(
-      this.titleService.title$(),
-    );
+    return sanitizeForDesktop(this.titleService.title$());
   }
 
   getFilename() {
