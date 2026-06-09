@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-export-dialog',
@@ -42,12 +43,12 @@ export class ExportDialogComponent {
 
   protected readonly withTitle$ = signal(true);
   protected readonly useWhiteBackground$ = signal(true);
+  protected readonly isAnimatedSvgExport$ = signal(false);
   protected readonly animationSpeed: number = 2;
-  protected isAnimatedSvgExport: boolean = false;
   protected filename: string = '';
 
   protected doOption(i: number): void {
-    if (this.isAnimatedSvgExport) {
+    if (this.isAnimatedSvgExport$()) {
       this.options[i].fn(
         this.determineFilename(),
         this.withTitle$(),
@@ -68,18 +69,16 @@ export class ExportDialogComponent {
     this.dialogRef.close();
   }
 
-  protected updateWithTitle($event: Event) {
-    const target = $event.target as HTMLInputElement;
-    this.withTitle$.set(target.checked);
+  protected updateWithTitle(checked: boolean) {
+    this.withTitle$.set(checked);
   }
 
-  protected updateUseWhiteBackground($event: Event) {
-    const target = $event.target as HTMLInputElement;
-    this.useWhiteBackground$.set(target.checked);
+  protected updateUseWhiteBackground(checked: boolean) {
+    this.useWhiteBackground$.set(checked);
   }
 
-  protected onExportAnimatedSvg(): void {
-    this.isAnimatedSvgExport = !this.isAnimatedSvgExport;
+  protected onExportAnimatedSvg(checked: boolean): void {
+    this.isAnimatedSvgExport$.set(checked);
   }
 
   protected updateFileName($event: Event) {

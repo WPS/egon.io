@@ -1,52 +1,53 @@
 <mat-dialog-content>
   <h1>{{ title }}</h1>
-  <div class="card">
-    <div class="row">
-      <mat-form-field class="dialogWidth" color="accent">
-        <mat-label>Filename</mat-label>
-        <input
-          matInput
-          type="text"
-          [placeholder]="defaultFileName"
-          (change)="updateFileName($event)"
-        />
-      </mat-form-field>
-    </div>
+  <div class="row">
+    <mat-form-field class="dialogWidth" color="accent">
+      <mat-label>Filename</mat-label>
+      <input
+        matInput
+        type="text"
+        [placeholder]="defaultFileName"
+        (change)="updateFileName($event)"
+      />
+    </mat-form-field>
   </div>
-  <div class="card">
-    <span>Options for image export:</span>
-    <label class="row">
+  <mat-label>Image Export Options</mat-label>
+  <br />
+  <label class="row">
+    <input
+      type="checkbox"
+      [checked]="withTitle$()"
+      (change)="updateWithTitle(!withTitle$())"
+    />
+    Add title and description to image
+  </label>
+  <label class="row">
+    <input
+      type="checkbox"
+      [checked]="useWhiteBackground$()"
+      (change)="updateUseWhiteBackground(!useWhiteBackground$())"
+    />
+    Add white background to SVG (default: transparent)
+  </label>
+  <div class="row">
+    <input type="checkbox" [(ngModel)]="isAnimatedSvgExport$" />
+    <span (click)="onExportAnimatedSvg(!isAnimatedSvgExport$())"
+      >Animated SVG</span
+    >
+    @if (isAnimatedSvgExport$()) {
+      <span> - animation speed:</span>
       <input
-        type="checkbox"
-        [checked]="withTitle$()"
-        (change)="updateWithTitle($event)"
+        class="number-input"
+        [(ngModel)]="animationSpeed"
+        [max]="9"
+        [min]="1"
+        [maxLength]="1"
+        oninput="this.value = this.value.replace(/[^1-9]/g, '')"
       />
-      Add title and description to image
-    </label>
-    <label class="row">
-      <input
-        type="checkbox"
-        [checked]="useWhiteBackground$()"
-        (change)="updateUseWhiteBackground($event)"
-      />
-      Add white background to SVG (default: transparent)
-    </label>
-    <div class="row">
-      <input type="checkbox" [(ngModel)]="isAnimatedSvgExport" />
-      <span (click)="onExportAnimatedSvg()">Animated SVG</span>
-      @if (isAnimatedSvgExport) {
-        <span> - animation speed:</span>
-        <input
-          class="number-input"
-          [(ngModel)]="animationSpeed"
-          [max]="9"
-          [min]="1"
-          [maxLength]="1"
-          oninput="this.value = this.value.replace(/[^1-9]/g, '')"
-        />
-        <span (click)="onExportAnimatedSvg()">seconds</span>
-      }
-    </div>
+      <span (click)="onExportAnimatedSvg(!isAnimatedSvgExport$())"
+        >seconds</span
+      >
+    }
   </div>
 </mat-dialog-content>
 <br />
