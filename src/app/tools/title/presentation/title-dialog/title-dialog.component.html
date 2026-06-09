@@ -20,38 +20,56 @@
 
     <br />
 
+    <mat-label>Scope</mat-label>
+    <br />
+
     <mat-form-field class="dialogWidth" color="accent">
       <mat-label>Granularity</mat-label>
       <input matInput type="text" formControlName="granularity" />
     </mat-form-field>
 
-    <br />
-    <mat-label>Point In Time</mat-label>
-    <br />
-
-    <mat-radio-group
-      formControlName="pointInTime"
-      class="radioGroup"
-      color="accent"
-    >
-      <mat-radio-button [value]="null">Not Specified</mat-radio-button>
-      <mat-radio-button [value]="PointInTime.AS_IS">As Is</mat-radio-button>
-      <mat-radio-button [value]="PointInTime.TO_BE">To Be</mat-radio-button>
-    </mat-radio-group>
-
-    <mat-label>Domain Purity</mat-label>
-    <br />
-    <mat-radio-group
-      formControlName="domainPurity"
-      class="radioGroup"
-      color="accent"
-    >
-      <mat-radio-button [value]="null">Not Specified</mat-radio-button>
-      <mat-radio-button [value]="DomainPurity.PURE">Pure</mat-radio-button>
-      <mat-radio-button [value]="DomainPurity.DIGITALIZED"
-        >Digitalized</mat-radio-button
-      >
-    </mat-radio-group>
+    <div class="scopeValues">
+      <div class="scopeValueButtonToggle">
+        <mat-label class="subHeader">Point In Time</mat-label>
+        <mat-button-toggle-group formControlName="pointInTime">
+          <mat-button-toggle
+            [class.isSelected]="pointInTime() === null"
+            [value]="null"
+            >Not Specified</mat-button-toggle
+          >
+          <mat-button-toggle
+            [class.isSelected]="pointInTime() === PointInTime.AS_IS"
+            [value]="PointInTime.AS_IS"
+            >As Is</mat-button-toggle
+          >
+          <mat-button-toggle
+            [class.isSelected]="pointInTime() === PointInTime.TO_BE"
+            [value]="PointInTime.TO_BE"
+            >To Be</mat-button-toggle
+          >
+        </mat-button-toggle-group>
+      </div>
+      <div class="scopeValueButtonToggle">
+        <mat-label class="subHeader">Domain Purity</mat-label>
+        <mat-button-toggle-group formControlName="domainPurity">
+          <mat-button-toggle
+            [class.isSelected]="domainPurity() === null"
+            [value]="null"
+            >Not Specified</mat-button-toggle
+          >
+          <mat-button-toggle
+            [class.isSelected]="domainPurity() === DomainPurity.PURE"
+            [value]="DomainPurity.PURE"
+            >Pure</mat-button-toggle
+          >
+          <mat-button-toggle
+            [class.isSelected]="domainPurity() === DomainPurity.DIGITALIZED"
+            [value]="DomainPurity.DIGITALIZED"
+            >Digitalized</mat-button-toggle
+          >
+        </mat-button-toggle-group>
+      </div>
+    </div>
   </form>
 </mat-dialog-content>
 

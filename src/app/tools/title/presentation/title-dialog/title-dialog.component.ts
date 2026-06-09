@@ -13,7 +13,10 @@ import {
   PointInTime,
   Scope,
 } from 'src/app/domain/entities/scope';
-import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
+import {
+  MatButtonToggle,
+  MatButtonToggleGroup,
+} from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-header-dialog',
@@ -27,8 +30,8 @@ import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatRadioGroup,
-    MatRadioButton,
+    MatButtonToggleGroup,
+    MatButtonToggle,
   ],
 })
 export class TitleDialogComponent implements OnInit {
@@ -86,4 +89,12 @@ export class TitleDialogComponent implements OnInit {
 
   protected readonly PointInTime = PointInTime;
   protected readonly DomainPurity = DomainPurity;
+
+  pointInTime(): PointInTime | null {
+    return this.form.getRawValue().pointInTime;
+  }
+
+  domainPurity(): DomainPurity | null {
+    return this.form.getRawValue().domainPurity;
+  }
 }
