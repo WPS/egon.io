@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AutosaveService } from '../../services/autosave.service';
 import { Draft } from '../../domain/draft';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -6,10 +6,10 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_SUCCESS,
 } from 'src/app/domain/entities/constants';
-import { Subscription } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-autosaved-drafts',
@@ -18,21 +18,16 @@ import { MatListModule } from '@angular/material/list';
 
   imports: [MatButtonModule, MatListModule],
 })
-export class AutosavedDraftsComponent implements OnInit {
-  drafts: Draft[] = [];
-  subscription: Subscription;
-
+export class AutosavedDraftsComponent {
   private autosaveService = inject(AutosaveService);
   private snackbar = inject(MatSnackBar);
 
-  constructor() {
-    this.subscription = this.autosaveService.autosavedDraftsChanged$.subscribe(
-      () => this.initDrafts(),
-    );
-  }
+  drafts: Draft[] = this.autosaveService.getDrafts();
 
-  ngOnInit(): void {
-    this.initDrafts();
+  constructor() {
+    this.autosaveService.autosavedDraftsChanged$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.initDrafts());
   }
 
   initDrafts() {

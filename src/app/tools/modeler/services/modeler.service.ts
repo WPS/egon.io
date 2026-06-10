@@ -18,6 +18,7 @@ import {
 import { environment } from '../../../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -113,6 +114,7 @@ export class ModelerService {
           },
         )
         .onAction()
+        .pipe(takeUntilDestroyed())
         .subscribe(() => {
           window.open('https://egon.io/howto#launching-egon');
         });

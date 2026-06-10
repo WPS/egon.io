@@ -39,6 +39,7 @@ import { HeaderComponent } from './workbench/presentation/header/header/header.c
 import { SettingsComponent } from './workbench/presentation/settings/settings.component';
 import { DragDirective } from './tools/import/directive/dragDrop.directive';
 import { ImportDomainStoryService } from 'src/app/tools/import/services/import-domain-story.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
@@ -96,6 +97,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor() {
     this.importDomainStoryService
       .automatedImportSuccessFull$()
+      .pipe(takeUntilDestroyed())
       .subscribe(() => {
         // A timeout is needed to make sure that the import and all asynchronous tasks are finished before the replay is started.
         setTimeout(() => {

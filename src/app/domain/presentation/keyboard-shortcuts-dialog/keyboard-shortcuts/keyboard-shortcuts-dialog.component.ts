@@ -13,12 +13,8 @@ import {
   imports: [MatDialogModule],
 })
 export class KeyboardShortcutsDialogComponent {
-  title: string;
-  shortCuts: ShortCut[] = [];
+  private data = inject<ShortcutDialogData>(MAT_DIALOG_DATA);
 
-  constructor() {
-    const data = inject<ShortcutDialogData>(MAT_DIALOG_DATA);
-    this.title = data.title;
-    this.shortCuts = data.shortCuts ?? [];
-  }
+  readonly title: string = this.data.title;
+  readonly shortCuts: ShortCut[] = this.data.shortCuts ?? [];
 }

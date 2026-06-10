@@ -32,17 +32,6 @@ import { IconSetComponent } from '../icon-set/icon-set.component';
   ],
 })
 export class IconSetConfigurationComponent {
-  readonly filter: WritableSignal<IconFilterOptions> = signal(
-    IconFilterOptions.NO_FILTER,
-  );
-
-  selectedActors: WritableSignal<string[]>;
-  selectedWorkObjects: WritableSignal<string[]>;
-
-  readonly allIcons: WritableSignal<Dictionary>;
-  readonly allIconNames: WritableSignal<string[]> = signal([]);
-  readonly allFilteredIconNames: WritableSignal<string[]> = signal([]);
-
   private readonly iconSetImportExportService = inject(
     IconSetImportExportService,
   );
@@ -52,8 +41,17 @@ export class IconSetConfigurationComponent {
   );
   private readonly elementRegistryService = inject(ElementRegistryService);
 
+  readonly filter: WritableSignal<IconFilterOptions> = signal(
+    IconFilterOptions.NO_FILTER,
+  );
+
+  readonly allIcons: WritableSignal<Dictionary> = signal(
+    this.iconDictionaryService.getFullDictionary(),
+  );
+  readonly allIconNames: WritableSignal<string[]> = signal([]);
+  readonly allFilteredIconNames: WritableSignal<string[]> = signal([]);
+
   constructor() {
-    this.allIcons = signal(this.iconDictionaryService.getFullDictionary());
     effect(() => {
       this.allIconNames.set(this.allIcons().keysArray().sort(this.sortByName));
     });
@@ -61,10 +59,6 @@ export class IconSetConfigurationComponent {
       const allFiltered = this.getFilteredNamesForType(this.filter());
       this.allFilteredIconNames.set([...allFiltered].sort(this.sortByName));
     });
-
-    this.selectedActors = this.iconSetCustomizationService.selectedActorsSignal;
-    this.selectedWorkObjects =
-      this.iconSetCustomizationService.selectedWorkObjectsSignal;
   }
 
   private sortByName(a: string, b: string): number {

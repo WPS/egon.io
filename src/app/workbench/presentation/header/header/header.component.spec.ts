@@ -20,6 +20,8 @@ describe('HeaderComponent', () => {
       ['isReplayable', 'startReplay', 'stopReplay', 'getMissingSentences'],
       {
         replayOn: signal(false),
+        currentSentence: signal(1),
+        maxSentenceNumber: signal(2),
       },
     );
 

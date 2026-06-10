@@ -28,6 +28,7 @@ import { IconSetImportExportService } from '../../icon-set-config/services/icon-
 import { IconSet } from 'src/app/domain/entities/iconSet';
 import { isPresent } from 'src/app/utils/isPresent';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -58,12 +59,14 @@ export class AutosaveService {
     effect(() => {
       this.updateConfiguration(this.autosaveConfiguration.configuration());
     });
-    this.iconSetImportExportService.iconSetChanged$.subscribe(() => {
-      this.autosave(
-        this.autosaveConfiguration.configuration().maxDrafts,
-        false,
-      );
-    });
+    this.iconSetImportExportService.iconSetChanged$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => {
+        this.autosave(
+          this.autosaveConfiguration.configuration().maxDrafts,
+          false,
+        );
+      });
   }
 
   getDrafts(): Draft[] {
