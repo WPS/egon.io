@@ -46,21 +46,13 @@ export class ExportDialogComponent {
   protected animationSpeed: number = 2;
   protected filename: string = '';
 
-  protected doOption(i: number): void {
-    if (this.isAnimatedSvgExport()) {
-      this.options[i].fn(
-        this.determineFilename(),
-        this.withTitle(),
-        this.useWhiteBackground(),
-        this.animationSpeed,
-      );
-    } else {
-      this.options[i].fn(
-        this.determineFilename(),
-        this.withTitle(),
-        this.useWhiteBackground(),
-      );
-    }
+  protected doOption(index: number): void {
+    this.options[index].fn(
+      this.determineFilename(),
+      this.withTitle(),
+      this.useWhiteBackground(),
+      this.isAnimatedSvgExport() ? this.animationSpeed : undefined,
+    );
     this.close();
   }
 

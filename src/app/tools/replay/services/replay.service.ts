@@ -33,10 +33,6 @@ export class ReplayService {
     this.replayOnSignal.set(state);
   }
 
-  getReplayOn(): boolean {
-    return this.replayOnSignal();
-  }
-
   isReplayable(): boolean {
     return this.storyCreatorService.traceActivitiesAndCreateStory().length > 0;
   }
@@ -45,14 +41,6 @@ export class ReplayService {
     this.currentSentenceSignal.set(1);
     this.story = story;
     this.maxSentenceNumberSignal.set(this.story.length);
-  }
-
-  getCurrentSentenceNumber(): number {
-    return this.currentSentenceSignal();
-  }
-
-  getMaxSentenceNumber(): number {
-    return this.maxSentenceNumberSignal();
   }
 
   nextSentence(): void {

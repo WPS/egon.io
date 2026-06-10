@@ -100,9 +100,12 @@ function canConnect(source, target) {
 function canResize(shape, newBounds) {
   if (is(shape, ElementTypes.GROUP)) {
     if (newBounds) {
-      let lowerLeft = { x: shape.x, y: shape.y + shape.height };
-      let lowerRight = { x: shape.x + shape.width, y: shape.y + shape.height };
-      let upperRight = { x: shape.x + shape.width, y: shape.y };
+      const lowerLeft = { x: shape.x, y: shape.y + shape.height };
+      const lowerRight = {
+        x: shape.x + shape.width,
+        y: shape.y + shape.height,
+      };
+      const upperRight = { x: shape.x + shape.width, y: shape.y };
 
       if (newBounds.x !== shape.x && newBounds.y !== shape.y) {
         // upper left
@@ -199,7 +202,7 @@ DomainStoryRules.prototype.init = function () {
   });
 
   this.addRule("elements.move", HIGH_PRIORITY, function (context) {
-    let target = context.target,
+    const target = context.target,
       shapes = context.shapes;
 
     // The idea of this code is to make sure that if any of the selected shapes cannot be moved,
@@ -220,25 +223,25 @@ DomainStoryRules.prototype.init = function () {
   });
 
   this.addRule("shape.create", HIGH_PRIORITY, function (context) {
-    let target = context.target,
+    const target = context.target,
       shape = context.shape;
 
     return canCreate(shape, target);
   });
 
   this.addRule("connection.create", HIGH_PRIORITY, function (context) {
-    let source = context.source,
+    const source = context.source,
       target = context.target;
 
     return canConnect(source, target);
   });
 
   this.addRule("connection.reconnect", HIGH_PRIORITY, function (context) {
-    let connection = context.connection,
+    const connection = context.connection,
       source = context.hover || context.source,
       target = context.target;
 
-    let result = canConnectToAnnotation(source, target, connection);
+    const result = canConnectToAnnotation(source, target, connection);
 
     if (!result) {
       return;
@@ -248,7 +251,7 @@ DomainStoryRules.prototype.init = function () {
   });
 
   this.addRule("shape.resize", function (context) {
-    let shape = context.shape,
+    const shape = context.shape,
       newBounds = context.newBounds;
 
     return canResize(shape, newBounds);

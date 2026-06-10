@@ -131,7 +131,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
       if (
         (e.key === 'ArrowRight' || e.key === 'ArrowUp') &&
-        this.replayService.getReplayOn()
+        this.replayService.replayOn()
       ) {
         e.preventDefault();
         e.stopPropagation();
@@ -139,7 +139,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
       if (
         (e.key === 'ArrowLeft' || e.key === 'ArrowDown') &&
-        this.replayService.getReplayOn()
+        this.replayService.replayOn()
       ) {
         e.preventDefault();
         e.stopPropagation();

@@ -13,6 +13,8 @@ import { StoryCreatorService } from '../../replay/services/story-creator.service
 import { StorySentence } from '../../replay/domain/storySentence';
 import { sanitizeTextForSVGExport } from 'src/app/utils/sanitizer';
 
+const MIN_WIDTH = 300;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -49,21 +51,16 @@ export class SvgService {
     // rectangle in user space mapped to the bounds of the viewport of an SVG element.
     // https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/viewBox
 
-    let min_x: number;
-    let viewBoxWidth: number;
-    let min_y: number;
-    let viewBoxHeight: number;
     const splitViewBox = viewBox.split(/\s/);
-
-    min_x = +splitViewBox[0];
-    min_y = +splitViewBox[1];
-    viewBoxWidth = +splitViewBox[2];
-    viewBoxHeight = +splitViewBox[3];
+    const min_x = +splitViewBox[0];
+    const min_y = +splitViewBox[1];
+    let viewBoxWidth = +splitViewBox[2];
+    const viewBoxHeight = +splitViewBox[3];
 
     // Set minimum width to ensure title and description are displayed reasonably
-    if (viewBoxWidth < 300) {
-      viewBoxWidth += 300;
-      width += 300;
+    if (viewBoxWidth < MIN_WIDTH) {
+      viewBoxWidth += MIN_WIDTH;
+      width += MIN_WIDTH;
     }
 
     const { insertText, dynamicHeightOffset } =
@@ -217,8 +214,8 @@ export class SvgService {
   private appendSourceCode(data: string, dst: ConfigAndDST): string {
     const indexToAdd = data.length - '</svg>'.length;
 
-    let start = data.substring(0, indexToAdd);
-    let end = data.substring(indexToAdd);
+    const start = data.substring(0, indexToAdd);
+    const end = data.substring(indexToAdd);
 
     const hiddenText = "\n<text class='hiddenDomainStory'>\n\n";
     const textClose = '\n\n</text>\n';

@@ -5,48 +5,47 @@ export function degrees(radians: number): number {
   return (radians * 180) / Math.PI;
 }
 
-// calculate the angle between two points in 2D
-export function angleBetween(
-  startPoint: Point,
-  endPoint: Point,
-): number | undefined {
-  let quadrant;
+enum Quadrant {
+  upperRight,
+  upperLeft,
+  lowerLeft,
+  lowerRight,
+}
 
-  // determine in which quadrant we are
+function determineQuadrant(startPoint: Point, endPoint: Point) {
   if (startPoint.x <= endPoint.x) {
     if (startPoint.y >= endPoint.y) {
-      quadrant = 0;
-    } // upper right quadrant
-    else {
-      quadrant = 3;
-    } // lower right quadrant
+      return Quadrant.upperRight;
+    } else {
+      return Quadrant.lowerRight;
+    }
   } else {
     if (startPoint.y >= endPoint.y) {
-      quadrant = 1;
-    } // upper left Quadrant
-    else {
-      quadrant = 2;
-    } // lower left quadrant
+      return Quadrant.upperLeft;
+    } else {
+      return Quadrant.lowerLeft;
+    }
   }
+}
 
+// calculate the angle between two points in 2D
+export function angleBetween(startPoint: Point, endPoint: Point): number {
   const adjacent = Math.abs(startPoint.y - endPoint.y);
   const opposite = Math.abs(startPoint.x - endPoint.x);
+  const angle = degrees(Math.atan2(opposite, adjacent));
 
   // since the arcus-tangens only gives values between 0 and 90, we have to adjust for the quadrant we are in
-
-  if (quadrant === 0) {
-    return 90 - degrees(Math.atan2(opposite, adjacent));
+  const quadrant = determineQuadrant(startPoint, endPoint);
+  switch (quadrant) {
+    case Quadrant.upperRight:
+      return 90 - angle;
+    case Quadrant.upperLeft:
+      return 90 + angle;
+    case Quadrant.lowerLeft:
+      return 270 - angle;
+    case Quadrant.lowerRight:
+      return 270 + angle;
   }
-  if (quadrant === 1) {
-    return 90 + degrees(Math.atan2(opposite, adjacent));
-  }
-  if (quadrant === 2) {
-    return 270 - degrees(Math.atan2(opposite, adjacent));
-  }
-  if (quadrant === 3) {
-    return 270 + degrees(Math.atan2(opposite, adjacent));
-  }
-  return undefined;
 }
 
 export function positionsMatch(
