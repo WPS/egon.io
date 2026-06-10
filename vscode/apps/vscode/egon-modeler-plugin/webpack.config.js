@@ -117,8 +117,8 @@ module.exports = (env, argv) => {
                         to: ".",
                     },
                     {
-                        from: "egon-io-logo.png",
-                        to: "assets/egon-io-logo.png",
+                        from: "miragon-logo.png",
+                        to: "assets/miragon-logo.png",
                         context: path.resolve(__dirname, "../../../images"),
                     },
                     {
