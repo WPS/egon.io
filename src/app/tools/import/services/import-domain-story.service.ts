@@ -1,4 +1,4 @@
-import { inject, Injectable, Signal, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';

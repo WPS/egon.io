@@ -5,7 +5,6 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 
-import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,9 +13,8 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-import-dialog',
   templateUrl: './import-dialog.component.html',
   styleUrls: ['./import-dialog.component.scss'],
-  standalone: true,
+
   imports: [
-    CommonModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,

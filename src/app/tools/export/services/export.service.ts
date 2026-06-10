@@ -7,7 +7,6 @@ import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
 import { PngService } from 'src/app/tools/export/services/png.service';
 import { SvgService } from 'src/app/tools/export/services/svg.service';
 import { HtmlPresentationService } from './html-presentation.service';
-import { formatDate } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import {
   ExportDialogData,
@@ -75,8 +74,8 @@ export class ExportService {
     const dst: ConfigAndDST = this.createConfigAndDST(story);
 
     const svgData: string = this.svgService.createSVGData(
-      this.titleService.title$(),
-      this.titleService.description$(),
+      this.titleService.title(),
+      this.titleService.description(),
       dst,
       withTitle,
       useWhiteBackground,
@@ -99,8 +98,8 @@ export class ExportService {
     if (canvas) {
       let { svg, image } = this.pngService.createSvgAndImage(
         canvas,
-        this.titleService.description$(),
-        this.titleService.title$(),
+        this.titleService.description(),
+        this.titleService.title(),
         withTitle,
       );
 
@@ -212,7 +211,7 @@ export class ExportService {
   }
 
   private createFileName() {
-    return sanitizeForDesktop(this.titleService.title$());
+    return sanitizeForDesktop(this.titleService.title());
   }
 
   getFilename() {

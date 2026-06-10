@@ -223,15 +223,14 @@ export class SvgService {
     const hiddenText = "\n<text class='hiddenDomainStory'>\n\n";
     const textClose = '\n\n</text>\n';
 
-    const finalSvg =
+    return (
       start +
       hiddenText +
       sanitizeTextForSVGExport('<DST>') +
       sanitizeTextForSVGExport(JSON.stringify(dst, null, 2)) +
       sanitizeTextForSVGExport('</DST>') +
       textClose +
-      end;
-
-    return finalSvg;
+      end
+    );
   }
 }

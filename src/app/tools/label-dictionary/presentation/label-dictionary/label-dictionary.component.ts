@@ -5,14 +5,12 @@ import {
   EventEmitter,
   inject,
   Output,
-  Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
 import { WorkObjectLabelEntry } from '../../domain/workObjectLabelEntry';
 import { LabelEntry } from '../../domain/labelEntry';
 import { LabelDictionaryService } from '../../services/label-dictionary.service';
-import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,9 +21,8 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-label-dictionary',
   templateUrl: './label-dictionary.component.html',
   styleUrls: ['./label-dictionary.component.scss'],
-  standalone: true,
+
   imports: [
-    CommonModule,
     MatListModule,
     MatFormFieldModule,
     MatInputModule,

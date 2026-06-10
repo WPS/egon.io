@@ -1,14 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
 import { LabelDictionaryComponent } from '../label-dictionary/label-dictionary.component';
 
 @Component({
   selector: 'app-label-dictionary-dialog',
   templateUrl: './label-dictionary-dialog.component.html',
   styleUrls: ['./label-dictionary-dialog.component.scss'],
-  standalone: true,
-  imports: [CommonModule, MatDialogModule, LabelDictionaryComponent],
+
+  imports: [MatDialogModule, LabelDictionaryComponent],
 })
 export class LabelDictionaryDialogComponent {
   private readonly dialogRef = inject(

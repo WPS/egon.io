@@ -4,14 +4,14 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class SettingsService {
-  private readonly showSettings = signal(false);
-  readonly showSettings$ = this.showSettings.asReadonly();
+  private readonly showSettingsSignal = signal(false);
+  readonly showSettings = this.showSettingsSignal.asReadonly();
 
   close(): void {
-    this.showSettings.set(false);
+    this.showSettingsSignal.set(false);
   }
 
   open(): void {
-    this.showSettings.set(true);
+    this.showSettingsSignal.set(true);
   }
 }

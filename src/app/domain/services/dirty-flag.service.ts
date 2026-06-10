@@ -5,7 +5,7 @@ import { Injectable, signal } from '@angular/core';
 })
 export class DirtyFlagService {
   private readonly isDirtySignal = signal(false);
-  readonly dirty$ = this.isDirtySignal.asReadonly();
+  readonly dirty = this.isDirtySignal.asReadonly();
 
   makeDirty(): void {
     this.isDirtySignal.set(true);
@@ -13,9 +13,5 @@ export class DirtyFlagService {
 
   makeClean(): void {
     this.isDirtySignal.set(false);
-  }
-
-  get dirty(): boolean {
-    return this.isDirtySignal();
   }
 }

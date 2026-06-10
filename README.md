@@ -27,7 +27,7 @@ There are several deployment options:
 
 - Standalone version (Zip file): If your organization already runs a web server, you can copy the zip file to the web server and extract it there to make Egon available to your organization.
 - Docker container: If you prefer to provide websites as Docker container, you can build your own.
-- If you don't want to build and deploy Egon.io yourself, than use one of the ready-to-use options provided by the Egon.io team:
+- If you don't want to build and deploy Egon.io yourself, then use one of the ready-to-use options provided by the Egon.io team:
   - Run [Egon.io online](https://egon.io/)
   - Download a ready-made Docker image `docker pull ghcr.io/wps/egon.io:latest` and run it `docker run -p 4040:80 ghcr.io/wps/egon.io:latest` (replace "4040" with whatever port you want to use)
 
@@ -51,14 +51,14 @@ Adapt container name ("egon-dev" in the above example) and port ("8080") as need
 Egon - The Domain Story Modeler is licensed under GPLv3.0.
 
 Egon uses...
-- [diagram-js](https://github.com/bpmn-io/diagram-js): Copyright (c) 2014—present Camunda Services GmbH
-- [ngx-color-picker](https://www.npmjs.com/package/ngx-color-picker): Copyright (c) 2016 Zef Oy
+- [diagram-js](https://github.com/bpmn-io/diagram-js): Copyright © 2014—present Camunda Services GmbH
+- [ngx-color-picker](https://www.npmjs.com/package/ngx-color-picker): Copyright © 2016 Zef Oy
 
 which are licensed under the MIT license.
 
 ### GPLv3.0
 
-Copyright (c) 2018-present WPS - Workplace Solutions GmbH
+Copyright © 2018-present WPS - Workplace Solutions GmbH
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

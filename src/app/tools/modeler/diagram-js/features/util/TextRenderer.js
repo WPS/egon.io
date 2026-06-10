@@ -2,10 +2,10 @@ import { assign } from "min-dash";
 
 import TextUtil from "diagram-js/lib/util/Text";
 
-var DEFAULT_FONT_SIZE = 12;
-var LINE_HEIGHT_RATIO = 1.2;
+const DEFAULT_FONT_SIZE = 12;
+const LINE_HEIGHT_RATIO = 1.2;
 
-var MIN_TEXT_ANNOTATION_HEIGHT = 30;
+const MIN_TEXT_ANNOTATION_HEIGHT = 30;
 
 /**
  * @typedef { {
@@ -31,7 +31,7 @@ var MIN_TEXT_ANNOTATION_HEIGHT = 30;
  * @param {TextRendererConfig} [config]
  */
 export default function TextRenderer(config) {
-  var defaultStyle = assign(
+  const defaultStyle = assign(
     {
       fontFamily: "Arial, sans-serif",
       fontSize: DEFAULT_FONT_SIZE,
@@ -41,9 +41,9 @@ export default function TextRenderer(config) {
     (config && config.defaultStyle) || {},
   );
 
-  var fontSize = parseInt(defaultStyle.fontSize, 10) - 1;
+  const fontSize = parseInt(defaultStyle.fontSize, 10) - 1;
 
-  var externalStyle = assign(
+  const externalStyle = assign(
     {},
     defaultStyle,
     {
@@ -52,7 +52,7 @@ export default function TextRenderer(config) {
     (config && config.externalStyle) || {},
   );
 
-  var textUtil = new TextUtil({
+  const textUtil = new TextUtil({
     style: defaultStyle,
   });
 
@@ -66,7 +66,7 @@ export default function TextRenderer(config) {
    * @return {Rect}
    */
   this.getExternalLabelBounds = function (bounds, text) {
-    var layoutedDimensions = textUtil.getDimensions(text, {
+    const layoutedDimensions = textUtil.getDimensions(text, {
       box: {
         width: 90,
         height: 30,
@@ -92,7 +92,7 @@ export default function TextRenderer(config) {
    * @return {Rect}
    */
   this.getTextAnnotationBounds = function (bounds, text) {
-    var layoutedDimensions = textUtil.getDimensions(text, {
+    const layoutedDimensions = textUtil.getDimensions(text, {
       box: bounds,
       style: defaultStyle,
       align: "left-top",

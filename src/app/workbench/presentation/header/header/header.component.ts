@@ -1,5 +1,4 @@
-import { Component, effect, inject, Signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, inject, Signal } from '@angular/core';
 import { TitleService } from '../../../../tools/title/services/title.service';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
 import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
@@ -10,7 +9,6 @@ import { ExportService } from '../../../../tools/export/services/export.service'
 import { LabelDictionaryService } from '../../../../tools/label-dictionary/services/label-dictionary.service';
 import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 
-import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { HeaderButtonsComponent } from '../header-buttons/header-buttons.component';
@@ -19,13 +17,8 @@ import { HeaderButtonsComponent } from '../header-buttons/header-buttons.compone
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatToolbarModule,
-    MatCardModule,
-    HeaderButtonsComponent,
-  ],
+
+  imports: [MatToolbarModule, MatCardModule, HeaderButtonsComponent],
 })
 export class HeaderComponent {
   readonly titleService = inject(TitleService);
@@ -38,11 +31,11 @@ export class HeaderComponent {
   private readonly exportService = inject(ExportService);
   private readonly labelDictionaryService = inject(LabelDictionaryService);
 
-  readonly description$ = this.titleService.description$;
-  readonly showDescription$ = this.titleService.showDescription$;
+  readonly description = this.titleService.description;
+  readonly showDescription = this.titleService.showDescription;
 
-  readonly isReplay$: Signal<boolean> = this.replayService.replayOn$;
-  readonly isDirty$: Signal<boolean> = this.dirtyFlagService.dirty$;
+  readonly isReplayOn: Signal<boolean> = this.replayService.replayOn;
+  readonly isDirty: Signal<boolean> = this.dirtyFlagService.dirty;
 
   openHeaderDialog(): void {
     this.titleService.openHeaderDialog();
@@ -57,7 +50,7 @@ export class HeaderComponent {
   }
 
   createNewDomainStory(): void {
-    if (this.dirtyFlagService.dirty) {
+    if (this.dirtyFlagService.dirty()) {
       this.importService.openUnsavedChangesReminderDialog(() => {
         this.titleService.reset();
         this.modelerService.reset();
@@ -69,7 +62,7 @@ export class HeaderComponent {
   }
 
   onImport(): void {
-    if (this.dirtyFlagService.dirty) {
+    if (this.dirtyFlagService.dirty()) {
       this.importService.openUnsavedChangesReminderDialog(() =>
         this.importService.performImport(),
       );
@@ -107,7 +100,7 @@ export class HeaderComponent {
   }
 
   openImportFromUrlDialog(): void {
-    this.importService.openImportFromUrlDialog(this.dirtyFlagService.dirty);
+    this.importService.openImportFromUrlDialog(this.dirtyFlagService.dirty());
   }
 
   get hasDomainStory() {

@@ -6,7 +6,6 @@ import {
   SNACKBAR_ERROR,
   SNACKBAR_SUCCESS,
 } from 'src/app/domain/entities/constants';
-import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,9 +16,8 @@ import { MatCheckbox } from '@angular/material/checkbox';
   selector: 'app-autosave-options',
   templateUrl: './autosave-options.component.html',
   styleUrls: ['./autosave-options.component.scss'],
-  standalone: true,
+
   imports: [
-    CommonModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
@@ -33,7 +31,7 @@ export class AutosaveOptionsComponent {
   );
   private readonly snackbar = inject(MatSnackBar);
   protected activated: boolean =
-    this.autosaveConfiguration.configuration$().activated;
+    this.autosaveConfiguration.configuration().activated;
 
   save(maxDrafts: number, interval: number) {
     if (

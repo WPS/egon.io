@@ -14,13 +14,13 @@ import {
 })
 export class ReplayService {
   private story: StorySentence[] = [];
-  private readonly currentSentence = signal(-1);
-  private readonly maxSentenceNumber = signal(0);
+  private readonly currentSentenceSignal = signal(-1);
+  private readonly maxSentenceNumberSignal = signal(0);
   private readonly replayOnSignal = signal(false);
 
-  readonly currentSentence$ = this.currentSentence.asReadonly();
-  readonly maxSentenceNumber$ = this.maxSentenceNumber.asReadonly();
-  readonly replayOn$ = this.replayOnSignal.asReadonly();
+  readonly currentSentence = this.currentSentenceSignal.asReadonly();
+  readonly maxSentenceNumber = this.maxSentenceNumberSignal.asReadonly();
+  readonly replayOn = this.replayOnSignal.asReadonly();
 
   private readonly domManipulationService = inject(DomManipulationService);
   private readonly storyCreatorService = inject(StoryCreatorService);
@@ -42,38 +42,38 @@ export class ReplayService {
   }
 
   initializeReplay(story: StorySentence[]): void {
-    this.currentSentence.set(1);
+    this.currentSentenceSignal.set(1);
     this.story = story;
-    this.maxSentenceNumber.set(this.story.length);
+    this.maxSentenceNumberSignal.set(this.story.length);
   }
 
   getCurrentSentenceNumber(): number {
-    return this.currentSentence();
+    return this.currentSentenceSignal();
   }
 
   getMaxSentenceNumber(): number {
-    return this.maxSentenceNumber();
+    return this.maxSentenceNumberSignal();
   }
 
   nextSentence(): void {
-    if (this.currentSentence() < this.story.length) {
-      this.currentSentence.set(this.currentSentence() + 1);
+    if (this.currentSentenceSignal() < this.story.length) {
+      this.currentSentenceSignal.set(this.currentSentenceSignal() + 1);
       this.showCurrentSentence();
     }
   }
 
   previousSentence(): void {
-    if (this.currentSentence() > 1) {
-      this.currentSentence.set(this.currentSentence() - 1);
+    if (this.currentSentenceSignal() > 1) {
+      this.currentSentenceSignal.set(this.currentSentenceSignal() - 1);
       this.showCurrentSentence();
     }
   }
 
   private showCurrentSentence() {
     this.domManipulationService.showSentence(
-      this.story[this.currentSentence() - 1],
-      this.currentSentence() > 1
-        ? this.story[this.currentSentence() - 2]
+      this.story[this.currentSentenceSignal() - 1],
+      this.currentSentenceSignal() > 1
+        ? this.story[this.currentSentenceSignal() - 2]
         : undefined,
     );
   }
@@ -106,7 +106,7 @@ export class ReplayService {
     if (this.story.length > 0) {
       this.setReplayState(true);
       this.domManipulationService.showSentence(
-        this.story[this.currentSentence() - 1],
+        this.story[this.currentSentenceSignal() - 1],
       );
     } else {
       this.snackbar.open('You need a Domain Story for replay.', undefined, {
@@ -125,8 +125,8 @@ export class ReplayService {
   }
 
   stopReplay(): void {
-    this.currentSentence.set(-1);
-    this.maxSentenceNumber.set(0);
+    this.currentSentenceSignal.set(-1);
+    this.maxSentenceNumberSignal.set(0);
     this.setReplayState(false);
     this.domManipulationService.showAll();
     this.palette.open();

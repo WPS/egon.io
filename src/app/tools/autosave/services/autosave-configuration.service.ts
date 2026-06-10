@@ -19,11 +19,11 @@ const defaultConfiguration: AutosaveConfiguration = {
   providedIn: 'root',
 })
 export class AutosaveConfigurationService {
-  private configuration = defaultConfiguration;
+  private currentConfiguration = defaultConfiguration;
 
   readonly configurationSignal: WritableSignal<AutosaveConfiguration> =
     signal(defaultConfiguration);
-  readonly configuration$ = this.configurationSignal.asReadonly();
+  readonly configuration = this.configurationSignal.asReadonly();
 
   private readonly storageService = inject(StorageService);
 
@@ -32,13 +32,15 @@ export class AutosaveConfigurationService {
   }
 
   private initializeConfiguration() {
-    this.loadConfiguration();
-    this.configurationSignal.set(this.configuration);
+    this.currentConfiguration =
+      this.storageService.get(AUTOSAVE_CONFIGURATION_TAG) ??
+      defaultConfiguration;
+    this.configurationSignal.set(this.currentConfiguration);
   }
 
   setConfiguration(configuration: AutosaveConfiguration): boolean {
     try {
-      this.configuration = configuration;
+      this.currentConfiguration = configuration;
       this.saveConfiguration();
       this.configurationSignal.set(configuration);
       return true;
@@ -47,17 +49,10 @@ export class AutosaveConfigurationService {
     }
   }
 
-  private loadConfiguration() {
-    this.configuration =
-      this.storageService.get(AUTOSAVE_CONFIGURATION_TAG) ??
-      defaultConfiguration;
-  }
-
   private saveConfiguration() {
-    this.storageService.set(AUTOSAVE_CONFIGURATION_TAG, this.configuration);
-  }
-
-  setAutosaveEnabled(checked: boolean) {
-    this.setConfiguration({ ...this.configuration, activated: checked });
+    this.storageService.set(
+      AUTOSAVE_CONFIGURATION_TAG,
+      this.currentConfiguration,
+    );
   }
 }

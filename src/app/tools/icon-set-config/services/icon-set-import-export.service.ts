@@ -31,7 +31,7 @@ export class IconSetImportExportService {
   readonly iconSetChanged$: Observable<void> =
     this.iconSetChangedEmitterSubject.asObservable();
 
-  readonly iconSetName$ = this.iconSetNameSignal.asReadonly();
+  readonly iconSetName = this.iconSetNameSignal.asReadonly();
 
   setIconSetName(name: string): void {
     this.iconSetNameSignal.set(name);

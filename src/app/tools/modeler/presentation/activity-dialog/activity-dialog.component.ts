@@ -9,7 +9,6 @@ import { ActivityDialogData } from 'src/app/tools/modeler/domain/activityDialogD
 import { ActivityCanvasObject } from '../../../../domain/entities/activityCanvasObject';
 import { ActivityDialogForm } from '../../domain/activity-dialog-form';
 
-import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,9 +18,8 @@ import { MatCheckbox } from '@angular/material/checkbox';
   selector: 'app-activity-dialog',
   templateUrl: './activity-dialog.component.html',
   styleUrls: ['./activity-dialog.component.scss'],
-  standalone: true,
+
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,

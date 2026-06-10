@@ -14,7 +14,7 @@ describe('AutosavedDraftsComponent', () => {
   const autosaveConfigurationServiceMock = jasmine.createSpyObj(
     'AutosaveConfigurationService',
     ['setConfiguration'],
-    { configuration$: signal({ activated: true, maxDrafts: 1, interval: 1 }) },
+    { configuration: signal({ activated: true, maxDrafts: 1, interval: 1 }) },
   );
 
   const autosaveServiceMock = jasmine.createSpyObj(

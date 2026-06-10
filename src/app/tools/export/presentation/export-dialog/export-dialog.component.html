@@ -15,7 +15,7 @@
   <br />
   <div class="row">
     <mat-checkbox
-      [checked]="withTitle$()"
+      [checked]="withTitle()"
       (change)="updateWithTitle($event.checked)"
     >
       Add title and description to image
@@ -23,7 +23,7 @@
   </div>
   <div class="row">
     <mat-checkbox
-      [checked]="useWhiteBackground$()"
+      [checked]="useWhiteBackground()"
       (change)="updateUseWhiteBackground($event.checked)"
     >
       Add white background to SVG (default: transparent)
@@ -31,11 +31,11 @@
   </div>
   <div class="row">
     <mat-checkbox
-      [checked]="isAnimatedSvgExport$()"
+      [checked]="isAnimatedSvgExport()"
       (change)="onExportAnimatedSvg($event.checked)"
     >
       Animated SVG
-      @if (isAnimatedSvgExport$()) {
+      @if (isAnimatedSvgExport()) {
         <span> - animation speed:</span>
         <input
           class="number-input"
@@ -45,7 +45,7 @@
           [maxLength]="1"
           oninput="this.value = this.value.replace(/[^1-9]/g, '')"
         />
-        <span (click)="onExportAnimatedSvg(!isAnimatedSvgExport$())"
+        <span (click)="onExportAnimatedSvg(!isAnimatedSvgExport())"
           >seconds</span
         >
       }

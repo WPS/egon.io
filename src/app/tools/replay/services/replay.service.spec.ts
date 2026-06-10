@@ -55,7 +55,7 @@ describe(ReplayService.name, () => {
   });
 
   it('should return Observable', () => {
-    expect(service.replayOn$()).toBeFalsy();
+    expect(service.replayOn()).toBeFalsy();
   });
 
   it('should set value', () => {

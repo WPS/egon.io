@@ -41,7 +41,7 @@ export class AutosaveService {
   private readonly importConfigChangedSignal: WritableSignal<
     IconSet | undefined
   > = signal(undefined);
-  readonly importConfigChanged$: Signal<IconSet | undefined> =
+  readonly importConfigChanged: Signal<IconSet | undefined> =
     this.importConfigChangedSignal.asReadonly();
 
   private readonly autosaveConfiguration = inject(AutosaveConfigurationService);
@@ -56,11 +56,11 @@ export class AutosaveService {
 
   constructor() {
     effect(() => {
-      this.updateConfiguration(this.autosaveConfiguration.configuration$());
+      this.updateConfiguration(this.autosaveConfiguration.configuration());
     });
     this.iconSetImportExportService.iconSetChanged$.subscribe(() => {
       this.autosave(
-        this.autosaveConfiguration.configuration$().maxDrafts,
+        this.autosaveConfiguration.configuration().maxDrafts,
         false,
       );
     });

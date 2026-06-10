@@ -255,7 +255,7 @@ DomainStoryRules.prototype.init = function () {
   });
 
   this.addRule("connection.start", function (context) {
-    var source = context.source;
+    const source = context.source;
 
     return canStartConnection(source);
   });

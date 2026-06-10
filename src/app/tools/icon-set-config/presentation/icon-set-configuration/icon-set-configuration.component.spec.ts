@@ -20,7 +20,7 @@ describe(IconSetConfigurationComponent.name, () => {
         {
           provide: IconSetImportExportService,
           useValue: jasmine.createSpyObj('IconSetImportExportService', [], {
-            iconSetName$: signal('testIconSetName'),
+            iconSetName: signal('testIconSetName'),
           }),
         },
         MockProvider(IconDictionaryService, {

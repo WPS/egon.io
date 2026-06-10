@@ -3,7 +3,6 @@ import {
   inject,
   Injectable,
   signal,
-  Signal,
   WritableSignal,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
@@ -85,9 +84,9 @@ export class IconSetCustomizationService {
     }
 
     effect(() => {
-      const importConfigChanged$ = this.autosaveService.importConfigChanged$();
-      if (importConfigChanged$) {
-        this.importConfiguration(importConfigChanged$!, false);
+      const importConfigChanged = this.autosaveService.importConfigChanged();
+      if (importConfigChanged) {
+        this.importConfiguration(importConfigChanged!, false);
         this.updateAllIconBehaviorSubjects();
       }
     });

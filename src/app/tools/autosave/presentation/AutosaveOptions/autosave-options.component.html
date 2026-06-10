@@ -18,7 +18,7 @@
           class="numberInput"
           min="1"
           type="number"
-          [value]="autosaveConfiguration.configuration$().interval"
+          [value]="autosaveConfiguration.configuration().interval"
         />
       </mat-form-field>
     </div>
@@ -31,7 +31,7 @@
           class="numberInput"
           min="1"
           type="number"
-          [value]="autosaveConfiguration.configuration$().maxDrafts"
+          [value]="autosaveConfiguration.configuration().maxDrafts"
         />
       </mat-form-field>
     </div>

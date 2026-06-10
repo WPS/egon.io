@@ -20,7 +20,7 @@ import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { AutosaveService } from 'src/app/tools/autosave/services/autosave.service';
 import { Subject } from 'rxjs';
-import { signal, Signal } from '@angular/core';
+import { signal } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
 
@@ -46,7 +46,7 @@ describe(IconSetCustomizationService.name, () => {
       ],
     );
     const autosaveServiceMock = jasmine.createSpyObj(AutosaveService.name, [], {
-      importConfigChanged$: signal(undefined),
+      importConfigChanged: signal(undefined),
     });
     const iconSetImportExportServiceMock = jasmine.createSpyObj(
       IconSetImportExportService.name,

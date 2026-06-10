@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  effect,
   HostListener,
   inject,
   OnInit,
@@ -35,7 +34,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModelerService } from './tools/modeler/services/modeler.service';
 import { DirtyFlagService } from './domain/services/dirty-flag.service';
 
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HeaderComponent } from './workbench/presentation/header/header/header.component';
 import { SettingsComponent } from './workbench/presentation/settings/settings.component';
@@ -46,9 +44,8 @@ import { ImportDomainStoryService } from 'src/app/tools/import/services/import-d
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: true,
+
   imports: [
-    CommonModule,
     HeaderComponent,
     SettingsComponent,
     DragDirective,
@@ -93,8 +90,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   private readonly importDomainStoryService = inject(ImportDomainStoryService);
   private readonly activatedRoute = inject(ActivatedRoute);
 
-  showDescription$ = this.titleService.showDescription$;
-  showSettings$ = this.settingsService.showSettings$;
+  showDescription = this.titleService.showDescription;
+  showSettings = this.settingsService.showSettings;
 
   constructor() {
     this.importDomainStoryService
@@ -204,7 +201,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:beforeunload', ['$event'])
   onWindowClose(event: any): void {
-    if (this.dirtyFlagService.dirty) {
+    if (this.dirtyFlagService.dirty()) {
       event.returnValue = true;
     }
   }

@@ -23,10 +23,10 @@ describe('AppComponent', () => {
       'loadLatestDraft',
     ]);
     const settingsServiceMock = jasmine.createSpyObj('SettingsService', [], {
-      showSettings$: signal<boolean>(false),
+      showSettings: signal<boolean>(false),
     });
     const titleServiceMock = jasmine.createSpyObj('TitleService', [], {
-      showDescription$: signal<boolean>(true),
+      showDescription: signal<boolean>(true),
     });
     await TestBed.configureTestingModule({
       imports: [

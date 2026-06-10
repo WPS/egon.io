@@ -12,7 +12,6 @@ import { ElementRegistryService } from 'src/app/domain/services/element-registry
 import { sanitizeIconName } from 'src/app/utils/sanitizer';
 import { IconFilterOptions } from '../../domain/iconFilterOptions';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
-import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,9 +22,8 @@ import { IconSetComponent } from '../icon-set/icon-set.component';
   selector: 'app-icon-set-configuration',
   templateUrl: './icon-set-configuration.component.html',
   styleUrls: ['./icon-set-configuration.component.scss'],
-  standalone: true,
+
   imports: [
-    CommonModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
@@ -100,7 +98,7 @@ export class IconSetConfigurationComponent {
     const files = document.getElementById('importIcon').files;
     for (let iconInputFile of files) {
       const name = sanitizeIconName(iconInputFile.name);
-      const iconName = name + '-custom'; // this suffix helps users to see which icons they uploaded; it should not be used to check if an icon is actually custom or not since this convention was introduce after v1.3.0 and is therefore not reliable information
+      const iconName = name + '-custom'; // this suffix helps users to see which icons they uploaded; it should not be used to check if an icon is actually custom or not since this convention was introduced after v1.3.0 and is therefore not reliable information
 
       const src = await this.readFileAsDataURL(iconInputFile);
       this.iconDictionaryService.addCustomIcon(src, iconName);

@@ -85,7 +85,7 @@ describe('ElementRegistryService', () => {
     testGroup.children?.push(structuredClone(testGroupCanvasObject));
 
     testConnection = structuredClone(testActivityCanvasObject);
-    testConnection.name = 'conntection';
+    testConnection.name = 'connection';
     testConnection.type = ElementTypes.CONNECTION;
     testConnection.businessObject.type = ElementTypes.CONNECTION;
   });
@@ -134,7 +134,7 @@ describe('ElementRegistryService', () => {
       service.setElementRegistry(registry);
     });
 
-    it('getAllActivites', () => {
+    it('getAllActivities', () => {
       const activities = service.getAllActivities();
 
       expect(activities).toContain(testActivity);

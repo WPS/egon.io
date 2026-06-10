@@ -9,7 +9,7 @@ import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { Draft } from '../domain/draft';
 import { testConfigAndDst } from '../../export/domain/export/configAndDst';
 import { StorageService } from '../../../domain/services/storage.service';
-import { of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DRAFTS_KEY } from 'src/app/domain/entities/constants';
 import { signal } from '@angular/core';
@@ -37,7 +37,7 @@ describe('AutosaveService', () => {
       AutosaveConfigurationService.name,
       ['setConfiguration'],
       {
-        configuration$: configurationSignal.asReadonly(),
+        configuration: configurationSignal.asReadonly(),
       },
     );
     const storageServiceMock = jasmine.createSpyObj(StorageService.name, [

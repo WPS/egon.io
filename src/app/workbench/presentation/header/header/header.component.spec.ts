@@ -19,7 +19,7 @@ describe('HeaderComponent', () => {
       'ReplayService',
       ['isReplayable', 'startReplay', 'stopReplay', 'getMissingSentences'],
       {
-        replayOn$: signal(false),
+        replayOn: signal(false),
       },
     );
 

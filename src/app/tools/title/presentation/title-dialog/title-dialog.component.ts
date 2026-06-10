@@ -4,7 +4,6 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { TitleDialogForm } from '../../domain/title-dialog-form';
 import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
-import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,9 +21,8 @@ import {
   selector: 'app-header-dialog',
   templateUrl: './title-dialog.component.html',
   styleUrls: ['./title-dialog.component.scss'],
-  standalone: true,
+
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,

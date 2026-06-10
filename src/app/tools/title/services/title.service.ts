@@ -22,9 +22,9 @@ export class TitleService {
   private readonly descriptionSignal = signal(INITIAL_DESCRIPTION);
   private readonly showDescriptionSignal = signal(true);
 
-  readonly title$ = this.titleSignal.asReadonly();
-  readonly description$ = this.descriptionSignal.asReadonly();
-  readonly showDescription$ = this.showDescriptionSignal.asReadonly();
+  readonly title = this.titleSignal.asReadonly();
+  readonly description = this.descriptionSignal.asReadonly();
+  readonly showDescription = this.showDescriptionSignal.asReadonly();
 
   openHeaderDialog(): void {
     const config = new MatDialogConfig();

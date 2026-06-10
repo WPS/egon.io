@@ -22,7 +22,7 @@ describe(IconSetComponent.name, () => {
     const iconSetImportExportServiceMock = jasmine.createSpyObj(
       'IconSetImportExportService',
       ['importIconSet', 'exportIconSet'],
-      { iconSetName$: signal<string>('') },
+      { iconSetName: signal<string>('') },
     );
 
     await TestBed.configureTestingModule({

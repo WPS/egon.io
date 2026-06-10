@@ -3,7 +3,6 @@ import { IconSetCustomizationService } from 'src/app/tools/icon-set-config/servi
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { SelectableIcon } from 'src/app/tools/icon-set-config/domain/selectableIcon';
 
-import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,9 +13,8 @@ import { SelectedIconComponent } from '../selected-icon/selected-icon.component'
   selector: 'app-icon-set',
   templateUrl: './icon-set.component.html',
   styleUrls: ['./icon-set.component.scss'],
-  standalone: true,
+
   imports: [
-    CommonModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
@@ -31,7 +29,7 @@ export class IconSetComponent {
   private draggedList: string = '';
   private draggedIndex = 0;
 
-  iconSetName$: Signal<string> = this.importExportService.iconSetName$;
+  iconSetName: Signal<string> = this.importExportService.iconSetName;
   selectedActorsSignal = this.customizationService.selectedActorsSignal;
   selectedWorkObjectsSignal =
     this.customizationService.selectedWorkObjectsSignal;

@@ -121,7 +121,7 @@ describe('IconDictionaryService', () => {
       workObjects: workObjectsDict,
     };
 
-    it('from iconset file', () => {
+    it('from IconSet file', () => {
       expect(
         service.getIconsAssignedAs(ElementTypes.ACTOR).isEmpty(),
       ).toBeTrue();

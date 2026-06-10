@@ -9,7 +9,6 @@ import {
   ExportOption,
 } from 'src/app/tools/export/domain/dialog/exportDialogData';
 
-import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
@@ -19,9 +18,8 @@ import { MatCheckbox } from '@angular/material/checkbox';
   selector: 'app-export-dialog',
   templateUrl: './export-dialog.component.html',
   styleUrls: ['./export-dialog.component.scss'],
-  standalone: true,
+
   imports: [
-    CommonModule,
     MatDialogModule,
     MatButtonModule,
     FormsModule,
@@ -42,25 +40,25 @@ export class ExportDialogComponent {
   protected readonly defaultFileName: string = this.data.defaultFilename;
   protected readonly options: ExportOption[] = this.data.options;
 
-  protected readonly withTitle$ = signal(true);
-  protected readonly useWhiteBackground$ = signal(true);
-  protected readonly isAnimatedSvgExport$ = signal(false);
-  protected readonly animationSpeed: number = 2;
+  protected readonly withTitle = signal(true);
+  protected readonly useWhiteBackground = signal(true);
+  protected readonly isAnimatedSvgExport = signal(false);
+  protected animationSpeed: number = 2;
   protected filename: string = '';
 
   protected doOption(i: number): void {
-    if (this.isAnimatedSvgExport$()) {
+    if (this.isAnimatedSvgExport()) {
       this.options[i].fn(
         this.determineFilename(),
-        this.withTitle$(),
-        this.useWhiteBackground$(),
+        this.withTitle(),
+        this.useWhiteBackground(),
         this.animationSpeed,
       );
     } else {
       this.options[i].fn(
         this.determineFilename(),
-        this.withTitle$(),
-        this.useWhiteBackground$(),
+        this.withTitle(),
+        this.useWhiteBackground(),
       );
     }
     this.close();
@@ -71,15 +69,15 @@ export class ExportDialogComponent {
   }
 
   protected updateWithTitle(checked: boolean) {
-    this.withTitle$.set(checked);
+    this.withTitle.set(checked);
   }
 
   protected updateUseWhiteBackground(checked: boolean) {
-    this.useWhiteBackground$.set(checked);
+    this.useWhiteBackground.set(checked);
   }
 
   protected onExportAnimatedSvg(checked: boolean): void {
-    this.isAnimatedSvgExport$.set(checked);
+    this.isAnimatedSvgExport.set(checked);
   }
 
   protected updateFileName($event: Event) {
