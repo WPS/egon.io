@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ExportService } from '../../export/services/export.service';
 import { Draft } from '../domain/draft';
@@ -16,26 +16,39 @@ import {
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
+import { IconSet } from 'src/app/domain/entities/iconSet';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AutosaveService {
   private autosaveTimer: any;
-  autosavedDraftsChanged$ = new Subject<void>();
+  readonly autosavedDraftsChanged$ = new Subject<void>();
+  private maxDrafts: number = 0;
 
-  constructor(
-    private autosaveConfiguration: AutosaveConfigurationService,
-    private exportService: ExportService,
-    private modelerService: ModelerService,
-    private snackbar: MatSnackBar,
-    private storageService: StorageService,
-    private titleService: TitleService,
-    private iconSetImportExportService: IconSetImportExportService,
-  ) {
-    this.autosaveConfiguration.configuration$.subscribe((configuration) =>
-      this.updateConfiguration(configuration),
-    );
+  private importConfigChanged: Subject<IconSet> = new Subject<IconSet>();
+  readonly importConfigChanged$: Observable<IconSet> =
+    this.importConfigChanged.asObservable();
+
+  private readonly autosaveConfiguration = inject(AutosaveConfigurationService);
+  private readonly exportService = inject(ExportService);
+  private readonly modelerService = inject(ModelerService);
+  private readonly snackbar = inject(MatSnackBar);
+  private readonly storageService = inject(StorageService);
+  private readonly titleService = inject(TitleService);
+  private readonly iconSetImportExportService = inject(
+    IconSetImportExportService,
+  );
+
+  constructor() {
+    this.autosaveConfiguration.configuration$.subscribe((configuration) => {
+      this.updateConfiguration(configuration);
+      this.maxDrafts = configuration.maxDrafts;
+    });
+    this.iconSetImportExportService.iconSetChanged$.subscribe(() => {
+      this.autosave(this.maxDrafts, false);
+    });
   }
 
   getDrafts(): Draft[] {
@@ -44,7 +57,8 @@ export class AutosaveService {
     return drafts;
   }
 
-  loadDraft(draft: Draft): void {
+  // if we fitToScreen while the AUtosave-Dialoge is open, the canvas is not on screen and the Zoom breaks
+  loadDraft(draft: Draft, fitToScreen = false): void {
     const configFromFile = draft.configAndDST.domain;
     const config =
       this.iconSetImportExportService.createIconSetConfiguration(
@@ -58,7 +72,8 @@ export class AutosaveService {
       false,
     );
 
-    this.modelerService.importStory(story, config);
+    this.importConfigChanged.next(config);
+    this.modelerService.importStory(story, config, fitToScreen);
   }
 
   removeAllDrafts() {
@@ -71,7 +86,7 @@ export class AutosaveService {
     if (drafts.length === 0) {
       return;
     }
-    this.loadDraft(drafts[0]);
+    this.loadDraft(drafts[0], true);
   }
 
   private updateConfiguration(configuration: AutosaveConfiguration) {
@@ -89,27 +104,35 @@ export class AutosaveService {
     }
   }
 
-  private startTimer(interval: number, maxDrafts: number): void {
-    this.autosaveTimer = setInterval(() => {
-      const savedDrafts = this.getDrafts();
-      const newDraft = this.createDraft();
-      let isChanged = maxDrafts > 0;
-      if (savedDrafts.length > 0) {
-        isChanged = isChanged && !this.isSame(newDraft, savedDrafts[0]);
+  private startTimer(intervalInMs: number, maxDrafts: number): void {
+    this.autosaveTimer = setInterval(
+      () => this.autosave(maxDrafts, true),
+      intervalInMs * 1000,
+    );
+  }
+
+  // non-private for testing purposes
+  autosave(maxDrafts: number, showAutosaveMessage: boolean) {
+    const savedDrafts = this.getDrafts();
+    const newDraft = this.createDraft();
+    let isChanged = maxDrafts > 0;
+    if (savedDrafts.length > 0) {
+      isChanged = isChanged && !this.isSame(newDraft, savedDrafts[0]);
+    }
+    if (isChanged && !this.isDraftEmpty(newDraft)) {
+      savedDrafts.unshift(newDraft);
+      while (savedDrafts.length > maxDrafts) {
+        savedDrafts.pop();
       }
-      if (isChanged && !this.isDraftEmpty(newDraft)) {
-        savedDrafts.unshift(newDraft);
-        while (savedDrafts.length > maxDrafts) {
-          savedDrafts.pop();
-        }
-        this.writeDrafts(savedDrafts);
+      this.writeDrafts(savedDrafts);
+      if (showAutosaveMessage) {
         this.snackbar.open('Draft Saved', undefined, {
           panelClass: SNACKBAR_INFO,
           duration: SNACKBAR_DURATION,
         });
-        this.autosavedDraftsChanged$.next();
       }
-    }, interval * 1000);
+      this.autosavedDraftsChanged$.next();
+    }
   }
 
   private isDraftEmpty(draft: Draft) {
@@ -155,7 +178,7 @@ export class AutosaveService {
     drafts.sort((a: Draft, b: Draft) => {
       const aDate = Date.parse(a.date);
       const bDate = Date.parse(b.date);
-      return aDate > bDate ? 0 : 1;
+      return aDate === bDate ? 0 : aDate > bDate ? -1 : 1;
     });
   }
 }

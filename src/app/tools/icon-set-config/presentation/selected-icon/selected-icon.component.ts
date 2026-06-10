@@ -1,15 +1,19 @@
 import { AfterViewChecked, Component, Input } from '@angular/core';
-import { IconListItem } from '../../domain/iconListItem';
+import { SelectableIcon } from '../../domain/selectableIcon';
+
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-selected-icon',
   templateUrl: './selected-icon.component.html',
   styleUrls: ['./selected-icon.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, MatFormFieldModule],
 })
 export class SelectedIconComponent implements AfterViewChecked {
   @Input()
-  icon!: IconListItem;
+  icon!: SelectableIcon;
 
   private iconInitiated = false;
 
@@ -18,7 +22,7 @@ export class SelectedIconComponent implements AfterViewChecked {
       'domain-configuration-details-icon-' +
       this.icon.name.toLowerCase() +
       '-' +
-      (this.icon.isWorkObject ? 'workobject' : 'actor')
+      (this.icon.isWorkObject ? 'workObject' : 'actor')
     );
   }
 

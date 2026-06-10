@@ -22,7 +22,7 @@ function resetRegistry(
   registry: any,
   testActivity: ActivityCanvasObject,
   testActor: CanvasObject,
-  testWorkobject: CanvasObject,
+  testWorkObject: CanvasObject,
   testGroup: GroupCanvasObject,
   testConnection: ActivityCanvasObject,
 ) {
@@ -31,8 +31,8 @@ function resetRegistry(
     element: structuredClone(testActivity),
   };
   registry._elements[testActor.name] = { element: structuredClone(testActor) };
-  registry._elements[testWorkobject.name] = {
-    element: structuredClone(testWorkobject),
+  registry._elements[testWorkObject.name] = {
+    element: structuredClone(testWorkObject),
   };
   registry._elements[testGroup.name] = { element: structuredClone(testGroup) };
 
@@ -47,7 +47,7 @@ describe('ElementRegistryService', () => {
 
   let testActivity: ActivityCanvasObject;
   let testActor: CanvasObject;
-  let testWorkobject: CanvasObject;
+  let testWorkObject: CanvasObject;
   let testGroup: GroupCanvasObject;
   let testConnection: ActivityCanvasObject;
 
@@ -77,8 +77,8 @@ describe('ElementRegistryService', () => {
     testActivity.source = testActor;
     testActivity.name = 'activity';
 
-    testWorkobject = structuredClone(testCanvasObject);
-    testWorkobject.name = 'workobject';
+    testWorkObject = structuredClone(testCanvasObject);
+    testWorkObject.name = 'workObject';
 
     testGroup = structuredClone(testGroupCanvasObject);
     testGroup.name = 'group';
@@ -96,7 +96,7 @@ describe('ElementRegistryService', () => {
         registry,
         testActivity,
         testActor,
-        testWorkobject,
+        testWorkObject,
         testGroup,
         testConnection,
       );
@@ -114,7 +114,7 @@ describe('ElementRegistryService', () => {
       const objectListForDSTDownload = service.createObjectListForDSTDownload();
       expect(objectListForDSTDownload).toContain(testActivity);
       expect(objectListForDSTDownload).toContain(testActor);
-      expect(objectListForDSTDownload).toContain(testWorkobject);
+      expect(objectListForDSTDownload).toContain(testWorkObject);
       expect(objectListForDSTDownload).toContain(testGroup);
 
       service.clear();
@@ -127,7 +127,7 @@ describe('ElementRegistryService', () => {
         registry,
         testActivity,
         testActor,
-        testWorkobject,
+        testWorkObject,
         testGroup,
         testConnection,
       );
@@ -151,7 +151,7 @@ describe('ElementRegistryService', () => {
 
       expect(objects).toContain(testActivity);
       expect(objects).toContain(testActor);
-      expect(objects).toContain(testWorkobject);
+      expect(objects).toContain(testWorkObject);
       expect(objects).toContain(testConnection);
     });
 

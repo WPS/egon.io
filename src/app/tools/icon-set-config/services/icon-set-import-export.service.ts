@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
@@ -10,10 +9,9 @@ import {
 } from '../../../domain/entities/constants';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set-configuration-for-export';
-import { CustomIconSetConfiguration } from '../../../domain/entities/custom-icon-set-configuration';
 import { StorageService } from '../../../domain/services/storage.service';
-import { sanitizeIconName } from '../../../utils/sanitizer';
-import { namesOfDefaultIcons } from 'src/app/domain/entities/namesOfSelectedIcons';
+import { downloadFile } from 'src/app/utils/downloadFile';
+import { Subject, Observable } from 'rxjs';
 
 export interface FileConfiguration {
   name: string;
@@ -25,20 +23,24 @@ export interface FileConfiguration {
   providedIn: 'root',
 })
 export class IconSetImportExportService {
-  private iconSetNameSubject = new BehaviorSubject<string>(
+  private readonly iconDictionaryService = inject(IconDictionaryService);
+  private readonly storageService = inject(StorageService);
+
+  private readonly iconSetNameSubject = new BehaviorSubject<string>(
     INITIAL_ICON_SET_NAME,
   );
+  readonly iconSetChangedSubject: Subject<void> = new Subject<void>();
+  readonly iconSetChanged$: Observable<void> =
+    this.iconSetChangedSubject.asObservable();
 
-  iconSetName$ = this.iconSetNameSubject.asObservable();
-
-  constructor(
-    private iconDictionaryService: IconDictionaryService,
-    private elementRegistryService: ElementRegistryService,
-    private storageService: StorageService,
-  ) {}
+  readonly iconSetName$ = this.iconSetNameSubject.asObservable();
 
   setIconSetName(name: string): void {
-    this.iconSetNameSubject.next(name); // ? name : INITIAL_ICON_SET_NAME);
+    this.iconSetNameSubject.next(name);
+  }
+
+  getIconSetName(): string {
+    return this.iconSetNameSubject.getValue();
   }
 
   exportConfiguration(): void {
@@ -49,56 +51,30 @@ export class IconSetImportExportService {
 
     const configJSONString = JSON.stringify(iconSetConfiguration, null, 2);
     const filename = this.iconSetNameSubject.value;
-    const element = document.createElement('a');
 
-    element.setAttribute(
-      'href',
-      'data:text/plain;charset=utf-8,' + encodeURIComponent(configJSONString),
+    downloadFile(
+      configJSONString,
+      'data:text/plain;charset=utf-8,',
+      filename,
+      '.iconset',
     );
-    element.setAttribute('download', filename + '.iconset');
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
   }
 
-  loadConfiguration(customConfig: IconSet, updateIconSetName = true): void {
-    let actorDict = new Dictionary();
-    let workObjectDict = new Dictionary();
-
-    if (customConfig.actors.keysArray()) {
-      actorDict = customConfig.actors;
-      workObjectDict = customConfig.workObjects;
-    } else {
-      actorDict.addEach(customConfig.actors);
-      workObjectDict.addEach(customConfig.workObjects);
-    }
-
-    const actorKeys = actorDict.keysArray();
-    const workObjectKeys = workObjectDict.keysArray();
-
-    this.iconDictionaryService.updateIconRegistries([], [], customConfig);
-
-    this.iconDictionaryService.addIconsFromIconSetConfiguration(
-      ElementTypes.ACTOR,
-      actorKeys.map((a) => ElementTypes.ACTOR + a),
-    );
-    this.iconDictionaryService.addIconsFromIconSetConfiguration(
-      ElementTypes.WORKOBJECT,
-      workObjectKeys.map((w) => ElementTypes.WORKOBJECT + w),
-    );
+  loadIconSet(iconSet: IconSet, updateIconSetName = true): void {
+    this.iconDictionaryService.updateIconRegistries(iconSet);
 
     if (updateIconSetName) {
-      const configurationName = customConfig.name;
-      this.setIconSetName(configurationName);
+      this.setIconSetName(iconSet.name);
     }
   }
 
   private getCurrentConfiguration(): IconSet | undefined {
-    const actors = this.iconDictionaryService.getActorsDictionary();
-    const workObjects = this.iconDictionaryService.getWorkObjectsDictionary();
+    const actors = this.iconDictionaryService.getIconsAssignedAs(
+      ElementTypes.ACTOR,
+    );
+    const workObjects = this.iconDictionaryService.getIconsAssignedAs(
+      ElementTypes.WORKOBJECT,
+    );
 
     let iconSetConfiguration;
 
@@ -136,66 +112,33 @@ export class IconSetImportExportService {
     return;
   }
 
-  getCurrentConfigurationNamesWithoutPrefix(): CustomIconSetConfiguration {
-    return {
-      name: this.iconSetNameSubject.value || INITIAL_ICON_SET_NAME,
-      actors: this.iconDictionaryService
-        .getActorsDictionary()
-        .keysArray()
-        .map((a) => a.replace(ElementTypes.ACTOR, '')),
-      workObjects: this.iconDictionaryService
-        .getWorkObjectsDictionary()
-        .keysArray()
-        .map((w) => w.replace(ElementTypes.WORKOBJECT, '')),
-    };
-  }
-
-  createMinimalConfigurationWithDefaultIcons(): IconSet {
-    const minimalConfig = this.createConfigFromCanvas();
-
-    namesOfDefaultIcons.actors.forEach((iconName) => {
-      minimalConfig.actors.add(
-        this.iconDictionaryService.getIconSource(iconName),
-        iconName,
-      );
-    });
-    namesOfDefaultIcons.workObjects.forEach((iconName) => {
-      minimalConfig.workObjects.add(
-        this.iconDictionaryService.getIconSource(iconName),
-        iconName,
-      );
-    });
-
-    return minimalConfig;
-  }
-
   private createConfigFromDictionaries(
     actorsDict: Dictionary,
     workObjectsDict: Dictionary,
   ): IconSet {
     const actorNames = actorsDict.keysArray();
-    const workobjectNames = workObjectsDict.keysArray();
+    const workObjectNames = workObjectsDict.keysArray();
     const newActors = new Dictionary();
-    const newWorkobjects = new Dictionary();
+    const newWorkObjects = new Dictionary();
 
     // Fill Configuration from Canvas-Objects
     actorNames.forEach((actor) => {
-      newActors.add(
-        actorsDict.get(actor),
+      newActors.set(
         actor.replace(ElementTypes.ACTOR, ''),
+        actorsDict.get(actor),
       );
     });
-    workobjectNames.forEach((workObject) => {
-      newWorkobjects.add(
-        workObjectsDict.get(workObject),
+    workObjectNames.forEach((workObject) => {
+      newWorkObjects.set(
         workObject.replace(ElementTypes.WORKOBJECT, ''),
+        workObjectsDict.get(workObject),
       );
     });
 
     return {
       name: this.iconSetNameSubject.value,
       actors: newActors,
-      workObjects: newWorkobjects,
+      workObjects: newWorkObjects,
     };
   }
 
@@ -210,28 +153,10 @@ export class IconSetImportExportService {
       };
     }
 
-    const actorsDict = new Dictionary();
-    const workObjectsDict = new Dictionary();
-    Object.keys(fileConfiguration.actors).forEach((key) => {
-      let icon = fileConfiguration.actors[key];
-      if (icon) {
-        // make sure the actor has an icon
-        actorsDict.add(icon, sanitizeIconName(key));
-      }
-    });
-
-    Object.keys(fileConfiguration.workObjects).forEach((key) => {
-      let icon = fileConfiguration.workObjects[key];
-      if (icon) {
-        // make sure the work object has an icon
-        workObjectsDict.add(icon, sanitizeIconName(key));
-      }
-    });
-
     return {
       name: fileConfiguration.name,
-      actors: actorsDict,
-      workObjects: workObjectsDict,
+      actors: Dictionary.fromRecord(fileConfiguration.actors),
+      workObjects: Dictionary.fromRecord(fileConfiguration.workObjects),
     };
   }
 
@@ -252,56 +177,16 @@ export class IconSetImportExportService {
   }
 
   public setStoredIconSetConfiguration(config: IconSet): void {
-    const actors: {
-      [p: string]: any;
-    } = {};
-    config.actors.keysArray().forEach((key) => {
-      actors[key] = config.actors.get(key);
-    });
-    const workObjects: {
-      [p: string]: any;
-    } = {};
-    config.workObjects.keysArray().forEach((key) => {
-      workObjects[key] = config.workObjects.get(key);
-    });
-
     const configForStorage = {
       name: config.name,
-      actors: actors,
-      workObjects: workObjects,
+      actors: config.actors.toRecord(),
+      workObjects: config.workObjects.toRecord(),
     };
 
     this.storageService.set(
       ICON_SET_CONFIGURATION_KEY,
       JSON.stringify(configForStorage, null, 2),
     );
-  }
-
-  private createConfigFromCanvas(): IconSet {
-    const config = {
-      name: INITIAL_ICON_SET_NAME,
-      actors: new Dictionary(),
-      workObjects: new Dictionary(),
-    };
-
-    let allCanvasObjects = this.elementRegistryService.getAllCanvasObjects();
-
-    allCanvasObjects
-      .map((e) => e.businessObject)
-      .forEach((element) => {
-        const type = element.type
-          .replace(ElementTypes.ACTOR, '')
-          .replace(ElementTypes.WORKOBJECT, '');
-        if (element.type.includes(ElementTypes.ACTOR)) {
-          let src = this.iconDictionaryService.getIconSource(type) || '';
-          config.actors.add(src, type);
-        } else if (element.type.includes(ElementTypes.WORKOBJECT)) {
-          let src = this.iconDictionaryService.getIconSource(type) || '';
-          config.workObjects.add(src, type);
-        }
-      });
-
-    return config;
   }
 
   private checkValidityOfConfiguration(iconSetConfiguration: IconSet) {
@@ -315,5 +200,9 @@ export class IconSetImportExportService {
         .all()
         .some((e) => typeof e.value !== 'string')
     );
+  }
+
+  notifyIconSetSaved() {
+    this.iconSetChangedSubject.next();
   }
 }

@@ -26,7 +26,7 @@ describe('Dict', () => {
     const dict = new Dictionary();
 
     // when
-    dict.add(value1, key1);
+    dict.set(key1, value1);
     dict.set(key2, value2);
 
     // then

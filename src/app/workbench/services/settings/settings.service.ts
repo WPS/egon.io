@@ -5,8 +5,8 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class SettingsService {
-  private showSettings = new BehaviorSubject(false);
-  showSettings$ = this.showSettings.asObservable();
+  private readonly showSettings = new BehaviorSubject(false);
+  readonly showSettings$ = this.showSettings.asObservable();
 
   close(): void {
     this.showSettings.next(false);

@@ -1,47 +1,44 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
-import { MatDialogConfig } from '@angular/material/dialog';
-import { ActivityDialogData } from '../domain/activityDialogData';
-import { ActivityDialogComponent } from '../presentation/activity-dialog/activity-dialog.component';
-import { DialogService } from '../../../domain/services/dialog.service';
 import { TitleService } from '../../title/services/title.service';
-import { ActivityCanvasObject } from '../../../domain/entities/activityCanvasObject';
-import { positionsMatch } from '../../../utils/mathExtensions';
 import { CommandStackService } from '../../../domain/services/command-stack.service';
 
-import { toggleStashUse } from 'src/app/tools/modeler/diagram-js/features/labeling/dsLabelEditingProvider';
-import {
-  getMultipleNumberRegistry,
-  getNumberRegistry,
-  setNumberIsMultiple,
-  updateExistingNumbersAtEditing,
-} from 'src/app/tools/modeler/diagram-js/features/numbering/numbering';
 import activityUpdateHandler from 'src/app/tools/modeler/diagram-js/features/updateHandler/activityUpdateHandlers';
 
 import massRenameHandler from 'src/app/tools/modeler/diagram-js/features/updateHandler/massRenameHandler';
 import elementUpdateHandler from 'src/app/tools/modeler/diagram-js/features/updateHandler/elementUpdateHandler';
 import headlineAndDescriptionUpdateHandler from 'src/app/tools/modeler/diagram-js/features/updateHandler/headlineAndDescriptionUpdateHandler';
 import { ReplayService } from '../../replay/services/replay.service';
+import { ActivityClickHandlerService } from 'src/app/tools/modeler/services/activity-click-handler.service';
+import { CopyPasteService } from 'src/app/tools/modeler/services/copy-paste.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InitializerService {
-  constructor(
-    private elementRegistryService: ElementRegistryService,
-    private replayService: ReplayService,
-    private dialogService: DialogService,
-    private commandStackService: CommandStackService,
-    private titleService: TitleService,
-  ) {}
+  private readonly elementRegistryService = inject(ElementRegistryService);
+  private readonly replayService = inject(ReplayService);
+  private readonly commandStackService = inject(CommandStackService);
+  private readonly titleService = inject(TitleService);
+  private readonly activityClickHandlerService = inject(
+    ActivityClickHandlerService,
+  );
+  private readonly copyPasteService = inject(CopyPasteService);
 
   propagateDomainStoryModelerClassesToServices(
     commandStack: any,
     elementRegistry: any,
+    contextPad: any,
+    palette: any,
+    selection: any,
+    eventBus: any,
   ): void {
     this.commandStackService.setCommandStack(commandStack);
     this.elementRegistryService.setElementRegistry(elementRegistry);
+    this.replayService.setModelerContext(contextPad, palette, selection);
+    this.activityClickHandlerService.setModelerContext(eventBus, commandStack);
+    this.copyPasteService.setModelerContext(eventBus);
   }
 
   initializeDomainStoryModelerEventHandlers(
@@ -54,96 +51,15 @@ export class InitializerService {
     headlineAndDescriptionUpdateHandler(commandStack, this.titleService);
   }
 
-  initiateEventBusListeners(eventBus: any, commandStack: any): void {
-    eventBus.on('element.dblclick', (e: any) => {
+  initiateEventBusListeners(eventBus: any): void {
+    eventBus.on('element.dblclick', (event: any) => {
       if (!this.replayService.getReplayOn()) {
-        const element = e.element;
+        const element = event.element;
         if (element.type === ElementTypes.ACTIVITY) {
           // override the doubleClickListener on activities
-          this.activityDoubleClick(element, eventBus, commandStack);
+          this.activityClickHandlerService.activityDoubleClick(element);
         } else {
-          const renderedNumberRegistry = getNumberRegistry();
-
-          // add a DoubleClickListener to the number on activities
-          if (renderedNumberRegistry.length > 1) {
-            const allActivities =
-              this.elementRegistryService.getActivitiesFromActors();
-
-            if (allActivities.length > 0) {
-              const htmlCanvas = document.getElementById('canvas');
-              if (htmlCanvas) {
-                const container =
-                  htmlCanvas.getElementsByClassName('djs-container');
-                const svgElements = container[0].getElementsByTagName('svg');
-                const outerSVGElement = svgElements[0];
-                const viewport =
-                  outerSVGElement.getElementsByClassName('viewport')[0];
-                let transform = viewport.getAttribute('transform');
-
-                let transformX = 0;
-                let transformY = 0;
-                let zoomX = 1;
-                let zoomY = 1;
-                let nums;
-
-                const clickX = e.originalEvent.offsetX;
-                const clickY = e.originalEvent.offsetY;
-
-                // adjust for zoom and panning
-                if (transform) {
-                  transform = transform.replace('matrix(', '');
-                  transform.replace(')', '');
-                  nums = transform.split(',');
-                  zoomX = parseFloat(nums[0]);
-                  zoomY = parseFloat(nums[3]);
-                  transformX = parseInt(nums[4], undefined);
-                  transformY = parseInt(nums[5], undefined);
-                }
-
-                const width = 25 * zoomX;
-                const height = 22 * zoomY;
-
-                for (let i = 1; i < renderedNumberRegistry.length; i++) {
-                  const currentNum = renderedNumberRegistry[i];
-                  if (currentNum) {
-                    const tspan = currentNum.getElementsByTagName('tspan')[0];
-                    const tx = tspan.getAttribute('x');
-                    const ty = tspan.getAttribute('y');
-                    const tNumber = parseInt(tspan.innerHTML, undefined);
-
-                    const elementX = Math.floor(
-                      tx * zoomX + (transformX - 11 * zoomX),
-                    );
-                    const elementY = Math.floor(
-                      ty * zoomY + (transformY - 15 * zoomY),
-                    );
-
-                    allActivities.forEach((activity: ActivityCanvasObject) => {
-                      const activityNumber = activity.businessObject.number;
-                      if (activityNumber === tNumber) {
-                        if (
-                          positionsMatch(
-                            width,
-                            height,
-                            elementX,
-                            elementY,
-                            clickX,
-                            clickY,
-                          )
-                        ) {
-                          this.activityDoubleClick(
-                            activity,
-                            eventBus,
-                            commandStack,
-                          );
-                        }
-                      }
-                    });
-                  }
-                }
-              }
-            }
-          }
+          this.activityClickHandlerService.activityNumberDoubleClick(event);
         }
       }
     });
@@ -159,10 +75,7 @@ export class InitializerService {
         'interactionEvents.createHit', // use palette to create new element
         'spaceTool.selection.start', // use space tool
         'lasso.selection.start', // use lasso tool
-        // TODO:
-        // 1. instead of preventing lasso & space tools from selecting anything, they should be disabled.
-        //    Right now, they can still be activated and the palette shows them as active (even after replay ended)
-        // 2. enable editing of connection labels
+        // TODO:  enable editing of connection labels #217
       ],
       10000000000,
       (event: any) => {
@@ -173,134 +86,12 @@ export class InitializerService {
       },
     );
 
-    let pasteColor: string[] = [];
-    let pasteText: string[] = [];
-    let pasteHeight: number[] = [];
-    eventBus.on('copyPaste.pasteElement', 10000, (e: any) => {
-      pasteColor.push(e.descriptor.oldBusinessObject.pickedColor);
-      if (
-        e.descriptor.oldBusinessObject.type.includes(
-          ElementTypes.TEXTANNOTATION,
-        )
-      ) {
-        pasteText.push(e.descriptor.oldBusinessObject.text ?? '');
-        pasteHeight.push(e.descriptor.oldBusinessObject.height);
-      }
+    eventBus.on('copyPaste.pasteElement', 10000, (event: any) => {
+      this.copyPasteService.pasteElement(event);
     });
 
-    eventBus.on('create.end', (e: any) => {
-      if (!pasteColor) {
-        return;
-      }
-      for (let elementsKey in e.elements) {
-        const element = e.elements[elementsKey];
-        if (element.businessObject.type.includes(ElementTypes.TEXTANNOTATION)) {
-          element.businessObject.text = pasteText[0];
-          element.businessObject.number = pasteHeight[0];
-          element.businessObject.height = pasteHeight[0];
-          pasteText.shift();
-          pasteHeight.shift();
-        }
-        element.businessObject.pickedColor = pasteColor[parseInt(elementsKey)];
-        eventBus.fire('element.changed', { element });
-      }
-      pasteColor = [];
-      pasteText = [];
-      pasteHeight = [];
+    eventBus.on('create.end', (event: any) => {
+      this.copyPasteService.createEnd(event);
     });
-  }
-
-  /** Overrrides for Canvas Functions **/
-  private activityDoubleClick(
-    activity: ActivityCanvasObject,
-    eventBus: any,
-    commandStack: any,
-  ): void {
-    const source = activity.source;
-
-    // ensure the right number when changing the direction of an activity
-    toggleStashUse(false);
-
-    const config = new MatDialogConfig();
-    config.disableClose = false;
-    config.autoFocus = true;
-
-    if (
-      activity.businessObject.number &&
-      source &&
-      source.type.includes(ElementTypes.ACTOR)
-    ) {
-      config.data = new ActivityDialogData(
-        activity,
-        getMultipleNumberRegistry()[activity.businessObject.number],
-        true,
-        (data: any) =>
-          this.saveActivityInputLabel(data, eventBus, commandStack),
-      );
-    } else if (source && source.type.includes(ElementTypes.WORKOBJECT)) {
-      config.data = new ActivityDialogData(
-        activity,
-        false,
-        false,
-        (activityData: any) =>
-          this.saveActivityInputLabel(activityData, eventBus, commandStack),
-      );
-    }
-    this.dialogService.openDialog(ActivityDialogComponent, config);
-  }
-
-  private saveActivityInputLabel(
-    activityData: any,
-    eventBus: any,
-    commandStack: any,
-  ): void {
-    const label = activityData.activityLabel;
-    const hasNumber = activityData.activityNumber ?? false;
-    const activityNumber = activityData.activityNumber;
-    const multipleNumberAllowed = activityData.multipleNumbers ?? false;
-    const element = activityData.activity;
-
-    const activitiesFromActors =
-      this.elementRegistryService.getActivitiesFromActors();
-    const index = activitiesFromActors.indexOf(element);
-
-    activitiesFromActors.splice(index, 1);
-    if (hasNumber) {
-      setNumberIsMultiple(activityNumber, multipleNumberAllowed);
-    }
-    element.businessObject.multipleNumberAllowed = multipleNumberAllowed;
-
-    let options: any;
-    if (hasNumber) {
-      options = {
-        businessObject: element.businessObject,
-        newLabel: label,
-        newNumber: activityNumber,
-        element,
-      };
-    } else {
-      options = {
-        businessObject: element.businessObject,
-        newLabel: label,
-        element,
-      };
-    }
-
-    commandStack.execute('activity.changed', options);
-    if (element.businessObject.multipleNumberAllowed !== false) {
-      if (getMultipleNumberRegistry()[activityNumber] === false) {
-        updateExistingNumbersAtEditing(
-          activitiesFromActors,
-          activityNumber,
-          eventBus,
-        );
-      }
-    } else if (element.businessObject.multipleNumberAllowed === false) {
-      updateExistingNumbersAtEditing(
-        activitiesFromActors,
-        activityNumber,
-        eventBus,
-      );
-    }
   }
 }

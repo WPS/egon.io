@@ -20,8 +20,7 @@ describe('KeyboardShortcutsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [KeyboardShortcutsDialogComponent],
-      imports: [MockModule(MatDialogModule)],
+      imports: [KeyboardShortcutsDialogComponent, MockModule(MatDialogModule)],
       providers: [
         MockProviders(MatDialogRef),
         {

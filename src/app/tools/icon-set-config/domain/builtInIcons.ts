@@ -1,6 +1,4 @@
 import { Dictionary, Entry } from 'src/app/domain/entities/dictionary';
-export let customIcons = new Dictionary();
-
 const people = [
   'person',
   'group',
@@ -1332,9 +1330,3 @@ const wysiwyg = new Entry(
   ],
 );
 builtInIcons.putEntry(wysiwyg);
-
-export function addCustomIcons(newIcons: Dictionary): void {
-  for (const key in newIcons.keysArray().entries()) {
-    customIcons.add(newIcons.get(key), key);
-  }
-}

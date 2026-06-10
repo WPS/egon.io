@@ -1,9 +1,12 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { sanitizeForDesktop } from '../../../utils/sanitizer';
 import { ReplayService } from '../../replay/services/replay.service';
 // @ts-ignore
 import doT from 'dot';
 import { TitleService } from '../../title/services/title.service';
+import { ViewBoxCoordinateRegExp } from 'src/app/tools/export/services/exportUtil';
+import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
+import { downloadFile } from 'src/app/utils/downloadFile';
 
 @Injectable({
   providedIn: 'root',
@@ -12,18 +15,15 @@ import { TitleService } from '../../title/services/title.service';
  * Initial idea and PR from https://github.com/indika-dev
  */
 export class HtmlPresentationService {
-  constructor(
-    private replayService: ReplayService,
-    private titleService: TitleService,
-  ) {}
+  private readonly replayService = inject(ReplayService);
+  private readonly titleService = inject(TitleService);
+  private readonly modeler = inject(ModelerService);
 
   private multiplexSecret: any;
   private multiplexId: any;
 
   private static viewBoxCoordinates(svg: any): any {
-    const ViewBoxCoordinate =
-      /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)"/;
-    const match = svg.match(ViewBoxCoordinate);
+    const match = svg.match(ViewBoxCoordinateRegExp);
     return match[3];
   }
 
@@ -33,16 +33,13 @@ export class HtmlPresentationService {
   ----------------------------
   */
 
-  async downloadHTMLPresentation(
-    filename: string,
-    modeler: any,
-  ): Promise<void> {
-    modeler.fitStoryToScreen(); // fixes problem with HTML export when story is not in the visible area of the canvas
+  async downloadHTMLPresentation(filename: string): Promise<void> {
+    this.modeler.fitStoryToScreen(); // fixes problem with HTML export when story is not in the visible area of the canvas
     const svgData = [];
     // export all sentences of domain story
     this.replayService.startReplay();
     try {
-      const result = await modeler.saveSVG({});
+      const result = await this.modeler.getModeler().saveSVG({});
       this.fixActivityMarkersForEachSentence(
         result,
         this.replayService.getCurrentSentenceNumber(),
@@ -60,7 +57,7 @@ export class HtmlPresentationService {
     ) {
       this.replayService.nextSentence();
       try {
-        const result = await modeler.saveSVG({});
+        const result = await this.modeler.getModeler().saveSVG({});
         this.fixActivityMarkersForEachSentence(
           result,
           this.replayService.getCurrentSentenceNumber(),
@@ -86,17 +83,14 @@ export class HtmlPresentationService {
       multiplexSecret: this.multiplexSecret,
       multiplexId: this.multiplexId,
     };
-    const element = document.createElement('a');
-    element.setAttribute(
-      'href',
-      'data:text/html;charset=UTF-8,' +
-        this.fixMalformedHtmlScript(dots, revealjsData),
+
+    downloadFile(
+      this.fixMalformedHtmlScript(dots, revealjsData),
+      'data:text/html;charset=UTF-8,',
+      sanitizeForDesktop(filename),
+      '.html',
+      false,
     );
-    element.setAttribute('download', sanitizeForDesktop(filename) + '.html');
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
   }
 
   private fixMalformedHtmlScript(
@@ -196,8 +190,7 @@ export class HtmlPresentationService {
           idToReplace.slice(0, id.length - 5) +
           'customId' +
           sectionIndex +
-          idToReplace.slice(idToReplace.length - 2);
-        // @ts-ignore
+          idToReplace.slice(-2);
         result.svg = result.svg.replaceAll(idToReplace, newId);
       });
       newDefs += '<marker display= "block !important"; ' + split[i];

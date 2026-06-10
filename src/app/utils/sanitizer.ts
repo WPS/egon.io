@@ -1,7 +1,6 @@
 'use strict';
 
 export function sanitizeTextForSVGExport(str: string): string {
-  // @ts-ignore Typescript does not realize that replaceAll exists, no idea why not.
   return str.replaceAll('--', '––');
 }
 

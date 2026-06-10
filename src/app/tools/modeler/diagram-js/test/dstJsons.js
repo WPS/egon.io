@@ -19,7 +19,7 @@ export const oldIntricateV_0_2_0_JsonString =
   '{"type":"domainStory:workObject","name":"","id":"shape_8970","x":681,"y":223},' +
   '{"type":"domainStory:actorSystem","name":"","id":"shape_8118","x":976,"y":223},' +
   '{"type":"domainStory:workObject","name":"","id":"shape_9327","x":987,"y":346},' +
-  '{"type":"domainStory:workObject","name":"ein workobject name","id":"shape_5439","x":681,"y":371},' +
+  '{"type":"domainStory:workObject","name":"ein workObject name","id":"shape_5439","x":681,"y":371},' +
   '{"type":"domainStory:workObjectCall","name":"","id":"shape_5296","x":681,"y":506},' +
   '{"type":"domainStory:workObject","name":"","id":"shape_8808","x":1193,"y":506},' +
   '{"type":"domainStory:actorPerson","name":"","id":"shape_3974","x":987,"y":506},' +
@@ -43,7 +43,7 @@ export const oldIntricateV_0_3_0_JsonString =
   '{"type":"domainStory:workObject","name":"","id":"shape_8970","x":681,"y":223},' +
   '{"type":"domainStory:actorSystem","name":"","id":"shape_8118","x":976,"y":223},' +
   '{"type":"domainStory:workObject","name":"","id":"shape_9327","x":987,"y":346},' +
-  '{"type":"domainStory:workObject","name":"ein workobject name","id":"shape_5439","x":681,"y":371},' +
+  '{"type":"domainStory:workObject","name":"ein workObject name","id":"shape_5439","x":681,"y":371},' +
   '{"type":"domainStory:workObjectCall","name":"","id":"shape_5296","x":681,"y":506},' +
   '{"type":"domainStory:workObject","name":"","id":"shape_8808","x":1193,"y":506},' +
   '{"type":"domainStory:actorPerson","name":"","id":"shape_3974","x":987,"y":506},' +

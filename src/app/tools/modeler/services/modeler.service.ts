@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { assign } from 'min-dash';
 import DomainStoryModeler from 'src/app/tools/modeler/diagram-js';
 import { InitializerService } from './initializer.service';
@@ -23,32 +23,33 @@ import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
   providedIn: 'root',
 })
 export class ModelerService {
-  constructor(
-    private initializerService: InitializerService,
-    private elementRegistryService: ElementRegistryService,
-    private iconDictionaryService: IconDictionaryService,
-    private iconSetImportExportService: IconSetImportExportService,
-    private dirtyFlagService: DirtyFlagService,
-    private storageService: StorageService,
-    private snackbar: MatSnackBar,
-  ) {}
+  private readonly initializerService = inject(InitializerService);
+  private readonly elementRegistryService = inject(ElementRegistryService);
+  private readonly iconDictionaryService = inject(IconDictionaryService);
+  private readonly iconSetImportExportService = inject(
+    IconSetImportExportService,
+  );
+  private readonly dirtyFlagService = inject(DirtyFlagService);
+  private readonly storageService = inject(StorageService);
+  private readonly snackbar = inject(MatSnackBar);
 
   private modeler: any;
   private elementRegistry: any;
   private commandStack: any;
+  private contextPad: any;
+  private palette: any;
   private eventBus: any;
+  private selection: any;
 
   private encoded: string | undefined;
+
   postInit(): void {
     this.checkCurrentVersion();
 
-    const storedIconSetConfiguration =
+    const lastUsedIconSet =
       this.iconSetImportExportService.getStoredIconSetConfiguration();
-    if (storedIconSetConfiguration) {
-      this.iconDictionaryService.setIconSet(storedIconSetConfiguration);
-      this.iconSetImportExportService.loadConfiguration(
-        storedIconSetConfiguration,
-      );
+    if (lastUsedIconSet) {
+      this.iconSetImportExportService.loadIconSet(lastUsedIconSet);
     }
     this.modeler = new DomainStoryModeler({
       container: '#canvas',
@@ -64,6 +65,9 @@ export class ModelerService {
       this.elementRegistry = this.modeler.get('elementRegistry');
       this.eventBus = this.modeler.get('eventBus');
       this.commandStack = this.modeler.get('commandStack');
+      this.contextPad = this.modeler.get('contextPad');
+      this.palette = this.modeler.get('palette');
+      this.selection = this.modeler.get('selection');
     }
 
     this.initializerService.initializeDomainStoryModelerEventHandlers(
@@ -73,6 +77,10 @@ export class ModelerService {
     this.initializerService.propagateDomainStoryModelerClassesToServices(
       this.commandStack,
       this.elementRegistry,
+      this.contextPad,
+      this.palette,
+      this.selection,
+      this.eventBus,
     );
 
     const exportArtifacts = this.debounce(this.saveSVG, 500);
@@ -80,10 +88,7 @@ export class ModelerService {
       this.modeler.on('commandStack.changed', exportArtifacts);
     }
 
-    this.initializerService.initiateEventBusListeners(
-      this.eventBus,
-      this.commandStack,
-    );
+    this.initializerService.initiateEventBusListeners(this.eventBus);
 
     // expose modeler to window for debugging purposes
     assign(window, { egon: this.modeler });
@@ -133,7 +138,7 @@ export class ModelerService {
         iconSetConfiguration,
       );
       this.iconDictionaryService.setIconSet(iconSetConfiguration);
-      this.iconSetImportExportService.loadConfiguration(iconSetConfiguration);
+      this.iconSetImportExportService.loadIconSet(iconSetConfiguration);
     }
 
     this.elementRegistryService.clear();
@@ -150,7 +155,7 @@ export class ModelerService {
     }
   }
 
-  private fitStoryToScreen() {
+  fitStoryToScreen() {
     this.modeler.fitStoryToScreen();
   }
 
@@ -172,8 +177,7 @@ export class ModelerService {
 
   debounce(fn: any, timeout: number): any {
     return () => {
-      let timer;
-      timer = setTimeout(() => {
+      let timer = setTimeout(() => {
         // tslint:disable-next-line:no-unused-expression
         fn(this.modeler).then((svg: string) => {
           this.encoded = svg;
@@ -200,9 +204,15 @@ export class ModelerService {
     this.dirtyFlagService.makeClean();
   }
 
-  importStory(domainStory: BusinessObject[], config: IconSet): void {
+  importStory(
+    domainStory: BusinessObject[],
+    config: IconSet,
+    fitToScreen = true,
+  ): void {
     this.restart(config, domainStory);
-    this.fitStoryToScreen();
+    if (fitToScreen) {
+      this.fitStoryToScreen();
+    }
     this.elementRegistryService.correctInitialize();
     this.commandStackChanged();
     this.startDebounce();

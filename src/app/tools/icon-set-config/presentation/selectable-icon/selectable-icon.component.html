@@ -6,25 +6,28 @@
   <div class="footer">
     <mat-button-toggle-group [hideSingleSelectionIndicator]="true">
       <mat-button-toggle
-        (change)="toggleNone()"
+        type="button"
+        (change)="setAsUnassigned()"
         [value]="isNone"
         [checked]="isNone"
       >
         <span class="toggleButtonTitle">None</span>
       </mat-button-toggle>
       <mat-button-toggle
+        type="button"
         [class.activeMatButtonActor]="isActor"
-        (change)="toggleActor()"
+        (change)="setAsActor()"
         [value]="isActor"
         [checked]="isActor"
       >
         <span class="toggleButtonTitle">Actor</span>
       </mat-button-toggle>
       <mat-button-toggle
-        [class.activeMatButtonWorkObject]="isWorkobject"
-        (change)="toggleWorkobject()"
-        [value]="isWorkobject"
-        [checked]="isWorkobject"
+        type="button"
+        [class.activeMatButtonWorkObject]="isWorkObject"
+        (change)="setAsWorkObject()"
+        [value]="isWorkObject"
+        [checked]="isWorkObject"
       >
         <span class="toggleButtonTitle">Work Object</span>
       </mat-button-toggle>

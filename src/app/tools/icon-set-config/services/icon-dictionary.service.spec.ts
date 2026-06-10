@@ -4,13 +4,9 @@ import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/ic
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
 import { Dictionary } from '../../../domain/entities/dictionary';
-import {
-  BusinessObject,
-  testBusinessObject,
-} from '../../../domain/entities/businessObject';
-import { builtInIcons, customIcons } from '../domain/allIcons';
+import { testBusinessObject } from '../../../domain/entities/businessObject';
+import { builtInIcons } from '../domain/builtInIcons';
 import { IconSet } from '../../../domain/entities/iconSet';
-import { namesOfDefaultIcons } from 'src/app/domain/entities/namesOfSelectedIcons';
 
 describe('IconDictionaryService', () => {
   let service: IconDictionaryService;
@@ -28,19 +24,28 @@ describe('IconDictionaryService', () => {
     it('should initialize Dictionaries with default icon set', () => {
       service.initTypeDictionaries();
 
-      const actorsDictionary = service.getActorsDictionary();
-      const workObjectsDictionary = service.getWorkObjectsDictionary();
+      const actorsDictionary = service.getIconsAssignedAs(ElementTypes.ACTOR);
+      const workObjectsDictionary = service.getIconsAssignedAs(
+        ElementTypes.WORKOBJECT,
+      );
 
       expect(
         actorsDictionary
           .keysArray()
           .map((e) => e.replace(ElementTypes.ACTOR, '')),
-      ).toEqual(namesOfDefaultIcons.actors);
+      ).toEqual(['Person', 'Group', 'System']);
       expect(
         workObjectsDictionary
           .keysArray()
           .map((e) => e.replace(ElementTypes.WORKOBJECT, '')),
-      ).toEqual(namesOfDefaultIcons.workObjects);
+      ).toEqual([
+        'Document',
+        'Folder',
+        'Call',
+        'Email',
+        'Conversation',
+        'Info',
+      ]);
     });
 
     it('should initialize Dictionaries with customized icon set', () => {
@@ -53,8 +58,8 @@ describe('IconDictionaryService', () => {
       const actorsDict = new Dictionary();
       const workObjectsDict = new Dictionary();
 
-      actorsDict.add(actor, 'Dollar');
-      workObjectsDict.add(workObject, 'Gavel');
+      actorsDict.set('Dollar', actor);
+      workObjectsDict.set('Gavel', workObject);
 
       const customizedIconSet: IconSet = {
         name: INITIAL_ICON_SET_NAME,
@@ -65,46 +70,15 @@ describe('IconDictionaryService', () => {
       service.setIconSet(customizedIconSet);
       service.initTypeDictionaries();
 
-      const actorsDictionary = service.getActorsDictionary();
-      const workObjectsDictionary = service.getWorkObjectsDictionary();
+      const actorsDictionary = service.getIconsAssignedAs(ElementTypes.ACTOR);
+      const workObjectsDictionary = service.getIconsAssignedAs(
+        ElementTypes.WORKOBJECT,
+      );
 
       expect(actorsDictionary.keysArray).toEqual(actorsDict.keysArray);
       expect(workObjectsDictionary.keysArray).toEqual(
         workObjectsDict.keysArray,
       );
-    });
-  });
-
-  describe('addIconsFromIconSetConfiguration', () => {
-    it('add icons to ActorDictionary', () => {
-      const type = 'Hotel';
-      expect(service.getActorsDictionary().has(type)).toBeFalsy();
-      service.addIconsFromIconSetConfiguration(ElementTypes.ACTOR, [type]);
-
-      expect(service.getActorsDictionary().has(type)).toBeTruthy();
-    });
-
-    it('add icons to WorkObjectDictionary', () => {
-      const type = 'Hotel';
-      expect(service.getWorkObjectsDictionary().has(type)).toBeFalsy();
-      service.addIconsFromIconSetConfiguration(ElementTypes.WORKOBJECT, [type]);
-
-      expect(service.getWorkObjectsDictionary().has(type)).toBeTruthy();
-    });
-  });
-
-  describe('addIconsToTypeDictionary', () => {
-    it('', () => {
-      const actor = structuredClone(testBusinessObject);
-      actor.type = ElementTypes.ACTOR + 'Hotel';
-
-      const workObject = structuredClone(testBusinessObject);
-      workObject.type = ElementTypes.WORKOBJECT + 'Dining';
-
-      service.addIconsToTypeDictionary([actor], [workObject]);
-
-      expect(service.getActorsDictionary().has('Hotel')).toBeTruthy();
-      expect(service.getWorkObjectsDictionary().has('Dining')).toBeTruthy();
     });
   });
 
@@ -116,7 +90,9 @@ describe('IconDictionaryService', () => {
         builtInIcons.get('Hotel'),
       );
 
-      expect(service.getWorkObjectsDictionary().has('Hotel')).toBeTruthy();
+      expect(
+        service.getIconsAssignedAs(ElementTypes.WORKOBJECT).has('Hotel'),
+      ).toBeTruthy();
     });
 
     it('register Icon for Actors', () => {
@@ -126,25 +102,18 @@ describe('IconDictionaryService', () => {
         builtInIcons.get('Hotel'),
       );
 
-      expect(service.getActorsDictionary().has('Hotel')).toBeTruthy();
+      expect(
+        service.getIconsAssignedAs(ElementTypes.ACTOR).has('Hotel'),
+      ).toBeTruthy();
     });
   });
 
   describe('updateIconRegistries', () => {
-    const actor = structuredClone(testBusinessObject);
-    actor.type = ElementTypes.ACTOR + 'Person';
-
-    const workObject = structuredClone(testBusinessObject);
-    workObject.type = ElementTypes.WORKOBJECT + 'Document';
-
-    const actors: BusinessObject[] = [actor];
-    const workObjects: BusinessObject[] = [workObject];
-
     const actorsDict = new Dictionary();
     const workObjectsDict = new Dictionary();
 
-    actorsDict.add('svg1', 'TestCustomActor');
-    workObjectsDict.add('svg2', 'TestCustomWorkObject');
+    actorsDict.set('TestCustomActor', 'svg1');
+    workObjectsDict.set('TestCustomWorkObject', 'svg2');
 
     const config: IconSet = {
       name: INITIAL_ICON_SET_NAME,
@@ -152,16 +121,27 @@ describe('IconDictionaryService', () => {
       workObjects: workObjectsDict,
     };
 
-    it('With elements and Config', () => {
-      service.updateIconRegistries(actors, workObjects, config);
+    it('from iconset file', () => {
+      expect(
+        service.getIconsAssignedAs(ElementTypes.ACTOR).isEmpty(),
+      ).toBeTrue();
+      expect(
+        service.getIconsAssignedAs(ElementTypes.WORKOBJECT).isEmpty(),
+      ).toBeTrue();
 
-      expect(service.getActorsDictionary().keysArray()).toContain('Person');
-      expect(customIcons.keysArray()).toContain('TestCustomActor');
+      service.updateIconRegistries(config);
 
-      expect(service.getWorkObjectsDictionary().keysArray()).toContain(
-        'Document',
+      expect(
+        service.getIconsAssignedAs(ElementTypes.ACTOR).has('Person'),
+      ).toBeFalse();
+      expect(service.getFullDictionary().keysArray()).toContain(
+        'TestCustomActor',
       );
-      expect(customIcons.keysArray()).toContain('TestCustomWorkObject');
+      expect(service.getFullDictionary().keysArray()).toContain(
+        'TestCustomWorkObject',
+      );
+
+      service.updateIconRegistries(service.getDefaultIconSet());
     });
   });
 });

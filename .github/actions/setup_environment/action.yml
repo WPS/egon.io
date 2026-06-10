@@ -3,11 +3,11 @@ description: 'Sets up environment and loads dependencies'
 runs:
   using: "composite"
   steps:
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v6
       with:
-        node-version: 22
+        node-version: 24
     - name: Load cache
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v5
       with:
         path: |
           node_modules

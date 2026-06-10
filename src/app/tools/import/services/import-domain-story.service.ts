@@ -1,15 +1,12 @@
-import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
-import { Dictionary } from 'src/app/domain/entities/dictionary';
-import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import {
-  INITIAL_DESCRIPTION,
   INITIAL_TITLE,
   SNACKBAR_DURATION,
   SNACKBAR_DURATION_LONG,
@@ -25,67 +22,59 @@ import { IconSetChangedService } from '../../icon-set-config/services/icon-set-c
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ImportDialogComponent } from '../presentation/import-dialog/import-dialog.component';
 import { UnsavedChangesReminderComponent } from '../../unsavedChangesReminder/presentation/unsavedChangesReminder-dialog/unsaved-changes-reminder/unsaved-changes-reminder.component';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ExternalResourcesWarningDialogComponent } from 'src/app/tools/import/presentation/external-resources-warning-dialog/external-resources-warning-dialog.component';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ImportDomainStoryService
-  implements OnDestroy, IconSetChangedService
-{
-  titleSubscription: Subscription;
-  descriptionSubscription: Subscription;
+export class ImportDomainStoryService implements IconSetChangedService {
+  private readonly iconDictionaryService = inject(IconDictionaryService);
+  private readonly importRepairService = inject(ImportRepairService);
+  private readonly titleService = inject(TitleService);
+  private readonly dialogService = inject(DialogService);
+  private readonly iconSetImportExportService = inject(
+    IconSetImportExportService,
+  );
+  private readonly modelerService = inject(ModelerService);
+  private readonly snackbar = inject(MatSnackBar);
 
-  title = INITIAL_TITLE;
-  description = INITIAL_DESCRIPTION;
-  private importedConfiguration: IconSet | null = null;
+  private readonly title = toSignal(this.titleService.title$, {
+    initialValue: INITIAL_TITLE,
+  });
 
-  private importedConfigurationEmitter = new EventEmitter<IconSet>();
+  private readonly importedConfigurationEmitter = new Subject<IconSet>();
+  private readonly automatedImportSuccessFullEmitter = new Subject<void>();
 
-  constructor(
-    private iconDictionaryService: IconDictionaryService,
-    private importRepairService: ImportRepairService,
-    private titleService: TitleService,
-    private dialogService: DialogService,
-    private iconSetImportExportService: IconSetImportExportService,
-    private modelerService: ModelerService,
-    private snackbar: MatSnackBar,
-  ) {
-    this.titleSubscription = this.titleService.title$.subscribe(
-      (title: string) => {
-        this.title = title;
-      },
-    );
-    this.descriptionSubscription = this.titleService.description$.subscribe(
-      (description: string) => {
-        this.description = description;
-      },
-    );
+  automatedImportSuccessFull(): Observable<void> {
+    return this.automatedImportSuccessFullEmitter.asObservable();
   }
 
-  ngOnDestroy(): void {
-    this.titleSubscription.unsubscribe();
-    this.descriptionSubscription.unsubscribe();
-  }
-
-  iconConfigrationChanged(): Observable<IconSet> {
+  iconConfigurationChanged(): Observable<IconSet> {
     return this.importedConfigurationEmitter.asObservable();
   }
 
-  getConfiguration(): IconSet {
-    const config: IconSet = {
-      name: this.importedConfiguration?.name || '',
-      actors: this.importedConfiguration?.actors || new Dictionary(),
-      workObjects: this.importedConfiguration?.workObjects || new Dictionary(),
-    };
-    this.importedConfiguration = null;
-    return config;
-  }
-
   performImport(): void {
-    // @ts-ignore
-    const file = document.getElementById('import').files[0];
-    this.import(file, file.name);
-    this.modelerService.commandStackChanged();
+    const inputElement = document.getElementById('import');
+    if (
+      inputElement &&
+      inputElement instanceof HTMLInputElement &&
+      inputElement.files &&
+      inputElement.files.length > 0
+    ) {
+      const file = inputElement.files[0];
+      this.import(file, file.name);
+    } else {
+      this.snackbar.open(
+        'No file selected or invalid input element.',
+        undefined,
+        {
+          duration: SNACKBAR_DURATION_LONG,
+          panelClass: SNACKBAR_ERROR,
+        },
+      );
+    }
   }
 
   performDropImport(file: File): void {
@@ -97,7 +86,6 @@ export class ImportDomainStoryService
         panelClass: SNACKBAR_ERROR,
       });
     }
-    this.modelerService.commandStackChanged();
   }
 
   importNotDirtyFromUrl(fileUrl: string, isDirty: boolean) {
@@ -108,8 +96,8 @@ export class ImportDomainStoryService
     }
   }
 
-  importFromUrl(fileUrl: string): void {
-    if (!fileUrl.startsWith('http')) {
+  importFromUrl(fileUrl: string, emitSuccess = false): void {
+    if (!fileUrl.startsWith('http://') && !fileUrl.startsWith('https://')) {
       this.snackbar.open('Url not valid', undefined, {
         duration: SNACKBAR_DURATION_LONG,
         panelClass: SNACKBAR_ERROR,
@@ -121,38 +109,40 @@ export class ImportDomainStoryService
 
     fetch(fileUrl)
       .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
         return response.blob();
       })
       .then((blob) => {
         const string = fileUrl.split('/');
         const filename = string[string.length - 1]
           .replace(/%20/g, ' ')
-          .replace(/(\.egn\.svg).*/, '$1');
+          .replace(/(\.egn\.svg|\.dst\.svg).*/, '$1');
 
         if (!filename) {
           throw new Error('Unable to extract filename from URL');
         }
 
         if (this.isSupportedFileEnding(filename)) {
-          this.import(blob, filename);
+          this.import(blob, filename, emitSuccess);
         } else {
           this.snackbar.open('File type not supported', undefined, {
             duration: SNACKBAR_DURATION_LONG,
             panelClass: SNACKBAR_ERROR,
           });
         }
-        this.modelerService.commandStackChanged();
       })
-      .catch(() =>
+      .catch(() => {
         this.snackbar.open(
-          'Request blocked by server (CORS error)',
+          'Request blocked by server (CORS error) or Network error',
           undefined,
           {
-            duration: SNACKBAR_DURATION_LONG,
+            duration: SNACKBAR_DURATION_LONGER,
             panelClass: SNACKBAR_ERROR,
           },
-        ),
-      );
+        );
+      });
   }
 
   private convertToDownloadableUrl(fileUrl: string): string {
@@ -174,21 +164,15 @@ export class ImportDomainStoryService
     return fileUrl;
   }
 
-  private isSupportedFileEnding(filename: string) {
-    let isSupported = false;
+  private isSupportedFileEnding(filename: string): boolean {
+    const supportedSvgPattern = /.*\.(dst|egn)(\s*\(\d+\))?\.svg$/;
 
-    const dstSvgPattern = /.*(.dst)(\s*\(\d+\)){0,1}\.svg/;
-    const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
-
-    if (filename != null) {
-      isSupported =
-        filename.endsWith('.dst') ||
+    return (
+      !!filename &&
+      (filename.endsWith('.dst') ||
         filename.endsWith('.egn') ||
-        filename.match(dstSvgPattern) != null ||
-        filename.match(egnSvgPattern) != null;
-    }
-
-    return isSupported;
+        supportedSvgPattern.test(filename))
+    );
   }
 
   openImportFromUrlDialog(isDirty: boolean): void {
@@ -200,7 +184,7 @@ export class ImportDomainStoryService
     this.dialogService.openDialog(ImportDialogComponent, config);
   }
 
-  openUnsavedChangesReminderDialog(fn: Function): void {
+  openUnsavedChangesReminderDialog(fn: () => void): void {
     const config = new MatDialogConfig();
     config.disableClose = false;
     config.autoFocus = true;
@@ -208,14 +192,24 @@ export class ImportDomainStoryService
     this.dialogService.openDialog(UnsavedChangesReminderComponent, config);
   }
 
-  import(input: Blob, filename: string): void {
+  openExternalResourcesWarningDialog(fn: () => void): void {
+    const config = new MatDialogConfig();
+    config.disableClose = false;
+    config.autoFocus = true;
+    config.data = fn;
+    this.dialogService.openDialog(
+      ExternalResourcesWarningDialogComponent,
+      config,
+    );
+  }
+
+  import(input: Blob, filename: string, emitSuccess = false): void {
     const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
     const isSVG = filename.endsWith('.svg');
-    let isEGN = filename.endsWith('.egn');
 
-    if (isSVG) {
-      isEGN = filename.match(egnSvgPattern) != null;
-    }
+    const isEGN = isSVG
+      ? filename.match(egnSvgPattern) != null
+      : filename.endsWith('.egn');
 
     try {
       const fileReader = new FileReader();
@@ -225,18 +219,25 @@ export class ImportDomainStoryService
       this.titleService.updateTitleAndDescription(titleText, null, false);
 
       fileReader.onloadend = (e) => {
-        if (e && e.target) {
-          this.fileReaderFunction(e.target.result, isSVG, isEGN);
+        if (e?.target) {
+          try {
+            this.processFileContent(e.target.result, isSVG, isEGN);
+            this.importSuccessful(emitSuccess);
+            this.modelerService.commandStackChanged();
+          } catch (error) {
+            this.importFailed();
+          }
+        } else {
+          this.importFailed();
         }
       };
       fileReader.readAsText(input);
-      this.importSuccessful();
     } catch (error) {
       this.importFailed();
     }
   }
 
-  private fileReaderFunction(
+  private processFileContent(
     text: string | ArrayBuffer | null,
     isSvgFile: boolean,
     isEgnFormat: boolean,
@@ -249,75 +250,11 @@ export class ImportDomainStoryService
         contentAsJson = text;
       }
 
-      let domainStoryElements: any[];
-      let iconSet: IconSet;
-      let iconSetFromFile: {
-        name: string;
-        actors: { [key: string]: any };
-        workObjects: { [key: string]: any };
-      };
-
-      let storyAndIconSet = this.extractStoryAndIconSet(contentAsJson);
-      if (storyAndIconSet == null) {
-        return;
-      }
-
-      // current implementation
-      if (storyAndIconSet.domain) {
-        iconSetFromFile = isEgnFormat
-          ? storyAndIconSet.domain
-          : JSON.parse(storyAndIconSet.domain);
-        iconSet =
-          this.iconSetImportExportService.createIconSetConfiguration(
-            iconSetFromFile,
-          );
-        domainStoryElements = isEgnFormat
-          ? storyAndIconSet.dst
-          : JSON.parse(storyAndIconSet.dst);
-      } else {
-        // legacy implementation
-        if (storyAndIconSet.config) {
-          iconSetFromFile = JSON.parse(storyAndIconSet.config);
-          iconSet =
-            this.iconSetImportExportService.createIconSetConfiguration(
-              iconSetFromFile,
-            );
-          domainStoryElements = JSON.parse(storyAndIconSet.dst);
-        } else {
-          // even older legacy implementation (prior to configurable icon set):
-          domainStoryElements = JSON.parse(contentAsJson);
-          iconSet =
-            this.iconSetImportExportService.createMinimalConfigurationWithDefaultIcons();
-        }
-      }
-
-      this.importRepairService.removeWhitespacesFromIcons(domainStoryElements);
-      this.importRepairService.removeUnnecessaryBpmnProperties(
-        domainStoryElements,
-      );
-
-      let lastElement = domainStoryElements[domainStoryElements.length - 1];
-      if (!lastElement.id) {
-        lastElement = domainStoryElements.pop();
-        let importVersionNumber = lastElement;
-
-        // if the last element has the tag 'version',
-        // then there exists another tag 'info' for the description
-        if (importVersionNumber.version) {
-          lastElement = domainStoryElements.pop();
-          importVersionNumber = importVersionNumber.version as string;
-        } else {
-          importVersionNumber = '?';
-          this.snackbar.open(`The version number is unreadable.`, undefined, {
-            duration: SNACKBAR_DURATION,
-            panelClass: SNACKBAR_ERROR,
-          });
-        }
-        domainStoryElements = this.handleVersionNumber(
-          importVersionNumber,
-          domainStoryElements,
+      const { iconSet, domainStoryElements, lastElement } =
+        this.separateExportFileIntoIconSetAndStoryElements(
+          isEgnFormat,
+          contentAsJson,
         );
-      }
 
       if (
         !this.importRepairService.checkForUnreferencedElementsInActivitiesAndRepair(
@@ -328,21 +265,154 @@ export class ImportDomainStoryService
       }
 
       this.titleService.updateTitleAndDescription(
-        this.title,
+        this.title(),
         lastElement.info,
         false,
       );
 
-      this.updateIconRegistries(domainStoryElements, iconSet);
+      this.updateIconRegistries(iconSet);
       this.modelerService.importStory(domainStoryElements, iconSet);
     }
   }
 
-  private importSuccessful() {
+  private separateExportFileIntoIconSetAndStoryElements(
+    isEgnFormat: boolean,
+    contentAsJson: string,
+  ): {
+    iconSet: IconSet;
+    domainStoryElements: any[];
+    lastElement: any;
+  } {
+    let storyAndIconSet = null;
+    try {
+      storyAndIconSet = JSON.parse(contentAsJson);
+    } catch (e) {
+      this.showBrokenImportDialog();
+    }
+
+    if (storyAndIconSet == null) {
+      throw new Error('Invalid import file');
+    }
+
+    const extractedStoryAndConfiguration: {
+      iconSet: IconSet;
+      domainStoryElements: any[];
+    } = storyAndIconSet.domain
+      ? this.extractStoryAndConfigurationFromCurrentFileFormat(
+          isEgnFormat,
+          storyAndIconSet,
+        )
+      : this.extractStoryAndConfigurationFromLegacyFileFormat(
+          storyAndIconSet,
+          contentAsJson,
+        );
+
+    const iconSet: IconSet = extractedStoryAndConfiguration.iconSet;
+    const domainStoryElements: any[] =
+      extractedStoryAndConfiguration.domainStoryElements;
+
+    this.importRepairService.removeWhitespacesFromIcons(domainStoryElements);
+    this.importRepairService.removeUnnecessaryBpmnProperties(
+      domainStoryElements,
+    );
+
+    const categorizedElements: {
+      domainStoryElements: any[];
+      lastElement: any;
+    } = this.categorizeStoryElements(domainStoryElements);
+    return {
+      iconSet,
+      domainStoryElements: categorizedElements.domainStoryElements,
+      lastElement: categorizedElements.lastElement,
+    };
+  }
+
+  private extractStoryAndConfigurationFromCurrentFileFormat(
+    isEgnFormat: boolean,
+    storyAndIconSet: any,
+  ) {
+    const iconSetFromFile: {
+      name: string;
+      actors: { [key: string]: any };
+      workObjects: { [key: string]: any };
+    } = isEgnFormat
+      ? storyAndIconSet.domain
+      : JSON.parse(storyAndIconSet.domain);
+
+    return {
+      iconSet:
+        this.iconSetImportExportService.createIconSetConfiguration(
+          iconSetFromFile,
+        ),
+      domainStoryElements: isEgnFormat
+        ? storyAndIconSet.dst
+        : JSON.parse(storyAndIconSet.dst),
+    };
+  }
+
+  private extractStoryAndConfigurationFromLegacyFileFormat(
+    storyAndIconSet: any,
+    contentAsJson: any,
+  ) {
+    // legacy implementation
+    let iconSet: IconSet;
+    let domainStoryElements: any[];
+
+    if (storyAndIconSet.config) {
+      const iconSetFromFile: {
+        name: string;
+        actors: { [key: string]: any };
+        workObjects: { [key: string]: any };
+      } = JSON.parse(storyAndIconSet.config);
+      iconSet =
+        this.iconSetImportExportService.createIconSetConfiguration(
+          iconSetFromFile,
+        );
+      domainStoryElements = JSON.parse(storyAndIconSet.dst);
+    } else {
+      // even older legacy implementation (prior to configurable icon set):
+      iconSet = this.iconDictionaryService.getDefaultIconSet();
+      domainStoryElements = JSON.parse(contentAsJson);
+    }
+
+    return { iconSet, domainStoryElements };
+  }
+
+  private categorizeStoryElements(domainStoryElements: any[]) {
+    let lastElement = domainStoryElements[domainStoryElements.length - 1];
+    if (!lastElement.id) {
+      lastElement = domainStoryElements.pop();
+      let versionInfo = lastElement;
+
+      // if the last element has the tag 'version',
+      // then there exists another tag 'info' for the description
+      let importVersionNumber: string;
+      if (versionInfo.version) {
+        lastElement = domainStoryElements.pop();
+        importVersionNumber = versionInfo.version as string;
+      } else {
+        importVersionNumber = '?';
+        this.snackbar.open(`The version number is unreadable.`, undefined, {
+          duration: SNACKBAR_DURATION,
+          panelClass: SNACKBAR_ERROR,
+        });
+      }
+      domainStoryElements = this.handleVersionNumber(
+        importVersionNumber,
+        domainStoryElements,
+      );
+    }
+    return { domainStoryElements, lastElement };
+  }
+
+  private importSuccessful(emitSuccessExternally: boolean) {
     this.snackbar.open('Import successful', undefined, {
       duration: SNACKBAR_DURATION,
       panelClass: SNACKBAR_SUCCESS,
     });
+    if (emitSuccessExternally) {
+      this.automatedImportSuccessFullEmitter.next();
+    }
   }
 
   private importFailed() {
@@ -368,16 +438,6 @@ export class ImportDomainStoryService
     return elements;
   }
 
-  private extractStoryAndIconSet(dstText: string) {
-    let dstAndConfig = null;
-    try {
-      dstAndConfig = JSON.parse(dstText);
-    } catch (e) {
-      this.showBrokenImportDialog();
-    }
-    return dstAndConfig;
-  }
-
   private extractJsonFromSvgComment(xmlText: string): string {
     xmlText = xmlText.substring(xmlText.indexOf('<DST>'));
     while (xmlText.includes('<!--') || xmlText.includes('-->')) {
@@ -388,38 +448,9 @@ export class ImportDomainStoryService
     return xmlText;
   }
 
-  private updateIconRegistries(
-    domainStoryElements: BusinessObject[],
-    iconSet: IconSet,
-  ): void {
-    const actorIcons = this.getElementsOfType(
-      domainStoryElements,
-      ElementTypes.ACTOR,
-    );
-    const workObjectIcons = this.getElementsOfType(
-      domainStoryElements,
-      ElementTypes.WORKOBJECT,
-    );
-    this.iconDictionaryService.updateIconRegistries(
-      actorIcons,
-      workObjectIcons,
-      iconSet,
-    );
-
-    this.setImportedConfigurationAndEmit(iconSet);
-  }
-
-  private getElementsOfType(
-    elements: BusinessObject[],
-    type: ElementTypes,
-  ): BusinessObject[] {
-    const elementOfType: any = [];
-    elements.forEach((element) => {
-      if (element.type.includes(type)) {
-        elementOfType.push(element);
-      }
-    });
-    return elementOfType;
+  private updateIconRegistries(iconSet: IconSet): void {
+    this.iconDictionaryService.updateIconRegistries(iconSet);
+    this.importedConfigurationEmitter.next(iconSet);
   }
 
   private showPreviousV050Dialog(version: number): void {
@@ -430,11 +461,6 @@ export class ImportDomainStoryService
       duration: SNACKBAR_DURATION_LONGER,
       panelClass: SNACKBAR_INFO,
     });
-  }
-
-  private setImportedConfigurationAndEmit(config: IconSet) {
-    this.importedConfiguration = config;
-    this.importedConfigurationEmitter.emit(config);
   }
 
   private showBrokenImportDialog() {
@@ -449,8 +475,8 @@ export class ImportDomainStoryService
   private restoreTitleFromFileName(filename: string, isSVG: boolean): string {
     let title;
 
-    const domainStoryRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(.dst|.egn)/;
-    const svgRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(.dst|.egn).svg/;
+    const domainStoryRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(\.dst|\.egn)/;
+    const svgRegex = /_\d+-\d+-\d+( ?_?-?\(\d+\))?(-?\d)?(\.dst|\.egn)\.svg/;
 
     const egnSuffix = '.egn';
     const dstSuffix = '.dst';
@@ -466,5 +492,11 @@ export class ImportDomainStoryService
       .replace(egnSuffix, '');
     title = filenameWithoutDateSuffix;
     return title;
+  }
+
+  autoImportFromUrl(urlToLoad: string, startReplay: boolean) {
+    this.openExternalResourcesWarningDialog(() =>
+      this.importFromUrl(urlToLoad, startReplay),
+    );
   }
 }

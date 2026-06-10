@@ -7,13 +7,8 @@ import { Box } from 'src/app/tools/export/domain/export/box';
   providedIn: 'root',
 })
 export class PngService {
-  private width: number;
-  private height: number;
-
-  constructor() {
-    this.width = 0;
-    this.height = 0;
-  }
+  private width: number = 0;
+  private height: number = 0;
 
   private browserSpecs(): BrowserSpecs {
     const ua = navigator.userAgent;
@@ -40,7 +35,7 @@ export class PngService {
     return { name: M[0], version: M[1] };
   }
 
-  /** Needed for an SVG-Fix in CHrome where the # needs to be replaced by %23 **/
+  /** Needed for an SVG-Fix in Chrome where the # needs to be replaced by %23 **/
   private URIHashtagFix(svg: string): string {
     let fix = false;
 
@@ -157,7 +152,7 @@ export class PngService {
     };
   }
 
-  prepareSVG(
+  private prepareSVG(
     svg: string,
     layerBase: any,
     description: string,
@@ -191,7 +186,6 @@ export class PngService {
     viewBoxIndex = svg.indexOf('tabindex="');
 
     const dataEnd = svg.substring(viewBoxIndex);
-    dataEnd.substring(viewBoxIndex);
 
     svg = dataStart + bounds + dataEnd;
 
@@ -265,17 +259,17 @@ export class PngService {
     return [this.height, this.width];
   }
 
-  extractSVG(viewport: any, outerSVGElement: any): string {
+  private extractSVG(viewport: any, outerSVGElement: any): string {
     const layerResizers = viewport.getElementsByClassName('layer-resizers');
     const layerOverlays = viewport.getElementsByClassName('layer-overlays');
     const transform = viewport.getAttribute('transform');
     const translate = viewport.getAttribute('translate');
 
     if (layerResizers[0]) {
-      layerResizers[0].parentNode.removeChild(layerResizers[0]);
+      layerResizers[0].remove();
     }
     if (layerOverlays[0]) {
-      layerOverlays[0].parentNode.removeChild(layerOverlays[0]);
+      layerOverlays[0].remove();
     }
 
     // remove canvas scrolling and scaling before serializeToString of SVG
@@ -304,5 +298,38 @@ export class PngService {
 
   getHeight(): number {
     return this.height;
+  }
+
+  createTempCanvas() {
+    const tempCanvas = document.createElement('canvas');
+
+    const padding = 10;
+    tempCanvas.width = this.getWidth() + padding;
+    tempCanvas.height = this.getHeight() + padding;
+    return tempCanvas;
+  }
+
+  createSvgAndImage(
+    canvas: any,
+    description: string,
+    title: string,
+    withTitle: boolean,
+  ) {
+    const container = canvas.getElementsByClassName('djs-container');
+    const svgElements = container[0].getElementsByTagName('svg');
+    const outerSVGElement = svgElements[0];
+    const viewport = outerSVGElement.getElementsByClassName('viewport')[0];
+    const layerBase = viewport.querySelector('[class^="layer-root-"]');
+
+    return {
+      svg: this.prepareSVG(
+        this.extractSVG(viewport, outerSVGElement), // removes unwanted black dots in image
+        layerBase,
+        description,
+        title,
+        withTitle,
+      ),
+      image: document.createElement('img'),
+    };
   }
 }

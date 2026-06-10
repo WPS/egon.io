@@ -5,9 +5,9 @@
   "exclude": [
     "node_modules**",
     "**.spec.ts",
-    "material.module.ts",
     "../environments/**",
     "app.*.ts",
+    "**.providers.ts",
     "tools/import/services/import-domain-story.service.ts",
     "tools/modeler/services/initializer.service.ts",
     "tools/title/presentation/title-dialog/title-dialog.component.ts",
@@ -33,9 +33,15 @@
     {
       "name": "service",
       "include": [
-        "**/services/**"
+        "**/services/**",
+        "**/*providers.ts"
       ],
-      "mayUseAllBelow": true
+      "mayUse": [
+        "library",
+        "domain",
+        "entities",
+        "utils"
+      ]
     },
     {
       "name": "domain",
@@ -56,7 +62,7 @@
       "include": [
         "utils/**"
       ],
-      "mayUseAllBelow": true
+      "mayBeUsedFromAllAbove": true
     }
   ]
 }

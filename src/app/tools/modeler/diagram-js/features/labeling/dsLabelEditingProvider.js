@@ -2,7 +2,7 @@
 
 import { assign } from "min-dash";
 
-import { autocomplete, getLabel } from "./dsLabelUtil";
+import { createAutocompleteForEdit, getLabel } from "./dsLabelUtil";
 
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { sanitizeTextForSVGExport } from "src/app/utils/sanitizer";
@@ -116,11 +116,11 @@ export default function DSLabelEditingProvider(
   }
 
   function createAutocomplete(element) {
-    let editingBox = document.getElementsByClassName(
+    const editingBox = document.getElementsByClassName(
       "djs-direct-editing-content",
     );
     focusElement(editingBox.item(0));
-    autocomplete(
+    createAutocompleteForEdit(
       editingBox[0],
       dictionaryService.getUniqueWorkObjectNames(),
       element,

@@ -14,21 +14,21 @@ on:
 
 jobs:
   dependencies:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup_environment
       - name: Install latest updates
         run: npm ci
       - name: Save cache
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: |
             node_modules
           key: node_modules-${{ github.run_id }}
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: dependencies
     steps:
       - uses: actions/checkout@v6
@@ -36,7 +36,7 @@ jobs:
       - run: npm run test
 
   format:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: dependencies
     steps:
       - uses: actions/checkout@v6
@@ -44,7 +44,7 @@ jobs:
       - run: npm run format:check
 
   archlint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: dependencies
     steps:
       - uses: actions/checkout@v6
@@ -53,14 +53,14 @@ jobs:
 
   build-prod:
     if: inputs.deploy_prod == true
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [ test, format, archlint ]
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup_environment
       - run: npm run build-prod
       - name: Cache build
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: |
             dist_build
@@ -68,19 +68,19 @@ jobs:
 
   upload-artifact:
     if: inputs.deploy_prod == true
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [ build-prod ]
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup_environment
       - name: Load build cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             dist_build
           key: build-${{ github.sha }}-${{ github.run_id }}
       - run: npm run zip
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: domain-story-modeler
           path: |
@@ -90,7 +90,7 @@ jobs:
 
   deploy-website-latest:
     if: inputs.deploy_prod == false
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [ test, format, archlint ]
     steps:
       - uses: actions/checkout@v6
@@ -115,7 +115,7 @@ jobs:
 
   deploy-website-prod:
     if: inputs.deploy_prod == true
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [ test, format, archlint ]
     steps:
       - uses: actions/checkout@v6
@@ -140,7 +140,7 @@ jobs:
 
   publish-image:
     if: inputs.deploy_prod == true
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [ build-prod ]
     permissions:
       contents: read
@@ -150,20 +150,20 @@ jobs:
       - uses: ./.github/actions/setup_environment
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           platforms: linux/amd64,linux/arm64

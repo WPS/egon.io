@@ -40,9 +40,10 @@
 <br />
 <mat-dialog-actions>
   <div>
-    <button mat-flat-button (click)="close()">Cancel</button>
+    <button type="button" mat-flat-button (click)="close()">Cancel</button>
     @for (option of options; track option; let i = $index) {
       <button
+        type="button"
         mat-stroked-button
         class="mr-1"
         [title]="option.tooltip"

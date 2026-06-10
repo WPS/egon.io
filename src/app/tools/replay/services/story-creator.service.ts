@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
 import { ActivityCanvasObject } from '../../../domain/entities/activityCanvasObject';
 import { BusinessObject } from '../../../domain/entities/businessObject';
@@ -12,7 +12,7 @@ import { ActivityBusinessObject } from '../../../domain/entities/activityBusines
   providedIn: 'root',
 })
 export class StoryCreatorService {
-  constructor(private elementRegistryService: ElementRegistryService) {}
+  private readonly elementRegistryService = inject(ElementRegistryService);
 
   traceActivitiesAndCreateStory(): StorySentence[] {
     const tracedActivityMap = new Dictionary();
@@ -156,8 +156,7 @@ export class StoryCreatorService {
     object.outgoing?.forEach((connection) => {
       // connections outgoing from actors or groups without number must be connections to text annotations
       if (!connection.businessObject.number) {
-        objectTextAnnotations.push(connection);
-        objectTextAnnotations.push(connection.target);
+        objectTextAnnotations.push(connection, connection.target);
       }
     });
   }

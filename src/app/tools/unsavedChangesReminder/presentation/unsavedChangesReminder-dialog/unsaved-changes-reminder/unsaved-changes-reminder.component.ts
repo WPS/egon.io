@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -17,11 +17,10 @@ import {
 export class UnsavedChangesReminderComponent implements OnInit {
   fn: any;
 
-  constructor(
-    private dialogRef: MatDialogRef<UnsavedChangesReminderComponent>,
-    @Inject(MAT_DIALOG_DATA) data: () => {},
-  ) {
-    this.fn = data;
+  private dialogRef = inject(MatDialogRef<UnsavedChangesReminderComponent>);
+
+  constructor() {
+    this.fn = inject(MAT_DIALOG_DATA);
   }
 
   ngOnInit(): void {}

@@ -1,0 +1,16 @@
+<mat-dialog-content>
+  <label>
+    <h2>Attention</h2>
+  </label>
+  <p>You are about to load a domain story from an external source.</p>
+  <p>Do you want to continue?</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <br />
+  <div>
+    <button type="button" mat-flat-button (click)="close()">Cancel</button>
+    <button type="button" mat-flat-button color="primary" (click)="doImport()">
+      Import
+    </button>
+  </div>
+</mat-dialog-actions>

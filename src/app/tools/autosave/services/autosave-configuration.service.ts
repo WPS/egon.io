@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { StorageService } from '../../../domain/services/storage.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
 import {
-  DEFAULT_AUTOSAVES_MAX_DRAFTS,
   DEFAULT_AUTOSAVES_ENABLED,
   DEFAULT_AUTOSAVES_INTERVAL,
+  DEFAULT_AUTOSAVES_MAX_DRAFTS,
 } from 'src/app/domain/entities/constants';
 
 const AUTOSAVE_CONFIGURATION_TAG = 'autosaveConfiguration';
@@ -26,7 +26,9 @@ export class AutosaveConfigurationService {
     new ReplaySubject<AutosaveConfiguration>(1);
   readonly configuration$ = this.configurationSubject.asObservable();
 
-  constructor(private storageService: StorageService) {
+  private readonly storageService = inject(StorageService);
+
+  constructor() {
     this.initializeConfiguration();
   }
 

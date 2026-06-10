@@ -8,6 +8,7 @@ export class ConfigAndDST {
   }
 }
 
+// TODO: Move to test file location as its only used for testing
 export const testConfigAndDst: ConfigAndDST = {
   domain: JSON.parse(
     '{"name":"",' +

@@ -3,16 +3,19 @@
     <h3 class="listTitle">Work Objects</h3>
     <mat-list>
       @for (
-        workobjectEntry of workobjectEntriesSubject | async;
-        track workobjectEntry
+        workObjectEntry of workObjectEntriesSubject | async;
+        track workObjectEntry
       ) {
         <mat-list-item>
           <mat-form-field class="inputText dense-8" color="accent">
             <input
               matInput
               class="inputText"
-              [value]="workobjectEntry.name"
-              (change)="updateWorkobjectEntry($event, workobjectEntry)"
+              [value]="workObjectEntry.name"
+              (change)="updateWorkObjectEntry($event, workObjectEntry)"
+              (keydown.enter)="preventDefault($event)"
+              (keyup.enter)="saveDirectFromWorkObject($event, workObjectEntry)"
+              (keyup.escape)="close()"
             />
           </mat-form-field>
         </mat-list-item>
@@ -37,7 +40,7 @@
               cdkAutosizeMinRows="1"
               cdkAutosizeMaxRows="3"
               (keydown.enter)="preventDefault($event)"
-              (keyup.enter)="save()"
+              (keyup.enter)="saveDirectFromActivity($event, activityEntry)"
               (keyup.escape)="close()"
             ></textarea>
           </mat-form-field>
@@ -47,6 +50,8 @@
   </div>
 </div>
 <mat-dialog-actions class="sticky-bottom">
-  <button mat-flat-button (click)="close()">Cancel</button>
-  <button mat-flat-button color="primary" (click)="save()">Save</button>
+  <button type="button" mat-flat-button (click)="close()">Cancel</button>
+  <button type="button" mat-flat-button color="primary" (click)="save()">
+    Save
+  </button>
 </mat-dialog-actions>

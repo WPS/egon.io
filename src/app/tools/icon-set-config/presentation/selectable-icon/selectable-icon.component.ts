@@ -1,0 +1,90 @@
+import {
+  AfterViewChecked,
+  Component,
+  inject,
+  Input,
+  OnInit,
+} from '@angular/core';
+import { SelectableIcon } from '../../domain/selectableIcon';
+import { BehaviorSubject } from 'rxjs';
+import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
+
+import { CommonModule } from '@angular/common';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
+@Component({
+  selector: 'app-selectable-icon',
+  templateUrl: './selectable-icon.component.html',
+  styleUrls: ['./selectable-icon.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MatButtonToggleModule],
+})
+export class SelectableIconComponent implements OnInit, AfterViewChecked {
+  @Input()
+  iconName: string = '';
+
+  private iconInitiated = false;
+
+  icon = new BehaviorSubject<SelectableIcon>({
+    isActor: false,
+    isWorkObject: false,
+    name: '',
+    svg: '',
+  });
+
+  isActor: boolean = false;
+  isWorkObject: boolean = false;
+  isNone: boolean = true;
+
+  get name(): string {
+    return this.iconName;
+  }
+
+  get id() {
+    return 'domain-configuration-icon-' + this.iconName;
+  }
+
+  private readonly iconSetCustomizationService = inject(
+    IconSetCustomizationService,
+  );
+
+  ngOnInit(): void {
+    this.icon = this.iconSetCustomizationService.getIconForName(this.iconName);
+    if (!this.icon) {
+      return;
+    }
+
+    this.icon.subscribe((value) => {
+      this.isActor = value.isActor;
+      this.isWorkObject = value.isWorkObject;
+      this.isNone = !(value.isActor || value.isWorkObject);
+    });
+    this.isActor = this.icon.value.isActor;
+    this.isWorkObject = this.icon.value.isWorkObject;
+    this.isNone = !(this.icon.value.isActor || this.icon.value.isWorkObject);
+  }
+
+  ngAfterViewChecked(): void {
+    this.createIcon();
+  }
+
+  private createIcon(): void {
+    const img = document.getElementById(this.id) as HTMLImageElement;
+    if (img && !this.iconInitiated) {
+      img.src = '' + this.icon?.value?.svg;
+      this.iconInitiated = true;
+    }
+  }
+
+  setAsUnassigned() {
+    this.iconSetCustomizationService.setAsUnassigned(this.iconName);
+  }
+
+  setAsActor(): void {
+    this.iconSetCustomizationService.setAsActor(this.iconName);
+  }
+
+  setAsWorkObject(): void {
+    this.iconSetCustomizationService.setAsWorkObject(this.iconName);
+  }
+}

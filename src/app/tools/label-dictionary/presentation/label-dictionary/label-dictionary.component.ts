@@ -3,44 +3,59 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  inject,
   Output,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { WorkObjectLabelEntry } from '../../domain/workObjectLabelEntry';
 import { LabelEntry } from '../../domain/labelEntry';
 import { LabelDictionaryService } from '../../services/label-dictionary.service';
+import { CommonModule } from '@angular/common';
+import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-label-dictionary',
   templateUrl: './label-dictionary.component.html',
   styleUrls: ['./label-dictionary.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatListModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatButtonModule,
+  ],
 })
 export class LabelDictionaryComponent implements AfterViewInit {
-  workobjectEntriesSubject: BehaviorSubject<WorkObjectLabelEntry[]>;
-  activityEntriesSubject: BehaviorSubject<LabelEntry[]>;
+  readonly workObjectEntriesSubject: BehaviorSubject<WorkObjectLabelEntry[]>;
+  readonly activityEntriesSubject: BehaviorSubject<LabelEntry[]>;
 
   workObjectEntries: WorkObjectLabelEntry[];
   activityEntries: LabelEntry[];
 
   @Output()
-  closeEmitter: EventEmitter<void> = new EventEmitter<void>();
+  readonly closeEmitter: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(
-    private labelDictionaryService: LabelDictionaryService,
-    private cd: ChangeDetectorRef,
-  ) {
+  private readonly labelDictionaryService = inject(LabelDictionaryService);
+  private readonly cd = inject(ChangeDetectorRef);
+
+  constructor() {
     this.labelDictionaryService.createLabelDictionaries();
     this.workObjectEntries = this.labelDictionaryService.getWorkObjectLabels();
     this.activityEntries = this.labelDictionaryService.getActivityLabels();
 
-    this.workobjectEntriesSubject = new BehaviorSubject(this.workObjectEntries);
+    this.workObjectEntriesSubject = new BehaviorSubject(this.workObjectEntries);
     this.activityEntriesSubject = new BehaviorSubject(this.activityEntries);
   }
 
   ngAfterViewInit(): void {
     this.labelDictionaryService.createLabelDictionaries();
-    this.workobjectEntriesSubject.next(
+    this.workObjectEntriesSubject.next(
       this.labelDictionaryService.getWorkObjectLabels(),
     );
     this.activityEntriesSubject.next(
@@ -50,7 +65,7 @@ export class LabelDictionaryComponent implements AfterViewInit {
   }
 
   save(): void {
-    this.workObjectEntries = this.workobjectEntriesSubject.value;
+    this.workObjectEntries = this.workObjectEntriesSubject.value;
     this.activityEntries = this.activityEntriesSubject.value;
 
     const activityNames: string[] = [];
@@ -68,9 +83,9 @@ export class LabelDictionaryComponent implements AfterViewInit {
 
     this.workObjectEntries
       .filter((w) => w.name !== w.originalName)
-      .forEach((workobject) => {
-        workObjectNames.push(workobject.name);
-        originalWorkObjectNames.push(workobject.originalName);
+      .forEach((workObject) => {
+        workObjectNames.push(workObject.name);
+        originalWorkObjectNames.push(workObject.originalName);
       });
 
     this.labelDictionaryService.massRenameLabels(
@@ -90,26 +105,38 @@ export class LabelDictionaryComponent implements AfterViewInit {
       a.name = a.originalName;
     });
 
-    this.workobjectEntriesSubject.next(this.workObjectEntries);
+    this.workObjectEntriesSubject.next(this.workObjectEntries);
     this.activityEntriesSubject.next(this.activityEntries);
   }
 
+  // The keydown in the input / textarea field is handled before the (change) event, thus we need to trigger the update manually
+  saveDirectFromActivity($event: Event, activityEntry: LabelEntry): void {
+    this.updateActivityEntry($event, activityEntry);
+    this.save();
+  }
+
+  // The keydown in the input / textarea field is handled before the (change) event, thus we need to trigger the update manually
+  saveDirectFromWorkObject($event: Event, workObjectEntry: LabelEntry): void {
+    this.updateWorkObjectEntry($event, workObjectEntry);
+    this.save();
+  }
+
   updateActivityEntry($event: Event, activityEntry: LabelEntry) {
+    const target = $event.target as HTMLInputElement;
     let entries = this.activityEntriesSubject.value;
     entries.filter(
       (e) => e.originalName === activityEntry.originalName,
-      // @ts-ignore
-    )[0].name = $event.target.value;
+    )[0].name = target.value;
     this.activityEntriesSubject.next(entries);
   }
 
-  updateWorkobjectEntry($event: Event, workobjectEntry: LabelEntry) {
-    let entries = this.workobjectEntriesSubject.value;
+  updateWorkObjectEntry($event: Event, workObjectEntry: LabelEntry) {
+    const target = $event.target as HTMLInputElement;
+    let entries = this.workObjectEntriesSubject.value;
     entries.filter(
-      (e) => e.originalName === workobjectEntry.originalName,
-      // @ts-ignore
-    )[0].name = $event.target.value;
-    this.workobjectEntriesSubject.next(entries);
+      (e) => e.originalName === workObjectEntry.originalName,
+    )[0].name = target.value;
+    this.workObjectEntriesSubject.next(entries);
   }
 
   preventDefault(event: Event): void {

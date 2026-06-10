@@ -1,7 +1,7 @@
 <div class="details smallScrollbar">
   <div>
     <h3>Export as File:</h3>
-    <div class="iconSetDetails">
+    <div class="IconSet">
       <mat-form-field class="exportForm" color="accent">
         <mat-label>Icon set name</mat-label>
         <input
@@ -14,8 +14,9 @@
         />
       </mat-form-field>
       <button
-        mat-stroked-button
+        type="button"
         class="exportForm"
+        mat-stroked-button
         title="Export icon set"
         (click)="exportIconSet()"
       >
@@ -43,19 +44,19 @@
       }
     </mat-list>
   </div>
-  <div class="workobjectList">
+  <div class="workObjectList">
     <h3>Order of Work Objects:</h3>
     <mat-list>
       @for (
-        iconName of selectedWorkobjects$ | async;
+        iconName of selectedWorkObjects$ | async;
         track iconName;
         let i = $index
       ) {
         <mat-list-item
           class="compactItem"
           draggable="true"
-          (dragover)="allowDrop($event, 'workobjectList')"
-          (dragstart)="onDragStart(i, 'workobjectList')"
+          (dragover)="allowDrop($event, 'workObjectList')"
+          (dragstart)="onDragStart(i, 'workObjectList')"
           (drop)="onDrop($event, iconName, false, i)"
         >
           <app-selected-icon [icon]="getIconForName(iconName)" />

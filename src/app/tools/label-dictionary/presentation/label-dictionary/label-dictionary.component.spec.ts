@@ -1,7 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { MockModule } from 'ng-mocks';
-import { MaterialModule } from 'src/app/material.module';
 import { LabelDictionaryService } from '../../services/label-dictionary.service';
 import { LabelDictionaryComponent } from './label-dictionary.component';
 import { LabelEntry } from '../../domain/labelEntry';
@@ -22,8 +19,7 @@ describe('LabelDictionaryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule(MaterialModule)],
-      declarations: [LabelDictionaryComponent],
+      imports: [LabelDictionaryComponent],
       providers: [
         {
           provide: LabelDictionaryService,
@@ -117,14 +113,14 @@ describe('LabelDictionaryComponent', () => {
     ]);
   });
 
-  it('should update workobject entries', () => {
+  it('should update workObject entries', () => {
     // in order to reset the new names:
     component.cancel();
 
     let input: EventTarget = { value: 'UNO' } as HTMLInputElement;
     let event: Event = { target: input } as Event;
-    let workobjectEntry: LabelEntry = { originalName: 'ONE', name: 'ONE' };
-    component.updateWorkobjectEntry(event, workobjectEntry);
+    let workObjectEntry: LabelEntry = { originalName: 'ONE', name: 'ONE' };
+    component.updateWorkObjectEntry(event, workObjectEntry);
 
     expect(component.workObjectEntries.map((entry) => entry.name)).toEqual([
       'UNO',

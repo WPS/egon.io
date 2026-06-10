@@ -1,10 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AutosaveOptionsComponent } from './autosave-options.component';
-import { MockModule, MockProviders } from 'ng-mocks';
 import { AutosaveConfigurationService } from '../../services/autosave-configuration.service';
-import { MaterialModule } from 'src/app/material.module';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { AutosaveModule } from '../autosave.module';
 
 describe('AutosaveOptionsComponent', () => {
   let component: AutosaveOptionsComponent;
@@ -12,13 +8,11 @@ describe('AutosaveOptionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule(MaterialModule), MockModule(AutosaveModule)],
-      declarations: [AutosaveOptionsComponent],
+      imports: [AutosaveOptionsComponent],
       providers: [
         {
           provide: AutosaveConfigurationService,
         },
-        MockProviders(MatSnackBar),
       ],
     }).compileComponents();
   });

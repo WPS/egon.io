@@ -31,10 +31,6 @@ export class Dictionary {
     }
   }
 
-  add(value: any, key: string): void {
-    this.set(key, value);
-  }
-
   putEntry(entry: Entry): void {
     if (!this.has(entry.key)) {
       this.entries.push(entry);
@@ -74,6 +70,26 @@ export class Dictionary {
   get(key: string): any {
     const found = this.entries.filter((entry) => entry.key === key);
     return found[0] ? found[0].value : null;
+  }
+
+  /** Convert to a plain key-value object. */
+  toRecord(): Record<string, any> {
+    const result: Record<string, any> = {};
+    for (const entry of this.entries) {
+      result[entry.key] = entry.value;
+    }
+    return result;
+  }
+
+  /** Create a Dictionary from a plain key-value object. */
+  static fromRecord(record: Record<string, any>): Dictionary {
+    const dict = new Dictionary();
+    for (const [key, value] of Object.entries(record)) {
+      if (value != null) {
+        dict.set(key, value);
+      }
+    }
+    return dict;
   }
 }
 

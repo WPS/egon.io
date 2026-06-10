@@ -3,6 +3,7 @@ import { StoryCreatorService } from './story-creator.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { preBuildTestStory } from '../../../utils/testHelpers.spec';
 import { DomManipulationService } from './dom-manipulation.service';
+import { TestBed } from '@angular/core/testing';
 
 describe(ReplayService.name, () => {
   let service: ReplayService;
@@ -10,6 +11,12 @@ describe(ReplayService.name, () => {
   let storyCreatorService: jasmine.SpyObj<StoryCreatorService>;
   let domManipulationService: jasmine.SpyObj<DomManipulationService>;
   let snackbar: jasmine.SpyObj<MatSnackBar>;
+
+  const contextPadSpy = jasmine.createSpyObj('contextPadSpy', ['close']);
+  const paletteSpy = jasmine.createSpyObj('paletteSpy', ['close', 'open']);
+  const selectionSpy = jasmine.createSpyObj('selectionSpy', ['deselect'], {
+    _selectedElements: ['test'],
+  });
 
   beforeEach(() => {
     storyCreatorService = jasmine.createSpyObj('StoryCreatorService', [
@@ -26,11 +33,17 @@ describe(ReplayService.name, () => {
 
     snackbar = jasmine.createSpyObj('snackbar', ['open']);
 
-    service = new ReplayService(
-      domManipulationService,
-      storyCreatorService,
-      snackbar,
-    );
+    TestBed.configureTestingModule({
+      providers: [
+        ReplayService,
+        { provide: DomManipulationService, useValue: domManipulationService },
+        { provide: StoryCreatorService, useValue: storyCreatorService },
+        { provide: MatSnackBar, useValue: snackbar },
+      ],
+    });
+
+    service = TestBed.inject(ReplayService);
+    service.setModelerContext(contextPadSpy, paletteSpy, selectionSpy);
   });
 
   it('should be created', () => {
@@ -58,6 +71,10 @@ describe(ReplayService.name, () => {
 
       expect(storyCreatorService.getMissingSentences).toHaveBeenCalled();
       expect(snackbar.open).not.toHaveBeenCalled();
+
+      expect(contextPadSpy.close).toHaveBeenCalled();
+      expect(paletteSpy.close).toHaveBeenCalled();
+      expect(selectionSpy.deselect).toHaveBeenCalledWith('test');
     });
 
     it('cannot start replay for non-consecutively numbered stories', () => {
@@ -77,6 +94,10 @@ describe(ReplayService.name, () => {
 
       expect(storyCreatorService.getMissingSentences).not.toHaveBeenCalled();
       expect(snackbar.open).not.toHaveBeenCalled();
+
+      expect(contextPadSpy.close).toHaveBeenCalled();
+      expect(paletteSpy.close).toHaveBeenCalled();
+      expect(selectionSpy.deselect).toHaveBeenCalledWith('test');
     });
 
     it('cannot start replay for non-consecutively numbered stories', () => {

@@ -18,26 +18,47 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { IconSet } from '../../../domain/entities/iconSet';
+import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
+import { AutosaveService } from 'src/app/tools/autosave/services/autosave.service';
+import { Subject } from 'rxjs';
 
 describe(IconSetCustomizationService.name, () => {
   let service: IconSetCustomizationService;
 
   let matSnackbarSpy: jasmine.SpyObj<MatSnackBar>;
   let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
+  let iconSetImportExportServiceSpy: jasmine.SpyObj<IconSetImportExportService>;
 
   beforeEach(() => {
     const matSnackbarMock = jasmine.createSpyObj(MatSnackBar.name, ['open']);
     const iconDictionaryMock = jasmine.createSpyObj(
       IconDictionaryService.name,
       [
+        'addCustomIcon',
         'getFullDictionary',
-        'getActorsDictionary',
-        'getWorkObjectsDictionary',
+        'getIconsAssignedAs',
         'getIconSource',
         'addIconsToCss',
         'registerIconForType',
         'unregisterIconForType',
       ],
+    );
+    const autosaveServiceMock = jasmine.createSpyObj(AutosaveService.name, [], {
+      importConfigChanged$: of(),
+    });
+    const iconSetImportExportServiceMock = jasmine.createSpyObj(
+      IconSetImportExportService.name,
+      [
+        'getStoredIconSetConfiguration',
+        'createIconSetConfiguration',
+        'getIconSetName',
+        'setIconSetName',
+        'setStoredIconSetConfiguration',
+        'notifyIconSetSaved',
+      ],
+      {
+        iconSetChangedSubject: new Subject<void>(),
+      },
     );
 
     const elementRegistryServiceMock = jasmine.createSpyObj(
@@ -46,7 +67,7 @@ describe(IconSetCustomizationService.name, () => {
     );
 
     const actorDefaultDictionary = new Dictionary();
-    actorDefaultDictionary.add('actorSvg', 'actorkey');
+    actorDefaultDictionary.set('actorkey', 'actorSvg');
     const INITIAL_ICON_SET_CONFIGURATION = {
       name: INITIAL_ICON_SET_NAME,
       actors: actorDefaultDictionary,
@@ -60,15 +81,16 @@ describe(IconSetCustomizationService.name, () => {
           provide: MatSnackBar,
           useValue: matSnackbarMock,
         },
+        {
+          provide: AutosaveService,
+          useValue: autosaveServiceMock,
+        },
         MockProvider(ImportDomainStoryService),
         MockProvider(IconSetChangedService, {
-          iconConfigrationChanged(): Observable<IconSet> {
+          iconConfigurationChanged(): Observable<IconSet> {
             const iconSetConfiguration: IconSet =
               INITIAL_ICON_SET_CONFIGURATION;
             return of(iconSetConfiguration);
-          },
-          getConfiguration(): IconSet {
-            return INITIAL_ICON_SET_CONFIGURATION;
           },
         }),
         {
@@ -80,6 +102,10 @@ describe(IconSetCustomizationService.name, () => {
           provide: ElementRegistryService,
           useValue: elementRegistryServiceMock,
         },
+        {
+          provide: IconSetImportExportService,
+          useValue: iconSetImportExportServiceMock,
+        },
       ],
     });
     matSnackbarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;
@@ -88,14 +114,15 @@ describe(IconSetCustomizationService.name, () => {
     ) as jasmine.SpyObj<IconDictionaryService>;
 
     iconDictionarySpy.getFullDictionary.and.returnValue(new Dictionary());
-    iconDictionarySpy.getActorsDictionary.and.returnValue(new Dictionary());
-    iconDictionarySpy.getWorkObjectsDictionary.and.returnValue(
-      new Dictionary(),
-    );
+    iconDictionarySpy.getIconsAssignedAs.and.returnValue(new Dictionary());
     elementRegistryServiceMock.getUsedIcons.and.returnValue({
       actors: [],
-      workobjects: [],
+      workObjects: [],
     });
+
+    iconSetImportExportServiceSpy = TestBed.inject(
+      IconSetImportExportService,
+    ) as jasmine.SpyObj<IconSetImportExportService>;
 
     service = TestBed.inject(IconSetCustomizationService);
   });
@@ -106,18 +133,18 @@ describe(IconSetCustomizationService.name, () => {
 
   describe('import icon set', () => {
     const actors = new Dictionary();
-    const workobjects = new Dictionary();
+    const workObjects = new Dictionary();
 
-    actors.add('svg1', 'Person');
-    actors.add('svg2', 'Pet');
+    actors.set('Person', 'svg1');
+    actors.set('Pet', 'svg2');
 
-    workobjects.add('svg3', 'Document');
-    workobjects.add('svg3', 'Call');
+    workObjects.set('Document', 'svg3');
+    workObjects.set('Call', 'svg3');
 
     const customConfig: IconSet = {
       name: INITIAL_ICON_SET_NAME,
       actors: actors,
-      workObjects: workobjects,
+      workObjects: workObjects,
     };
 
     it('Should save icon set', () => {
@@ -127,7 +154,7 @@ describe(IconSetCustomizationService.name, () => {
       service.importConfiguration(customConfig);
 
       const selectedActors = service.selectedActors$.value;
-      const selectedWorkObjects = service.selectedWorkobjects$.value;
+      const selectedWorkObjects = service.selectedWorkObjects$.value;
 
       expect(selectedActors).toContain('Person');
       expect(selectedActors).toContain('Pet');
@@ -147,6 +174,9 @@ describe(IconSetCustomizationService.name, () => {
           panelClass: SNACKBAR_SUCCESS,
         },
       );
+      expect(
+        iconSetImportExportServiceSpy.notifyIconSetSaved,
+      ).toHaveBeenCalled();
     });
 
     // TODO: figure out a better way to test the saveIconSet() method than by spying on the snackbar
@@ -156,7 +186,7 @@ describe(IconSetCustomizationService.name, () => {
     //   service.importConfiguration(customConfig, false);
 
     //   const selectedActors = service.selectedActors$.value;
-    //   const selectedWorkObjects = service.selectedWorkobjects$.value;
+    //   const selectedWorkObjects = service.selectedWorkObjects$.value;
 
     //   expect(selectedActors).toContain('Person');
     //   expect(selectedActors).toContain('Pet');
@@ -173,9 +203,8 @@ describe(IconSetCustomizationService.name, () => {
 
   describe('addNewIcon', () => {
     it('should add Icon', () => {
-      service.addNewIcon('test');
+      service.addNewCustomIcon('test');
 
-      expect(iconDictionarySpy.getIconSource).toHaveBeenCalled();
       expect(service.getIconForName('test')).toBeTruthy();
     });
   });

@@ -1,11 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AutosavedDraftsComponent } from './autosaved-drafts.component';
-import { MockModule, MockProviders } from 'ng-mocks';
 import { AutosaveService } from '../../services/autosave.service';
 import { AutosaveConfigurationService } from '../../services/autosave-configuration.service';
-import { MaterialModule } from 'src/app/material.module';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 
 describe('AutosavedDraftsComponent', () => {
@@ -27,8 +24,7 @@ describe('AutosavedDraftsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule(MaterialModule)],
-      declarations: [AutosavedDraftsComponent],
+      imports: [AutosavedDraftsComponent],
       providers: [
         {
           provide: AutosaveService,
@@ -38,7 +34,6 @@ describe('AutosavedDraftsComponent', () => {
           provide: AutosaveConfigurationService,
           useValue: autosaveConfigurationServiceMock,
         },
-        MockProviders(MatSnackBar),
       ],
     }).compileComponents();
 

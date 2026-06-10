@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AutosaveConfigurationService } from '../../services/autosave-configuration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
@@ -6,18 +6,30 @@ import {
   SNACKBAR_ERROR,
   SNACKBAR_SUCCESS,
 } from 'src/app/domain/entities/constants';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-autosave-options',
   templateUrl: './autosave-options.component.html',
   styleUrls: ['./autosave-options.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    FormsModule,
+  ],
 })
 export class AutosaveOptionsComponent {
-  constructor(
-    protected autosaveConfiguration: AutosaveConfigurationService,
-    private snackbar: MatSnackBar,
-  ) {}
+  protected readonly autosaveConfiguration = inject(
+    AutosaveConfigurationService,
+  );
+  private readonly snackbar = inject(MatSnackBar);
 
   save(activated: boolean, maxDrafts: number, interval: number) {
     if (

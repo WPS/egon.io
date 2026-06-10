@@ -71,7 +71,6 @@ export function setNumber(element, textNumber) {
   return element;
 }
 
-// select at which part of the activity the label should be attached to
 export function selectPartOfActivity(waypoints, angleActivity) {
   let selectedActivity = 0;
   let linelength = 49;
@@ -87,155 +86,160 @@ export function selectPartOfActivity(waypoints, angleActivity) {
   return selectedActivity;
 }
 
-// approximate the width of the label text, standard fontsize: 11
-export function calculateTextWidth(text) {
+export function approximateArialSize11TextWidthInPixel(text) {
   if (!text) {
     return 0;
   }
-
-  let fontsize = text.length * 5.1;
-  fontsize = fontsize / 2;
-
-  // add an initial offset to the absolute middle of the activity
-  fontsize += 20;
-  return fontsize;
+  // 5.1 is the approximate median width of a character in fontsize 11 with font Arial
+  return text.length * 5.1;
 }
 
-/**
- * copied from https://www.w3schools.com/howto/howto_js_autocomplete.asp on 18.09.2018
- */
-export function autocomplete(input, workObjectNames, element, eventBus) {
-  closeAllLists();
+export function createAutocompleteForEdit(
+  editingBox,
+  workObjectNames,
+  businessElement,
+  eventBus,
+) {
+  clearOldAutocompleteList();
+  if (
+    !businessElement ||
+    !businessElement.type.includes(ElementTypes.WORKOBJECT)
+  ) {
+    return;
+  }
 
-  /* the autocomplete function takes three arguments,
-  the text field element and an array of possible autocompleted values and an optional element to which it is appended:*/
-  let currentFocus, filteredWorkObjectNames;
+  let currentFocus, workObjectNamesFilteredBySearchterm;
 
-  /* execute a function when someone writes in the text field:*/
-  input.addEventListener("input", function () {
-    if (workObjectNames.length === 0) {
+  editingBox.addEventListener("input", inputFunction);
+
+  function inputFunction() {
+    if (
+      !workObjectNames ||
+      workObjectNames.length === 0 ||
+      !businessElement ||
+      !businessElement.type.includes(ElementTypes.WORKOBJECT)
+    ) {
       return;
     }
 
-    /* the direct editing field of actors and workobjects is a recycled html-element and has old values that need to be overridden*/
-    if (element.type.includes(ElementTypes.WORKOBJECT)) {
+    // the direct editing field of actors and workObjects is a recycled html-element and has old values that need to be overridden
+    if (businessElement.type.includes(ElementTypes.WORKOBJECT)) {
       this.value = this.innerHTML;
     }
-    let autocompleteList,
-      autocompleteItem,
-      val = this.value;
 
-    /* close any already open lists of autocompleted values*/
-    closeAllLists();
+    let searchterm = this.value?.toUpperCase() | "";
     currentFocus = -1;
 
-    /* create a DIV element that will contain the items (values):*/
-    autocompleteList = document.createElement("DIV");
+    clearOldAutocompleteList();
+
+    const autocompleteList = document.createElement("DIV");
     autocompleteList.setAttribute("id", "autocomplete-list");
     autocompleteList.setAttribute("class", "autocomplete-items");
-
-    /* append the DIV element as a child of the autocomplete container:*/
     this.parentNode.appendChild(autocompleteList);
 
-    /* for each item in the array...*/
-    filteredWorkObjectNames = [];
+    workObjectNamesFilteredBySearchterm = [];
     for (const name of workObjectNames) {
-      /* check if the item starts with the same letters as the text field value:*/
-      if (val) {
-        if (name.substring(0, val.length).toUpperCase() === val.toUpperCase()) {
-          /* create a DIV element for each matching element:*/
-          autocompleteItem = document.createElement("DIV");
+      if (
+        searchterm.length === 0 ||
+        (name.toUpperCase().startsWith(searchterm) &&
+          !workObjectNamesFilteredBySearchterm.includes(name))
+      ) {
+        const autocompleteItem = document.createElement("div");
 
-          /* make the matching letters bold:*/
-          autocompleteItem.innerHTML =
-            "<strong>" +
-            name.substring(0, val.length) +
-            "</strong>" +
-            name.substring(val.length);
+        autocompleteItem.innerHTML = name;
+        autocompleteItem.innerHTML +=
+          "<input type='hidden' value='" + name + "'>";
 
-          /* insert an input field that will hold the current name:*/
-          autocompleteItem.innerHTML +=
-            "<input type='hidden' value='" + name + "'>";
-          autocompleteList.appendChild(autocompleteItem);
+        autocompleteItem.addEventListener("click", function (e) {
+          e.preventDefault();
+          currentFocus = workObjectNamesFilteredBySearchterm.indexOf(name);
+          updateFocusOnAutocompleteList();
+          // Keydown Events do not properly work on autoCompleteItem -> set the focus on the editigBox so the keyboard controls still work
+          editingBox.focus();
+        });
+        // TODO dbClick should trigger the selection of the autocomplete-item
 
-          filteredWorkObjectNames.push(name);
-        }
+        autocompleteList.appendChild(autocompleteItem);
+        workObjectNamesFilteredBySearchterm.push(name);
       }
     }
+  }
 
-    // if we edit an actor, we do not want auto-complete, since actors generally are unique
-    if (element.type.includes(ElementTypes.ACTOR)) {
-      autocompleteList.style.visibility = "hidden";
-    }
-  });
-
-  /* execute a function presses a key on the keyboard:*/
-  input.onkeydown = function (e) {
-    let autocompleteList = document.getElementById("autocomplete-list");
-    if (autocompleteList) {
-      autocompleteList = autocompleteList.getElementsByTagName("div");
+  editingBox.onkeydown = function onKeyDownListener(e) {
+    if (
+      !businessElement ||
+      !businessElement.type.includes(ElementTypes.WORKOBJECT)
+    ) {
+      return;
     }
     if (e.keyCode === 40) {
-      /* If the arrow DOWN key is pressed,
-        increase the currentFocus letiable:*/
+      // KEYDOWN
+      e.preventDefault();
       currentFocus++;
 
-      /* and and make the current item more visible:*/
-      addActive(autocompleteList);
+      updateFocusOnAutocompleteList();
     } else if (e.keyCode === 38) {
-      // up
-      /* If the arrow UP key is pressed,
-        decrease the currentFocus letiable:*/
+      // KEYUP
+      e.preventDefault();
       currentFocus--;
 
-      /* and and make the current item more visible:*/
-      addActive(autocompleteList);
-    } else if (e.keyCode === 13) {
+      updateFocusOnAutocompleteList();
+    } else if (e.key === "Enter" && !e.shiftKey) {
+      // ENTER
       e.preventDefault();
-      /* If the ENTER key is pressed, prevent the form from being submitted,*/
       if (currentFocus > -1) {
-        element.businessObject.name = filteredWorkObjectNames[currentFocus];
-        eventBus.fire("element.changed", { element });
+        businessElement.businessObject.name =
+          workObjectNamesFilteredBySearchterm[currentFocus];
+        eventBus.fire("element.changed", { element: businessElement });
+
+        // remove obsolete listener
+        // it is always added when opening the editingBox with the associated businessObject as Context
+        editingBox.removeEventListener("input", inputFunction);
       }
     }
   };
 
-  function addActive(autocompleteList) {
-    /* a function to classify an item as "active":*/
-    if (!autocompleteList || autocompleteList.length < 1) return false;
-
-    /* start by removing the "active" class on all items:*/
-    removeActive(autocompleteList);
-    if (currentFocus >= autocompleteList.length) currentFocus = 0;
-    if (currentFocus < 0) currentFocus = autocompleteList.length - 1;
-
-    /* add class "autocomplete-active":*/
-    autocompleteList[currentFocus].classList.add("autocomplete-active");
-  }
-
-  function removeActive(autocompleteList) {
-    /* a function to remove the "active" class from all autocomplete items:*/
-    if (autocompleteList.length > 1) {
-      for (const item of autocompleteList) {
-        item.classList.remove("autocomplete-active");
-      }
+  function clearOldAutocompleteList(target) {
+    const oldAutocompleteList = document.getElementById("autocomplete-list");
+    if (
+      oldAutocompleteList &&
+      !(
+        target?.classList.contains("djs-direct-editing-content") ||
+        target?.parentElement.id === "autocomplete-list"
+      )
+    ) {
+      oldAutocompleteList.remove();
+      return true;
     }
+    return false;
   }
 
-  function closeAllLists(survivor) {
-    /* close all autocomplete lists in the document,
-    except the one passed as an argument:*/
-    let autocompleteList =
-      document.getElementsByClassName("autocomplete-items");
-    for (const item of autocompleteList) {
-      if (survivor != item && survivor != input) {
-        item.parentNode.removeChild(item);
-      }
+  function updateFocusOnAutocompleteList() {
+    const autocompleteList = document.getElementById("autocomplete-list");
+    const autocompleteListItems = autocompleteList?.getElementsByTagName("div");
+    if (!autocompleteListItems || autocompleteListItems.length < 1) {
+      return;
     }
+
+    for (const item of autocompleteListItems) {
+      item.classList.remove("autocomplete-active");
+    }
+
+    // wrapAround
+    if (currentFocus >= autocompleteListItems.length) {
+      currentFocus = 0;
+    } else if (currentFocus < 0) {
+      currentFocus = autocompleteListItems.length - 1;
+    }
+
+    autocompleteListItems[currentFocus].classList.add("autocomplete-active");
   }
 
-  /* execute a function when someone clicks in the document:*/
   document.addEventListener("click", function (e) {
-    closeAllLists(e.target);
+    if (clearOldAutocompleteList(e.target)) {
+      // remove event listener
+      // it is always added when opening the editingBox with the associated businessObject as Context
+      editingBox.removeEventListener("input", inputFunction);
+    }
   });
 }

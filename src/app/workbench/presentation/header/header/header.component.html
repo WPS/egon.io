@@ -11,6 +11,7 @@
     </div>
 
     <button
+      type="button"
       class="headerButton"
       (click)="openHeaderDialog()"
       title="Edit title and description"
@@ -20,6 +21,7 @@
     </button>
     @if (showDescription | async) {
       <button
+        type="button"
         class="headerButton"
         title="Hide description"
         (click)="setShowDescription(false)"
@@ -32,6 +34,7 @@
     }
     @if (!(showDescription | async)) {
       <button
+        type="button"
         class="headerButton"
         title="Show description"
         (click)="setShowDescription(true)"

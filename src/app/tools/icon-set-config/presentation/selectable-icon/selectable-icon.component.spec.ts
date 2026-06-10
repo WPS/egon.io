@@ -1,24 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IconListItemComponent } from './icon-list-item.component';
-import { MockModule, MockProvider } from 'ng-mocks';
+import { SelectableIconComponent } from './selectable-icon.component';
+import { MockProvider } from 'ng-mocks';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
-import { IconListItem } from '../../domain/iconListItem';
+import { SelectableIcon } from '../../domain/selectableIcon';
 import { BehaviorSubject } from 'rxjs';
-import { MaterialModule } from 'src/app/material.module';
 
-describe('IconListItemComponent', () => {
-  let component: IconListItemComponent;
-  let fixture: ComponentFixture<IconListItemComponent>;
+describe('SelectableIconComponent', () => {
+  let component: SelectableIconComponent;
+  let fixture: ComponentFixture<SelectableIconComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule(MaterialModule)],
-      declarations: [IconListItemComponent],
+      imports: [SelectableIconComponent],
       providers: [
         MockProvider(IconSetCustomizationService, {
           getIconForName: () => {
-            return new BehaviorSubject<IconListItem>({} as IconListItem);
+            return new BehaviorSubject<SelectableIcon>({} as SelectableIcon);
           },
         }),
       ],
@@ -26,7 +24,7 @@ describe('IconListItemComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IconListItemComponent);
+    fixture = TestBed.createComponent(SelectableIconComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

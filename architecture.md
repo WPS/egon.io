@@ -8,7 +8,7 @@ Egon is a modeling tool that implements the notation and syntactical rules of [D
 
 ## Stakeholders {#_stakeholders}
 
-- Users: Intended users are are already familiar with Domain Storytelling. They do not require a technical background.
+- Users: Intended users are already familiar with Domain Storytelling. They do not require a technical background.
 - Developers: Egon was initiated and developed by German software company *WPS - Workplace Solutions GmbH*. All active developers are employees of this company. Most developers are also users of Egon.
 - Contributors: Programmers from all around the world can contribute code to Egon via pull requests. We assume that contributors are also users of Egon.
 
@@ -99,7 +99,7 @@ Since all developers share a common background (see [Stakeholders](#_stakeholder
 
 Users of Egon facilitate Domain Storytelling workshops by modeling the participant's domain stories. They are supposed to share their screen with the participants so that everyone can see how the domain story evolves. In this setting, collaborative editing by multiple users is not relevant. 
 
-We assume that a users prefer to model with devices that have a keyboard and mouse/touch pad rather than on touch devices. Hence, touch support was not a requirement when selecting the framework.
+We assume that users prefer to model with devices that have a keyboard and mouse/touch pad rather than on touch devices. Hence, touch support was not a requirement when selecting the framework.
 
 # Building Block View {#section-building-block-view}
 
@@ -204,102 +204,7 @@ The folder structure resembles the layered architecture:
   - `domain` => Domain layer
   - `utils` => Utils layer
 
-The architecture rules are enforced with ArchLint and can be checked by running `npm run archlint.`
-
-### Angular Modules
-
-All arrows represent dependencies.
-
-```mermaid
-
-flowchart TD
-
-app["app
-[Angular Component]"]
-
-header["header
-[Angular Component]"]
-
-settings["settings
-[Angular Component]"]
-
-info["info dialog
-[Angular Component]"]
-
-as-drafts["autosave-drafts
-[Angular Component]"]
-
-as-options["autosave-options
-[Angular Component]"]
-
-as-settings["autosave-settings
-[Angular Component]"]
-
-details-list["details-list
-[Angular Component]"]
-
-classDef component fill:#1168bd,stroke:#0b4884,color:#ffffff
-class app,header,settings,info,as-drafts,as-options,as-settings,details-list component
-
-app---->header & settings
-
-subgraph as-module["autosave module"]
- as-drafts
- as-options
- as-settings
-end
-
-subgraph export-module["export module"]
-end
-
-subgraph import-module["import module"]
-end
-
-subgraph is-module["icon-set configuration module"]
-  details-list
-end
-
-subgraph ld-module["label dictionary module"]
-end
-
-subgraph modeler-module["label dictionary module"]
-end
-
-subgraph title-module["label dictionary module"]
-end
-
-classDef module fill:none,stroke:#BBB stroke-width:2px,color:#BBB,stroke-dasharray: 5 5
-class as-module,export-module,is-module,import-module,ld-module,modeler-module,title-module module
-
-subgraph startup["startup layer"]
- app
-end
-
-subgraph workbench["workbench layer"]
- header
- settings
-end
-
-subgraph tools["tools layer"]
- as-module
- export-module
- import-module
- is-module
- ld-module
- modeler-module
- title-module
-end
-
-
-subgraph domain["domain layer"]
- info
-end
-
-classDef layer fill:none,stroke:#CCC,stroke-width:2px,color:#CCC,stroke-dasharray: 5 5
-class startup,workbench,tools,domain layer
-
-```
-TODO: complete diagram
+The architecture rules are enforced by running `npm run archlint.`
 
 
 ### Technical Layering within Angular Components
@@ -375,7 +280,7 @@ Alternatively, cookies could be used (and in fact were used in earlier Egon vers
 
 Since Egon does not use centralized storage (see [architectural constraints](#section-architecture-constraints)), users need to export their Domain Stories to their local file system as files. 
 
-The most simple way of doing that is to put one domain story into one file and make it self-contained, i.E. include the SVG of the icon set (including custom icons). This makes it easy to share domain stories with other users.
+The most simple way of doing that is to put one domain story into one file and make it self-contained, i.e. include the SVG of the icon set (including custom icons). This makes it easy to share domain stories with other users.
 
 Alternatively a one-to-many relationship (one file containing several Domain Stories) would enable references between Domain Stories. However, this would likely make it necessary to build more features for the export and import tools (e.g., export all stories or just specific ones).
 

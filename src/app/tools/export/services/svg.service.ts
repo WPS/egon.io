@@ -1,6 +1,9 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ConfigAndDST } from 'src/app/tools/export/domain/export/configAndDst';
-import { createTitleAndDescriptionSVGElement } from 'src/app/tools/export/services/exportUtil';
+import {
+  createTitleAndDescriptionSVGElement,
+  ViewBoxCoordinateRegExp,
+} from 'src/app/tools/export/services/exportUtil';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import {
   DEFAULT_PADDING,
@@ -16,10 +19,8 @@ import { sanitizeTextForSVGExport } from 'src/app/utils/sanitizer';
 export class SvgService {
   private cacheData = '';
 
-  constructor(
-    private modelerService: ModelerService,
-    private storyCreatorService: StoryCreatorService,
-  ) {}
+  private readonly modelerService = inject(ModelerService);
+  private readonly storyCreatorService = inject(StoryCreatorService);
 
   createSVGData(
     title: string,
@@ -90,7 +91,6 @@ export class SvgService {
     viewBoxIndex = domainStorySvg.indexOf('" version');
 
     const dataEnd = domainStorySvg.substring(viewBoxIndex);
-    dataEnd.substring(viewBoxIndex);
 
     domainStorySvg = dataStart + bounds + dataEnd;
 
@@ -207,9 +207,7 @@ export class SvgService {
     height: number;
     viewBox: string;
   } {
-    const ViewBoxCoordinate =
-      /width="([^"]+)"\s+height="([^"]+)"\s+viewBox="([^"]+)"/;
-    const match = svg.match(ViewBoxCoordinate);
+    const match = svg.match(ViewBoxCoordinateRegExp);
     if (match) {
       return { width: +match[1], height: +match[2], viewBox: match[3] };
     }

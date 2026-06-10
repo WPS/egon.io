@@ -1,6 +1,7 @@
 @if (!isReplaying) {
   <div>
     <button
+      type="button"
       [disabled]="!isReplayable"
       [class.disabled]="!isReplayable"
       id="buttonStartReplay"
@@ -15,6 +16,7 @@
     </button>
 
     <button
+      type="button"
       id="buttonImport"
       class="headerButton"
       title="Import story from file"
@@ -27,6 +29,7 @@
     </button>
 
     <button
+      type="button"
       id="buttonUrlImport"
       class="headerButton"
       title="Import story from URL"
@@ -40,13 +43,14 @@
 
     <input
       type="file"
-      accept=".dst, .svg, .egn, .svg"
+      accept=".dst, .egn, .svg"
       style="display: none"
       id="import"
       onclick="this.value = null"
       (change)="import.emit()"
     />
     <button
+      type="button"
       [disabled]="!hasDomainStory && !hasTitle"
       [class.disabled]="!hasDomainStory && !hasTitle"
       class="headerButton"
@@ -61,22 +65,21 @@
       <div class="button-label">Export</div>
     </button>
     <button
+      type="button"
       [disabled]="!hasDomainStory"
       [class.disabled]="!hasDomainStory"
       class="headerButton"
-      title="Label Dictionary"
+      title="Change multiple labels at once"
       (click)="openLabelDictionary.emit()"
     >
-      <span
-        class="material-icons-outlined materialIconButton"
-        title="Label Dictionary"
-      >
+      <span class="material-icons-outlined materialIconButton">
         spellcheck
       </span>
       <div class="button-label">Dictionary</div>
     </button>
 
     <button
+      type="button"
       class="headerButton"
       title="Create a new domain story"
       (click)="newStory.emit()"
@@ -85,17 +88,18 @@
       <div class="button-label">New story</div>
     </button>
 
-    <button class="headerButton" title="Settings" (click)="openSettings.emit()">
-      <span
-        class="material-icons-outlined materialIconButton"
-        title="Change Icons and Settings"
-      >
-        settings
-      </span>
+    <button
+      type="button"
+      class="headerButton"
+      title="Change Icons and Settings"
+      (click)="openSettings.emit()"
+    >
+      <span class="material-icons-outlined materialIconButton"> settings </span>
       <div class="button-label">Settings</div>
     </button>
 
     <button
+      type="button"
       class="headerButton"
       title="Show keyboard shortcuts"
       (click)="showKeyboardShortCuts.emit()"
@@ -108,6 +112,7 @@
 @if (isReplaying) {
   <div class="replaying">
     <button
+      type="button"
       class="headerButton"
       title="Previous sentence"
       (click)="previousSentence.emit()"
@@ -118,6 +123,7 @@
       <div class="button-label">Prev.</div>
     </button>
     <button
+      type="button"
       class="headerButton"
       title="Next sentence"
       (click)="nextSentence.emit()"
@@ -128,6 +134,7 @@
       <div class="button-label">Next</div>
     </button>
     <button
+      type="button"
       class="headerButton"
       title="Stop replay"
       (click)="stopReplay.emit()"

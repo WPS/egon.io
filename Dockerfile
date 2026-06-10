@@ -1,5 +1,5 @@
 # Build stage
-FROM node:22-alpine AS build-stage
+FROM node:24-alpine AS build-stage
 WORKDIR /app
 
 COPY . .
@@ -9,7 +9,7 @@ RUN npm run build-prod
 
 
 # Runtime stage
-FROM nginx:1.22-alpine
+FROM nginx:1.29-alpine
 COPY --from=build-stage /app/dist_build/egon /usr/share/nginx/html
 
 EXPOSE 80

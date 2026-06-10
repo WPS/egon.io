@@ -6,11 +6,14 @@ import { MockModule, MockProviders } from 'ng-mocks';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
+  MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { ActivityDialogData } from '../../domain/activityDialogData';
 import { testActivityCanvasObject } from '../../../../domain/entities/activityCanvasObject';
-import { MaterialModule } from 'src/app/material.module';
 
 describe('ActivityDialogComponent', () => {
   let component: ActivityDialogComponent;
@@ -25,8 +28,14 @@ describe('ActivityDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule(MaterialModule), ReactiveFormsModule],
-      declarations: [ActivityDialogComponent],
+      imports: [
+        MockModule(MatDialogModule),
+        MockModule(MatFormFieldModule),
+        MockModule(MatInputModule),
+        MockModule(MatButtonModule),
+        ReactiveFormsModule,
+        ActivityDialogComponent,
+      ],
       providers: [
         MockProviders(MatDialog, MatDialogRef),
         {

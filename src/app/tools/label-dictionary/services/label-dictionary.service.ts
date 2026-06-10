@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { MassNamingService } from 'src/app/tools/label-dictionary/services/mass-naming.service';
@@ -19,16 +19,14 @@ import { CanvasObject } from '../../../domain/entities/canvasObject';
   providedIn: 'root',
 })
 export class LabelDictionaryService {
-  activityLabels: LabelEntry[] = [];
-  workObjektLabels: WorkObjectLabelEntry[] = [];
+  private activityLabels: LabelEntry[] = [];
+  private workObjektLabels: WorkObjectLabelEntry[] = [];
 
-  constructor(
-    private massNamingService: MassNamingService,
-    private elementRegistryService: ElementRegistryService,
-    private iconDictionaryService: IconDictionaryService,
-    private dialogService: DialogService,
-    private snackbar: MatSnackBar,
-  ) {}
+  private readonly massNamingService = inject(MassNamingService);
+  private readonly elementRegistryService = inject(ElementRegistryService);
+  private readonly iconDictionaryService = inject(IconDictionaryService);
+  private readonly dialogService = inject(DialogService);
+  private readonly snackbar = inject(MatSnackBar);
 
   openLabelDictionary() {
     const isActivityWithLabel = (element: CanvasObject) =>
@@ -118,7 +116,7 @@ export class LabelDictionaryService {
   }
 
   getUniqueWorkObjectNames(): String[] {
-    const workObjects = this.elementRegistryService.getAllWorkobjects();
+    const workObjects = this.elementRegistryService.getAllWorkObjects();
     return [
       ...new Set(
         workObjects
