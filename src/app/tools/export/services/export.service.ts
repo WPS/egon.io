@@ -204,6 +204,11 @@ export class ExportService {
         'Download an HTML-Presentation. This does not include the Domain-Story!',
         (filename: string) => this.downloadHTMLPresentation(filename),
       );
+      const ESDMDownloadOption = new ExportOption(
+        'ESDM',
+        'Download an ESDM-File with the Domain-Story. Can be used to save and share your Domain-Story.',
+        () => this.downloadEsdm(false, false, false),
+      );
 
       const config = new MatDialogConfig();
       config.disableClose = false;
@@ -213,6 +218,7 @@ export class ExportService {
         EGNDownloadOption,
         PNGDownloadOption,
         HTMLDownloadOption,
+        ESDMDownloadOption,
       ]);
 
       this.dialogService.openDialog(ExportDialogComponent, config);

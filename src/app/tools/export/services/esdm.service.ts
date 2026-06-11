@@ -11,12 +11,14 @@ import {
   Granularity,
   PointInTime,
 } from 'src/app/tools/export/domain/esdm/event-source-domain-model';
-import { GroupBusinessObject } from 'src/app/domain/entities/groupBusinessObject';
 import { ActivityBusinessObject } from 'src/app/domain/entities/activityBusinessObject';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { StorySentence } from 'src/app/tools/replay/domain/storySentence';
 import { StoryCreatorService } from 'src/app/tools/replay/services/story-creator.service';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
+import { Dictionary } from 'src/app/domain/entities/dictionary';
+import { AnnotationBusinessObject } from 'src/app/domain/entities/annotationBusinessObject';
+import { GroupCanvasObject } from 'src/app/domain/entities/groupCanvasObject';
 
 @Injectable({
   providedIn: 'root',
@@ -35,9 +37,8 @@ export class EsdmService {
   ): EventSourceDomainModel {
     const story: StorySentence[] =
       this.storyCreatorService.traceActivitiesAndCreateStory();
-    const groups: GroupBusinessObject[] = this.elementRegistryService
-      .getAllGroups()
-      .map((g) => g.businessObject);
+    const groups: GroupCanvasObject[] =
+      this.elementRegistryService.getAllGroups();
 
     const { actors, annotations } = this.extractStoryElements(story);
 
@@ -60,13 +61,13 @@ export class EsdmService {
   }
 
   private gatherEsdmGroups(
-    groups: GroupBusinessObject[],
-    annotations: { [p: string]: string },
+    groups: GroupCanvasObject[],
+    annotations: Dictionary,
   ): EventSourceDomainGroup[] {
     return groups.map((group) => {
       return {
-        name: this.toKebapCase(group.id), // TODO Check if correct
-        description: group.name, // TODO Check if correct
+        name: this.toKebapCase(group.id),
+        description: group.name,
         annotation: this.getAnnotation(group.id, annotations),
       };
     });
@@ -74,8 +75,8 @@ export class EsdmService {
 
   private gatherEsdmActors(
     actors: BusinessObject[],
-    groups: GroupBusinessObject[],
-    annotations: { [p: string]: string },
+    groups: GroupCanvasObject[],
+    annotations: Dictionary,
   ) {
     return actors.map((a) => {
       return {
@@ -88,35 +89,32 @@ export class EsdmService {
 
   private gatherAnnotations(
     connections: ActivityBusinessObject[],
-    textAnnotations: BusinessObject[],
-  ): {
-    [p: string]: string;
-  } {
-    const annotations: {
-      [p: string]: string;
-    } = {};
+    textAnnotations: AnnotationBusinessObject[],
+  ): Dictionary {
+    const annotations = new Dictionary();
+
     connections.map((connection) => {
       const name = textAnnotations.find(
         (ta) => ta.id === connection.target,
-      )?.name;
-      if (!!name) {
-        annotations[connection.source] = name;
+      )?.text;
+      if (name) {
+        annotations.set(connection.source, name);
       }
     });
     return annotations;
   }
 
   private extractStoryElements(story: StorySentence[]) {
-    const textAnnotations: BusinessObject[] = [];
+    const textAnnotations: AnnotationBusinessObject[] = [];
     const connections: ActivityBusinessObject[] = [];
     const actors: BusinessObject[] = [];
 
     story[story.length - 1].objects.forEach((object) => {
-      if (object.type === ElementTypes.TEXTANNOTATION) {
-        textAnnotations.push(object);
-      } else if (object.type === ElementTypes.CONNECTION) {
+      if (object.type.includes(ElementTypes.TEXTANNOTATION)) {
+        textAnnotations.push(object as AnnotationBusinessObject);
+      } else if (object.type.includes(ElementTypes.CONNECTION)) {
         connections.push(object as ActivityBusinessObject);
-      } else if (object.type === ElementTypes.ACTOR) {
+      } else if (object.type.includes(ElementTypes.ACTOR)) {
         actors.push(object);
       }
     });
@@ -126,41 +124,47 @@ export class EsdmService {
 
   private buildEdges(
     sentence: BusinessObject[],
-    groups: GroupBusinessObject[],
-    annotations: { [p: string]: string },
+    groups: GroupCanvasObject[],
+    annotations: Dictionary,
   ): EventSourceDomainEdge[] {
     const activities: ActivityBusinessObject[] = sentence
-      .filter((o) => o.type === ElementTypes.ACTIVITY)
+      .filter((o) => o.type.includes(ElementTypes.ACTIVITY))
       .map((a) => a as ActivityBusinessObject);
     return activities.map((a) => {
-      const fromActor =
-        sentence.find((b) => b.id === a.source)?.type === ElementTypes.ACTOR;
-      const toActor =
-        sentence.find((b) => b.id === a.target)?.type === ElementTypes.ACTOR;
+      const fromActor = sentence
+        .find((b) => b.id === a.source)
+        ?.type.includes(ElementTypes.ACTOR);
+      const toActor = sentence
+        .find((b) => b.id === a.target)
+        ?.type.includes(ElementTypes.ACTOR);
 
       return {
         groups: this.getGroupForBusinessObject(groups, a),
         annotation: this.getAnnotation(a.id, annotations),
         label: a.name,
-        to: toActor ? { actor: a.source } : { workObject: a.source },
-        from: fromActor ? { actor: a.source } : { workObject: a.source },
+        to: toActor
+          ? { actor: sentence.find((b) => b.id === a.source)!.name }
+          : { workObject: sentence.find((b) => b.id === a.source)!.name },
+        from: fromActor
+          ? { actor: sentence.find((b) => b.id === a.target)!.name }
+          : { workObject: sentence.find((b) => b.id === a.target)!.name },
       };
     });
   }
 
   private getGroupForBusinessObject(
-    groups: GroupBusinessObject[],
+    groups: GroupCanvasObject[],
     object: BusinessObject,
   ) {
     return groups
-      .filter((g) => g.children.includes(object.id))
+      .filter((g) => g.children!.map((c) => c.id).includes(object.id))
       .map((g) => g.id);
   }
 
   private createEsdmSentences(
     story: StorySentence[],
-    groups: GroupBusinessObject[],
-    annotations: { [p: string]: string },
+    groups: GroupCanvasObject[],
+    annotations: Dictionary,
   ): EventSourceDomainSentence[] {
     const sentences: BusinessObject[][] = story.map((sentence) =>
       sentence.objects.filter((o) =>
@@ -180,7 +184,7 @@ export class EsdmService {
       );
 
       const workObjects: EventSourceDomainWorkObject[] = sentence
-        .filter((o) => o.type === ElementTypes.WORKOBJECT)
+        .filter((o) => o.type.includes(ElementTypes.WORKOBJECT))
         .map((w) => {
           return {
             name: this.toKebapCase(w.name),
@@ -189,7 +193,7 @@ export class EsdmService {
           };
         });
       esdmSentences.push({
-        sequenceNumber: i+1,
+        sequenceNumber: i + 1,
         edges: edges,
         workObjects,
       });
@@ -206,8 +210,8 @@ export class EsdmService {
     };
   }
 
-  private getAnnotation(id: string, annotations: { [p: string]: string }) {
-    return annotations[id];
+  private getAnnotation(id: string, annotations: Dictionary) {
+    return annotations.get(id);
   }
 
   private toKebapCase(value: string): string {
