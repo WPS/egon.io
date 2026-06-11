@@ -17,11 +17,11 @@ export class IconDictionaryService {
 
   // The dictionaries hold icons (as SVG) and icon names as key-value pairs
 
-  private readonly customIcons = new Dictionary();
+  private readonly customIcons = new Dictionary<string>();
 
   // these dictionaries make up the current icon set:
-  private selectedActorsDictionary = new Dictionary();
-  private selectedWorkObjectsDictionary = new Dictionary();
+  private selectedActorsDictionary = new Dictionary<string>();
+  private selectedWorkObjectsDictionary = new Dictionary<string>();
 
   // default icon sets:
   private readonly NAMES_OF_DEFAULT_ICONS = {
@@ -35,8 +35,8 @@ export class IconDictionaryService {
       'Info',
     ],
   };
-  private readonly defaultActorsDictionary = new Dictionary();
-  private readonly defaultWorkObjectsDictionary = new Dictionary();
+  private readonly defaultActorsDictionary = new Dictionary<string>();
+  private readonly defaultWorkObjectsDictionary = new Dictionary<string>();
   private readonly defaultIconSet: IconSet = (() => {
     this.initDictionary(
       this.NAMES_OF_DEFAULT_ICONS.actors,
@@ -66,8 +66,8 @@ export class IconDictionaryService {
 
   private initDictionary(
     selectedIconNames: string[],
-    allIcons: Dictionary,
-    dictionary: Dictionary,
+    allIcons: Dictionary<string>,
+    dictionary: Dictionary<string>,
   ) {
     dictionary.clear();
     for (const key of selectedIconNames) {
@@ -91,14 +91,14 @@ export class IconDictionaryService {
     this.getDictionaryForType(type).delete(name);
   }
 
-  private getDictionaryForType(type: ElementTypes): Dictionary {
+  private getDictionaryForType(type: ElementTypes): Dictionary<string> {
     switch (type) {
       case ElementTypes.ACTOR:
         return this.selectedActorsDictionary;
       case ElementTypes.WORKOBJECT:
         return this.selectedWorkObjectsDictionary;
       default:
-        return new Dictionary();
+        return new Dictionary<string>();
     }
   }
 
@@ -107,7 +107,7 @@ export class IconDictionaryService {
   // 1. add new custom icons (if any)
   // 2. update which icons are selected as actors/work objects
   updateIconRegistries(config: IconSet): void {
-    const newIcons = new Dictionary();
+    const newIcons = new Dictionary<string>();
     this.extractCustomIconsFromDictionary(config.actors, newIcons);
     this.extractCustomIconsFromDictionary(config.workObjects, newIcons);
     this.addCustomIcons(newIcons);
@@ -115,8 +115,8 @@ export class IconDictionaryService {
   }
 
   private extractCustomIconsFromDictionary(
-    elementDictionary: Dictionary,
-    customIcons: Dictionary,
+    elementDictionary: Dictionary<string>,
+    customIcons: Dictionary<string>,
   ) {
     elementDictionary.keysArray().forEach((name) => {
       const sanitizedName = sanitizeIconName(name);
@@ -131,7 +131,7 @@ export class IconDictionaryService {
     this.iconCssService.addIconsToCss(iconSrc, name);
   }
 
-  private addCustomIcons(icons: Dictionary) {
+  private addCustomIcons(icons: Dictionary<string>) {
     icons.keysArray().forEach((key) => {
       const custom = icons.get(key);
       this.addCustomIcon(custom, key);
@@ -140,20 +140,20 @@ export class IconDictionaryService {
 
   /** Getter & Setter **/
 
-  getFullDictionary(): Dictionary {
-    const fullDictionary = new Dictionary();
+  getFullDictionary(): Dictionary<string> {
+    const fullDictionary = new Dictionary<string>();
     fullDictionary.appendDict(builtInIcons);
     fullDictionary.appendDict(this.customIcons);
     return fullDictionary;
   }
 
-  getIconsAssignedAs(type: ElementTypes): Dictionary {
+  getIconsAssignedAs(type: ElementTypes): Dictionary<string> {
     if (type === ElementTypes.ACTOR) {
       return this.selectedActorsDictionary;
     } else if (type === ElementTypes.WORKOBJECT) {
       return this.selectedWorkObjectsDictionary;
     }
-    return new Dictionary();
+    return new Dictionary<string>();
   }
 
   getCSSClassOfIcon(name: string): string | null {

@@ -7,12 +7,12 @@ import { IconSetImportExportService } from '../../icon-set-config/services/icon-
 import { ExportService } from '../../export/services/export.service';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { Draft } from '../domain/draft';
-import { testConfigAndDst } from '../../export/domain/export/configAndDst';
 import { StorageService } from '../../../domain/services/storage.service';
 import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DRAFTS_KEY } from 'src/app/domain/entities/constants';
 import { signal } from '@angular/core';
+import { testConfigAndDst } from 'src/app/tools/export/services/test-files/test_config_and_dst';
 
 describe('AutosaveService', () => {
   let service: AutosaveService;

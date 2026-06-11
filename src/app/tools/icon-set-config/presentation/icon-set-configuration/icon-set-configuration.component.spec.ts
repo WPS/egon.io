@@ -24,8 +24,8 @@ describe(IconSetConfigurationComponent.name, () => {
           }),
         },
         MockProvider(IconDictionaryService, {
-          getFullDictionary(): Dictionary {
-            return new Dictionary();
+          getFullDictionary(): Dictionary<string> {
+            return new Dictionary<string>();
           },
         }),
         {

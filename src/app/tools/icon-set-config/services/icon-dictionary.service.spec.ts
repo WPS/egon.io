@@ -55,8 +55,8 @@ describe('IconDictionaryService', () => {
       const workObject = structuredClone(testBusinessObject);
       workObject.type = ElementTypes.WORKOBJECT + 'Gavel';
 
-      const actorsDict = new Dictionary();
-      const workObjectsDict = new Dictionary();
+      const actorsDict = new Dictionary<string>();
+      const workObjectsDict = new Dictionary<string>();
 
       actorsDict.set('Dollar', actor);
       workObjectsDict.set('Gavel', workObject);
@@ -109,8 +109,8 @@ describe('IconDictionaryService', () => {
   });
 
   describe('updateIconRegistries', () => {
-    const actorsDict = new Dictionary();
-    const workObjectsDict = new Dictionary();
+    const actorsDict = new Dictionary<string>();
+    const workObjectsDict = new Dictionary<string>();
 
     actorsDict.set('TestCustomActor', 'svg1');
     workObjectsDict.set('TestCustomWorkObject', 'svg2');

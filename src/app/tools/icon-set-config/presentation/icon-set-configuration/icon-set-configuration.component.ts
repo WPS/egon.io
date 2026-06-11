@@ -45,7 +45,7 @@ export class IconSetConfigurationComponent {
     IconFilterOptions.NO_FILTER,
   );
 
-  readonly allIcons: WritableSignal<Dictionary> = signal(
+  readonly allIcons: WritableSignal<Dictionary<string>> = signal(
     this.iconDictionaryService.getFullDictionary(),
   );
   readonly allIconNames: WritableSignal<string[]> = signal([]);

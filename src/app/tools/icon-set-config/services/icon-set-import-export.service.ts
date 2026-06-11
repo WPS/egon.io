@@ -111,13 +111,13 @@ export class IconSetImportExportService {
   }
 
   private createConfigFromDictionaries(
-    actorsDict: Dictionary,
-    workObjectsDict: Dictionary,
+    actorsDict: Dictionary<string>,
+    workObjectsDict: Dictionary<string>,
   ): IconSet {
     const actorNames = actorsDict.keysArray();
     const workObjectNames = workObjectsDict.keysArray();
-    const newActors = new Dictionary();
-    const newWorkObjects = new Dictionary();
+    const newActors = new Dictionary<string>();
+    const newWorkObjects = new Dictionary<string>();
 
     // Fill Configuration from Canvas-Objects
     actorNames.forEach((actor) => {
@@ -146,8 +146,8 @@ export class IconSetImportExportService {
     if (fileConfiguration === undefined) {
       return {
         name: '',
-        actors: new Dictionary(),
-        workObjects: new Dictionary(),
+        actors: new Dictionary<string>(),
+        workObjects: new Dictionary<string>(),
       };
     }
 

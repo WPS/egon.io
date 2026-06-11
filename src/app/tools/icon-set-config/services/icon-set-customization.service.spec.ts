@@ -68,12 +68,12 @@ describe(IconSetCustomizationService.name, () => {
       ['getUsedIcons'],
     );
 
-    const actorDefaultDictionary = new Dictionary();
+    const actorDefaultDictionary = new Dictionary<string>();
     actorDefaultDictionary.set('actorkey', 'actorSvg');
     const INITIAL_ICON_SET_CONFIGURATION = {
       name: INITIAL_ICON_SET_NAME,
       actors: actorDefaultDictionary,
-      workObjects: new Dictionary(),
+      workObjects: new Dictionary<string>(),
     };
 
     TestBed.configureTestingModule({
@@ -113,8 +113,12 @@ describe(IconSetCustomizationService.name, () => {
       IconDictionaryService,
     ) as jasmine.SpyObj<IconDictionaryService>;
 
-    iconDictionarySpy.getFullDictionary.and.returnValue(new Dictionary());
-    iconDictionarySpy.getIconsAssignedAs.and.returnValue(new Dictionary());
+    iconDictionarySpy.getFullDictionary.and.returnValue(
+      new Dictionary<string>(),
+    );
+    iconDictionarySpy.getIconsAssignedAs.and.returnValue(
+      new Dictionary<string>(),
+    );
     elementRegistryServiceMock.getUsedIcons.and.returnValue({
       actors: [],
       workObjects: [],
@@ -132,8 +136,8 @@ describe(IconSetCustomizationService.name, () => {
   });
 
   describe('import icon set', () => {
-    const actors = new Dictionary();
-    const workObjects = new Dictionary();
+    const actors = new Dictionary<string>();
+    const workObjects = new Dictionary<string>();
 
     actors.set('Person', 'svg1');
     actors.set('Pet', 'svg2');

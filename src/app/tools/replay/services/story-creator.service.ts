@@ -15,7 +15,7 @@ export class StoryCreatorService {
   private readonly elementRegistryService = inject(ElementRegistryService);
 
   traceActivitiesAndCreateStory(): StorySentence[] {
-    const tracedActivityMap = new Dictionary();
+    const tracedActivityMap = new Dictionary<CanvasObject>();
     const story: StorySentence[] = [];
     const activities = this.elementRegistryService.getActivitiesFromActors();
     const tracedActivityMapKeys: number[] = [];
@@ -40,7 +40,7 @@ export class StoryCreatorService {
   }
 
   private createSentence(
-    tracedActivityMap: Dictionary,
+    tracedActivityMap: Dictionary<CanvasObject>,
     tracedActivityMapKey: number,
     story: StorySentence[],
     storyIndex: number,

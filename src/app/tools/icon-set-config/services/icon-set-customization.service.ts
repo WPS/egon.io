@@ -40,7 +40,9 @@ interface IconSetSelection {
   providedIn: 'root',
 })
 export class IconSetCustomizationService {
-  private readonly allIconListItems = new Dictionary();
+  private readonly allIconListItems = new Dictionary<
+    BehaviorSubject<SelectableIcon>
+  >();
 
   private configurationHasChanged = false;
 
@@ -338,8 +340,8 @@ export class IconSetCustomizationService {
   private createIconSetFromCanvas(): IconSet {
     const config = {
       name: INITIAL_ICON_SET_NAME,
-      actors: new Dictionary(),
-      workObjects: new Dictionary(),
+      actors: new Dictionary<string>(),
+      workObjects: new Dictionary<string>(),
     };
 
     const allCanvasObjects = this.elementRegistryService.getAllCanvasObjects();
@@ -467,8 +469,8 @@ export class IconSetCustomizationService {
   }
 
   private createIconSetConfiguration(): IconSet {
-    const actors = new Dictionary();
-    const workObjects = new Dictionary();
+    const actors = new Dictionary<string>();
+    const workObjects = new Dictionary<string>();
 
     this.iconSetConfigurationTypesSignal().actors.forEach((name: string) => {
       actors.set(name, this.iconDictionaryService.getIconSource(name));

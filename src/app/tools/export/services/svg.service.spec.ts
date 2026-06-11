@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { SvgService } from 'src/app/tools/export/services/svg.service';
 import { ModelerService } from '../../modeler/services/modeler.service';
-import { testConfigAndDst } from '../domain/export/configAndDst';
 import { MINIMAL_SVG, TEST_SVG } from './spec/testSVG';
 import { sanitizeTextForSVGExport } from 'src/app/utils/sanitizer';
+import { testConfigAndDst } from 'src/app/tools/export/services/test-files/test_config_and_dst';
 
 describe('SvgService', () => {
   let service: SvgService;
