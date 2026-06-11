@@ -89,6 +89,7 @@ export class AutosaveService {
       false,
     );
 
+    console.log('loadDraft');
     this.importConfigChangedSignal.set(iconSet);
     this.modelerService.importStory(businessObjects, iconSet, fitToScreen);
   }

@@ -3,6 +3,7 @@ import {
   inject,
   Injectable,
   signal,
+  untracked,
   WritableSignal,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
@@ -88,8 +89,14 @@ export class IconSetCustomizationService {
     effect(() => {
       const importConfigChanged = this.autosaveService.importConfigChanged();
       if (importConfigChanged) {
-        this.importConfiguration(importConfigChanged!, false);
-        this.updateAllIconBehaviorSubjects();
+        // effects track EVERY SIGNAL inside their executionChain.
+        // importConfiguration triggers both selectedActorsSignal and selectedWorkObjectsSignal
+        // => if these are tracked, then selecting an Icon to be an actor or workobjects
+        // triggers the import chich then resets the configuration to its initial state
+        untracked(() => {
+          this.importConfiguration(importConfigChanged!, false);
+          this.updateAllIconBehaviorSubjects();
+        });
       }
     });
 
@@ -216,6 +223,7 @@ export class IconSetCustomizationService {
         workObjects: currentIconSetSelection.workObjects,
         name: currentIconSetSelection.name,
       });
+      console.log('selectActor');
       this.updateActorSignal();
     }
   }
@@ -243,6 +251,7 @@ export class IconSetCustomizationService {
       });
     }
     this.iconDictionaryService.unregisterIconForType(ElementTypes.ACTOR, actor);
+    console.log('deselectActor', actor);
     this.updateActorSignal();
   }
 
@@ -274,10 +283,13 @@ export class IconSetCustomizationService {
     const value = this.iconSetConfigurationTypesSignal();
     value.actors = sortedList;
     this.iconSetConfigurationTypesSignal.set(value);
+    console.log('setSelectedActors');
     this.updateActorSignal();
   }
 
   private updateActorSignal(): void {
+    console.log('updateActorSignal');
+    console.log(this.iconSetConfigurationTypesSignal().actors);
     this.selectedActorsSignal.set(
       this.iconSetConfigurationTypesSignal().actors,
     );
