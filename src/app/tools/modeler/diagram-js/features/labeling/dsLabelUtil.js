@@ -127,7 +127,7 @@ export function createAutocompleteForEdit(
       this.value = this.innerHTML;
     }
 
-    let searchterm = this.value?.toUpperCase() | "";
+    let searchterm = this.value?.toUpperCase()? this.value.toUpperCase() : "";
     currentFocus = -1;
 
     clearOldAutocompleteList();
