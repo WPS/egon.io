@@ -52,6 +52,7 @@ export function sanitizeIconName(name: string): string {
     '(': '',
     ')': '',
     ' ': '-',
+    '.': '_',
   };
   const reg = /[/\\:*?"<>|() ]/gi;
   return nameWithoutFileEnding.trim().replace(reg, (match) => map[match]);
