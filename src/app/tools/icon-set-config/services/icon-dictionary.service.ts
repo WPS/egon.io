@@ -119,9 +119,8 @@ export class IconDictionaryService {
     customIcons: Dictionary,
   ) {
     elementDictionary.keysArray().forEach((name) => {
-      const sanitizedName = sanitizeIconName(name);
-      if (!this.getFullDictionary().has(sanitizedName)) {
-        customIcons.set(sanitizedName, elementDictionary.get(name));
+      if (!this.getFullDictionary().has(name)) {
+        customIcons.set(name, elementDictionary.get(name));
       }
     });
   }
