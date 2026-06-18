@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { builtInIcons } from 'src/app/tools/icon-set-config/domain/builtInIcons';
-import { sanitizeIconName } from '../../../utils/sanitizer';
+import { sanitizeForCss, sanitizeIconName } from '../../../utils/sanitizer';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { INITIAL_ICON_SET_NAME } from 'src/app/domain/entities/constants';
 import { IconCssService } from 'src/app/tools/icon-set-config/services/icon-css.service';
@@ -119,9 +119,8 @@ export class IconDictionaryService {
     customIcons: Dictionary,
   ) {
     elementDictionary.keysArray().forEach((name) => {
-      const sanitizedName = sanitizeIconName(name);
-      if (!this.getFullDictionary().has(sanitizedName)) {
-        customIcons.set(sanitizedName, elementDictionary.get(name));
+      if (!this.getFullDictionary().has(name)) {
+        customIcons.set(name, elementDictionary.get(name));
       }
     });
   }
@@ -157,7 +156,7 @@ export class IconDictionaryService {
   }
 
   getCSSClassOfIcon(name: string): string | null {
-    return ICON_CSS_CLASS_PREFIX + sanitizeIconName(name.toLowerCase());
+    return ICON_CSS_CLASS_PREFIX + sanitizeForCss(name);
   }
 
   getIconSource(name: string): string | null {
