@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { builtInIcons } from 'src/app/tools/icon-set-config/domain/builtInIcons';
-import { sanitizeForCss, sanitizeIconName } from '../../../utils/sanitizer';
+import { sanitizeForCss } from '../../../utils/sanitizer';
 import { IconSet } from '../../../domain/entities/iconSet';
 import { INITIAL_ICON_SET_NAME } from 'src/app/domain/entities/constants';
 import { IconCssService } from 'src/app/tools/icon-set-config/services/icon-css.service';
@@ -35,32 +35,34 @@ export class IconDictionaryService {
       'Info',
     ],
   };
-  private readonly defaultActorsDictionary = new Dictionary();
-  private readonly defaultWorkObjectsDictionary = new Dictionary();
-  private readonly defaultIconSet: IconSet = (() => {
+
+  private createDefaultIconSet(): IconSet {
+    const defaultActorsDictionary = new Dictionary();
+    const defaultWorkObjectsDictionary = new Dictionary();
+
     this.initDictionary(
       this.NAMES_OF_DEFAULT_ICONS.actors,
       builtInIcons,
-      this.defaultActorsDictionary,
+      defaultActorsDictionary,
     );
     this.initDictionary(
       this.NAMES_OF_DEFAULT_ICONS.workObjects,
       builtInIcons,
-      this.defaultWorkObjectsDictionary,
+      defaultWorkObjectsDictionary,
     );
     return {
       name: INITIAL_ICON_SET_NAME,
-      actors: this.defaultActorsDictionary,
-      workObjects: this.defaultWorkObjectsDictionary,
+      actors: defaultActorsDictionary,
+      workObjects: defaultWorkObjectsDictionary,
     };
-  })();
+  }
 
   initTypeDictionaries(): void {
     if (
       this.selectedActorsDictionary.isEmpty() &&
       this.selectedWorkObjectsDictionary.isEmpty()
     ) {
-      this.setIconSet(this.defaultIconSet);
+      this.setIconSet(this.createDefaultIconSet());
     }
   }
 
@@ -174,6 +176,6 @@ export class IconDictionaryService {
   }
 
   getDefaultIconSet(): IconSet {
-    return this.defaultIconSet;
+    return this.createDefaultIconSet();
   }
 }
