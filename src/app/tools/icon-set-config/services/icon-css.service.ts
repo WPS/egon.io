@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { sanitizeIconName } from 'src/app/utils/sanitizer';
 import { ICON_CSS_CLASS_PREFIX } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
+import { sanitizeForCss } from 'src/app/utils/sanitizer';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +15,11 @@ export class IconCssService {
     const iconStyle =
       '.' +
       ICON_CSS_CLASS_PREFIX +
-      sanitizeIconName(iconName.toLowerCase()) +
+      sanitizeForCss(iconName) +
       '::before{ content: url("data:image/svg+xml;utf8,' +
       this.wrapSRCInSVG(iconSrc) +
       '"); margin: 3px;}';
+    console.log(iconStyle);
     // @ts-ignore
     sheetEl?.sheet?.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
   }
