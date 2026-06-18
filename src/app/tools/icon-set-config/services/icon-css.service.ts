@@ -19,7 +19,6 @@ export class IconCssService {
       '::before{ content: url("data:image/svg+xml;utf8,' +
       this.wrapSRCInSVG(iconSrc) +
       '"); margin: 3px;}';
-    console.log(iconStyle);
     // @ts-ignore
     sheetEl?.sheet?.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
   }
