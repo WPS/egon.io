@@ -7,6 +7,11 @@ import { TitleService } from '../../title/services/title.service';
 import { ViewBoxCoordinateRegExp } from 'src/app/tools/export/services/exportUtil';
 import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 import { downloadFile } from 'src/app/utils/downloadFile';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  SNACKBAR_DURATION,
+  SNACKBAR_ERROR,
+} from 'src/app/domain/entities/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +23,7 @@ export class HtmlPresentationService {
   private readonly replayService = inject(ReplayService);
   private readonly titleService = inject(TitleService);
   private readonly modeler = inject(ModelerService);
+  private readonly snackbar = inject(MatSnackBar);
 
   private multiplexSecret: any;
   private multiplexId: any;
@@ -38,36 +44,27 @@ export class HtmlPresentationService {
     const svgData = [];
     // export all sentences of domain story
     this.replayService.startReplay();
-    try {
-      const result = await this.modeler.getModeler().saveSVG({});
-      this.fixActivityMarkersForEachSentence(
-        result,
-        this.replayService.getCurrentSentenceNumber(),
-      );
-      svgData.push({
-        content: HtmlPresentationService.createSVGData(result.svg),
-        transition: 'slide',
-      });
-    } catch (err) {
-      alert('There was an error exporting the SVG.\n' + err);
-    }
     while (
-      this.replayService.getCurrentSentenceNumber() <
-      this.replayService.getMaxSentenceNumber()
+      this.replayService.currentSentence() <
+      this.replayService.maxSentenceNumber()
     ) {
-      this.replayService.nextSentence();
       try {
-        const result = await this.modeler.getModeler().saveSVG({});
-        this.fixActivityMarkersForEachSentence(
-          result,
-          this.replayService.getCurrentSentenceNumber(),
-        );
-        svgData.push({
-          content: HtmlPresentationService.createSVGData(result.svg),
-          transition: 'slide',
-        });
+        svgData.push(await this.getSvgItemsForSentence());
       } catch (err) {
-        alert('There was an error exporting the SVG.\n' + err);
+        this.snackbar.open(
+          'There was an error exporting the SVG.\n' + err,
+          undefined,
+          {
+            duration: SNACKBAR_DURATION,
+            panelClass: SNACKBAR_ERROR,
+          },
+        );
+      }
+      if (
+        this.replayService.currentSentence() <
+        this.replayService.maxSentenceNumber() - 1
+      ) {
+        this.replayService.nextSentence();
       }
     }
     this.replayService.stopReplay();
@@ -91,6 +88,18 @@ export class HtmlPresentationService {
       '.html',
       false,
     );
+  }
+
+  private async getSvgItemsForSentence() {
+    const result = await this.modeler.getModeler().saveSVG({});
+    this.fixActivityMarkersForEachSentence(
+      result,
+      this.replayService.currentSentence(),
+    );
+    return {
+      content: HtmlPresentationService.createSVGData(result.svg),
+      transition: 'slide',
+    };
   }
 
   private fixMalformedHtmlScript(

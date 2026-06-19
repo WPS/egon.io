@@ -30,7 +30,7 @@ AdditionalKeyboardBindings.prototype.registerBindings = function (
   // select all elements
   // CTRL + A
   addListener("selectElements", function (context) {
-    var event = context.keyEvent;
+    const event = context.keyEvent;
 
     if (keyboard.isKey(["a", "A"], event) && keyboard.isCmd(event)) {
       editorActions.trigger("selectElements");
@@ -42,7 +42,7 @@ AdditionalKeyboardBindings.prototype.registerBindings = function (
   // activate space tool
   // S
   addListener("spaceTool", function (context) {
-    var event = context.keyEvent;
+    const event = context.keyEvent;
 
     if (keyboard.hasModifier(event)) {
       return;
@@ -58,7 +58,7 @@ AdditionalKeyboardBindings.prototype.registerBindings = function (
   // activate lasso tool
   // L
   addListener("lassoTool", function (context) {
-    var event = context.keyEvent;
+    const event = context.keyEvent;
 
     if (keyboard.hasModifier(event)) {
       return;
@@ -74,7 +74,7 @@ AdditionalKeyboardBindings.prototype.registerBindings = function (
   // activate hand tool
   // H
   addListener("handTool", function (context) {
-    var event = context.keyEvent;
+    const event = context.keyEvent;
 
     if (keyboard.hasModifier(event)) {
       return;
@@ -90,7 +90,7 @@ AdditionalKeyboardBindings.prototype.registerBindings = function (
   // activate direct editing
   // E
   addListener("directEditing", function (context) {
-    var event = context.keyEvent;
+    const event = context.keyEvent;
 
     if (keyboard.hasModifier(event)) {
       return;

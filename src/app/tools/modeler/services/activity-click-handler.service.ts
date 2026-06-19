@@ -30,7 +30,7 @@ export class ActivityClickHandlerService {
     this.commandStack = commandStack;
   }
 
-  /** Overrrides for Canvas Functions **/
+  /** Overrides for Canvas Functions **/
   public activityDoubleClick(activity: ActivityCanvasObject): void {
     const source = activity.source;
 

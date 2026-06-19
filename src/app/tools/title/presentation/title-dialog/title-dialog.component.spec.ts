@@ -61,7 +61,7 @@ describe('HeaderDialogComponent', () => {
     dirtyFlagService = TestBed.inject(DirtyFlagService);
     dialogRef = TestBed.inject(MatDialogRef);
 
-    spyOn(titleService, 'updateTitleAndDescription');
+    spyOn(titleService, 'updateTitleAndDescriptionAndScope');
     spyOn(dirtyFlagService, 'makeDirty');
     spyOn(titleService, 'getTitle').and.returnValue(INITIAL_TITLE);
     spyOn(titleService, 'getDescription').and.returnValue(INITIAL_DESCRIPTION);
@@ -84,7 +84,7 @@ describe('HeaderDialogComponent', () => {
     });
 
     it('should call updateTitleAndDescription', () => {
-      expect(titleService.updateTitleAndDescription).toHaveBeenCalled();
+      expect(titleService.updateTitleAndDescriptionAndScope).toHaveBeenCalled();
     });
 
     it('should call markDirty', () => {
@@ -102,7 +102,9 @@ describe('HeaderDialogComponent', () => {
     });
 
     it('should NOT call updateTitleAndDescription', () => {
-      expect(titleService.updateTitleAndDescription).not.toHaveBeenCalled();
+      expect(
+        titleService.updateTitleAndDescriptionAndScope,
+      ).not.toHaveBeenCalled();
     });
     it('should NOT call markDirty', () => {
       expect(dirtyFlagService.makeDirty).not.toHaveBeenCalled();

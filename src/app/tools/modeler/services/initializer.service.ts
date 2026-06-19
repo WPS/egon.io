@@ -53,7 +53,7 @@ export class InitializerService {
 
   initiateEventBusListeners(eventBus: any): void {
     eventBus.on('element.dblclick', (event: any) => {
-      if (!this.replayService.getReplayOn()) {
+      if (!this.replayService.replayOn()) {
         const element = event.element;
         if (element.type === ElementTypes.ACTIVITY) {
           // override the doubleClickListener on activities
@@ -79,7 +79,7 @@ export class InitializerService {
       ],
       10000000000,
       (event: any) => {
-        if (this.replayService.getReplayOn()) {
+        if (this.replayService.replayOn()) {
           event.stopPropagation();
           event.preventDefault();
         }

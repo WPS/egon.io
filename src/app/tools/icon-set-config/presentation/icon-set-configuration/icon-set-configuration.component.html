@@ -6,7 +6,7 @@
         <button
           type="button"
           mat-button
-          [class.activeNone]="(filter | async) === 'ICON_FILTER_UNASSIGNED'"
+          [class.activeNone]="filter() === 'ICON_FILTER_UNASSIGNED'"
           title="Unassigned Icons"
           (click)="filterForUnassigned()"
         >
@@ -15,7 +15,7 @@
         <button
           type="button"
           mat-button
-          [class.activeActor]="(filter | async) === 'ICON_FILTER_ACTOR'"
+          [class.activeActor]="filter() === 'ICON_FILTER_ACTOR'"
           title="Icons used as actors"
           (click)="filterForActors()"
         >
@@ -24,9 +24,7 @@
         <button
           type="button"
           mat-button
-          [class.activeWorkObject]="
-            (filter | async) === 'ICON_FILTER_WORKOBJECT'
-          "
+          [class.activeWorkObject]="filter() === 'ICON_FILTER_WORKOBJECT'"
           title="Icons used as work objects"
           (click)="filterForWorkObjects()"
         >
@@ -111,7 +109,7 @@
       </div>
     </div>
     <div class="iconList smallScrollbar">
-      @for (iconName of allFilteredIconNames | async; track iconName) {
+      @for (iconName of allFilteredIconNames(); track iconName) {
         <app-selectable-icon [iconName]="iconName"></app-selectable-icon>
       }
     </div>

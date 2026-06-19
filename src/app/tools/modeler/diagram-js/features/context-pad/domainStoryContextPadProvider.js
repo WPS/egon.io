@@ -39,14 +39,14 @@ export default function DomainStoryContextPadProvider(
   let startConnect;
 
   eventBus.on("create.end", 250, function (event) {
-    var context = event.context,
+    const context = event.context,
       shape = context.shape;
 
     if (!hasPrimaryModifier(event) || !contextPad.isOpen(shape)) {
       return;
     }
 
-    var entries = contextPad.getEntries(shape);
+    const entries = contextPad.getEntries(shape);
 
     if (entries.replace) {
       entries.replace.action.click(event, shape);
@@ -126,7 +126,7 @@ export default function DomainStoryContextPadProvider(
 
   function addDelete(actions, element) {
     // delete element entry, only show if allowed by rules
-    var deleteAllowed = rules.allowed("elements.delete", {
+    const deleteAllowed = rules.allowed("elements.delete", {
       elements: { element },
     });
 

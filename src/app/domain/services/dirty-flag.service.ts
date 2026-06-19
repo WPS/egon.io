@@ -1,22 +1,17 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DirtyFlagService {
-  private readonly isDirtySubject = new BehaviorSubject<boolean>(false);
-  readonly dirty$ = this.isDirtySubject.asObservable();
+  private readonly isDirtySignal = signal(false);
+  readonly dirty = this.isDirtySignal.asReadonly();
 
   makeDirty(): void {
-    this.isDirtySubject.next(true);
+    this.isDirtySignal.set(true);
   }
 
   makeClean(): void {
-    this.isDirtySubject.next(false);
-  }
-
-  get dirty(): boolean {
-    return this.isDirtySubject.value;
+    this.isDirtySignal.set(false);
   }
 }

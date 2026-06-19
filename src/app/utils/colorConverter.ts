@@ -19,7 +19,7 @@ const convertHexUnitTo256 = (hexStr: string) =>
   parseInt(hexStr.repeat(2 / hexStr.length), 16);
 const getAlphafloat = (a: number | undefined) => {
   if (typeof a !== 'undefined') {
-    return Math.round((a / 255 + Number.EPSILON) * 100) / 100; // Runden auf 2 oder weniger Nachkommastellen
+    return Math.round((a / 255 + Number.EPSILON) * 100) / 100; // Round to 2 or less decimal places
   }
   return 1;
 };
@@ -31,7 +31,7 @@ export const hexToRGBA = (hex: string) => {
   if (!isValidHex(hex)) {
     throw new Error('Invalid HEX');
   }
-  const chunkSize = Math.floor((hex.length - 1) / 3); // 1 falls hex 3-4 Stellen, 2 falls hex 6 oder 8 Stellen
+  const chunkSize = Math.floor((hex.length - 1) / 3); // 1 if hex has 3-4 digits, 2 if hex  has 6 or 8 digits
   const hexArr = getChunksFromString(hex.slice(1), chunkSize);
   const [r, g, b, a] = hexArr.map(convertHexUnitTo256);
   return `rgba(${r},${g},${b},${getAlphafloat(a)})`;

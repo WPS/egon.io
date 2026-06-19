@@ -6,7 +6,7 @@
         (click)="openHeaderDialog()"
         title="Edit title and description"
       >
-        {{ title$ | async }}
+        {{ this.titleService.title() }}
       </span>
     </div>
 
@@ -19,7 +19,7 @@
       <span class="material-icons-outlined materialIconButton"> edit </span>
       <div class="button-label">Title</div>
     </button>
-    @if (showDescription | async) {
+    @if (showDescription()) {
       <button
         type="button"
         class="headerButton"
@@ -32,7 +32,7 @@
         <div class="button-label">Description</div>
       </button>
     }
-    @if (!(showDescription | async)) {
+    @if (!showDescription()) {
       <button
         type="button"
         class="headerButton"
@@ -51,9 +51,9 @@
       class="nowrap"
       [hasDomainStory]="hasDomainStory"
       [hasTitle]="hasTitle"
-      [isDirty]="isDirty$ | async"
+      [isDirty]="isDirty()"
       [isReplayable]="isReplayable"
-      [isReplaying]="isReplay$ | async"
+      [isReplaying]="isReplayOn()"
       (import)="onImport()"
       (openSettings)="openSettings()"
       (startReplay)="startReplay()"
@@ -68,8 +68,8 @@
     />
   </mat-toolbar-row>
 </mat-toolbar>
-@if (showDescription$ | async) {
+@if (showDescription()) {
   <mat-card class="smallScrollbar description">
-    <span class="descriptionText">{{ description$ | async }}</span>
+    <span class="descriptionText">{{ description() }}</span>
   </mat-card>
 }

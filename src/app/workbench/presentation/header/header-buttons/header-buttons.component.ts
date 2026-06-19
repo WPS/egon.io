@@ -1,5 +1,11 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { combineLatest, map, Observable } from 'rxjs';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  output,
+  Signal,
+} from '@angular/core';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
 
 import { CommonModule } from '@angular/common';
@@ -8,52 +14,32 @@ import { CommonModule } from '@angular/common';
   selector: 'app-header-buttons',
   templateUrl: './header-buttons.component.html',
   styleUrls: ['./header-buttons.component.scss'],
-  standalone: true,
+
   imports: [CommonModule],
 })
 export class HeaderButtonsComponent {
   private readonly replayService = inject(ReplayService);
 
-  readonly sentenceDescription$: Observable<string>;
+  readonly sentenceDescription: Signal<string> = computed(
+    () =>
+      `${this.replayService.currentSentence()}/${this.replayService.maxSentenceNumber()}`,
+  );
 
-  constructor() {
-    this.sentenceDescription$ = combineLatest([
-      this.replayService.currentSentence$,
-      this.replayService.maxSentenceNumber$,
-    ]).pipe(map(([sentence, count]) => `${sentence}/${count}`));
-  }
+  readonly hasDomainStory = input(false);
+  readonly hasTitle = input(false);
+  readonly isReplaying = input<boolean | null>(false);
+  readonly isDirty = input<boolean | null>(false);
+  readonly isReplayable = input(false);
 
-  @Input()
-  hasDomainStory = false;
-  @Input()
-  hasTitle = false;
-  @Input()
-  isReplaying: boolean | null = false;
-  @Input()
-  isDirty: boolean | null = false;
-  @Input()
-  isReplayable = false;
-
-  @Output()
-  import = new EventEmitter<void>();
-  @Output()
-  openSettings = new EventEmitter<void>();
-  @Output()
-  startReplay = new EventEmitter<void>();
-  @Output()
-  stopReplay = new EventEmitter<void>();
-  @Output()
-  previousSentence = new EventEmitter<void>();
-  @Output()
-  nextSentence = new EventEmitter<void>();
-  @Output()
-  newStory = new EventEmitter<void>();
-  @Output()
-  showKeyboardShortCuts = new EventEmitter<void>();
-  @Output()
-  openLabelDictionary = new EventEmitter<void>();
-  @Output()
-  openDownloadDialog = new EventEmitter<void>();
-  @Output()
-  openImportFromUrlDialog = new EventEmitter<void>();
+  readonly import = output();
+  readonly openSettings = output();
+  readonly startReplay = output();
+  readonly stopReplay = output();
+  readonly previousSentence = output();
+  readonly nextSentence = output();
+  readonly newStory = output();
+  readonly showKeyboardShortCuts = output();
+  readonly openLabelDictionary = output();
+  readonly openDownloadDialog = output();
+  readonly openImportFromUrlDialog = output();
 }

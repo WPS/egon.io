@@ -14,6 +14,7 @@ import { ImportDomainStoryService } from '../../../../tools/import/services/impo
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StoryCreatorService } from '../../../../tools/replay/services/story-creator.service';
 import { preBuildTestStory } from '../../../../utils/testHelpers.spec';
+import { signal } from '@angular/core';
 
 describe('HeaderButtonsComponent', () => {
   let component: HeaderButtonsComponent;
@@ -32,11 +33,14 @@ describe('HeaderButtonsComponent', () => {
       preBuildTestStory(2),
     );
 
-    replayService = jasmine.createSpyObj('replayService', [
-      'startReplay',
-      'stopReplay',
-      'isReplayable',
-    ]);
+    replayService = jasmine.createSpyObj(
+      'replayService',
+      ['startReplay', 'stopReplay', 'isReplayable'],
+      {
+        currentSentence: signal(1),
+        maxSentenceNumber: signal(2),
+      },
+    );
     replayService.isReplayable.and.returnValue(true);
 
     snackbar = jasmine.createSpyObj('snackbar', ['open']);

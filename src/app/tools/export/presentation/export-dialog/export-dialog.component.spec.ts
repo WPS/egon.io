@@ -11,6 +11,7 @@ describe('ExportDialogComponent', () => {
 
   const exportData: ExportDialogData = {
     title: '',
+    defaultFilename: '',
     options: [
       {
         text: '1',

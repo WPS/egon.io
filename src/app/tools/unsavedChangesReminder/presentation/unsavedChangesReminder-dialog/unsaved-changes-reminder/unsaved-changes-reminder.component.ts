@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -9,21 +9,16 @@ import {
 
 @Component({
   selector: 'app-unsaved-changes-reminder',
-  standalone: true,
+
   imports: [MatButton, MatDialogActions, MatDialogContent],
   templateUrl: './unsaved-changes-reminder.component.html',
   styleUrl: './unsaved-changes-reminder.component.scss',
 })
-export class UnsavedChangesReminderComponent implements OnInit {
-  fn: any;
-
-  private dialogRef = inject(MatDialogRef<UnsavedChangesReminderComponent>);
-
-  constructor() {
-    this.fn = inject(MAT_DIALOG_DATA);
-  }
-
-  ngOnInit(): void {}
+export class UnsavedChangesReminderComponent {
+  private readonly dialogRef = inject(
+    MatDialogRef<UnsavedChangesReminderComponent>,
+  );
+  readonly fn = inject(MAT_DIALOG_DATA);
 
   continueAction(): void {
     this.fn();

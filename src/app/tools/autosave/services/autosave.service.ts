@@ -1,4 +1,11 @@
-import { inject, Injectable } from '@angular/core';
+import {
+  effect,
+  inject,
+  Injectable,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ExportService } from '../../export/services/export.service';
 import { Draft } from '../domain/draft';
@@ -15,21 +22,28 @@ import {
   SNACKBAR_INFO,
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DomainStory } from '../../../domain/entities/domainStory';
+import { environment } from '../../../../environments/environment';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { IconSet } from 'src/app/domain/entities/iconSet';
-import { Observable } from 'rxjs';
+import { isPresent } from 'src/app/utils/isPresent';
+import { BusinessObject } from 'src/app/domain/entities/businessObject';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AutosaveService {
   private autosaveTimer: any;
-  readonly autosavedDraftsChanged$ = new Subject<void>();
-  private maxDrafts: number = 0;
 
-  private importConfigChanged: Subject<IconSet> = new Subject<IconSet>();
-  readonly importConfigChanged$: Observable<IconSet> =
-    this.importConfigChanged.asObservable();
+  private readonly autosavedDraftsChangedEmitterSubject = new Subject<void>();
+  readonly autosavedDraftsChanged$ =
+    this.autosavedDraftsChangedEmitterSubject.asObservable();
+  private readonly importConfigChangedSignal: WritableSignal<
+    IconSet | undefined
+  > = signal(undefined);
+  readonly importConfigChanged: Signal<IconSet | undefined> =
+    this.importConfigChangedSignal.asReadonly();
 
   private readonly autosaveConfiguration = inject(AutosaveConfigurationService);
   private readonly exportService = inject(ExportService);
@@ -42,13 +56,17 @@ export class AutosaveService {
   );
 
   constructor() {
-    this.autosaveConfiguration.configuration$.subscribe((configuration) => {
-      this.updateConfiguration(configuration);
-      this.maxDrafts = configuration.maxDrafts;
+    effect(() => {
+      this.updateConfiguration(this.autosaveConfiguration.configuration());
     });
-    this.iconSetImportExportService.iconSetChanged$.subscribe(() => {
-      this.autosave(this.maxDrafts, false);
-    });
+    this.iconSetImportExportService.iconSetChanged$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => {
+        this.autosave(
+          this.autosaveConfiguration.configuration().maxDrafts,
+          false,
+        );
+      });
   }
 
   getDrafts(): Draft[] {
@@ -57,28 +75,28 @@ export class AutosaveService {
     return drafts;
   }
 
-  // if we fitToScreen while the AUtosave-Dialoge is open, the canvas is not on screen and the Zoom breaks
+  // if we fitToScreen while the Autosave-Dialoge is open, the canvas is not on screen and the Zoom breaks
   loadDraft(draft: Draft, fitToScreen = false): void {
-    const configFromFile = draft.configAndDST.domain;
-    const config =
-      this.iconSetImportExportService.createIconSetConfiguration(
-        configFromFile,
-      );
-    const story = JSON.parse(draft.configAndDST.dst);
+    const iconSet = this.iconSetImportExportService.createIconSetConfiguration(
+      this.getIconSetFromAutosave(draft),
+    );
+    const businessObjects = this.getBusinessObjectsFromDraft(draft);
 
-    this.titleService.updateTitleAndDescription(
+    this.titleService.updateTitleAndDescriptionAndScope(
       draft.title,
       draft.description,
+      draft.scope,
       false,
     );
 
-    this.importConfigChanged.next(config);
-    this.modelerService.importStory(story, config, fitToScreen);
+    console.log('loadDraft');
+    this.importConfigChangedSignal.set(iconSet);
+    this.modelerService.importStory(businessObjects, iconSet, fitToScreen);
   }
 
   removeAllDrafts() {
     this.storageService.set(DRAFTS_KEY, []);
-    this.autosavedDraftsChanged$.next();
+    this.autosavedDraftsChangedEmitterSubject.next();
   }
 
   loadLatestDraft() {
@@ -131,16 +149,19 @@ export class AutosaveService {
           duration: SNACKBAR_DURATION,
         });
       }
-      this.autosavedDraftsChanged$.next();
+      this.autosavedDraftsChangedEmitterSubject.next();
     }
   }
 
   private isDraftEmpty(draft: Draft) {
-    const configAndDST = draft.configAndDST ?? { dst: '[]' };
+    const configAndDST = draft.configAndDST ?? {
+      iconSet: '',
+      domainStory: { businessObjects: [], description: '', version: '' },
+    };
     return (
       draft.title === INITIAL_TITLE &&
       draft.description === INITIAL_DESCRIPTION &&
-      JSON.parse(configAndDST.dst).length === 0
+      configAndDST.domainStory.businessObjects.length === 0
     );
   }
 
@@ -161,14 +182,22 @@ export class AutosaveService {
   }
 
   private createDraft(): Draft {
-    const dst = JSON.stringify(this.modelerService.getStory(), null, 2);
-    const configAndDST = this.exportService.createConfigAndDST(dst);
+    const domainStory: DomainStory = {
+      businessObjects: this.modelerService.getStory(),
+      version: environment.version,
+      description: this.titleService.getDescription(),
+      title: this.titleService.getTitle(),
+      scope: this.titleService.getScope(),
+    };
+
+    const configAndDST = this.exportService.createConfigAndDST(domainStory);
 
     const date = new Date().toString().slice(0, 25);
 
     return {
       title: this.titleService.getTitle(),
       description: this.titleService.getDescription(),
+      scope: this.titleService.getScope(),
       configAndDST,
       date,
     };
@@ -180,5 +209,24 @@ export class AutosaveService {
       const bDate = Date.parse(b.date);
       return aDate === bDate ? 0 : aDate > bDate ? -1 : 1;
     });
+  }
+
+  // Legacy Compatability - to be removed in version v5.0.0
+  //@ts-ignore
+  private getIconSetFromAutosave(draft: Draft): IconSet {
+    return isPresent(draft.configAndDST.iconSet)
+      ? //@ts-ignore
+        draft.configAndDST.iconSet
+      : //@ts-ignore
+        draft.configAndDST.domain;
+  }
+
+  //@ts-ignore
+  private getBusinessObjectsFromDraft(draft: Draft): BusinessObject[] {
+    return isPresent(draft.configAndDST.domainStory)
+      ? //@ts-ignore
+        draft.configAndDST.domainStory.businessObjects
+      : //@ts-ignore
+        JSON.parse(draft.configAndDST.dst);
   }
 }

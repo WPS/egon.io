@@ -1,5 +1,4 @@
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import {
   INITIAL_DESCRIPTION,
@@ -9,6 +8,7 @@ import { CommandStackService } from '../../../domain/services/command-stack.serv
 import { DialogService } from '../../../domain/services/dialog.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { TitleDialogComponent } from '../presentation/title-dialog/title-dialog.component';
+import { Scope } from 'src/app/domain/entities/scope';
 
 @Injectable({
   providedIn: 'root',
@@ -17,15 +17,14 @@ export class TitleService {
   private readonly commandStackService = inject(CommandStackService);
   private readonly dialogService = inject(DialogService);
 
-  private readonly titleSubject = new BehaviorSubject<string>(INITIAL_TITLE);
-  private readonly descriptionSubject = new BehaviorSubject<string>(
-    INITIAL_DESCRIPTION,
-  );
-  private readonly showDescriptionSubject = new BehaviorSubject<boolean>(true);
+  private readonly titleSignal = signal(INITIAL_TITLE);
+  private readonly scopeSignal = signal(undefined as Scope | undefined);
+  private readonly descriptionSignal = signal(INITIAL_DESCRIPTION);
+  private readonly showDescriptionSignal = signal(true);
 
-  readonly title$ = this.titleSubject.asObservable();
-  readonly description$ = this.descriptionSubject.asObservable();
-  readonly showDescription$ = this.showDescriptionSubject.asObservable();
+  readonly title = this.titleSignal.asReadonly();
+  readonly description = this.descriptionSignal.asReadonly();
+  readonly showDescription = this.showDescriptionSignal.asReadonly();
 
   openHeaderDialog(): void {
     const config = new MatDialogConfig();
@@ -34,21 +33,28 @@ export class TitleService {
     this.dialogService.openDialog(TitleDialogComponent, config);
   }
 
-  updateTitleAndDescription(
+  updateTitleAndDescriptionAndScope(
     title: string | null,
     description: string | null,
+    scope: Scope | undefined,
     allowUndo: boolean,
   ): void {
     if (allowUndo) {
-      this.fireTitleAndDescriptionUpdate(title, description);
+      this.fireTitleAndDescriptionAndScopeUpdate(title, description, scope);
     } else {
       this.updateTitle(title);
       this.updateDescription(description);
+      this.updateScope(scope);
     }
   }
 
   reset(): void {
-    this.updateTitleAndDescription(INITIAL_TITLE, INITIAL_DESCRIPTION, false);
+    this.updateTitleAndDescriptionAndScope(
+      INITIAL_TITLE,
+      INITIAL_DESCRIPTION,
+      undefined,
+      false,
+    );
   }
 
   private updateTitle(inputTitle: string | null): void {
@@ -57,24 +63,32 @@ export class TitleService {
         ? INITIAL_TITLE
         : inputTitle;
 
-    this.titleSubject.next(title);
+    this.titleSignal.set(title);
     document.title = title === INITIAL_TITLE ? 'egon.io' : title;
   }
 
+  private updateScope(scope: Scope | undefined): void {
+    this.scopeSignal.set(scope);
+  }
+
   private updateDescription(description: string | null): void {
-    this.descriptionSubject.next(description ?? this.descriptionSubject.value);
+    this.descriptionSignal.set(description ?? this.descriptionSignal());
   }
 
   setShowDescription(show: boolean): void {
-    this.showDescriptionSubject.next(show);
+    this.showDescriptionSignal.set(show);
   }
 
   getTitle(): string {
-    return this.titleSubject.value;
+    return this.titleSignal();
+  }
+
+  getScope(): Scope | undefined {
+    return this.scopeSignal();
   }
 
   getDescription(): string {
-    return this.descriptionSubject.value;
+    return this.descriptionSignal();
   }
 
   getVersion(): string {
@@ -90,16 +104,18 @@ export class TitleService {
     );
   }
 
-  private fireTitleAndDescriptionUpdate(
+  private fireTitleAndDescriptionAndScopeUpdate(
     newTitle: string | null,
     newDescription: string | null,
+    newScope: Scope | undefined,
   ): void {
     const context = {
       newTitle,
       newDescription,
+      newScope,
     };
     this.commandStackService.execute(
-      'story.updateHeadlineAndDescription',
+      'story.updateHeadlineAndDescriptionAndScope',
       context,
     );
   }

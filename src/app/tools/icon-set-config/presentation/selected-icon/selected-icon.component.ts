@@ -1,15 +1,14 @@
 import { AfterViewChecked, Component, Input } from '@angular/core';
 import { SelectableIcon } from '../../domain/selectableIcon';
 
-import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-selected-icon',
   templateUrl: './selected-icon.component.html',
   styleUrls: ['./selected-icon.component.scss'],
-  standalone: true,
-  imports: [CommonModule, MatFormFieldModule],
+
+  imports: [MatFormFieldModule],
 })
 export class SelectedIconComponent implements AfterViewChecked {
   @Input()

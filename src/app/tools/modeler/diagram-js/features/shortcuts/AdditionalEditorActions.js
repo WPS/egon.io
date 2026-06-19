@@ -24,21 +24,21 @@ AdditionalEditorActions.prototype._registerDefaultActions = function (
 
   // (1) retrieve optional components to integrate with
 
-  var canvas = injector.get("canvas", false);
-  var elementRegistry = injector.get("elementRegistry", false);
-  var selection = injector.get("selection", false);
-  var spaceTool = injector.get("spaceTool", false);
-  var lassoTool = injector.get("lassoTool", false);
-  var handTool = injector.get("handTool", false);
-  var directEditing = injector.get("directEditing", false);
+  const canvas = injector.get("canvas", false);
+  const elementRegistry = injector.get("elementRegistry", false);
+  const selection = injector.get("selection", false);
+  const spaceTool = injector.get("spaceTool", false);
+  const lassoTool = injector.get("lassoTool", false);
+  const handTool = injector.get("handTool", false);
+  const directEditing = injector.get("directEditing", false);
 
   if (canvas && elementRegistry && selection) {
     this._registerAction("selectElements", function () {
       // select all elements except for the invisible
       // root element
-      var rootElement = canvas.getRootElement();
+      const rootElement = canvas.getRootElement();
 
-      var elements = elementRegistry.filter(function (element) {
+      const elements = elementRegistry.filter(function (element) {
         return element !== rootElement;
       });
 
@@ -68,7 +68,7 @@ AdditionalEditorActions.prototype._registerDefaultActions = function (
 
   if (selection && directEditing) {
     this._registerAction("directEditing", function () {
-      var currentSelection = selection.get();
+      const currentSelection = selection.get();
 
       if (currentSelection.length) {
         directEditing.activate(currentSelection[0]);

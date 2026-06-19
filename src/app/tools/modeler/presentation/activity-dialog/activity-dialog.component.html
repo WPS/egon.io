@@ -6,11 +6,7 @@
         <mat-label>Number</mat-label>
         <input matInput type="number" formControlName="activityNumber" />
       </mat-form-field>
-      <input
-        type="checkbox"
-        formControlName="multipleNumbers"
-        (change)="onSubmit()"
-      />
+      <mat-checkbox formControlName="multipleNumbers" (change)="onSubmit()" />
       multiple
     </div>
     <mat-form-field class="fullWidth" color="accent">

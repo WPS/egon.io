@@ -1,9 +1,9 @@
-@if (!isReplaying) {
+@if (!isReplaying()) {
   <div>
     <button
       type="button"
-      [disabled]="!isReplayable"
-      [class.disabled]="!isReplayable"
+      [disabled]="!isReplayable()"
+      [class.disabled]="!isReplayable()"
       id="buttonStartReplay"
       class="headerButton"
       title="Start replay"
@@ -51,10 +51,10 @@
     />
     <button
       type="button"
-      [disabled]="!hasDomainStory && !hasTitle"
-      [class.disabled]="!hasDomainStory && !hasTitle"
+      [disabled]="!hasDomainStory() && !hasTitle()"
+      [class.disabled]="!hasDomainStory() && !hasTitle()"
       class="headerButton"
-      [class.dirty]="isDirty"
+      [class.dirty]="isDirty()"
       id="export"
       title="Export story as .egn, .svg or .png file"
       (click)="openDownloadDialog.emit()"
@@ -66,8 +66,8 @@
     </button>
     <button
       type="button"
-      [disabled]="!hasDomainStory"
-      [class.disabled]="!hasDomainStory"
+      [disabled]="!hasDomainStory()"
+      [class.disabled]="!hasDomainStory()"
       class="headerButton"
       title="Change multiple labels at once"
       (click)="openLabelDictionary.emit()"
@@ -108,8 +108,7 @@
       <div class="button-label">Shortcuts</div>
     </button>
   </div>
-}
-@if (isReplaying) {
+} @else {
   <div class="replaying">
     <button
       type="button"
@@ -142,6 +141,6 @@
       <span class="material-icons-outlined materialIconButton"> stop </span>
       <div class="button-label">Stop</div>
     </button>
-    <div class="sentences">Sentence: {{ sentenceDescription$ | async }}</div>
+    <div class="sentences">Sentence: {{ sentenceDescription() }}</div>
   </div>
 }

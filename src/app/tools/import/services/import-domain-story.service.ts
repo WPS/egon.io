@@ -2,12 +2,10 @@ import { inject, Injectable } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { TitleService } from 'src/app/tools/title/services/title.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
-import { Observable } from 'rxjs';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import {
-  INITIAL_TITLE,
   SNACKBAR_DURATION,
   SNACKBAR_DURATION_LONG,
   SNACKBAR_DURATION_LONGER,
@@ -21,10 +19,13 @@ import { IconSet } from '../../../domain/entities/iconSet';
 import { IconSetChangedService } from '../../icon-set-config/services/icon-set-customization.service';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ImportDialogComponent } from '../presentation/import-dialog/import-dialog.component';
+import { DomainStory } from '../../../domain/entities/domainStory';
+import { isPresent } from '../../../utils/isPresent';
 import { UnsavedChangesReminderComponent } from '../../unsavedChangesReminder/presentation/unsavedChangesReminder-dialog/unsaved-changes-reminder/unsaved-changes-reminder.component';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { ExternalResourcesWarningDialogComponent } from 'src/app/tools/import/presentation/external-resources-warning-dialog/external-resources-warning-dialog.component';
-import { Subject } from 'rxjs';
+import { unsanitizeTextFromSvgExport } from 'src/app/utils/sanitizer';
+import { Subject } from 'rxjs/internal/Subject';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
   providedIn: 'root',
@@ -40,15 +41,12 @@ export class ImportDomainStoryService implements IconSetChangedService {
   private readonly modelerService = inject(ModelerService);
   private readonly snackbar = inject(MatSnackBar);
 
-  private readonly title = toSignal(this.titleService.title$, {
-    initialValue: INITIAL_TITLE,
-  });
-
   private readonly importedConfigurationEmitter = new Subject<IconSet>();
-  private readonly automatedImportSuccessFullEmitter = new Subject<void>();
+  private readonly automatedImportSuccessFullEmitterSubject =
+    new Subject<void>();
 
-  automatedImportSuccessFull(): Observable<void> {
-    return this.automatedImportSuccessFullEmitter.asObservable();
+  automatedImportSuccessFull$(): Observable<void> {
+    return this.automatedImportSuccessFullEmitterSubject.asObservable();
   }
 
   iconConfigurationChanged(): Observable<IconSet> {
@@ -203,7 +201,12 @@ export class ImportDomainStoryService implements IconSetChangedService {
     );
   }
 
-  import(input: Blob, filename: string, emitSuccess = false): void {
+  import(
+    input: Blob,
+    filename: string,
+    emitSuccess = false,
+  ): DomainStory | null {
+    // return value is currently only used for tests
     const egnSvgPattern = /.*(.egn)(\s*\(\d+\)){0,1}\.svg/;
     const isSVG = filename.endsWith('.svg');
 
@@ -214,16 +217,17 @@ export class ImportDomainStoryService implements IconSetChangedService {
     try {
       const fileReader = new FileReader();
 
-      const titleText = this.restoreTitleFromFileName(filename, isSVG);
-      // no need to put this on the commandStack
-      this.titleService.updateTitleAndDescription(titleText, null, false);
-
+      let domainStory: DomainStory | null = null;
       fileReader.onloadend = (e) => {
         if (e?.target) {
           try {
-            this.processFileContent(e.target.result, isSVG, isEGN);
-            this.importSuccessful(emitSuccess);
-            this.modelerService.commandStackChanged();
+            this.processDomainStoryImport(
+              e.target.result,
+              filename,
+              isSVG,
+              isEGN,
+              emitSuccess,
+            );
           } catch (error) {
             this.importFailed();
           }
@@ -232,56 +236,82 @@ export class ImportDomainStoryService implements IconSetChangedService {
         }
       };
       fileReader.readAsText(input);
+      return domainStory;
     } catch (error) {
       this.importFailed();
+      return null;
     }
   }
 
-  private processFileContent(
+  processDomainStoryImport(
     text: string | ArrayBuffer | null,
-    isSvgFile: boolean,
-    isEgnFormat: boolean,
-  ): void {
-    let contentAsJson;
-    if (typeof text === 'string') {
-      if (isSvgFile) {
-        contentAsJson = this.extractJsonFromSvgComment(text);
-      } else {
-        contentAsJson = text;
-      }
+    filename: string,
+    isSVG: boolean,
+    isEGN: boolean,
+    emitSuccess: boolean,
+  ): DomainStory {
+    if (typeof text !== 'string') {
+      throw new Error('Failed to parse domain story from file');
+    }
 
-      const { iconSet, domainStoryElements, lastElement } =
-        this.separateExportFileIntoIconSetAndStoryElements(
-          isEgnFormat,
-          contentAsJson,
-        );
+    const contentAsJson = isSVG ? this.extractJsonFromSvgComment(text) : text;
+    const sanitizedFileName = this.restoreTitleFromFileName(filename, isSVG);
 
-      if (
-        !this.importRepairService.checkForUnreferencedElementsInActivitiesAndRepair(
-          domainStoryElements,
-        )
-      ) {
-        this.showBrokenImportDialog();
-      }
-
-      this.titleService.updateTitleAndDescription(
-        this.title(),
-        lastElement.info,
-        false,
+    const { iconSet, domainStory } =
+      this.separateExportFileIntoIconSetAndStoryElements(
+        isEGN,
+        contentAsJson,
+        sanitizedFileName,
       );
 
-      this.updateIconRegistries(iconSet);
-      this.modelerService.importStory(domainStoryElements, iconSet);
+    this.handleLegacyVersion(domainStory);
+
+    if (
+      !this.importRepairService.checkForUnreferencedElementsInActivitiesAndRepair(
+        domainStory.businessObjects,
+      )
+    ) {
+      this.showBrokenImportDialog();
+    }
+
+    this.updateIconRegistries(iconSet);
+    this.modelerService.importStory(domainStory.businessObjects, iconSet);
+
+    this.importSuccessful(emitSuccess);
+    this.modelerService.commandStackChanged();
+
+    // no need to put this on the commandStack
+    this.titleService.updateTitleAndDescriptionAndScope(
+      domainStory.title,
+      domainStory.description,
+      domainStory.scope,
+      false,
+    );
+    return domainStory;
+  }
+
+  private handleLegacyVersion(domainStory: DomainStory) {
+    const versionPrefix = +domainStory.version.substring(
+      0,
+      domainStory.version.lastIndexOf('.'),
+    );
+
+    if (versionPrefix <= 0.5) {
+      domainStory.businessObjects =
+        this.importRepairService.updateCustomElementsPreviousV050(
+          domainStory.businessObjects,
+        );
+      this.showPreviousV050Dialog(versionPrefix);
     }
   }
 
   private separateExportFileIntoIconSetAndStoryElements(
     isEgnFormat: boolean,
     contentAsJson: string,
+    filename: string,
   ): {
     iconSet: IconSet;
-    domainStoryElements: any[];
-    lastElement: any;
+    domainStory: DomainStory;
   } {
     let storyAndIconSet = null;
     try {
@@ -294,37 +324,32 @@ export class ImportDomainStoryService implements IconSetChangedService {
       throw new Error('Invalid import file');
     }
 
-    const extractedStoryAndConfiguration: {
-      iconSet: IconSet;
-      domainStoryElements: any[];
-    } = storyAndIconSet.domain
-      ? this.extractStoryAndConfigurationFromCurrentFileFormat(
-          isEgnFormat,
-          storyAndIconSet,
-        )
-      : this.extractStoryAndConfigurationFromLegacyFileFormat(
-          storyAndIconSet,
-          contentAsJson,
-        );
+    const domainStory = this.exportToDomainStory(storyAndIconSet, filename);
+    const iconSet = this.extractIconSet(storyAndIconSet, isEgnFormat);
 
-    const iconSet: IconSet = extractedStoryAndConfiguration.iconSet;
-    const domainStoryElements: any[] =
-      extractedStoryAndConfiguration.domainStoryElements;
-
-    this.importRepairService.removeWhitespacesFromIcons(domainStoryElements);
+    this.importRepairService.removeWhitespacesFromIcons(
+      domainStory.businessObjects,
+    );
     this.importRepairService.removeUnnecessaryBpmnProperties(
-      domainStoryElements,
+      domainStory.businessObjects,
     );
 
-    const categorizedElements: {
-      domainStoryElements: any[];
-      lastElement: any;
-    } = this.categorizeStoryElements(domainStoryElements);
     return {
       iconSet,
-      domainStoryElements: categorizedElements.domainStoryElements,
-      lastElement: categorizedElements.lastElement,
+      domainStory,
     };
+  }
+
+  private extractIconSet(storyAndIconSet: any, isEgnFormat: boolean) {
+    const iconSetContent = storyAndIconSet.iconSet
+      ? storyAndIconSet.iconSet
+      : storyAndIconSet.domain;
+    return iconSetContent
+      ? this.extractStoryAndConfigurationFromCurrentFileFormat(
+          isEgnFormat,
+          iconSetContent,
+        )
+      : this.extractStoryAndConfigurationFromLegacyFileFormat(storyAndIconSet);
   }
 
   private extractStoryAndConfigurationFromCurrentFileFormat(
@@ -335,28 +360,18 @@ export class ImportDomainStoryService implements IconSetChangedService {
       name: string;
       actors: { [key: string]: any };
       workObjects: { [key: string]: any };
-    } = isEgnFormat
-      ? storyAndIconSet.domain
-      : JSON.parse(storyAndIconSet.domain);
+    } = isEgnFormat ? storyAndIconSet : JSON.parse(storyAndIconSet);
 
-    return {
-      iconSet:
-        this.iconSetImportExportService.createIconSetConfiguration(
-          iconSetFromFile,
-        ),
-      domainStoryElements: isEgnFormat
-        ? storyAndIconSet.dst
-        : JSON.parse(storyAndIconSet.dst),
-    };
+    return this.iconSetImportExportService.createIconSetConfiguration(
+      iconSetFromFile,
+    );
   }
 
   private extractStoryAndConfigurationFromLegacyFileFormat(
     storyAndIconSet: any,
-    contentAsJson: any,
   ) {
     // legacy implementation
     let iconSet: IconSet;
-    let domainStoryElements: any[];
 
     if (storyAndIconSet.config) {
       const iconSetFromFile: {
@@ -368,41 +383,12 @@ export class ImportDomainStoryService implements IconSetChangedService {
         this.iconSetImportExportService.createIconSetConfiguration(
           iconSetFromFile,
         );
-      domainStoryElements = JSON.parse(storyAndIconSet.dst);
     } else {
       // even older legacy implementation (prior to configurable icon set):
       iconSet = this.iconDictionaryService.getDefaultIconSet();
-      domainStoryElements = JSON.parse(contentAsJson);
     }
 
-    return { iconSet, domainStoryElements };
-  }
-
-  private categorizeStoryElements(domainStoryElements: any[]) {
-    let lastElement = domainStoryElements[domainStoryElements.length - 1];
-    if (!lastElement.id) {
-      lastElement = domainStoryElements.pop();
-      let versionInfo = lastElement;
-
-      // if the last element has the tag 'version',
-      // then there exists another tag 'info' for the description
-      let importVersionNumber: string;
-      if (versionInfo.version) {
-        lastElement = domainStoryElements.pop();
-        importVersionNumber = versionInfo.version as string;
-      } else {
-        importVersionNumber = '?';
-        this.snackbar.open(`The version number is unreadable.`, undefined, {
-          duration: SNACKBAR_DURATION,
-          panelClass: SNACKBAR_ERROR,
-        });
-      }
-      domainStoryElements = this.handleVersionNumber(
-        importVersionNumber,
-        domainStoryElements,
-      );
-    }
-    return { domainStoryElements, lastElement };
+    return iconSet;
   }
 
   private importSuccessful(emitSuccessExternally: boolean) {
@@ -411,41 +397,36 @@ export class ImportDomainStoryService implements IconSetChangedService {
       panelClass: SNACKBAR_SUCCESS,
     });
     if (emitSuccessExternally) {
-      this.automatedImportSuccessFullEmitter.next();
+      this.automatedImportSuccessFullEmitterSubject.next();
     }
   }
 
-  private importFailed() {
-    this.snackbar.open('Import failed', undefined, {
-      duration: SNACKBAR_DURATION,
+  private importFailed(message?: string) {
+    const errorMessage: string = isPresent(message)
+      ? 'Import failed due to: ' + message
+      : 'Import failed';
+    this.snackbar.open(errorMessage, undefined, {
+      duration: SNACKBAR_DURATION_LONGER,
       panelClass: SNACKBAR_ERROR,
     });
   }
 
-  private handleVersionNumber(
-    importVersionNumber: string,
-    elements: BusinessObject[],
-  ): BusinessObject[] {
-    const versionPrefix = +importVersionNumber.substring(
-      0,
-      importVersionNumber.lastIndexOf('.'),
-    );
-    if (versionPrefix <= 0.5) {
-      elements =
-        this.importRepairService.updateCustomElementsPreviousV050(elements);
-      this.showPreviousV050Dialog(versionPrefix);
-    }
-    return elements;
-  }
-
   private extractJsonFromSvgComment(xmlText: string): string {
-    xmlText = xmlText.substring(xmlText.indexOf('<DST>'));
-    while (xmlText.includes('<!--') || xmlText.includes('-->')) {
-      xmlText = xmlText.replace('<!--', '').replace('-->', '');
+    const unsanitizedXml = unsanitizeTextFromSvgExport(xmlText);
+
+    let domainStory = unsanitizedXml
+      .substring(0, unsanitizedXml.indexOf('</DST>'))
+      .substring(unsanitizedXml.indexOf('<DST>'));
+
+    domainStory = domainStory.replace('<DST>', '');
+    domainStory = domainStory.replace('</DST>', '');
+
+    // legacy implementation where the SVG was embedded as a comment in the svg.
+    // Generally preferred method, however external Tools sometimes strip SVG Comments removing the DomainStory.
+    while (domainStory.includes('<!--') || domainStory.includes('-->')) {
+      domainStory = domainStory.replace('<!--', '').replace('-->', '');
     }
-    xmlText = xmlText.replace('<DST>', '');
-    xmlText = xmlText.replace('</DST>', '');
-    return xmlText;
+    return domainStory;
   }
 
   private updateIconRegistries(iconSet: IconSet): void {
@@ -498,5 +479,84 @@ export class ImportDomainStoryService implements IconSetChangedService {
     this.openExternalResourcesWarningDialog(() =>
       this.importFromUrl(urlToLoad, startReplay),
     );
+  }
+
+  exportToDomainStory(parsedJson: any, filename: string): DomainStory {
+    const domainStory: DomainStory = {
+      businessObjects: [],
+      version: '?',
+      description: '',
+      title: filename,
+    };
+
+    if (!isPresent(parsedJson.dst) && !isPresent(parsedJson.domainStory)) {
+      return this.handleLegacyFormat(parsedJson, filename);
+    }
+
+    let domainStoryContent = parsedJson.domainStory
+      ? parsedJson.domainStory
+      : parsedJson.dst;
+
+    if (isPresent(domainStoryContent.businessObjects)) {
+      domainStory.businessObjects = domainStoryContent.businessObjects;
+      if (isPresent(domainStoryContent.version)) {
+        domainStory.version = domainStoryContent.version;
+      }
+
+      if (isPresent(domainStoryContent.description)) {
+        domainStory.description = domainStoryContent.description;
+      }
+
+      if (isPresent(domainStoryContent.title)) {
+        domainStory.title = domainStoryContent.title;
+      }
+      if (isPresent(domainStoryContent.scope)) {
+        domainStory.scope = domainStoryContent.scope;
+      }
+      return domainStory;
+    } else if (!Array.isArray(domainStoryContent)) {
+      // for older versions where the dst.dst is a string
+      domainStoryContent = JSON.parse(domainStoryContent);
+    }
+
+    if (Array.isArray(domainStoryContent)) {
+      domainStoryContent.forEach((it: any) => {
+        const hasOwnProperty: boolean = it.hasOwnProperty('type');
+        if (it.type !== undefined || hasOwnProperty) {
+          const businessObject: BusinessObject = Object.assign(
+            {} as BusinessObject,
+            it,
+          );
+          domainStory.businessObjects.push(businessObject);
+        }
+        if (it.info !== undefined || it.hasOwnProperty('info')) {
+          domainStory.description = it.info;
+        }
+        if (it.version !== undefined || it.hasOwnProperty('version')) {
+          domainStory.version = it.version;
+        }
+      });
+    }
+    return domainStory;
+  }
+
+  private handleLegacyFormat(oldFormat: any[], filename: string) {
+    const domainStory: DomainStory = {
+      businessObjects: [],
+      version: '?',
+      description: '',
+      title: filename,
+    };
+
+    oldFormat.forEach((entry) => {
+      if (entry.type) {
+        domainStory.businessObjects.push(entry);
+      } else if (entry.version) {
+        domainStory.version = entry.version;
+      } else if (entry.info) {
+        domainStory.description = entry.info;
+      }
+    });
+    return domainStory;
   }
 }

@@ -1,10 +1,12 @@
 export class ExportDialogData {
   title: string;
+  defaultFilename: string;
   options: ExportOption[];
 
-  constructor(title: string, options: ExportOption[]) {
+  constructor(title: string, defaultFilename: string, options: ExportOption[]) {
     this.title = title;
     this.options = options;
+    this.defaultFilename = defaultFilename;
   }
 }
 

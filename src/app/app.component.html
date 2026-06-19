@@ -8,29 +8,22 @@
     style="display: none; height: 0"
   />
 
-  @if (showSettings$ | async) {
+  @if (showSettings()) {
     <app-settings />
   }
   <div
-    [class.headerAndCanvas]="
-      !(showSettings$ | async) && (showDescription$ | async)
-    "
-    [class.headerAndCanvasCollapsed]="
-      !(showSettings$ | async) && !(showDescription$ | async)
-    "
-    [class.hidden]="showSettings$ | async"
+    [class.headerAndCanvas]="!showSettings() && showDescription()"
+    [class.headerAndCanvasCollapsed]="!showSettings() && !showDescription()"
+    [class.hidden]="showSettings()"
   >
     <app-header
-      [class.header]="showDescription$ | async"
-      [class.headerCollapsed]="!(showDescription$ | async)"
+      [class.header]="showDescription()"
+      [class.headerCollapsed]="!showDescription()"
     />
     <div appDrag id="canvas"></div>
   </div>
 
-  <div
-    [class.logoContainer]="!(showSettings$ | async)"
-    [class.hidden]="showSettings$ | async"
-  >
+  <div [class.logoContainer]="!showSettings()" [class.hidden]="showSettings()">
     <span>
       <img src="favicon.ico" height="24" alt="Egon Logo" />
       <a href="https://egon.io" target="_blank"> egon.io</a>

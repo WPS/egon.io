@@ -26,14 +26,14 @@ function removeProperties(element, properties) {
   });
 }
 
-var LOW_PRIORITY = 750;
+const LOW_PRIORITY = 750;
 
 export default function EgonCopyPaste(eventBus, propertyCopy) {
   eventBus.on("copyPaste.copyElement", LOW_PRIORITY, function (context) {
-    var descriptor = context.descriptor,
+    const descriptor = context.descriptor,
       element = context.element;
 
-    var businessObject = (descriptor.oldBusinessObject =
+    const businessObject = (descriptor.oldBusinessObject =
       getBusinessObject(element));
 
     descriptor.type = element.type;
@@ -45,10 +45,10 @@ export default function EgonCopyPaste(eventBus, propertyCopy) {
     }
   });
 
-  var references;
+  let references;
 
   function resolveReferences(descriptor, cache) {
-    var businessObject = getBusinessObject(descriptor);
+    const businessObject = getBusinessObject(descriptor);
 
     // boundary events
     if (descriptor.host) {
@@ -63,7 +63,7 @@ export default function EgonCopyPaste(eventBus, propertyCopy) {
       reduce(
         references,
         function (array, reference, key) {
-          var element = reference.element,
+          const element = reference.element,
             property = reference.property;
 
           if (key === descriptor.id) {
@@ -84,10 +84,10 @@ export default function EgonCopyPaste(eventBus, propertyCopy) {
   });
 
   eventBus.on("copyPaste.pasteElement", function (context) {
-    var cache = context.cache,
+    const cache = context.cache,
       descriptor = context.descriptor,
-      oldBusinessObject = descriptor.oldBusinessObject,
-      newBusinessObject;
+      oldBusinessObject = descriptor.oldBusinessObject;
+    let newBusinessObject;
 
     // do NOT copy business object if external label
     if (isLabel(descriptor)) {

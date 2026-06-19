@@ -6,23 +6,23 @@ import {
   SNACKBAR_ERROR,
   SNACKBAR_SUCCESS,
 } from 'src/app/domain/entities/constants';
-import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-autosave-options',
   templateUrl: './autosave-options.component.html',
   styleUrls: ['./autosave-options.component.scss'],
-  standalone: true,
+
   imports: [
-    CommonModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     FormsModule,
+    MatCheckbox,
   ],
 })
 export class AutosaveOptionsComponent {
@@ -30,11 +30,13 @@ export class AutosaveOptionsComponent {
     AutosaveConfigurationService,
   );
   private readonly snackbar = inject(MatSnackBar);
+  protected activated: boolean =
+    this.autosaveConfiguration.configuration().activated;
 
-  save(activated: boolean, maxDrafts: number, interval: number) {
+  save(maxDrafts: number, interval: number) {
     if (
       this.autosaveConfiguration.setConfiguration({
-        activated,
+        activated: this.activated,
         maxDrafts,
         interval,
       })
@@ -53,5 +55,9 @@ export class AutosaveOptionsComponent {
         },
       );
     }
+  }
+
+  protected toggleAutosave(checked: boolean) {
+    this.activated = checked;
   }
 }

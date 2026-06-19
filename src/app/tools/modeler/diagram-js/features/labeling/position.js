@@ -56,9 +56,11 @@ export function labelPosition(waypoints, lines = 1) {
 
 // calculate the X position of the label
 export function labelPositionX(startPoint, endPoint) {
-  let angle = angleBetween(startPoint, endPoint);
+  const angle = angleBetween(startPoint, endPoint);
+
   let offsetX = 0;
   let scaledAngle = 0;
+
   if (angle === 0 || angle === 180 || angle === 90 || angle === 270) {
     offsetX = 0;
   } else if (angle > 0 && angle < 90) {

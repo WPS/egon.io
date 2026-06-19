@@ -19,7 +19,7 @@ describe(TitleService.name, () => {
     expect(service).toBeTruthy();
   });
 
-  it('should getVerision', () => {
+  it('should getVersion', () => {
     expect(service.getVersion()).toEqual(environment.version);
   });
 
@@ -32,39 +32,48 @@ describe(TitleService.name, () => {
   // implicitly tests updateTitle & updateDescription
   describe('updateTitleAndDescription', () => {
     it('should update title', () => {
-      service.updateTitleAndDescription('title', null, false);
+      service.updateTitleAndDescriptionAndScope(
+        'title',
+        null,
+        undefined,
+        false,
+      );
 
       expect(service.getTitle()).toEqual('title');
       expect(service.getDescription()).toEqual(INITIAL_DESCRIPTION);
 
-      service.title$.subscribe((value) => expect(value).toEqual('title'));
-      service.description$.subscribe((value) =>
-        expect(value).toEqual(INITIAL_DESCRIPTION),
-      );
+      expect(service.title()).toEqual('title');
+      expect(service.description()).toEqual(INITIAL_DESCRIPTION);
     });
 
     it('should update description', () => {
-      service.updateTitleAndDescription(null, 'description', false);
+      service.updateTitleAndDescriptionAndScope(
+        null,
+        'description',
+        undefined,
+        false,
+      );
 
       expect(service.getTitle()).toEqual(INITIAL_TITLE);
       expect(service.getDescription()).toEqual('description');
 
-      service.title$.subscribe((value) => expect(value).toEqual(INITIAL_TITLE));
-      service.description$.subscribe((value) =>
-        expect(value).toEqual('description'),
-      );
+      expect(service.title()).toEqual(INITIAL_TITLE);
+      expect(service.description()).toEqual('description');
     });
 
     it('should update title and description', () => {
-      service.updateTitleAndDescription('title', 'description', false);
+      service.updateTitleAndDescriptionAndScope(
+        'title',
+        'description',
+        undefined,
+        false,
+      );
 
       expect(service.getTitle()).toEqual('title');
       expect(service.getDescription()).toEqual('description');
 
-      service.title$.subscribe((value) => expect(value).toEqual('title'));
-      service.description$.subscribe((value) =>
-        expect(value).toEqual('description'),
-      );
+      expect(service.title()).toEqual('title');
+      expect(service.description()).toEqual('description');
     });
   });
 });

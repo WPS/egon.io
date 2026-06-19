@@ -8,12 +8,23 @@ import { ModelerService } from '../../../../tools/modeler/services/modeler.servi
 import { ElementRegistryService } from '../../../../domain/services/element-registry.service';
 import { SettingsService } from '../../../services/settings/settings.service';
 import { HeaderComponent } from './header.component';
+import { signal } from '@angular/core';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
 
   beforeEach(async () => {
+    const replayServiceMock = jasmine.createSpyObj(
+      'ReplayService',
+      ['isReplayable', 'startReplay', 'stopReplay', 'getMissingSentences'],
+      {
+        replayOn: signal(false),
+        currentSentence: signal(1),
+        maxSentenceNumber: signal(2),
+      },
+    );
+
     await TestBed.configureTestingModule({
       imports: [HeaderComponent],
 
@@ -23,7 +34,7 @@ describe('HeaderComponent', () => {
         },
         {
           provide: ReplayService,
-          useValue: MockService(ReplayService),
+          useValue: replayServiceMock,
         },
         {
           provide: ImportDomainStoryService,

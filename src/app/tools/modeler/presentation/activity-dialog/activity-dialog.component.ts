@@ -6,65 +6,56 @@ import {
 } from '@angular/material/dialog';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivityDialogData } from 'src/app/tools/modeler/domain/activityDialogData';
-import { ActivityCanvasObject } from '../../../../domain/entities/activityCanvasObject';
 import { ActivityDialogForm } from '../../domain/activity-dialog-form';
 
-import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-activity-dialog',
   templateUrl: './activity-dialog.component.html',
   styleUrls: ['./activity-dialog.component.scss'],
-  standalone: true,
+
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatCheckbox,
   ],
 })
 export class ActivityDialogComponent {
-  form: FormGroup<ActivityDialogForm>;
-  activityLabel: string;
-  activityNumber: number | null;
-  numberIsAllowedMultipleTimes: boolean;
-  showNumberFields: boolean;
-  activity: ActivityCanvasObject;
-
-  saveFN: any;
-
   private dialogRef = inject(MatDialogRef<ActivityDialogComponent>);
+  private readonly data = inject<ActivityDialogData>(MAT_DIALOG_DATA);
+
+  readonly activity = this.data.activity;
+  readonly activityLabel = this.data.activity.businessObject.name;
+  numberIsAllowedMultipleTimes = this.data.numberIsAllowedMultipleTimes;
+  activityNumber: number | null =
+    this.data.activity.businessObject.number ?? null;
+  readonly showNumberFields = this.data.showNumberFields;
+  readonly saveFN = this.data.saveFN;
+
+  readonly form: FormGroup<ActivityDialogForm> = ActivityDialogForm.create(
+    this.activityLabel,
+    this.activityNumber,
+    this.numberIsAllowedMultipleTimes,
+  );
 
   constructor() {
-    const data = inject<ActivityDialogData>(MAT_DIALOG_DATA);
-    this.activity = data.activity;
-    this.activityLabel = data.activity.businessObject.name;
-    this.numberIsAllowedMultipleTimes = data.numberIsAllowedMultipleTimes;
-    this.activityNumber = data.activity.businessObject.number ?? null;
-    this.showNumberFields = data.showNumberFields;
-
-    this.saveFN = data.saveFN;
-
-    this.form = ActivityDialogForm.create(
-      this.activityLabel,
-      this.activityNumber,
-      this.numberIsAllowedMultipleTimes,
-    );
-
-    this.form.controls.activityNumber.valueChanges.subscribe(
-      (activityNumber) => {
+    this.form.controls.activityNumber.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((activityNumber) => {
         if (activityNumber !== null) {
           if (activityNumber < 1) {
             this.form.controls.activityNumber.setValue(1);
           }
         }
-      },
-    );
+      });
   }
 
   onSubmit(): void {

@@ -5,7 +5,7 @@ import { ActivityBusinessObject } from '../../../domain/entities/activityBusines
 
 /**
  * Repairs broken Domain Stories so that it can be rendered onto the canvas
- * by removing activities and connections that reference elements that don't exists
+ * by removing activities and connections that reference elements that don't exist
  */
 @Injectable({
   providedIn: 'root',

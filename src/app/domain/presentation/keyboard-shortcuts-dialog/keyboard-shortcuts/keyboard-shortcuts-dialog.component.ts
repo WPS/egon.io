@@ -4,22 +4,17 @@ import {
   ShortCut,
   ShortcutDialogData,
 } from '../../../entities/shortcut-dialog-data';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-keyboard-shortcuts-dialog',
   templateUrl: './keyboard-shortcuts-dialog.component.html',
   styleUrl: './keyboard-shortcuts-dialog.component.scss',
-  standalone: true,
-  imports: [CommonModule, MatDialogModule],
+
+  imports: [MatDialogModule],
 })
 export class KeyboardShortcutsDialogComponent {
-  title: string;
-  shortCuts: ShortCut[] = [];
+  private data = inject<ShortcutDialogData>(MAT_DIALOG_DATA);
 
-  constructor() {
-    const data = inject<ShortcutDialogData>(MAT_DIALOG_DATA);
-    this.title = data.title;
-    this.shortCuts = data.shortCuts ?? [];
-  }
+  readonly title: string = this.data.title;
+  readonly shortCuts: ShortCut[] = this.data.shortCuts ?? [];
 }

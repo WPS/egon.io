@@ -1,12 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IconSetConfigurationComponent } from 'src/app/tools/icon-set-config/presentation/icon-set-configuration/icon-set-configuration.component';
-import { MockProvider, MockProviders } from 'ng-mocks';
+import { MockProvider } from 'ng-mocks';
 import { IconSetImportExportService } from '../../services/icon-set-import-export.service';
 import { IconDictionaryService } from '../../services/icon-dictionary.service';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
 import { IconSetComponent } from '../icon-set/icon-set.component';
 import { Dictionary } from '../../../../domain/entities/dictionary';
+import { signal } from '@angular/core';
 
 describe(IconSetConfigurationComponent.name, () => {
   let component: IconSetConfigurationComponent;
@@ -16,13 +17,24 @@ describe(IconSetConfigurationComponent.name, () => {
     await TestBed.configureTestingModule({
       imports: [IconSetConfigurationComponent, IconSetComponent],
       providers: [
-        MockProviders(IconSetImportExportService),
+        {
+          provide: IconSetImportExportService,
+          useValue: jasmine.createSpyObj('IconSetImportExportService', [], {
+            iconSetName: signal('testIconSetName'),
+          }),
+        },
         MockProvider(IconDictionaryService, {
-          getFullDictionary(): Dictionary {
-            return new Dictionary();
+          getFullDictionary(): Dictionary<string> {
+            return new Dictionary<string>();
           },
         }),
-        MockProvider(IconSetCustomizationService),
+        {
+          provide: IconSetCustomizationService,
+          useValue: jasmine.createSpyObj('IconSetCustomizationService', [], {
+            selectedActorsSignal: signal<string[]>([]),
+            selectedWorkObjectsSignal: signal<string[]>([]),
+          }),
+        },
       ],
     }).compileComponents();
   });

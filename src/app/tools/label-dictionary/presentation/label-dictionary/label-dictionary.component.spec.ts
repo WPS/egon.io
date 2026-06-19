@@ -85,16 +85,12 @@ describe('LabelDictionaryComponent', () => {
     labelDictionaryServiceSpy.massRenameLabels.calls.reset();
     component.cancel();
     expect(labelDictionaryServiceSpy.massRenameLabels).not.toHaveBeenCalled();
-    expect(component.activityEntries.map((entry) => entry.name)).toEqual([
-      'one',
-      'two',
-      'three',
-    ]);
-    expect(component.workObjectEntries.map((entry) => entry.name)).toEqual([
-      'ONE',
-      'TWO',
-      'THREE',
-    ]);
+    expect(
+      component.activityEntriesSignal().map((entry) => entry.name),
+    ).toEqual(['one', 'two', 'three']);
+    expect(
+      component.workObjectEntriesSignal().map((entry) => entry.name),
+    ).toEqual(['ONE', 'TWO', 'THREE']);
   });
 
   it('should update activity entries', () => {
@@ -106,11 +102,9 @@ describe('LabelDictionaryComponent', () => {
     let activityEntry: LabelEntry = { originalName: 'one', name: 'one' };
     component.updateActivityEntry(event, activityEntry);
 
-    expect(component.activityEntries.map((entry) => entry.name)).toEqual([
-      'uno',
-      'two',
-      'three',
-    ]);
+    expect(
+      component.activityEntriesSignal().map((entry) => entry.name),
+    ).toEqual(['uno', 'two', 'three']);
   });
 
   it('should update workObject entries', () => {
@@ -122,10 +116,8 @@ describe('LabelDictionaryComponent', () => {
     let workObjectEntry: LabelEntry = { originalName: 'ONE', name: 'ONE' };
     component.updateWorkObjectEntry(event, workObjectEntry);
 
-    expect(component.workObjectEntries.map((entry) => entry.name)).toEqual([
-      'UNO',
-      'TWO',
-      'THREE',
-    ]);
+    expect(
+      component.workObjectEntriesSignal().map((entry) => entry.name),
+    ).toEqual(['UNO', 'TWO', 'THREE']);
   });
 });
