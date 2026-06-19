@@ -204,7 +204,7 @@ export default function DomainStoryContextPadProvider(
         title: translate("Change type"),
         action: {
           click: function (event, element) {
-            let position = assign(getReplaceMenuPosition(element), {
+            let position = assign(getReplaceMenuPosition(), {
               cursor: { x: event.x, y: event.y },
             });
             popupMenu.open(element, "ds-replace", position);
@@ -297,7 +297,7 @@ export default function DomainStoryContextPadProvider(
         title: translate("Change type"),
         action: {
           click: function (event, element) {
-            let position = assign(getReplaceMenuPosition(element), {
+            let position = assign(getReplaceMenuPosition(), {
               cursor: { x: event.x, y: event.y },
             });
             popupMenu.open(element, "ds-replace", position);
@@ -325,11 +325,11 @@ export default function DomainStoryContextPadProvider(
     commandStack.execute("activity.directionChange", context);
   }
 
-  function getReplaceMenuPosition(element) {
+  function getReplaceMenuPosition() {
     let Y_OFFSET = 5;
 
     let diagramContainer = canvas.getContainer(),
-      pad = contextPad.getPad(element).html;
+      pad = document.getElementsByClassName("djs-context-pad open")[0];
 
     let diagramRect = diagramContainer.getBoundingClientRect(),
       padRect = pad.getBoundingClientRect();
