@@ -1,50 +1,51 @@
-@if (autosaveConfiguration.configuration$ | async; as configuration) {
-  <div class="header">
-    <div class="content">
-      <div class="heading">Autosave Options</div>
-      <div class="option">
-        <input #activated type="checkbox" [checked]="configuration.activated" />
-        Enabled
-      </div>
+<div class="header">
+  <div class="content">
+    <div class="heading">Autosave Options</div>
+    <div class="option">
+      <mat-checkbox
+        [checked]="activated"
+        (change)="toggleAutosave($event.checked)"
+      />
+      Enabled
+    </div>
 
-      <div class="option">
-        <mat-form-field color="accent">
-          <mat-label>Interval [seconds]</mat-label>
-          <input
-            matInput
-            #interval
-            class="numberInput"
-            min="1"
-            type="number"
-            [value]="configuration.interval"
-          />
-        </mat-form-field>
-      </div>
-      <div class="option">
-        <mat-form-field color="accent">
-          <mat-label>Keep last X drafts</mat-label>
-          <input
-            matInput
-            #drafts
-            class="numberInput"
-            min="1"
-            type="number"
-            [value]="configuration.maxDrafts"
-          />
-        </mat-form-field>
-      </div>
-      <div class="option">
-        <span class="spacer"></span>
+    <div class="option">
+      <mat-form-field color="accent">
+        <mat-label>Interval [seconds]</mat-label>
+        <input
+          matInput
+          #interval
+          class="numberInput"
+          min="1"
+          type="number"
+          [value]="autosaveConfiguration.configuration().interval"
+        />
+      </mat-form-field>
+    </div>
+    <div class="option">
+      <mat-form-field color="accent">
+        <mat-label>Keep last X drafts</mat-label>
+        <input
+          matInput
+          #drafts
+          class="numberInput"
+          min="1"
+          type="number"
+          [value]="autosaveConfiguration.configuration().maxDrafts"
+        />
+      </mat-form-field>
+    </div>
+    <div class="option">
+      <span class="spacer"></span>
 
-        <button
-          type="button"
-          mat-flat-button
-          color="primary"
-          (click)="save(activated.checked, +drafts.value, +interval.value)"
-        >
-          Apply
-        </button>
-      </div>
+      <button
+        type="button"
+        mat-flat-button
+        color="primary"
+        (click)="save(+drafts.value, +interval.value)"
+      >
+        Apply
+      </button>
     </div>
   </div>
-}
+</div>

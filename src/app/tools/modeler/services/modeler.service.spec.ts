@@ -26,10 +26,10 @@ describe('ModelerService', () => {
   let initializerSpy: jasmine.SpyObj<InitializerService>;
   let dirtyFlagSpy: jasmine.SpyObj<DirtyFlagService>;
 
-  const actorsDict = new Dictionary();
+  const actorsDict = new Dictionary<string>();
   actorsDict.set(ElementTypes.ACTOR, '');
 
-  const workObjectsDict = new Dictionary();
+  const workObjectsDict = new Dictionary<string>();
   workObjectsDict.set(ElementTypes.WORKOBJECT, '');
 
   let testIconSet: IconSet = {

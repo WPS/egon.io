@@ -7,11 +7,12 @@ import { IconSetImportExportService } from '../../icon-set-config/services/icon-
 import { ExportService } from '../../export/services/export.service';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { Draft } from '../domain/draft';
-import { testConfigAndDst } from '../../export/domain/export/configAndDst';
 import { StorageService } from '../../../domain/services/storage.service';
-import { of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DRAFTS_KEY } from 'src/app/domain/entities/constants';
+import { signal } from '@angular/core';
+import { testConfigAndDst } from 'src/app/tools/export/services/test-files/test_config_and_dst';
 
 describe('AutosaveService', () => {
   let service: AutosaveService;
@@ -21,6 +22,12 @@ describe('AutosaveService', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let iconSetImportExportService: jasmine.SpyObj<IconSetImportExportService>;
 
+  const configurationSignal = signal({
+    activated: true,
+    maxDrafts: 1,
+    interval: 1,
+  });
+
   beforeEach(() => {
     const modelerServiceMock = jasmine.createSpyObj(ModelerService.name, [
       'importStory',
@@ -29,7 +36,9 @@ describe('AutosaveService', () => {
     const autosaveConfigurationServiceMock = jasmine.createSpyObj(
       AutosaveConfigurationService.name,
       ['setConfiguration'],
-      { configuration$: of({ activated: true, maxDrafts: 1, interval: 1 }) },
+      {
+        configuration: configurationSignal.asReadonly(),
+      },
     );
     const storageServiceMock = jasmine.createSpyObj(StorageService.name, [
       'get',
@@ -40,7 +49,7 @@ describe('AutosaveService', () => {
       IconSetImportExportService.name,
       ['createIconSetConfiguration'],
       {
-        iconSetChangedSubject: iconSetChangedSubject,
+        iconSetChangedEmitterSubject: iconSetChangedSubject,
         iconSetChanged$: iconSetChangedSubject.asObservable(),
       },
     );
@@ -129,7 +138,7 @@ describe('AutosaveService', () => {
     it('should call autosave', () => {
       const serviceSpy = spyOn(service, 'autosave').and.callThrough();
 
-      iconSetImportExportService.iconSetChangedSubject.next();
+      iconSetImportExportService.iconSetChangedEmitterSubject.next();
 
       expect(serviceSpy).toHaveBeenCalledWith(1, false);
     });

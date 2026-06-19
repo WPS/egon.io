@@ -105,7 +105,7 @@ describe('LabelDictionaryService', () => {
     ]);
   });
 
-  it('should rename lables', () => {
+  it('should rename labels', () => {
     populateElementRegistry();
     service.createLabelDictionaries();
     service.massRenameLabels(

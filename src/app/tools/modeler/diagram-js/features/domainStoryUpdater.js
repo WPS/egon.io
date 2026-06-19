@@ -135,9 +135,9 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
 
   // crop connection ends during create/update
   function cropConnection(e) {
-    var context = e.context,
-      hints = context.hints || {},
-      connection;
+    const context = e.context,
+      hints = context.hints || {};
+    let connection;
 
     if (!context.cropped && hints.createElementsBehavior !== false) {
       connection = context.connection;

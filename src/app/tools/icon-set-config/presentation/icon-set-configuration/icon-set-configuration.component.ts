@@ -1,5 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import {
+  Component,
+  effect,
+  inject,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
@@ -7,7 +12,6 @@ import { ElementRegistryService } from 'src/app/domain/services/element-registry
 import { sanitizeIconName } from 'src/app/utils/sanitizer';
 import { IconFilterOptions } from '../../domain/iconFilterOptions';
 import { IconSetCustomizationService } from '../../services/icon-set-customization.service';
-import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -18,9 +22,8 @@ import { IconSetComponent } from '../icon-set/icon-set.component';
   selector: 'app-icon-set-configuration',
   templateUrl: './icon-set-configuration.component.html',
   styleUrls: ['./icon-set-configuration.component.scss'],
-  standalone: true,
+
   imports: [
-    CommonModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
@@ -28,18 +31,7 @@ import { IconSetComponent } from '../icon-set/icon-set.component';
     IconSetComponent,
   ],
 })
-export class IconSetConfigurationComponent implements OnInit {
-  readonly filter = new BehaviorSubject<IconFilterOptions>(
-    IconFilterOptions.NO_FILTER,
-  );
-
-  selectedActors = new BehaviorSubject<string[]>([]);
-  selectedWorkObjects = new BehaviorSubject<string[]>([]);
-
-  readonly allIcons: BehaviorSubject<Dictionary>;
-  readonly allIconNames = new BehaviorSubject<string[]>([]);
-  readonly allFilteredIconNames = new BehaviorSubject<string[]>([]);
-
+export class IconSetConfigurationComponent {
   private readonly iconSetImportExportService = inject(
     IconSetImportExportService,
   );
@@ -49,23 +41,23 @@ export class IconSetConfigurationComponent implements OnInit {
   );
   private readonly elementRegistryService = inject(ElementRegistryService);
 
+  readonly filter: WritableSignal<IconFilterOptions> = signal(
+    IconFilterOptions.NO_FILTER,
+  );
+
+  readonly allIcons: WritableSignal<Dictionary<string>> = signal(
+    this.iconDictionaryService.getFullDictionary(),
+  );
+  readonly allIconNames: WritableSignal<string[]> = signal([]);
+  readonly allFilteredIconNames: WritableSignal<string[]> = signal([]);
+
   constructor() {
-    this.allIcons = new BehaviorSubject<Dictionary>(
-      this.iconDictionaryService.getFullDictionary(),
-    );
-    this.allIcons.subscribe((allIcons) => {
-      this.allIconNames.next(allIcons.keysArray().sort(this.sortByName));
+    effect(() => {
+      this.allIconNames.set(this.allIcons().keysArray().sort(this.sortByName));
     });
-
-    this.selectedActors = this.iconSetCustomizationService.selectedActors$;
-    this.selectedWorkObjects =
-      this.iconSetCustomizationService.selectedWorkObjects$;
-  }
-
-  ngOnInit(): void {
-    this.filter.subscribe((type) => {
-      const allFiltered = this.getFilteredNamesForType(type);
-      this.allFilteredIconNames.next([...allFiltered].sort(this.sortByName));
+    effect(() => {
+      const allFiltered = this.getFilteredNamesForType(this.filter());
+      this.allFilteredIconNames.set([...allFiltered].sort(this.sortByName));
     });
   }
 
@@ -100,12 +92,12 @@ export class IconSetConfigurationComponent implements OnInit {
     const files = document.getElementById('importIcon').files;
     for (let iconInputFile of files) {
       const name = sanitizeIconName(iconInputFile.name);
-      const iconName = name + '-custom'; // this suffix helps users to see which icons they uploaded; it should not be used to check if an icon is actually custom or not since this convention was introduce after v1.3.0 and is therefore not reliable information
+      const iconName = name + '-custom'; // this suffix helps users to see which icons they uploaded; it should not be used to check if an icon is actually custom or not since this convention was introduced after v1.3.0 and is therefore not reliable information
 
       const src = await this.readFileAsDataURL(iconInputFile);
       this.iconDictionaryService.addCustomIcon(src, iconName);
-      this.allIcons.next(this.iconDictionaryService.getFullDictionary());
-      this.filter.next(this.filter.value);
+      this.allIcons.set(this.iconDictionaryService.getFullDictionary());
+      this.filter.set(this.filter());
       this.iconSetCustomizationService.addNewCustomIcon(iconName);
     }
   }
@@ -148,37 +140,37 @@ export class IconSetConfigurationComponent implements OnInit {
 
     this.iconSetCustomizationService.importConfiguration(config);
 
-    this.allIcons.next(this.iconDictionaryService.getFullDictionary());
-    this.filter.next(this.filter.value);
+    this.allIcons.set(this.iconDictionaryService.getFullDictionary());
+    this.filter.set(this.filter());
   }
 
   /** Filter **/
   filterForActors(): void {
-    if (this.filter.value === IconFilterOptions.ONLY_ACTORS) {
-      this.filter.next(IconFilterOptions.NO_FILTER);
+    if (this.filter() === IconFilterOptions.ONLY_ACTORS) {
+      this.filter.set(IconFilterOptions.NO_FILTER);
     } else {
-      this.filter.next(IconFilterOptions.ONLY_ACTORS);
+      this.filter.set(IconFilterOptions.ONLY_ACTORS);
     }
   }
 
   filterForWorkObjects(): void {
-    if (this.filter.value === IconFilterOptions.ONLY_WORKOBJECTS) {
-      this.filter.next(IconFilterOptions.NO_FILTER);
+    if (this.filter() === IconFilterOptions.ONLY_WORKOBJECTS) {
+      this.filter.set(IconFilterOptions.NO_FILTER);
     } else {
-      this.filter.next(IconFilterOptions.ONLY_WORKOBJECTS);
+      this.filter.set(IconFilterOptions.ONLY_WORKOBJECTS);
     }
   }
 
   filterForUnassigned(): void {
-    if (this.filter.value === IconFilterOptions.ONLY_UNASSIGNED) {
-      this.filter.next(IconFilterOptions.NO_FILTER);
+    if (this.filter() === IconFilterOptions.ONLY_UNASSIGNED) {
+      this.filter.set(IconFilterOptions.NO_FILTER);
     } else {
-      this.filter.next(IconFilterOptions.ONLY_UNASSIGNED);
+      this.filter.set(IconFilterOptions.ONLY_UNASSIGNED);
     }
   }
 
   filterByNameAndType($event: any) {
-    const filteredByKeyWord = this.allIcons.value
+    const filteredByKeyWord = this.allIcons()
       .all()
       .filter((entry) =>
         entry.keyWords.some((key) => {
@@ -188,13 +180,13 @@ export class IconSetConfigurationComponent implements OnInit {
       .map((entry) => entry.key);
 
     const filteredByNameAndType = this.getFilteredNamesForType(
-      this.filter.value,
+      this.filter(),
     ).filter(
       (name) =>
         name.toLowerCase().includes($event.target.value.toLowerCase()) ||
         filteredByKeyWord.includes(name),
     );
-    this.allFilteredIconNames.next(
+    this.allFilteredIconNames.set(
       [...filteredByNameAndType].sort(this.sortByName),
     );
   }
@@ -203,20 +195,20 @@ export class IconSetConfigurationComponent implements OnInit {
     let allFiltered: string[] = [];
     switch (type) {
       case IconFilterOptions.NO_FILTER:
-        allFiltered = this.allIconNames.value;
+        allFiltered = this.allIconNames();
         break;
       case IconFilterOptions.ONLY_ACTORS:
-        allFiltered = this.allIconNames.value.filter((name) =>
+        allFiltered = this.allIconNames().filter((name) =>
           this.iconSetCustomizationService.isIconActor(name),
         );
         break;
       case IconFilterOptions.ONLY_WORKOBJECTS:
-        allFiltered = this.allIconNames.value.filter((name) =>
+        allFiltered = this.allIconNames().filter((name) =>
           this.iconSetCustomizationService.isIconWorkObject(name),
         );
         break;
       case IconFilterOptions.ONLY_UNASSIGNED:
-        allFiltered = this.allIconNames.value.filter(
+        allFiltered = this.allIconNames().filter(
           (name) =>
             !this.iconSetCustomizationService.isIconActor(name) &&
             !this.iconSetCustomizationService.isIconWorkObject(name),

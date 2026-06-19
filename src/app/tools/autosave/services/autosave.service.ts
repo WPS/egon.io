@@ -1,4 +1,11 @@
-import { inject, Injectable } from '@angular/core';
+import {
+  effect,
+  inject,
+  Injectable,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ExportService } from '../../export/services/export.service';
 import { Draft } from '../domain/draft';
@@ -6,7 +13,7 @@ import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { StorageService } from '../../../domain/services/storage.service';
 import { TitleService } from '../../title/services/title.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import {
   DRAFTS_KEY,
   INITIAL_DESCRIPTION,
@@ -21,18 +28,22 @@ import { IconSetImportExportService } from '../../icon-set-config/services/icon-
 import { IconSet } from 'src/app/domain/entities/iconSet';
 import { isPresent } from 'src/app/utils/isPresent';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AutosaveService {
   private autosaveTimer: any;
-  readonly autosavedDraftsChanged$ = new Subject<void>();
-  private maxDrafts: number = 0;
 
-  private importConfigChanged: Subject<IconSet> = new Subject<IconSet>();
-  readonly importConfigChanged$: Observable<IconSet> =
-    this.importConfigChanged.asObservable();
+  private readonly autosavedDraftsChangedEmitterSubject = new Subject<void>();
+  readonly autosavedDraftsChanged$ =
+    this.autosavedDraftsChangedEmitterSubject.asObservable();
+  private readonly importConfigChangedSignal: WritableSignal<
+    IconSet | undefined
+  > = signal(undefined);
+  readonly importConfigChanged: Signal<IconSet | undefined> =
+    this.importConfigChangedSignal.asReadonly();
 
   private readonly autosaveConfiguration = inject(AutosaveConfigurationService);
   private readonly exportService = inject(ExportService);
@@ -45,13 +56,17 @@ export class AutosaveService {
   );
 
   constructor() {
-    this.autosaveConfiguration.configuration$.subscribe((configuration) => {
-      this.updateConfiguration(configuration);
-      this.maxDrafts = configuration.maxDrafts;
+    effect(() => {
+      this.updateConfiguration(this.autosaveConfiguration.configuration());
     });
-    this.iconSetImportExportService.iconSetChanged$.subscribe(() => {
-      this.autosave(this.maxDrafts, false);
-    });
+    this.iconSetImportExportService.iconSetChanged$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => {
+        this.autosave(
+          this.autosaveConfiguration.configuration().maxDrafts,
+          false,
+        );
+      });
   }
 
   getDrafts(): Draft[] {
@@ -74,13 +89,14 @@ export class AutosaveService {
       false,
     );
 
-    this.importConfigChanged.next(iconSet);
+    console.log('loadDraft');
+    this.importConfigChangedSignal.set(iconSet);
     this.modelerService.importStory(businessObjects, iconSet, fitToScreen);
   }
 
   removeAllDrafts() {
     this.storageService.set(DRAFTS_KEY, []);
-    this.autosavedDraftsChanged$.next();
+    this.autosavedDraftsChangedEmitterSubject.next();
   }
 
   loadLatestDraft() {
@@ -133,7 +149,7 @@ export class AutosaveService {
           duration: SNACKBAR_DURATION,
         });
       }
-      this.autosavedDraftsChanged$.next();
+      this.autosavedDraftsChangedEmitterSubject.next();
     }
   }
 

@@ -1,5 +1,5 @@
-export class Dictionary {
-  private entries: Entry[];
+export class Dictionary<T> {
+  private entries: Entry<T>[];
 
   constructor() {
     this.entries = [];
@@ -9,7 +9,7 @@ export class Dictionary {
     return this.entries.length;
   }
 
-  all(): Entry[] {
+  all(): Entry<T>[] {
     return this.entries;
   }
 
@@ -31,7 +31,7 @@ export class Dictionary {
     }
   }
 
-  putEntry(entry: Entry): void {
+  putEntry(entry: Entry<T>): void {
     if (!this.has(entry.key)) {
       this.entries.push(entry);
     }
@@ -47,7 +47,7 @@ export class Dictionary {
     });
   }
 
-  addBuiltInIcons(builtInIcons: Dictionary): void {
+  addBuiltInIcons(builtInIcons: Dictionary<T>): void {
     builtInIcons.entries.forEach((entry) => {
       if (!this.has(entry.key)) {
         this.entries.push(entry);
@@ -55,7 +55,7 @@ export class Dictionary {
     });
   }
 
-  appendDict(dict: Dictionary): void {
+  appendDict(dict: Dictionary<T>): void {
     dict.entries.forEach((entry) => this.putEntry(entry));
   }
 
@@ -82,8 +82,8 @@ export class Dictionary {
   }
 
   /** Create a Dictionary from a plain key-value object. */
-  static fromRecord(record: Record<string, any>): Dictionary {
-    const dict = new Dictionary();
+  static fromRecord<T>(record: Record<string, T>): Dictionary<T> {
+    const dict = new Dictionary<T>();
     for (const [key, value] of Object.entries(record)) {
       if (value != null) {
         dict.set(key, value);
@@ -93,12 +93,12 @@ export class Dictionary {
   }
 }
 
-export class Entry {
-  value: any; // ToDo: dh, I think type of any is not a good choice. Try to figur out if we can use typed objects here.
+export class Entry<T> {
+  value: T; // ToDo: dh, I think type of any is not a good choice. Try to figur out if we can use typed objects here.
   key: string;
   keyWords: string[];
 
-  constructor(value: any, key: string, keyWords: string[] = []) {
+  constructor(value: T, key: string, keyWords: string[] = []) {
     this.value = value;
     this.key = key;
     this.keyWords = keyWords;

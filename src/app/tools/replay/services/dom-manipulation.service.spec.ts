@@ -11,7 +11,7 @@ describe('DomManipulationService', () => {
 
   beforeEach(() => {
     const elementRegistryServiceMock = jasmine.createSpyObj(
-      'ElementRegsitryService',
+      'ElementRegistryService',
       [
         'getAllCanvasObjects',
         'getAllGroups',

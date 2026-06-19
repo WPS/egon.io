@@ -1,40 +1,41 @@
 <mat-dialog-content>
   <h1>{{ title }}</h1>
-  <div class="card">
-    <div class="row">
-      <mat-form-field class="dialogWidth" color="accent">
-        <mat-label>Filename</mat-label>
-        <input
-          matInput
-          type="text"
-          [placeholder]="defaultFileName"
-          (change)="updateFileName($event)"
-        />
-      </mat-form-field>
-    </div>
+  <div class="row">
+    <mat-form-field class="dialogWidth" color="accent">
+      <mat-label>Filename</mat-label>
+      <input
+        matInput
+        type="text"
+        [placeholder]="defaultFileName"
+        (change)="updateFileName($event)"
+      />
+    </mat-form-field>
   </div>
-  <div class="card">
-    <span>Options for image export:</span>
-    <label class="row">
-      <input
-        type="checkbox"
-        [checked]="withTitle | async"
-        (change)="updateWithTitle($event)"
-      />
+  <mat-label>Image Export Options</mat-label>
+  <br />
+  <div class="row">
+    <mat-checkbox
+      [checked]="withTitle()"
+      (change)="updateWithTitle($event.checked)"
+    >
       Add title and description to image
-    </label>
-    <label class="row">
-      <input
-        type="checkbox"
-        [checked]="useWhiteBackground | async"
-        (change)="updateUseWhiteBackground($event)"
-      />
+    </mat-checkbox>
+  </div>
+  <div class="row">
+    <mat-checkbox
+      [checked]="useWhiteBackground()"
+      (change)="updateUseWhiteBackground($event.checked)"
+    >
       Add white background to SVG (default: transparent)
-    </label>
-    <div class="row">
-      <input type="checkbox" [(ngModel)]="isAnimatedSvgExport" />
-      <span (click)="onExportAnimatedSvg()">Animated SVG</span>
-      @if (isAnimatedSvgExport) {
+    </mat-checkbox>
+  </div>
+  <div class="row">
+    <mat-checkbox
+      [checked]="isAnimatedSvgExport()"
+      (change)="onExportAnimatedSvg($event.checked)"
+    >
+      Animated SVG
+      @if (isAnimatedSvgExport()) {
         <span> - animation speed:</span>
         <input
           class="number-input"
@@ -44,9 +45,11 @@
           [maxLength]="1"
           oninput="this.value = this.value.replace(/[^1-9]/g, '')"
         />
-        <span (click)="onExportAnimatedSvg()">seconds</span>
+        <span (click)="onExportAnimatedSvg(!isAnimatedSvgExport())"
+          >seconds</span
+        >
       }
-    </div>
+    </mat-checkbox>
   </div>
 </mat-dialog-content>
 <br />

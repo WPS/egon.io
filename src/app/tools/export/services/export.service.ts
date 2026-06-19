@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { sanitizeForDesktop } from 'src/app/utils/sanitizer';
 import { TitleService } from 'src/app/tools/title/services/title.service';
@@ -7,7 +7,6 @@ import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
 import { PngService } from 'src/app/tools/export/services/png.service';
 import { SvgService } from 'src/app/tools/export/services/svg.service';
 import { HtmlPresentationService } from './html-presentation.service';
-import { formatDate } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import {
   ExportDialogData,
@@ -23,12 +22,9 @@ import { ModelerService } from '../../modeler/services/modeler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { BusinessObject } from '../../../domain/entities/businessObject';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { downloadFile } from 'src/app/utils/downloadFile';
 import { DomainStory } from '../../../domain/entities/domainStory';
 import { isPresent } from '../../../utils/isPresent';
-import { Subject } from 'rxjs/internal/Subject';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Injectable({
   providedIn: 'root',
@@ -44,14 +40,7 @@ export class ExportService {
   private readonly dialogService = inject(DialogService);
   private readonly snackbar = inject(MatSnackBar);
 
-  private readonly fileNameSubject = new BehaviorSubject<string>('');
-
-  private readonly title = toSignal(this.titleService.title$, {
-    initialValue: this.titleService.getTitle(),
-  });
-  private readonly description = toSignal(this.titleService.description$, {
-    initialValue: this.titleService.getDescription(),
-  });
+  private readonly fileNameSignal = signal('');
 
   isDomainStoryExportable(): boolean {
     return this.modelerService.getStory().length >= 1;
@@ -65,7 +54,7 @@ export class ExportService {
   }
 
   downloadEGN(filename: string): void {
-    this.fileNameSubject.next(filename);
+    this.fileNameSignal.set(filename);
 
     const dst = this.getStoryForDownload();
     const configAndDST = this.createConfigAndDST(dst);
@@ -85,8 +74,8 @@ export class ExportService {
     const dst: ConfigAndDST = this.createConfigAndDST(story);
 
     const svgData: string = this.svgService.createSVGData(
-      this.title(),
-      this.description(),
+      this.titleService.title(),
+      this.titleService.description(),
       dst,
       withTitle,
       useWhiteBackground,
@@ -103,14 +92,14 @@ export class ExportService {
   }
 
   downloadPNG(filename: string, withTitle: boolean): void {
-    this.fileNameSubject.next(filename);
+    this.fileNameSignal.set(filename);
 
     const canvas = document.getElementById('canvas');
     if (canvas) {
       let { svg, image } = this.pngService.createSvgAndImage(
         canvas,
-        this.description(),
-        this.title(),
+        this.titleService.description(),
+        this.titleService.title(),
         withTitle,
       );
 
@@ -197,7 +186,7 @@ export class ExportService {
   }
 
   downloadHTMLPresentation(filename: string): void {
-    this.fileNameSubject.next(filename);
+    this.fileNameSignal.set(filename);
     this.htmlPresentationService.downloadHTMLPresentation(filename).then();
   }
 
@@ -222,12 +211,12 @@ export class ExportService {
   }
 
   private createFileName() {
-    return sanitizeForDesktop(this.title());
+    return sanitizeForDesktop(this.titleService.title());
   }
 
   getFilename() {
-    return this.fileNameSubject.value
-      ? this.fileNameSubject.value
+    return this.fileNameSignal()
+      ? this.fileNameSignal()
       : this.createFileName();
   }
 }

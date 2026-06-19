@@ -10,7 +10,7 @@
       type="url"
       id="urlInput"
       subscriptSizing="dynamic"
-      [value]="fileUrl | async"
+      [value]="fileUrl()"
       (input)="updateUrl($event)"
     />
   </mat-form-field>
@@ -24,7 +24,7 @@
       mat-flat-button
       color="primary"
       (click)="doImport()"
-      [disabled]="!fileUrl.value"
+      [disabled]="!fileUrl()"
     >
       Import
     </button>

@@ -34,7 +34,7 @@ describe('DomainStoryIdFactory', function () {
     for (let i = 0; i < 5000; i++) {
       resultSet.add(idFactory.getId(''));
     }
-    // we are sure all ids are unique because the set doesnt allow duplicates
+    // we are sure all ids are unique because the set doesn't allow duplicates
     expect(resultSet.size).toEqual(5000);
   });
 });

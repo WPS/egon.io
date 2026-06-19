@@ -13,7 +13,7 @@ const testObject = {
 describe('Dict', () => {
   it('should create empty Dictionary', () => {
     // when
-    const dict = new Dictionary();
+    const dict = new Dictionary<string>();
 
     // then
     expect(dict).toBeTruthy();
@@ -23,7 +23,7 @@ describe('Dict', () => {
 
   it('should add Entries', () => {
     // given
-    const dict = new Dictionary();
+    const dict = new Dictionary<string>();
 
     // when
     dict.set(key1, value1);
@@ -39,7 +39,7 @@ describe('Dict', () => {
 
   it('should put Entry', () => {
     // given
-    const dict1 = new Dictionary();
+    const dict1 = new Dictionary<string>();
     const entry = new Entry(value1, key1);
 
     // when
@@ -52,7 +52,7 @@ describe('Dict', () => {
 
   it('should add Each', () => {
     // given
-    const dict1 = new Dictionary();
+    const dict1 = new Dictionary<string>();
 
     // when
     dict1.addEach(testObject);
@@ -63,8 +63,8 @@ describe('Dict', () => {
 
   it('should append Dict', () => {
     // given
-    const dict1 = new Dictionary();
-    const dict2 = new Dictionary();
+    const dict1 = new Dictionary<string>();
+    const dict2 = new Dictionary<string>();
 
     dict1.set(key1, value1);
 
@@ -77,7 +77,7 @@ describe('Dict', () => {
 
   it('should get keysArray', () => {
     // given
-    const dict1 = new Dictionary();
+    const dict1 = new Dictionary<string>();
 
     dict1.set(key1, value1);
 
@@ -91,7 +91,7 @@ describe('Dict', () => {
 
   it('should delete entries', () => {
     // given
-    const dict1 = new Dictionary();
+    const dict1 = new Dictionary<string>();
 
     dict1.set(key1, value1);
     dict1.set(key2, value2);
@@ -107,7 +107,7 @@ describe('Dict', () => {
 
   it('should clear dict', () => {
     // given
-    const dict1 = new Dictionary();
+    const dict1 = new Dictionary<string>();
 
     dict1.set(key1, value1);
 

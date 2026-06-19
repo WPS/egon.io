@@ -443,7 +443,7 @@ export default function DomainStoryRenderer(
 
       // just adjusting the start- and endpoint of the connection-element moves only the drawn connection,
       // not the interactive line. This can be fixed by manually overriding the points of the interactive polyline
-      // in the HTMl with the points of the drawn one.
+      // in the HTML with the points of the drawn one.
       // this however does not adjust the surrounding box of the connection.
       fixConnectionInHTML(p.parentElement);
 
@@ -723,15 +723,15 @@ export default function DomainStoryRenderer(
 
   eventBus.on("bendpoint.move.start", 200, function (event) {
     // the bendpoint which we are dragging will otherwise be displayed with 0.3 opacity
-    // through bendpoint-dragging we match the css class more specificly, hence our style applies
+    // through bendpoint-dragging we match the CSS class more specifically, hence our style applies
     svgClasses(event.context.draggerGfx).add("bendpoint-dragging");
     // the old path of the activity will otherwise be displayed in gray
     canvas.addMarker(event.context.connection, "djs-element-hidden");
   });
 
   eventBus.on("bendpoint.move.end", 2000, function (event) {
-    // the acitvity will not be displayed if we don't remove the marker we added during bendpoint.move.start
-    // high priority is neccessary, so we come before something that might stop the execution
+    // the activity will not be displayed if we don't remove the marker we added during bendpoint.move.start
+    // high priority is necessary, so we come before something that might stop the execution
     canvas.removeMarker(event.context.connection, "djs-element-hidden");
   });
 }

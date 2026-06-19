@@ -1,5 +1,4 @@
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import {
   INITIAL_DESCRIPTION,
@@ -18,18 +17,14 @@ export class TitleService {
   private readonly commandStackService = inject(CommandStackService);
   private readonly dialogService = inject(DialogService);
 
-  private readonly titleSubject = new BehaviorSubject<string>(INITIAL_TITLE);
-  private readonly scopeSubject = new BehaviorSubject<Scope | undefined>(
-    undefined,
-  );
-  private readonly descriptionSubject = new BehaviorSubject<string>(
-    INITIAL_DESCRIPTION,
-  );
-  private readonly showDescriptionSubject = new BehaviorSubject<boolean>(true);
+  private readonly titleSignal = signal(INITIAL_TITLE);
+  private readonly scopeSignal = signal(undefined as Scope | undefined);
+  private readonly descriptionSignal = signal(INITIAL_DESCRIPTION);
+  private readonly showDescriptionSignal = signal(true);
 
-  readonly title$ = this.titleSubject.asObservable();
-  readonly description$ = this.descriptionSubject.asObservable();
-  readonly showDescription$ = this.showDescriptionSubject.asObservable();
+  readonly title = this.titleSignal.asReadonly();
+  readonly description = this.descriptionSignal.asReadonly();
+  readonly showDescription = this.showDescriptionSignal.asReadonly();
 
   openHeaderDialog(): void {
     const config = new MatDialogConfig();
@@ -68,32 +63,32 @@ export class TitleService {
         ? INITIAL_TITLE
         : inputTitle;
 
-    this.titleSubject.next(title);
+    this.titleSignal.set(title);
     document.title = title === INITIAL_TITLE ? 'egon.io' : title;
   }
 
   private updateScope(scope: Scope | undefined): void {
-    this.scopeSubject.next(scope);
+    this.scopeSignal.set(scope);
   }
 
   private updateDescription(description: string | null): void {
-    this.descriptionSubject.next(description ?? this.descriptionSubject.value);
+    this.descriptionSignal.set(description ?? this.descriptionSignal());
   }
 
   setShowDescription(show: boolean): void {
-    this.showDescriptionSubject.next(show);
+    this.showDescriptionSignal.set(show);
   }
 
   getTitle(): string {
-    return this.titleSubject.value;
+    return this.titleSignal();
   }
 
   getScope(): Scope | undefined {
-    return this.scopeSubject.value;
+    return this.scopeSignal();
   }
 
   getDescription(): string {
-    return this.descriptionSubject.value;
+    return this.descriptionSignal();
   }
 
   getVersion(): string {

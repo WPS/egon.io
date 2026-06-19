@@ -4,6 +4,7 @@ import { AutosavedDraftsComponent } from './autosaved-drafts.component';
 import { AutosaveService } from '../../services/autosave.service';
 import { AutosaveConfigurationService } from '../../services/autosave-configuration.service';
 import { of } from 'rxjs';
+import { signal } from '@angular/core';
 
 describe('AutosavedDraftsComponent', () => {
   let component: AutosavedDraftsComponent;
@@ -13,7 +14,7 @@ describe('AutosavedDraftsComponent', () => {
   const autosaveConfigurationServiceMock = jasmine.createSpyObj(
     'AutosaveConfigurationService',
     ['setConfiguration'],
-    { configuration$: of({ activated: true, maxDrafts: 1, interval: 1 }) },
+    { configuration: signal({ activated: true, maxDrafts: 1, interval: 1 }) },
   );
 
   const autosaveServiceMock = jasmine.createSpyObj(

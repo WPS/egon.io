@@ -51,16 +51,16 @@ describe(ReplayService.name, () => {
   });
 
   it('should return value', () => {
-    expect(service.getReplayOn()).toBeFalse();
+    expect(service.replayOn()).toBeFalse();
   });
 
   it('should return Observable', () => {
-    service.replayOn$.subscribe((value) => expect(value).toBeFalse());
+    expect(service.replayOn()).toBeFalsy();
   });
 
   it('should set value', () => {
     service.setReplayState(true);
-    expect(service.getReplayOn()).toBeTrue();
+    expect(service.replayOn()).toBeTrue();
   });
 
   describe('with checkSequenceNumbers = true', () => {

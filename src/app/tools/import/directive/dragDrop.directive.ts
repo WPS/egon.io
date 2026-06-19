@@ -8,7 +8,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
 
 @Directive({
-  standalone: true,
   selector: '[appDrag]',
 })
 export class DragDirective {
@@ -36,7 +35,7 @@ export class DragDirective {
     this.background = '';
 
     if (evt.dataTransfer?.files[0]) {
-      if (this.dirtyFlagService.dirty) {
+      if (this.dirtyFlagService.dirty()) {
         this.importDomainStoryService.openUnsavedChangesReminderDialog(() =>
           this.importDomainStoryService.performDropImport(
             evt.dataTransfer!.files[0],

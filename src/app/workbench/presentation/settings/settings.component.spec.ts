@@ -7,6 +7,7 @@ import { ModelerService } from '../../../tools/modeler/services/modeler.service'
 import { AutosaveConfigurationService } from '../../../tools/autosave/services/autosave-configuration.service';
 import { IconSetCustomizationService } from '../../../tools/icon-set-config/services/icon-set-customization.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { signal } from '@angular/core';
 
 describe('SettingsComponent', () => {
   let component: SettingsComponent;
@@ -20,8 +21,24 @@ describe('SettingsComponent', () => {
           SettingsService,
           ModelerService,
           AutosaveConfigurationService,
-          IconSetCustomizationService,
         ),
+        {
+          provide: IconSetCustomizationService,
+          useValue: jasmine.createSpyObj(
+            'IconSetCustomizationService',
+            ['getAndClearSavedConfiguration', 'getIconForName'],
+            {
+              selectedActorsSignal: signal([]),
+              selectedWorkObjectsSignal: signal([]),
+
+              iconSetConfigurationTypesSignal: signal({
+                name: '',
+                actors: [],
+                workObjects: [],
+              }),
+            },
+          ),
+        },
       ],
     }).compileComponents();
   });

@@ -15,7 +15,7 @@ export class StoryCreatorService {
   private readonly elementRegistryService = inject(ElementRegistryService);
 
   traceActivitiesAndCreateStory(): StorySentence[] {
-    const tracedActivityMap = new Dictionary();
+    const tracedActivityMap = new Dictionary<CanvasObject>();
     const story: StorySentence[] = [];
     const activities = this.elementRegistryService.getActivitiesFromActors();
     const tracedActivityMapKeys: number[] = [];
@@ -40,7 +40,7 @@ export class StoryCreatorService {
   }
 
   private createSentence(
-    tracedActivityMap: Dictionary,
+    tracedActivityMap: Dictionary<CanvasObject>,
     tracedActivityMapKey: number,
     story: StorySentence[],
     storyIndex: number,
@@ -72,7 +72,7 @@ export class StoryCreatorService {
       // find all activity numbers of the ActivityBusinessObject
       // and returned the highest one
       const allActivityNumbers = sentence.objects.map((businessObject) => {
-        if (businessObject.type.includes('activity')) {
+        if (businessObject.type.includes(ElementTypes.ACTIVITY)) {
           const activity = businessObject as ActivityBusinessObject;
           return activity.number ?? 0;
         } else {
@@ -119,7 +119,7 @@ export class StoryCreatorService {
       for (const checkTarget of parallelSentenceTargetObjects) {
         if (
           checkTarget.businessObject &&
-          !checkTarget.businessObject.type.includes('actor') &&
+          !checkTarget.businessObject.type.includes(ElementTypes.ACTOR) &&
           checkTarget.outgoing
         ) {
           // check the target for each outgoing activity
