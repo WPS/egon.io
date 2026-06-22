@@ -100,10 +100,8 @@ export function generateAutomaticNumber(elementActivity, commandStack) {
   });
   for (let i = 0; i < usedNumbers.length; i++) {
     if (!usedNumbers.includes(i)) {
-      if (!usedNumbers.includes(i)) {
-        wantedNumber = i;
-        i = usedNumbers.length;
-      }
+      wantedNumber = i;
+      i = usedNumbers.length;
     }
   }
   if (wantedNumber === -1) {

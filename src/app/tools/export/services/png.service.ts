@@ -7,9 +7,6 @@ import { Box } from 'src/app/tools/export/domain/export/box';
   providedIn: 'root',
 })
 export class PngService {
-  private width: number = 0;
-  private height: number = 0;
-
   private browserSpecs(): BrowserSpecs {
     const ua = navigator.userAgent;
     let tem;
@@ -56,9 +53,7 @@ export class PngService {
       // versionNumber of implementation unknown
     }
     if (fix) {
-      while (svg.includes('#')) {
-        svg = svg.replace('#', '%23');
-      }
+      svg = svg.replaceAll('#', '%23');
     }
     return svg;
   }
@@ -158,14 +153,14 @@ export class PngService {
     description: string,
     title: string,
     withTitle: boolean,
-  ): string {
+  ): { svg: string; width: number; height: number } {
     const box = this.findMostOuterElements(
       layerBase,
       description === undefined,
     );
     let viewBoxIndex = svg.indexOf('width="');
 
-    this.calculateWidthAndHeight(box);
+    let { width, height } = this.calculateWidthAndHeight(box);
 
     const { insertText, dynamicHeightOffset } =
       createTitleAndDescriptionSVGElement(
@@ -174,13 +169,18 @@ export class PngService {
         description,
         box.xLeft + 10,
         box.yUp + 20,
-        this.width,
+        width,
       );
     if (withTitle) {
-      this.height += dynamicHeightOffset;
+      height += dynamicHeightOffset;
     }
 
-    const bounds = this.createBounds(box, withTitle ? dynamicHeightOffset : 0);
+    const bounds = this.createBounds(
+      box,
+      withTitle ? dynamicHeightOffset : 0,
+      width,
+      height,
+    );
 
     const dataStart = svg.substring(0, viewBoxIndex);
     viewBoxIndex = svg.indexOf('tabindex="');
@@ -200,23 +200,28 @@ export class PngService {
     }
     svg = this.URIHashtagFix(svg);
 
-    return svg;
+    return { svg, width, height };
   }
 
-  private createBounds(box: Box, extraHeight: number) {
+  private createBounds(
+    box: Box,
+    extraHeight: number,
+    width: number,
+    height: number,
+  ) {
     return (
       'width="' +
-      this.width +
+      width +
       '" height="' +
-      this.height +
+      height +
       '" viewBox=" ' +
       box.xLeft +
       ' ' +
       (box.yUp - extraHeight) +
       ' ' +
-      this.width +
+      width +
       ' ' +
-      this.height +
+      height +
       '" '
     );
   }
@@ -224,39 +229,41 @@ export class PngService {
   /**
    * Calculate the Width and Height of the Bounding Box for the PNG so no Parts are cut off
    */
-  private calculateWidthAndHeight(box: Box): [number, number] {
+  private calculateWidthAndHeight(box: Box): { width: number; height: number } {
+    let width = 0;
+    let height = 0;
     if (box.xLeft < 0) {
       if (box.xRight < 0) {
-        this.width = Math.abs(box.xLeft - box.xRight);
+        width = Math.abs(box.xLeft - box.xRight);
       } else {
-        this.width = Math.abs(box.xLeft) + box.xRight;
+        width = Math.abs(box.xLeft) + box.xRight;
       }
     } else {
-      this.width = box.xRight - box.xLeft;
+      width = box.xRight - box.xLeft;
     }
 
     if (box.yUp < 0) {
       if (box.yDown < 0) {
-        this.height = Math.abs(box.yUp - box.yDown);
+        height = Math.abs(box.yUp - box.yDown);
       } else {
-        this.height = Math.abs(box.yUp) + box.yDown;
+        height = Math.abs(box.yUp) + box.yDown;
       }
     } else {
-      this.height = box.yDown - box.yUp;
+      height = box.yDown - box.yUp;
     }
 
     // if the domain-Story is smaller than 300px in width or height, increase its dimensions
-    if (this.height < 300) {
-      this.height += 300;
+    if (height < 300) {
+      height += 300;
       box.yUp -= 150;
       box.yDown += 150;
     }
-    if (this.width < 300) {
-      this.width += 300;
+    if (width < 300) {
+      width += 300;
       box.xLeft -= 150;
       box.xRight += 150;
     }
-    return [this.height, this.width];
+    return { width, height };
   }
 
   private extractSVG(viewport: any, outerSVGElement: any): string {
@@ -292,20 +299,12 @@ export class PngService {
     return svg;
   }
 
-  getWidth(): number {
-    return this.width;
-  }
-
-  getHeight(): number {
-    return this.height;
-  }
-
-  createTempCanvas() {
+  createTempCanvas(width: number, height: number): HTMLCanvasElement {
     const tempCanvas = document.createElement('canvas');
 
     const padding = 10;
-    tempCanvas.width = this.getWidth() + padding;
-    tempCanvas.height = this.getHeight() + padding;
+    tempCanvas.width = width + padding;
+    tempCanvas.height = height + padding;
     return tempCanvas;
   }
 
@@ -314,21 +313,25 @@ export class PngService {
     description: string,
     title: string,
     withTitle: boolean,
-  ) {
+  ): { svg: string; image: HTMLImageElement; width: number; height: number } {
     const container = canvas.getElementsByClassName('djs-container');
     const svgElements = container[0].getElementsByTagName('svg');
     const outerSVGElement = svgElements[0];
     const viewport = outerSVGElement.getElementsByClassName('viewport')[0];
     const layerBase = viewport.querySelector('[class^="layer-root-"]');
 
+    const { svg, width, height } = this.prepareSVG(
+      this.extractSVG(viewport, outerSVGElement), // removes unwanted black dots in image
+      layerBase,
+      description,
+      title,
+      withTitle,
+    );
+
     return {
-      svg: this.prepareSVG(
-        this.extractSVG(viewport, outerSVGElement), // removes unwanted black dots in image
-        layerBase,
-        description,
-        title,
-        withTitle,
-      ),
+      svg,
+      width,
+      height,
       image: document.createElement('img'),
     };
   }

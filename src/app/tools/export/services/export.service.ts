@@ -96,7 +96,7 @@ export class ExportService {
 
     const canvas = document.getElementById('canvas');
     if (canvas) {
-      let { svg, image } = this.pngService.createSvgAndImage(
+      const { svg, image, width, height } = this.pngService.createSvgAndImage(
         canvas,
         this.titleService.description(),
         this.titleService.title(),
@@ -104,7 +104,7 @@ export class ExportService {
       );
 
       image.onload = () => {
-        const tempCanvas = this.pngService.createTempCanvas();
+        const tempCanvas = this.pngService.createTempCanvas(width, height);
         const ctx = tempCanvas.getContext('2d');
         if (ctx) {
           // fill with white background
@@ -124,8 +124,8 @@ export class ExportService {
       };
       image.onchange = image.onload;
 
-      image.width = this.pngService.getWidth();
-      image.height = this.pngService.getHeight();
+      image.width = width;
+      image.height = height;
 
       image.src = 'data:image/svg+xml,' + svg;
     }
