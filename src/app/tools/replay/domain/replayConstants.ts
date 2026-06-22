@@ -9,3 +9,6 @@ export const HIGHLIGHT_NUMBER_COLOR = 'black';
 export const HIGHLIGHT_STROKE_WIDTH = '4';
 
 export const CONNECTION_PATH_DOM_SELECTOR = 'path';
+
+export const DISPLAY_BLOCK = 'block';
+export const DISPLAY_NONE = 'none';

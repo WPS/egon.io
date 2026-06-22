@@ -7,6 +7,11 @@ import {
   has,
   sortBy,
 } from "min-dash";
+import {
+  PROPERTY_COPY_CAN_COPY_PROPERTIES_EVENT,
+  PROPERTY_COPY_CAN_COPY_PROPERTY_EVENT,
+  PROPERTY_COPY_CAN_SET_COPIED_PROPERTY_EVENT,
+} from "../diagramJSConstants";
 
 const DISALLOWED_PROPERTIES = ["incoming", "outgoing"];
 
@@ -51,7 +56,7 @@ PropertyCopy.prototype.copyElement = function (
   }
 
   const canCopyProperties = this._eventBus.fire(
-    "propertyCopy.canCopyProperties",
+    PROPERTY_COPY_CAN_COPY_PROPERTIES_EVENT,
     {
       propertyNames: propertyNames,
       sourceElement: sourceElement,
@@ -82,7 +87,7 @@ PropertyCopy.prototype.copyElement = function (
     );
 
     const canSetProperty = self._eventBus.fire(
-      "propertyCopy.canSetCopiedProperty",
+      PROPERTY_COPY_CAN_SET_COPIED_PROPERTY_EVENT,
       {
         parent: targetElement,
         property: copiedProperty,
@@ -110,11 +115,14 @@ PropertyCopy.prototype.copyProperty = function (
   const self = this;
 
   // allow others to copy property
-  const copiedProperty = this._eventBus.fire("propertyCopy.canCopyProperty", {
-    parent: parent,
-    property: property,
-    propertyName: propertyName,
-  });
+  const copiedProperty = this._eventBus.fire(
+    PROPERTY_COPY_CAN_COPY_PROPERTY_EVENT,
+    {
+      parent: parent,
+      property: property,
+      propertyName: propertyName,
+    },
+  );
 
   // return if copying is NOT allowed
   if (copiedProperty === false) {

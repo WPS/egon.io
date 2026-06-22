@@ -25,6 +25,7 @@ import { DiagramJsContextPad } from 'src/app/tools/modeler/diagram-js/type-inter
 import { DiagramJsPalette } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-palette';
 import { DiagramJsEventBus } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-event-bus';
 import { DiagramJsSelection } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-selection';
+import { EVENT_COMMANDSTACK_CHANGED } from 'src/app/tools/modeler/diagram-js/features/diagramJSConstants';
 
 @Injectable({
   providedIn: 'root',
@@ -173,7 +174,7 @@ export class ModelerService {
   commandStackChanged(): void {
     // to update the title of the svg, we need to tell the command stack, that a value has changed
     this.eventBus!.fire(
-      'commandStack.changed',
+      EVENT_COMMANDSTACK_CHANGED,
       this.debounce(this.saveSVG, 500),
     );
   }

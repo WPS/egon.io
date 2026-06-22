@@ -2,11 +2,18 @@
 
 import { undoGroupRework } from "../util/util";
 import { ElementTypes } from "../../../../../domain/entities/elementTypes";
+import {
+  ELEMENT_COLOR_CHANGE_EVENT,
+  EVENT_ELEMENT_CHANGED,
+  EVENT_SHAPE_ADDED,
+  EVENT_SHAPE_REMOVED,
+  SHAPE_REMOVE_GROUP_WITHOUT_CHILDREN_EVENT,
+} from "../diagramJSConstants";
 
 export default function elementUpdateHandler(commandStack, eventBus) {
-  commandStack.registerHandler("element.colorChange", element_colorChange);
+  commandStack.registerHandler(ELEMENT_COLOR_CHANGE_EVENT, element_colorChange);
   commandStack.registerHandler(
-    "shape.removeGroupWithoutChildren",
+    SHAPE_REMOVE_GROUP_WITHOUT_CHILDREN_EVENT,
     removeGroupWithoutChildren,
   );
 
@@ -24,12 +31,12 @@ export default function elementUpdateHandler(commandStack, eventBus) {
         element.incoming[0]
       ) {
         element.incoming[0].businessObject.pickedColor = context.newColor;
-        eventBus.fire("element.changed", { element: element.incoming[0] });
+        eventBus.fire(EVENT_ELEMENT_CHANGED, { element: element.incoming[0] });
       }
 
       semantic.pickedColor = context.newColor;
 
-      eventBus.fire("element.changed", { element });
+      eventBus.fire(EVENT_ELEMENT_CHANGED, { element });
     };
 
     this.revert = function (context) {
@@ -41,12 +48,12 @@ export default function elementUpdateHandler(commandStack, eventBus) {
         element.incoming[0]
       ) {
         element.incoming[0].businessObject.pickedColor = context.oldColor;
-        eventBus.fire("element.changed", { element: element.incoming[0] });
+        eventBus.fire(EVENT_ELEMENT_CHANGED, { element: element.incoming[0] });
       }
 
       semantic.pickedColor = context.oldColor;
 
-      eventBus.fire("element.changed", { element });
+      eventBus.fire(EVENT_ELEMENT_CHANGED, { element });
     };
   }
 
@@ -60,14 +67,14 @@ export default function elementUpdateHandler(commandStack, eventBus) {
       let element = ctx.element;
       ctx.children.forEach((child) => {
         undoGroupRework(element, child);
-        eventBus.fire("element.changed", { element: child });
+        eventBus.fire(EVENT_ELEMENT_CHANGED, { element: child });
       });
-      eventBus.fire("shape.remove", { element });
+      eventBus.fire(EVENT_SHAPE_REMOVE, { element });
     };
 
     this.revert = function (ctx) {
       let element = ctx.element;
-      eventBus.fire("shape.added", { element });
+      eventBus.fire(EVENT_SHAPE_ADDED, { element });
 
       ctx.element.children.forEach((child) => {
         reworkGroupElements(element, child);

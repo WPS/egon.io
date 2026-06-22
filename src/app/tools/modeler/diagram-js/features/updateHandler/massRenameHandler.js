@@ -1,5 +1,7 @@
 "use strict";
 
+import { EVENT_ELEMENT_CHANGED } from "../diagramJSConstants";
+
 export default function DSMassRenameHandler(commandStack, eventBus) {
   commandStack.registerHandler("domainStoryObjects.massRename", massRename);
 
@@ -20,7 +22,7 @@ export default function DSMassRenameHandler(commandStack, eventBus) {
         let semantic = element.businessObject;
         semantic.name = context.newValue;
 
-        eventBus.fire("element.changed", { element });
+        eventBus.fire(EVENT_ELEMENT_CHANGED, { element });
       });
     };
 
@@ -30,7 +32,7 @@ export default function DSMassRenameHandler(commandStack, eventBus) {
         let semantic = element.businessObject;
         semantic.name = context.oldLabel;
 
-        eventBus.fire("element.changed", { element });
+        eventBus.fire(EVENT_ELEMENT_CHANGED, { element });
       });
     };
   }

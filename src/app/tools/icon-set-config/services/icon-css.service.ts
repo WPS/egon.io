@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { ICON_CSS_CLASS_PREFIX } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { sanitizeForCss } from 'src/app/utils/sanitizer';
 
+const ICON_CSS_SHEET_ID = 'iconsCss';
+
 @Injectable({
   providedIn: 'root',
 })
 export class IconCssService {
   public addIconsToCss(iconSrc: string, iconName: string) {
-    const sheetEl = document.getElementById('iconsCss');
-    if (!sheetEl) {
+    const iconCssSheet = document.getElementById(ICON_CSS_SHEET_ID);
+    if (!iconCssSheet) {
       return;
     }
 
@@ -20,7 +22,11 @@ export class IconCssService {
       this.wrapSRCInSVG(iconSrc) +
       '"); margin: 3px;}';
     // @ts-ignore
-    sheetEl?.sheet?.insertRule(iconStyle, sheetEl.sheet.cssRules.length);
+    iconCssSheet?.sheet?.insertRule(
+      iconStyle,
+      // @ts-ignore
+      iconCssSheet.sheet.cssRules.length,
+    );
   }
 
   private wrapSRCInSVG(src: string): string {

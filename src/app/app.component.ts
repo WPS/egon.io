@@ -40,6 +40,7 @@ import { SettingsComponent } from './workbench/presentation/settings/settings.co
 import { DragDirective } from './tools/import/directive/dragDrop.directive';
 import { ImportDomainStoryService } from 'src/app/tools/import/services/import-domain-story.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { OPEN_COLOR_PICKER_EVENT } from 'src/app/tools/modeler/diagram-js/features/diagramJSConstants';
 
 @Component({
   selector: 'app-root',
@@ -162,7 +163,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
     });
 
-    document.addEventListener('openColorPicker', () => {
+    document.addEventListener(OPEN_COLOR_PICKER_EVENT, () => {
       this.colorPicker.openDialog();
     });
 

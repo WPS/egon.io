@@ -30,7 +30,7 @@ import {
   isCustomSvgIcon,
   getAnnotationBracketSvg,
 } from "./util/util";
-import { LABEL_NUMBER_CSS_CLASS } from "../../../replay/services/dom-manipulation.service";
+import { EVENT_BENDPOINT_MOVE_START } from "./diagramJSConstants";
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
@@ -720,7 +720,7 @@ export default function DomainStoryRenderer(
     return componentsToPath(rectangle);
   };
 
-  eventBus.on("bendpoint.move.start", 200, function (event) {
+  eventBus.on(EVENT_BENDPOINT_MOVE_START, 200, function (event) {
     // the bendpoint which we are dragging will otherwise be displayed with 0.3 opacity
     // through bendpoint-dragging we match the CSS class more specifically, hence our style applies
     svgClasses(event.context.draggerGfx).add("bendpoint-dragging");
@@ -728,7 +728,7 @@ export default function DomainStoryRenderer(
     canvas.addMarker(event.context.connection, "djs-element-hidden");
   });
 
-  eventBus.on("bendpoint.move.end", 2000, function (event) {
+  eventBus.on(EVENT_BENDPOINT_MOVE_END, 2000, function (event) {
     // the activity will not be displayed if we don't remove the marker we added during bendpoint.move.start
     // high priority is necessary, so we come before something that might stop the execution
     canvas.removeMarker(event.context.connection, "djs-element-hidden");

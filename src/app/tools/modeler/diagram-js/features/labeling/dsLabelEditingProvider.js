@@ -8,6 +8,7 @@ import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { sanitizeTextForSVGExport } from "src/app/utils/sanitizer";
 import { is } from "../util/util";
 import { isBackground } from "../domainStoryRules";
+import { EVENT_CREATE_END } from "../diagramJSConstants";
 
 let dictionaryService;
 
@@ -91,7 +92,7 @@ export default function DSLabelEditingProvider(
     createAutocomplete(element);
   });
 
-  eventBus.on("create.end", 500, function (event) {
+  eventBus.on(EVENT_CREATE_END, 500, function (event) {
     let element = event.shape,
       canExecute = event.context.canExecute;
 

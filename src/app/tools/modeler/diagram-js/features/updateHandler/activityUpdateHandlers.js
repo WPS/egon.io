@@ -1,6 +1,11 @@
 "use strict";
 
 import { getNumbersAndIDs } from "../numbering/numbering";
+import {
+  ACTIVITY_CHANGED_EVENT,
+  ACTIVITY_DIRECTION_CHANGE_EVENT,
+  EVENT_ELEMENT_CHANGED,
+} from "../diagramJSConstants";
 
 /**
  * commandStack Handler for changes at activities
@@ -13,10 +18,10 @@ export function initializeActivityUpdateHandler(canvasElementRegistryService) {
 
 export default function activityUpdateHandler(commandStack, eventBus) {
   commandStack.registerHandler(
-    "activity.directionChange",
+    ACTIVITY_DIRECTION_CHANGE_EVENT,
     activity_directionChange,
   );
-  commandStack.registerHandler("activity.changed", activity_changed);
+  commandStack.registerHandler(ACTIVITY_CHANGED_EVENT, activity_changed);
 
   // update the activity from the activity-dialog, either with or without number
   // and change other activities too, to keep the numbers consistent
@@ -43,7 +48,7 @@ export default function activityUpdateHandler(commandStack, eventBus) {
       businessObject.name = context.newLabel;
       businessObject.number = context.newNumber;
 
-      eventBus.fire("element.changed", { element });
+      eventBus.fire(EVENT_ELEMENT_CHANGED, { element });
     };
 
     this.revert = function (context) {
@@ -57,7 +62,7 @@ export default function activityUpdateHandler(commandStack, eventBus) {
         eventBus,
       );
 
-      eventBus.fire("element.changed", { element });
+      eventBus.fire(EVENT_ELEMENT_CHANGED, { element });
     };
   }
 
@@ -94,7 +99,7 @@ export default function activityUpdateHandler(commandStack, eventBus) {
       businessObject.number = context.newNumber;
       element.waypoints = newWaypoints;
 
-      eventBus.fire("element.changed", { element });
+      eventBus.fire(EVENT_ELEMENT_CHANGED, { element });
     };
 
     this.revert = function (context) {
@@ -112,7 +117,7 @@ export default function activityUpdateHandler(commandStack, eventBus) {
       semantic.number = context.oldNumber;
       element.waypoints = context.oldWaypoints;
 
-      eventBus.fire("element.changed", { element });
+      eventBus.fire(EVENT_ELEMENT_CHANGED, { element });
     };
   }
 }
@@ -126,7 +131,7 @@ function revertAutomaticNumberGenerationChange(iDWithNumber, eventBus) {
         let element = activities[i];
         element.businessObject.number = iDWithNumber[j].number;
         j = -5;
-        eventBus.fire("element.changed", { element });
+        eventBus.fire(EVENT_ELEMENT_CHANGED, { element });
         iDWithNumber.splice(j, 1);
       }
     }

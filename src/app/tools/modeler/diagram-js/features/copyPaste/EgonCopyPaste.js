@@ -1,6 +1,7 @@
 import { getBusinessObject } from "../util/util";
 
 import { forEach, isArray, isUndefined, omit, reduce } from "min-dash";
+import { EVENT_COPY_PASE_PASTE_ELEMENT } from "../diagramJSConstants";
 
 function copyProperties(source, target, properties) {
   if (!isArray(properties)) {
@@ -79,11 +80,11 @@ export default function EgonCopyPaste(eventBus, propertyCopy) {
     );
   }
 
-  eventBus.on("copyPaste.pasteElements", function () {
+  eventBus.on(EVENT_COPY_PASE_PASTE_ELEMENTS, function () {
     references = {};
   });
 
-  eventBus.on("copyPaste.pasteElement", function (context) {
+  eventBus.on(EVENT_COPY_PASE_PASTE_ELEMENT, function (context) {
     const cache = context.cache,
       descriptor = context.descriptor,
       oldBusinessObject = descriptor.oldBusinessObject;

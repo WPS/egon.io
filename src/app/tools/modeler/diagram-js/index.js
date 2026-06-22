@@ -26,6 +26,7 @@ import SnappingModule from "diagram-js/lib/features/snapping";
 import AdditionalShortcuts from "./features/shortcuts";
 import minimapModule from "diagram-js-minimap";
 import AlignToOrigin from "@bpmn-io/align-to-origin";
+import { EVENT_DIAGRAM_CLEAR } from "./features/diagramJSConstants";
 
 export default function DomainStoryModeler(options) {
   BaseViewer.call(this, options);
@@ -97,7 +98,7 @@ DomainStoryModeler.prototype._addConnection = function (element) {
 DomainStoryModeler.prototype.importBusinessObjects = function (
   businessObjects,
 ) {
-  this.get("eventBus").fire("diagram.clear", {});
+  this.get("eventBus").fire(EVENT_DIAGRAM_CLEAR, {});
   this._elements = [];
   this._groupElements = [];
 

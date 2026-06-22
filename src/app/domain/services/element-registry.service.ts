@@ -6,7 +6,7 @@ import { GroupCanvasObject } from '../entities/groupCanvasObject';
 import { ActivityCanvasObject } from '../entities/activityCanvasObject';
 import { UsedIconList } from 'src/app/domain/entities/UsedIconList';
 import { DiagramJsElementRegistry } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-element-registry';
-import { LABEL_NUMBER_CSS_CLASS } from 'src/app/tools/replay/services/dom-manipulation.service';
+import { BusinessObject } from 'src/app/domain/entities/businessObject';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +33,20 @@ export class ElementRegistryService {
       return objectList;
     }
     return [];
+  }
+
+  getAllBusinessObjectsFromCanvasNotIn(
+    notIn: BusinessObject[],
+  ): BusinessObject[] {
+    const otherBusinessObjects: BusinessObject[] = [];
+    const allObjects = this.getAllCanvasObjects().concat(this.getAllGroups());
+
+    allObjects.forEach((element) => {
+      if (!notIn.includes(element.businessObject)) {
+        otherBusinessObjects.push(element.businessObject);
+      }
+    });
+    return otherBusinessObjects;
   }
 
   private fillListOfCanvasObjects(

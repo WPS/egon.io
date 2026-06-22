@@ -7,8 +7,8 @@ import { ActivityCanvasObject } from './activityCanvasObject';
 import { ElementTypes } from './elementTypes';
 
 export interface CanvasObject {
-  attachers: any;
-  host: any;
+  attachers: any; // unused
+  host: any; // unused
 
   parent: CanvasObject | RootObject;
   businessObject: BusinessObject;

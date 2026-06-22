@@ -1,6 +1,7 @@
 "use strict";
 
 import { angleBetween } from "src/app/utils/mathExtensions";
+import { EVENT_ELEMENT_CHANGED } from "../diagramJSConstants";
 
 let multipleNumberRegistry = [false];
 
@@ -203,7 +204,7 @@ function setNumberOfActivity(elementArray, wantedNumber, eventBus) {
         if (businessObject) {
           businessObject.number = wantedNumber;
         }
-        eventBus.fire("element.changed", { element });
+        eventBus.fire(EVENT_ELEMENT_CHANGED, { element });
       }
     });
   }

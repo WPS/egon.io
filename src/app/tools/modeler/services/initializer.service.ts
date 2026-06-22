@@ -18,6 +18,19 @@ import { DiagramJsContextPad } from 'src/app/tools/modeler/diagram-js/type-inter
 import { DiagramJsPalette } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-palette';
 import { DiagramJsSelection } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-selection';
 import { DiagramJsEventBus } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-event-bus';
+import {
+  EVENT_BENDPOINT_MOVE_START,
+  EVENT_CONNECTION_SEGMENT_MOVE_START,
+  EVENT_COPY_PASE_PASTE_ELEMENT,
+  EVENT_CREATE_END,
+  EVENT_ELEMENT_CLICK,
+  EVENT_ELEMENT_DBLCLICK,
+  EVENT_ELEMENT_HOVER,
+  EVENT_INTERACTION_EVENTS_CREATE_HIT,
+  EVENT_LASSO_SELECTION_START,
+  EVENT_SHAPE_MOVE_START,
+  EVENT_SPACE_TOOL_SELECTION_START,
+} from 'src/app/tools/modeler/diagram-js/features/diagramJSConstants';
 
 @Injectable({
   providedIn: 'root',
@@ -58,7 +71,7 @@ export class InitializerService {
   }
 
   initiateEventBusListeners(eventBus: DiagramJsEventBus): void {
-    eventBus.on('element.dblclick', (event: any) => {
+    eventBus.on(EVENT_ELEMENT_DBLCLICK, (event: any) => {
       if (!this.replayService.replayOn()) {
         const element = event.element;
         if (element.type === ElementTypes.ACTIVITY) {
@@ -73,14 +86,14 @@ export class InitializerService {
     // while replaying, we only allow editing labels but no other changes (to avoid accidentally modeling on top of hidden model elements)
     eventBus.on(
       [
-        'shape.move.start', // move existing shapes
-        'bendpoint.move.start', // move and create bendpoints
-        'connectionSegment.move.start', // move horizontal/vertical segments of connections
-        'element.click', // click on existing element (opens context pad if element is actor or work object)
-        'element.hover', // show outline around element
-        'interactionEvents.createHit', // use palette to create new element
-        'spaceTool.selection.start', // use space tool
-        'lasso.selection.start', // use lasso tool
+        EVENT_SHAPE_MOVE_START,
+        EVENT_BENDPOINT_MOVE_START,
+        EVENT_CONNECTION_SEGMENT_MOVE_START,
+        EVENT_ELEMENT_CLICK,
+        EVENT_ELEMENT_HOVER,
+        EVENT_INTERACTION_EVENTS_CREATE_HIT,
+        EVENT_SPACE_TOOL_SELECTION_START,
+        EVENT_LASSO_SELECTION_START,
         // TODO:  enable editing of connection labels #217
       ],
       10000000000,
@@ -92,11 +105,11 @@ export class InitializerService {
       },
     );
 
-    eventBus.on('copyPaste.pasteElement', 10000, (event: any) => {
+    eventBus.on(EVENT_COPY_PASE_PASTE_ELEMENT, 10000, (event: any) => {
       this.copyPasteService.pasteElement(event);
     });
 
-    eventBus.on('create.end', (event: any) => {
+    eventBus.on(EVENT_CREATE_END, (event: any) => {
       this.copyPasteService.createEnd(event);
     });
   }

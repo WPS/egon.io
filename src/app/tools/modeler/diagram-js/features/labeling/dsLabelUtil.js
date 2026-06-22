@@ -190,7 +190,7 @@ export function createAutocompleteForEdit(
       if (currentFocus > -1) {
         businessElement.businessObject.name =
           workObjectNamesFilteredBySearchterm[currentFocus];
-        eventBus.fire("element.changed", { element: businessElement });
+        eventBus.fire(EVENT_ELEMENT_CHANGED, { element: businessElement });
 
         // remove obsolete listener
         // it is always added when opening the editingBox with the associated businessObject as Context
