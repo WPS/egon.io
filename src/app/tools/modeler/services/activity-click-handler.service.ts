@@ -140,7 +140,7 @@ export class ActivityClickHandlerService {
       const clickX = event.originalEvent.offsetX;
       const clickY = event.originalEvent.offsetY;
 
-      for (let i = 1; i < renderedNumberRegistry.length; i++) {
+      for (let i = 0; i < renderedNumberRegistry.length; i++) {
         const currentNum: any = renderedNumberRegistry[i];
         if (currentNum) {
           const { tNumber, elementX, elementY } =
