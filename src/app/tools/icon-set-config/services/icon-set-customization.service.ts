@@ -56,7 +56,7 @@ export class IconSetCustomizationService {
     IconSetImportExportService,
   );
   private readonly iconDictionaryService = inject(IconDictionaryService);
-  private readonly iconSetNotificationServiceService = inject(
+  private readonly iconSetNotificationService = inject(
     IconSetNotificationService,
   );
   private readonly iconSetChangedService = inject(IconSetChangedService);
@@ -190,9 +190,10 @@ export class IconSetCustomizationService {
 
   changeName(iconSetName: string): void {
     this.iconSetImportExportService.setIconSetName(iconSetName);
-    const changedIconSet = this.iconSetConfigurationTypesSignal();
-    changedIconSet.name = iconSetName;
-    this.iconSetConfigurationTypesSignal.set(changedIconSet);
+    this.iconSetConfigurationTypesSignal.update((current) => ({
+      ...current,
+      name: iconSetName,
+    }));
   }
 
   /** Selected Icons **/
@@ -223,7 +224,6 @@ export class IconSetCustomizationService {
         workObjects: currentIconSetSelection.workObjects,
         name: currentIconSetSelection.name,
       });
-      console.log('selectActor');
       this.updateActorSignal();
     }
   }
@@ -241,7 +241,7 @@ export class IconSetCustomizationService {
   }
 
   deselectActor(actor: string): void {
-    if (this.iconSetConfigurationTypesSignal) {
+    if (this.iconSetConfigurationTypesSignal()) {
       this.iconSetConfigurationTypesSignal.set({
         name: this.iconSetConfigurationTypesSignal().name,
         actors: this.iconSetConfigurationTypesSignal().actors.filter(
@@ -251,12 +251,11 @@ export class IconSetCustomizationService {
       });
     }
     this.iconDictionaryService.unregisterIconForType(ElementTypes.ACTOR, actor);
-    console.log('deselectActor', actor);
     this.updateActorSignal();
   }
 
   deselectWorkObject(workObject: string): void {
-    if (this.iconSetConfigurationTypesSignal) {
+    if (this.iconSetConfigurationTypesSignal()) {
       this.iconSetConfigurationTypesSignal.set({
         name: this.iconSetConfigurationTypesSignal().name,
         actors: this.iconSetConfigurationTypesSignal().actors,
@@ -273,23 +272,22 @@ export class IconSetCustomizationService {
   }
 
   setSelectedWorkObject(sortedList: string[]): void {
-    const value = this.iconSetConfigurationTypesSignal();
-    value.workObjects = sortedList;
-    this.iconSetConfigurationTypesSignal.set(value);
+    this.iconSetConfigurationTypesSignal.update((current) => ({
+      ...current,
+      workObjects: sortedList,
+    }));
     this.updateWorkObjectSignal();
   }
 
   setSelectedActors(sortedList: string[]): void {
-    const value = this.iconSetConfigurationTypesSignal();
-    value.actors = sortedList;
-    this.iconSetConfigurationTypesSignal.set(value);
-    console.log('setSelectedActors');
+    this.iconSetConfigurationTypesSignal.update((current) => ({
+      ...current,
+      actors: sortedList,
+    }));
     this.updateActorSignal();
   }
 
   private updateActorSignal(): void {
-    console.log('updateActorSignal');
-    console.log(this.iconSetConfigurationTypesSignal().actors);
     this.selectedActorsSignal.set(
       this.iconSetConfigurationTypesSignal().actors,
     );
@@ -417,13 +415,11 @@ export class IconSetCustomizationService {
       changedActors = changedObjects.changedActors;
       changedWorkObjects = changedObjects.changedWorkObjects;
     } else {
-      this.iconSetNotificationServiceService.openNoImportOrNoSaveSnackbar(
-        imported,
-      );
+      this.iconSetNotificationService.openNoImportOrNoSaveSnackbar(imported);
     }
 
     if (changedActors.length || changedWorkObjects.length) {
-      this.iconSetNotificationServiceService.openAlreadyUsedIconsSnackbar(
+      this.iconSetNotificationService.openAlreadyUsedIconsSnackbar(
         changedActors,
         changedWorkObjects,
       );
@@ -453,7 +449,7 @@ export class IconSetCustomizationService {
       this.iconSetImportExportService.setStoredIconSetConfiguration(
         this.changedIconSetConfiguration,
       );
-      this.iconSetNotificationServiceService.openConfigurationImportOrSavedSnackbar(
+      this.iconSetNotificationService.openConfigurationImportOrSavedSnackbar(
         imported,
       );
     }

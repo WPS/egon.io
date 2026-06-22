@@ -58,9 +58,6 @@ export class SelectableIconComponent implements OnInit, AfterViewChecked {
       this.isWorkObject = value.isWorkObject;
       this.isNone = !(value.isActor || value.isWorkObject);
     });
-    this.isActor = this.icon.value.isActor;
-    this.isWorkObject = this.icon.value.isWorkObject;
-    this.isNone = !(this.icon.value.isActor || this.icon.value.isWorkObject);
   }
 
   ngAfterViewChecked(): void {

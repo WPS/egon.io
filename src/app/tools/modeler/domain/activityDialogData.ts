@@ -5,13 +5,13 @@ export class ActivityDialogData {
   numberIsAllowedMultipleTimes: boolean;
   showNumberFields: boolean;
 
-  saveFN: any;
+  saveFN: (data: any) => void;
 
   constructor(
     activity: ActivityCanvasObject,
     numberIsAllowedMultipleTimes: boolean,
     showNumberFields: boolean,
-    saveFN: any,
+    saveFN: (data: any) => void,
   ) {
     this.activity = activity;
     this.numberIsAllowedMultipleTimes = numberIsAllowedMultipleTimes;

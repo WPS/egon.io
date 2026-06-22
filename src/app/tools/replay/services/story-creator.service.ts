@@ -15,13 +15,13 @@ export class StoryCreatorService {
   private readonly elementRegistryService = inject(ElementRegistryService);
 
   traceActivitiesAndCreateStory(): StorySentence[] {
-    const tracedActivityMap = new Dictionary<CanvasObject>();
+    const tracedActivityMap = new Dictionary<ActivityCanvasObject[]>();
     const story: StorySentence[] = [];
     const activities = this.elementRegistryService.getActivitiesFromActors();
     const tracedActivityMapKeys: number[] = [];
     activities.forEach((activity) => {
       const activityNumber = Number(activity.businessObject.number); // Sometimes the activityNumber is a string for some reason
-      const tracedItem = tracedActivityMap.get(`${activityNumber}`) ?? [];
+      const tracedItem = tracedActivityMap.find(`${activityNumber}`) ?? [];
       if (!tracedActivityMapKeys.includes(activityNumber)) {
         tracedActivityMapKeys.push(activityNumber);
       }
@@ -40,12 +40,13 @@ export class StoryCreatorService {
   }
 
   private createSentence(
-    tracedActivityMap: Dictionary<CanvasObject>,
+    tracedActivityMap: Dictionary<ActivityCanvasObject[]>,
     tracedActivityMapKey: number,
     story: StorySentence[],
     storyIndex: number,
   ): void {
-    let tracedActivity = tracedActivityMap.get(`${tracedActivityMapKey}`) ?? [];
+    const tracedActivity: ActivityCanvasObject[] =
+      tracedActivityMap.get(`${tracedActivityMapKey}`) ?? [];
     const sentenceObjects = this.getSentenceObjects(tracedActivity);
     const highlightedElements = sentenceObjects.map((t) => t.id);
     if (storyIndex > 0) {

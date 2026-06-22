@@ -49,17 +49,17 @@ describe('IconDictionaryService', () => {
     });
 
     it('should initialize Dictionaries with customized icon set', () => {
-      const actor = structuredClone(testBusinessObject);
-      actor.type = ElementTypes.ACTOR + 'Dollar';
-
-      const workObject = structuredClone(testBusinessObject);
-      workObject.type = ElementTypes.WORKOBJECT + 'Gavel';
+      const actorType = 'Dollar';
+      const workObjectType = 'Gavel';
 
       const actorsDict = new Dictionary<string>();
       const workObjectsDict = new Dictionary<string>();
 
-      actorsDict.set('Dollar', actor);
-      workObjectsDict.set('Gavel', workObject);
+      actorsDict.set(actorType, ElementTypes.ACTOR + actorType);
+      workObjectsDict.set(
+        workObjectType,
+        ElementTypes.WORKOBJECT + workObjectType,
+      );
 
       const customizedIconSet: IconSet = {
         name: INITIAL_ICON_SET_NAME,

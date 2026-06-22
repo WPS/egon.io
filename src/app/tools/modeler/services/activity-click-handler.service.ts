@@ -14,6 +14,10 @@ import { ActivityDialogComponent } from 'src/app/tools/modeler/presentation/acti
 import { DialogService } from 'src/app/domain/services/dialog.service';
 import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { positionsMatch } from 'src/app/utils/mathExtensions';
+import { CommandStackService } from 'src/app/domain/services/command-stack.service';
+import { DiagramJsEventBus } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-event-bus';
+import { BusinessObject } from 'src/app/domain/entities/businessObject';
+import { CanvasObject } from 'src/app/domain/entities/canvasObject';
 
 @Injectable({
   providedIn: 'root',
@@ -21,13 +25,12 @@ import { positionsMatch } from 'src/app/utils/mathExtensions';
 export class ActivityClickHandlerService {
   private readonly dialogService = inject(DialogService);
   private readonly elementRegistryService = inject(ElementRegistryService);
+  private commandStackService = inject(CommandStackService);
 
-  private eventBus: any;
-  private commandStack: any;
+  private eventBus: DiagramJsEventBus | undefined;
 
-  setModelerContext(eventBus: any, commandStack: any) {
+  setModelerContext(eventBus: DiagramJsEventBus) {
     this.eventBus = eventBus;
-    this.commandStack = commandStack;
   }
 
   /** Overrides for Canvas Functions **/
@@ -81,10 +84,10 @@ export class ActivityClickHandlerService {
     element.businessObject.multipleNumberAllowed = multipleNumberAllowed;
 
     let options: {
-      businessObject: any;
+      businessObject: BusinessObject;
       newLabel: string;
       newNumber?: number;
-      element: any;
+      element: CanvasObject;
     };
     if (hasNumber) {
       options = {
@@ -101,7 +104,7 @@ export class ActivityClickHandlerService {
       };
     }
 
-    this.commandStack.execute('activity.changed', options);
+    this.commandStackService.execute('activity.changed', options);
     if (element.businessObject.multipleNumberAllowed !== false) {
       if (getMultipleNumberRegistry()[activityNumber] === false) {
         updateExistingNumbersAtEditing(

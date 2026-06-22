@@ -13,10 +13,6 @@ export class Dictionary<T> {
     return this.entries;
   }
 
-  size(): number {
-    return this.entries.length;
-  }
-
   isEmpty(): boolean {
     return this.entries.length <= 0;
   }
@@ -25,9 +21,9 @@ export class Dictionary<T> {
     return this.entries.some((entry) => entry.key === key);
   }
 
-  set(key: string, value: any): void {
+  set(key: string, value: T): void {
     if (!this.has(key)) {
-      this.entries.push(new Entry(value, key));
+      this.entries.push(new Entry<T>(value, key));
     }
   }
 
@@ -39,20 +35,6 @@ export class Dictionary<T> {
 
   keysArray(): string[] {
     return this.entries.map((entry) => entry.key);
-  }
-
-  addEach(object: any): void {
-    Object.keys(object).forEach((key) => {
-      this.set(key, object[key]);
-    });
-  }
-
-  addBuiltInIcons(builtInIcons: Dictionary<T>): void {
-    builtInIcons.entries.forEach((entry) => {
-      if (!this.has(entry.key)) {
-        this.entries.push(entry);
-      }
-    });
   }
 
   appendDict(dict: Dictionary<T>): void {
@@ -67,14 +49,22 @@ export class Dictionary<T> {
     this.entries = this.entries.filter((entry) => entry.key !== key);
   }
 
-  get(key: string): any {
+  get(key: string): T {
+    const found = this.entries.filter((entry) => entry.key === key);
+    if (found.length < 1) {
+      throw new Error(`Key ${key} not found in dictionary`);
+    }
+    return found[0].value;
+  }
+
+  find(key: string): T | null {
     const found = this.entries.filter((entry) => entry.key === key);
     return found[0] ? found[0].value : null;
   }
 
   /** Convert to a plain key-value object. */
-  toRecord(): Record<string, any> {
-    const result: Record<string, any> = {};
+  toRecord(): Record<string, T> {
+    const result: Record<string, T> = {};
     for (const entry of this.entries) {
       result[entry.key] = entry.value;
     }
@@ -94,7 +84,7 @@ export class Dictionary<T> {
 }
 
 export class Entry<T> {
-  value: T; // ToDo: dh, I think type of any is not a good choice. Try to figur out if we can use typed objects here.
+  value: T;
   key: string;
   keyWords: string[];
 

@@ -76,7 +76,7 @@ export class IconSetImportExportService {
 
     let iconSetConfiguration;
 
-    if (actors.size() > 0 && workObjects.size() > 0) {
+    if (actors.length > 0 && workObjects.length > 0) {
       iconSetConfiguration = this.createConfigFromDictionaries(
         actors,
         workObjects,

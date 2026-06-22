@@ -129,8 +129,8 @@ export class IconSetConfigurationComponent {
     const text = await iconSetInputFile.text();
     const configFromFile = JSON.parse(text) as {
       name: string;
-      actors: { [key: string]: any };
-      workObjects: { [key: string]: any };
+      actors: { [key: string]: string };
+      workObjects: { [key: string]: string };
     };
     const config =
       this.iconSetImportExportService.createIconSetConfiguration(

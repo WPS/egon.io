@@ -12,6 +12,12 @@ import headlineAndDescriptionUpdateHandler from 'src/app/tools/modeler/diagram-j
 import { ReplayService } from '../../replay/services/replay.service';
 import { ActivityClickHandlerService } from 'src/app/tools/modeler/services/activity-click-handler.service';
 import { CopyPasteService } from 'src/app/tools/modeler/services/copy-paste.service';
+import { DiagramJsCommandStack } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-command-stack';
+import { DiagramJsElementRegistry } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-element-registry';
+import { DiagramJsContextPad } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-context-pad';
+import { DiagramJsPalette } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-palette';
+import { DiagramJsSelection } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-selection';
+import { DiagramJsEventBus } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-event-bus';
 
 @Injectable({
   providedIn: 'root',
@@ -27,23 +33,23 @@ export class InitializerService {
   private readonly copyPasteService = inject(CopyPasteService);
 
   propagateDomainStoryModelerClassesToServices(
-    commandStack: any,
-    elementRegistry: any,
-    contextPad: any,
-    palette: any,
-    selection: any,
-    eventBus: any,
+    commandStack: DiagramJsCommandStack,
+    elementRegistry: DiagramJsElementRegistry,
+    contextPad: DiagramJsContextPad,
+    palette: DiagramJsPalette,
+    selection: DiagramJsSelection,
+    eventBus: DiagramJsEventBus,
   ): void {
     this.commandStackService.setCommandStack(commandStack);
     this.elementRegistryService.setElementRegistry(elementRegistry);
     this.replayService.setModelerContext(contextPad, palette, selection);
-    this.activityClickHandlerService.setModelerContext(eventBus, commandStack);
+    this.activityClickHandlerService.setModelerContext(eventBus);
     this.copyPasteService.setModelerContext(eventBus);
   }
 
   initializeDomainStoryModelerEventHandlers(
-    commandStack: any,
-    eventBus: any,
+    commandStack: DiagramJsCommandStack,
+    eventBus: DiagramJsEventBus,
   ): void {
     activityUpdateHandler(commandStack, eventBus);
     massRenameHandler(commandStack, eventBus);
@@ -51,7 +57,7 @@ export class InitializerService {
     headlineAndDescriptionUpdateHandler(commandStack, this.titleService);
   }
 
-  initiateEventBusListeners(eventBus: any): void {
+  initiateEventBusListeners(eventBus: DiagramJsEventBus): void {
     eventBus.on('element.dblclick', (event: any) => {
       if (!this.replayService.replayOn()) {
         const element = event.element;

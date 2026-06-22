@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import { DiagramJsEventBus } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-event-bus';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CopyPasteService {
-  private eventBus: any;
+  private eventBus: DiagramJsEventBus | undefined;
 
   private pasteColor: string[] = [];
   private pasteText: string[] = [];
   private pasteHeight: number[] = [];
 
-  public setModelerContext(eventBus: any) {
+  public setModelerContext(eventBus: DiagramJsEventBus) {
     this.eventBus = eventBus;
   }
 
@@ -42,7 +43,7 @@ export class CopyPasteService {
       }
       element.businessObject.pickedColor =
         this.pasteColor[parseInt(elementsKey)];
-      this.eventBus.fire('element.changed', { element });
+      this.eventBus!.fire('element.changed', { element });
     }
     this.pasteColor = [];
     this.pasteText = [];

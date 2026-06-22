@@ -81,7 +81,7 @@ export class IconDictionaryService {
       throw new Error('Name should not include type!');
     }
 
-    this.getDictionaryForType(type).set(name, src);
+    this.getIconsAssignedAs(type).set(name, src);
   }
 
   unregisterIconForType(type: ElementTypes, name: string): void {
@@ -89,18 +89,7 @@ export class IconDictionaryService {
       throw new Error('Name should not include type!');
     }
 
-    this.getDictionaryForType(type).delete(name);
-  }
-
-  private getDictionaryForType(type: ElementTypes): Dictionary<string> {
-    switch (type) {
-      case ElementTypes.ACTOR:
-        return this.selectedActorsDictionary;
-      case ElementTypes.WORKOBJECT:
-        return this.selectedWorkObjectsDictionary;
-      default:
-        return new Dictionary<string>();
-    }
+    this.getIconsAssignedAs(type).delete(name);
   }
 
   // When an icon set or a domain story (which includes its icon set) are imported,
@@ -148,25 +137,27 @@ export class IconDictionaryService {
   }
 
   getIconsAssignedAs(type: ElementTypes): Dictionary<string> {
-    if (type === ElementTypes.ACTOR) {
-      return this.selectedActorsDictionary;
-    } else if (type === ElementTypes.WORKOBJECT) {
-      return this.selectedWorkObjectsDictionary;
+    switch (type) {
+      case ElementTypes.ACTOR:
+        return this.selectedActorsDictionary;
+      case ElementTypes.WORKOBJECT:
+        return this.selectedWorkObjectsDictionary;
+      default:
+        throw new Error(`Unsupported icon type: ${type}`);
     }
-    return new Dictionary<string>();
   }
 
   getCSSClassOfIcon(name: string): string | null {
     return ICON_CSS_CLASS_PREFIX + sanitizeForCss(name);
   }
 
-  getIconSource(name: string): string | null {
+  getIconSource(name: string): string {
     if (builtInIcons.has(name)) {
       return builtInIcons.get(name);
     } else if (this.customIcons.has(name)) {
       return this.customIcons.get(name);
     }
-    return null;
+    return '';
   }
 
   setIconSet(iconSet: IconSet): void {

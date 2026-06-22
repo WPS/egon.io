@@ -18,7 +18,6 @@ describe('Dict', () => {
     // then
     expect(dict).toBeTruthy();
     expect(dict.length).toEqual(0);
-    expect(dict.size()).toEqual(0);
   });
 
   it('should add Entries', () => {
@@ -32,7 +31,7 @@ describe('Dict', () => {
     // then
     expect(dict.length === 2);
     expect(dict.get(key1)).toEqual(value1);
-    expect(dict.get(key2)).toEqual(value2);
+    expect(dict.find(key2)).toEqual(value2);
     expect(dict.has(key1)).toBeTruthy();
     expect(dict.has(key2)).toBeTruthy();
   });
@@ -48,17 +47,6 @@ describe('Dict', () => {
     // then
     expect(dict1.has(key1)).toBeTruthy();
     expect(dict1.get(key1)).toEqual(value1);
-  });
-
-  it('should add Each', () => {
-    // given
-    const dict1 = new Dictionary<string>();
-
-    // when
-    dict1.addEach(testObject);
-
-    // then
-    expect(dict1.has(key1)).toBeTruthy();
   });
 
   it('should append Dict', () => {
@@ -101,8 +89,8 @@ describe('Dict', () => {
 
     // then
     expect(dict1.length === 1);
-    expect(dict1.get(key1)).toBeFalsy();
-    expect(dict1.get(key2)).toBeTruthy();
+    expect(dict1.has(key1)).toBeFalsy();
+    expect(dict1.has(key2)).toBeTruthy();
   });
 
   it('should clear dict', () => {

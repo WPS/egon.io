@@ -19,6 +19,12 @@ import { environment } from '../../../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DiagramJsElementRegistry } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-element-registry';
+import { DiagramJsCommandStack } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-command-stack';
+import { DiagramJsContextPad } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-context-pad';
+import { DiagramJsPalette } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-palette';
+import { DiagramJsEventBus } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-event-bus';
+import { DiagramJsSelection } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-selection';
 
 @Injectable({
   providedIn: 'root',
@@ -35,12 +41,12 @@ export class ModelerService {
   private readonly snackbar = inject(MatSnackBar);
 
   private modeler: any;
-  private elementRegistry: any;
-  private commandStack: any;
-  private contextPad: any;
-  private palette: any;
-  private eventBus: any;
-  private selection: any;
+  private elementRegistry: DiagramJsElementRegistry | undefined;
+  private commandStack: DiagramJsCommandStack | undefined;
+  private contextPad: DiagramJsContextPad | undefined;
+  private palette: DiagramJsPalette | undefined;
+  private eventBus: DiagramJsEventBus | undefined;
+  private selection: DiagramJsSelection | undefined;
 
   private encoded: string | undefined;
 
@@ -72,16 +78,16 @@ export class ModelerService {
     }
 
     this.initializerService.initializeDomainStoryModelerEventHandlers(
-      this.commandStack,
-      this.eventBus,
+      this.commandStack!,
+      this.eventBus!,
     );
     this.initializerService.propagateDomainStoryModelerClassesToServices(
-      this.commandStack,
-      this.elementRegistry,
-      this.contextPad,
-      this.palette,
-      this.selection,
-      this.eventBus,
+      this.commandStack!,
+      this.elementRegistry!,
+      this.contextPad!,
+      this.palette!,
+      this.selection!,
+      this.eventBus!,
     );
 
     const exportArtifacts = this.debounce(this.saveSVG, 500);
@@ -89,7 +95,7 @@ export class ModelerService {
       this.modeler.on('commandStack.changed', exportArtifacts);
     }
 
-    this.initializerService.initiateEventBusListeners(this.eventBus);
+    this.initializerService.initiateEventBusListeners(this.eventBus!);
 
     // expose modeler to window for debugging purposes
     assign(window, { egon: this.modeler });
@@ -114,7 +120,6 @@ export class ModelerService {
           },
         )
         .onAction()
-        .pipe(takeUntilDestroyed())
         .subscribe(() => {
           window.open('https://egon.io/howto#launching-egon');
         });
@@ -167,7 +172,7 @@ export class ModelerService {
 
   commandStackChanged(): void {
     // to update the title of the svg, we need to tell the command stack, that a value has changed
-    this.eventBus.fire(
+    this.eventBus!.fire(
       'commandStack.changed',
       this.debounce(this.saveSVG, 500),
     );

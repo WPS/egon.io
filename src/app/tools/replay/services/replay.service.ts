@@ -8,6 +8,9 @@ import {
   SNACKBAR_ERROR,
   SNACKBAR_INFO,
 } from '../../../domain/entities/constants';
+import { DiagramJsContextPad } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-context-pad';
+import { DiagramJsPalette } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-palette';
+import { DiagramJsSelection } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-selection';
 
 @Injectable({
   providedIn: 'root',
@@ -25,9 +28,9 @@ export class ReplayService {
   private readonly domManipulationService = inject(DomManipulationService);
   private readonly storyCreatorService = inject(StoryCreatorService);
   private readonly snackbar = inject(MatSnackBar);
-  private contextPad: any;
-  private palette: any;
-  private selection: any;
+  private contextPad: DiagramJsContextPad | undefined;
+  private palette: DiagramJsPalette | undefined;
+  private selection: DiagramJsSelection | undefined;
 
   setReplayState(state: boolean): void {
     this.replayOnSignal.set(state);
@@ -105,11 +108,12 @@ export class ReplayService {
   }
 
   private clearUserInteractionsOnCanvas() {
-    const selectedElements: any[] = this.selection._selectedElements;
-    selectedElements.forEach((element) => this.selection.deselect(element));
+    this.selection!._selectedElements.forEach((element) =>
+      this.selection!.deselect(element),
+    );
 
-    this.contextPad.close();
-    this.palette.close();
+    this.contextPad!.close();
+    this.palette!.close();
   }
 
   stopReplay(): void {
@@ -117,10 +121,14 @@ export class ReplayService {
     this.maxSentenceNumberSignal.set(0);
     this.setReplayState(false);
     this.domManipulationService.showAll();
-    this.palette.open();
+    this.palette!.open();
   }
 
-  setModelerContext(contextPad: any, palette: any, selection: any) {
+  setModelerContext(
+    contextPad: DiagramJsContextPad,
+    palette: DiagramJsPalette,
+    selection: DiagramJsSelection,
+  ) {
     this.contextPad = contextPad;
     this.palette = palette;
     this.selection = selection;

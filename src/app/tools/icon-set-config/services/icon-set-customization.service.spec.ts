@@ -113,9 +113,15 @@ describe(IconSetCustomizationService.name, () => {
       IconDictionaryService,
     ) as jasmine.SpyObj<IconDictionaryService>;
 
-    iconDictionarySpy.getFullDictionary.and.returnValue(
-      new Dictionary<string>(),
-    );
+    const fullDictionary = new Dictionary<string>();
+    fullDictionary.set('Person', 'svg1');
+    fullDictionary.set('Pet', 'svg2');
+    fullDictionary.set('Document', 'svg3');
+    fullDictionary.set('Call', 'svg4');
+    fullDictionary.set('actorkey', 'actorSvg');
+
+    iconDictionarySpy.getFullDictionary.and.returnValue(fullDictionary);
+
     iconDictionarySpy.getIconsAssignedAs.and.returnValue(
       new Dictionary<string>(),
     );

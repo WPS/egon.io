@@ -34,7 +34,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   providedIn: 'root',
 })
 export class AutosaveService {
-  private autosaveTimer: any;
+  private autosaveTimer: NodeJS.Timeout | undefined;
 
   private readonly autosavedDraftsChangedEmitterSubject = new Subject<void>();
   readonly autosavedDraftsChanged$ =
@@ -89,7 +89,6 @@ export class AutosaveService {
       false,
     );
 
-    console.log('loadDraft');
     this.importConfigChangedSignal.set(iconSet);
     this.modelerService.importStory(businessObjects, iconSet, fitToScreen);
   }

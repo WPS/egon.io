@@ -5,6 +5,7 @@ import { CanvasObject } from 'src/app/domain/entities/canvasObject';
 import { GroupCanvasObject } from '../entities/groupCanvasObject';
 import { ActivityCanvasObject } from '../entities/activityCanvasObject';
 import { UsedIconList } from 'src/app/domain/entities/UsedIconList';
+import { DiagramJsElementRegistry } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-element-registry';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +27,8 @@ export class ElementRegistryService {
     }
   }
 
-  setElementRegistry(registry: any): void {
-    this.registry = registry._elements;
+  setElementRegistry(elementRegistry: DiagramJsElementRegistry): void {
+    this.registry = elementRegistry._elements;
   }
 
   clear(): void {
@@ -75,26 +76,26 @@ export class ElementRegistryService {
     });
   }
 
-  getAllActivities(): ActivityCanvasObject[] {
-    const activities: ActivityCanvasObject[] = [];
+  private getObjectsOfType<T extends CanvasObject>(type: ElementTypes): T[] {
+    return this.getAllCanvasObjects().filter((o) =>
+      o.type.includes(type),
+    ) as T[];
+  }
 
-    this.getAllCanvasObjects().forEach((element) => {
-      if (element.type.includes(ElementTypes.ACTIVITY)) {
-        activities.push(element as ActivityCanvasObject);
-      }
-    });
-    return activities;
+  getAllActivities(): ActivityCanvasObject[] {
+    return this.getObjectsOfType<ActivityCanvasObject>(ElementTypes.ACTIVITY);
   }
 
   getAllConnections(): ActivityCanvasObject[] {
-    const connections: ActivityCanvasObject[] = [];
-    this.getAllCanvasObjects().forEach((element) => {
-      const type = element.type;
-      if (type === ElementTypes.CONNECTION) {
-        connections.push(element as ActivityCanvasObject);
-      }
-    });
-    return connections;
+    return this.getObjectsOfType<ActivityCanvasObject>(ElementTypes.CONNECTION);
+  }
+
+  getAllActors(): CanvasObject[] {
+    return this.getObjectsOfType<CanvasObject>(ElementTypes.ACTOR);
+  }
+
+  getAllWorkObjects(): CanvasObject[] {
+    return this.getObjectsOfType<CanvasObject>(ElementTypes.WORKOBJECT);
   }
 
   getAllCanvasObjects(): CanvasObject[] {
@@ -149,7 +150,7 @@ export class ElementRegistryService {
     allObjects: CanvasObject[],
   ): void {
     const registryElementNames = Object.keys(this.registry);
-    for (let name of registryElementNames) {
+    for (const name of registryElementNames) {
       const entry = this.registry[name].element;
       if (entry.businessObject) {
         const type = entry.type;
@@ -200,17 +201,5 @@ export class ElementRegistryService {
         w.type.replace(ElementTypes.WORKOBJECT, ''),
       ),
     };
-  }
-
-  private getAllActors() {
-    return this.getAllCanvasObjects().filter((co) =>
-      co.type.includes(ElementTypes.ACTOR),
-    );
-  }
-
-  getAllWorkObjects() {
-    return this.getAllCanvasObjects().filter((co) =>
-      co.type.includes(ElementTypes.WORKOBJECT),
-    );
   }
 }
