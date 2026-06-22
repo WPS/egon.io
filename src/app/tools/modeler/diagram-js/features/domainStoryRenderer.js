@@ -30,6 +30,7 @@ import {
   isCustomSvgIcon,
   getAnnotationBracketSvg,
 } from "./util/util";
+import { LABEL_NUMBER_CSS_CLASS } from "../../../replay/services/dom-manipulation.service";
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
@@ -205,7 +206,7 @@ export default function DomainStoryRenderer(
     let text = textRenderer.createText(number || "", options);
     let height = 0;
 
-    svgClasses(text).add("djs-labelNumber");
+    svgClasses(text).add(LABEL_NUMBER_CSS_CLASS);
 
     setCoordinates(type, text, options, height, parentGfx);
 

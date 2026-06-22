@@ -6,6 +6,7 @@ import { GroupCanvasObject } from '../entities/groupCanvasObject';
 import { ActivityCanvasObject } from '../entities/activityCanvasObject';
 import { UsedIconList } from 'src/app/domain/entities/UsedIconList';
 import { DiagramJsElementRegistry } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-element-registry';
+import { LABEL_NUMBER_CSS_CLASS } from 'src/app/tools/replay/services/dom-manipulation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,13 +20,6 @@ export class ElementRegistryService {
 
   clear(): void {
     this.registry = null;
-  }
-
-  // the minimap clones the svg, resulting in duplicate elements ich we search directly on the canvas
-  getHtmlActivityLabelNumbers() {
-    return this.registry.__implicitroot_1.secondaryGfx.getElementsByClassName(
-      'djs-labelNumber',
-    );
   }
 
   createObjectListForDSTDownload(): CanvasObject[] {

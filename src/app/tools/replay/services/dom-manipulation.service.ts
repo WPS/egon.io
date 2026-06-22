@@ -15,6 +15,8 @@ import {
   STROKE_WIDTH,
 } from '../domain/replayConstants';
 
+export const LABEL_NUMBER_CSS_CLASS = 'djs-labelNumber';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -76,10 +78,24 @@ export class DomManipulationService {
     });
   }
 
+  getRenderedNumbers() {
+    let elementsByClassName = document.getElementsByClassName(
+      LABEL_NUMBER_CSS_CLASS,
+    );
+    const renderedNumberRegistry = [];
+    for (let i = 0; i < elementsByClassName.length; i++) {
+      if (!elementsByClassName[i].closest('.djs-minimap')) {
+        renderedNumberRegistry.push(elementsByClassName[i]);
+      }
+    }
+    return renderedNumberRegistry;
+  }
+
   private getNumberDomForActivity(activity: SVGPathElement): any {
     const numberText =
-      activity.parentElement?.getElementsByClassName('djs-labelNumber')[0] ??
-      '';
+      activity.parentElement?.getElementsByClassName(
+        LABEL_NUMBER_CSS_CLASS,
+      )[0] ?? '';
     const circle = (numberText as HTMLElement)?.previousSibling ?? '';
     return {
       numberBackgroundDom: circle,

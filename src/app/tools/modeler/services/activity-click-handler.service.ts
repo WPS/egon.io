@@ -17,6 +17,7 @@ import { CommandStackService } from 'src/app/domain/services/command-stack.servi
 import { DiagramJsEventBus } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-event-bus';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { CanvasObject } from 'src/app/domain/entities/canvasObject';
+import { DomManipulationService } from 'src/app/tools/replay/services/dom-manipulation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,8 @@ import { CanvasObject } from 'src/app/domain/entities/canvasObject';
 export class ActivityClickHandlerService {
   private readonly dialogService = inject(DialogService);
   private readonly elementRegistryService = inject(ElementRegistryService);
-  private commandStackService = inject(CommandStackService);
+  private readonly commandStackService = inject(CommandStackService);
+  private readonly domManipulationService = inject(DomManipulationService);
 
   private eventBus: DiagramJsEventBus | undefined;
 
@@ -123,27 +125,24 @@ export class ActivityClickHandlerService {
 
   public activityNumberDoubleClick(event: any) {
     const renderedNumberRegistry =
-      this.elementRegistryService.getHtmlActivityLabelNumbers();
+      this.domManipulationService.getRenderedNumbers();
+    const allActivities = this.elementRegistryService.getActivitiesFromActors();
+    const htmlCanvas = document.getElementById('canvas');
 
-    // length: always numerically greater than the highest index in the array
-    // renderedNumberRegistry is a sparsely populated array
-    if (renderedNumberRegistry.length > 1) {
-      const allActivities =
-        this.elementRegistryService.getActivitiesFromActors();
-      const htmlCanvas = document.getElementById('canvas');
+    if (
+      renderedNumberRegistry.length > 0 &&
+      allActivities.length > 0 &&
+      htmlCanvas
+    ) {
+      const { transformX, transformY, zoomX, zoomY, width, height } =
+        this.getGeometricValuesFromViewport(htmlCanvas);
 
-      if (allActivities.length > 0 && htmlCanvas) {
-        const { transformX, transformY, zoomX, zoomY, width, height } =
-          this.getGeometricValuesFromViewport(htmlCanvas);
+      const clickX = event.originalEvent.offsetX;
+      const clickY = event.originalEvent.offsetY;
 
-        const clickX = event.originalEvent.offsetX;
-        const clickY = event.originalEvent.offsetY;
-
-        for (let i = 1; i < renderedNumberRegistry.length; i++) {
-          const currentNum: any = renderedNumberRegistry[i];
-          if (!currentNum) {
-            continue;
-          }
+      for (let i = 1; i < renderedNumberRegistry.length; i++) {
+        const currentNum: any = renderedNumberRegistry[i];
+        if (currentNum) {
           const { tNumber, elementX, elementY } =
             this.getCurrentNumberPositionAndValue(
               currentNum,
