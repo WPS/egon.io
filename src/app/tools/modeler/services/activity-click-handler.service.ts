@@ -19,6 +19,21 @@ import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { CanvasObject } from 'src/app/domain/entities/canvasObject';
 import { DomManipulationService } from 'src/app/tools/replay/services/dom-manipulation.service';
 
+interface ViewportGeometry {
+  transformX: number;
+  transformY: number;
+  zoomX: number;
+  zoomY: number;
+  width: number;
+  height: number;
+}
+
+interface ElementMetadata {
+  tNumber: number;
+  elementX: number;
+  elementY: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -127,50 +142,44 @@ export class ActivityClickHandlerService {
     const renderedNumberRegistry =
       this.domManipulationService.getRenderedNumbers();
     const allActivities = this.elementRegistryService.getActivitiesFromActors();
-    const htmlCanvas = document.getElementById('canvas');
 
-    if (
-      renderedNumberRegistry.length > 0 &&
-      allActivities.length > 0 &&
-      htmlCanvas
-    ) {
-      const { transformX, transformY, zoomX, zoomY, width, height } =
-        this.getGeometricValuesFromViewport(htmlCanvas);
+    if (renderedNumberRegistry.length > 0 && allActivities.length > 0) {
+      const geometry = this.getGeometricValuesFromViewport();
 
-      const clickX = event.originalEvent.offsetX;
-      const clickY = event.originalEvent.offsetY;
+      let activity: ActivityCanvasObject | undefined;
 
       for (let i = 0; i < renderedNumberRegistry.length; i++) {
         const currentNum: any = renderedNumberRegistry[i];
-        if (currentNum) {
-          const { tNumber, elementX, elementY } =
-            this.getCurrentNumberPositionAndValue(
-              currentNum,
-              zoomX,
-              transformX,
-              zoomY,
-              transformY,
-            );
+        const elementId =
+          currentNum.parentElement.parentElement.dataset.elementId;
+        const elementMetadata = this.getCurrentNumberPositionAndValue(
+          currentNum,
+          geometry.zoomX,
+          geometry.transformX,
+          geometry.zoomY,
+          geometry.transformY,
+        );
 
-          allActivities.forEach((activity: ActivityCanvasObject) => {
-            const activityNumber = activity.businessObject.number;
-            if (
-              activityNumber === tNumber &&
-              positionsMatch(
-                width,
-                height,
-                elementX,
-                elementY,
-                clickX,
-                clickY,
-              ) &&
-              currentNum.parentElement.parentElement.dataset.elementId ===
-                activity.id
-            ) {
-              this.activityDoubleClick(activity);
-            }
-          });
+        const searchedActivity = allActivities.find(
+          (activity: ActivityCanvasObject) =>
+            activity.businessObject.number === elementMetadata.tNumber &&
+            elementId === activity.id &&
+            positionsMatch(
+              geometry.width,
+              geometry.height,
+              elementMetadata.elementX,
+              elementMetadata.elementY,
+              event.originalEvent.offsetX,
+              event.originalEvent.offsetY,
+            ),
+        );
+        if (searchedActivity) {
+          activity = searchedActivity;
         }
+      }
+
+      if (activity) {
+        this.activityDoubleClick(activity);
       }
     }
   }
@@ -181,7 +190,7 @@ export class ActivityClickHandlerService {
     transformX: number,
     zoomY: number,
     transformY: number,
-  ) {
+  ): ElementMetadata {
     const tspan = currentNum.getElementsByTagName('tspan')[0];
     const tx = tspan.getAttribute('x');
     const ty = tspan.getAttribute('y');
@@ -192,7 +201,9 @@ export class ActivityClickHandlerService {
     return { tNumber, elementX, elementY };
   }
 
-  private getGeometricValuesFromViewport(htmlCanvas: HTMLElement) {
+  private getGeometricValuesFromViewport(): ViewportGeometry {
+    const htmlCanvas = document.getElementById('canvas');
+    if (!htmlCanvas) throw new Error();
     const viewport = this.getViewport(htmlCanvas);
     const transform = viewport.getAttribute('transform');
 

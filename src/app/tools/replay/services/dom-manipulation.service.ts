@@ -79,7 +79,7 @@ export class DomManipulationService {
   }
 
   getRenderedNumbers() {
-    let elementsByClassName = document.getElementsByClassName(
+    const elementsByClassName = document.getElementsByClassName(
       LABEL_NUMBER_CSS_CLASS,
     );
     const renderedNumberRegistry = [];
