@@ -5,8 +5,7 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { ActivityDialogData } from 'src/app/tools/modeler/domain/activityDialogData';
 import {
-  getMultipleNumberRegistry,
-  getNumberRegistry,
+  isNumberMultiple,
   setNumberIsMultiple,
   updateExistingNumbersAtEditing,
 } from 'src/app/tools/modeler/diagram-js/features/numbering/numbering';
@@ -51,7 +50,7 @@ export class ActivityClickHandlerService {
     ) {
       config.data = new ActivityDialogData(
         activity,
-        getMultipleNumberRegistry()[activity.businessObject.number],
+        isNumberMultiple(activity.businessObject.number),
         true,
         (data: any) => this.saveActivityInputLabel(data),
       );
@@ -106,7 +105,7 @@ export class ActivityClickHandlerService {
 
     this.commandStackService.execute('activity.changed', options);
     if (element.businessObject.multipleNumberAllowed !== false) {
-      if (getMultipleNumberRegistry()[activityNumber] === false) {
+      if (!isNumberMultiple(activityNumber)) {
         updateExistingNumbersAtEditing(
           activitiesFromActors,
           activityNumber,
@@ -123,7 +122,8 @@ export class ActivityClickHandlerService {
   }
 
   public activityNumberDoubleClick(event: any) {
-    const renderedNumberRegistry = getNumberRegistry();
+    const renderedNumberRegistry =
+      this.elementRegistryService.getHtmlActivityLabelNumbers();
 
     // length: always numerically greater than the highest index in the array
     // renderedNumberRegistry is a sparsely populated array
@@ -157,7 +157,16 @@ export class ActivityClickHandlerService {
             const activityNumber = activity.businessObject.number;
             if (
               activityNumber === tNumber &&
-              positionsMatch(width, height, elementX, elementY, clickX, clickY)
+              positionsMatch(
+                width,
+                height,
+                elementX,
+                elementY,
+                clickX,
+                clickY,
+              ) &&
+              currentNum.parentElement.parentElement.dataset.elementId ===
+                activity.id
             ) {
               this.activityDoubleClick(activity);
             }

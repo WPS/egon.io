@@ -220,7 +220,6 @@ export class ModelerService {
     if (fitToScreen) {
       this.fitStoryToScreen();
     }
-    this.elementRegistryService.correctInitialize();
     this.commandStackChanged();
     this.startDebounce();
     this.dirtyFlagService.makeClean();

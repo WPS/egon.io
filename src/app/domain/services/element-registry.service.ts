@@ -12,20 +12,6 @@ import { DiagramJsElementRegistry } from 'src/app/tools/modeler/diagram-js/type-
 })
 export class ElementRegistryService {
   private registry: any;
-  private fullyInitialized = false;
-
-  /**
-   * Initially the registry has only the root-Element.
-   * Once the canvas has bees initialized, we adjust the reference to point to the elements on the canvas for convenience
-   */
-  correctInitialize(): void {
-    if (!this.fullyInitialized) {
-      if (this.registry.__implicitroot) {
-        this.registry = this.registry.__implicitroot.element.children;
-        this.fullyInitialized = true;
-      }
-    }
-  }
 
   setElementRegistry(elementRegistry: DiagramJsElementRegistry): void {
     this.registry = elementRegistry._elements;
@@ -33,7 +19,13 @@ export class ElementRegistryService {
 
   clear(): void {
     this.registry = null;
-    this.fullyInitialized = false;
+  }
+
+  // the minimap clones the svg, resulting in duplicate elements ich we search directly on the canvas
+  getHtmlActivityLabelNumbers() {
+    return this.registry.__implicitroot_1.secondaryGfx.getElementsByClassName(
+      'djs-labelNumber',
+    );
   }
 
   createObjectListForDSTDownload(): CanvasObject[] {

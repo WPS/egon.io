@@ -14,7 +14,6 @@ import { query as domQuery } from "min-dom";
 import { assign, isObject } from "min-dash";
 import { getNumberStash } from "src/app/tools/modeler/diagram-js/features/labeling/dsLabelEditingProvider";
 import {
-  addNumberToRegistry,
   generateAutomaticNumber,
   numberBoxDefinitions,
 } from "src/app/tools/modeler/diagram-js/features/numbering/numbering";
@@ -90,7 +89,6 @@ export default function DomainStoryRenderer(
       numberStyle(box),
       element.type,
     );
-    addNumberToRegistry(newRenderedNumber, semantic.number);
   }
 
   // style functions
@@ -764,7 +762,6 @@ DomainStoryRenderer.prototype.drawShape = function (p, element) {
   let type = element.type;
   element.businessObject.type = type;
 
-  _elementRegistryService.correctInitialize();
   _dirtyFlagService.makeDirty();
 
   if (type.includes(ElementTypes.ACTOR)) {

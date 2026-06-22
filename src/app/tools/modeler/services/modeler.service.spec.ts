@@ -48,7 +48,7 @@ describe('ModelerService', () => {
     BaseViewer.prototype.get = undefined;
     const elementRegistryMock = jasmine.createSpyObj(
       ElementRegistryService.name,
-      ['createObjectListForDSTDownload', 'clear', 'correctInitialize'],
+      ['createObjectListForDSTDownload', 'clear'],
     );
     const iconDictionaryMock = jasmine.createSpyObj(
       IconDictionaryService.name,

@@ -2,8 +2,6 @@
 
 import { angleBetween } from "src/app/utils/mathExtensions";
 
-// TODO with the current approach occurring multipleNumbers override each Other, a proper handling of multiple numbers is needed for the registry
-let numberRegistry = [];
 let multipleNumberRegistry = [false];
 
 let canvasElementRegistry;
@@ -189,23 +187,12 @@ export function getNumbersAndIDs() {
   return iDWithNumber;
 }
 
-export function addNumberToRegistry(renderedNumber, number) {
-  numberRegistry[number] = renderedNumber;
-}
-
 export function setNumberIsMultiple(number, multi) {
   multipleNumberRegistry[number] = multi;
 }
 
-/**
- * @returns copy of registry
- */
-export function getNumberRegistry() {
-  return numberRegistry.slice(0);
-}
-
-export function getMultipleNumberRegistry() {
-  return multipleNumberRegistry.slice(0);
+export function isNumberMultiple(number) {
+  return multipleNumberRegistry[number];
 }
 
 function setNumberOfActivity(elementArray, wantedNumber, eventBus) {
