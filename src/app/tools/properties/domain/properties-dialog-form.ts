@@ -11,14 +11,14 @@ export interface PropertiesDialogForm {
 
 export namespace PropertiesDialogForm {
   export function create(
-    titel: string,
+    title: string,
     description: string,
     granularity: string,
     pointInTime: PointInTime | null,
     domainPurity: DomainPurity | null,
   ): FormGroup<PropertiesDialogForm> {
     return new FormGroup<PropertiesDialogForm>({
-      title: new FormControl<string | null>(titel),
+      title: new FormControl<string | null>(title),
       description: new FormControl<string | null>(description),
       granularity: new FormControl<string | null>(granularity),
       pointInTime: new FormControl<PointInTime | null>(pointInTime),

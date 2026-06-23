@@ -19,7 +19,7 @@ export default function PropertyCopy(eventBus) {
   this._eventBus = eventBus;
 
   // copy extension elements last
-  eventBus.on("propertyCopy.canCopyProperties", function (context) {
+  eventBus.on(PROPERTY_COPY_CAN_COPY_PROPERTIES_EVENT, function (context) {
     const propertyNames = context.propertyNames;
 
     if (!propertyNames || !propertyNames.length) {
@@ -32,7 +32,7 @@ export default function PropertyCopy(eventBus) {
   });
 
   // default check whether property can be copied
-  eventBus.on("propertyCopy.canCopyProperty", function (context) {
+  eventBus.on(PROPERTY_COPY_CAN_COPY_PROPERTY_EVENT, function (context) {
     const propertyName = context.propertyName;
 
     if (propertyName && DISALLOWED_PROPERTIES.indexOf(propertyName) !== -1) {

@@ -24,7 +24,7 @@ export default function headlineAndDescriptionUpdateHandler(
     };
 
     this.revert = function (ctx) {
-      propertiesService.updateTitleAndDescription(
+      propertiesService.updateTitleAndDescriptionAndScope(
         ctx.oldTitle,
         ctx.oldDescription,
         ctx.oldScope,
