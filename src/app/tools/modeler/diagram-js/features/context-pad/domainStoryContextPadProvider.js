@@ -137,7 +137,7 @@ export default function DomainStoryContextPadProvider(
 
   function addDelete(actions, element) {
     // delete element entry, only show if allowed by rules
-    const deleteAllowed = rules.allowed(EVENT_ELEMENTS_DELETE, {
+    let deleteAllowed = rules.allowed(EVENT_ELEMENTS_DELETE, {
       elements: { element },
     });
 

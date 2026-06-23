@@ -66,9 +66,9 @@
           "mayUseAllBelow": true
         },
         {
-          "name": "title",
+          "name": "properties",
           "include": [
-            "*/title/**"
+            "*/properties/**"
           ],
           "mayUseAllBelow": true
         },

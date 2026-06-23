@@ -115,7 +115,7 @@ PropertyCopy.prototype.copyProperty = function (
   const self = this;
 
   // allow others to copy property
-  const copiedProperty = this._eventBus.fire(
+  let copiedProperty = this._eventBus.fire(
     PROPERTY_COPY_CAN_COPY_PROPERTY_EVENT,
     {
       parent: parent,
