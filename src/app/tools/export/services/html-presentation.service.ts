@@ -44,6 +44,7 @@ export class HtmlPresentationService {
     const svgData = [];
     // export all sentences of domain story
     this.replayService.startReplay();
+    this.replayService.toggleShowGroups(); // Always show groups
     while (
       this.replayService.currentSentence() <
       this.replayService.maxSentenceNumber()

@@ -28,6 +28,7 @@ export class HeaderButtonsComponent {
   readonly hasDomainStory = input(false);
   readonly hasTitle = input(false);
   readonly isReplaying = input<boolean | null>(false);
+  readonly showGroups = input<boolean | null>(false);
   readonly isDirty = input<boolean | null>(false);
   readonly isReplayable = input(false);
 
@@ -38,6 +39,7 @@ export class HeaderButtonsComponent {
   readonly previousSentence = output();
   readonly nextSentence = output();
   readonly newStory = output();
+  readonly toggleGroups = output();
   readonly showKeyboardShortCuts = output();
   readonly openLabelDictionary = output();
   readonly openDownloadDialog = output();

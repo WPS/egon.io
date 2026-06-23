@@ -14,7 +14,11 @@ import { ActivityBusinessObject } from '../../../domain/entities/activityBusines
 export class StoryCreatorService {
   private readonly elementRegistryService = inject(ElementRegistryService);
 
-  traceActivitiesAndCreateStory(): StorySentence[] {
+  traceActivitiesAndCreateStory(): {
+    storyWithoutGroups: StorySentence[];
+    storyWithGroups: StorySentence[];
+    storyWithGroupsInLastSentence: StorySentence[];
+  } {
     const tracedActivityMap = new Dictionary<ActivityCanvasObject[]>();
     const story: StorySentence[] = [];
     const activities = this.elementRegistryService.getActivitiesFromActors();
@@ -34,11 +38,50 @@ export class StoryCreatorService {
       this.createSentence(tracedActivityMap, key, story, storyIndex);
       storyIndex++;
     });
-
-    this.addGroupsToLastSentence(story);
-    return story;
+    return this.createStoryWithGroups(story);
   }
 
+  private createStoryWithGroups(story: StorySentence[]): {
+    storyWithoutGroups: StorySentence[];
+    storyWithGroups: StorySentence[];
+    storyWithGroupsInLastSentence: StorySentence[];
+  } {
+    const groups = this.elementRegistryService.getAllGroups() as CanvasObject[];
+    const annotationsForGroups: CanvasObject[] = [];
+    groups.forEach((group) =>
+      this.addTextAnnotationsForActorOrGroup(group, annotationsForGroups),
+    );
+
+    const storyWithGroups: StorySentence[] = JSON.parse(JSON.stringify(story));
+
+    if (groups.length > 0 && story.length > 0) {
+      storyWithGroups.forEach((sentence) => {
+        sentence.objects = sentence.objects
+          .concat(groups.map((g) => g.businessObject))
+          .concat(annotationsForGroups.map((a) => a.businessObject));
+      });
+    }
+
+    const storyWithGroupsInLastSentence: StorySentence[] = JSON.parse(
+      JSON.stringify(storyWithGroups),
+    );
+
+    if (groups.length > 0 && storyWithGroupsInLastSentence.length > 0) {
+      storyWithGroupsInLastSentence[
+        storyWithGroupsInLastSentence.length - 1
+      ].objects = storyWithGroupsInLastSentence[
+        storyWithGroupsInLastSentence.length - 1
+      ].objects
+        .concat(groups.map((g) => g.businessObject))
+        .concat(annotationsForGroups.map((a) => a.businessObject));
+    }
+
+    return {
+      storyWithoutGroups: story,
+      storyWithGroups,
+      storyWithGroupsInLastSentence,
+    };
+  }
   private createSentence(
     tracedActivityMap: Dictionary<ActivityCanvasObject[]>,
     tracedActivityMapKey: number,
@@ -160,18 +203,5 @@ export class StoryCreatorService {
         objectTextAnnotations.push(connection, connection.target);
       }
     });
-  }
-
-  private addGroupsToLastSentence(story: StorySentence[]): void {
-    const groups = this.elementRegistryService.getAllGroups() as CanvasObject[];
-    const annotationsForGroups: CanvasObject[] = [];
-    groups.forEach((group) =>
-      this.addTextAnnotationsForActorOrGroup(group, annotationsForGroups),
-    );
-    if (groups.length > 0 && story.length > 0) {
-      story[story.length - 1].objects = story[story.length - 1].objects
-        .concat(groups.map((g) => g.businessObject))
-        .concat(annotationsForGroups.map((a) => a.businessObject));
-    }
   }
 }

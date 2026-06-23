@@ -83,7 +83,8 @@ describe('StoryCreatorService', () => {
     });
 
     it('should trace activities and create Story', () => {
-      const tracedStory = service.traceActivitiesAndCreateStory();
+      const tracedStory =
+        service.traceActivitiesAndCreateStory().storyWithoutGroups;
 
       for (let i = 0; i < tracedStory.length; i++) {
         const sentence = tracedStory[i];
@@ -101,7 +102,7 @@ describe('StoryCreatorService', () => {
     let story: StorySentence[];
 
     beforeEach(() => {
-      story = preBuildTestStory(7);
+      story = preBuildTestStory(7).storyWithGroups;
     });
 
     it('should be missing sequence number 2, 4 und 6 in sorting order', () => {

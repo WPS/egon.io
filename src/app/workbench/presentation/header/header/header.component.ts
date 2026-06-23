@@ -35,6 +35,7 @@ export class HeaderComponent {
   readonly showDescription = this.propertiesService.showDescription;
 
   readonly isReplayOn: Signal<boolean> = this.replayService.replayOn;
+  readonly showGroups: Signal<boolean> = this.replayService.showGroups;
   readonly isDirty: Signal<boolean> = this.dirtyFlagService.dirty;
 
   openHeaderDialog(): void {
@@ -81,6 +82,10 @@ export class HeaderComponent {
 
   previousSentence(): void {
     this.replayService.previousSentence();
+  }
+
+  toggleGroups(): void {
+    this.replayService.toggleShowGroups();
   }
 
   nextSentence(): void {

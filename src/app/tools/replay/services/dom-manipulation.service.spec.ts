@@ -60,7 +60,9 @@ describe('DomManipulationService', () => {
   });
 
   it('showSentence', () => {
-    domManipulationService.showSentence(preBuildTestStory(2)[1]);
+    domManipulationService.showSentence(
+      preBuildTestStory(2).storyWithGroups[1],
+    );
 
     expect(
       elementRegistryServiceSpy.getAllBusinessObjectsFromCanvasNotIn,

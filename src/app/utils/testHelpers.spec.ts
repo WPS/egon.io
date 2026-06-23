@@ -6,7 +6,11 @@ import {
 import { ElementTypes } from '../domain/entities/elementTypes';
 import { StorySentence } from '../tools/replay/domain/storySentence';
 
-export function preBuildTestStory(sentenceAmount: number): StorySentence[] {
+export function preBuildTestStory(sentenceAmount: number): {
+  storyWithoutGroups: StorySentence[];
+  storyWithGroups: StorySentence[];
+  storyWithGroupsInLastSentence: StorySentence[];
+} {
   const story: StorySentence[] = [];
   let i = 0;
   while (i < sentenceAmount) {
@@ -25,7 +29,11 @@ export function preBuildTestStory(sentenceAmount: number): StorySentence[] {
     });
     i++;
   }
-  return story;
+  return {
+    storyWithoutGroups: story,
+    storyWithGroups: story,
+    storyWithGroupsInLastSentence: story,
+  };
 }
 
 export function createTestCanvasObjects(

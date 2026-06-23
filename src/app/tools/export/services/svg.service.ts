@@ -117,7 +117,8 @@ export class SvgService {
     animationSpeed: number = 2,
   ) {
     const story: StorySentence[] =
-      this.storyCreatorService.traceActivitiesAndCreateStory();
+      this.storyCreatorService.traceActivitiesAndCreateStory()
+        .storyWithGroupsInLastSentence;
     const usedElementId: string[] = [];
     const storyLength = story.length;
     const visibleTimeInPercent = Math.floor(100 / storyLength);

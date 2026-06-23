@@ -22,6 +22,7 @@ describe('HeaderComponent', () => {
         replayOn: signal(false),
         currentSentence: signal(1),
         maxSentenceNumber: signal(2),
+        showGroups: signal(false),
       },
     );
 

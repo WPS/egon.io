@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import { DomManipulationService } from 'src/app/tools/replay/services/dom-manipulation.service';
 import { StorySentence } from 'src/app/tools/replay/domain/storySentence';
 import { StoryCreatorService } from './story-creator.service';
@@ -16,14 +16,18 @@ import { DiagramJsSelection } from 'src/app/tools/modeler/diagram-js/type-interf
   providedIn: 'root',
 })
 export class ReplayService {
-  private story: StorySentence[] = [];
+  private storyWithoutGroups: StorySentence[] = [];
+  private storyWithGroups: StorySentence[] = [];
+
   private readonly currentSentenceSignal = signal(-1);
   private readonly maxSentenceNumberSignal = signal(0);
   private readonly replayOnSignal = signal(false);
+  private readonly showGroupsSignal = signal(false);
 
   readonly currentSentence = this.currentSentenceSignal.asReadonly();
   readonly maxSentenceNumber = this.maxSentenceNumberSignal.asReadonly();
   readonly replayOn = this.replayOnSignal.asReadonly();
+  readonly showGroups = this.showGroupsSignal.asReadonly();
 
   private readonly domManipulationService = inject(DomManipulationService);
   private readonly storyCreatorService = inject(StoryCreatorService);
@@ -37,17 +41,29 @@ export class ReplayService {
   }
 
   isReplayable(): boolean {
-    return this.storyCreatorService.traceActivitiesAndCreateStory().length > 0;
+    return (
+      this.storyCreatorService.traceActivitiesAndCreateStory()
+        .storyWithoutGroups.length > 0
+    );
   }
 
-  initializeReplay(story: StorySentence[]): void {
+  initializeReplay(
+    storyWithoutGroups: StorySentence[],
+    storyWithGroups: StorySentence[],
+  ): void {
     this.currentSentenceSignal.set(1);
-    this.story = story;
-    this.maxSentenceNumberSignal.set(this.story.length);
+    this.storyWithoutGroups = storyWithoutGroups;
+    this.storyWithGroups = storyWithGroups;
+    this.maxSentenceNumberSignal.set(this.storyWithoutGroups.length);
+  }
+
+  toggleShowGroups(): void {
+    this.showGroupsSignal.set(!this.showGroupsSignal());
+    this.showCurrentSentence();
   }
 
   nextSentence(): void {
-    if (this.currentSentenceSignal() < this.story.length) {
+    if (this.currentSentenceSignal() < this.storyWithoutGroups.length) {
       this.currentSentenceSignal.set(this.currentSentenceSignal() + 1);
       this.showCurrentSentence();
     }
@@ -61,22 +77,26 @@ export class ReplayService {
   }
 
   private showCurrentSentence() {
+    const story = this.showGroupsSignal()
+      ? this.storyWithGroups
+      : this.storyWithoutGroups;
     this.domManipulationService.showSentence(
-      this.story[this.currentSentenceSignal() - 1],
+      story[this.currentSentenceSignal() - 1],
       this.currentSentenceSignal() > 1
-        ? this.story[this.currentSentenceSignal() - 2]
+        ? story[this.currentSentenceSignal() - 2]
         : undefined,
     );
   }
 
   startReplay(checkSequenceNumbers = false): void {
-    const story = this.storyCreatorService.traceActivitiesAndCreateStory();
+    const { storyWithoutGroups, storyWithGroups } =
+      this.storyCreatorService.traceActivitiesAndCreateStory();
 
     this.clearUserInteractionsOnCanvas();
 
     if (checkSequenceNumbers) {
       const missingSentences =
-        this.storyCreatorService.getMissingSentences(story);
+        this.storyCreatorService.getMissingSentences(storyWithoutGroups);
       if (missingSentences.length > 0) {
         const sentence = missingSentences.join(', ');
         this.snackbar.open(
@@ -93,11 +113,14 @@ export class ReplayService {
       }
     }
 
-    this.initializeReplay(story);
-    if (this.story.length > 0) {
+    this.initializeReplay(storyWithoutGroups, storyWithGroups);
+    if (this.storyWithoutGroups.length > 0) {
       this.setReplayState(true);
+      const story = this.showGroupsSignal()
+        ? this.storyWithGroups
+        : this.storyWithoutGroups;
       this.domManipulationService.showSentence(
-        this.story[this.currentSentenceSignal() - 1],
+        story[this.currentSentenceSignal() - 1],
       );
     } else {
       this.snackbar.open('You need a Domain Story for replay.', undefined, {
