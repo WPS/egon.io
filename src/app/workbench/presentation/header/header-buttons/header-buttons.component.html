@@ -110,30 +110,32 @@
   </div>
 } @else {
   <div class="replaying">
-    @if (showGroups()) {
-      <button
-        type="button"
-        class="headerButton"
-        title="Show Groups"
-        (click)="toggleGroups.emit()"
-      >
-        <span class="material-icons-outlined materialIconButton">
-          visibility_off
-        </span>
-        <div class="button-label">Groups</div>
-      </button>
-    } @else {
-      <button
-        type="button"
-        class="headerButton"
-        title="Show Groups"
-        (click)="toggleGroups.emit()"
-      >
-        <span class="material-icons-outlined materialIconButton">
-          visibility
-        </span>
-        <div class="button-label">Groups</div>
-      </button>
+    @if (hasGroups()) {
+      @if (showGroups()) {
+        <button
+          type="button"
+          class="headerButton"
+          title="Show Groups"
+          (click)="toggleGroups.emit()"
+        >
+          <span class="material-icons-outlined materialIconButton">
+            visibility_off
+          </span>
+          <div class="button-label">Groups</div>
+        </button>
+      } @else {
+        <button
+          type="button"
+          class="headerButton"
+          title="Show Groups"
+          (click)="toggleGroups.emit()"
+        >
+          <span class="material-icons-outlined materialIconButton">
+            visibility
+          </span>
+          <div class="button-label">Groups</div>
+        </button>
+      }
     }
     <button
       type="button"

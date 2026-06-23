@@ -29,6 +29,7 @@ export class HeaderButtonsComponent {
   readonly hasTitle = input(false);
   readonly isReplaying = input<boolean | null>(false);
   readonly showGroups = input<boolean | null>(false);
+  readonly hasGroups = input<boolean | null>(false);
   readonly isDirty = input<boolean | null>(false);
   readonly isReplayable = input(false);
 

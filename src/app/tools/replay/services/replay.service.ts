@@ -17,17 +17,19 @@ import { DiagramJsSelection } from 'src/app/tools/modeler/diagram-js/type-interf
 })
 export class ReplayService {
   private storyWithoutGroups: StorySentence[] = [];
-  private storyWithGroups: StorySentence[] = [];
+  private storyWithGroups: StorySentence[] | undefined;
 
   private readonly currentSentenceSignal = signal(-1);
   private readonly maxSentenceNumberSignal = signal(0);
   private readonly replayOnSignal = signal(false);
   private readonly showGroupsSignal = signal(false);
+  private readonly hasGroupsSignal = signal(false);
 
   readonly currentSentence = this.currentSentenceSignal.asReadonly();
   readonly maxSentenceNumber = this.maxSentenceNumberSignal.asReadonly();
   readonly replayOn = this.replayOnSignal.asReadonly();
   readonly showGroups = this.showGroupsSignal.asReadonly();
+  readonly hasGroups = this.hasGroupsSignal.asReadonly();
 
   private readonly domManipulationService = inject(DomManipulationService);
   private readonly storyCreatorService = inject(StoryCreatorService);
@@ -49,7 +51,7 @@ export class ReplayService {
 
   initializeReplay(
     storyWithoutGroups: StorySentence[],
-    storyWithGroups: StorySentence[],
+    storyWithGroups: StorySentence[] | undefined,
   ): void {
     this.currentSentenceSignal.set(1);
     this.storyWithoutGroups = storyWithoutGroups;
@@ -77,9 +79,7 @@ export class ReplayService {
   }
 
   private showCurrentSentence() {
-    const story = this.showGroupsSignal()
-      ? this.storyWithGroups
-      : this.storyWithoutGroups;
+    const story = this.determineStoryToShow();
     this.domManipulationService.showSentence(
       story[this.currentSentenceSignal() - 1],
       this.currentSentenceSignal() > 1
@@ -91,6 +91,8 @@ export class ReplayService {
   startReplay(checkSequenceNumbers = false): void {
     const { storyWithoutGroups, storyWithGroups } =
       this.storyCreatorService.traceActivitiesAndCreateStory();
+
+    this.hasGroupsSignal.set(storyWithGroups !== undefined);
 
     this.clearUserInteractionsOnCanvas();
 
@@ -116,9 +118,7 @@ export class ReplayService {
     this.initializeReplay(storyWithoutGroups, storyWithGroups);
     if (this.storyWithoutGroups.length > 0) {
       this.setReplayState(true);
-      const story = this.showGroupsSignal()
-        ? this.storyWithGroups
-        : this.storyWithoutGroups;
+      const story = this.determineStoryToShow();
       this.domManipulationService.showSentence(
         story[this.currentSentenceSignal() - 1],
       );
@@ -128,6 +128,12 @@ export class ReplayService {
         panelClass: SNACKBAR_INFO,
       });
     }
+  }
+
+  private determineStoryToShow(): StorySentence[] {
+    return this.showGroupsSignal() && this.storyWithGroups
+      ? this.storyWithGroups!
+      : this.storyWithoutGroups;
   }
 
   private clearUserInteractionsOnCanvas() {
