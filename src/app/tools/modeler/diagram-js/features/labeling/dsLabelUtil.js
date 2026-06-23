@@ -2,6 +2,7 @@
 
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
 import { is } from "../util/util";
+import { EVENT_ELEMENT_CHANGED } from "../diagramJSConstants";
 
 function getLabelAttr(semantic) {
   if (
