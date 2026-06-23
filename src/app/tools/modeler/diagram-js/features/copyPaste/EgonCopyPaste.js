@@ -1,7 +1,10 @@
 import { getBusinessObject } from "../util/util";
 
 import { forEach, isArray, isUndefined, omit, reduce } from "min-dash";
-import { EVENT_COPY_PASE_PASTE_ELEMENT } from "../diagramJSConstants";
+import {
+  EVENT_COPY_PASE_PASTE_ELEMENT,
+  EVENT_COPY_PASE_PASTE_ELEMENTS,
+} from "../diagramJSConstants";
 
 function copyProperties(source, target, properties) {
   if (!isArray(properties)) {

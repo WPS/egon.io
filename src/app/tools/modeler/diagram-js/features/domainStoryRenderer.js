@@ -30,7 +30,11 @@ import {
   isCustomSvgIcon,
   getAnnotationBracketSvg,
 } from "./util/util";
-import { EVENT_BENDPOINT_MOVE_START } from "./diagramJSConstants";
+import {
+  EVENT_BENDPOINT_MOVE_END,
+  EVENT_BENDPOINT_MOVE_START,
+  LABEL_NUMBER_CSS_CLASS,
+} from "./diagramJSConstants";
 
 let RENDERER_IDS = new Ids();
 let numbers = [];
@@ -84,12 +88,7 @@ export default function DomainStoryRenderer(
       box.x += 3;
     }
 
-    let newRenderedNumber = renderNumber(
-      parentGfx,
-      semantic.number,
-      numberStyle(box),
-      element.type,
-    );
+    renderNumber(parentGfx, semantic.number, numberStyle(box), element.type);
   }
 
   // style functions
