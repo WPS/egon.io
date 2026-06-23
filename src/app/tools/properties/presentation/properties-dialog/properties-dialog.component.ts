@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TitleService } from 'src/app/tools/title/services/title.service';
-import { TitleDialogForm } from '../../domain/title-dialog-form';
-import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
+import { PropertiesDialogForm } from 'src/app/tools/properties/domain/properties-dialog-form';
+import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,9 +18,9 @@ import {
 } from '@angular/material/button-toggle';
 
 @Component({
-  selector: 'app-header-dialog',
-  templateUrl: './title-dialog.component.html',
-  styleUrls: ['./title-dialog.component.scss'],
+  selector: 'app-properties-dialog',
+  templateUrl: './properties-dialog.component.html',
+  styleUrls: ['./properties-dialog.component.scss'],
 
   imports: [
     ReactiveFormsModule,
@@ -32,19 +32,19 @@ import {
     MatButtonToggle,
   ],
 })
-export class TitleDialogComponent implements OnInit {
-  form!: FormGroup<TitleDialogForm>;
+export class PropertiesDialogComponent implements OnInit {
+  form!: FormGroup<PropertiesDialogForm>;
 
-  private dialogRef = inject(MatDialogRef<TitleDialogComponent>);
-  private titleService = inject(TitleService);
+  private dialogRef = inject(MatDialogRef<PropertiesDialogComponent>);
+  private propertiesService = inject(PropertiesService);
   private dirtyFlagService = inject(DirtyFlagService);
 
   ngOnInit(): void {
-    const title = this.titleService.getTitle();
-    const description = this.titleService.getDescription();
-    const scope = this.titleService.getScope();
+    const title = this.propertiesService.getTitle();
+    const description = this.propertiesService.getDescription();
+    const scope = this.propertiesService.getScope();
 
-    this.form = TitleDialogForm.create(
+    this.form = PropertiesDialogForm.create(
       title,
       description,
       scope?.granularity ? scope.granularity : '',
@@ -67,7 +67,7 @@ export class TitleDialogComponent implements OnInit {
         domainPurity: domainPurity ? domainPurity : undefined,
       };
 
-      this.titleService.updateTitleAndDescriptionAndScope(
+      this.propertiesService.updateTitleAndDescriptionAndScope(
         this.form.getRawValue().title,
         this.form.getRawValue().description,
         scope,

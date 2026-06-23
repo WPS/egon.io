@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TitleService } from '../../../../tools/title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { MockService } from 'ng-mocks';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
 import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
@@ -30,7 +30,7 @@ describe('HeaderComponent', () => {
 
       providers: [
         {
-          provide: TitleService,
+          provide: PropertiesService,
         },
         {
           provide: ReplayService,

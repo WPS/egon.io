@@ -3,7 +3,7 @@ import { sanitizeForDesktop } from '../../../utils/sanitizer';
 import { ReplayService } from '../../replay/services/replay.service';
 // @ts-ignore
 import doT from 'dot';
-import { TitleService } from '../../title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ViewBoxCoordinateRegExp } from 'src/app/tools/export/services/exportUtil';
 import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 import { downloadFile } from 'src/app/utils/downloadFile';
@@ -21,7 +21,7 @@ import {
  */
 export class HtmlPresentationService {
   private readonly replayService = inject(ReplayService);
-  private readonly titleService = inject(TitleService);
+  private readonly propertiesService = inject(PropertiesService);
   private readonly modeler = inject(ModelerService);
   private readonly snackbar = inject(MatSnackBar);
 
@@ -74,8 +74,8 @@ export class HtmlPresentationService {
     const dots = doT.template(revealjsTemplate?.innerHTML);
     const revealjsData = {
       script: 'script',
-      title: this.titleService.getTitle(),
-      description: this.titleService.getDescription(),
+      title: this.propertiesService.getTitle(),
+      description: this.propertiesService.getDescription(),
       sentences: svgData,
       multiplexSecret: this.multiplexSecret,
       multiplexId: this.multiplexId,

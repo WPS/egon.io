@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ElementRegistryService } from '../../../domain/services/element-registry.service';
 import { ElementTypes } from '../../../domain/entities/elementTypes';
-import { TitleService } from '../../title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { CommandStackService } from '../../../domain/services/command-stack.service';
 
 import activityUpdateHandler from 'src/app/tools/modeler/diagram-js/features/updateHandler/activityUpdateHandlers';
@@ -39,7 +39,7 @@ export class InitializerService {
   private readonly elementRegistryService = inject(ElementRegistryService);
   private readonly replayService = inject(ReplayService);
   private readonly commandStackService = inject(CommandStackService);
-  private readonly titleService = inject(TitleService);
+  private readonly propertiesService = inject(PropertiesService);
   private readonly activityClickHandlerService = inject(
     ActivityClickHandlerService,
   );
@@ -67,7 +67,7 @@ export class InitializerService {
     activityUpdateHandler(commandStack, eventBus);
     massRenameHandler(commandStack, eventBus);
     elementUpdateHandler(commandStack, eventBus);
-    headlineAndDescriptionUpdateHandler(commandStack, this.titleService);
+    headlineAndDescriptionUpdateHandler(commandStack, this.propertiesService);
   }
 
   initiateEventBusListeners(eventBus: DiagramJsEventBus): void {

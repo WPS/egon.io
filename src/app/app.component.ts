@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { SettingsService } from 'src/app/workbench/services/settings/settings.service';
-import { TitleService } from './tools/title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ExportService } from './tools/export/services/export.service';
 import { ReplayService } from './tools/replay/services/replay.service';
 import { environment } from '../environments/environment';
@@ -81,7 +81,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   ];
 
   private readonly settingsService = inject(SettingsService);
-  private readonly titleService = inject(TitleService);
+  private readonly propertiesService = inject(PropertiesService);
   private readonly exportService = inject(ExportService);
   private readonly autosaveService = inject(AutosaveService);
   private readonly cd = inject(ChangeDetectorRef);
@@ -92,7 +92,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   private readonly importDomainStoryService = inject(ImportDomainStoryService);
   private readonly activatedRoute = inject(ActivatedRoute);
 
-  showDescription = this.titleService.showDescription;
+  showDescription = this.propertiesService.showDescription;
   showSettings = this.settingsService.showSettings;
 
   constructor() {

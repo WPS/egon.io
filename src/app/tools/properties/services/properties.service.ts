@@ -7,20 +7,20 @@ import {
 import { CommandStackService } from '../../../domain/services/command-stack.service';
 import { DialogService } from '../../../domain/services/dialog.service';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { TitleDialogComponent } from '../presentation/title-dialog/title-dialog.component';
+import { PropertiesDialogComponent } from 'src/app/tools/properties/presentation/properties-dialog/properties-dialog.component';
 import { Scope } from 'src/app/domain/entities/scope';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TitleService {
+export class PropertiesService {
   private readonly commandStackService = inject(CommandStackService);
   private readonly dialogService = inject(DialogService);
 
   private readonly titleSignal = signal(INITIAL_TITLE);
   private readonly scopeSignal = signal(undefined as Scope | undefined);
   private readonly descriptionSignal = signal(INITIAL_DESCRIPTION);
-  private readonly showDescriptionSignal = signal(true);
+  private readonly showDescriptionSignal = signal(false);
 
   readonly title = this.titleSignal.asReadonly();
   readonly description = this.descriptionSignal.asReadonly();
@@ -30,7 +30,7 @@ export class TitleService {
     const config = new MatDialogConfig();
     config.disableClose = false;
     config.autoFocus = true;
-    this.dialogService.openDialog(TitleDialogComponent, config);
+    this.dialogService.openDialog(PropertiesDialogComponent, config);
   }
 
   updateTitleAndDescriptionAndScope(

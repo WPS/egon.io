@@ -4,9 +4,9 @@
       <span
         class="headline"
         (click)="openHeaderDialog()"
-        title="Edit title and description"
+        title="Edit properties"
       >
-        {{ this.titleService.title() }}
+        {{ this.propertiesService.title() }}
       </span>
     </div>
 
@@ -14,10 +14,10 @@
       type="button"
       class="headerButton"
       (click)="openHeaderDialog()"
-      title="Edit title and description"
+      title="Edit properties"
     >
       <span class="material-icons-outlined materialIconButton"> edit </span>
-      <div class="button-label">Title</div>
+      <div class="button-label">Properties</div>
     </button>
     @if (showDescription()) {
       <button

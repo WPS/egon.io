@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HeaderButtonsComponent } from './header-buttons.component';
 import { MockProviders } from 'ng-mocks';
 import { SettingsService } from '../../../services/settings/settings.service';
-import { TitleService } from '../../../../tools/title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ModelerService } from '../../../../tools/modeler/services/modeler.service';
 import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
 import { ElementRegistryService } from '../../../../domain/services/element-registry.service';
@@ -53,7 +53,7 @@ describe('HeaderButtonsComponent', () => {
         { provide: MatSnackBar, useValue: snackbar },
         MockProviders(
           SettingsService,
-          TitleService,
+          PropertiesService,
           ModelerService,
           DirtyFlagService,
           ElementRegistryService,

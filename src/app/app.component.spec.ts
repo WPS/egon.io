@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from 'src/app/app.component';
 import { MockComponent, MockProvider, MockProviders } from 'ng-mocks';
 import { SettingsService } from './workbench/services/settings/settings.service';
-import { TitleService } from './tools/title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ExportService } from './tools/export/services/export.service';
 import { ReplayService } from 'src/app/tools/replay/services/replay.service';
 import { AutosaveService } from './tools/autosave/services/autosave.service';
@@ -25,9 +25,13 @@ describe('AppComponent', () => {
     const settingsServiceMock = jasmine.createSpyObj('SettingsService', [], {
       showSettings: signal<boolean>(false),
     });
-    const titleServiceMock = jasmine.createSpyObj('TitleService', [], {
-      showDescription: signal<boolean>(true),
-    });
+    const propertiesServiceMock = jasmine.createSpyObj(
+      'PropertiesService',
+      [],
+      {
+        showDescription: signal<boolean>(true),
+      },
+    );
     await TestBed.configureTestingModule({
       imports: [
         AppComponent,
@@ -47,8 +51,8 @@ describe('AppComponent', () => {
           },
         }),
         {
-          provide: TitleService,
-          useValue: titleServiceMock,
+          provide: PropertiesService,
+          useValue: propertiesServiceMock,
         },
         {
           provide: SettingsService,

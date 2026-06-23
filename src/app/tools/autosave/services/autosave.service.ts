@@ -11,7 +11,7 @@ import { ExportService } from '../../export/services/export.service';
 import { Draft } from '../domain/draft';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
 import { StorageService } from '../../../domain/services/storage.service';
-import { TitleService } from '../../title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
 import { Subject } from 'rxjs';
 import {
@@ -50,7 +50,7 @@ export class AutosaveService {
   private readonly modelerService = inject(ModelerService);
   private readonly snackbar = inject(MatSnackBar);
   private readonly storageService = inject(StorageService);
-  private readonly titleService = inject(TitleService);
+  private readonly propertiesService = inject(PropertiesService);
   private readonly iconSetImportExportService = inject(
     IconSetImportExportService,
   );
@@ -82,7 +82,7 @@ export class AutosaveService {
     );
     const businessObjects = this.getBusinessObjectsFromDraft(draft);
 
-    this.titleService.updateTitleAndDescriptionAndScope(
+    this.propertiesService.updateTitleAndDescriptionAndScope(
       draft.title,
       draft.description,
       draft.scope,
@@ -184,9 +184,9 @@ export class AutosaveService {
     const domainStory: DomainStory = {
       businessObjects: this.modelerService.getStory(),
       version: environment.version,
-      description: this.titleService.getDescription(),
-      title: this.titleService.getTitle(),
-      scope: this.titleService.getScope(),
+      description: this.propertiesService.getDescription(),
+      title: this.propertiesService.getTitle(),
+      scope: this.propertiesService.getScope(),
     };
 
     const configAndDST = this.exportService.createConfigAndDST(domainStory);
@@ -194,9 +194,9 @@ export class AutosaveService {
     const date = new Date().toString().slice(0, 25);
 
     return {
-      title: this.titleService.getTitle(),
-      description: this.titleService.getDescription(),
-      scope: this.titleService.getScope(),
+      title: this.propertiesService.getTitle(),
+      description: this.propertiesService.getDescription(),
+      scope: this.propertiesService.getScope(),
       configAndDST,
       date,
     };

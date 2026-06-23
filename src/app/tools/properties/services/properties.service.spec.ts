@@ -1,18 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TitleService } from 'src/app/tools/title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
 } from '../../../domain/entities/constants';
 import { environment } from '../../../../environments/environment';
 
-describe(TitleService.name, () => {
-  let service: TitleService;
+describe(PropertiesService.name, () => {
+  let service: PropertiesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TitleService);
+    service = TestBed.inject(PropertiesService);
   });
 
   it('should be created', () => {

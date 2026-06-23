@@ -6,7 +6,7 @@ import { ElementRegistryService } from '../../../domain/services/element-registr
 import { DialogService } from '../../../domain/services/dialog.service';
 import { StoryCreatorService } from '../../replay/services/story-creator.service';
 import { ReplayService } from '../../replay/services/replay.service';
-import { TitleService } from '../../title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 
 describe('HtmlPresentationService', () => {
   let service: HtmlPresentationService;
@@ -19,7 +19,7 @@ describe('HtmlPresentationService', () => {
           DialogService,
           StoryCreatorService,
           ReplayService,
-          TitleService,
+          PropertiesService,
         ),
       ],
     });

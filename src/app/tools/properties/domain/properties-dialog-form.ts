@@ -1,7 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { DomainPurity, PointInTime } from 'src/app/domain/entities/scope';
 
-export interface TitleDialogForm {
+export interface PropertiesDialogForm {
   title: FormControl<string | null>;
   description: FormControl<string | null>;
   granularity: FormControl<string | null>;
@@ -9,15 +9,15 @@ export interface TitleDialogForm {
   domainPurity: FormControl<DomainPurity | null>;
 }
 
-export namespace TitleDialogForm {
+export namespace PropertiesDialogForm {
   export function create(
     titel: string,
     description: string,
     granularity: string,
     pointInTime: PointInTime | null,
     domainPurity: DomainPurity | null,
-  ): FormGroup<TitleDialogForm> {
-    return new FormGroup<TitleDialogForm>({
+  ): FormGroup<PropertiesDialogForm> {
+    return new FormGroup<PropertiesDialogForm>({
       title: new FormControl<string | null>(titel),
       description: new FormControl<string | null>(description),
       granularity: new FormControl<string | null>(granularity),

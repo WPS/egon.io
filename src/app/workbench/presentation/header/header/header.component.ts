@@ -1,5 +1,5 @@
 import { Component, inject, Signal } from '@angular/core';
-import { TitleService } from '../../../../tools/title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
 import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
 import { SettingsService } from '../../../services/settings/settings.service';
@@ -21,7 +21,7 @@ import { HeaderButtonsComponent } from '../header-buttons/header-buttons.compone
   imports: [MatToolbarModule, MatCardModule, HeaderButtonsComponent],
 })
 export class HeaderComponent {
-  readonly titleService = inject(TitleService);
+  readonly propertiesService = inject(PropertiesService);
   private readonly replayService = inject(ReplayService);
   private readonly importService = inject(ImportDomainStoryService);
   private readonly settingsService = inject(SettingsService);
@@ -31,14 +31,14 @@ export class HeaderComponent {
   private readonly exportService = inject(ExportService);
   private readonly labelDictionaryService = inject(LabelDictionaryService);
 
-  readonly description = this.titleService.description;
-  readonly showDescription = this.titleService.showDescription;
+  readonly description = this.propertiesService.description;
+  readonly showDescription = this.propertiesService.showDescription;
 
   readonly isReplayOn: Signal<boolean> = this.replayService.replayOn;
   readonly isDirty: Signal<boolean> = this.dirtyFlagService.dirty;
 
   openHeaderDialog(): void {
-    this.titleService.openHeaderDialog();
+    this.propertiesService.openHeaderDialog();
   }
 
   openSettings(): void {
@@ -46,17 +46,17 @@ export class HeaderComponent {
   }
 
   setShowDescription(show: boolean): void {
-    this.titleService.setShowDescription(show);
+    this.propertiesService.setShowDescription(show);
   }
 
   createNewDomainStory(): void {
     if (this.dirtyFlagService.dirty()) {
       this.importService.openUnsavedChangesReminderDialog(() => {
-        this.titleService.reset();
+        this.propertiesService.reset();
         this.modelerService.reset();
       });
     } else {
-      this.titleService.reset();
+      this.propertiesService.reset();
       this.modelerService.reset();
     }
   }
@@ -108,7 +108,7 @@ export class HeaderComponent {
   }
 
   get hasTitle(): boolean {
-    return this.titleService.hasTitleOrDescription();
+    return this.propertiesService.hasTitleOrDescription();
   }
 
   get isReplayable() {

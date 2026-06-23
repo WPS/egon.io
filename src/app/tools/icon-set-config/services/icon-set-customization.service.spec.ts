@@ -6,7 +6,7 @@ import {
 } from './icon-set-customization.service';
 import { IconDictionaryService } from './icon-dictionary.service';
 import { MockProvider, MockProviders } from 'ng-mocks';
-import { TitleService } from '../../title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ImportDomainStoryService } from '../../import/services/import-domain-story.service';
 import { Dictionary } from '../../../domain/entities/dictionary';
 import {
@@ -78,7 +78,7 @@ describe(IconSetCustomizationService.name, () => {
 
     TestBed.configureTestingModule({
       providers: [
-        MockProviders(TitleService),
+        MockProviders(PropertiesService),
         {
           provide: MatSnackBar,
           useValue: matSnackbarMock,

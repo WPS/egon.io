@@ -5,7 +5,7 @@ import { ElementRegistryService } from '../../../domain/services/element-registr
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
 import { ImportRepairService } from './import-repair.service';
-import { TitleService } from '../../title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 import { MockService } from 'ng-mocks';
 import { DialogService } from '../../../domain/services/dialog.service';
@@ -50,7 +50,7 @@ describe('ImportDomainStoryService', () => {
           useValue: MockService(ImportRepairService),
         },
         {
-          provide: TitleService,
+          provide: PropertiesService,
         },
         {
           provide: DialogService,
@@ -83,7 +83,7 @@ describe('ImportDomainStoryService', () => {
     let expectedTitle: string;
 
     beforeEach(function () {
-      spyOn(TitleService.prototype, 'updateTitleAndDescriptionAndScope');
+      spyOn(PropertiesService.prototype, 'updateTitleAndDescriptionAndScope');
     });
 
     it('.egn', () => {
@@ -97,7 +97,7 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescriptionAndScope,
+        PropertiesService.prototype.updateTitleAndDescriptionAndScope,
       ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
@@ -112,7 +112,7 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescriptionAndScope,
+        PropertiesService.prototype.updateTitleAndDescriptionAndScope,
       ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
@@ -127,7 +127,7 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescriptionAndScope,
+        PropertiesService.prototype.updateTitleAndDescriptionAndScope,
       ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
@@ -142,7 +142,7 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescriptionAndScope,
+        PropertiesService.prototype.updateTitleAndDescriptionAndScope,
       ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
@@ -158,7 +158,7 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescriptionAndScope,
+        PropertiesService.prototype.updateTitleAndDescriptionAndScope,
       ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
@@ -174,7 +174,7 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescriptionAndScope,
+        PropertiesService.prototype.updateTitleAndDescriptionAndScope,
       ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
@@ -189,7 +189,7 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescriptionAndScope,
+        PropertiesService.prototype.updateTitleAndDescriptionAndScope,
       ).toHaveBeenCalledWith(expectedTitle, 'version 2.2.0', undefined, false);
     });
 
@@ -209,7 +209,7 @@ describe('ImportDomainStoryService', () => {
         false,
       );
       expect(
-        TitleService.prototype.updateTitleAndDescriptionAndScope,
+        PropertiesService.prototype.updateTitleAndDescriptionAndScope,
       ).toHaveBeenCalledWith(
         expectedTitle,
         'version 4.0.0 (implement new DomainStory model)',

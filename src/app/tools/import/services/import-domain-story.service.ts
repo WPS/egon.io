@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
-import { TitleService } from 'src/app/tools/title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import { DialogService } from '../../../domain/services/dialog.service';
@@ -33,7 +33,7 @@ import { Observable } from 'rxjs/internal/Observable';
 export class ImportDomainStoryService implements IconSetChangedService {
   private readonly iconDictionaryService = inject(IconDictionaryService);
   private readonly importRepairService = inject(ImportRepairService);
-  private readonly titleService = inject(TitleService);
+  private readonly propertiesService = inject(PropertiesService);
   private readonly dialogService = inject(DialogService);
   private readonly iconSetImportExportService = inject(
     IconSetImportExportService,
@@ -281,7 +281,7 @@ export class ImportDomainStoryService implements IconSetChangedService {
     this.modelerService.commandStackChanged();
 
     // no need to put this on the commandStack
-    this.titleService.updateTitleAndDescriptionAndScope(
+    this.propertiesService.updateTitleAndDescriptionAndScope(
       domainStory.title,
       domainStory.description,
       domainStory.scope,

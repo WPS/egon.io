@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { sanitizeForDesktop } from 'src/app/utils/sanitizer';
-import { TitleService } from 'src/app/tools/title/services/title.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ConfigAndDST } from 'src/app/tools/export/domain/export/configAndDst';
 import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
 import { PngService } from 'src/app/tools/export/services/png.service';
@@ -31,7 +31,7 @@ import { isPresent } from '../../../utils/isPresent';
 })
 export class ExportService {
   private readonly importExportService = inject(IconSetImportExportService);
-  private readonly titleService = inject(TitleService);
+  private readonly propertiesService = inject(PropertiesService);
   private readonly dirtyFlagService = inject(DirtyFlagService);
   private readonly pngService = inject(PngService);
   private readonly svgService = inject(SvgService);
@@ -74,8 +74,8 @@ export class ExportService {
     const dst: ConfigAndDST = this.createConfigAndDST(story);
 
     const svgData: string = this.svgService.createSVGData(
-      this.titleService.title(),
-      this.titleService.description(),
+      this.propertiesService.title(),
+      this.propertiesService.description(),
       dst,
       withTitle,
       useWhiteBackground,
@@ -98,8 +98,8 @@ export class ExportService {
     if (canvas) {
       const { svg, image, width, height } = this.pngService.createSvgAndImage(
         canvas,
-        this.titleService.description(),
-        this.titleService.title(),
+        this.propertiesService.description(),
+        this.propertiesService.title(),
         withTitle,
       );
 
@@ -203,15 +203,15 @@ export class ExportService {
 
     return {
       businessObjects: story,
-      title: this.titleService.getTitle(),
-      description: this.titleService.getDescription(),
+      title: this.propertiesService.getTitle(),
+      description: this.propertiesService.getDescription(),
       version: environment.version,
-      scope: this.titleService.getScope(),
+      scope: this.propertiesService.getScope(),
     };
   }
 
   private createFileName() {
-    return sanitizeForDesktop(this.titleService.title());
+    return sanitizeForDesktop(this.propertiesService.title());
   }
 
   getFilename() {

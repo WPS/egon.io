@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TitleDialogComponent } from 'src/app/tools/title/presentation/title-dialog/title-dialog.component';
+import { PropertiesDialogComponent } from 'src/app/tools/properties/presentation/properties-dialog/properties-dialog.component';
 import { MockModule, MockProviders, MockService } from 'ng-mocks';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -11,25 +11,25 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { TitleService } from '../../services/title.service';
-import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
+import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
+import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
-} from '../../../../domain/entities/constants';
+} from 'src/app/domain/entities/constants';
 
 describe('HeaderDialogComponent', () => {
-  let component: TitleDialogComponent;
-  let fixture: ComponentFixture<TitleDialogComponent>;
+  let component: PropertiesDialogComponent;
+  let fixture: ComponentFixture<PropertiesDialogComponent>;
 
-  let titleService: TitleService;
+  let propertiesService: PropertiesService;
   let dirtyFlagService: DirtyFlagService;
-  let dialogRef: MatDialogRef<TitleDialogComponent>;
+  let dialogRef: MatDialogRef<PropertiesDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        TitleDialogComponent,
+        PropertiesDialogComponent,
         MockModule(MatDialogModule),
         MockModule(MatFormFieldModule),
         MockModule(MatInputModule),
@@ -38,8 +38,8 @@ describe('HeaderDialogComponent', () => {
       ],
       providers: [
         {
-          provide: TitleService,
-          useValue: MockService(TitleService),
+          provide: PropertiesService,
+          useValue: MockService(PropertiesService),
         },
         {
           provide: DirtyFlagService,
@@ -55,16 +55,18 @@ describe('HeaderDialogComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TitleDialogComponent);
+    fixture = TestBed.createComponent(PropertiesDialogComponent);
     component = fixture.componentInstance;
-    titleService = TestBed.inject(TitleService);
+    propertiesService = TestBed.inject(PropertiesService);
     dirtyFlagService = TestBed.inject(DirtyFlagService);
     dialogRef = TestBed.inject(MatDialogRef);
 
-    spyOn(titleService, 'updateTitleAndDescriptionAndScope');
+    spyOn(propertiesService, 'updateTitleAndDescriptionAndScope');
     spyOn(dirtyFlagService, 'makeDirty');
-    spyOn(titleService, 'getTitle').and.returnValue(INITIAL_TITLE);
-    spyOn(titleService, 'getDescription').and.returnValue(INITIAL_DESCRIPTION);
+    spyOn(propertiesService, 'getTitle').and.returnValue(INITIAL_TITLE);
+    spyOn(propertiesService, 'getDescription').and.returnValue(
+      INITIAL_DESCRIPTION,
+    );
     spyOn(dialogRef, 'close');
 
     component.ngOnInit();
@@ -84,7 +86,9 @@ describe('HeaderDialogComponent', () => {
     });
 
     it('should call updateTitleAndDescription', () => {
-      expect(titleService.updateTitleAndDescriptionAndScope).toHaveBeenCalled();
+      expect(
+        propertiesService.updateTitleAndDescriptionAndScope,
+      ).toHaveBeenCalled();
     });
 
     it('should call markDirty', () => {
@@ -103,7 +107,7 @@ describe('HeaderDialogComponent', () => {
 
     it('should NOT call updateTitleAndDescription', () => {
       expect(
-        titleService.updateTitleAndDescriptionAndScope,
+        propertiesService.updateTitleAndDescriptionAndScope,
       ).not.toHaveBeenCalled();
     });
     it('should NOT call markDirty', () => {
