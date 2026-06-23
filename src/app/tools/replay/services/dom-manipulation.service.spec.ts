@@ -45,7 +45,9 @@ describe('DomManipulationService', () => {
     elementRegistryServiceSpy.getAllActivities.and.returnValue([]);
     elementRegistryServiceSpy.getAllGroups.and.returnValue([]);
     elementRegistryServiceSpy.getAllCanvasObjects.and.returnValue([]);
-    elementRegistryServiceSpy.getAllBusinessObjectsFromCanvasNotIn.and.returnValue([]);
+    elementRegistryServiceSpy.getAllBusinessObjectsFromCanvasNotIn.and.returnValue(
+      [],
+    );
   });
 
   it('showAll', () => {
@@ -60,7 +62,9 @@ describe('DomManipulationService', () => {
   it('showSentence', () => {
     domManipulationService.showSentence(preBuildTestStory(2)[1]);
 
-    expect(elementRegistryServiceSpy.getAllBusinessObjectsFromCanvasNotIn).toHaveBeenCalled();
+    expect(
+      elementRegistryServiceSpy.getAllBusinessObjectsFromCanvasNotIn,
+    ).toHaveBeenCalled();
     expect(elementRegistryServiceSpy.getAllActivities).toHaveBeenCalled();
     expect(elementRegistryServiceSpy.getAllConnections).toHaveBeenCalled();
   });
