@@ -218,7 +218,8 @@ export class SvgService {
     const start = data.substring(0, indexToAdd);
     const end = data.substring(indexToAdd);
 
-    const hiddenText = "\n<text class='hiddenDomainStory'>\n\n";
+    const hiddenText =
+      "\n<text class='hiddenDomainStory' style='font-size: 0'>\n\n";
     const textClose = '\n\n</text>\n';
 
     return (

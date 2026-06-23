@@ -10,6 +10,10 @@ export function sanitizeTextForSVGExport(str: string): string {
 export function unsanitizeTextFromSvgExport(str: string): string {
   return str
     .replaceAll('––', '--')
+    .replaceAll('&#34;', '"') // External Tools HTML-escape more characters than we do => We need to unescape them
+    .replaceAll('&#39;', "'") // External Tools HTML-escape more characters than we do => We need to unescape them
+    .replaceAll('&#43;', '+') // External Tools HTML-escape more characters than we do => We need to unescape them
+    .replaceAll('&#61;', '=') // External Tools HTML-escape more characters than we do => We need to unescape them
     .replaceAll('%3C', '<')
     .replaceAll('%3E', '>');
 }
