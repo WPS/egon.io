@@ -50,7 +50,9 @@ describe('SvgService', () => {
     expect(svgData).toContain('domainStory:activity');
     expect(svgData).toContain('domainStory:workObjectDocument');
     expect(svgData).toContain('"iconSet":');
-    expect(svgData).toContain("<text class='hiddenDomainStory' style='font-size: 0'>");
+    expect(svgData).toContain(
+      "<text class='hiddenDomainStory' style='font-size: 0'>",
+    );
     expect(svgData).toContain('</text>');
     expect(svgData).toContain(sanitizeTextForSVGExport('<DST>'));
     expect(svgData).toContain(sanitizeTextForSVGExport('</DST>'));
@@ -78,7 +80,9 @@ describe('SvgService', () => {
       expect(svgData).toContain('<svg xmlns="http://www.w3.org/2000/svg"');
       expect(svgData).toContain('"domainStory":');
       expect(svgData).toContain('"iconSet":');
-      expect(svgData).toContain("<text class='hiddenDomainStory' style='font-size: 0'>");
+      expect(svgData).toContain(
+        "<text class='hiddenDomainStory' style='font-size: 0'>",
+      );
       expect(svgData).toContain('</text>');
       expect(svgData).toContain(sanitizeTextForSVGExport('<DST>'));
       expect(svgData).toContain(sanitizeTextForSVGExport('</DST>'));
