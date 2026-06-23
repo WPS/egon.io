@@ -194,7 +194,7 @@ DomainStoryRules.prototype.init = function () {
 
     return every(elements, function (element) {
       if (isConnection(element)) {
-        return canConnect(element.source, element.target, element);
+        return canConnect(element.source, element.target);
       }
 
       return canCreate(element, target);
@@ -247,7 +247,7 @@ DomainStoryRules.prototype.init = function () {
       return;
     }
 
-    return canConnect(source, target, connection);
+    return canConnect(source, target);
   });
 
   this.addRule("shape.resize", function (context) {

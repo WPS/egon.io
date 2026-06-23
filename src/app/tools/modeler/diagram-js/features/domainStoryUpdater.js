@@ -57,7 +57,6 @@ export default function DomainStoryUpdater(eventBus, egon, connectionDocking) {
       }
     }
     if (
-      shape &&
       shape.parent &&
       "type" in shape.parent &&
       shape.parent.type === ElementTypes.GROUP
