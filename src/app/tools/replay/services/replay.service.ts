@@ -82,9 +82,6 @@ export class ReplayService {
     const story = this.determineStoryToShow();
     this.domManipulationService.showSentence(
       story[this.currentSentenceSignal() - 1],
-      this.currentSentenceSignal() > 1
-        ? story[this.currentSentenceSignal() - 2]
-        : undefined,
     );
   }
 

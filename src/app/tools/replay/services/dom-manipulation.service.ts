@@ -53,10 +53,7 @@ export class DomManipulationService {
       });
   }
 
-  showSentence(
-    replaySentence: StorySentence,
-    previousSentence?: StorySentence,
-  ): void {
+  showSentence(replaySentence: StorySentence): void {
     this.removeHighlights();
     this.elementRegistryService
       .getAllBusinessObjectsFromCanvasNotIn(replaySentence.objects)
