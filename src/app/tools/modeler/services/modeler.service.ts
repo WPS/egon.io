@@ -30,6 +30,8 @@ import { EVENT_COMMANDSTACK_CHANGED } from 'src/app/tools/modeler/diagram-js/fea
   providedIn: 'root',
 })
 export class ModelerService {
+  private readonly DEBOUNCE_TIMEOUT = 500;
+
   private readonly initializerService = inject(InitializerService);
   private readonly elementRegistryService = inject(ElementRegistryService);
   private readonly iconDictionaryService = inject(IconDictionaryService);
@@ -92,7 +94,7 @@ export class ModelerService {
       this.eventBus!,
     );
 
-    const exportArtifacts = this.debounce(this.saveSVG, 500);
+    const exportArtifacts = this.saveSvgAfterDelay();
     if (this.modeler.get) {
       this.modeler.on('commandStack.changed', exportArtifacts);
     }
@@ -101,8 +103,6 @@ export class ModelerService {
 
     // expose modeler to window for debugging purposes
     assign(window, { egon: this.modeler });
-
-    this.startDebounce();
   }
 
   private checkCurrentVersion() {
@@ -174,23 +174,15 @@ export class ModelerService {
 
   commandStackChanged(): void {
     // to update the title of the svg, we need to tell the command stack, that a value has changed
-    this.eventBus!.fire(
-      EVENT_COMMANDSTACK_CHANGED,
-      this.debounce(this.saveSVG, 500),
-    );
+    this.eventBus!.fire(EVENT_COMMANDSTACK_CHANGED, this.saveSvgAfterDelay());
   }
 
-  startDebounce(): void {
-    this.debounce(this.saveSVG, 500);
-  }
-
-  debounce(fn: (modeler: any) => Promise<string>, timeout: number): () => void {
+  // executes the function after a set timeout. Used because the modeler is event-based => we need to wait for the command stack to finish
+  saveSvgAfterDelay(): () => void {
     return () => {
       this.timer = setTimeout(() => {
-        return fn(this.modeler).then((svg: string) => {
-          this.encoded = svg;
-        }) as Promise<string>;
-      }, timeout);
+        return this.saveSVG(this.modeler) as Promise<string>;
+      }, this.DEBOUNCE_TIMEOUT);
     };
   }
 
@@ -201,6 +193,7 @@ export class ModelerService {
   async saveSVG(modeler: any): Promise<any> {
     try {
       const result = await modeler.saveSVG();
+      this.encoded = result.svg;
       return result.svg;
     } catch (err) {
       alert('There was an error saving the SVG.\n' + err);
@@ -222,7 +215,7 @@ export class ModelerService {
       this.fitStoryToScreen();
     }
     this.commandStackChanged();
-    this.startDebounce();
+    this.saveSvgAfterDelay();
     this.dirtyFlagService.makeClean();
   }
 
