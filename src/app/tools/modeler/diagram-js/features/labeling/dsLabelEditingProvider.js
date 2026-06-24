@@ -299,9 +299,5 @@ DSLabelEditingProvider.prototype.update = function (
     };
   }
 
-  this._modeling.updateLabel(
-    element,
-    newLabel,
-    newBounds,
-  );
+  this._modeling.updateLabel(element, newLabel, newBounds);
 };
