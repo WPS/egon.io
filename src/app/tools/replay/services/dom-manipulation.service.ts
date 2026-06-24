@@ -5,6 +5,8 @@ import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { StorySentence } from 'src/app/tools/replay/domain/storySentence';
 import {
   CONNECTION_PATH_DOM_SELECTOR,
+  DISPLAY_BLOCK,
+  DISPLAY_NONE,
   HIGHLIGHT_LABEL_FONT_WEIGHT,
   HIGHLIGHT_NUMBER_BACKGROUND_COLOR,
   HIGHLIGHT_NUMBER_COLOR,
@@ -13,8 +15,6 @@ import {
   NUMBER_BACKGROUND_COLOR,
   NUMBER_COLOR,
   STROKE_WIDTH,
-  DISPLAY_BLOCK,
-  DISPLAY_NONE,
 } from '../domain/replayConstants';
 import {
   LABEL_CSS_CLASS,
@@ -71,11 +71,9 @@ export class DomManipulationService {
       });
 
     this.highlightSentence(
-      previousSentence
-        ? replaySentence.objects.filter(
-            (o) => !previousSentence.objects.includes(o),
-          )
-        : replaySentence.objects,
+      replaySentence.objects.filter((o) =>
+        replaySentence.highlightedObjects.includes(o.id),
+      ),
     );
 
     replaySentence.objects.forEach((element) => {
