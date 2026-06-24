@@ -1,5 +1,3 @@
-import { sanitizeTextForSVGExport } from "src/app/utils/sanitizer";
-
 export default function headlineAndDescriptionUpdateHandler(
   commandStack,
   propertiesService,
@@ -16,8 +14,8 @@ export default function headlineAndDescriptionUpdateHandler(
       ctx.oldScope = propertiesService.getScope();
 
       propertiesService.updateTitleAndDescriptionAndScope(
-        sanitizeTextForSVGExport(ctx.newTitle),
-        sanitizeTextForSVGExport(ctx.newDescription),
+        ctx.newTitle,
+        ctx.newDescription,
         ctx.newScope,
         false,
       );

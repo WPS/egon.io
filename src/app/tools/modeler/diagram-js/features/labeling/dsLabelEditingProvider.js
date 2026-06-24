@@ -5,7 +5,6 @@ import { assign } from "min-dash";
 import { createAutocompleteForEdit, getLabel } from "./dsLabelUtil";
 
 import { ElementTypes } from "src/app/domain/entities/elementTypes";
-import { sanitizeTextForSVGExport } from "src/app/utils/sanitizer";
 import { is } from "../util/util";
 import { isBackground } from "../domainStoryRules";
 import { EVENT_CREATE_END } from "../diagramJSConstants";
@@ -302,7 +301,7 @@ DSLabelEditingProvider.prototype.update = function (
 
   this._modeling.updateLabel(
     element,
-    sanitizeTextForSVGExport(newLabel),
+    newLabel,
     newBounds,
   );
 };
