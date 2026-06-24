@@ -16,7 +16,7 @@ export const EVENT_CONNECTION_SEGMENT_MOVE_START =
 export const EVENT_ELEMENT_CLICK = "element.click"; // click on existing element (opens context pad if element is actor or work object)
 export const EVENT_ELEMENT_DBLCLICK = "element.dblclick";
 export const EVENT_ELEMENT_HOVER = "element.hover"; // show outline around element
-export const EVENT_ELEMENT_CHANGED = "element.chagned";
+export const EVENT_ELEMENT_CHANGED = "element.changed";
 export const EVENT_INTERACTION_EVENTS_CREATE_HIT =
   "interactionEvents.createHit"; // use palette to create new element
 export const EVENT_SPACE_TOOL_SELECTION_START = "spaceTool.selection.start"; // use space tool
