@@ -10,7 +10,20 @@ describe('DirtyFlagService', () => {
     service = TestBed.inject(DirtyFlagService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+    it('should initialize as clean', () => {
+        expect(service.dirty()).toBeFalse();
+    });
+
+    it('should set dirty flag to true when makeDirty() is called', () => {
+        service.makeDirty();
+        expect(service.dirty()).toBeTrue();
+    });
+
+    it('should reset the dirty flag to false when makeClean() is called', () => {
+        service.makeDirty();
+        expect(service.dirty()).toBeTrue();
+
+        service.makeClean();
+        expect(service.dirty()).toBeFalse();
+    });
 });
