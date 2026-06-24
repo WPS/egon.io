@@ -3,7 +3,10 @@ import { ActivityCanvasObject } from 'src/app/domain/entities/activityCanvasObje
 import { toggleStashUse } from 'src/app/tools/modeler/diagram-js/features/labeling/dsLabelEditingProvider';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
-import { ActivityDialogData, ActivityDialogSaveData } from 'src/app/tools/modeler/domain/activityDialogData';
+import {
+  ActivityDialogData,
+  ActivityDialogSaveData,
+} from 'src/app/tools/modeler/domain/activityDialogData';
 import {
   isNumberMultiple,
   setNumberIsMultiple,
@@ -76,7 +79,8 @@ export class ActivityClickHandlerService {
         activity,
         false,
         false,
-        (activityData: ActivityDialogSaveData) => this.saveActivityInputLabel(activityData),
+        (activityData: ActivityDialogSaveData) =>
+          this.saveActivityInputLabel(activityData),
       );
     }
     this.dialogService.openDialog(ActivityDialogComponent, config);

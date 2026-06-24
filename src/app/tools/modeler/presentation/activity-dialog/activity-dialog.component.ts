@@ -67,7 +67,7 @@ export class ActivityDialogComponent {
 
   save(): void {
     let activityNumber: number | undefined;
-    if(this.form.value.activityNumber !== null) {
+    if (this.form.value.activityNumber !== null) {
       activityNumber = this.form.value.activityNumber;
     }
     this.saveFN({
