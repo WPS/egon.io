@@ -18,7 +18,7 @@ export class Dictionary<T> {
   }
 
   has(key: string): boolean {
-    return this.entries.some((entry) => entry.key === key);
+    return this.keysArray().includes(key);
   }
 
   set(key: string, value: T): void {
@@ -50,16 +50,15 @@ export class Dictionary<T> {
   }
 
   get(key: string): T {
-    const found = this.entries.filter((entry) => entry.key === key);
-    if (found.length < 1) {
+    const found = this.find(key);
+    if (!found) {
       throw new Error(`Key ${key} not found in dictionary`);
     }
-    return found[0].value;
+    return found;
   }
 
-  find(key: string): T | null {
-    const found = this.entries.filter((entry) => entry.key === key);
-    return found[0] ? found[0].value : null;
+  find(key: string): T | undefined {
+    return this.entries.find((entry) => entry.key === key)?.value;
   }
 
   /** Convert to a plain key-value object. */
