@@ -25,12 +25,12 @@ export class HtmlPresentationService {
   private readonly modeler = inject(ModelerService);
   private readonly snackbar = inject(MatSnackBar);
 
-  private multiplexSecret: any;
-  private multiplexId: any;
+  private multiplexSecret: string | undefined;
+  private multiplexId: string | undefined;
 
-  private static viewBoxCoordinates(svg: any): any {
+  private static viewBoxCoordinates(svg: string): any {
     const match = svg.match(ViewBoxCoordinateRegExp);
-    return match[3];
+    return match![3];
   }
 
   /*
@@ -41,7 +41,7 @@ export class HtmlPresentationService {
 
   async downloadHTMLPresentation(filename: string): Promise<void> {
     this.modeler.fitStoryToScreen(); // fixes problem with HTML export when story is not in the visible area of the canvas
-    const svgData = [];
+    const svgData: SvgItemsForSentence[] = [];
     // export all sentences of domain story
     this.replayService.startReplay();
     this.replayService.toggleShowGroups(); // Always show groups
@@ -63,7 +63,7 @@ export class HtmlPresentationService {
       }
       if (
         this.replayService.currentSentence() <
-        this.replayService.maxSentenceNumber() - 1
+        this.replayService.maxSentenceNumber()
       ) {
         this.replayService.nextSentence();
       }
@@ -91,8 +91,8 @@ export class HtmlPresentationService {
     );
   }
 
-  private async getSvgItemsForSentence() {
-    const result = await this.modeler.getModeler().saveSVG({});
+  private async getSvgItemsForSentence(): Promise<SvgItemsForSentence> {
+    const result: { svg: string } = await this.modeler.getModeler().saveSVG({});
     this.fixActivityMarkersForEachSentence(
       result,
       this.replayService.currentSentence(),
@@ -106,9 +106,9 @@ export class HtmlPresentationService {
   private fixMalformedHtmlScript(
     dots: any,
     revealjsData: {
-      multiplexId: any;
-      sentences: any[];
-      multiplexSecret: any;
+      multiplexId: string | undefined;
+      sentences: SvgItemsForSentence[];
+      multiplexSecret: string | undefined;
       description: string;
       title: string;
       script: string;
@@ -118,7 +118,7 @@ export class HtmlPresentationService {
   }
 
   // tslint:disable-next-line:align
-  private static createSVGData(svg: any): string {
+  private static createSVGData(svg: string): string {
     let data = structuredClone(svg);
 
     // to ensure that the title and description are inside the SVG container and do not overlap with any elements,
@@ -208,4 +208,9 @@ export class HtmlPresentationService {
 
     result.svg = result.svg.replace(defs, newDefs);
   }
+}
+
+interface SvgItemsForSentence {
+  content: string;
+  transition: string;
 }

@@ -149,7 +149,7 @@ export class PngService {
 
   private prepareSVG(
     svg: string,
-    layerBase: any,
+    layerBase: HTMLElement,
     description: string,
     title: string,
     withTitle: boolean,
@@ -266,7 +266,10 @@ export class PngService {
     return { width, height };
   }
 
-  private extractSVG(viewport: any, outerSVGElement: any): string {
+  private extractSVG(
+    viewport: HTMLElement,
+    outerSVGElement: SVGSVGElement,
+  ): string {
     const layerResizers = viewport.getElementsByClassName('layer-resizers');
     const layerOverlays = viewport.getElementsByClassName('layer-overlays');
     const transform = viewport.getAttribute('transform');
@@ -309,16 +312,20 @@ export class PngService {
   }
 
   createSvgAndImage(
-    canvas: any,
+    canvas: HTMLElement,
     description: string,
     title: string,
     withTitle: boolean,
   ): { svg: string; image: HTMLImageElement; width: number; height: number } {
     const container = canvas.getElementsByClassName('djs-container');
     const svgElements = container[0].getElementsByTagName('svg');
-    const outerSVGElement = svgElements[0];
-    const viewport = outerSVGElement.getElementsByClassName('viewport')[0];
-    const layerBase = viewport.querySelector('[class^="layer-root-"]');
+    const outerSVGElement = svgElements[0] as SVGSVGElement;
+    const viewport = outerSVGElement.getElementsByClassName(
+      'viewport',
+    )[0] as HTMLElement;
+    const layerBase = viewport.querySelector(
+      '[class^="layer-root-"]',
+    ) as HTMLElement;
 
     const { svg, width, height } = this.prepareSVG(
       this.extractSVG(viewport, outerSVGElement), // removes unwanted black dots in image
