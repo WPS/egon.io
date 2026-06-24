@@ -15,8 +15,8 @@ import { Observable } from 'rxjs/internal/Observable';
 
 export interface FileConfiguration {
   name: string;
-  actors: { [p: string]: any };
-  workObjects: { [p: string]: any };
+  actors: { [p: string]: string };
+  workObjects: { [p: string]: string };
 }
 
 @Injectable({
@@ -91,8 +91,8 @@ export class IconSetImportExportService {
     const currentConfiguration = this.getCurrentConfiguration();
 
     if (currentConfiguration) {
-      const actors: any = {};
-      const workObjects: any = {};
+      const actors: Record<string, string> = {};
+      const workObjects: Record<string, string> = {};
 
       currentConfiguration.actors.all().forEach((entry) => {
         actors[entry.key] = entry.value;

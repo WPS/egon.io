@@ -3,7 +3,7 @@ import { ActivityCanvasObject } from 'src/app/domain/entities/activityCanvasObje
 import { toggleStashUse } from 'src/app/tools/modeler/diagram-js/features/labeling/dsLabelEditingProvider';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ElementTypes } from 'src/app/domain/entities/elementTypes';
-import { ActivityDialogData } from 'src/app/tools/modeler/domain/activityDialogData';
+import { ActivityDialogData, ActivityDialogSaveData } from 'src/app/tools/modeler/domain/activityDialogData';
 import {
   isNumberMultiple,
   setNumberIsMultiple,
@@ -69,20 +69,20 @@ export class ActivityClickHandlerService {
         activity,
         isNumberMultiple(activity.businessObject.number),
         true,
-        (data: any) => this.saveActivityInputLabel(data),
+        (data: ActivityDialogSaveData) => this.saveActivityInputLabel(data),
       );
     } else if (source && source.type.includes(ElementTypes.WORKOBJECT)) {
       config.data = new ActivityDialogData(
         activity,
         false,
         false,
-        (activityData: any) => this.saveActivityInputLabel(activityData),
+        (activityData: ActivityDialogSaveData) => this.saveActivityInputLabel(activityData),
       );
     }
     this.dialogService.openDialog(ActivityDialogComponent, config);
   }
 
-  private saveActivityInputLabel(activityData: any): void {
+  private saveActivityInputLabel(activityData: ActivityDialogSaveData): void {
     const label = activityData.activityLabel;
     const hasNumber = activityData.activityNumber ?? false;
     const activityNumber = activityData.activityNumber;
@@ -108,14 +108,14 @@ export class ActivityClickHandlerService {
     if (hasNumber) {
       options = {
         businessObject: element.businessObject,
-        newLabel: label,
+        newLabel: label!,
         newNumber: activityNumber,
         element,
       };
     } else {
       options = {
         businessObject: element.businessObject,
-        newLabel: label,
+        newLabel: label!,
         element,
       };
     }
@@ -149,9 +149,9 @@ export class ActivityClickHandlerService {
       let activity: ActivityCanvasObject | undefined;
 
       for (let i = 0; i < renderedNumberRegistry.length; i++) {
-        const currentNum: any = renderedNumberRegistry[i];
+        const currentNum: HTMLElement = renderedNumberRegistry[i];
         const elementId =
-          currentNum.parentElement.parentElement.dataset.elementId;
+          currentNum.parentElement!.parentElement!.dataset.elementId;
         const elementMetadata = this.getCurrentNumberPositionAndValue(
           currentNum,
           geometry.zoomX,
@@ -185,15 +185,15 @@ export class ActivityClickHandlerService {
   }
 
   private getCurrentNumberPositionAndValue(
-    currentNum: any,
+    currentNum: HTMLElement,
     zoomX: number,
     transformX: number,
     zoomY: number,
     transformY: number,
   ): ElementMetadata {
     const tspan = currentNum.getElementsByTagName('tspan')[0];
-    const tx = tspan.getAttribute('x');
-    const ty = tspan.getAttribute('y');
+    const tx = Number(tspan.getAttribute('x')!);
+    const ty = Number(tspan.getAttribute('y')!);
     const tNumber = parseInt(tspan.innerHTML, undefined);
 
     const elementX = Math.floor(tx * zoomX + (transformX - 11 * zoomX));

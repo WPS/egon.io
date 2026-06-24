@@ -9,6 +9,7 @@ export interface ActivityBusinessObject extends BusinessObject {
 
   source: string;
   target: string;
+  multipleNumberAllowed?: boolean;
 }
 
 export const testActivityBusinessObject: ActivityBusinessObject = {

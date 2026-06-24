@@ -28,6 +28,7 @@ import minimapModule from "diagram-js-minimap";
 import AlignToOrigin from "@bpmn-io/align-to-origin";
 import { EVENT_DIAGRAM_CLEAR } from "./features/diagramJSConstants";
 
+// Do not convert to class, this breaks the modeler
 export default function DomainStoryModeler(options) {
   BaseViewer.call(this, options);
   this._elements = [];

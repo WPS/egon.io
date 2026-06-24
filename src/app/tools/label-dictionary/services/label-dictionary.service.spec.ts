@@ -64,7 +64,7 @@ describe('LabelDictionaryService', () => {
   });
 
   it('should not open label dictionary when element registry is empty', () => {
-    elementRegistryService.setElementRegistry({ _elements: [] });
+    elementRegistryService.setElementRegistry({ _elements: {} });
     service.openLabelDictionary();
     expect(dialogServiceSpy.openDialog).not.toHaveBeenCalled();
     expect(matSnackbarSpy.open).toHaveBeenCalledWith(

@@ -24,7 +24,10 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomainStory } from '../../../domain/entities/domainStory';
 import { environment } from '../../../../environments/environment';
-import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
+import {
+  FileConfiguration,
+  IconSetImportExportService,
+} from '../../icon-set-config/services/icon-set-import-export.service';
 import { IconSet } from 'src/app/domain/entities/iconSet';
 import { isPresent } from 'src/app/utils/isPresent';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
@@ -212,7 +215,7 @@ export class AutosaveService {
 
   // Legacy Compatability - to be removed in version v5.0.0
   //@ts-ignore
-  private getIconSetFromAutosave(draft: Draft): IconSet {
+  private getIconSetFromAutosave(draft: Draft): FileConfiguration {
     return isPresent(draft.configAndDST.iconSet)
       ? //@ts-ignore
         draft.configAndDST.iconSet

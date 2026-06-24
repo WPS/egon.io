@@ -1,5 +1,5 @@
 export interface IconSetConfigurationForExport {
   name: string;
-  actors: any;
-  workObjects: any;
+  actors: Record<string, string>;
+  workObjects: Record<string, string>;
 }

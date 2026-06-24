@@ -17,16 +17,17 @@ import {
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
 import { MockProviders } from 'ng-mocks';
+import { DiagramJsElementRegistry } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-element-registry';
 
 function resetRegistry(
-  registry: any,
+  registry: DiagramJsElementRegistry,
   testActivity: ActivityCanvasObject,
   testActor: CanvasObject,
   testWorkObject: CanvasObject,
   testGroup: GroupCanvasObject,
   testConnection: ActivityCanvasObject,
 ) {
-  registry._elements = [];
+  registry._elements = {};
   registry._elements[testActivity.name] = {
     element: structuredClone(testActivity),
   };
@@ -43,7 +44,7 @@ function resetRegistry(
 
 describe('ElementRegistryService', () => {
   let service: ElementRegistryService;
-  let registry: any;
+  let registry: DiagramJsElementRegistry;
 
   let testActivity: ActivityCanvasObject;
   let testActor: CanvasObject;
@@ -59,7 +60,7 @@ describe('ElementRegistryService', () => {
     service = TestBed.inject(ElementRegistryService);
 
     registry = {
-      _elements: [],
+      _elements: {},
     };
   });
 
@@ -103,7 +104,7 @@ describe('ElementRegistryService', () => {
     });
 
     it('should return empty if registry not correctly initialized', () => {
-      service.setElementRegistry({ _elements: [] });
+      service.setElementRegistry({ _elements: {} });
       const objectListForDSTDownload = service.createObjectListForDSTDownload();
       expect(objectListForDSTDownload).toEqual([]);
     });

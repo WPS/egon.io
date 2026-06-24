@@ -78,8 +78,8 @@ describe('StoryCreatorService', () => {
           ) as ActivityCanvasObject[]
         ).filter((o) => o.businessObject.number != null),
       );
-      // No Idea why this works!
-      elementRegistryServiceSpy.getAllGroups.and.returnValue([group] as any);
+
+      elementRegistryServiceSpy.getAllGroups.and.returnValue([group]);
     });
 
     it('should trace activities and create Story', () => {

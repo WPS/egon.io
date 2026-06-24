@@ -41,7 +41,7 @@ export function sanitizeForDesktop(str: string): string {
 export function sanitizeForCss(name: string): string {
   return (
     name
-      // Replace any character that isn't a letter, digit, hyphen, or underscore
+      // Replace every character that isn't a letter, digit, hyphen, or underscore
       .replace(/[^a-zA-Z0-9_-]/g, '_')
       // Avoid a class name starting with a digit or a "-<digit>" sequence
       .replace(/^(-?\d)/, '_$1')

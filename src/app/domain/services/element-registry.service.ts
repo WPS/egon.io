@@ -5,14 +5,17 @@ import { CanvasObject } from 'src/app/domain/entities/canvasObject';
 import { GroupCanvasObject } from '../entities/groupCanvasObject';
 import { ActivityCanvasObject } from '../entities/activityCanvasObject';
 import { UsedIconList } from 'src/app/domain/entities/UsedIconList';
-import { DiagramJsElementRegistry } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-element-registry';
+import {
+  DiagramJsElementRegistry,
+  ElementMap,
+} from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-element-registry';
 import { BusinessObject } from 'src/app/domain/entities/businessObject';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ElementRegistryService {
-  private registry: any;
+  private registry: ElementMap | null = null;
 
   setElementRegistry(elementRegistry: DiagramJsElementRegistry): void {
     this.registry = elementRegistry._elements;
@@ -149,16 +152,18 @@ export class ElementRegistryService {
     groupObjects: GroupCanvasObject[],
     allObjects: CanvasObject[],
   ): void {
-    const registryElementNames = Object.keys(this.registry);
-    for (const name of registryElementNames) {
-      const entry = this.registry[name].element;
-      if (entry.businessObject) {
-        const type = entry.type;
-        if (type && type.includes(ElementTypes.GROUP)) {
-          // if it is a group, memorize this for later
-          groupObjects.push(entry);
-        } else if (type) {
-          allObjects.push(entry);
+    if (this.registry) {
+      const registryElementNames = Object.keys(this.registry);
+      for (const name of registryElementNames) {
+        const entry = this.registry[name].element;
+        if (entry.businessObject) {
+          const type = entry.type;
+          if (type && type.includes(ElementTypes.GROUP)) {
+            // if it is a group, memorize this for later
+            groupObjects.push(entry as GroupCanvasObject);
+          } else if (type) {
+            allObjects.push(entry);
+          }
         }
       }
     }

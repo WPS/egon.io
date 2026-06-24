@@ -89,35 +89,39 @@ export class DomManipulationService {
     });
   }
 
-  getRenderedNumbers() {
+  getRenderedNumbers(): HTMLElement[] {
     const elementsByClassName = document.getElementsByClassName(
       LABEL_NUMBER_CSS_CLASS,
     );
-    const renderedNumberRegistry = [];
+    const renderedNumberRegistry: HTMLElement[] = [];
     for (let i = 0; i < elementsByClassName.length; i++) {
       if (!elementsByClassName[i].closest('.' + MINIMAP_CSS_CLASS)) {
-        renderedNumberRegistry.push(elementsByClassName[i]);
+        renderedNumberRegistry.push(elementsByClassName[i] as HTMLElement);
       }
     }
     return renderedNumberRegistry;
   }
 
-  private getNumberDomForActivity(activity: SVGPathElement): any {
-    const numberText =
-      activity.parentElement?.getElementsByClassName(
-        LABEL_NUMBER_CSS_CLASS,
-      )[0] ?? '';
-    const circle = (numberText as HTMLElement)?.previousSibling ?? '';
+  private getNumberDomForActivity(activity: SVGPathElement): {
+    numberBackgroundDom: HTMLElement | undefined;
+    numberTextDom: HTMLElement | undefined;
+  } {
+    const numberText = activity.parentElement?.getElementsByClassName(
+      LABEL_NUMBER_CSS_CLASS,
+    )[0] as HTMLElement;
+    const circle = (numberText as HTMLElement)?.previousSibling as HTMLElement;
     return {
       numberBackgroundDom: circle,
       numberTextDom: numberText,
     };
   }
 
-  private getLabelDomForActivity(activity: SVGPathElement): any {
-    return (
-      activity.parentElement?.getElementsByClassName(LABEL_CSS_CLASS)[0] ?? ''
-    );
+  private getLabelDomForActivity(
+    activity: SVGPathElement,
+  ): HTMLElement | undefined {
+    return activity.parentElement?.getElementsByClassName(
+      LABEL_CSS_CLASS,
+    )[0] as HTMLElement;
   }
 
   private removeHighlights(): void {

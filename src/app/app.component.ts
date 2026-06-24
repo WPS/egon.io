@@ -203,9 +203,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   @HostListener('window:beforeunload', ['$event'])
-  onWindowClose(event: any): void {
+  onWindowClose(event: Event): void {
     if (this.dirtyFlagService.dirty()) {
-      event.returnValue = true;
+      event.preventDefault();
     }
   }
 }

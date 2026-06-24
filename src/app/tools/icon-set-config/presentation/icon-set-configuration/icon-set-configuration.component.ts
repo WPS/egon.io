@@ -169,12 +169,13 @@ export class IconSetConfigurationComponent {
     }
   }
 
-  filterByNameAndType($event: any) {
+  filterByNameAndType($event: Event) {
     const filteredByKeyWord = this.allIcons()
       .all()
       .filter((entry) =>
         entry.keyWords.some((key) => {
-          return key.toLowerCase().includes($event.target.value.toLowerCase());
+          //@ts-ignore
+          return key.toLowerCase().includes($event.target!.value.toLowerCase());
         }),
       )
       .map((entry) => entry.key);
@@ -183,7 +184,8 @@ export class IconSetConfigurationComponent {
       this.filter(),
     ).filter(
       (name) =>
-        name.toLowerCase().includes($event.target.value.toLowerCase()) ||
+        //@ts-ignore
+        name.toLowerCase().includes($event.target!.value.toLowerCase()) ||
         filteredByKeyWord.includes(name),
     );
     this.allFilteredIconNames.set(
