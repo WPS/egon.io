@@ -50,6 +50,8 @@ export class ModelerService {
 
   private encoded: string | undefined;
 
+  private timer: NodeJS.Timeout | undefined;
+
   postInit(): void {
     this.checkCurrentVersion();
 
@@ -182,13 +184,12 @@ export class ModelerService {
     this.debounce(this.saveSVG, 500);
   }
 
-  debounce(fn: any, timeout: number): any {
+  debounce(fn: (modeler: any) => Promise<string>, timeout: number): () => void {
     return () => {
-      let timer = setTimeout(() => {
-        // tslint:disable-next-line:no-unused-expression
-        fn(this.modeler).then((svg: string) => {
+      this.timer = setTimeout(() => {
+        return fn(this.modeler).then((svg: string) => {
           this.encoded = svg;
-        }) as Promise<any>;
+        }) as Promise<string>;
       }, timeout);
     };
   }

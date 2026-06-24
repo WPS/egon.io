@@ -358,8 +358,8 @@ export class ImportDomainStoryService implements IconSetChangedService {
   ) {
     const iconSetFromFile: {
       name: string;
-      actors: { [key: string]: any };
-      workObjects: { [key: string]: any };
+      actors: { [key: string]: string };
+      workObjects: { [key: string]: string };
     } = isEgnFormat ? storyAndIconSet : JSON.parse(storyAndIconSet);
 
     return this.iconSetImportExportService.createIconSetConfiguration(
@@ -376,8 +376,8 @@ export class ImportDomainStoryService implements IconSetChangedService {
     if (storyAndIconSet.config) {
       const iconSetFromFile: {
         name: string;
-        actors: { [key: string]: any };
-        workObjects: { [key: string]: any };
+        actors: { [key: string]: string };
+        workObjects: { [key: string]: string };
       } = JSON.parse(storyAndIconSet.config);
       iconSet =
         this.iconSetImportExportService.createIconSetConfiguration(
