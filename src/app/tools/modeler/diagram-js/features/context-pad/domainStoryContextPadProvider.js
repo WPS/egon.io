@@ -10,7 +10,7 @@ import {
 } from "../../../../../utils/colorConverter";
 import { hasPrimaryModifier } from "diagram-js/lib/util/Mouse";
 import {
-  DJS_REPLACE_PROVIDER,
+  DS_REPLACE_PROVIDER,
   EVENT_CREATE_END,
   EVENT_PICKED_COLOR,
   EVENT_ELEMENTS_DELETE,
@@ -44,7 +44,7 @@ export default function DomainStoryContextPadProvider(
   rules,
 ) {
   contextPad.registerProvider(this);
-  popupMenu.registerProvider(DJS_REPLACE_PROVIDER, replaceMenuProvider);
+  popupMenu.registerProvider(DS_REPLACE_PROVIDER, replaceMenuProvider);
 
   let _selectedElement;
   let startConnect;
@@ -218,7 +218,7 @@ export default function DomainStoryContextPadProvider(
             let position = assign(getReplaceMenuPosition(), {
               cursor: { x: event.x, y: event.y },
             });
-            popupMenu.open(element, DJS_REPLACE_PROVIDER, position);
+            popupMenu.open(element, DS_REPLACE_PROVIDER, position);
           },
         },
       },
@@ -311,7 +311,7 @@ export default function DomainStoryContextPadProvider(
             let position = assign(getReplaceMenuPosition(), {
               cursor: { x: event.x, y: event.y },
             });
-            popupMenu.open(element, DJS_REPLACE_PROVIDER, position);
+            popupMenu.open(element, DS_REPLACE_PROVIDER, position);
           },
         },
       },

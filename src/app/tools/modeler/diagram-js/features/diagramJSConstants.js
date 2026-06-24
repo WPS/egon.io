@@ -1,4 +1,4 @@
-export const DJS_REPLACE_PROVIDER = "ds-replace";
+export const DS_REPLACE_PROVIDER = "ds-replace";
 
 // Events
 export const EVENT_CREATE_END = "create.end";
@@ -10,7 +10,7 @@ export const EVENT_SHAPE_MOVE_START = "shape.move.start"; // move existing shape
 export const EVENT_SHAPE_ADDED = "shape.added";
 export const EVENT_SHAPE_REMOVE = "shape.remove";
 export const EVENT_BENDPOINT_MOVE_START = "bendpoint.move.start"; // move and create bendpoints
-export const EVENT_BENDPOINT_MOVE_END = '"bendpoint.move.end"'; // move and create bendpoints
+export const EVENT_BENDPOINT_MOVE_END = "bendpoint.move.end"; // move and create bendpoints
 export const EVENT_CONNECTION_SEGMENT_MOVE_START =
   "connectionSegment.move.start"; // move horizontal/vertical segments of connections
 export const EVENT_ELEMENT_CLICK = "element.click"; // click on existing element (opens context pad if element is actor or work object)
