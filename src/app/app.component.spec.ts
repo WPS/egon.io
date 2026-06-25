@@ -9,7 +9,7 @@ import { AutosaveService } from './tools/autosave/services/autosave.service';
 import { ColorPickerDirective } from 'ngx-color-picker';
 import { HeaderComponent } from './workbench/presentation/header/header/header.component';
 import { ImportDomainStoryService } from './tools/import/services/import-domain-story.service';
-import { DirtyFlagService } from './domain/services/dirty-flag.service';
+import { DirtyFlagService } from 'src/app/tools/modeler/services/dirty-flag.service';
 import { ModelerService } from './tools/modeler/services/modeler.service';
 import { ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';

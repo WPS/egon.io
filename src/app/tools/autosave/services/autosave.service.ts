@@ -10,7 +10,7 @@ import { ModelerService } from '../../modeler/services/modeler.service';
 import { ExportService } from '../../export/services/export.service';
 import { Draft } from '../domain/draft';
 import { AutosaveConfigurationService } from './autosave-configuration.service';
-import { StorageService } from '../../../domain/services/storage.service';
+import { StorageService } from '../../../utils/services/storage.service';
 import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
 import { Subject } from 'rxjs';
@@ -22,15 +22,15 @@ import {
   SNACKBAR_INFO,
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DomainStory } from '../../../domain/entities/domainStory';
+import { DomainStory } from 'src/app/domain/entities/domain-story';
 import { environment } from '../../../../environments/environment';
 import {
   FileConfiguration,
   IconSetImportExportService,
 } from '../../icon-set-config/services/icon-set-import-export.service';
-import { IconSet } from 'src/app/domain/entities/iconSet';
+import { IconSet } from 'src/app/domain/entities/icon-set';
 import { isPresent } from 'src/app/utils/isPresent';
-import { BusinessObject } from 'src/app/domain/entities/businessObject';
+import { BusinessObject } from 'src/app/domain/entities/business-object';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({

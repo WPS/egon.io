@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { SettingsService } from 'src/app/workbench/services/settings/settings.service';
 import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 import { IconSetCustomizationService } from '../../../tools/icon-set-config/services/icon-set-customization.service';
-import { IconSet } from '../../../domain/entities/iconSet';
+import { IconSet } from 'src/app/domain/entities/icon-set';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';

@@ -1,7 +1,7 @@
 "use strict";
 
 import { undoGroupRework } from "../util/util";
-import { ElementTypes } from "../../../../../domain/entities/elementTypes";
+import { ElementTypes } from "../../../../../domain/entities/element-types";
 import {
   ELEMENT_COLOR_CHANGE_EVENT,
   EVENT_ELEMENT_CHANGED,

@@ -2,14 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { assign } from 'min-dash';
 import DomainStoryModeler from 'src/app/tools/modeler/diagram-js';
 import { InitializerService } from './initializer.service';
-import { ElementRegistryService } from '../../../domain/services/element-registry.service';
+import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
-import { BusinessObject } from '../../../domain/entities/businessObject';
-import { ActivityBusinessObject } from '../../../domain/entities/activityBusinessObject';
+import { BusinessObject } from 'src/app/domain/entities/business-object';
+import { ActivityBusinessObject } from 'src/app/domain/entities/activity-business-object';
 import { updateMultipleNumberRegistry } from 'src/app/tools/modeler/diagram-js/features/numbering/numbering';
-import { IconSet } from '../../../domain/entities/iconSet';
-import { StorageService } from '../../../domain/services/storage.service';
+import { IconSet } from 'src/app/domain/entities/icon-set';
+import { StorageService } from '../../../utils/services/storage.service';
 import {
   SNACKBAR_DURATION_LONGER,
   SNACKBAR_INFO,
@@ -17,7 +17,7 @@ import {
 } from '../../../domain/entities/constants';
 import { environment } from '../../../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
+import { DirtyFlagService } from 'src/app/tools/modeler/services/dirty-flag.service';
 import { DiagramJsElementRegistry } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-element-registry';
 import { DiagramJsCommandStack } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-command-stack';
 import { DiagramJsContextPad } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-context-pad';

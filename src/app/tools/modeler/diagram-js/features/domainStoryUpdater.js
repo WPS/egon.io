@@ -13,7 +13,7 @@ import {
 
 import { reworkGroupElements } from "./util/util";
 import { isBackground, isGroup } from "./domainStoryRules";
-import { ElementTypes } from "../../../../domain/entities/elementTypes";
+import { ElementTypes } from "../../../../domain/entities/element-types";
 
 /**
  * a handler responsible for updating the element's businessObject

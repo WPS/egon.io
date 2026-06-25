@@ -7,7 +7,7 @@ import inherits from "inherits";
 import BaseElementFactory from "diagram-js/lib/core/ElementFactory";
 
 import DomainStoryIdFactory from "./domainStoryIdFactory";
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
+import { ElementTypes } from "src/app/domain/entities/element-types";
 
 export default function DomainStoryElementFactory() {
   let self = this;

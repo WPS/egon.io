@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ImportRepairService } from 'src/app/tools/import/services/import-repair.service';
-import { BusinessObject } from 'src/app/domain/entities/businessObject';
-import { DialogService } from '../../../domain/services/dialog.service';
+import { BusinessObject } from 'src/app/domain/entities/business-object';
+import { DialogService } from 'src/app/tools/dialog/services/dialog.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import {
   SNACKBAR_DURATION,
@@ -15,13 +15,13 @@ import {
 } from '../../../domain/entities/constants';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IconSet } from '../../../domain/entities/iconSet';
+import { IconSet } from 'src/app/domain/entities/icon-set';
 import { IconSetChangedService } from '../../icon-set-config/services/icon-set-customization.service';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { ImportDialogComponent } from '../presentation/import-dialog/import-dialog.component';
-import { DomainStory } from '../../../domain/entities/domainStory';
+import { DomainStory } from 'src/app/domain/entities/domain-story';
 import { isPresent } from '../../../utils/isPresent';
-import { UnsavedChangesReminderComponent } from '../../unsavedChangesReminder/presentation/unsavedChangesReminder-dialog/unsaved-changes-reminder/unsaved-changes-reminder.component';
+import { UnsavedChangesReminderDialogComponent } from 'src/app/tools/unsaved-changes-reminder/presentation/unsaved-changes-reminder-dialog.component';
 import { ExternalResourcesWarningDialogComponent } from 'src/app/tools/import/presentation/external-resources-warning-dialog/external-resources-warning-dialog.component';
 import { unsanitizeTextFromSvgExport } from 'src/app/utils/sanitizer';
 import { Subject } from 'rxjs/internal/Subject';
@@ -187,7 +187,10 @@ export class ImportDomainStoryService implements IconSetChangedService {
     config.disableClose = false;
     config.autoFocus = true;
     config.data = fn;
-    this.dialogService.openDialog(UnsavedChangesReminderComponent, config);
+    this.dialogService.openDialog(
+      UnsavedChangesReminderDialogComponent,
+      config,
+    );
   }
 
   openExternalResourcesWarningDialog(fn: () => void): void {

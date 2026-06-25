@@ -1,4 +1,4 @@
-import { CanvasObject } from 'src/app/domain/entities/canvasObject';
+import { CanvasObject } from 'src/app/domain/entities/canvas-object';
 
 export interface DiagramJsElementRegistry {
   _elements: ElementMap;

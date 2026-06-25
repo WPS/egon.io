@@ -7,7 +7,7 @@ import {
   getNumber,
 } from "../labeling/dsLabelUtil";
 
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
+import { ElementTypes } from "src/app/domain/entities/element-types";
 import { getBusinessObject, is } from "../util/util";
 
 const NULL_DIMENSIONS = {

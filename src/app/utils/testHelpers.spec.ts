@@ -1,9 +1,9 @@
-import { testActivityCanvasObject } from '../domain/entities/activityCanvasObject';
+import { testActivityCanvasObject } from 'src/app/domain/entities/activity-canvas-object';
 import {
   CanvasObject,
   testCanvasObject,
-} from '../domain/entities/canvasObject';
-import { ElementTypes } from '../domain/entities/elementTypes';
+} from 'src/app/domain/entities/canvas-object';
+import { ElementTypes } from 'src/app/domain/entities/element-types';
 import { StorySentence } from '../tools/replay/domain/storySentence';
 
 export function preBuildTestStory(sentenceAmount: number): {

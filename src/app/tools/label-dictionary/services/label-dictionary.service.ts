@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
-import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
+import { ElementTypes } from 'src/app/domain/entities/element-types';
 import { MassNamingService } from 'src/app/tools/label-dictionary/services/mass-naming.service';
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { WorkObjectLabelEntry } from '../domain/workObjectLabelEntry';
@@ -11,9 +11,9 @@ import {
   SNACKBAR_DURATION_LONGER,
   SNACKBAR_INFO,
 } from '../../../domain/entities/constants';
-import { DialogService } from '../../../domain/services/dialog.service';
+import { DialogService } from 'src/app/tools/dialog/services/dialog.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CanvasObject } from '../../../domain/entities/canvasObject';
+import { CanvasObject } from 'src/app/domain/entities/canvas-object';
 
 @Injectable({
   providedIn: 'root',

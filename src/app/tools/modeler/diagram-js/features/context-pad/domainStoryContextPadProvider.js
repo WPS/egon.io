@@ -2,7 +2,7 @@
 
 import { assign, isArray } from "min-dash";
 import { generateAutomaticNumber } from "../numbering/numbering";
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
+import { ElementTypes } from "src/app/domain/entities/element-types";
 import {
   hexToRGBA,
   isHexWithAlpha,

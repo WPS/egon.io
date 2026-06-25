@@ -5,7 +5,7 @@ import {
   SNACKBAR_ERROR,
 } from 'src/app/domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
+import { DirtyFlagService } from 'src/app/tools/modeler/services/dirty-flag.service';
 
 @Directive({
   selector: '[appDrag]',

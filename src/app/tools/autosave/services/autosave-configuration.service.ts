@@ -1,5 +1,5 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { StorageService } from '../../../domain/services/storage.service';
+import { StorageService } from '../../../utils/services/storage.service';
 import { AutosaveConfiguration } from '../domain/autosave-configuration';
 import {
   DEFAULT_AUTOSAVES_ENABLED,

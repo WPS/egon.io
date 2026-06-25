@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { ElementRegistryService } from '../../../domain/services/element-registry.service';
-import { ElementTypes } from '../../../domain/entities/elementTypes';
+import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
+import { ElementTypes } from 'src/app/domain/entities/element-types';
 import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
-import { CommandStackService } from '../../../domain/services/command-stack.service';
+import { CommandStackService } from 'src/app/tools/modeler/services/command-stack.service';
 
 import activityUpdateHandler from 'src/app/tools/modeler/diagram-js/features/updateHandler/activityUpdateHandlers';
 
@@ -10,7 +10,7 @@ import massRenameHandler from 'src/app/tools/modeler/diagram-js/features/updateH
 import elementUpdateHandler from 'src/app/tools/modeler/diagram-js/features/updateHandler/elementUpdateHandler';
 import headlineAndDescriptionUpdateHandler from 'src/app/tools/modeler/diagram-js/features/updateHandler/headlineAndDescriptionUpdateHandler';
 import { ReplayService } from '../../replay/services/replay.service';
-import { ActivityClickHandlerService } from 'src/app/tools/modeler/services/activity-click-handler.service';
+import { ActivityClickHandlerService } from 'src/app/tools/activity/services/activity-click-handler.service';
 import { CopyPasteService } from 'src/app/tools/modeler/services/copy-paste.service';
 import { DiagramJsCommandStack } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-command-stack';
 import { DiagramJsElementRegistry } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-element-registry';

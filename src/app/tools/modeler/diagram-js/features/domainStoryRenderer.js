@@ -23,7 +23,7 @@ import {
   countLines,
   labelPosition,
 } from "src/app/tools/modeler/diagram-js/features/labeling/position";
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
+import { ElementTypes } from "src/app/domain/entities/element-types";
 import { angleBetween } from "../../../../utils/mathExtensions";
 import {
   isCustomIcon,
