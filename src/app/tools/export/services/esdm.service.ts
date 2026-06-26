@@ -139,15 +139,15 @@ export class EsdmService {
         ?.type.includes(ElementTypes.ACTOR);
 
       return {
-        groups: this.getGroupForBusinessObject(groups, a),
-        annotation: this.getAnnotation(a.id, annotations),
-        label: a.name,
-        to: toActor
+        from: fromActor
           ? { actor: sentence.find((b) => b.id === a.source)!.name }
           : { workObject: sentence.find((b) => b.id === a.source)!.name },
-        from: fromActor
+        to: toActor
           ? { actor: sentence.find((b) => b.id === a.target)!.name }
           : { workObject: sentence.find((b) => b.id === a.target)!.name },
+        label: a.name,
+        annotation: this.getAnnotation(a.id, annotations),
+        groups: this.getGroupForBusinessObject(groups, a),
       };
     });
   }
