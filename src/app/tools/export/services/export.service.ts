@@ -3,7 +3,7 @@ import { IconSetImportExportService } from 'src/app/tools/icon-set-config/servic
 import { sanitizeForDesktop } from 'src/app/utils/sanitizer';
 import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ConfigAndDST } from 'src/app/tools/export/domain/export/configAndDst';
-import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
+import { DirtyFlagService } from 'src/app/tools/modeler/services/dirty-flag.service';
 import { PngService } from 'src/app/tools/export/services/png.service';
 import { SvgService } from 'src/app/tools/export/services/svg.service';
 import { HtmlPresentationService } from './html-presentation.service';
@@ -20,10 +20,10 @@ import {
 } from '../../../domain/entities/constants';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DialogService } from '../../../domain/services/dialog.service';
-import { BusinessObject } from '../../../domain/entities/businessObject';
+import { DialogService } from 'src/app/tools/dialog/services/dialog.service';
+import { BusinessObject } from 'src/app/domain/entities/business-object';
 import { downloadFile } from 'src/app/utils/downloadFile';
-import { DomainStory } from '../../../domain/entities/domainStory';
+import { DomainStory } from 'src/app/domain/entities/domain-story';
 import { isPresent } from '../../../utils/isPresent';
 
 @Injectable({

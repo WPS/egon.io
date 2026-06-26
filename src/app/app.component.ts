@@ -32,7 +32,7 @@ import {
 } from './domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModelerService } from './tools/modeler/services/modeler.service';
-import { DirtyFlagService } from './domain/services/dirty-flag.service';
+import { DirtyFlagService } from 'src/app/tools/modeler/services/dirty-flag.service';
 
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HeaderComponent } from './workbench/presentation/header/header/header.component';

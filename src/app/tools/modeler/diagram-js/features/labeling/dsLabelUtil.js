@@ -1,6 +1,6 @@
 "use strict";
 
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
+import { ElementTypes } from "src/app/domain/entities/element-types";
 import { is } from "../util/util";
 import { EVENT_ELEMENT_CHANGED } from "../diagramJSConstants";
 

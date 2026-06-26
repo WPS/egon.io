@@ -12,7 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
-import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
+import { DirtyFlagService } from 'src/app/tools/modeler/services/dirty-flag.service';
 import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,

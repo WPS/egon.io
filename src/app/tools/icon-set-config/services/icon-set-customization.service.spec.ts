@@ -15,8 +15,8 @@ import {
   SNACKBAR_SUCCESS,
 } from '../../../domain/entities/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
-import { IconSet } from '../../../domain/entities/iconSet';
+import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
+import { IconSet } from 'src/app/domain/entities/icon-set';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { AutosaveService } from 'src/app/tools/autosave/services/autosave.service';
 import { Subject } from 'rxjs';

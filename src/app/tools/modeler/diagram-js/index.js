@@ -6,7 +6,7 @@ import inherits from "inherits";
 import DomainStoryModule from "./features";
 import LabelEditingModule from "./features/labeling";
 import ModelingModule from "./features/modeling";
-import { ElementTypes } from "../../../domain/entities/elementTypes";
+import { ElementTypes } from "../../../domain/entities/element-types";
 
 import MoveCanvasModule from "diagram-js/lib/navigation/movecanvas";
 import KeyboardMoveModule from "diagram-js/lib/navigation/keyboard-move";

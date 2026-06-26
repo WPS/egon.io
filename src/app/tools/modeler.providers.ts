@@ -1,7 +1,7 @@
 import { inject, provideAppInitializer } from '@angular/core';
-import { DirtyFlagService } from '../domain/services/dirty-flag.service';
+import { DirtyFlagService } from 'src/app/tools/modeler/services/dirty-flag.service';
 import { IconDictionaryService } from './icon-set-config/services/icon-dictionary.service';
-import { ElementRegistryService } from '../domain/services/element-registry.service';
+import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
 import { LabelDictionaryService } from './label-dictionary/services/label-dictionary.service';
 import { initializeContextPadProvider } from './modeler/diagram-js/features/context-pad/domainStoryContextPadProvider';
 import { initializePalette } from './modeler/diagram-js/features/palette/domainStoryPalette';

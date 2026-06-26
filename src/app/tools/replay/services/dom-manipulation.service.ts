@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { BusinessObject } from 'src/app/domain/entities/businessObject';
-import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
-import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import { BusinessObject } from 'src/app/domain/entities/business-object';
+import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
+import { ElementTypes } from 'src/app/domain/entities/element-types';
 import { StorySentence } from 'src/app/tools/replay/domain/storySentence';
 import {
   CONNECTION_PATH_DOM_SELECTOR,

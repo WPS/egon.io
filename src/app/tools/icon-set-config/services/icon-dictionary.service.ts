@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
-import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import { ElementTypes } from 'src/app/domain/entities/element-types';
 import { builtInIcons } from 'src/app/tools/icon-set-config/domain/builtInIcons';
 import { sanitizeForCss } from '../../../utils/sanitizer';
-import { IconSet } from '../../../domain/entities/iconSet';
+import { IconSet } from 'src/app/domain/entities/icon-set';
 import { INITIAL_ICON_SET_NAME } from 'src/app/domain/entities/constants';
 import { IconCssService } from 'src/app/tools/icon-set-config/services/icon-css.service';
 

@@ -1,14 +1,14 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { IconDictionaryService } from 'src/app/tools/icon-set-config/services/icon-dictionary.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
-import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import { ElementTypes } from 'src/app/domain/entities/element-types';
 import {
   ICON_SET_CONFIGURATION_KEY,
   INITIAL_ICON_SET_NAME,
 } from '../../../domain/entities/constants';
-import { IconSet } from '../../../domain/entities/iconSet';
-import { IconSetConfigurationForExport } from '../../../domain/entities/icon-set-configuration-for-export';
-import { StorageService } from '../../../domain/services/storage.service';
+import { IconSet } from 'src/app/domain/entities/icon-set';
+import { IconSetExportConfiguration } from 'src/app/domain/entities/icon-set-export-configuration';
+import { StorageService } from '../../../utils/services/storage.service';
 import { downloadFile } from 'src/app/utils/downloadFile';
 import { Subject } from 'rxjs/internal/Subject';
 import { Observable } from 'rxjs/internal/Observable';
@@ -85,9 +85,7 @@ export class IconSetImportExportService {
     return iconSetConfiguration;
   }
 
-  getCurrentConfigurationForExport():
-    | IconSetConfigurationForExport
-    | undefined {
+  getCurrentConfigurationForExport(): IconSetExportConfiguration | undefined {
     const currentConfiguration = this.getCurrentConfiguration();
 
     if (currentConfiguration) {

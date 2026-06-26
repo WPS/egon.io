@@ -3,8 +3,8 @@ import { PropertiesService } from 'src/app/tools/properties/services/properties.
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
 import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
 import { SettingsService } from '../../../services/settings/settings.service';
-import { DirtyFlagService } from '../../../../domain/services/dirty-flag.service';
-import { DialogService } from '../../../../domain/services/dialog.service';
+import { DirtyFlagService } from 'src/app/tools/modeler/services/dirty-flag.service';
+import { DialogService } from 'src/app/tools/dialog/services/dialog.service';
 import { ExportService } from '../../../../tools/export/services/export.service';
 import { LabelDictionaryService } from '../../../../tools/label-dictionary/services/label-dictionary.service';
 import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
@@ -12,7 +12,7 @@ import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { HeaderButtonsComponent } from '../header-buttons/header-buttons.component';
-import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
+import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
 
 @Component({
   selector: 'app-header',

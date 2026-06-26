@@ -1,6 +1,6 @@
 "use strict";
 
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
+import { ElementTypes } from "src/app/domain/entities/element-types";
 import Replace from "./replace";
 import * as replaceOptions from "./replaceOptions";
 

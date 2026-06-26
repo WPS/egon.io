@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ImportDomainStoryService } from 'src/app/tools/import/services/import-domain-story.service';
-import { ElementRegistryService } from '../../../domain/services/element-registry.service';
+import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
-import { DirtyFlagService } from '../../../domain/services/dirty-flag.service';
+import { DirtyFlagService } from 'src/app/tools/modeler/services/dirty-flag.service';
 import { ImportRepairService } from './import-repair.service';
 import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 import { MockService } from 'ng-mocks';
-import { DialogService } from '../../../domain/services/dialog.service';
+import { DialogService } from 'src/app/tools/dialog/services/dialog.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DomainStory } from '../../../domain/entities/domainStory';
+import { DomainStory } from 'src/app/domain/entities/domain-story';
 
 import * as dst_v_1_0_0 from './test-files/dst_export_version_1_0_0.json';
 import * as dst_v_1_1_0 from './test-files/dst_export_version_1_1_0.json';

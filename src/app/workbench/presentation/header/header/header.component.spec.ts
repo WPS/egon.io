@@ -5,7 +5,7 @@ import { ReplayService } from '../../../../tools/replay/services/replay.service'
 import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
 import { ExportService } from '../../../../tools/export/services/export.service';
 import { ModelerService } from '../../../../tools/modeler/services/modeler.service';
-import { ElementRegistryService } from '../../../../domain/services/element-registry.service';
+import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
 import { SettingsService } from '../../../services/settings/settings.service';
 import { HeaderComponent } from './header.component';
 import { signal } from '@angular/core';

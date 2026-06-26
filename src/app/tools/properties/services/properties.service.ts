@@ -4,8 +4,8 @@ import {
   INITIAL_DESCRIPTION,
   INITIAL_TITLE,
 } from '../../../domain/entities/constants';
-import { CommandStackService } from '../../../domain/services/command-stack.service';
-import { DialogService } from '../../../domain/services/dialog.service';
+import { CommandStackService } from 'src/app/tools/modeler/services/command-stack.service';
+import { DialogService } from 'src/app/tools/dialog/services/dialog.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { PropertiesDialogComponent } from 'src/app/tools/properties/presentation/properties-dialog/properties-dialog.component';
 import { Scope } from 'src/app/domain/entities/scope';

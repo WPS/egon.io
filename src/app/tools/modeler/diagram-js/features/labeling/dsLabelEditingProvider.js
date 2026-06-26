@@ -4,7 +4,7 @@ import { assign } from "min-dash";
 
 import { createAutocompleteForEdit, getLabel } from "./dsLabelUtil";
 
-import { ElementTypes } from "src/app/domain/entities/elementTypes";
+import { ElementTypes } from "src/app/domain/entities/element-types";
 import { is } from "../util/util";
 import { isBackground } from "../domainStoryRules";
 import { EVENT_CREATE_END } from "../diagramJSConstants";

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { LabelDictionaryService } from 'src/app/tools/label-dictionary/services/label-dictionary.service';
-import { ElementRegistryService } from '../../../domain/services/element-registry.service';
+import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   SNACKBAR_DURATION_LONGER,
@@ -10,10 +10,10 @@ import {
 import {
   CanvasObject,
   testCanvasObject,
-} from '../../../domain/entities/canvasObject';
-import { ElementTypes } from '../../../domain/entities/elementTypes';
-import { DialogService } from '../../../domain/services/dialog.service';
-import { testActivityCanvasObject } from '../../../domain/entities/activityCanvasObject';
+} from 'src/app/domain/entities/canvas-object';
+import { ElementTypes } from 'src/app/domain/entities/element-types';
+import { DialogService } from 'src/app/tools/dialog/services/dialog.service';
+import { testActivityCanvasObject } from 'src/app/domain/entities/activity-canvas-object';
 import { MassNamingService } from './mass-naming.service';
 
 describe('LabelDictionaryService', () => {

@@ -219,7 +219,7 @@ Unfortunately, diagram-js comes with little documentation. We recommend reading 
 
 Some more useful information for working on the `modeler` tool:
 
-The *canvas* contains graphical *elements* of different *types* (of which Egon only uses the ones mentioned in the table below). The graphical elements can contain *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in `elementTypes.ts`.
+The *canvas* contains graphical *elements* of different *types* (of which Egon only uses the ones mentioned in the table below). The graphical elements can contain *business objects* that carry the information that is specific to the modeling language. Business object have types too – e.g., `domainStory:workObject` (for the Domain Storytelling modeling language). Domain Storytelling's element types for business objects are defined in `element-types.ts`.
 
 | Domain Story Element Types | represented as diagram-js type |
 |----------------------------|--------------------------------|

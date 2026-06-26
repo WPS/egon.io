@@ -1,12 +1,12 @@
-import { DomainStory } from '../../../../domain/entities/domainStory';
-import { IconSetConfigurationForExport } from 'src/app/domain/entities/icon-set-configuration-for-export';
+import { DomainStory } from 'src/app/domain/entities/domain-story';
+import { IconSetExportConfiguration } from 'src/app/domain/entities/icon-set-export-configuration';
 
 export class ConfigAndDST {
-  iconSet: IconSetConfigurationForExport | undefined;
+  iconSet: IconSetExportConfiguration | undefined;
   domainStory: DomainStory;
 
   constructor(
-    domain: IconSetConfigurationForExport | undefined,
+    domain: IconSetExportConfiguration | undefined,
     dst: DomainStory,
   ) {
     this.iconSet = domain;

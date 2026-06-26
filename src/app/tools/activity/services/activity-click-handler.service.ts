@@ -1,0 +1,240 @@
+import { inject, Injectable } from '@angular/core';
+import { ActivityCanvasObject } from 'src/app/domain/entities/activity-canvas-object';
+import { toggleStashUse } from 'src/app/tools/modeler/diagram-js/features/labeling/dsLabelEditingProvider';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { ElementTypes } from 'src/app/domain/entities/element-types';
+import {
+  ActivityDialogData,
+  ActivityDialogSaveData,
+} from 'src/app/tools/activity/domain/activity-dialog-data';
+import {
+  isNumberMultiple,
+  setNumberIsMultiple,
+  updateExistingNumbersAtEditing,
+} from 'src/app/tools/modeler/diagram-js/features/numbering/numbering';
+import { ActivityDialogComponent } from 'src/app/tools/activity/presentation/activity-dialog.component';
+import { DialogService } from 'src/app/tools/dialog/services/dialog.service';
+import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
+import { positionsMatch } from 'src/app/utils/mathExtensions';
+import { CommandStackService } from 'src/app/tools/modeler/services/command-stack.service';
+import { DiagramJsEventBus } from 'src/app/tools/modeler/diagram-js/type-interfaces/diagram-js-event-bus';
+import { BusinessObject } from 'src/app/domain/entities/business-object';
+import { CanvasObject } from 'src/app/domain/entities/canvas-object';
+import { DomManipulationService } from 'src/app/tools/replay/services/dom-manipulation.service';
+
+interface ViewportGeometry {
+  transformX: number;
+  transformY: number;
+  zoomX: number;
+  zoomY: number;
+  width: number;
+  height: number;
+}
+
+interface ElementMetadata {
+  tNumber: number;
+  elementX: number;
+  elementY: number;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ActivityClickHandlerService {
+  private readonly dialogService = inject(DialogService);
+  private readonly elementRegistryService = inject(ElementRegistryService);
+  private readonly commandStackService = inject(CommandStackService);
+  private readonly domManipulationService = inject(DomManipulationService);
+
+  private eventBus: DiagramJsEventBus | undefined;
+
+  setModelerContext(eventBus: DiagramJsEventBus) {
+    this.eventBus = eventBus;
+  }
+
+  /** Overrides for Canvas Functions **/
+  public activityDoubleClick(activity: ActivityCanvasObject): void {
+    const source = activity.source;
+
+    // ensure the right number when changing the direction of an activity
+    toggleStashUse(false);
+
+    const config = new MatDialogConfig();
+    config.disableClose = false;
+    config.autoFocus = true;
+
+    if (
+      activity.businessObject.number &&
+      source &&
+      source.type.includes(ElementTypes.ACTOR)
+    ) {
+      config.data = new ActivityDialogData(
+        activity,
+        isNumberMultiple(activity.businessObject.number),
+        true,
+        (data: ActivityDialogSaveData) => this.saveActivityInputLabel(data),
+      );
+    } else if (source && source.type.includes(ElementTypes.WORKOBJECT)) {
+      config.data = new ActivityDialogData(
+        activity,
+        false,
+        false,
+        (activityData: ActivityDialogSaveData) =>
+          this.saveActivityInputLabel(activityData),
+      );
+    }
+    this.dialogService.openDialog(ActivityDialogComponent, config);
+  }
+
+  private saveActivityInputLabel(activityData: ActivityDialogSaveData): void {
+    const label = activityData.activityLabel;
+    const hasNumber = activityData.activityNumber ?? false;
+    const activityNumber = activityData.activityNumber;
+    const multipleNumberAllowed = activityData.multipleNumbers ?? false;
+    const element = activityData.activity;
+
+    const activitiesFromActors =
+      this.elementRegistryService.getActivitiesFromActors();
+    const index = activitiesFromActors.indexOf(element);
+
+    activitiesFromActors.splice(index, 1);
+    if (hasNumber) {
+      setNumberIsMultiple(activityNumber, multipleNumberAllowed);
+    }
+    element.businessObject.multipleNumberAllowed = multipleNumberAllowed;
+
+    let options: {
+      businessObject: BusinessObject;
+      newLabel: string;
+      newNumber?: number;
+      element: CanvasObject;
+    };
+    if (hasNumber) {
+      options = {
+        businessObject: element.businessObject,
+        newLabel: label!,
+        newNumber: activityNumber,
+        element,
+      };
+    } else {
+      options = {
+        businessObject: element.businessObject,
+        newLabel: label!,
+        element,
+      };
+    }
+
+    this.commandStackService.execute('activity.changed', options);
+    if (element.businessObject.multipleNumberAllowed !== false) {
+      if (!isNumberMultiple(activityNumber)) {
+        updateExistingNumbersAtEditing(
+          activitiesFromActors,
+          activityNumber,
+          this.eventBus,
+        );
+      }
+    } else if (element.businessObject.multipleNumberAllowed === false) {
+      updateExistingNumbersAtEditing(
+        activitiesFromActors,
+        activityNumber,
+        this.eventBus,
+      );
+    }
+  }
+
+  public activityNumberDoubleClick(event: any) {
+    const renderedNumberRegistry =
+      this.domManipulationService.getRenderedNumbers();
+    const allActivities = this.elementRegistryService.getActivitiesFromActors();
+
+    if (renderedNumberRegistry.length > 0 && allActivities.length > 0) {
+      const geometry = this.getGeometricValuesFromViewport();
+
+      let activity: ActivityCanvasObject | undefined;
+
+      for (let i = 0; i < renderedNumberRegistry.length; i++) {
+        const currentNum: HTMLElement = renderedNumberRegistry[i];
+        const elementId =
+          currentNum.parentElement!.parentElement!.dataset.elementId;
+        const elementMetadata = this.getCurrentNumberPositionAndValue(
+          currentNum,
+          geometry.zoomX,
+          geometry.transformX,
+          geometry.zoomY,
+          geometry.transformY,
+        );
+
+        const searchedActivity = allActivities.find(
+          (activity: ActivityCanvasObject) =>
+            activity.businessObject.number === elementMetadata.tNumber &&
+            elementId === activity.id &&
+            positionsMatch(
+              geometry.width,
+              geometry.height,
+              elementMetadata.elementX,
+              elementMetadata.elementY,
+              event.originalEvent.offsetX,
+              event.originalEvent.offsetY,
+            ),
+        );
+        if (searchedActivity) {
+          activity = searchedActivity;
+        }
+      }
+
+      if (activity) {
+        this.activityDoubleClick(activity);
+      }
+    }
+  }
+
+  private getCurrentNumberPositionAndValue(
+    currentNum: HTMLElement,
+    zoomX: number,
+    transformX: number,
+    zoomY: number,
+    transformY: number,
+  ): ElementMetadata {
+    const tspan = currentNum.getElementsByTagName('tspan')[0];
+    const tx = Number(tspan.getAttribute('x')!);
+    const ty = Number(tspan.getAttribute('y')!);
+    const tNumber = parseInt(tspan.innerHTML, undefined);
+
+    const elementX = Math.floor(tx * zoomX + (transformX - 11 * zoomX));
+    const elementY = Math.floor(ty * zoomY + (transformY - 15 * zoomY));
+    return { tNumber, elementX, elementY };
+  }
+
+  private getGeometricValuesFromViewport(): ViewportGeometry {
+    const htmlCanvas = document.getElementById('canvas');
+    if (!htmlCanvas) throw new Error();
+    const viewport = this.getViewport(htmlCanvas);
+    const transform = viewport.getAttribute('transform');
+
+    let transformX = 0;
+    let transformY = 0;
+    let zoomX = 1;
+    let zoomY = 1;
+
+    // adjust for zoom and panning
+    if (transform) {
+      const nums = transform.replace('matrix(', '').replace(')', '').split(',');
+      zoomX = parseFloat(nums[0]);
+      zoomY = parseFloat(nums[3]);
+      transformX = parseInt(nums[4], undefined);
+      transformY = parseInt(nums[5], undefined);
+    }
+
+    const width = 25 * zoomX;
+    const height = 22 * zoomY;
+
+    return { transformX, transformY, zoomX, zoomY, width, height };
+  }
+
+  private getViewport(htmlCanvas: HTMLElement): Element {
+    const container = htmlCanvas.getElementsByClassName('djs-container');
+    const svgElements = container[0].getElementsByTagName('svg');
+    const outerSVGElement = svgElements[0];
+    return outerSVGElement.getElementsByClassName('viewport')[0];
+  }
+}

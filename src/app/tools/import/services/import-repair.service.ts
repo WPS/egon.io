@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ElementTypes } from 'src/app/domain/entities/elementTypes';
-import { BusinessObject } from 'src/app/domain/entities/businessObject';
-import { ActivityBusinessObject } from '../../../domain/entities/activityBusinessObject';
+import { ElementTypes } from 'src/app/domain/entities/element-types';
+import { BusinessObject } from 'src/app/domain/entities/business-object';
+import { ActivityBusinessObject } from 'src/app/domain/entities/activity-business-object';
 
 /**
  * Repairs broken Domain Stories so that it can be rendered onto the canvas

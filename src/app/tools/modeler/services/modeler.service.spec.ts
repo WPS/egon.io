@@ -2,20 +2,20 @@ import { TestBed } from '@angular/core/testing';
 
 import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 import { InitializerService } from './initializer.service';
-import { ElementRegistryService } from '../../../domain/services/element-registry.service';
+import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { createTestCanvasObjects } from '../../../utils/testHelpers.spec';
 import {
   BusinessObject,
   testBusinessObject,
-} from '../../../domain/entities/businessObject';
+} from 'src/app/domain/entities/business-object';
 import { INITIAL_ICON_SET_NAME } from '../../../domain/entities/constants';
-import { ElementTypes } from '../../../domain/entities/elementTypes';
+import { ElementTypes } from 'src/app/domain/entities/element-types';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
-import { IconSet } from '../../../domain/entities/iconSet';
+import { IconSet } from 'src/app/domain/entities/icon-set';
 import BaseViewer from '../diagram-js/BaseViewer';
-import { DirtyFlagService } from 'src/app/domain/services/dirty-flag.service';
+import { DirtyFlagService } from 'src/app/tools/modeler/services/dirty-flag.service';
 
 describe('ModelerService', () => {
   let service: ModelerService;
