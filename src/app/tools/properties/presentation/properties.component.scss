@@ -1,5 +1,5 @@
 .description {
-  min-height: 102px; /* but why? */
+  min-height: 96px;
 }
 
 ::ng-deep.isSelected button {
@@ -15,9 +15,11 @@
 .TitleAndDescription {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 }
 
 .Scope {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 }
