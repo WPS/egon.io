@@ -95,7 +95,7 @@ export class PropertiesComponent implements OnInit {
     { value: Granularity_Goal.KITE, viewValue: 'kite' },
     { value: Granularity_Goal.SEA, viewValue: 'sea' },
     { value: Granularity_Goal.FISH, viewValue: 'fish' },
-    { value: Granularity_Goal.CLAM, viewValue: 'clam?' },
+    { value: Granularity_Goal.CLAM, viewValue: 'clam' },
   ];
 
   PointInTimeValues = [

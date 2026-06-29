@@ -40,14 +40,14 @@
         <mat-label>Granularity</mat-label>
         <mat-select formControlName="granularity">
           <mat-option>-- None --</mat-option>
-          <mat-optgroup label="as coarse/medium/fine">
+          <mat-optgroup label="as coarse/medium/fine:">
             @for (grain of GranularityGrainValues; track grain) {
               <mat-option [value]="grain.value">{{
                 grain.viewValue
               }}</mat-option>
             }
           </mat-optgroup>
-          <mat-optgroup label="as goal level">
+          <mat-optgroup label="as goal level:">
             @for (goal of GranularityGoalValues; track goal) {
               <mat-option [value]="goal.value">{{ goal.viewValue }}</mat-option>
             }

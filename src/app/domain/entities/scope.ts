@@ -5,8 +5,8 @@ export interface Scope {
 }
 
 export enum PointInTime {
-  AS_IS = 'as_is',
-  TO_BE = 'to_be',
+  AS_IS = 'as-is',
+  TO_BE = 'to-be',
 }
 
 export enum DomainPurity {
@@ -15,15 +15,15 @@ export enum DomainPurity {
 }
 
 export enum Granularity_Grain {
-  COARSE = 'coarse',
-  MEDIUM = 'medium',
-  FINE = 'fine',
+  COARSE = 'coarse-grained',
+  MEDIUM = 'medium-grained',
+  FINE = 'fine-grained',
 }
 
 export enum Granularity_Goal {
-  CLOUD = 'cloud',
-  KITE = 'kite',
-  SEA = 'sea',
-  FISH = 'fisch',
-  CLAM = 'clam',
+  CLOUD = 'cloud-level',
+  KITE = 'kite-level',
+  SEA = 'sea-level',
+  FISH = 'fish-level',
+  CLAM = 'clam-level',
 }
