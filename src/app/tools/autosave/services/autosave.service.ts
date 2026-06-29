@@ -187,9 +187,9 @@ export class AutosaveService {
     const domainStory: DomainStory = {
       businessObjects: this.modelerService.getStory(),
       version: environment.version,
-      description: this.propertiesService.getDescription(),
-      title: this.propertiesService.getTitle(),
-      scope: this.propertiesService.getScope(),
+      description: this.propertiesService.description(),
+      title: this.propertiesService.title(),
+      scope: this.propertiesService.scope(),
     };
 
     const configAndDST = this.exportService.createConfigAndDST(domainStory);
@@ -197,9 +197,9 @@ export class AutosaveService {
     const date = new Date().toString().slice(0, 25);
 
     return {
-      title: this.propertiesService.getTitle(),
-      description: this.propertiesService.getDescription(),
-      scope: this.propertiesService.getScope(),
+      title: this.propertiesService.title(),
+      description: this.propertiesService.description(),
+      scope: this.propertiesService.scope(),
       configAndDST,
       date,
     };

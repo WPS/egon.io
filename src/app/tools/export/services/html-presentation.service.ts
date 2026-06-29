@@ -75,8 +75,8 @@ export class HtmlPresentationService {
     const dots = doT.template(revealjsTemplate?.innerHTML);
     const revealjsData = {
       script: 'script',
-      title: this.propertiesService.getTitle(),
-      description: this.propertiesService.getDescription(),
+      title: this.propertiesService.title(),
+      description: this.propertiesService.description(),
       sentences: svgData,
       multiplexSecret: this.multiplexSecret,
       multiplexId: this.multiplexId,

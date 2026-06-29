@@ -203,10 +203,10 @@ export class ExportService {
 
     return {
       businessObjects: story,
-      title: this.propertiesService.getTitle(),
-      description: this.propertiesService.getDescription(),
+      title: this.propertiesService.title(),
+      description: this.propertiesService.description(),
       version: environment.version,
-      scope: this.propertiesService.getScope(),
+      scope: this.propertiesService.scope(),
     };
   }
 

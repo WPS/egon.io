@@ -1,4 +1,4 @@
-import { Component, inject, Signal } from '@angular/core';
+import { Component, computed, inject, Signal } from '@angular/core';
 import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
 import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
@@ -12,7 +12,6 @@ import { ModelerService } from 'src/app/tools/modeler/services/modeler.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { HeaderButtonsComponent } from '../header-buttons/header-buttons.component';
-import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
 import {
   MatExpansionPanel,
   MatExpansionPanelDescription,
@@ -47,26 +46,22 @@ export class HeaderComponent {
   private readonly dialogService = inject(DialogService);
   private readonly exportService = inject(ExportService);
   private readonly labelDictionaryService = inject(LabelDictionaryService);
-  private readonly elementRegistryService = inject(ElementRegistryService);
 
   readonly description = this.propertiesService.description;
-  readonly showDescription = this.propertiesService.showDescription;
 
   readonly isReplayOn: Signal<boolean> = this.replayService.replayOn;
   readonly showGroups: Signal<boolean> = this.replayService.showGroups;
   readonly hasGroups: Signal<boolean> = this.replayService.hasGroups;
   readonly isDirty: Signal<boolean> = this.dirtyFlagService.dirty;
 
-  openHeaderDialog(): void {
-    this.propertiesService.openHeaderDialog();
-  }
+  readonly title: Signal<string> = computed(() => {
+    const title = this.propertiesService.title();
+    if (title.length < 200) return title;
+    return title.substring(0, 197) + '...';
+  });
 
   openSettings(): void {
     this.settingsService.open();
-  }
-
-  setShowDescription(show: boolean): void {
-    this.propertiesService.setShowDescription(show);
   }
 
   createNewDomainStory(): void {

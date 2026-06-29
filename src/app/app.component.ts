@@ -81,7 +81,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   ];
 
   private readonly settingsService = inject(SettingsService);
-  private readonly propertiesService = inject(PropertiesService);
   private readonly exportService = inject(ExportService);
   private readonly autosaveService = inject(AutosaveService);
   private readonly cd = inject(ChangeDetectorRef);
@@ -92,7 +91,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   private readonly importDomainStoryService = inject(ImportDomainStoryService);
   private readonly activatedRoute = inject(ActivatedRoute);
 
-  showDescription = this.propertiesService.showDescription;
   showSettings = this.settingsService.showSettings;
 
   constructor() {

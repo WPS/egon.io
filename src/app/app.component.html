@@ -12,14 +12,11 @@
     <app-settings />
   }
   <div
-    [class.headerAndCanvas]="!showSettings() && showDescription()"
-    [class.headerAndCanvasCollapsed]="!showSettings() && !showDescription()"
+    [class.headerAndCanvas]="!showSettings()"
+    [class.headerAndCanvasCollapsed]="!showSettings()"
     [class.hidden]="showSettings()"
   >
-    <app-header
-      [class.header]="showDescription()"
-      [class.headerCollapsed]="!showDescription()"
-    />
+    <app-header />
     <div appDrag id="canvas"></div>
   </div>
 

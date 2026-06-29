@@ -1,4 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  OnInit,
+  signal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
@@ -39,14 +47,52 @@ export class PropertiesComponent implements OnInit {
   private propertiesService = inject(PropertiesService);
   private dirtyFlagService = inject(DirtyFlagService);
 
+  // Important! Since we update the state of the Properties both through the service and the form, we need to be careful not to create an infinite effect loop.
+  private changedFromExternal: WritableSignal<boolean> = signal(false);
+
+  constructor() {
+    effect(() => {
+      this.changedFromExternal.set(true);
+      this.form.controls.title.patchValue(this.propertiesService.title());
+    });
+    effect(() => {
+      this.changedFromExternal.set(true);
+
+      this.form.controls.description.patchValue(
+        this.propertiesService.description(),
+      );
+    });
+    effect(() => {
+      this.changedFromExternal.set(true);
+      const pointInTime = this.propertiesService.scope()?.pointInTime;
+      this.form.controls.pointInTime.patchValue(
+        pointInTime ? pointInTime : null,
+      );
+    });
+    effect(() => {
+      this.changedFromExternal.set(true);
+      const domainPurity = this.propertiesService.scope()?.domainPurity;
+      this.form.controls.domainPurity.patchValue(
+        domainPurity ? domainPurity : null,
+      );
+    });
+    effect(() => {
+      this.changedFromExternal.set(true);
+      const granularity = this.propertiesService.scope()?.granularity;
+      this.form.controls.granularity.patchValue(
+        granularity ? granularity : null,
+      );
+    });
+  }
+
   ngOnInit(): void {
-    const title = this.propertiesService.getTitle();
-    const description = this.propertiesService.getDescription();
-    const scope = this.propertiesService.getScope();
+    const title = this.propertiesService.title;
+    const description = this.propertiesService.description;
+    const scope = this.propertiesService.scope();
 
     this.form = PropertiesForm.create(
-      title,
-      description,
+      title(),
+      description(),
       scope?.granularity ? scope.granularity : null,
       scope?.pointInTime ? scope.pointInTime : null,
       scope?.domainPurity ? scope.domainPurity : null,
@@ -58,25 +104,30 @@ export class PropertiesComponent implements OnInit {
   }
 
   save(): void {
-    if (this.form.dirty) {
-      this.dirtyFlagService.makeDirty();
+    if (this.changedFromExternal()) {
+      this.changedFromExternal.set(false);
+      return;
+    } else {
+      if (this.form.dirty) {
+        this.dirtyFlagService.makeDirty();
 
-      const granularity = this.form.getRawValue().granularity;
-      const pointInTime = this.form.getRawValue().pointInTime;
-      const domainPurity = this.form.getRawValue().domainPurity;
+        const granularity = this.form.getRawValue().granularity;
+        const pointInTime = this.form.getRawValue().pointInTime;
+        const domainPurity = this.form.getRawValue().domainPurity;
 
-      const scope: Scope = {
-        granularity: granularity ? granularity : undefined,
-        pointInTime: pointInTime ? pointInTime : undefined,
-        domainPurity: domainPurity ? domainPurity : undefined,
-      };
+        const scope: Scope = {
+          granularity: granularity ? granularity : undefined,
+          pointInTime: pointInTime ? pointInTime : undefined,
+          domainPurity: domainPurity ? domainPurity : undefined,
+        };
 
-      this.propertiesService.updateTitleAndDescriptionAndScope(
-        this.form.getRawValue().title,
-        this.form.getRawValue().description,
-        scope,
-        true,
-      );
+        this.propertiesService.updateTitleAndDescriptionAndScope(
+          this.form.getRawValue().title,
+          this.form.getRawValue().description,
+          scope,
+          true,
+        );
+      }
     }
   }
 

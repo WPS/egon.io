@@ -19,13 +19,9 @@ describe(PropertiesService.name, () => {
     expect(service).toBeTruthy();
   });
 
-  it('should getVersion', () => {
-    expect(service.getVersion()).toEqual(environment.version);
-  });
-
   it('should initialize title and Description', () => {
-    expect(service.getDescription()).toEqual(INITIAL_DESCRIPTION);
-    expect(service.getTitle()).toEqual(INITIAL_TITLE);
+    expect(service.description()).toEqual(INITIAL_DESCRIPTION);
+    expect(service.title()).toEqual(INITIAL_TITLE);
   });
 
   // allowUndo is untestable due to it is interaction with the commandStack
@@ -39,8 +35,8 @@ describe(PropertiesService.name, () => {
         false,
       );
 
-      expect(service.getTitle()).toEqual('title');
-      expect(service.getDescription()).toEqual(INITIAL_DESCRIPTION);
+      expect(service.title()).toEqual('title');
+      expect(service.description()).toEqual(INITIAL_DESCRIPTION);
 
       expect(service.title()).toEqual('title');
       expect(service.description()).toEqual(INITIAL_DESCRIPTION);
@@ -54,8 +50,8 @@ describe(PropertiesService.name, () => {
         false,
       );
 
-      expect(service.getTitle()).toEqual(INITIAL_TITLE);
-      expect(service.getDescription()).toEqual('description');
+      expect(service.title()).toEqual(INITIAL_TITLE);
+      expect(service.description()).toEqual('description');
 
       expect(service.title()).toEqual(INITIAL_TITLE);
       expect(service.description()).toEqual('description');
@@ -69,8 +65,8 @@ describe(PropertiesService.name, () => {
         false,
       );
 
-      expect(service.getTitle()).toEqual('title');
-      expect(service.getDescription()).toEqual('description');
+      expect(service.title()).toEqual('title');
+      expect(service.description()).toEqual('description');
 
       expect(service.title()).toEqual('title');
       expect(service.description()).toEqual('description');

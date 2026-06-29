@@ -5,9 +5,6 @@ import {
   INITIAL_TITLE,
 } from '../../../domain/entities/constants';
 import { CommandStackService } from 'src/app/tools/modeler/services/command-stack.service';
-import { DialogService } from 'src/app/tools/dialog/services/dialog.service';
-import { MatDialogConfig } from '@angular/material/dialog';
-import { PropertiesComponent } from 'src/app/tools/properties/presentation/properties.component';
 import { Scope } from 'src/app/domain/entities/scope';
 
 @Injectable({
@@ -15,23 +12,14 @@ import { Scope } from 'src/app/domain/entities/scope';
 })
 export class PropertiesService {
   private readonly commandStackService = inject(CommandStackService);
-  private readonly dialogService = inject(DialogService);
 
   private readonly titleSignal = signal(INITIAL_TITLE);
   private readonly scopeSignal = signal(undefined as Scope | undefined);
   private readonly descriptionSignal = signal(INITIAL_DESCRIPTION);
-  private readonly showDescriptionSignal = signal(false);
 
   readonly title = this.titleSignal.asReadonly();
   readonly description = this.descriptionSignal.asReadonly();
-  readonly showDescription = this.showDescriptionSignal.asReadonly();
-
-  openHeaderDialog(): void {
-    const config = new MatDialogConfig();
-    config.disableClose = false;
-    config.autoFocus = true;
-    this.dialogService.openDialog(PropertiesComponent, config);
-  }
+  readonly scope = this.scopeSignal.asReadonly();
 
   updateTitleAndDescriptionAndScope(
     title: string | null,
@@ -75,32 +63,11 @@ export class PropertiesService {
     this.descriptionSignal.set(description ?? this.descriptionSignal());
   }
 
-  setShowDescription(show: boolean): void {
-    this.showDescriptionSignal.set(show);
-  }
-
-  getTitle(): string {
-    return this.titleSignal();
-  }
-
-  getScope(): Scope | undefined {
-    return this.scopeSignal();
-  }
-
-  getDescription(): string {
-    return this.descriptionSignal();
-  }
-
-  getVersion(): string {
-    return environment.version;
-  }
-
   hasTitleOrDescription(): boolean {
     return (
-      (this.getTitle().trim().length > 0 &&
-        this.getTitle() !== INITIAL_TITLE) ||
-      (this.getDescription().trim().length > 0 &&
-        this.getDescription() !== INITIAL_DESCRIPTION)
+      (this.title().trim().length > 0 && this.title() !== INITIAL_TITLE) ||
+      (this.description().trim().length > 0 &&
+        this.description() !== INITIAL_DESCRIPTION)
     );
   }
 

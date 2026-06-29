@@ -9,9 +9,9 @@ export default function headlineAndDescriptionUpdateHandler(
 
   function handlerFunction() {
     this.execute = function (ctx) {
-      ctx.oldTitle = propertiesService.getTitle();
-      ctx.oldDescription = propertiesService.getDescription();
-      ctx.oldScope = propertiesService.getScope();
+      ctx.oldTitle = propertiesService.title();
+      ctx.oldDescription = propertiesService.description();
+      ctx.oldScope = propertiesService.scope();
 
       propertiesService.updateTitleAndDescriptionAndScope(
         ctx.newTitle,

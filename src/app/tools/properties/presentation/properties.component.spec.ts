@@ -20,17 +20,34 @@ import {
   PointInTime,
   Scope,
 } from 'src/app/domain/entities/scope';
+import { signal } from '@angular/core';
+import SpyObj = jasmine.SpyObj;
 
 describe('PropertiesComponent', () => {
   let component: PropertiesComponent;
   let fixture: ComponentFixture<PropertiesComponent>;
 
-  let propertiesService: PropertiesService;
+  let propertiesServiceSpy: SpyObj<PropertiesService>;
   let dirtyFlagService: DirtyFlagService;
 
-  let getScopeSpy: jasmine.Spy;
+  let titleSignal = signal(INITIAL_TITLE),
+    scopeSignal = signal<Scope | undefined>(undefined),
+    descriptionSignal = signal(INITIAL_DESCRIPTION);
 
   beforeEach(async () => {
+    propertiesServiceSpy = jasmine.createSpyObj(
+      'PropertiesService',
+      ['updateTitleAndDescriptionAndScope'],
+      {
+        title: titleSignal.asReadonly(),
+        scope: scopeSignal.asReadonly(),
+        description: descriptionSignal.asReadonly(),
+        titleSignal,
+        scopeSignal,
+        descriptionSignal,
+      },
+    );
+
     await TestBed.configureTestingModule({
       imports: [
         PropertiesComponent,
@@ -43,7 +60,7 @@ describe('PropertiesComponent', () => {
       providers: [
         {
           provide: PropertiesService,
-          useValue: MockService(PropertiesService),
+          useValue: propertiesServiceSpy,
         },
         {
           provide: DirtyFlagService,
@@ -56,18 +73,11 @@ describe('PropertiesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PropertiesComponent);
     component = fixture.componentInstance;
-    propertiesService = TestBed.inject(PropertiesService);
     dirtyFlagService = TestBed.inject(DirtyFlagService);
 
-    spyOn(propertiesService, 'updateTitleAndDescriptionAndScope');
+    propertiesServiceSpy.updateTitleAndDescriptionAndScope;
+
     spyOn(dirtyFlagService, 'makeDirty');
-    spyOn(propertiesService, 'getTitle').and.returnValue(INITIAL_TITLE);
-    spyOn(propertiesService, 'getDescription').and.returnValue(
-      INITIAL_DESCRIPTION,
-    );
-    getScopeSpy = spyOn(propertiesService, 'getScope').and.returnValue(
-      undefined,
-    );
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -88,10 +98,8 @@ describe('PropertiesComponent', () => {
 
   describe('ngOnInit', () => {
     it('should initialize the form with the values from the service', () => {
-      (propertiesService.getTitle as jasmine.Spy).and.returnValue('My Title');
-      (propertiesService.getDescription as jasmine.Spy).and.returnValue(
-        'My Description',
-      );
+      titleSignal.set('My Title');
+      descriptionSignal.set('My Description');
 
       component.ngOnInit();
 
@@ -105,7 +113,7 @@ describe('PropertiesComponent', () => {
         pointInTime: PointInTime.TO_BE,
         domainPurity: DomainPurity.PURE,
       };
-      getScopeSpy.and.returnValue(scope);
+      scopeSignal.set(scope);
 
       component.ngOnInit();
 
@@ -114,10 +122,11 @@ describe('PropertiesComponent', () => {
       );
       expect(component.form.getRawValue().pointInTime).toBe(PointInTime.TO_BE);
       expect(component.form.getRawValue().domainPurity).toBe(DomainPurity.PURE);
+      scopeSignal.set(undefined);
     });
 
     it('should set null scope values when scope is undefined', () => {
-      getScopeSpy.and.returnValue(undefined);
+      scopeSignal.set(undefined);
 
       component.ngOnInit();
 
@@ -143,7 +152,7 @@ describe('PropertiesComponent', () => {
 
       expect(dirtyFlagService.makeDirty).not.toHaveBeenCalled();
       expect(
-        propertiesService.updateTitleAndDescriptionAndScope,
+        propertiesServiceSpy.updateTitleAndDescriptionAndScope,
       ).not.toHaveBeenCalled();
     });
 
@@ -168,7 +177,7 @@ describe('PropertiesComponent', () => {
       component.save();
 
       expect(
-        propertiesService.updateTitleAndDescriptionAndScope,
+        propertiesServiceSpy.updateTitleAndDescriptionAndScope,
       ).toHaveBeenCalledWith(
         'New Title',
         'New Description',
@@ -194,7 +203,7 @@ describe('PropertiesComponent', () => {
       component.save();
 
       expect(
-        propertiesService.updateTitleAndDescriptionAndScope,
+        propertiesServiceSpy.updateTitleAndDescriptionAndScope,
       ).toHaveBeenCalledWith(
         'New Title',
         'New Description',
