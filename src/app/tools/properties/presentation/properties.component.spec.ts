@@ -105,6 +105,9 @@ describe('PropertiesComponent', () => {
 
       expect(component.form.getRawValue().title).toBe('My Title');
       expect(component.form.getRawValue().description).toBe('My Description');
+
+      titleSignal.set(INITIAL_TITLE);
+      descriptionSignal.set(INITIAL_DESCRIPTION);
     });
 
     it('should initialize the scope values from the service', () => {
