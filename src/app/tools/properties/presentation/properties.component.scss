@@ -1,0 +1,31 @@
+.description {
+  min-height: 102px; /* but why? */
+}
+
+.scopeValues {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+::ng-deep.isSelected button {
+  background-color: #a4d7e1;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 70% auto;
+  gap: 1rem;
+}
+
+.TitleAndDescription {
+  display: flex;
+  flex-direction: column;
+}
+
+.Scope {
+  display: flex;
+  flex-direction: column;
+}

@@ -13,13 +13,29 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { HeaderButtonsComponent } from '../header-buttons/header-buttons.component';
 import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
+import {
+  MatExpansionPanel,
+  MatExpansionPanelDescription,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle,
+} from '@angular/material/expansion';
+import { PropertiesComponent } from 'src/app/tools/properties/presentation/properties.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 
-  imports: [MatToolbarModule, MatCardModule, HeaderButtonsComponent],
+  imports: [
+    MatToolbarModule,
+    MatCardModule,
+    HeaderButtonsComponent,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    MatExpansionPanelDescription,
+    PropertiesComponent,
+  ],
 })
 export class HeaderComponent {
   readonly propertiesService = inject(PropertiesService);

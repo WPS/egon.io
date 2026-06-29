@@ -7,7 +7,7 @@ import {
 import { CommandStackService } from 'src/app/tools/modeler/services/command-stack.service';
 import { DialogService } from 'src/app/tools/dialog/services/dialog.service';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { PropertiesDialogComponent } from 'src/app/tools/properties/presentation/properties-dialog/properties-dialog.component';
+import { PropertiesComponent } from 'src/app/tools/properties/presentation/properties.component';
 import { Scope } from 'src/app/domain/entities/scope';
 
 @Injectable({
@@ -30,7 +30,7 @@ export class PropertiesService {
     const config = new MatDialogConfig();
     config.disableClose = false;
     config.autoFocus = true;
-    this.dialogService.openDialog(PropertiesDialogComponent, config);
+    this.dialogService.openDialog(PropertiesComponent, config);
   }
 
   updateTitleAndDescriptionAndScope(

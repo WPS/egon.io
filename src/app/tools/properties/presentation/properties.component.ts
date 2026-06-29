@@ -1,26 +1,26 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
-import { PropertiesDialogForm } from 'src/app/tools/properties/domain/properties-dialog-form';
+import { PropertiesForm } from 'src/app/tools/properties/domain/properties-form';
 import { DirtyFlagService } from 'src/app/tools/modeler/services/dirty-flag.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import {
   DomainPurity,
+  Granularity_Goal,
+  Granularity_Grain,
   PointInTime,
   Scope,
 } from 'src/app/domain/entities/scope';
-import {
-  MatButtonToggle,
-  MatButtonToggleGroup,
-} from '@angular/material/button-toggle';
+import { MatOptgroup, MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-properties-dialog',
-  templateUrl: './properties-dialog.component.html',
-  styleUrls: ['./properties-dialog.component.scss'],
+  templateUrl: './properties.component.html',
+  styleUrls: ['./properties.component.scss'],
 
   imports: [
     ReactiveFormsModule,
@@ -28,14 +28,14 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatButtonToggleGroup,
-    MatButtonToggle,
+    MatOption,
+    MatSelect,
+    MatOptgroup,
   ],
 })
-export class PropertiesDialogComponent implements OnInit {
-  form!: FormGroup<PropertiesDialogForm>;
+export class PropertiesComponent implements OnInit {
+  form!: FormGroup<PropertiesForm>;
 
-  private dialogRef = inject(MatDialogRef<PropertiesDialogComponent>);
   private propertiesService = inject(PropertiesService);
   private dirtyFlagService = inject(DirtyFlagService);
 
@@ -44,13 +44,17 @@ export class PropertiesDialogComponent implements OnInit {
     const description = this.propertiesService.getDescription();
     const scope = this.propertiesService.getScope();
 
-    this.form = PropertiesDialogForm.create(
+    this.form = PropertiesForm.create(
       title,
       description,
-      scope?.granularity ? scope.granularity : '',
+      scope?.granularity ? scope.granularity : null,
       scope?.pointInTime ? scope.pointInTime : null,
       scope?.domainPurity ? scope.domainPurity : null,
     );
+
+    this.form.valueChanges.subscribe(() => {
+      this.save();
+    });
   }
 
   save(): void {
@@ -62,7 +66,7 @@ export class PropertiesDialogComponent implements OnInit {
       const domainPurity = this.form.getRawValue().domainPurity;
 
       const scope: Scope = {
-        granularity: granularity ? granularity : '',
+        granularity: granularity ? granularity : undefined,
         pointInTime: pointInTime ? pointInTime : undefined,
         domainPurity: domainPurity ? domainPurity : undefined,
       };
@@ -74,25 +78,33 @@ export class PropertiesDialogComponent implements OnInit {
         true,
       );
     }
-    this.dialogRef.close();
-  }
-
-  close(): void {
-    this.dialogRef.close();
   }
 
   preventDefault(event: Event) {
     event.preventDefault();
   }
 
-  protected readonly PointInTime = PointInTime;
-  protected readonly DomainPurity = DomainPurity;
+  GranularityGrainValues = [
+    { value: Granularity_Grain.COARSE, viewValue: 'coarse' },
+    { value: Granularity_Grain.MEDIUM, viewValue: 'medium' },
+    { value: Granularity_Grain.FINE, viewValue: 'fine' },
+  ];
 
-  pointInTime(): PointInTime | null {
-    return this.form.getRawValue().pointInTime;
-  }
+  GranularityGoalValues = [
+    { value: Granularity_Goal.CLOUD, viewValue: 'cloud' },
+    { value: Granularity_Goal.KITE, viewValue: 'kite' },
+    { value: Granularity_Goal.SEA, viewValue: 'sea' },
+    { value: Granularity_Goal.FISH, viewValue: 'fish' },
+    { value: Granularity_Goal.CLAM, viewValue: 'clam?' },
+  ];
 
-  domainPurity(): DomainPurity | null {
-    return this.form.getRawValue().domainPurity;
-  }
+  PointInTimeValues = [
+    { value: PointInTime.TO_BE, viewValue: 'to be' },
+    { value: PointInTime.AS_IS, viewValue: 'as is' },
+  ];
+
+  DomainPurityValues = [
+    { value: DomainPurity.PURE, viewValue: 'pure' },
+    { value: DomainPurity.DIGITALIZED, viewValue: 'digitalized' },
+  ];
 }

@@ -285,7 +285,7 @@
     "version": "4.0.0",
     "title": "testTitle",
     "scope": {
-      "granularity": "coarse grained",
+      "granularity": "coarse",
       "pointInTime": "to_be",
       "domainPurity": "digitalized"
     }

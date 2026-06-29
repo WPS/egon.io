@@ -1,5 +1,9 @@
 import { ConfigAndDST } from 'src/app/tools/export/domain/export/configAndDst';
-import { DomainPurity, PointInTime } from 'src/app/domain/entities/scope';
+import {
+  DomainPurity,
+  Granularity_Grain,
+  PointInTime,
+} from 'src/app/domain/entities/scope';
 
 export const testConfigAndDst: ConfigAndDST = {
   iconSet: JSON.parse(
@@ -65,7 +69,7 @@ export const testConfigAndDst: ConfigAndDST = {
     title: 'new domain story',
     scope: {
       domainPurity: DomainPurity.PURE,
-      granularity: 'fine grained',
+      granularity: Granularity_Grain.FINE,
       pointInTime: PointInTime.AS_IS,
     },
   },

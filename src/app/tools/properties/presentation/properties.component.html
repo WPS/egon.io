@@ -1,0 +1,59 @@
+<form [formGroup]="form">
+  <div class="wrapper">
+    <div class="TitleAndDescription">
+      <mat-form-field color="accent">
+        <mat-label>Title</mat-label>
+        <input matInput type="text" formControlName="title" />
+      </mat-form-field>
+      <mat-form-field color="accent">
+        <mat-label>Description</mat-label>
+        <textarea
+          maxlength="2000"
+          matInput
+          class="description"
+          formControlName="description"
+          (keydown.enter)="preventDefault($event)"
+          (keyup.enter)="save()"
+        ></textarea>
+      </mat-form-field>
+    </div>
+    <div class="Scope">
+      <mat-form-field color="accent">
+        <mat-label>Point In Time</mat-label>
+        <mat-select formControlName="pointInTime">
+          <mat-option>-- None --</mat-option>
+          @for (pit of PointInTimeValues; track pit) {
+            <mat-option [value]="pit.value">{{ pit.viewValue }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field color="accent">
+        <mat-label>Domain Purity</mat-label>
+        <mat-select formControlName="domainPurity">
+          <mat-option>-- None --</mat-option>
+          @for (dp of DomainPurityValues; track dp) {
+            <mat-option [value]="dp.value">{{ dp.viewValue }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field color="accent">
+        <mat-label>Granularity</mat-label>
+        <mat-select formControlName="granularity">
+          <mat-option>-- None --</mat-option>
+          <mat-optgroup label="as coarse/medium/fine">
+            @for (grain of GranularityGrainValues; track grain) {
+              <mat-option [value]="grain.value">{{
+                grain.viewValue
+              }}</mat-option>
+            }
+          </mat-optgroup>
+          <mat-optgroup label="as goal level">
+            @for (goal of GranularityGoalValues; track goal) {
+              <mat-option [value]="goal.value">{{ goal.viewValue }}</mat-option>
+            }
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</form>
