@@ -1,3 +1,10 @@
+import {
+  DomainPurity,
+  Granularity_Goal,
+  Granularity_Grain,
+  PointInTime,
+} from 'src/app/domain/entities/scope';
+
 export interface EventSourceDomainMetadata {
   labels?: any[];
   annotations?: any[];
@@ -5,21 +12,6 @@ export interface EventSourceDomainMetadata {
 
 export interface EventSourceDomainScope {
   domain: string; // kebap-case
-}
-
-export enum PointInTime {
-  asIs = 'as-is',
-  toBe = 'to-be',
-}
-
-export enum Granularity {
-  coarseGrained = 'coarse-grained',
-  fineGrained = 'fine-grained',
-}
-
-export enum DomainPurity {
-  pure = 'pure',
-  digitalized = 'digitalized',
 }
 
 export interface EventSourceDomainGroup {
@@ -68,7 +60,7 @@ export interface EventSourceDomainModel {
   metadata?: EventSourceDomainMetadata;
   scope: EventSourceDomainScope;
   pointInTime?: PointInTime;
-  granularity?: Granularity;
+  granularity?: Granularity_Grain | Granularity_Goal;
   domainPurity?: DomainPurity;
   groups?: EventSourceDomainGroup[];
   actors?: EventSourceDomainActor[];
@@ -84,7 +76,7 @@ export interface EventSourceDomainYaml {
   metadata?: EventSourceDomainMetadata;
   scope: EventSourceDomainScope;
   pointInTime?: PointInTime;
-  granularity?: Granularity;
+  granularity?: Granularity_Grain | Granularity_Goal;
   domainPurity?: DomainPurity;
   groups?: EventSourceDomainGroup[];
   actors?: EventSourceDomainActor[];

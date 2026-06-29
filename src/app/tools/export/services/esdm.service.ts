@@ -1,24 +1,27 @@
 import { inject, Injectable } from '@angular/core';
-import { BusinessObject } from 'src/app/domain/entities/businessObject';
 import {
-  DomainPurity,
   EventSourceDomainEdge,
   EventSourceDomainGroup,
   EventSourceDomainMetadata,
   EventSourceDomainModel,
   EventSourceDomainSentence,
   EventSourceDomainWorkObject,
-  Granularity,
-  PointInTime,
 } from 'src/app/tools/export/domain/esdm/event-source-domain-model';
-import { ActivityBusinessObject } from 'src/app/domain/entities/activityBusinessObject';
-import { ElementTypes } from 'src/app/domain/entities/elementTypes';
 import { StorySentence } from 'src/app/tools/replay/domain/storySentence';
 import { StoryCreatorService } from 'src/app/tools/replay/services/story-creator.service';
-import { ElementRegistryService } from 'src/app/domain/services/element-registry.service';
 import { Dictionary } from 'src/app/domain/entities/dictionary';
 import { AnnotationBusinessObject } from 'src/app/domain/entities/annotationBusinessObject';
-import { GroupCanvasObject } from 'src/app/domain/entities/groupCanvasObject';
+import {
+  DomainPurity,
+  Granularity_Goal,
+  Granularity_Grain,
+  PointInTime,
+} from 'src/app/domain/entities/scope';
+import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
+import { GroupCanvasObject } from 'src/app/domain/entities/group-canvas-object';
+import { BusinessObject } from 'src/app/domain/entities/business-object';
+import { ActivityBusinessObject } from 'src/app/domain/entities/activity-business-object';
+import { ElementTypes } from 'src/app/domain/entities/element-types';
 
 @Injectable({
   providedIn: 'root',
@@ -31,12 +34,13 @@ export class EsdmService {
     title: string,
     description: string,
     domainName: string,
-    asIs: boolean,
-    finegrained: boolean,
-    digitalized: boolean,
+    pointInTime: PointInTime | undefined,
+    granularity: Granularity_Goal | Granularity_Grain | undefined,
+    domainPurity: DomainPurity | undefined,
   ): EventSourceDomainModel {
     const story: StorySentence[] =
-      this.storyCreatorService.traceActivitiesAndCreateStory();
+      this.storyCreatorService.traceActivitiesAndCreateStory()
+        .storyWithGroupsInLastSentence;
     const groups: GroupCanvasObject[] =
       this.elementRegistryService.getAllGroups();
 
@@ -49,11 +53,9 @@ export class EsdmService {
       scope: {
         domain: domainName,
       },
-      pointInTime: asIs ? PointInTime.asIs : PointInTime.toBe,
-      granularity: finegrained
-        ? Granularity.fineGrained
-        : Granularity.coarseGrained,
-      domainPurity: digitalized ? DomainPurity.digitalized : DomainPurity.pure,
+      pointInTime,
+      domainPurity,
+      granularity,
       groups: this.gatherEsdmGroups(groups, annotations),
       actors: this.gatherEsdmActors(actors, groups, annotations),
       sentences: this.createEsdmSentences(story, groups, annotations),
@@ -62,13 +64,13 @@ export class EsdmService {
 
   private gatherEsdmGroups(
     groups: GroupCanvasObject[],
-    annotations: Dictionary,
+    annotations: Dictionary<string>,
   ): EventSourceDomainGroup[] {
     return groups.map((group) => {
       return {
         name: this.toKebapCase(group.id),
         description: group.name,
-        annotation: this.getAnnotation(group.id, annotations),
+        annotation: this.findAnnotation(group.id, annotations),
       };
     });
   }
@@ -76,12 +78,12 @@ export class EsdmService {
   private gatherEsdmActors(
     actors: BusinessObject[],
     groups: GroupCanvasObject[],
-    annotations: Dictionary,
+    annotations: Dictionary<string>,
   ) {
     return actors.map((a) => {
       return {
         name: this.toKebapCase(a.name),
-        annotation: this.getAnnotation(a.id, annotations),
+        annotation: this.findAnnotation(a.id, annotations),
         groups: this.getGroupForBusinessObject(groups, a),
       };
     });
@@ -90,8 +92,8 @@ export class EsdmService {
   private gatherAnnotations(
     connections: ActivityBusinessObject[],
     textAnnotations: AnnotationBusinessObject[],
-  ): Dictionary {
-    const annotations = new Dictionary();
+  ): Dictionary<string> {
+    const annotations = new Dictionary<string>();
 
     connections.map((connection) => {
       const name = textAnnotations.find(
@@ -125,7 +127,7 @@ export class EsdmService {
   private buildEdges(
     sentence: BusinessObject[],
     groups: GroupCanvasObject[],
-    annotations: Dictionary,
+    annotations: Dictionary<string>,
   ): EventSourceDomainEdge[] {
     const activities: ActivityBusinessObject[] = sentence
       .filter((o) => o.type.includes(ElementTypes.ACTIVITY))
@@ -146,7 +148,7 @@ export class EsdmService {
           ? { actor: sentence.find((b) => b.id === a.target)!.name }
           : { workObject: sentence.find((b) => b.id === a.target)!.name },
         label: a.name,
-        annotation: this.getAnnotation(a.id, annotations),
+        annotation: this.findAnnotation(a.id, annotations),
         groups: this.getGroupForBusinessObject(groups, a),
       };
     });
@@ -164,7 +166,7 @@ export class EsdmService {
   private createEsdmSentences(
     story: StorySentence[],
     groups: GroupCanvasObject[],
-    annotations: Dictionary,
+    annotations: Dictionary<string>,
   ): EventSourceDomainSentence[] {
     const sentences: BusinessObject[][] = story.map((sentence) =>
       sentence.objects.filter((o) =>
@@ -189,7 +191,7 @@ export class EsdmService {
           return {
             name: this.toKebapCase(w.name),
             groups: this.getGroupForBusinessObject(groups, w),
-            annotation: this.getAnnotation(w.id, annotations),
+            annotation: this.findAnnotation(w.id, annotations),
           };
         });
       esdmSentences.push({
@@ -210,8 +212,8 @@ export class EsdmService {
     };
   }
 
-  private getAnnotation(id: string, annotations: Dictionary) {
-    return annotations.get(id);
+  private findAnnotation(id: string, annotations: Dictionary<string>) {
+    return annotations.find(id);
   }
 
   private toKebapCase(value: string): string {

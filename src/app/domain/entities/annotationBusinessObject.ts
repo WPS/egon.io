@@ -1,5 +1,8 @@
-import { BusinessObject, testBusinessObject } from './businessObject';
-import { ElementTypes } from 'src/app/domain/entities/elementTypes';
+import {
+  BusinessObject,
+  testBusinessObject,
+} from 'src/app/domain/entities/business-object';
+import { ElementTypes } from 'src/app/domain/entities/element-types';
 
 export interface AnnotationBusinessObject extends BusinessObject {
   text: string;

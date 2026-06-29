@@ -58,21 +58,17 @@ export class ExportService {
     );
   }
 
-  downloadEsdm(
-    asIs: boolean,
-    finegrained: boolean,
-    digitalized: boolean,
-  ): void {
+  downloadEsdm(): void {
     const currentConfigurationForExport =
       this.importExportService.getCurrentConfigurationForExport();
 
     const esdm = this.esdmService.createEventSourceDomainModel(
-      this.title(), // TODO Check if domain-story-title is correct
-      this.description(),
+      this.propertiesService.title(), // TODO Check if domain-story-title is correct
+      this.propertiesService.description(),
       currentConfigurationForExport ? currentConfigurationForExport.name : '',
-      asIs,
-      finegrained,
-      digitalized,
+      this.propertiesService.getScope()?.pointInTime,
+      this.propertiesService.getScope()?.granularity,
+      this.propertiesService.getScope()?.domainPurity,
     );
 
     const esdmYamlFormat: EventSourceDomainYaml = {
@@ -207,7 +203,7 @@ export class ExportService {
       const ESDMDownloadOption = new ExportOption(
         'ESDM',
         'Download an ESDM-File with the Domain-Story. Can be used to save and share your Domain-Story.',
-        () => this.downloadEsdm(false, false, false),
+        () => this.downloadEsdm(),
       );
 
       const config = new MatDialogConfig();
