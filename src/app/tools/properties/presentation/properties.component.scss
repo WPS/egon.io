@@ -2,14 +2,6 @@
   min-height: 102px; /* but why? */
 }
 
-.scopeValues {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
 ::ng-deep.isSelected button {
   background-color: #a4d7e1;
 }
