@@ -176,6 +176,18 @@ a {
 
 /* Material Design */
 
+:root {
+  @include mat.expansion-overrides(
+    (
+      header-indicator-color: black,
+      /* corner radius set to 0 to make extension panel look like the toolbar in "settings" */
+        container-shape: 0,
+      /* if height is changed, also change height of the toolbar in "settings" */
+        header-collapsed-state-height: 40px,
+    )
+  );
+}
+
 mat-dialog-actions.mdc-dialog__actions {
   padding: 0 24px 20px 24px;
   justify-content: end;

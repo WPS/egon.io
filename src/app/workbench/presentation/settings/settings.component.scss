@@ -1,5 +1,5 @@
 .header {
-  max-height: 3rem;
+  height: 40px;
   padding: 0;
   border-top: 0;
   border-left: 0;
@@ -26,7 +26,7 @@
 
 .settings {
   display: grid;
-  grid-template-rows: 3rem auto;
+  grid-template-rows: 40px auto;
   width: 100%;
   height: 100%;
 }
