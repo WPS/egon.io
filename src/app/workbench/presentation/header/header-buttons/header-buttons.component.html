@@ -1,43 +1,34 @@
 @if (!isReplaying()) {
   <div>
     <button
-      type="button"
+      matButton
       [disabled]="!isReplayable()"
       [class.disabled]="!isReplayable()"
       id="buttonStartReplay"
-      class="headerButton"
       title="Start replay"
       (click)="startReplay.emit()"
     >
-      <span class="material-icons-outlined materialIconButton">
-        play_arrow
-      </span>
+      <span class="material-icons-outlined buttonIcon"> play_arrow </span>
       Replay
     </button>
 
     <button
-      type="button"
+      matButton
       id="buttonImport"
-      class="headerButton"
       title="Import story from file"
       onclick="document.getElementById('import').click()"
     >
-      <span class="material-icons-outlined materialIconButton">
-        file_upload
-      </span>
+      <span class="material-icons-outlined buttonIcon"> file_upload </span>
       Import file
     </button>
 
     <button
-      type="button"
+      matButton
       id="buttonUrlImport"
-      class="headerButton"
       title="Import story from URL"
       (click)="openImportFromUrlDialog.emit()"
     >
-      <span class="material-icons-outlined materialIconButton">
-        cloud_upload
-      </span>
+      <span class="material-icons-outlined buttonIcon"> cloud_upload </span>
       Import URL
     </button>
 
@@ -50,61 +41,52 @@
       (change)="import.emit()"
     />
     <button
-      type="button"
+      matButton
       [disabled]="!hasDomainStory() && !hasTitle()"
       [class.disabled]="!hasDomainStory() && !hasTitle()"
-      class="headerButton"
       [class.dirty]="isDirty()"
       id="export"
       title="Export story as .egn, .svg or .png file"
       (click)="openDownloadDialog.emit()"
     >
-      <span class="material-icons-outlined materialIconButton">
-        file_download
-      </span>
+      <span class="material-icons-outlined buttonIcon"> file_download </span>
       Export
     </button>
     <button
-      type="button"
+      matButton
       [disabled]="!hasDomainStory()"
       [class.disabled]="!hasDomainStory()"
-      class="headerButton"
       title="Change multiple labels at once"
       (click)="openLabelDictionary.emit()"
     >
-      <span class="material-icons-outlined materialIconButton">
-        spellcheck
-      </span>
+      <span class="material-icons-outlined buttonIcon"> spellcheck </span>
       Dictionary
     </button>
 
     <button
-      type="button"
-      class="headerButton"
+      matButton
       title="Create a new domain story"
       (click)="newStory.emit()"
     >
-      <span class="material-icons-outlined materialIconButton"> note_add </span>
+      <span class="material-icons-outlined buttonIcon"> note_add </span>
       New story
     </button>
 
     <button
-      type="button"
-      class="headerButton"
+      matButton
       title="Change Icons and Settings"
       (click)="openSettings.emit()"
     >
-      <span class="material-icons-outlined materialIconButton"> settings </span>
+      <span class="material-icons-outlined buttonIcon"> settings </span>
       Settings
     </button>
 
     <button
-      type="button"
-      class="headerButton"
+      matButton
       title="Show keyboard shortcuts"
       (click)="showKeyboardShortCuts.emit()"
     >
-      <span class="material-icons-outlined materialIconButton"> keyboard </span>
+      <span class="material-icons-outlined buttonIcon"> keyboard </span>
       Shortcuts
     </button>
   </div>
@@ -112,60 +94,33 @@
   <div class="replaying">
     @if (hasGroups()) {
       @if (showGroups()) {
-        <button
-          type="button"
-          class="headerButton"
-          title="Hide groups"
-          (click)="toggleGroups.emit()"
-        >
-          <span class="material-icons-outlined materialIconButton">
+        <button matButton title="Hide groups" (click)="toggleGroups.emit()">
+          <span class="material-icons-outlined buttonIcon">
             visibility_off
           </span>
           Groups
         </button>
       } @else {
-        <button
-          type="button"
-          class="headerButton"
-          title="Show groups"
-          (click)="toggleGroups.emit()"
-        >
-          <span class="material-icons-outlined materialIconButton">
-            visibility
-          </span>
+        <button matButton title="Show groups" (click)="toggleGroups.emit()">
+          <span class="material-icons-outlined buttonIcon"> visibility </span>
           Groups
         </button>
       }
     }
     <button
-      type="button"
-      class="headerButton"
+      matButton
       title="Previous sentence"
       (click)="previousSentence.emit()"
     >
-      <span class="material-icons-outlined materialIconButton">
-        skip_previous
-      </span>
+      <span class="material-icons-outlined buttonIcon"> skip_previous </span>
       Prev.
     </button>
-    <button
-      type="button"
-      class="headerButton"
-      title="Next sentence"
-      (click)="nextSentence.emit()"
-    >
-      <span class="material-icons-outlined materialIconButton">
-        skip_next
-      </span>
+    <button matButton title="Next sentence" (click)="nextSentence.emit()">
+      <span class="material-icons-outlined buttonIcon"> skip_next </span>
       Next
     </button>
-    <button
-      type="button"
-      class="headerButton"
-      title="Stop replay"
-      (click)="stopReplay.emit()"
-    >
-      <span class="material-icons-outlined materialIconButton"> stop </span>
+    <button matButton title="Stop replay" (click)="stopReplay.emit()">
+      <span class="material-icons-outlined buttonIcon"> stop </span>
       Stop
     </button>
     <div class="sentences">Sentence: {{ sentenceDescription() }}</div>

@@ -7,7 +7,7 @@ import {
   Signal,
 } from '@angular/core';
 import { ReplayService } from '../../../../tools/replay/services/replay.service';
-
+import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './header-buttons.component.html',
   styleUrls: ['./header-buttons.component.scss'],
 
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule],
 })
 export class HeaderButtonsComponent {
   private readonly replayService = inject(ReplayService);

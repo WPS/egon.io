@@ -132,18 +132,6 @@ body {
   }
 }
 
-.headerButton {
-  background-color: transparent;
-  border: none;
-  letter-spacing: 0.05em;
-  padding-left: 8px;
-}
-
-.headerButton:hover {
-  color: #0093ac;
-  cursor: pointer;
-}
-
 .spacer {
   flex: 1 1 auto;
 }
@@ -154,11 +142,6 @@ body {
 
 .mr-10 {
   margin-right: 10px !important;
-}
-
-.materialIconButton {
-  font-weight: 100;
-  vertical-align: middle;
 }
 
 .dense-8 {
