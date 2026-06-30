@@ -88,7 +88,7 @@ describe('PropertiesComponent', () => {
   });
 
   it('should initialize component with correct form', () => {
-    expect(component.form.getRawValue().title).toBe('<title>');
+    expect(component.form.getRawValue().title).toBe('Click to add title');
     expect(component.form.getRawValue().description).toBe('');
     expect(component.form.getRawValue().pointInTime).toBe(null);
     expect(component.form.getRawValue().domainPurity).toBe(null);
