@@ -1,4 +1,4 @@
-.disabled .button-label,
+.disabled,
 .disabled span,
 .disabled:hover span {
   cursor: initial;
@@ -22,5 +22,6 @@
   align-self: center;
   margin-left: 16px;
   width: 150px;
-  font-size: larger;
+  font-size: large;
+  color: black;
 }

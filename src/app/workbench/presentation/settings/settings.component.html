@@ -1,36 +1,32 @@
 <div class="settings">
-  <mat-toolbar>
-    <mat-toolbar-row class="firstRow">
-      <button
-        type="button"
-        class="headerButton tab-small"
-        mat-button
-        (click)="close()"
-      >
-        <span class="material-icons-outlined alignedWithText"
-          >chevron_left</span
-        >
-        Back
-      </button>
-      <button
-        type="button"
-        class="headerButton tab-like"
-        [class.highlight]="showIconSetCustomization()"
-        mat-button
-        (click)="openIconSetCustomization()"
-      >
-        <span class="headline">Customize Icon Set</span>
-      </button>
-      <button
-        type="button"
-        class="headerButton tab-like"
-        [class.highlight]="showAutosaveSettings()"
-        mat-button
-        (click)="openGeneralSettings()"
-      >
-        <span class="headline">Autosave Settings</span>
-      </button>
-    </mat-toolbar-row>
+  <mat-toolbar class="header">
+    <button
+      type="button"
+      class="headerButton tab-small"
+      mat-button
+      (click)="close()"
+    >
+      <span class="material-icons-outlined alignedWithText">chevron_left</span>
+      Back
+    </button>
+    <button
+      type="button"
+      class="headerButton tab-like"
+      [class.highlight]="showIconSetCustomization()"
+      mat-button
+      (click)="openIconSetCustomization()"
+    >
+      <span class="headline">Customize Icon Set</span>
+    </button>
+    <button
+      type="button"
+      class="headerButton tab-like"
+      [class.highlight]="showAutosaveSettings()"
+      mat-button
+      (click)="openGeneralSettings()"
+    >
+      <span class="headline">Autosave Settings</span>
+    </button>
   </mat-toolbar>
 
   @if (showAutosaveSettings()) {
