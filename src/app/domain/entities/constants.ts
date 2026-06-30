@@ -10,7 +10,7 @@ export const VERSION_KEY = 'version';
 
 /** AUTOSAVE DEFAULTS **/
 export const DEFAULT_AUTOSAVES_ENABLED = true;
-export const DEFAULT_AUTOSAVES_MAX_DRAFTS = 5;
+export const DEFAULT_AUTOSAVES_MAX_DRAFTS = 20;
 export const DEFAULT_AUTOSAVES_INTERVAL = 30;
 
 /** SNACKBAR **/
