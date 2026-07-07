@@ -161,3 +161,9 @@ jobs:
         run: vsce publish --yarn --no-dependencies
         env:
           VSCE_PAT: ${{ secrets.VSCE_PUBLISH }}
+
+      - name: Publish extension
+        working-directory: vscode/dist/apps/vscode/egon-io
+        run: npx --yes ovsx publish --pat "$OVSX_PAT"
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
