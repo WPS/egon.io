@@ -39,4 +39,58 @@ describe('SettingsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('close should restart the modeler with a saved configuration when present', () => {
+    const iconSetCustomization = TestBed.inject(
+      IconSetCustomizationService,
+    ) as jest.Mocked<IconSetCustomizationService>;
+    const modelerService = TestBed.inject(
+      ModelerService,
+    ) as jest.Mocked<ModelerService>;
+    const settingsService = TestBed.inject(
+      SettingsService,
+    ) as jest.Mocked<SettingsService>;
+    const config = { name: 'saved' } as any;
+    iconSetCustomization.getAndClearSavedConfiguration.mockReturnValue(config);
+
+    (component as any).close();
+
+    expect(modelerService.restart).toHaveBeenCalledWith(config);
+    expect(settingsService.close).toHaveBeenCalled();
+  });
+
+  it('close should just close when there is no saved configuration', () => {
+    const iconSetCustomization = TestBed.inject(
+      IconSetCustomizationService,
+    ) as jest.Mocked<IconSetCustomizationService>;
+    const modelerService = TestBed.inject(
+      ModelerService,
+    ) as jest.Mocked<ModelerService>;
+    const settingsService = TestBed.inject(
+      SettingsService,
+    ) as jest.Mocked<SettingsService>;
+    iconSetCustomization.getAndClearSavedConfiguration.mockReturnValue(
+      undefined as any,
+    );
+
+    (component as any).close();
+
+    expect(modelerService.restart).not.toHaveBeenCalled();
+    expect(settingsService.close).toHaveBeenCalled();
+  });
+
+  it('openGeneralSettings should show the autosave settings', () => {
+    component.openGeneralSettings();
+
+    expect(component.showAutosaveSettings()).toBe(true);
+    expect(component.showIconSetCustomization()).toBe(false);
+  });
+
+  it('openIconSetCustomization should show the icon set customization', () => {
+    component.openGeneralSettings();
+    component.openIconSetCustomization();
+
+    expect(component.showAutosaveSettings()).toBe(false);
+    expect(component.showIconSetCustomization()).toBe(true);
+  });
 });

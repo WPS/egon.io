@@ -27,9 +27,7 @@ describe('LabelDictionaryService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        MockProviders(MassNamingService, DialogService, MatSnackBar),
-      ],
+      providers: [MockProviders(MassNamingService, DialogService, MatSnackBar)],
     });
     massNamingServiceSpy = TestBed.inject(
       MassNamingService,

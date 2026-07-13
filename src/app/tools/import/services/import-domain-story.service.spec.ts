@@ -11,6 +11,9 @@ import { MockService } from 'ng-mocks';
 import { DialogService } from 'src/app/tools/dialog/services/dialog.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomainStory } from 'src/app/domain/entities/domain-story';
+import { ImportDialogComponent } from '../presentation/import-dialog/import-dialog.component';
+import { UnsavedChangesReminderDialogComponent } from 'src/app/tools/unsaved-changes-reminder/presentation/unsaved-changes-reminder-dialog.component';
+import { ExternalResourcesWarningDialogComponent } from 'src/app/tools/import/presentation/external-resources-warning-dialog/external-resources-warning-dialog.component';
 
 import * as dst_v_1_0_0 from './test-files/dst_export_version_1_0_0.json';
 import * as dst_v_1_1_0 from './test-files/dst_export_version_1_1_0.json';
@@ -329,6 +332,151 @@ describe('ImportDomainStoryService', () => {
       );
       expect(domainStory!.version).toBe('4.0.0');
       expect(domainStory!.title).toBe('testTitle');
+    });
+  });
+
+  describe('file input handling', () => {
+    let snackbarSpy: jest.Mocked<MatSnackBar>;
+
+    beforeEach(() => {
+      snackbarSpy = TestBed.inject(MatSnackBar) as jest.Mocked<MatSnackBar>;
+    });
+
+    afterEach(() => {
+      document.getElementById('import')?.remove();
+    });
+
+    it('performDropImport should import supported files', () => {
+      const importSpy = jest.spyOn(service, 'import').mockReturnValue(null);
+      const file = new File(['{}'], 'story.egn');
+
+      service.performDropImport(file);
+
+      expect(importSpy).toHaveBeenCalledWith(file, 'story.egn');
+    });
+
+    it('performDropImport should reject unsupported files', () => {
+      const importSpy = jest.spyOn(service, 'import').mockReturnValue(null);
+      const file = new File(['{}'], 'story.txt');
+
+      service.performDropImport(file);
+
+      expect(importSpy).not.toHaveBeenCalled();
+      expect(snackbarSpy.open).toHaveBeenCalledWith(
+        'File type not supported',
+        undefined,
+        expect.anything(),
+      );
+    });
+
+    it('performImport should warn when there is no file input element', () => {
+      document.getElementById('import')?.remove();
+
+      service.performImport();
+
+      expect(snackbarSpy.open).toHaveBeenCalledWith(
+        'No file selected or invalid input element.',
+        undefined,
+        expect.anything(),
+      );
+    });
+
+    it('performImport should import the selected file', () => {
+      const importSpy = jest.spyOn(service, 'import').mockReturnValue(null);
+      const input = document.createElement('input');
+      input.id = 'import';
+      input.type = 'file';
+      const file = new File(['{}'], 'story.dst');
+      Object.defineProperty(input, 'files', { value: [file] });
+      document.body.appendChild(input);
+
+      service.performImport();
+
+      expect(importSpy).toHaveBeenCalledWith(file, 'story.dst');
+    });
+  });
+
+  describe('import from url', () => {
+    let snackbarSpy: jest.Mocked<MatSnackBar>;
+    let dialogServiceSpy: jest.Mocked<DialogService>;
+    let originalFetch: typeof global.fetch;
+
+    beforeEach(() => {
+      snackbarSpy = TestBed.inject(MatSnackBar) as jest.Mocked<MatSnackBar>;
+      dialogServiceSpy = TestBed.inject(
+        DialogService,
+      ) as jest.Mocked<DialogService>;
+      originalFetch = global.fetch;
+    });
+
+    afterEach(() => {
+      global.fetch = originalFetch;
+    });
+
+    it('should reject a non-http url', () => {
+      service.importFromUrl('ftp://example.com/file.egn');
+
+      expect(snackbarSpy.open).toHaveBeenCalledWith(
+        'Url not valid',
+        undefined,
+        expect.anything(),
+      );
+    });
+
+    it('should convert github urls and report network errors', async () => {
+      const fetchMock = jest.fn().mockRejectedValue(new Error('network'));
+      global.fetch = fetchMock as unknown as typeof global.fetch;
+
+      service.importFromUrl('https://github.com/user/repo/blob/main/story.egn');
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://raw.githubusercontent.com/user/repo/main/story.egn',
+      );
+      expect(snackbarSpy.open).toHaveBeenCalledWith(
+        'Request blocked by server (CORS error) or Network error',
+        undefined,
+        expect.anything(),
+      );
+    });
+
+    it('importNotDirtyFromUrl should open the reminder dialog when dirty', () => {
+      service.importNotDirtyFromUrl('https://example.com/story.egn', true);
+
+      expect(dialogServiceSpy.openDialog).toHaveBeenCalledWith(
+        UnsavedChangesReminderDialogComponent,
+        expect.anything(),
+      );
+    });
+
+    it('importNotDirtyFromUrl should import directly when not dirty', () => {
+      const importFromUrlSpy = jest
+        .spyOn(service, 'importFromUrl')
+        .mockImplementation(() => undefined);
+
+      service.importNotDirtyFromUrl('https://example.com/story.egn', false);
+
+      expect(importFromUrlSpy).toHaveBeenCalledWith(
+        'https://example.com/story.egn',
+      );
+    });
+
+    it('openImportFromUrlDialog should open the import dialog', () => {
+      service.openImportFromUrlDialog(false);
+
+      expect(dialogServiceSpy.openDialog).toHaveBeenCalledWith(
+        ImportDialogComponent,
+        expect.anything(),
+      );
+    });
+
+    it('openExternalResourcesWarningDialog should open the warning dialog', () => {
+      service.openExternalResourcesWarningDialog(() => undefined);
+
+      expect(dialogServiceSpy.openDialog).toHaveBeenCalledWith(
+        ExternalResourcesWarningDialogComponent,
+        expect.anything(),
+      );
     });
   });
 });
