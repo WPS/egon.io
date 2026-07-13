@@ -7,18 +7,18 @@ import { of } from 'rxjs';
 
 describe('DialogService', () => {
   let service: DialogService;
-  let matDialogSpy: jasmine.Spy;
-  let dialogRefSpyObj = jasmine.createSpyObj({
-    afterClosed: of({}),
-    close: null,
-  });
-  dialogRefSpyObj.componentInstance = { body: '' };
+  let matDialogSpy: jest.SpyInstance;
+  const dialogRefSpyObj = {
+    afterClosed: jest.fn().mockReturnValue(of({})),
+    close: jest.fn(),
+    componentInstance: { body: '' },
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [MockProvider(MatDialog)],
     });
-    matDialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    matDialogSpy = jest.spyOn(TestBed.inject(MatDialog), 'open');
 
     service = TestBed.inject(DialogService);
   });

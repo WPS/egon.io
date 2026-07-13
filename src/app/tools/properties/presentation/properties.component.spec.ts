@@ -21,7 +21,7 @@ import {
   Scope,
 } from 'src/app/domain/entities/scope';
 import { signal } from '@angular/core';
-import SpyObj = jasmine.SpyObj;
+type SpyObj<T> = jest.Mocked<T>;
 
 describe('PropertiesComponent', () => {
   let component: PropertiesComponent;
@@ -35,18 +35,11 @@ describe('PropertiesComponent', () => {
     descriptionSignal = signal(INITIAL_DESCRIPTION);
 
   beforeEach(async () => {
-    propertiesServiceSpy = jasmine.createSpyObj(
-      'PropertiesService',
-      ['updateTitleAndDescriptionAndScope'],
-      {
-        title: titleSignal.asReadonly(),
-        scope: scopeSignal.asReadonly(),
-        description: descriptionSignal.asReadonly(),
-        titleSignal,
-        scopeSignal,
-        descriptionSignal,
-      },
-    );
+    propertiesServiceSpy = MockService(PropertiesService, {
+      title: titleSignal.asReadonly(),
+      scope: scopeSignal.asReadonly(),
+      description: descriptionSignal.asReadonly(),
+    }) as SpyObj<PropertiesService>;
 
     await TestBed.configureTestingModule({
       imports: [
@@ -77,7 +70,7 @@ describe('PropertiesComponent', () => {
 
     propertiesServiceSpy.updateTitleAndDescriptionAndScope;
 
-    spyOn(dirtyFlagService, 'makeDirty');
+    jest.spyOn(dirtyFlagService, 'makeDirty');
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -139,7 +132,7 @@ describe('PropertiesComponent', () => {
     });
 
     it('should save whenever the form value changes', () => {
-      const saveSpy = spyOn(component, 'save');
+      const saveSpy = jest.spyOn(component, 'save');
 
       component.form.controls.title.setValue('changed');
 
@@ -222,7 +215,7 @@ describe('PropertiesComponent', () => {
 
   describe('preventDefault', () => {
     it('should prevent the default event behavior', () => {
-      const event = jasmine.createSpyObj<Event>('Event', ['preventDefault']);
+      const event = { preventDefault: jest.fn() } as unknown as Event;
 
       component.preventDefault(event);
 

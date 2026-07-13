@@ -10,29 +10,21 @@ import { testGroupCanvasObject } from 'src/app/domain/entities/group-canvas-obje
 import {
   createReplaySentenceObjects,
   preBuildTestStory,
-} from '../../../utils/testHelpers.spec';
+} from '../../../utils/test-helpers';
+import { MockProvider } from 'ng-mocks';
 
 describe('StoryCreatorService', () => {
   let service: StoryCreatorService;
-  let elementRegistryServiceSpy: jasmine.SpyObj<ElementRegistryService>;
+  let elementRegistryServiceSpy: jest.Mocked<ElementRegistryService>;
 
   beforeEach(() => {
-    const elementRegistryServiceMock = jasmine.createSpyObj(
-      'ElementRegistryService',
-      ['getActivitiesFromActors', 'getAllGroups'],
-    );
     TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: ElementRegistryService,
-          useValue: elementRegistryServiceMock,
-        },
-      ],
+      providers: [MockProvider(ElementRegistryService)],
     });
     service = TestBed.inject(StoryCreatorService);
     elementRegistryServiceSpy = TestBed.inject(
       ElementRegistryService,
-    ) as jasmine.SpyObj<ElementRegistryService>;
+    ) as jest.Mocked<ElementRegistryService>;
   });
 
   it('should be created', () => {
@@ -71,7 +63,7 @@ describe('StoryCreatorService', () => {
 
       group.children!.push(objects[2]);
 
-      elementRegistryServiceSpy.getActivitiesFromActors.and.returnValue(
+      elementRegistryServiceSpy.getActivitiesFromActors.mockReturnValue(
         (
           objects.filter(
             (o) => o.type === ElementTypes.ACTIVITY,
@@ -79,7 +71,7 @@ describe('StoryCreatorService', () => {
         ).filter((o) => o.businessObject.number != null),
       );
 
-      elementRegistryServiceSpy.getAllGroups.and.returnValue([group]);
+      elementRegistryServiceSpy.getAllGroups.mockReturnValue([group]);
     });
 
     it('should trace activities and create Story', () => {
@@ -124,7 +116,7 @@ describe('StoryCreatorService', () => {
 
     it(' should be false', () => {
       story[1].objects = [];
-      expect(service.getMissingSentences(story).length > 0).toBeTrue();
+      expect(service.getMissingSentences(story).length > 0).toBe(true);
     });
   });
 });

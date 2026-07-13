@@ -17,24 +17,18 @@ describe(IconSetConfigurationComponent.name, () => {
     await TestBed.configureTestingModule({
       imports: [IconSetConfigurationComponent, IconSetComponent],
       providers: [
-        {
-          provide: IconSetImportExportService,
-          useValue: jasmine.createSpyObj('IconSetImportExportService', [], {
-            iconSetName: signal('testIconSetName'),
-          }),
-        },
+        MockProvider(IconSetImportExportService, {
+          iconSetName: signal('testIconSetName'),
+        }),
         MockProvider(IconDictionaryService, {
           getFullDictionary(): Dictionary<string> {
             return new Dictionary<string>();
           },
         }),
-        {
-          provide: IconSetCustomizationService,
-          useValue: jasmine.createSpyObj('IconSetCustomizationService', [], {
-            selectedActorsSignal: signal<string[]>([]),
-            selectedWorkObjectsSignal: signal<string[]>([]),
-          }),
-        },
+        MockProvider(IconSetCustomizationService, {
+          selectedActorsSignal: signal<string[]>([]),
+          selectedWorkObjectsSignal: signal<string[]>([]),
+        }),
       ],
     }).compileComponents();
   });

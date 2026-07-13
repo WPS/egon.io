@@ -2,20 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LabelDictionaryService } from '../../services/label-dictionary.service';
 import { LabelDictionaryComponent } from './label-dictionary.component';
 import { LabelEntry } from '../../domain/labelEntry';
+import { MockService } from 'ng-mocks';
 
 describe('LabelDictionaryComponent', () => {
   let component: LabelDictionaryComponent;
   let fixture: ComponentFixture<LabelDictionaryComponent>;
 
-  let labelDictionaryServiceSpy = jasmine.createSpyObj(
-    LabelDictionaryService.name,
-    [
-      'createLabelDictionaries',
-      'getWorkObjectLabels',
-      'getActivityLabels',
-      'massRenameLabels',
-    ],
-  );
+  const labelDictionaryServiceSpy = MockService(
+    LabelDictionaryService,
+  ) as jest.Mocked<LabelDictionaryService>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -30,7 +25,7 @@ describe('LabelDictionaryComponent', () => {
   });
 
   beforeEach(() => {
-    labelDictionaryServiceSpy.getWorkObjectLabels.and.returnValue([
+    labelDictionaryServiceSpy.getWorkObjectLabels.mockReturnValue([
       {
         name: 'UNO',
         originalName: 'ONE',
@@ -47,8 +42,7 @@ describe('LabelDictionaryComponent', () => {
         icon: 'data:image/svg+xml,<svg/>',
       },
     ]);
-    labelDictionaryServiceSpy.createLabelDictionaries.and.returnValue([]);
-    labelDictionaryServiceSpy.getActivityLabels.and.returnValue([
+    labelDictionaryServiceSpy.getActivityLabels.mockReturnValue([
       {
         name: 'uno',
         originalName: 'one',
@@ -73,7 +67,8 @@ describe('LabelDictionaryComponent', () => {
 
   it('should save', () => {
     component.save();
-    expect(labelDictionaryServiceSpy.massRenameLabels).toHaveBeenCalledOnceWith(
+    expect(labelDictionaryServiceSpy.massRenameLabels).toHaveBeenCalledTimes(1);
+    expect(labelDictionaryServiceSpy.massRenameLabels).toHaveBeenCalledWith(
       ['uno', ''],
       ['one', 'three'],
       ['UNO', ''],
@@ -82,7 +77,7 @@ describe('LabelDictionaryComponent', () => {
   });
 
   it('should cancel', () => {
-    labelDictionaryServiceSpy.massRenameLabels.calls.reset();
+    labelDictionaryServiceSpy.massRenameLabels.mockClear();
     component.cancel();
     expect(labelDictionaryServiceSpy.massRenameLabels).not.toHaveBeenCalled();
     expect(

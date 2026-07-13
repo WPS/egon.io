@@ -11,19 +11,19 @@ describe('DirtyFlagService', () => {
   });
 
   it('should initialize as clean', () => {
-    expect(service.dirty()).toBeFalse();
+    expect(service.dirty()).toBe(false);
   });
 
   it('should set dirty flag to true when makeDirty() is called', () => {
     service.makeDirty();
-    expect(service.dirty()).toBeTrue();
+    expect(service.dirty()).toBe(true);
   });
 
   it('should reset the dirty flag to false when makeClean() is called', () => {
     service.makeDirty();
-    expect(service.dirty()).toBeTrue();
+    expect(service.dirty()).toBe(true);
 
     service.makeClean();
-    expect(service.dirty()).toBeFalse();
+    expect(service.dirty()).toBe(false);
   });
 });

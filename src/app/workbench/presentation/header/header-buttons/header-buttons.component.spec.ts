@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderButtonsComponent } from './header-buttons.component';
-import { MockProviders } from 'ng-mocks';
+import { MockProviders, MockService } from 'ng-mocks';
 import { SettingsService } from '../../../services/settings/settings.service';
 import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ModelerService } from '../../../../tools/modeler/services/modeler.service';
@@ -13,37 +13,32 @@ import { ExportService } from '../../../../tools/export/services/export.service'
 import { ImportDomainStoryService } from '../../../../tools/import/services/import-domain-story.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StoryCreatorService } from '../../../../tools/replay/services/story-creator.service';
-import { preBuildTestStory } from '../../../../utils/testHelpers.spec';
+import { preBuildTestStory } from '../../../../utils/test-helpers';
 import { signal } from '@angular/core';
 
 describe('HeaderButtonsComponent', () => {
   let component: HeaderButtonsComponent;
   let fixture: ComponentFixture<HeaderButtonsComponent>;
 
-  let storyCreatorService: jasmine.SpyObj<StoryCreatorService>;
-  let replayService: jasmine.SpyObj<ReplayService>;
-  let snackbar: jasmine.SpyObj<MatSnackBar>;
+  let storyCreatorService: jest.Mocked<StoryCreatorService>;
+  let replayService: jest.Mocked<ReplayService>;
+  let snackbar: jest.Mocked<MatSnackBar>;
 
   beforeEach(async () => {
-    storyCreatorService = jasmine.createSpyObj('StoryCreatorService', [
-      'traceActivitiesAndCreateStory',
-      'getMissingSentences',
-    ]);
-    storyCreatorService.traceActivitiesAndCreateStory.and.returnValue(
+    storyCreatorService = MockService(
+      StoryCreatorService,
+    ) as jest.Mocked<StoryCreatorService>;
+    storyCreatorService.traceActivitiesAndCreateStory.mockReturnValue(
       preBuildTestStory(2),
     );
 
-    replayService = jasmine.createSpyObj(
-      'replayService',
-      ['startReplay', 'stopReplay', 'isReplayable'],
-      {
-        currentSentence: signal(1),
-        maxSentenceNumber: signal(2),
-      },
-    );
-    replayService.isReplayable.and.returnValue(true);
+    replayService = MockService(ReplayService, {
+      currentSentence: signal(1),
+      maxSentenceNumber: signal(2),
+    }) as jest.Mocked<ReplayService>;
+    replayService.isReplayable.mockReturnValue(true);
 
-    snackbar = jasmine.createSpyObj('snackbar', ['open']);
+    snackbar = MockService(MatSnackBar) as jest.Mocked<MatSnackBar>;
 
     await TestBed.configureTestingModule({
       imports: [HeaderButtonsComponent],

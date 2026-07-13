@@ -1,6 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from 'src/app/app.component';
-import { MockComponent, MockProvider, MockProviders } from 'ng-mocks';
+import {
+  MockComponent,
+  MockProvider,
+  MockProviders,
+  MockService,
+} from 'ng-mocks';
 import { SettingsService } from './workbench/services/settings/settings.service';
 import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ExportService } from './tools/export/services/export.service';
@@ -16,22 +21,12 @@ import { of, Observable } from 'rxjs';
 import { signal } from '@angular/core';
 
 describe('AppComponent', () => {
-  let autosaveService: jasmine.SpyObj<AutosaveService>;
+  let autosaveService: jest.Mocked<AutosaveService>;
 
   beforeEach(async () => {
-    autosaveService = jasmine.createSpyObj('autosaveService', [
-      'loadLatestDraft',
-    ]);
-    const settingsServiceMock = jasmine.createSpyObj('SettingsService', [], {
-      showSettings: signal<boolean>(false),
-    });
-    const propertiesServiceMock = jasmine.createSpyObj(
-      'PropertiesService',
-      [],
-      {
-        showDescription: signal<boolean>(true),
-      },
-    );
+    autosaveService = MockService(
+      AutosaveService,
+    ) as jest.Mocked<AutosaveService>;
     await TestBed.configureTestingModule({
       imports: [
         AppComponent,
@@ -50,14 +45,10 @@ describe('AppComponent', () => {
             return of();
           },
         }),
-        {
-          provide: PropertiesService,
-          useValue: propertiesServiceMock,
-        },
-        {
-          provide: SettingsService,
-          useValue: settingsServiceMock,
-        },
+        MockProvider(PropertiesService),
+        MockProvider(SettingsService, {
+          showSettings: signal<boolean>(false),
+        }),
         {
           provide: AutosaveService,
           useValue: autosaveService,

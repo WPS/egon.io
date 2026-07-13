@@ -93,21 +93,6 @@
           "options": {
             "buildTarget": "egon:build"
           }
-        },
-        "test": {
-          "builder": "@angular-builders/custom-webpack:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
-            "scripts": [],
-            "customWebpackConfig": {
-              "path": "polyfill-webpack.config.js"
-            }
-          }
         }
       }
     }

@@ -116,10 +116,10 @@ describe('ElementRegistryService', () => {
       service.setElementRegistry(registry);
 
       const objectListForDSTDownload = service.createObjectListForDSTDownload();
-      expect(objectListForDSTDownload).toContain(testActivity);
-      expect(objectListForDSTDownload).toContain(testActor);
-      expect(objectListForDSTDownload).toContain(testWorkObject);
-      expect(objectListForDSTDownload).toContain(testGroup);
+      expect(objectListForDSTDownload).toContainEqual(testActivity);
+      expect(objectListForDSTDownload).toContainEqual(testActor);
+      expect(objectListForDSTDownload).toContainEqual(testWorkObject);
+      expect(objectListForDSTDownload).toContainEqual(testGroup);
 
       service.clear();
     });
@@ -141,35 +141,35 @@ describe('ElementRegistryService', () => {
     it('getAllActivities', () => {
       const activities = service.getAllActivities();
 
-      expect(activities).toContain(testActivity);
+      expect(activities).toContainEqual(testActivity);
     });
 
     it('getActivitiesFromActors', () => {
       const activities = service.getActivitiesFromActors();
 
-      expect(activities).toContain(testActivity);
+      expect(activities).toContainEqual(testActivity);
     });
 
     it('getAllCanvasObjects', () => {
       const objects = service.getAllCanvasObjects();
 
-      expect(objects).toContain(testActivity);
-      expect(objects).toContain(testActor);
-      expect(objects).toContain(testWorkObject);
-      expect(objects).toContain(testConnection);
+      expect(objects).toContainEqual(testActivity);
+      expect(objects).toContainEqual(testActor);
+      expect(objects).toContainEqual(testWorkObject);
+      expect(objects).toContainEqual(testConnection);
     });
 
     it('getAllConnections', () => {
       const connections = service.getAllConnections();
 
-      expect(connections).toContain(testConnection);
+      expect(connections).toContainEqual(testConnection);
     });
 
     it('getAllGroups', () => {
       const groups = service.getAllGroups();
 
       expect(groups.length).toBe(1);
-      expect(groups).toContain(testGroup);
+      expect(groups).toContainEqual(testGroup);
     });
 
     it('getAllGroups should not contain duplicates', () => {
@@ -178,7 +178,7 @@ describe('ElementRegistryService', () => {
       expect(testGroup.id).toBe('test');
       expect(testGroup.children![0].id).toBe('test');
       expect(groups.length).toBe(1);
-      expect(groups).toContain(testGroup);
+      expect(groups).toContainEqual(testGroup);
     });
 
     afterAll(() => {

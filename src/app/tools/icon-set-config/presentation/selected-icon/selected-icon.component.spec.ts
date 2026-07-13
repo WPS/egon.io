@@ -27,7 +27,7 @@ describe('SelectedIconComponent', () => {
     component.icon = icon;
     fixture.detectChanges();
 
-    spyOn(document, 'getElementById').and.returnValue({
+    jest.spyOn(document, 'getElementById').mockReturnValue({
       src: '',
     } as unknown as HTMLElement);
   });

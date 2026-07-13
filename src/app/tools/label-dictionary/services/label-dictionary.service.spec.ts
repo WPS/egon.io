@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { LabelDictionaryService } from 'src/app/tools/label-dictionary/services/label-dictionary.service';
 import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MockProviders } from 'ng-mocks';
 import {
   SNACKBAR_DURATION_LONGER,
   SNACKBAR_INFO,
@@ -19,42 +20,24 @@ import { MassNamingService } from './mass-naming.service';
 describe('LabelDictionaryService', () => {
   let service: LabelDictionaryService;
 
-  let massNamingServiceSpy: jasmine.SpyObj<MassNamingService>;
+  let massNamingServiceSpy: jest.Mocked<MassNamingService>;
   let elementRegistryService: ElementRegistryService;
   let dialogServiceSpy: DialogService;
-  let matSnackbarSpy: jasmine.SpyObj<MatSnackBar>;
+  let matSnackbarSpy: jest.Mocked<MatSnackBar>;
 
   beforeEach(() => {
-    const massNamingServiceMock = jasmine.createSpyObj(MassNamingService.name, [
-      'massChangeNames',
-    ]);
-    const dialogServiceMock = jasmine.createSpyObj(DialogService.name, [
-      'openDialog',
-    ]);
-    const matSnackbarMock = jasmine.createSpyObj(MatSnackBar.name, ['open']);
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: MassNamingService,
-          useValue: massNamingServiceMock,
-        },
-        {
-          provide: DialogService,
-          useValue: dialogServiceMock,
-        },
-        {
-          provide: MatSnackBar,
-          useValue: matSnackbarMock,
-        },
+        MockProviders(MassNamingService, DialogService, MatSnackBar),
       ],
     });
     massNamingServiceSpy = TestBed.inject(
       MassNamingService,
-    ) as jasmine.SpyObj<MassNamingService>;
+    ) as jest.Mocked<MassNamingService>;
     dialogServiceSpy = TestBed.inject(
       DialogService,
-    ) as jasmine.SpyObj<DialogService>;
-    matSnackbarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;
+    ) as jest.Mocked<DialogService>;
+    matSnackbarSpy = TestBed.inject(MatSnackBar) as jest.Mocked<MatSnackBar>;
     elementRegistryService = TestBed.inject(ElementRegistryService);
     service = TestBed.inject(LabelDictionaryService);
   });
@@ -115,9 +98,8 @@ describe('LabelDictionaryService', () => {
       ['ONE', 'TWO', 'THREE'],
     );
     expect(massNamingServiceSpy.massChangeNames).toHaveBeenCalledTimes(4);
-    let args: Array<Array<any>> = massNamingServiceSpy.massChangeNames.calls
-      .all()
-      .map((obj) => obj.args);
+    let args: Array<Array<any>> =
+      massNamingServiceSpy.massChangeNames.mock.calls;
     expect(args).toEqual([
       ['one', 'uno', ElementTypes.ACTIVITY],
       ['three', '', ElementTypes.ACTIVITY],

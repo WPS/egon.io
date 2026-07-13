@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SettingsComponent } from 'src/app/workbench/presentation/settings/settings.component';
 import { SettingsService } from '../../services/settings/settings.service';
-import { MockProviders } from 'ng-mocks';
+import { MockProvider, MockProviders } from 'ng-mocks';
 import { ModelerService } from '../../../tools/modeler/services/modeler.service';
 import { AutosaveConfigurationService } from '../../../tools/autosave/services/autosave-configuration.service';
 import { IconSetCustomizationService } from '../../../tools/icon-set-config/services/icon-set-customization.service';
@@ -22,23 +22,10 @@ describe('SettingsComponent', () => {
           ModelerService,
           AutosaveConfigurationService,
         ),
-        {
-          provide: IconSetCustomizationService,
-          useValue: jasmine.createSpyObj(
-            'IconSetCustomizationService',
-            ['getAndClearSavedConfiguration', 'getIconForName'],
-            {
-              selectedActorsSignal: signal([]),
-              selectedWorkObjectsSignal: signal([]),
-
-              iconSetConfigurationTypesSignal: signal({
-                name: '',
-                actors: [],
-                workObjects: [],
-              }),
-            },
-          ),
-        },
+        MockProvider(IconSetCustomizationService, {
+          selectedActorsSignal: signal([]),
+          selectedWorkObjectsSignal: signal([]),
+        }),
       ],
     }).compileComponents();
   });

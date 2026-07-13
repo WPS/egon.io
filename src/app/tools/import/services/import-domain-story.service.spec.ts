@@ -30,7 +30,7 @@ import {
 describe('ImportDomainStoryService', () => {
   let service: ImportDomainStoryService;
 
-  let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
+  let iconDictionarySpy: jest.Mocked<IconDictionaryService>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -69,7 +69,7 @@ describe('ImportDomainStoryService', () => {
     });
     iconDictionarySpy = TestBed.inject(
       IconDictionaryService,
-    ) as jasmine.SpyObj<IconDictionaryService>;
+    ) as jest.Mocked<IconDictionaryService>;
     service = TestBed.inject(ImportDomainStoryService);
   });
 
@@ -84,7 +84,10 @@ describe('ImportDomainStoryService', () => {
     let expectedTitle: string;
 
     beforeEach(function () {
-      spyOn(PropertiesService.prototype, 'updateTitleAndDescriptionAndScope');
+      jest.spyOn(
+        PropertiesService.prototype,
+        'updateTitleAndDescriptionAndScope',
+      );
     });
 
     it('.egn', () => {

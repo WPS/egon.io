@@ -2,38 +2,23 @@ import { TestBed } from '@angular/core/testing';
 
 import { DomManipulationService } from 'src/app/tools/replay/services/dom-manipulation.service';
 import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
-import { preBuildTestStory } from '../../../utils/testHelpers.spec';
+import { preBuildTestStory } from '../../../utils/test-helpers';
+import { MockProvider } from 'ng-mocks';
 
 describe('DomManipulationService', () => {
   let domManipulationService: DomManipulationService;
 
-  let elementRegistryServiceSpy: jasmine.SpyObj<ElementRegistryService>;
+  let elementRegistryServiceSpy: jest.Mocked<ElementRegistryService>;
 
   beforeEach(() => {
-    const elementRegistryServiceMock = jasmine.createSpyObj(
-      'ElementRegistryService',
-      [
-        'getAllCanvasObjects',
-        'getAllGroups',
-        'getAllActivities',
-        'getAllConnections',
-        'getAllBusinessObjectsFromCanvasNotIn',
-      ],
-    );
-
     TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: ElementRegistryService,
-          useValue: elementRegistryServiceMock,
-        },
-      ],
+      providers: [MockProvider(ElementRegistryService)],
     });
     domManipulationService = TestBed.inject(DomManipulationService);
     elementRegistryServiceSpy = TestBed.inject(
       ElementRegistryService,
-    ) as jasmine.SpyObj<ElementRegistryService>;
-    spyOn(document, 'querySelector').and.returnValue(null);
+    ) as jest.Mocked<ElementRegistryService>;
+    jest.spyOn(document, 'querySelector').mockReturnValue(null);
   });
 
   it('should be created', () => {
@@ -41,11 +26,11 @@ describe('DomManipulationService', () => {
   });
 
   beforeEach(() => {
-    elementRegistryServiceSpy.getAllConnections.and.returnValue([]);
-    elementRegistryServiceSpy.getAllActivities.and.returnValue([]);
-    elementRegistryServiceSpy.getAllGroups.and.returnValue([]);
-    elementRegistryServiceSpy.getAllCanvasObjects.and.returnValue([]);
-    elementRegistryServiceSpy.getAllBusinessObjectsFromCanvasNotIn.and.returnValue(
+    elementRegistryServiceSpy.getAllConnections.mockReturnValue([]);
+    elementRegistryServiceSpy.getAllActivities.mockReturnValue([]);
+    elementRegistryServiceSpy.getAllGroups.mockReturnValue([]);
+    elementRegistryServiceSpy.getAllCanvasObjects.mockReturnValue([]);
+    elementRegistryServiceSpy.getAllBusinessObjectsFromCanvasNotIn.mockReturnValue(
       [],
     );
   });

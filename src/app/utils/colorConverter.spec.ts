@@ -51,13 +51,13 @@ describe('colorConverter Test', () => {
 
   describe('isHexWithAlpha', () => {
     it('short hex', () => {
-      expect(isHexWithAlpha('#fff')).toBeFalse();
-      expect(isHexWithAlpha('#fffa')).toBeTrue();
+      expect(isHexWithAlpha('#fff')).toBe(false);
+      expect(isHexWithAlpha('#fffa')).toBe(true);
     });
 
     it('hex', () => {
-      expect(isHexWithAlpha('#ff00ff')).toBeFalse();
-      expect(isHexWithAlpha('#ff0f0fff')).toBeTrue();
+      expect(isHexWithAlpha('#ff00ff')).toBe(false);
+      expect(isHexWithAlpha('#ff0f0fff')).toBe(true);
     });
   });
 });
