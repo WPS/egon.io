@@ -8,6 +8,8 @@
     "format:check": "prettier --check ./src",
     "test": "jest",
     "coverage": "jest --coverage",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "verify": "npm run format:check && npm run typecheck && npm run archlint && npm run test",
     "build": "ng build",
     "build-prod": "ng build --configuration production",
     "zip": "zip-build dist_build/ dist/ --template '%NAME%-%VERSION%.%EXT%'",

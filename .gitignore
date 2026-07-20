@@ -50,3 +50,7 @@ testem.log
 Thumbs.db
 *.xml
 /.angular/
+
+# AI
+CLAUDE.md
+/.claude/*

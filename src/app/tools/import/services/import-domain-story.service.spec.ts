@@ -479,4 +479,106 @@ describe('ImportDomainStoryService', () => {
       );
     });
   });
+
+  describe('import (FileReader flow)', () => {
+    let snackbarSpy: jest.Mocked<MatSnackBar>;
+
+    beforeEach(() => {
+      snackbarSpy = TestBed.inject(MatSnackBar) as jest.Mocked<MatSnackBar>;
+    });
+
+    // jsdom's FileReader dispatches its events on a real timer, so a single
+    // macrotask tick is not enough to observe the callback. Poll until the
+    // expected side effect happens instead of waiting a fixed amount of time.
+    const waitFor = async (
+      predicate: () => boolean,
+      timeout = 1000,
+    ): Promise<void> => {
+      const step = 5;
+      let waited = 0;
+      while (!predicate() && waited < timeout) {
+        await new Promise((resolve) => setTimeout(resolve, step));
+        waited += step;
+      }
+    };
+
+    it('reads the file and forwards its content to processDomainStoryImport', async () => {
+      const processSpy = jest
+        .spyOn(service, 'processDomainStoryImport')
+        .mockReturnValue({} as DomainStory);
+      const file = new File(['{"dst":{"businessObjects":[]}}'], 'story.egn');
+
+      service.import(file, 'story.egn');
+      await waitFor(() => processSpy.mock.calls.length > 0);
+
+      expect(processSpy).toHaveBeenCalledWith(
+        expect.any(String),
+        'story.egn',
+        false,
+        true,
+        false,
+      );
+    });
+
+    it('reports failure when processing throws', async () => {
+      jest.spyOn(service, 'processDomainStoryImport').mockImplementation(() => {
+        throw new Error('boom');
+      });
+      const file = new File(['garbage'], 'story.dst');
+
+      service.import(file, 'story.dst');
+      await waitFor(() => snackbarSpy.open.mock.calls.length > 0);
+
+      expect(snackbarSpy.open).toHaveBeenCalledWith(
+        'Import failed',
+        undefined,
+        expect.anything(),
+      );
+    });
+  });
+
+  describe('exportToDomainStory legacy formats', () => {
+    it('handles the flat legacy array format', () => {
+      const legacy = [
+        { type: 'actorPerson', id: 'a1' },
+        { version: '0.0.1' },
+        { info: 'my description' },
+      ];
+
+      const domainStory = service.exportToDomainStory(legacy, 'legacyTitle');
+
+      expect(domainStory.businessObjects.length).toBe(1);
+      expect(domainStory.businessObjects[0].id).toBe('a1');
+      expect(domainStory.version).toBe('0.0.1');
+      expect(domainStory.description).toBe('my description');
+      expect(domainStory.title).toBe('legacyTitle');
+    });
+
+    it('handles a "dst" property that is an array', () => {
+      const parsed = {
+        dst: [
+          { type: 'actorPerson', id: 'a1' },
+          { info: 'array description' },
+          { version: '1.0.0' },
+        ],
+      };
+
+      const domainStory = service.exportToDomainStory(parsed, 'title');
+
+      expect(domainStory.businessObjects.length).toBe(1);
+      expect(domainStory.description).toBe('array description');
+      expect(domainStory.version).toBe('1.0.0');
+    });
+
+    it('handles a "dst" property that is a stringified array', () => {
+      const parsed = {
+        dst: JSON.stringify([{ type: 'actorPerson', id: 'x' }]),
+      };
+
+      const domainStory = service.exportToDomainStory(parsed, 'title');
+
+      expect(domainStory.businessObjects.length).toBe(1);
+      expect(domainStory.businessObjects[0].id).toBe('x');
+    });
+  });
 });
