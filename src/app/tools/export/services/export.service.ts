@@ -7,6 +7,7 @@ import { DirtyFlagService } from 'src/app/tools/modeler/services/dirty-flag.serv
 import { PngService } from 'src/app/tools/export/services/png.service';
 import { SvgService } from 'src/app/tools/export/services/svg.service';
 import { HtmlPresentationService } from './html-presentation.service';
+import { StoryAsSpecService } from './story-as-spec.service';
 import { environment } from '../../../../environments/environment';
 import {
   ExportDialogData,
@@ -39,6 +40,7 @@ export class ExportService {
   private readonly modelerService = inject(ModelerService);
   private readonly dialogService = inject(DialogService);
   private readonly snackbar = inject(MatSnackBar);
+  private readonly storyAsSpecService = inject(StoryAsSpecService);
 
   private readonly fileNameSignal = signal('');
 
@@ -131,6 +133,12 @@ export class ExportService {
     }
   }
 
+  downloadStoryAsSpec(filename: string): void {
+    this.fileNameSignal.set(filename);
+    const summary = this.storyAsSpecService.generateStoryAsSpec();
+    downloadFile(summary, 'data:text/markdown;charset=utf-8,', filename, '.md');
+  }
+
   openDownloadDialog() {
     if (this.isDomainStoryExportable()) {
       const SVGDownloadOption = new ExportOption(
@@ -165,6 +173,11 @@ export class ExportService {
         'Download an HTML-Presentation. This does not include the Domain-Story!',
         (filename: string) => this.downloadHTMLPresentation(filename),
       );
+      const StoryAsSpecDownloadOption = new ExportOption(
+        'Story-As-Spec',
+        'Download a lean, plain-text flow summary (actors, activities, objects) generated from the Domain Story.',
+        (filename: string) => this.downloadStoryAsSpec(filename),
+      );
 
       const config = new MatDialogConfig();
       config.disableClose = false;
@@ -174,6 +187,7 @@ export class ExportService {
         EGNDownloadOption,
         PNGDownloadOption,
         HTMLDownloadOption,
+        StoryAsSpecDownloadOption,
       ]);
 
       this.dialogService.openDialog(ExportDialogComponent, config);
