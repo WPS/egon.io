@@ -26,7 +26,7 @@
     "@angular/router": "^21.2.13",
     "@bpmn-io/align-to-origin": "0.7.0",
     "bpmn-font": "^0.12.1",
-    "diagram-js": "^15.4.0",
+    "diagram-js": "^15.18.0",
     "diagram-js-direct-editing": "^3.2.0",
     "diagram-js-minimap": "^5.2.0",
     "dot": "^1.1.3",
