@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AutosaveService } from './autosave.service';
-import { MockProviders } from 'ng-mocks';
+import { MockProvider, MockProviders } from 'ng-mocks';
 import { ModelerService } from '../../modeler/services/modeler.service';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
 import { ExportService } from '../../export/services/export.service';
@@ -17,10 +17,10 @@ import { testConfigAndDst } from 'src/app/tools/export/services/test-files/test_
 describe('AutosaveService', () => {
   let service: AutosaveService;
 
-  let modelerServiceSpy: jasmine.SpyObj<ModelerService>;
-  let autosaveStateSpy: jasmine.SpyObj<AutosaveConfigurationService>;
-  let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let iconSetImportExportService: jasmine.SpyObj<IconSetImportExportService>;
+  let modelerServiceSpy: jest.Mocked<ModelerService>;
+  let autosaveStateSpy: jest.Mocked<AutosaveConfigurationService>;
+  let storageServiceSpy: jest.Mocked<StorageService>;
+  let iconSetImportExportService: jest.Mocked<IconSetImportExportService>;
 
   const configurationSignal = signal({
     activated: true,
@@ -29,64 +29,34 @@ describe('AutosaveService', () => {
   });
 
   beforeEach(() => {
-    const modelerServiceMock = jasmine.createSpyObj(ModelerService.name, [
-      'importStory',
-      'getStory',
-    ]);
-    const autosaveConfigurationServiceMock = jasmine.createSpyObj(
-      AutosaveConfigurationService.name,
-      ['setConfiguration'],
-      {
-        configuration: configurationSignal.asReadonly(),
-      },
-    );
-    const storageServiceMock = jasmine.createSpyObj(StorageService.name, [
-      'get',
-      'set',
-    ]);
     const iconSetChangedSubject = new Subject<void>();
-    const iconSetImportExportServiceMock = jasmine.createSpyObj(
-      IconSetImportExportService.name,
-      ['createIconSetConfiguration'],
-      {
-        iconSetChangedEmitterSubject: iconSetChangedSubject,
-        iconSetChanged$: iconSetChangedSubject.asObservable(),
-      },
-    );
 
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: ModelerService,
-          useValue: modelerServiceMock,
-        },
-        {
-          provide: AutosaveConfigurationService,
-          useValue: autosaveConfigurationServiceMock,
-        },
-        {
-          provide: StorageService,
-          useValue: storageServiceMock,
-        },
-        {
-          provide: IconSetImportExportService,
-          useValue: iconSetImportExportServiceMock,
-        },
+        MockProvider(ModelerService),
+        MockProvider(AutosaveConfigurationService, {
+          configuration: configurationSignal.asReadonly(),
+        }),
+        MockProvider(StorageService),
+        MockProvider(IconSetImportExportService, {
+          iconSetChangedEmitterSubject: iconSetChangedSubject,
+          iconSetChanged$: iconSetChangedSubject.asObservable(),
+        }),
         MockProviders(ExportService, MatSnackBar),
       ],
     });
     modelerServiceSpy = TestBed.inject(
       ModelerService,
-    ) as jasmine.SpyObj<ModelerService>;
+    ) as jest.Mocked<ModelerService>;
     autosaveStateSpy = TestBed.inject(
       AutosaveConfigurationService,
-    ) as jasmine.SpyObj<AutosaveConfigurationService>;
+    ) as jest.Mocked<AutosaveConfigurationService>;
     storageServiceSpy = TestBed.inject(
       StorageService,
-    ) as jasmine.SpyObj<StorageService>;
+    ) as jest.Mocked<StorageService>;
     iconSetImportExportService = TestBed.inject(
       IconSetImportExportService,
-    ) as jasmine.SpyObj<IconSetImportExportService>;
+    ) as jest.Mocked<IconSetImportExportService>;
 
     service = TestBed.inject(AutosaveService);
   });
@@ -97,7 +67,7 @@ describe('AutosaveService', () => {
 
   describe('loadDraft', () => {
     beforeEach(() => {
-      modelerServiceSpy.importStory.and.returnValue();
+      modelerServiceSpy.importStory.mockReturnValue(undefined);
     });
 
     it('should call ModelerService.importStory', () => {
@@ -117,7 +87,7 @@ describe('AutosaveService', () => {
     });
 
     it('should getItem from local Storage', () => {
-      storageServiceSpy.get.withArgs(DRAFTS_KEY).and.returnValue([]);
+      storageServiceSpy.get.mockReturnValue([]);
       const loadedDrafts = service.getDrafts();
 
       expect(storageServiceSpy.get).toHaveBeenCalledWith(DRAFTS_KEY);
@@ -125,7 +95,7 @@ describe('AutosaveService', () => {
     });
 
     it('should return sorted drafts', () => {
-      storageServiceSpy.get.withArgs(DRAFTS_KEY).and.returnValue(drafts);
+      storageServiceSpy.get.mockReturnValue(drafts);
 
       const loadedDrafts = service.getDrafts();
 
@@ -136,7 +106,7 @@ describe('AutosaveService', () => {
 
   describe('autosave when iconSetChanged triggers', () => {
     it('should call autosave', () => {
-      const serviceSpy = spyOn(service, 'autosave').and.callThrough();
+      const serviceSpy = jest.spyOn(service, 'autosave');
 
       iconSetImportExportService.iconSetChangedEmitterSubject.next();
 

@@ -5,7 +5,8 @@ import { InitializerService } from './initializer.service';
 import { ElementRegistryService } from 'src/app/tools/modeler/services/element-registry.service';
 import { IconDictionaryService } from '../../icon-set-config/services/icon-dictionary.service';
 import { IconSetImportExportService } from '../../icon-set-config/services/icon-set-import-export.service';
-import { createTestCanvasObjects } from '../../../utils/testHelpers.spec';
+import { createTestCanvasObjects } from '../../../utils/test-helpers';
+import { MockProviders } from 'ng-mocks';
 import {
   BusinessObject,
   testBusinessObject,
@@ -20,11 +21,11 @@ import { DirtyFlagService } from 'src/app/tools/modeler/services/dirty-flag.serv
 describe('ModelerService', () => {
   let service: ModelerService;
 
-  let elementRegistrySpy: jasmine.SpyObj<ElementRegistryService>;
-  let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
-  let iconSetConfigurationSpy: jasmine.SpyObj<IconSetImportExportService>;
-  let initializerSpy: jasmine.SpyObj<InitializerService>;
-  let dirtyFlagSpy: jasmine.SpyObj<DirtyFlagService>;
+  let elementRegistrySpy: jest.Mocked<ElementRegistryService>;
+  let iconDictionarySpy: jest.Mocked<IconDictionaryService>;
+  let iconSetConfigurationSpy: jest.Mocked<IconSetImportExportService>;
+  let initializerSpy: jest.Mocked<InitializerService>;
+  let dirtyFlagSpy: jest.Mocked<DirtyFlagService>;
 
   const actorsDict = new Dictionary<string>();
   actorsDict.set(ElementTypes.ACTOR, '');
@@ -46,83 +47,45 @@ describe('ModelerService', () => {
 
   beforeEach(() => {
     BaseViewer.prototype.get = undefined;
-    const elementRegistryMock = jasmine.createSpyObj(
-      ElementRegistryService.name,
-      ['createObjectListForDSTDownload', 'clear'],
-    );
-    const iconDictionaryMock = jasmine.createSpyObj(
-      IconDictionaryService.name,
-      ['setIconSet', 'createIconConfiguration'],
-    );
-    const iconSetConfigurationMock = jasmine.createSpyObj(
-      IconSetImportExportService.name,
-      [
-        'loadIconSet',
-        'getStoredIconSetConfiguration',
-        'setStoredIconSetConfiguration',
-      ],
-    );
-    const initializerMock = jasmine.createSpyObj(InitializerService.name, [
-      'initializeDomainStoryModelerClasses',
-      'initializeDomainStoryModelerEventHandlers',
-      'propagateDomainStoryModelerClassesToServices',
-      'initiateEventBusListeners',
-    ]);
-    const dirtyFlagServiceMock = jasmine.createSpyObj('DirtyFlagService', [
-      'makeClean',
-    ]);
 
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: InitializerService,
-          useValue: initializerMock,
-        },
-        {
-          provide: ElementRegistryService,
-          useValue: elementRegistryMock,
-        },
-        {
-          provide: IconDictionaryService,
-          useValue: iconDictionaryMock,
-        },
-        {
-          provide: IconSetImportExportService,
-          useValue: iconSetConfigurationMock,
-        },
-        {
-          provide: DirtyFlagService,
-          useValue: dirtyFlagServiceMock,
-        },
+        MockProviders(
+          InitializerService,
+          ElementRegistryService,
+          IconDictionaryService,
+          IconSetImportExportService,
+          DirtyFlagService,
+        ),
       ],
     });
     elementRegistrySpy = TestBed.inject(
       ElementRegistryService,
-    ) as jasmine.SpyObj<ElementRegistryService>;
+    ) as jest.Mocked<ElementRegistryService>;
 
-    elementRegistrySpy.createObjectListForDSTDownload.and.returnValue(
+    elementRegistrySpy.createObjectListForDSTDownload.mockReturnValue(
       createTestCanvasObjects(1),
     );
 
     iconDictionarySpy = TestBed.inject(
       IconDictionaryService,
-    ) as jasmine.SpyObj<IconDictionaryService>;
+    ) as jest.Mocked<IconDictionaryService>;
     iconSetConfigurationSpy = TestBed.inject(
       IconSetImportExportService,
-    ) as jasmine.SpyObj<IconSetImportExportService>;
+    ) as jest.Mocked<IconSetImportExportService>;
     initializerSpy = TestBed.inject(
       InitializerService,
-    ) as jasmine.SpyObj<InitializerService>;
+    ) as jest.Mocked<InitializerService>;
     dirtyFlagSpy = TestBed.inject(
       DirtyFlagService,
-    ) as jasmine.SpyObj<DirtyFlagService>;
+    ) as jest.Mocked<DirtyFlagService>;
     service = TestBed.inject(ModelerService);
 
-    spyOn(document, 'getElementById').and.returnValue({
+    jest.spyOn(document, 'getElementById').mockReturnValue({
       onchange,
     } as HTMLElement);
     // @ts-ignore
-    spyOn(BaseViewer, 'call').and.returnValue({
+    jest.spyOn(BaseViewer, 'call').mockReturnValue({
       get: () => {
         return undefined;
       },
@@ -213,8 +176,8 @@ describe('ModelerService', () => {
   //   beforeEach(() => {
   //     DomainStoryModeler.prototype.importBusinessObjects = function (story: any) { };
   //     DomainStoryModeler.prototype.fitStoryToScreen = function () { };
-  //     elementRegistrySpy.correctInitialize.and.returnValue();
-  //     dirtyFlagSpy.makeClean.and.returnValue();
+  //     elementRegistrySpy.correctInitialize.mockReturnValue();
+  //     dirtyFlagSpy.makeClean.mockReturnValue();
   //   });
 
   //   it('should return imported story', () => {

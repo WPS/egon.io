@@ -5,7 +5,7 @@ import {
   IconSetCustomizationService,
 } from './icon-set-customization.service';
 import { IconDictionaryService } from './icon-dictionary.service';
-import { MockProvider, MockProviders } from 'ng-mocks';
+import { MockProvider, MockProviders, MockService } from 'ng-mocks';
 import { PropertiesService } from 'src/app/tools/properties/services/properties.service';
 import { ImportDomainStoryService } from '../../import/services/import-domain-story.service';
 import { Dictionary } from '../../../domain/entities/dictionary';
@@ -19,7 +19,6 @@ import { ElementRegistryService } from 'src/app/tools/modeler/services/element-r
 import { IconSet } from 'src/app/domain/entities/icon-set';
 import { IconSetImportExportService } from 'src/app/tools/icon-set-config/services/icon-set-import-export.service';
 import { AutosaveService } from 'src/app/tools/autosave/services/autosave.service';
-import { Subject } from 'rxjs';
 import { signal } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
@@ -27,46 +26,14 @@ import { of } from 'rxjs/internal/observable/of';
 describe(IconSetCustomizationService.name, () => {
   let service: IconSetCustomizationService;
 
-  let matSnackbarSpy: jasmine.SpyObj<MatSnackBar>;
-  let iconDictionarySpy: jasmine.SpyObj<IconDictionaryService>;
-  let iconSetImportExportServiceSpy: jasmine.SpyObj<IconSetImportExportService>;
+  let matSnackbarSpy: jest.Mocked<MatSnackBar>;
+  let iconDictionarySpy: jest.Mocked<IconDictionaryService>;
+  let iconSetImportExportServiceSpy: jest.Mocked<IconSetImportExportService>;
 
   beforeEach(() => {
-    const matSnackbarMock = jasmine.createSpyObj(MatSnackBar.name, ['open']);
-    const iconDictionaryMock = jasmine.createSpyObj(
-      IconDictionaryService.name,
-      [
-        'addCustomIcon',
-        'getFullDictionary',
-        'getIconsAssignedAs',
-        'getIconSource',
-        'addIconsToCss',
-        'registerIconForType',
-        'unregisterIconForType',
-      ],
-    );
-    const autosaveServiceMock = jasmine.createSpyObj(AutosaveService.name, [], {
-      importConfigChanged: signal(undefined),
-    });
-    const iconSetImportExportServiceMock = jasmine.createSpyObj(
-      IconSetImportExportService.name,
-      [
-        'getStoredIconSetConfiguration',
-        'createIconSetConfiguration',
-        'getIconSetName',
-        'setIconSetName',
-        'setStoredIconSetConfiguration',
-        'notifyIconSetSaved',
-      ],
-      {
-        iconSetChangedSubject: new Subject<void>(),
-      },
-    );
-
-    const elementRegistryServiceMock = jasmine.createSpyObj(
-      ElementRegistryService.name,
-      ['getUsedIcons'],
-    );
+    const elementRegistryServiceMock = MockService(
+      ElementRegistryService,
+    ) as jest.Mocked<ElementRegistryService>;
 
     const actorDefaultDictionary = new Dictionary<string>();
     actorDefaultDictionary.set('actorkey', 'actorSvg');
@@ -79,39 +46,28 @@ describe(IconSetCustomizationService.name, () => {
     TestBed.configureTestingModule({
       providers: [
         MockProviders(PropertiesService),
-        {
-          provide: MatSnackBar,
-          useValue: matSnackbarMock,
-        },
-        {
-          provide: AutosaveService,
-          useValue: autosaveServiceMock,
-        },
+        MockProvider(MatSnackBar),
+        MockProvider(AutosaveService, {
+          importConfigChanged: signal(undefined),
+        }),
         MockProvider(ImportDomainStoryService),
         MockProvider(IconSetChangedService, {
           iconConfigurationChanged(): Observable<IconSet> {
             return of(INITIAL_ICON_SET_CONFIGURATION);
           },
         }),
-        {
-          provide: IconDictionaryService,
-          useValue: iconDictionaryMock,
-        },
-
+        MockProvider(IconDictionaryService),
         {
           provide: ElementRegistryService,
           useValue: elementRegistryServiceMock,
         },
-        {
-          provide: IconSetImportExportService,
-          useValue: iconSetImportExportServiceMock,
-        },
+        MockProvider(IconSetImportExportService),
       ],
     });
-    matSnackbarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;
+    matSnackbarSpy = TestBed.inject(MatSnackBar) as jest.Mocked<MatSnackBar>;
     iconDictionarySpy = TestBed.inject(
       IconDictionaryService,
-    ) as jasmine.SpyObj<IconDictionaryService>;
+    ) as jest.Mocked<IconDictionaryService>;
 
     const fullDictionary = new Dictionary<string>();
     fullDictionary.set('Person', 'svg1');
@@ -120,19 +76,19 @@ describe(IconSetCustomizationService.name, () => {
     fullDictionary.set('Call', 'svg4');
     fullDictionary.set('actorkey', 'actorSvg');
 
-    iconDictionarySpy.getFullDictionary.and.returnValue(fullDictionary);
+    iconDictionarySpy.getFullDictionary.mockReturnValue(fullDictionary);
 
-    iconDictionarySpy.getIconsAssignedAs.and.returnValue(
+    iconDictionarySpy.getIconsAssignedAs.mockReturnValue(
       new Dictionary<string>(),
     );
-    elementRegistryServiceMock.getUsedIcons.and.returnValue({
+    elementRegistryServiceMock.getUsedIcons.mockReturnValue({
       actors: [],
       workObjects: [],
     });
 
     iconSetImportExportServiceSpy = TestBed.inject(
       IconSetImportExportService,
-    ) as jasmine.SpyObj<IconSetImportExportService>;
+    ) as jest.Mocked<IconSetImportExportService>;
 
     service = TestBed.inject(IconSetCustomizationService);
   });
@@ -158,8 +114,8 @@ describe(IconSetCustomizationService.name, () => {
     };
 
     it('Should save icon set', () => {
-      matSnackbarSpy.open.calls.reset();
-      iconDictionarySpy.getIconSource.calls.reset();
+      matSnackbarSpy.open.mockClear();
+      iconDictionarySpy.getIconSource.mockClear();
 
       service.importConfiguration(customConfig);
 
@@ -191,8 +147,8 @@ describe(IconSetCustomizationService.name, () => {
 
     // TODO: figure out a better way to test the saveIconSet() method than by spying on the snackbar
     // it('Should not save icon set', () => {
-    //   matSnackbarSpy.open.calls.reset();
-    //   iconDictionarySpy.getIconSource.calls.reset();
+    //   matSnackbarSpy.open.mockClear();
+    //   iconDictionarySpy.getIconSource.mockClear();
     //   service.importConfiguration(customConfig, false);
 
     //   const selectedActors = service.selectedActors$.value;

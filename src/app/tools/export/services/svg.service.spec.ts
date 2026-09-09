@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { SvgService } from 'src/app/tools/export/services/svg.service';
 import { ModelerService } from '../../modeler/services/modeler.service';
+import { MockProvider } from 'ng-mocks';
 import { MINIMAL_SVG, TEST_SVG } from './spec/testSVG';
 import { sanitizeTextForSVGExport } from 'src/app/utils/sanitizer';
 import { testConfigAndDst } from 'src/app/tools/export/services/test-files/test_config_and_dst';
@@ -9,25 +10,17 @@ import { testConfigAndDst } from 'src/app/tools/export/services/test-files/test_
 describe('SvgService', () => {
   let service: SvgService;
 
-  let modelerServiceSpy: jasmine.SpyObj<ModelerService>;
+  let modelerServiceSpy: jest.Mocked<ModelerService>;
 
   beforeEach(() => {
-    const modelerServiceMock = jasmine.createSpyObj('ModelerService', [
-      'getEncoded',
-    ]);
     TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: ModelerService,
-          useValue: modelerServiceMock,
-        },
-      ],
+      providers: [MockProvider(ModelerService)],
     });
 
     modelerServiceSpy = TestBed.inject(
       ModelerService,
-    ) as jasmine.SpyObj<ModelerService>;
-    modelerServiceSpy.getEncoded.and.returnValue(TEST_SVG);
+    ) as jest.Mocked<ModelerService>;
+    modelerServiceSpy.getEncoded.mockReturnValue(TEST_SVG);
 
     service = TestBed.inject(SvgService);
   });
@@ -62,8 +55,8 @@ describe('SvgService', () => {
     beforeEach(() => {
       modelerServiceSpy = TestBed.inject(
         ModelerService,
-      ) as jasmine.SpyObj<ModelerService>;
-      modelerServiceSpy.getEncoded.and.returnValue(MINIMAL_SVG);
+      ) as jest.Mocked<ModelerService>;
+      modelerServiceSpy.getEncoded.mockReturnValue(MINIMAL_SVG);
 
       service = TestBed.inject(SvgService);
     });

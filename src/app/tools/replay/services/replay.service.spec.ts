@@ -1,37 +1,35 @@
 import { ReplayService } from './replay.service';
 import { StoryCreatorService } from './story-creator.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { preBuildTestStory } from '../../../utils/testHelpers.spec';
+import { preBuildTestStory } from '../../../utils/test-helpers';
 import { DomManipulationService } from './dom-manipulation.service';
 import { TestBed } from '@angular/core/testing';
+import { MockService } from 'ng-mocks';
 
 describe(ReplayService.name, () => {
   let service: ReplayService;
 
-  let storyCreatorService: jasmine.SpyObj<StoryCreatorService>;
-  let domManipulationService: jasmine.SpyObj<DomManipulationService>;
-  let snackbar: jasmine.SpyObj<MatSnackBar>;
+  let storyCreatorService: jest.Mocked<StoryCreatorService>;
+  let domManipulationService: jest.Mocked<DomManipulationService>;
+  let snackbar: jest.Mocked<MatSnackBar>;
 
-  const contextPadSpy = jasmine.createSpyObj('contextPadSpy', ['close']);
-  const paletteSpy = jasmine.createSpyObj('paletteSpy', ['close', 'open']);
-  const selectionSpy = jasmine.createSpyObj('selectionSpy', ['deselect'], {
-    _selectedElements: ['test'],
-  });
+  const contextPadSpy = { close: jest.fn() };
+  const paletteSpy = { close: jest.fn(), open: jest.fn() };
+  const selectionSpy = { deselect: jest.fn(), _selectedElements: ['test'] };
 
   beforeEach(() => {
-    storyCreatorService = jasmine.createSpyObj('StoryCreatorService', [
-      'traceActivitiesAndCreateStory',
-      'getMissingSentences',
-    ]);
-    storyCreatorService.traceActivitiesAndCreateStory.and.returnValue(
+    storyCreatorService = MockService(
+      StoryCreatorService,
+    ) as jest.Mocked<StoryCreatorService>;
+    storyCreatorService.traceActivitiesAndCreateStory.mockReturnValue(
       preBuildTestStory(2),
     );
 
-    domManipulationService = jasmine.createSpyObj('domManipulationService', [
-      'showSentence',
-    ]);
+    domManipulationService = MockService(
+      DomManipulationService,
+    ) as jest.Mocked<DomManipulationService>;
 
-    snackbar = jasmine.createSpyObj('snackbar', ['open']);
+    snackbar = MockService(MatSnackBar) as jest.Mocked<MatSnackBar>;
 
     TestBed.configureTestingModule({
       providers: [
@@ -51,7 +49,7 @@ describe(ReplayService.name, () => {
   });
 
   it('should return value', () => {
-    expect(service.replayOn()).toBeFalse();
+    expect(service.replayOn()).toBe(false);
   });
 
   it('should return Observable', () => {
@@ -60,13 +58,13 @@ describe(ReplayService.name, () => {
 
   it('should set value', () => {
     service.setReplayState(true);
-    expect(service.replayOn()).toBeTrue();
+    expect(service.replayOn()).toBe(true);
   });
 
   describe('with checkSequenceNumbers = true', () => {
     const checkSequenceNumbers = true;
     it('can start replay for consecutively numbered stories', () => {
-      storyCreatorService.getMissingSentences.and.returnValue([]);
+      storyCreatorService.getMissingSentences.mockReturnValue([]);
       service.startReplay(checkSequenceNumbers);
 
       expect(storyCreatorService.getMissingSentences).toHaveBeenCalled();
@@ -78,7 +76,7 @@ describe(ReplayService.name, () => {
     });
 
     it('cannot start replay for non-consecutively numbered stories', () => {
-      storyCreatorService.getMissingSentences.and.returnValue([2]);
+      storyCreatorService.getMissingSentences.mockReturnValue([2]);
       service.startReplay(checkSequenceNumbers);
 
       expect(storyCreatorService.getMissingSentences).toHaveBeenCalled();
@@ -89,7 +87,7 @@ describe(ReplayService.name, () => {
   describe('with checkSequenceNumbers = false', () => {
     const checkSequenceNumbers = false;
     it('can start replay for consecutively numbered stories', () => {
-      storyCreatorService.getMissingSentences.and.returnValue([]);
+      storyCreatorService.getMissingSentences.mockReturnValue([]);
       service.startReplay(checkSequenceNumbers);
 
       expect(storyCreatorService.getMissingSentences).not.toHaveBeenCalled();
@@ -101,7 +99,7 @@ describe(ReplayService.name, () => {
     });
 
     it('cannot start replay for non-consecutively numbered stories', () => {
-      storyCreatorService.getMissingSentences.and.returnValue([2]);
+      storyCreatorService.getMissingSentences.mockReturnValue([2]);
       service.startReplay(checkSequenceNumbers);
 
       expect(storyCreatorService.getMissingSentences).not.toHaveBeenCalled();

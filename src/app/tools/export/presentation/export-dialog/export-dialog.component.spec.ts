@@ -58,4 +58,40 @@ describe('ExportDialogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('doOption should forward the current export settings and close', () => {
+    const dialogRef = TestBed.inject(MatDialogRef) as jest.Mocked<
+      MatDialogRef<ExportDialogComponent>
+    >;
+    const fnSpy = jest.spyOn(exportData.options[0], 'fn');
+
+    (component as any).updateFileName({
+      target: { value: 'my-file' },
+    } as unknown as Event);
+    (component as any).updateWithTitle(false);
+    (component as any).updateUseWhiteBackground(false);
+    (component as any).onExportAnimatedSvg(true);
+    (component as any).doOption(0);
+
+    expect(fnSpy).toHaveBeenCalledWith('my-file', false, false, 2);
+    expect(dialogRef.close).toHaveBeenCalled();
+  });
+
+  it('doOption should fall back to the default filename and no animation speed', () => {
+    const fnSpy = jest.spyOn(exportData.options[1], 'fn');
+
+    (component as any).doOption(1);
+
+    expect(fnSpy).toHaveBeenCalledWith('', true, true, undefined);
+  });
+
+  it('close should close the dialog', () => {
+    const dialogRef = TestBed.inject(MatDialogRef) as jest.Mocked<
+      MatDialogRef<ExportDialogComponent>
+    >;
+
+    (component as any).close();
+
+    expect(dialogRef.close).toHaveBeenCalled();
+  });
 });

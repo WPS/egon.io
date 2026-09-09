@@ -3,22 +3,16 @@ import { TestBed } from '@angular/core/testing';
 import { DialogService } from 'src/app/tools/dialog/services/dialog.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MockProvider } from 'ng-mocks';
-import { of } from 'rxjs';
 
 describe('DialogService', () => {
   let service: DialogService;
-  let matDialogSpy: jasmine.Spy;
-  let dialogRefSpyObj = jasmine.createSpyObj({
-    afterClosed: of({}),
-    close: null,
-  });
-  dialogRefSpyObj.componentInstance = { body: '' };
+  let matDialogSpy: jest.SpyInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [MockProvider(MatDialog)],
     });
-    matDialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    matDialogSpy = jest.spyOn(TestBed.inject(MatDialog), 'open');
 
     service = TestBed.inject(DialogService);
   });

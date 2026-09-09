@@ -61,18 +61,18 @@ describe('degrees', function () {
 
 describe('positionsMatch', function () {
   it('match', function () {
-    expect(positionsMatch(10, 10, 10, 10, 10.01, 19.99)).toBeTrue();
+    expect(positionsMatch(10, 10, 10, 10, 10.01, 19.99)).toBe(true);
   });
   it('clickX < elementX', function () {
-    expect(positionsMatch(10, 10, 10, 10, 10, 15)).toBeFalse();
+    expect(positionsMatch(10, 10, 10, 10, 10, 15)).toBe(false);
   });
   it('clickY < elementY', function () {
-    expect(positionsMatch(10, 10, 10, 10, 15, 10)).toBeFalse();
+    expect(positionsMatch(10, 10, 10, 10, 15, 10)).toBe(false);
   });
   it('out of width', function () {
-    expect(positionsMatch(10, 10, 10, 10, 20, 15)).toBeFalse();
+    expect(positionsMatch(10, 10, 10, 10, 20, 15)).toBe(false);
   });
   it('out of height', function () {
-    expect(positionsMatch(10, 10, 10, 10, 15, 20)).toBeFalse();
+    expect(positionsMatch(10, 10, 10, 10, 15, 20)).toBe(false);
   });
 });

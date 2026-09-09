@@ -121,18 +121,18 @@ describe('IconDictionaryService', () => {
     };
 
     it('from IconSet file', () => {
-      expect(
-        service.getIconsAssignedAs(ElementTypes.ACTOR).isEmpty(),
-      ).toBeTrue();
+      expect(service.getIconsAssignedAs(ElementTypes.ACTOR).isEmpty()).toBe(
+        true,
+      );
       expect(
         service.getIconsAssignedAs(ElementTypes.WORKOBJECT).isEmpty(),
-      ).toBeTrue();
+      ).toBe(true);
 
       service.updateIconRegistries(config);
 
-      expect(
-        service.getIconsAssignedAs(ElementTypes.ACTOR).has('Person'),
-      ).toBeFalse();
+      expect(service.getIconsAssignedAs(ElementTypes.ACTOR).has('Person')).toBe(
+        false,
+      );
       expect(service.getFullDictionary().keysArray()).toContain(
         'TestCustomActor',
       );
