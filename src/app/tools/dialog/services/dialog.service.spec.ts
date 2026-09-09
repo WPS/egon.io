@@ -3,16 +3,10 @@ import { TestBed } from '@angular/core/testing';
 import { DialogService } from 'src/app/tools/dialog/services/dialog.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MockProvider } from 'ng-mocks';
-import { of } from 'rxjs';
 
 describe('DialogService', () => {
   let service: DialogService;
   let matDialogSpy: jest.SpyInstance;
-  const dialogRefSpyObj = {
-    afterClosed: jest.fn().mockReturnValue(of({})),
-    close: jest.fn(),
-    componentInstance: { body: '' },
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
