@@ -6,11 +6,9 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
-    inputs:
-      deploy_prod:
-        description: "Deploy v3 prod"
-        required: true
-        type: boolean
+
+permissions:
+  contents: read
 
 jobs:
   dependencies:
@@ -52,7 +50,6 @@ jobs:
       - run: npm run archlint
 
   build-prod:
-    if: inputs.deploy_prod == true
     runs-on: ubuntu-24.04
     needs: [ test, format, archlint ]
     steps:
@@ -67,7 +64,6 @@ jobs:
           key: build-${{ github.sha }}-${{ github.run_id }}
 
   upload-artifact:
-    if: inputs.deploy_prod == true
     runs-on: ubuntu-24.04
     needs: [ build-prod ]
     steps:
@@ -87,85 +83,3 @@ jobs:
             dist/*.zip
             README.md
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
-
-  deploy-website-latest:
-    if: inputs.deploy_prod == false
-    runs-on: ubuntu-24.04
-    needs: [ test, format, archlint  ]
-    steps:
-      - uses: actions/checkout@v6
-      - uses: ./.github/actions/setup_environment
-      - run: |
-          npm run build
-
-          CLONE_DIR=$(mktemp -d)
-
-          git config --global user.email "development@egon.io"
-          git config --global user.name "Egon.io Bot"
-          git clone --single-branch --branch main "https://x-access-token:${{ secrets.EGON_IO_DEPLOYMENT_PAT }}@github.com/WPS/egon.io-website.git" "${CLONE_DIR}"
-
-          rm -r "${CLONE_DIR}/app-latest-build"
-          mkdir "${CLONE_DIR}/app-latest-build"
-          cp -r dist_build/egon/* "${CLONE_DIR}/app-latest-build"
-
-          cd "${CLONE_DIR}"
-          git add .
-          git commit -m "Deploy latest build" || true
-          git push || true
-
-  deploy-website-prod:
-    if: inputs.deploy_prod == true
-    runs-on: ubuntu-24.04
-    needs: [ test, format, archlint  ]
-    steps:
-      - uses: actions/checkout@v6
-      - uses: ./.github/actions/setup_environment
-      - run: |
-          npm run build-prod
-
-          CLONE_DIR=$(mktemp -d)
-
-          git config --global user.email "development@egon.io"
-          git config --global user.name "Egon.io Bot"
-          git clone --single-branch --branch main "https://x-access-token:${{ secrets.EGON_IO_DEPLOYMENT_PAT }}@github.com/WPS/egon.io-website.git" "${CLONE_DIR}"
-
-          rm -rf "${CLONE_DIR}/app-v3"
-          mkdir "${CLONE_DIR}/app-v3"
-          cp -r dist_build/egon/* "${CLONE_DIR}/app-v3"
-
-          cd "${CLONE_DIR}"
-          git add .
-          git commit -m "Deploy production build" || true
-          git push || true
-
-  publish-image:
-    if: inputs.deploy_prod == true
-    runs-on: ubuntu-24.04
-    needs: [ build-prod ]
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/checkout@v6
-      - uses: ./.github/actions/setup_environment
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
-
-      - name: Log in to the Container registry
-        uses: docker/login-action@v4
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ghcr.io/wps/egon.io:latest
