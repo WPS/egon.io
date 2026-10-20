@@ -1,0 +1,7 @@
+.git
+.github
+.nais
+coverage
+dist
+dist_build
+node_modules
