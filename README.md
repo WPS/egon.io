@@ -23,11 +23,25 @@ See [architecture documentation](/architecture.md).
 
 ## Deployment
 
+### Nav fork: Nais setup
+
+This repository (`navikt/egon.io`) belongs to the Nais team `egon-io`.
+The upstream website deployment and container publishing jobs have been removed.
+The remaining CI workflow only runs checks, builds the production application,
+and uploads a ZIP artifact to the workflow run. It does not deploy or publish images.
+Production builds and ZIP artifacts run after successful checks, without a deploy input.
+
+GitHub Actions remain disabled during setup. Do not enable Actions or trigger a
+deployment until the Nais configuration and workflow have been prepared and reviewed.
+No Nais deployment workflow is configured yet.
+
+### General deployment options
+
 There are several deployment options:
 
 - Standalone version (Zip file): If your organization already runs a web server, you can copy the zip file to the web server and extract it there to make Egon available to your organization.
 - Docker container: If you prefer to provide websites as Docker container, you can build your own.
-- If you don't want to build and deploy Egon.io yourself, then use one of the ready-to-use options provided by the Egon.io team:
+- If you don't want to build and deploy Egon.io yourself, then use one of the ready-to-use options provided by the upstream Egon.io team (not images built by this fork):
   - Run [Egon.io online](https://egon.io/)
   - Download a ready-made Docker image `docker pull ghcr.io/wps/egon.io:latest` and run it `docker run -p 4040:80 ghcr.io/wps/egon.io:latest` (replace "4040" with whatever port you want to use)
 
@@ -80,4 +94,3 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
