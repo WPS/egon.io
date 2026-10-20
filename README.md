@@ -31,9 +31,12 @@ The remaining CI workflow only runs checks, builds the production application,
 and uploads a ZIP artifact to the workflow run. It does not deploy or publish images.
 Production builds and ZIP artifacts run after successful checks, without a deploy input.
 
-GitHub Actions remain disabled during setup. Do not enable Actions or trigger a
-deployment until the Nais configuration and workflow have been prepared and reviewed.
-No Nais deployment workflow is configured yet.
+The Nais application is configured for `dev-gcp` at
+`https://egon-io.intern.dev.nav.no`, with no Entra authentication. The internal
+ingress is reachable from NAV internal networks, not from the public internet.
+The Nais deploy workflow can only be started manually from `main` and requires
+the `deploy_to_dev` confirmation input. It has not been run; this change does
+not deploy the application.
 
 ### General deployment options
 
@@ -56,7 +59,7 @@ There are several deployment options:
 ### Build Docker Container
 
 1. In the root directory of your source code, run `docker build -t egon-dev .`
-2. To start the container, run `docker run -p 8080:80 egon-dev`
+2. To start the container, run `docker run -p 8080:8080 egon-dev`
 
 Adapt container name ("egon-dev" in the above example) and port ("8080") as needed.
 

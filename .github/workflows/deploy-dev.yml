@@ -1,0 +1,66 @@
+name: Deploy to Nais dev-gcp
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_to_dev:
+        description: "Build and deploy to dev-gcp"
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nais-dev-gcp-deploy
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: github.ref == 'refs/heads/main' && inputs.deploy_to_dev
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm run test
+      - run: npm run format:check
+      - run: npm run archlint
+
+  build:
+    needs: verify
+    if: github.ref == 'refs/heads/main' && inputs.deploy_to_dev
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      image: ${{ steps.build-image.outputs.image }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Build and push image to the Nais registry
+        id: build-image
+        uses: nais/docker-build-push@dd7421d5068057a020ca46ead966c26190c516b1 # v0
+        with:
+          team: egon-io
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && inputs.deploy_to_dev
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: nais/setup@fb8692f65df9c904e2cdac5d395630ac876abdcf # v1.0.3
+        with:
+          team: egon-io
+          version: v6.7.2
+      - name: Deploy to dev-gcp
+        env:
+          IMAGE: ${{ needs.build.outputs.image }}
+        run: nais apply .nais/app.yaml --environment dev-gcp --set "spec.image=${IMAGE}" --wait
