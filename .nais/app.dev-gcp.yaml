@@ -1,4 +1,26 @@
+apiVersion: nais.io/v1alpha1
+kind: Application
+metadata:
+  name: egon-io
+  namespace: egon-io
+  labels:
+    team: egon-io
 spec:
+  image: "{{{ image }}}"
+  port: 8080
+  service:
+    port: 80
+  accessPolicy:
+    inbound:
+      rules: []
+    outbound:
+      rules: []
+  liveness:
+    path: /isalive
+    initialDelay: 5
+  readiness:
+    path: /isready
+    initialDelay: 5
   ingresses:
     - https://egon-io.ansatt.dev.nav.no
   replicas:

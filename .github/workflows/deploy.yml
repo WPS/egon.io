@@ -1,28 +1,20 @@
-name: Deploy to Nais dev-gcp
+name: Deploy application
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      deploy_to_dev:
-        description: "Build and deploy to dev-gcp"
-        required: true
-        type: boolean
-        default: false
 
 permissions:
   contents: read
 
 concurrency:
-  group: nais-dev-gcp-deploy
+  group: nais-deploy
   cancel-in-progress: false
 
 jobs:
   verify:
-    if: >-
-      github.ref == 'refs/heads/main' &&
-      (github.event_name == 'push' || inputs.deploy_to_dev)
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -36,9 +28,7 @@ jobs:
 
   build:
     needs: verify
-    if: >-
-      github.ref == 'refs/heads/main' &&
-      (github.event_name == 'push' || inputs.deploy_to_dev)
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -53,22 +43,26 @@ jobs:
         with:
           team: egon-io
 
-  deploy:
+  deploy-dev:
     needs: build
-    if: >-
-      github.ref == 'refs/heads/main' &&
-      (github.event_name == 'push' || inputs.deploy_to_dev)
-    runs-on: ubuntu-24.04
+    if: github.ref == 'refs/heads/main'
     permissions:
       contents: read
       id-token: write
-    steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - uses: nais/setup@fb8692f65df9c904e2cdac5d395630ac876abdcf # v1.0.3
-        with:
-          team: egon-io
-          version: v6.7.2
-      - name: Deploy to dev-gcp
-        env:
-          IMAGE: ${{ needs.build.outputs.image }}
-        run: nais apply .nais/app.yaml --environment dev-gcp --set "spec.image=${IMAGE}" --wait
+    uses: navikt/pengeflyt-gha-workflows/.github/workflows/nais-app-deploy.yaml@main
+    with:
+      cluster: dev-gcp
+      resource: .nais/app.dev-gcp.yaml
+      image: ${{ needs.build.outputs.image }}
+
+  deploy-prod:
+    needs: [build, deploy-dev]
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      id-token: write
+    uses: navikt/pengeflyt-gha-workflows/.github/workflows/nais-app-deploy.yaml@main
+    with:
+      cluster: prod-gcp
+      resource: .nais/app.prod-gcp.yaml
+      image: ${{ needs.build.outputs.image }}
