@@ -44,8 +44,10 @@ separate Entra integration. See the [Nais environment reference](https://docs.na
 The former `egon-io.intern.dev.nav.no` ingress is removed on the next dev deploy;
 it is not retained as an alternative ingress or redirect.
 
-Both deploy workflows are manual and restricted to `main`. Pull requests and
-pushes do not trigger deployment. Angular source code is unchanged.
+Pushes to `main` trigger verification, image building and deployment to dev-gcp.
+Manual dev deployment is also available with the `deploy_to_dev` confirmation.
+Production deployment remains manual and restricted to `main`. Pull requests
+do not trigger deployment. Angular source code is unchanged.
 
 #### Rollout and verification
 

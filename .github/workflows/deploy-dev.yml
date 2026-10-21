@@ -1,6 +1,8 @@
 name: Deploy to Nais dev-gcp
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       deploy_to_dev:
@@ -18,7 +20,9 @@ concurrency:
 
 jobs:
   verify:
-    if: github.ref == 'refs/heads/main' && inputs.deploy_to_dev
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' || inputs.deploy_to_dev)
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -32,7 +36,9 @@ jobs:
 
   build:
     needs: verify
-    if: github.ref == 'refs/heads/main' && inputs.deploy_to_dev
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' || inputs.deploy_to_dev)
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -49,7 +55,9 @@ jobs:
 
   deploy:
     needs: build
-    if: github.ref == 'refs/heads/main' && inputs.deploy_to_dev
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' || inputs.deploy_to_dev)
     runs-on: ubuntu-24.04
     permissions:
       contents: read
