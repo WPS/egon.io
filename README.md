@@ -31,12 +31,50 @@ The remaining CI workflow only runs checks, builds the production application,
 and uploads a ZIP artifact to the workflow run. It does not deploy or publish images.
 Production builds and ZIP artifacts run after successful checks, without a deploy input.
 
-The Nais application is configured for `dev-gcp` at
-`https://egon-io.intern.dev.nav.no`, with no Entra authentication. The internal
-ingress is reachable from NAV internal networks, not from the public internet.
-The Nais deploy workflow can only be started manually from `main` and requires
-the `deploy_to_dev` confirmation input. It has not been run; this change does
-not deploy the application.
+The Nais application uses the following environment mixins:
+
+| Environment | Ingress | Replicas |
+| --- | --- | --- |
+| `dev-gcp` | `https://egon-io.ansatt.dev.nav.no` | 1 |
+| `prod-gcp` | `https://egon-io.ansatt.nav.no` | 2 |
+
+The `ansatt` domains are reachable over the internet, but the platform restricts
+access to authenticated people on compliant devices. The application has no
+separate Entra integration. See the [Nais environment reference](https://docs.nais.io/workloads/reference/environments/).
+The former `egon-io.intern.dev.nav.no` ingress is removed on the next dev deploy;
+it is not retained as an alternative ingress or redirect.
+
+Pushes to `main` trigger verification, image building and deployment to dev-gcp.
+Manual dev deployment is also available with the `deploy_to_dev` confirmation.
+Production deployment remains manual and restricted to `main`. Pull requests
+do not trigger deployment. Angular source code is unchanged.
+
+#### Rollout and verification
+
+Before switching domains, export any needed local drafts and custom icon sets
+from the old address. Browser storage is origin-specific and does not move
+automatically to the new address.
+
+1. Run **Deploy to Nais dev-gcp** from `main`, confirming `deploy_to_dev`.
+2. Verify the new dev address and platform access protection, including denial
+   without an authenticated, compliant device. Check that the old internal
+   address no longer serves the application.
+3. Check pod readiness, `/isalive`, `/isready`, ingress errors and logs in Nais
+   Console/Grafana. Exercise local import, editing and HTML export with fictitious
+   data. This does not constitute security approval of the application.
+4. Copy the immutable image reference (including `@sha256:...`) used by the
+   successful dev deployment. Run **Deploy to Nais prod-gcp** from `main` with
+   that reference and confirm `dev_verified` only after the checks above.
+   The workflow validates the image registry and digest format; the operator is
+   responsible for confirming it is the image tested in dev. It does not rebuild.
+5. Verify prod access protection, application functionality, pod readiness and
+   ingress errors before inviting users.
+
+For prod rollback, manually deploy a previously verified digest through the prod workflow.
+Reverting the ingress change would reopen the old internal entry point and must
+be an explicit decision, not an automatic rollback. On the first prod deployment
+there is no previous prod version: if necessary, remove the new ingress through
+a reviewed manifest change and controlled deployment.
 
 ### General deployment options
 

@@ -1,6 +1,6 @@
 spec:
   ingresses:
-    - https://egon-io.intern.dev.nav.no
+    - https://egon-io.ansatt.dev.nav.no
   replicas:
     min: 1
     max: 1
