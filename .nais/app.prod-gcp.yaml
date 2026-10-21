@@ -1,0 +1,12 @@
+spec:
+  ingresses:
+    - https://egon-io.ansatt.nav.no
+  replicas:
+    min: 2
+    max: 2
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
