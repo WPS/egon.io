@@ -31,7 +31,7 @@ The remaining CI workflow only runs checks, builds the production application,
 and uploads a ZIP artifact to the workflow run. It does not deploy or publish images.
 Production builds and ZIP artifacts run after successful checks, without a deploy input.
 
-The Nais application uses the following environment mixins:
+The Nais application uses the following complete environment manifests:
 
 | Environment | Ingress | Replicas |
 | --- | --- | --- |
@@ -44,37 +44,28 @@ separate Entra integration. See the [Nais environment reference](https://docs.na
 The former `egon-io.intern.dev.nav.no` ingress is removed on the next dev deploy;
 it is not retained as an alternative ingress or redirect.
 
-Pushes to `main` trigger verification, image building and deployment to dev-gcp.
-Manual dev deployment is also available with the `deploy_to_dev` confirmation.
-Production deployment remains manual and restricted to `main`. Pull requests
-do not trigger deployment. Angular source code is unchanged.
+Pushes to `main` trigger tests, formatting and architecture checks, followed by
+one image build and deployment of that same image to dev-gcp and then prod-gcp.
+The workflow can also be started manually from `main`. Pull requests do not
+trigger deployment. Angular source code, Dockerfile and npm are unchanged.
 
-#### Rollout and verification
+Both deployment jobs use the team's reusable
+`navikt/pengeflyt-gha-workflows/.github/workflows/nais-app-deploy.yaml@main`.
+Updates to that shared workflow take effect without a change in this repository.
+The application namespace and image build team remain `egon-io`.
+One concurrency group covers the entire chain; a failed job stops later jobs.
+Production starts after a successful dev rollout, without manual functional or
+access verification between environments.
 
-Before switching domains, export any needed local drafts and custom icon sets
-from the old address. Browser storage is origin-specific and does not move
-automatically to the new address.
+After rollout, check readiness, ingress errors and logs in Nais Console/Grafana,
+and verify application functionality and platform access protection on both
+addresses. Deployment success is not a security approval. Browser-local drafts
+and icon sets do not migrate between origins; export needed data before switching
+addresses. The previous internal address must no longer serve the application.
 
-1. Run **Deploy to Nais dev-gcp** from `main`, confirming `deploy_to_dev`.
-2. Verify the new dev address and platform access protection, including denial
-   without an authenticated, compliant device. Check that the old internal
-   address no longer serves the application.
-3. Check pod readiness, `/isalive`, `/isready`, ingress errors and logs in Nais
-   Console/Grafana. Exercise local import, editing and HTML export with fictitious
-   data. This does not constitute security approval of the application.
-4. Copy the immutable image reference (including `@sha256:...`) used by the
-   successful dev deployment. Run **Deploy to Nais prod-gcp** from `main` with
-   that reference and confirm `dev_verified` only after the checks above.
-   The workflow validates the image registry and digest format; the operator is
-   responsible for confirming it is the image tested in dev. It does not rebuild.
-5. Verify prod access protection, application functionality, pod readiness and
-   ingress errors before inviting users.
-
-For prod rollback, manually deploy a previously verified digest through the prod workflow.
-Reverting the ingress change would reopen the old internal entry point and must
-be an explicit decision, not an automatic rollback. On the first prod deployment
-there is no previous prod version: if necessary, remove the new ingress through
-a reviewed manifest change and controlled deployment.
+For rollback, deploy a previously verified image with the appropriate complete
+environment manifest through a controlled deployment. Do not restore the old
+internal ingress unintentionally.
 
 ### General deployment options
 
