@@ -10,7 +10,7 @@ RUN npm run build-prod
 
 
 # Runtime stage
-FROM nginxinc/nginx-unprivileged:1.29-alpine
+FROM cgr.dev/chainguard/nginx:latest
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build-stage /app/dist_build/egon /usr/share/nginx/html
 
